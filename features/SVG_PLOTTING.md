@@ -1,18 +1,20 @@
 # Overview
-This update to the SVG_PLOTTING feature further enhances the unified module responsible for plot rendering. In addition to the existing functionalities such as static plot generation, dynamic animations, advanced styling including marker customization, dynamic gradients, curve smoothing, and adaptive axis labeling, this update introduces optional accessibility improvements. These improvements include the addition of <title> and <desc> elements into the SVG output when the corresponding CLI/configuration parameters are provided. This ensures that screen readers and other assistive technologies can interpret the visualizations more effectively.
+The SVG_PLOTTING feature has been updated to further refine the plot generation module. In addition to its existing capabilities (static plot creation, dynamic animations, curve smoothing, and accessibility improvements), this update introduces enhanced error handling, extended marker customizations including start and end markers, configurable stroke styling (strokeWidth, strokeDashArray, strokeLinecap), and advanced gradient configuration with support for user-defined gradient stops via JSON. It also consolidates robust input validation for mathematical expressions and plotting ranges, along with improved environment variable interpolation for configuration files.
 
 # Implementation
-- Retain prior functionalities such as CLI and HTTP mode plot generation, dynamic gradient support, marker customization (for both start and end), and advanced stroke styling (strokeWidth, strokeDashArray, strokeLinecap).
-- Continue mapping computed plot data to a dynamic SVG coordinate system with configurable dimensions and adaptive resolution.
-- Maintain existing enhancements for marker support, color gradients, curve smoothing and axis label formatting with optional locale-specific rendering.
-- Enhance accessibility:
-  - Introduce new CLI/configuration parameters (--svgTitle and --svgDesc) that allow users to specify a custom title and description for the SVG output.
-  - When provided, inject a <title> element as the first child and a <desc> element immediately after into the generated SVG. These elements provide semantic context for screen readers, improving the overall accessibility of the plot.
-  - Ensure that if no custom title or description is provided, default metadata derived from the plot configuration is used.
-- Update unit and integration tests to verify that when the --svgTitle and --svgDesc parameters are provided, the generated SVG includes the corresponding <title> and <desc> elements in the correct order.
-- Retain all other configuration merging and interpolation logic including environment variable support and robust error-handling for invalid parameters.
+- Retain and extend all previous functionalities such as CLI and HTTP mode plot generation, dynamic coordinate mapping, and adaptive resolution.
+- Enhance error handling and validation:
+  - Validate expressions to check for missing operators, unbalanced parentheses, and ensure that the variable 'x' is present.
+  - Validate the range parameters for both x and y to ensure they follow the format and that minimum values are less than maximum values. Provide clear error messages if invalid.
+- Add new customization parameters:
+  - Stroke Styling: Accept new parameters for strokeWidth (positive number), strokeDashArray (non-empty string), and strokeLinecap (allowed values: butt, round, or square).
+  - Curve Smoothing: Allow a configurable smoothingFactor (number between 0 and 1) to control the quadratic Bezier interpolation when smooth mode is enabled.
+  - Marker Customization: Enhance marker support with parameters for markerStart and markerEnd, including customizable markerShape, markerWidth, markerHeight, and markerFill.
+  - Gradient Configuration: Extend gradient support to allow advanced styling via a gradientStops parameter (a JSON array string defining multiple gradient stops with offset, stopColor, and optional stopOpacity). If not provided, fall back to a simple two-stop gradient using gradientStartColor and gradientEndColor.
+- Retain accessibility improvements by injecting <title> and <desc> elements if specified, as well as customizable ARIA attributes and text anchors for axis labels.
+- Ensure that configuration merging (from CLI flags, configuration files, and environment variables) is robust through recursive interpolation and type conversion with clear fallback defaults.
 
 # Impact
-- Improves accessibility significantly by providing semantic information to assistive technologies through embedded <title> and <desc> elements in the SVG output.
-- Enhances user confidence by ensuring that plots generated via CLI or HTTP endpoints are compliant with accessibility best practices.
-- Consolidates multiple advanced plotting capabilities into a single high-impact module while remaining backward compatible with existing configurations.
+- Boosts user control over plot styling and visual appearance, thereby improving customization for different use cases.
+- Enhances overall robustness by offering detailed and clear error messages to guide users in correcting invalid input.
+- Consolidates multiple advanced plotting capabilities into a single, high-impact module that serves both CLI and HTTP users, in line with the mission of being the go-to library for formula visualizations.
