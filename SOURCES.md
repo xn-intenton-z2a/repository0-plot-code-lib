@@ -92,3 +92,18 @@ This MDN documentation covers the Intl.NumberFormat API, a critical tool for for
 ## https://nodejs.org/api/
 The official Node.js documentation provides extensive technical details and examples on Node.js core modules, ES module syntax, asynchronous programming, and runtime configuration. This authoritative source directly supports the development and maintenance of both CLI and HTTP server functionalities in the repository. (Last updated: Regularly updated with Node.js releases)
 ## Node.js Documentation License
+
+# MDN SVG Accessibility
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Accessibility
+This MDN resource focuses on making SVG content accessible. It provides guidelines and best practices on using ARIA attributes, adding role descriptions, and embedding <title> and <desc> elements within SVGs to enhance usability for screen readers. These insights are especially valuable for developers implementing dynamic and interactive SVG plots that meet accessibility standards.
+## CC BY-SA
+
+# D3.js API Reference
+## https://github.com/d3/d3/blob/main/API.md
+The D3.js API Reference offers comprehensive technical details on data-driven document manipulation using the D3 library. It covers selections, transitions, and data binding, offering actionable techniques and performance insights that can inspire enhancements in dynamic SVG rendering and interactive plot features similar to those in this repository.
+## BSD-3-Clause
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js/#readme
+This documentation provides detailed guidelines for building command-line interfaces in Node.js using Commander.js. It outlines advanced options parsing, help text generation, and configuration management, offering actionable insights for creating robust and user-friendly CLIs. These principles can be applied to refine the CLI experience in repository0-plot-code-lib.
+## MIT License
