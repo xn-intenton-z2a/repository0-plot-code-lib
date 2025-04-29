@@ -277,3 +277,13 @@ The Node Cache documentation provides comprehensive guidelines on implementing i
 ## https://nodejs.org/en/knowledge/advanced/streams/
 This documentation offers detailed explanations on using Node.js streams for handling large data processing tasks and piping data efficiently. It covers creating, consuming, and managing streams, which could inspire future enhancements of processing bulk plot data or streaming plot output.
 ## Node.js Documentation License
+
+# Node.js Best Practices
+## https://github.com/goldbergyoni/nodebestpractices
+This comprehensive guide offers deep insights into best practices for structuring, securing, and optimizing Node.js applications. It covers performance tuning, asynchronous programming patterns, security fundamentals, and scalable architecture design, making it an invaluable resource for developers looking to build robust CLI and HTTP server applications.
+## MIT License
+
+# V8 Official Blog - Inside V8
+## https://v8.dev/blog
+This official V8 blog provides a wealth of technical articles on JavaScript engine internals, performance optimizations, and advanced runtime behaviors. Its in-depth posts offer actionable insights for optimizing Node.js applications and understanding the underpinnings of JavaScript execution, directly benefiting performance-critical applications.
+## V8 Blog (Publicly Accessible)
