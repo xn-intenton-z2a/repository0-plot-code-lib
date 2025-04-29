@@ -217,3 +217,8 @@ This article from SitePoint explains practical approaches to implementing in-mem
 ## https://www.npmjs.com/package/express-rate-limit
 This documentation provides comprehensive information on configuring and implementing rate limiting in Express.js applications. It covers key settings such as the maximum number of requests per window of time (e.g., 60 requests per minute), window durations, and error handling mechanisms to mitigate Denial-of-Service (DoS) attacks. It offers practical code examples and configuration tips that help secure HTTP endpoints like the /plot endpoint in repository0-plot-code-lib.
 ## MIT License
+
+# CSS-Tricks: Animating SVGs
+## https://css-tricks.com/animating-svgs-with-css/
+This guide from CSS-Tricks explores various techniques for animating SVG elements using CSS. It covers the use of CSS transitions, keyframe animations, and performance considerations when animating complex SVG graphics. The practical examples and in-depth explanations provide actionable insights for enhancing dynamic visualizations with smooth, engaging animations—useful for developers aiming to add interactive elements to their plots.
+## License: Unknown
