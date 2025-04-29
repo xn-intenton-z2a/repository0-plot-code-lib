@@ -212,3 +212,8 @@ This documentation provides an interactive, open-source grammar of graphics deve
 ## https://www.sitepoint.com/caching-in-nodejs/
 This article from SitePoint explains practical approaches to implementing in-memory caching in Node.js applications. It covers performance optimization techniques, code examples, and common pitfalls, aligning well with the caching mechanisms used in repository0-plot-code-lib to reduce redundant computations and improve efficiency.
 ## Unknown License
+
+# Express Rate Limit Documentation
+## https://www.npmjs.com/package/express-rate-limit
+This documentation provides comprehensive information on configuring and implementing rate limiting in Express.js applications. It covers key settings such as the maximum number of requests per window of time (e.g., 60 requests per minute), window durations, and error handling mechanisms to mitigate Denial-of-Service (DoS) attacks. It offers practical code examples and configuration tips that help secure HTTP endpoints like the /plot endpoint in repository0-plot-code-lib.
+## MIT License
