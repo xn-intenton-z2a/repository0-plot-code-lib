@@ -53,7 +53,7 @@ function interpolateEnv(input) {
       } else if (defaultVal !== undefined) {
         return defaultVal;
       } else {
-        return `\${${varName}}`;
+        return `\${`{"${varName}"}`}`; // fallback replacement
       }
     });
   } else if (Array.isArray(input)) {
@@ -703,39 +703,19 @@ app.get("/plot", (req, res) => {
   }
 
   res.set("Vary", "Accept");
-  let accept = req.headers.accept;
-  // Updated effectiveAccept: remove any "*/*" entries from the Accept header
-  const effectiveAccept = accept ? accept.split(",").map(a => a.trim()).filter(a => a !== "*/*").join(",") : "";
-  if (effectiveAccept) {
-    if (effectiveAccept.includes("image/svg+xml")) {
-      res.set("Content-Type", "image/svg+xml");
-      return res.send(String(svg));
-    } else if (effectiveAccept.includes("image/png")) {
-      const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.set("Content-Type", "image/png");
-      return res.send(dummyPng);
-    } else if (effectiveAccept.includes("application/json")) {
-      res.set("Content-Type", "application/json");
-      return res.json({ expression: expression, range: range, message: "Plot generation details" });
-    } else {
-      res.set("Vary", "Accept");
-      return res.status(406).send("Not Acceptable");
-    }
+  // Use req.accepts for content negotiation
+  const preferredType = req.accepts(["image/svg+xml", "image/png", "application/json"]);
+  if (preferredType === "image/svg+xml") {
+    res.type("image/svg+xml");
+    return res.send(String(svg));
+  } else if (preferredType === "image/png") {
+    const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
+    res.type("image/png");
+    return res.send(dummyPng);
+  } else if (preferredType === "application/json") {
+    return res.json({ expression: expression, range: range, message: "Plot generation details" });
   } else {
-    if (fileType.toLowerCase() === "svg") {
-      res.set("Content-Type", "image/svg+xml");
-      return res.send(String(svg));
-    } else if (fileType.toLowerCase() === "png") {
-      const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.set("Content-Type", "image/png");
-      return res.send(dummyPng);
-    } else if (fileType.toLowerCase() === "json" || fileType.toLowerCase() === "application/json") {
-      res.set("Content-Type", "application/json");
-      return res.json({ expression: expression, range: range, message: "Plot generation details" });
-    } else {
-      res.set("Vary", "Accept");
-      return res.status(406).send("Not Acceptable");
-    }
+    return res.status(406).send("Not Acceptable");
   }
 });
 
