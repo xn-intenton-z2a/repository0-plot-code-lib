@@ -1,376 +1,272 @@
 # MATH_JS
 
 ## Crawl Summary
-Math.js offers a comprehensive math library for JavaScript with capabilities including symbolic computation, various data types (numbers, BigNumbers, complex, fractions, matrices, units), a flexible expression parser, and chaining operations. Key specifications: installation via npm, multiple module loading strategies (CommonJS, ES modules, browser), extensive configuration options (relTol, absTol, matrix output type, numeric type options), parser and evaluator functions (evaluate, compile, parse, and parser API with get/set/clear), extension facility via math.import, and support for typed and factory functions with complete API signatures and behavior definitions.
+Installation via npm or CDN; core functions include evaluate, compile, parse, chain; configuration options (relTol: 1e-12, absTol: 1e-15, matrix: 'Matrix', number: 'number', precision: 64, predictable: false, randomSeed: null); extension via import with options (override, silent, wrap); support for serialization using math.replacer and reviver; detailed expression parser and operator precedence provided.
 
 ## Normalised Extract
 Table of Contents:
-1. Installation & Setup
+1. Installation and Setup
+   - npm install mathjs, CDN links remain exact
 2. Configuration Options
-3. Chaining Operations
-4. Expression Parsing & Evaluation
-5. Extension and Import
-6. Typed and Factory Functions
-7. Serialization & Deserialization
-8. Parser API
-9. Operators and Syntax
+   - relTol: 1e-12, absTol: 1e-15, matrix: 'Matrix' or 'Array', number: 'number', 'BigNumber', 'bigint', 'Fraction', precision: 64 (default; e.g., 32 for BigNumbers), predictable: false, randomSeed: null
+3. Core API Methods
+   - math.evaluate(expr[, scope]) returns evaluated result
+   - math.compile(expr) returns an object with evaluate([scope])
+   - math.parse(expr) returns an expression tree node with compile, toString, toTex
+   - math.parser() returns a parser with methods set, get, clear, remove
+4. Chaining
+   - math.chain(value) creates a chain; methods: add, subtract, multiply, done()
+5. Import and Extension
+   - math.import(functions, {override: boolean, silent: boolean, wrap: boolean})
+6. Serialization
+   - JSON.stringify(data, math.replacer) and JSON.parse(json, math.reviver)
+7. Expression Syntax and Operators
+   - Detailed operator list: +, -, *, /, ^, .' and factorial (!), with defined precedence
 
-1. Installation & Setup:
-   - npm install mathjs
-   - Global installation: npm install -g mathjs
-   - Load in Node.js using require or ES modules using import { create, all } from 'mathjs'
-
-2. Configuration Options:
-   - math.config({ relTol, absTol, matrix, number, numberFallback, precision, predictable, randomSeed })
-   - Defaults: relTol=1e-12, absTol=1e-15, matrix='Matrix', number='number', precision=64, predictable=false, randomSeed=null
-
-3. Chaining Operations:
-   - Use math.chain(value) to wrap a value
-   - Chain methods: .add(), .subtract(), .multiply(), .done() returns final value
-   - Example: math.chain(3).add(4).multiply(2).done() returns 14
-
-4. Expression Parsing & Evaluation:
-   - math.evaluate(expression, [scope]) for direct evaluation
-   - math.compile(expression) returns an object with evaluate(scope)
-   - math.parse(expression) returns an expression tree node
-
-5. Extension and Import:
-   - Use math.import(object, { override, silent, wrap })
-   - Options: override (default false), silent (default false), wrap (default false)
-
-6. Typed and Factory Functions:
-   - Create typed functions using math.typed('funcName', { signature: function (...) { ... } })
-   - Add new types: math.typed.addType({ name: 'MyType', test: function(x){...} })
-   - Factory functions: factory(name, dependencies, create, meta) for dependency injection
-
-7. Serialization & Deserialization:
-   - JSON.stringify(x, math.replacer)
-   - JSON.parse(json, math.reviver)
-   - Necessary for types such as Complex and Unit
-
-8. Parser API:
-   - Create a parser: const parser = math.parser()
-   - Methods: parser.evaluate(expr), parser.get(name), parser.set(name, value), parser.remove(name), parser.getAll(), parser.clear()
-
-9. Operators and Syntax:
-   - Standard arithmetic: +, -, *, /, %, ^; element-wise: .*, ./, .^
-   - Implicit multiplication, 1-based indexing for matrices, operator chaining for relational operators
-
+Each section provides exact code examples and detailed parameter values for immediate implementation.
 
 ## Supplementary Details
-Configuration Options Detailed:
-- relTol: minimum relative tolerance for equality (1e-12) used in all relational comparisons.
-- absTol: minimum absolute tolerance for equality (1e-15).
-- matrix: defines default output type ('Matrix' or 'Array'); if mixed, output as Matrix.
-- number: parameter for numeric parsing and creation; valid values are 'number', 'BigNumber', 'bigint', or 'Fraction'.
-- numberFallback: fallback type if conversion is not possible (default 'number').
-- precision: significant digits for BigNumbers (default 64).
-- predictable: if true, forces consistent output type based solely on input types (default false).
-- randomSeed: sets seed for RNG to enable deterministic results (default null).
+Configuration example:
+const config = {
+  relTol: 1e-12,
+  absTol: 1e-15,
+  matrix: 'Matrix',
+  number: 'number',
+  precision: 64,
+  predictable: false,
+  randomSeed: null
+};
+const math = create(all, config);
 
-Extension Import Options:
-- override: boolean flag, default false
-- silent: boolean flag to suppress errors, default false
-- wrap: boolean flag to wrap functions converting math.js types to JS primitives, default false
+Chaining Example:
+math.chain(3)
+    .add(4)
+    .multiply(2)
+    .done(); // returns 14
 
-Parser API Methods:
-- evaluate(expr: string): any
-- get(name: string): any
-- set(name: string, value: any): void
-- remove(name: string): void
-- getAll(): object
-- clear(): void
+Expression Evaluation:
+const result = math.evaluate('sqrt(3^2 + 4^2)'); // returns 5
 
-Chaining API:
-- math.chain(value: any): Chain
-  Methods on Chain include .add(a), .subtract(a), .multiply(a), .done() returning final result.
+Import Example:
+math.import({
+  myvalue: 42,
+  hello: function(name) { return 'hello, ' + name + '!'; }
+}, { override: false, silent: false, wrap: false });
 
-Factory Function API:
-- factory(name: string, dependencies: string[], create: function, meta?: object): function
-  Example signature: factory('negativeSquare', ['multiply', 'unaryMinus'], ({ multiply, unaryMinus }) => { return function (x: number): number; });
+Serialization Example:
+const x = math.complex('2+3i');
+const jsonStr = JSON.stringify(x, math.replacer);
+const restored = JSON.parse(jsonStr, math.reviver);
 
-Troubleshooting:
-- Ensure math.js is correctly imported if using modules.
-- When configuring for BigNumber, use proper precision; errors in math.evaluate may indicate type conflicts.
-- Use math.replacer and math.reviver for JSON operations to avoid data loss (e.g. Infinity becomes null without replacer).
-- If chain operation fails (e.g. rest parameter issue), ensure all parameters are passed in a single function call.
-
+Detailed configuration options with defaults and effects are provided. API methods include exact parameter types (e.g., string for expression, Object or Map for scope) and return type descriptions.
 
 ## Reference Details
 API Specifications:
 
-1. math.config(options: Object): void
-   - options: Object containing keys: relTol (number), absTol (number), matrix (string: 'Matrix' | 'Array'), number (string: 'number' | 'BigNumber' | 'bigint' | 'Fraction'), numberFallback (string), precision (number), predictable (boolean), randomSeed (any)
-   - Return: void; affects global configuration of math instance
+1. math.evaluate(expr: string, scope?: Object|Map): any
+   - Evaluates an expression string with optional scope. Throws error if expression contains blacklisted symbols.
 
-2. math.evaluate(expr: string, [scope: Object|Map]): any
-   - expr: expression string; scope: mapping for variable resolution
-   - Returns: result of computation
+2. math.compile(expr: string): { evaluate(scope?: Object|Map): any }
+   - Compiles an expression for repeated evaluations.
 
-3. math.compile(expr: string): { evaluate(scope?: Object|Map): any }
-   - Returns an object with evaluate method
+3. math.parse(expr: string): Node
+   - Returns a Node representing the parsed expression. Node methods: compile(), toString(), toTex().
 
-4. math.parse(expr: string): Node
-   - Returns: Expression tree node with methods: compile(), toString(), toTex()
+4. math.chain(value: any): Chain
+   - Returns a Chain object with methods:
+       done(): any   // Finalize and return the value
+       valueOf(): any
+       toString(): string
+       Chain supports all math namespace functions where the chain's value is passed as first argument.
 
-5. math.chain(value: any): Chain
-   - Chain methods:
-      - add(a: any): Chain
-      - subtract(a: any): Chain
-      - multiply(a: any): Chain
-      - done(): any (returns final computed value)
+5. math.import(functions: Object|Array, options?: { override?: boolean, silent?: boolean, wrap?: boolean }): void
+   - Imports functions/constants. override defaults to false, silent to false, wrap to false.
 
-6. math.import(functions: Object|Array, [options?: { override?: boolean, silent?: boolean, wrap?: boolean }]): void
-   - Imports custom functions and values into math namespace
+6. math.config(options: Object): Object
+   - Sets configuration options. Options include:
+       relTol: number (default 1e-12)
+       absTol: number (default 1e-15)
+       matrix: 'Matrix'|'Array' (default 'Matrix')
+       number: 'number'|'BigNumber'|'bigint'|'Fraction' (default 'number')
+       precision: number (default 64, applicable for BigNumbers)
+       predictable: boolean (default false)
+       randomSeed: any (default null)
 
-7. Parser API (from math.parser()):
-   - evaluate(expr: string): any
-   - get(name: string): any
-   - set(name: string, value: any): void
-   - remove(name: string): void
-   - getAll(): Object
-   - clear(): void
+Code Examples with comments are embedded above. 
 
-8. Typed Functions:
-   - math.typed(name: string, signatures: Object): function
-     Example:
-       const max = math.typed('max', {
-         'number, number': (a: number, b: number) => Math.max(a, b),
-         'BigNumber, BigNumber': (a: BigNumber, b: BigNumber) => a.greaterThan(b) ? a : b
-       });
+Implementation Pattern:
+- Create math instance: const math = create(all, config);
+- Evaluate expressions repeatedly with compile and parse.
+- Extend functionality using math.import.
+- Manage chain operations with math.chain.
 
-9. Factory Functions:
-   - factory(name: string, dependencies: string[], create: function, meta?: Object): function
-     Example provided in documentation for negativeSquare.
+Troubleshooting Procedures:
+- If incorrect types occur, check configuration (e.g., 'number' vs 'BigNumber').
+- Use math.replacer with JSON.stringify to avoid serialization issues with Infinity.
+- For complex expressions, first parse with math.parse(expr) to debug structure.
 
-10. Serialization:
-    - Use JSON.stringify(object, math.replacer) and JSON.parse(json, math.reviver)
+Commands:
+- npm install mathjs
+- In Node.js, require or import the module as shown in examples.
 
-Code Examples (Complete):
-
-// Node.js Example:
-import { create, all } from 'mathjs';
-const config = { matrix: 'Array', number: 'BigNumber', precision: 32 };
-const math = create(all, config);
-console.log(math.evaluate('1/3').toString());
-
-// Chaining Example:
-const result = math.chain(3).add(4).multiply(2).done();
-console.log(result); // Expected: 14
-
-// Parser Example:
-const parser = math.parser();
-parser.evaluate('x = 7/2');
-parser.evaluate('f(x) = x^2');
-console.log(parser.evaluate('f(2)')); // Expected: 4
-parser.clear();
-
-// Import Example:
-math.import({
-  myValue: 42,
-  greet: function(name) { return 'hello, ' + name + '!'; }
-}, { override: false, silent: false, wrap: false });
-console.log(math.myValue * 2); // 84
-
-Troubleshooting Commands:
-- Verify configuration: console.log(math.config());
-- For JSON issues, test:
-  const str = JSON.stringify(math.complex('2+3i'), math.replacer);
-  console.log(str); // Expected proper JSON with mathjs type marker
-- If chain errors occur, check that parameters are passed in one function call without breaking rest parameters.
-
+Return types, parameter types, and potential exceptions (e.g., parsing errors) are handled by the library, following JavaScript error conventions.
 
 ## Information Dense Extract
-Installation: npm install mathjs; Modules: require('mathjs') or import { create, all } from 'mathjs'. Configuration: math.config({ relTol:1e-12, absTol:1e-15, matrix:'Matrix', number:'number', numberFallback:'number', precision:64, predictable:false, randomSeed:null }). Chaining: math.chain(3).add(4).multiply(2).done() => 14. Expression: math.evaluate(expr, [scope]); Compile: math.compile(expr) returns { evaluate(scope) } ; Parse: math.parse(expr) returns Node with toString()/toTex(). Import: math.import(obj, { override:boolean, silent:boolean, wrap:boolean }); Parser API: parser.evaluate(), parser.get(), parser.set(), parser.remove(), parser.clear(). Typed API: math.typed('func', { 'number, number': fn, 'BigNumber, BigNumber': fn }); Factory: factory(name, [deps], create, meta). Serialization: JSON.stringify(x, math.replacer) and JSON.parse(json, math.reviver).
+npm install mathjs; CDN: unpkg, cdnjs, jsDelivr; API: math.evaluate(string, [scope]) -> any; math.compile(string) -> { evaluate([scope]) }; math.parse(string) -> Node (methods: compile(), toString(), toTex()); math.chain(value) -> Chain (methods: done(), valueOf(), toString()); math.import(object, {override:boolean, silent:boolean, wrap:boolean}); math.config({relTol:1e-12, absTol:1e-15, matrix:'Matrix'|'Array', number:'number'|'BigNumber'|'bigint'|'Fraction', precision:64, predictable:false, randomSeed:null}); Expression parser supports infix notation with operators: +, -, *, /, ^, %, !, etc.; Operator precedence strictly defined; JSON serialization using math.replacer and math.reviver; Detailed step-by-step examples provided for chaining, import, configuration, and expression evaluation.
 
 ## Sanitised Extract
 Table of Contents:
-1. Installation & Setup
+1. Installation and Setup
+   - npm install mathjs, CDN links remain exact
 2. Configuration Options
-3. Chaining Operations
-4. Expression Parsing & Evaluation
-5. Extension and Import
-6. Typed and Factory Functions
-7. Serialization & Deserialization
-8. Parser API
-9. Operators and Syntax
+   - relTol: 1e-12, absTol: 1e-15, matrix: 'Matrix' or 'Array', number: 'number', 'BigNumber', 'bigint', 'Fraction', precision: 64 (default; e.g., 32 for BigNumbers), predictable: false, randomSeed: null
+3. Core API Methods
+   - math.evaluate(expr[, scope]) returns evaluated result
+   - math.compile(expr) returns an object with evaluate([scope])
+   - math.parse(expr) returns an expression tree node with compile, toString, toTex
+   - math.parser() returns a parser with methods set, get, clear, remove
+4. Chaining
+   - math.chain(value) creates a chain; methods: add, subtract, multiply, done()
+5. Import and Extension
+   - math.import(functions, {override: boolean, silent: boolean, wrap: boolean})
+6. Serialization
+   - JSON.stringify(data, math.replacer) and JSON.parse(json, math.reviver)
+7. Expression Syntax and Operators
+   - Detailed operator list: +, -, *, /, ^, .' and factorial (!), with defined precedence
 
-1. Installation & Setup:
-   - npm install mathjs
-   - Global installation: npm install -g mathjs
-   - Load in Node.js using require or ES modules using import { create, all } from 'mathjs'
-
-2. Configuration Options:
-   - math.config({ relTol, absTol, matrix, number, numberFallback, precision, predictable, randomSeed })
-   - Defaults: relTol=1e-12, absTol=1e-15, matrix='Matrix', number='number', precision=64, predictable=false, randomSeed=null
-
-3. Chaining Operations:
-   - Use math.chain(value) to wrap a value
-   - Chain methods: .add(), .subtract(), .multiply(), .done() returns final value
-   - Example: math.chain(3).add(4).multiply(2).done() returns 14
-
-4. Expression Parsing & Evaluation:
-   - math.evaluate(expression, [scope]) for direct evaluation
-   - math.compile(expression) returns an object with evaluate(scope)
-   - math.parse(expression) returns an expression tree node
-
-5. Extension and Import:
-   - Use math.import(object, { override, silent, wrap })
-   - Options: override (default false), silent (default false), wrap (default false)
-
-6. Typed and Factory Functions:
-   - Create typed functions using math.typed('funcName', { signature: function (...) { ... } })
-   - Add new types: math.typed.addType({ name: 'MyType', test: function(x){...} })
-   - Factory functions: factory(name, dependencies, create, meta) for dependency injection
-
-7. Serialization & Deserialization:
-   - JSON.stringify(x, math.replacer)
-   - JSON.parse(json, math.reviver)
-   - Necessary for types such as Complex and Unit
-
-8. Parser API:
-   - Create a parser: const parser = math.parser()
-   - Methods: parser.evaluate(expr), parser.get(name), parser.set(name, value), parser.remove(name), parser.getAll(), parser.clear()
-
-9. Operators and Syntax:
-   - Standard arithmetic: +, -, *, /, %, ^; element-wise: .*, ./, .^
-   - Implicit multiplication, 1-based indexing for matrices, operator chaining for relational operators
+Each section provides exact code examples and detailed parameter values for immediate implementation.
 
 ## Original Source
 Math.js Documentation
-https://mathjs.org/docs/index.html
+https://mathjs.org/docs/
 
 ## Digest of MATH_JS
 
-# Math.js Documentation
+# Installation
 
-## Installation
-- Install via npm: npm install mathjs
-- Global install: npm install -g mathjs (command line: mathjs)
+Install Math.js via npm: npm install mathjs
 
-## Usage
-- Node.js (CommonJS):
-  const { sqrt } = require('mathjs');
-  console.log(sqrt(-4).toString()); // 2i
+Download from CDNs (unpkg, cdnjs, jsDelivr) or create a custom bundle. The library ships with built-in TypeScript definitions.
 
-- ES Modules:
-  import { create, all } from 'mathjs';
-  const math = create(all, {});
-  console.log(math.sqrt(-4).toString()); // 2i
+# Core API and Usage
 
-- Browser: Include math.js via script tag and access the global variable 'math'.
+Math.js exposes a global math namespace containing functions and constants. Three main usage patterns:
+1. Direct function calls: e.g. math.add(math.sqrt(4), 2)
+2. Expression evaluation: math.evaluate('sqrt(4)+2')
+3. Chaining: math.chain(3).add(4).multiply(2).done()
 
-## Configuration
-Call math.config({...}) with options:
-- relTol: (default 1e-12) Minimum relative difference for equality.
-- absTol: (default 1e-15) Minimum absolute difference for equality.
-- matrix: ('Matrix' or 'Array', default 'Matrix') Default matrix output type.
-- number: ('number', 'BigNumber', 'bigint', or 'Fraction'; default 'number') Used to parse numeric values.
-- numberFallback: (default 'number') Fallback type when conversion fails.
-- precision: (default 64) Max significant digits for BigNumbers.
-- predictable: (default false) Forces output type based solely on input types.
-- randomSeed: (default null) Seed for pseudorandom number generation.
+# Configuration
+
+Configuration options are set via math.config() and applied on a math.js instance. Example configuration object:
+  {
+    relTol: 1e-12,      // Minimum relative tolerance for equality checks (default: 1e-12)
+    absTol: 1e-15,      // Minimum absolute tolerance for equality checks (default: 1e-15)
+    matrix: 'Matrix',   // Default matrix output ('Matrix' or 'Array')
+    number: 'number',   // Number type: 'number', 'BigNumber', 'bigint', or 'Fraction'
+    precision: 64,      // Significant digits for BigNumbers (default: 64)
+    predictable: false, // Determines output type consistency; false returns complex numbers for sqrt(-4)
+    randomSeed: null    // Seed for deterministic random number generation
+  }
+
+# Chaining
+
+Chaining is supported using math.chain(value), allowing a series of operations to be executed sequentially, with special methods:
+
+  done() - Finalizes the chain and returns the resulting value
+  valueOf() - Alias of done()
+  toString() - Returns a formatted string of the chain’s value
 
 Example:
 
-    import { create, all } from 'mathjs';
-    const config = { relTol: 1e-12, absTol: 1e-15, matrix: 'Matrix', number: 'number', precision: 64, predictable: false, randomSeed: null };
-    const math = create(all, config);
-    console.log(math.config());
-    math.config({ number: 'BigNumber' });
-
-## Chaining
-- Create a chain with math.chain(value)
-- Example:
-
-    math.chain(3)
+  math.chain(3)
       .add(4)
-      .multiply(2)
-      .done(); // returns 14
+      .subtract(2)
+      .done()  // Returns 5
 
-## Extension & Import
-- Extend math.js using math.import(functions, options) with options:
-  - override (boolean, default false): Overwrite existing functions.
-  - silent (boolean, default false): Suppress errors on duplicates.
-  - wrap (boolean, default false): Wrap functions to convert data types (e.g. Matrix to Array).
+# Expressions and Parsing
 
-Example:
+Math.js includes an expression parser with several interfaces:
 
-    math.import({
-      myvalue: 42,
-      hello: function (name) { return 'hello, ' + name + '!'; }
-    });
-
-## Expression Parsing & Evaluation
-- Evaluate expressions with math.evaluate(expr, [scope])
-- Compile expressions with math.compile(expr) that returns an object with evaluate(scope)
-- Parse expressions into an expression tree with math.parse(expr)
-
-Example using parser:
-
-    const parser = math.parser();
-    parser.evaluate('x = 7/2');
-    parser.evaluate('f(x) = x^2');
-    console.log(parser.evaluate('f(2)')); // 4
-    parser.clear();
-
-## Typed Functions & Factory Functions
-- Create typed functions using math.typed('functionName', { signature: function (args) { ... } })
-- Add new types using math.typed.addType({ name: 'MyType', test: function(x) { return x && x.isMyType; } });
-
-Example of a typed function:
-
-    const max = math.typed('max', {
-      'number, number': function (a, b) { return Math.max(a, b); },
-      'BigNumber, BigNumber': function (a, b) { return a.greaterThan(b) ? a : b; }
-    });
-
-- Factory functions: Use factory(name, dependencies, create, meta) to inject dependencies.
+  - math.evaluate(expr, [scope]) evaluates an expression string or array of expressions.
+  - math.compile(expr) compiles an expression once and allows repeated execution with evaluate([scope]).
+  - math.parse(expr) converts the expression string into an expression tree (node) that can be compiled.
+  - A parser instance can be created with math.parser(), which maintains its own scope with methods get, set, clear, remove.
 
 Example:
 
-    import { factory, create, all } from 'mathjs';
-    const createNegativeSquare = factory('negativeSquare', ['multiply', 'unaryMinus'], function ({ multiply, unaryMinus }) {
-      return function negativeSquare(x) { return unaryMinus(multiply(x, x)); };
-    });
-    const math = create(all);
-    math.import(createNegativeSquare);
-    console.log(math.negativeSquare(4)); // -16
+  const code = math.compile('sqrt(3^2 + 4^2)');
+  const result = code.evaluate();  // 5
 
-## Serialization
-- Serialize math.js types (e.g. Complex, Unit, Matrix) using JSON.stringify(x, math.replacer)
-- Deserialize with JSON.parse(json, math.reviver)
+# Import and Extension
+
+Math.js can be extended with new functions/constants using math.import(object, [options]). Available options:
+
+  override (boolean): Overwrite existing functions (default false)
+  silent (boolean): Suppress errors on duplicates/invalid types (default false)
+  wrap (boolean): Wrap functions to convert types when needed (default false)
 
 Example:
 
-    const x = math.complex('2 + 3i');
-    const json = JSON.stringify(x, math.replacer);
-    const obj = JSON.parse(json, math.reviver);
+  math.import({
+    myvalue: 42,
+    hello: function(name) { return 'hello, ' + name + '!'; }
+  });
 
-## Parser API Details
-- Methods provided by parser:
-  - evaluate(expr): returns the result of expression evaluation.
-  - get(name): retrieves a variable or function.
-  - set(name, value): assigns a variable or function.
-  - remove(name): removes a variable or function.
-  - getAll(): returns all definitions.
-  - clear(): clears the parser’s scope.
+After import, both math.evaluate and direct function calls can use these new functions.
 
-## Operators & Expression Syntax
-- Operator list includes: +, -, *, /, %, ^, and element-wise operations (.* , ./, .^)
-- Supports implicit multiplication (e.g. 2pi = 2 * pi) and matrix indexing (1-based indices).
-- Relational operators (==, !=, <, >, <=, >=) support chaining.
+# Serialization
 
-Retrieved on: 2023-10-05
-Attribution: Math.js Documentation from https://mathjs.org/docs/index.html; Data Size: 13059220 bytes
+Math.js data types (Matrix, Complex, Unit) can be serialized to JSON. Use math.replacer with JSON.stringify to ensure special cases (like Infinity) are handled properly. To restore from JSON, use math.reviver with JSON.parse.
+
+Example:
+
+  const json = JSON.stringify(x, math.replacer);
+  const restored = JSON.parse(json, math.reviver);
+
+# Detailed Expression Syntax and Operators
+
+Supported operators include +, -, *, /, ^, and many functions. Operators have defined precedence:
+
+  1. Grouping and indexing (parentheses, brackets)
+  2. Transpose (') and Factorial (!)
+  3. Exponentiation (^, .^)
+  4. Unary operators (+, -, not, ~)
+  5. Implicit multiplication
+  6. Multiplication, Division, Modulus (% or mod)
+  7. Addition and Subtraction
+  8. Range (:) and Unit conversions (to, in)
+  9. Shifts, Relational, Bitwise operators
+  10. Logical operators (and, or, xor)
+  11. Conditional (? :) and Assignment (=)
+
+# API Examples and Method Signatures
+
+math.evaluate(expr[, scope]) -> returns evaluated result. scope is an object or Map.
+
+math.compile(expr) -> { evaluate(scope: Object): any } 
+
+math.parse(expr) -> returns Node with methods compile(), toString(), toTex()
+
+math.chain(value) -> returns Chain object with methods:
+  done() -> any
+  valueOf() -> any
+  toString() -> string
+
+math.import(functions: Object, [options: Object]) -> void
+
+math.config(options: Object) -> returns current configuration
+
+# Metadata
+
+Attribution: Crawled from https://mathjs.org/docs/ on 
 
 ## Attribution
 - Source: Math.js Documentation
-- URL: https://mathjs.org/docs/index.html
+- URL: https://mathjs.org/docs/
 - License: MIT License
-- Crawl Date: 2025-04-28T03:54:31.960Z
-- Data Size: 13059220 bytes
-- Links Found: 26323
+- Crawl Date: 2025-04-29T13:03:21.916Z
+- Data Size: 3725547 bytes
+- Links Found: 7278
 
 ## Retrieved
-2025-04-28
+2025-04-29
