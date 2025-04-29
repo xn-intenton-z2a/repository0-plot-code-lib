@@ -252,7 +252,7 @@ function computePlotData(expression, range, customLabels = {}) {
     computedXRange: { min: xMin, max: xMax },
     computedYRange: { min: computedYMin, max: computedYMax },
     axisLabels: { x: xAxisLabelText, y: yAxisLabelText },
-    resolution: resolution,
+    resolution: resolution
   };
 }
 
@@ -708,30 +708,32 @@ app.get("/plot", (req, res) => {
   const effectiveAccept = (accept && accept.includes("*/*")) ? "" : accept;
   if (effectiveAccept) {
     if (effectiveAccept.includes("image/svg+xml")) {
-      res.type("svg");
+      res.type("image/svg+xml");
       return res.send(String(svg));
     } else if (effectiveAccept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.type("png");
+      res.type("image/png");
       return res.send(dummyPng);
     } else if (effectiveAccept.includes("application/json")) {
-      res.type("json");
+      res.type("application/json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
+      res.set("Vary", "Accept");
       return res.status(406).send("Not Acceptable");
     }
   } else {
     if (fileType.toLowerCase() === "svg") {
-      res.type("svg");
+      res.type("image/svg+xml");
       return res.send(String(svg));
     } else if (fileType.toLowerCase() === "png") {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.type("png");
+      res.type("image/png");
       return res.send(dummyPng);
     } else if (fileType.toLowerCase() === "json" || fileType.toLowerCase() === "application/json") {
-      res.type("json");
+      res.type("application/json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
+      res.set("Vary", "Accept");
       return res.status(406).send("Not Acceptable");
     }
   }
