@@ -708,14 +708,14 @@ app.get("/plot", (req, res) => {
   const effectiveAccept = accept ? accept.split(",").map(a => a.trim()).filter(a => a !== "*/*").join(",") : "";
   if (effectiveAccept) {
     if (effectiveAccept.includes("image/svg+xml")) {
-      res.type("image/svg+xml");
+      res.set("Content-Type", "image/svg+xml");
       return res.send(String(svg));
     } else if (effectiveAccept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.type("image/png");
+      res.set("Content-Type", "image/png");
       return res.send(dummyPng);
     } else if (effectiveAccept.includes("application/json")) {
-      res.type("application/json");
+      res.set("Content-Type", "application/json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
       res.set("Vary", "Accept");
@@ -723,14 +723,14 @@ app.get("/plot", (req, res) => {
     }
   } else {
     if (fileType.toLowerCase() === "svg") {
-      res.type("image/svg+xml");
+      res.set("Content-Type", "image/svg+xml");
       return res.send(String(svg));
     } else if (fileType.toLowerCase() === "png") {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.type("image/png");
+      res.set("Content-Type", "image/png");
       return res.send(dummyPng);
     } else if (fileType.toLowerCase() === "json" || fileType.toLowerCase() === "application/json") {
-      res.type("application/json");
+      res.set("Content-Type", "application/json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
       res.set("Vary", "Accept");
