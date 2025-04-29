@@ -1,20 +1,18 @@
 # Overview
-The SVG_PLOTTING feature has been updated to further refine the plot generation module. In addition to its existing capabilities (static plot creation, dynamic animations, curve smoothing, and accessibility improvements), this update introduces enhanced error handling, extended marker customizations including start and end markers, configurable stroke styling (strokeWidth, strokeDashArray, strokeLinecap), and advanced gradient configuration with support for user-defined gradient stops via JSON. It also consolidates robust input validation for mathematical expressions and plotting ranges, along with improved environment variable interpolation for configuration files.
+This update enhances the SVG_PLOTTING feature to support batch plotting mode in addition to the existing dynamic, configurable plot generation. In batch mode, users can supply multiple mathematical expressions and ranges in a single CLI invocation or configuration file. The system will generate a combined output (concatenated SVGs) or process each plot sequentially for separate output, based on user preferences.
 
 # Implementation
-- Retain and extend all previous functionalities such as CLI and HTTP mode plot generation, dynamic coordinate mapping, and adaptive resolution.
-- Enhance error handling and validation:
-  - Validate expressions to check for missing operators, unbalanced parentheses, and ensure that the variable 'x' is present.
-  - Validate the range parameters for both x and y to ensure they follow the format and that minimum values are less than maximum values. Provide clear error messages if invalid.
-- Add new customization parameters:
-  - Stroke Styling: Accept new parameters for strokeWidth (positive number), strokeDashArray (non-empty string), and strokeLinecap (allowed values: butt, round, or square).
-  - Curve Smoothing: Allow a configurable smoothingFactor (number between 0 and 1) to control the quadratic Bezier interpolation when smooth mode is enabled.
-  - Marker Customization: Enhance marker support with parameters for markerStart and markerEnd, including customizable markerShape, markerWidth, markerHeight, and markerFill.
-  - Gradient Configuration: Extend gradient support to allow advanced styling via a gradientStops parameter (a JSON array string defining multiple gradient stops with offset, stopColor, and optional stopOpacity). If not provided, fall back to a simple two-stop gradient using gradientStartColor and gradientEndColor.
-- Retain accessibility improvements by injecting <title> and <desc> elements if specified, as well as customizable ARIA attributes and text anchors for axis labels.
-- Ensure that configuration merging (from CLI flags, configuration files, and environment variables) is robust through recursive interpolation and type conversion with clear fallback defaults.
+- Add a new CLI flag, --batch, which when enabled will allow users to supply multiple expressions. The expressions may be provided either
+  as a semicolon separated list in the expression parameter or as a JSON array in the configuration file.
+- Extend the configuration parser (loadConfig) and command line options parser to detect and correctly process batch mode input.
+- In batch mode, for each expression-range pair the system will compute plot data and build corresponding SVG content. The output file will
+  either contain the concatenated SVG contents (with clear separators) or multiple SVG outputs if the user specifies a suitable output pattern.
+- Update error handling to check that every expression in batch mode includes the variable x and that each corresponding range is valid.
+- Ensure compatibility with the existing customization options (markers, gradients, stroke styling, smoothing, etc.) for each individual plot.
+- Update unit tests in tests/unit to include new scenarios for batch plotting, confirming that multiple plots are generated, proper output is produced, and errors are raised for any invalid item in the batch.
+- Update the README and USAGE documentation to explain how to use the new batch plotting mode, including examples of both CLI and HTTP invocations with multiple expressions.
 
 # Impact
-- Boosts user control over plot styling and visual appearance, thereby improving customization for different use cases.
-- Enhances overall robustness by offering detailed and clear error messages to guide users in correcting invalid input.
-- Consolidates multiple advanced plotting capabilities into a single, high-impact module that serves both CLI and HTTP users, in line with the mission of being the go-to library for formula visualizations.
+- Empowers users to generate multiple plots in one run, increasing efficiency when visualizing collections of mathematical expressions.
+- Consolidates extended plotting capabilities into a single, robust module, aligning with the mission of making plot-code-lib the go-to tool for formula visualisations.
+- Provides clear and consistent feedback in batch mode to ensure users can easily diagnose and correct errors in any of the batched input expressions and ranges.
