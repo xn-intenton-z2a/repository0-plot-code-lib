@@ -232,3 +232,23 @@ This comprehensive guide from Node.js provides detailed insights on handling sys
 ## https://www.freecodecamp.org/news/how-to-use-environment-variables-in-node-js/
 This detailed tutorial from freeCodeCamp explains best practices for managing environment variables in Node.js applications. It covers secure storage, interpolation techniques, and fallback default mechanisms, which are central to repository0-plot-code-lib’s configuration strategy. The article provides actionable advice for implementing dynamic configuration loading and environment variable interpolation to ensure reliable and robust application behavior.
 ## FreeCodeCamp License (Free to use with attribution)
+
+# SVGO Documentation
+## https://github.com/svg/svgo
+The SVGO documentation offers comprehensive guidelines on optimizing and cleaning up SVG files. It details techniques for reducing file size through removal of unnecessary data, streamlining SVG structure, and preserving critical accessibility metadata. This resource is valuable for ensuring that generated SVG plots are efficient for web delivery while maintaining visual clarity.
+## MIT License
+
+# Vercel Serverless Functions Documentation
+## https://vercel.com/docs/concepts/functions/serverless-functions
+This documentation provides in-depth guidance on deploying and managing serverless functions on Vercel. It covers performance optimization, cold start mitigation, and scaling strategies, which are essential for deploying Node.js applications (including Express servers) in a serverless environment. This resource can help ensure that HTTP endpoints in repository0-plot-code-lib perform reliably under variable load.
+## Unknown License
+
+# Serverless Framework Documentation
+## https://www.serverless.com/framework/docs/
+The Serverless Framework documentation offers detailed resources for building, deploying, and managing serverless applications with Node.js. It covers configuration, function orchestration, event handling, and monitoring, providing actionable insights for developers looking to scale and optimize serverless deployments of plotting applications.
+## Apache 2.0
+
+# Node.js Security Best Practices
+## https://nodejs.dev/learn/nodejs-security-best-practices
+This resource outlines practical security measures for Node.js applications, including secure dependency management, proper use of environment variables, and safe configuration practices. It provides actionable guidelines to safeguard applications against common vulnerabilities, ensuring that repositories like repository0-plot-code-lib remain secure in production environments.
+## Unknown License
