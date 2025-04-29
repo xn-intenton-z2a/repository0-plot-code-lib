@@ -267,3 +267,13 @@ The ESLint official documentation offers comprehensive technical guidance on lin
 ## https://prettier.io/docs/en/index.html
 Prettier's documentation provides actionable insights for setting up and configuring code formatting in JavaScript projects. It covers usage, integration with various editors, and best practices to ensure consistent code style across the codebase, improving readability and quality.
 ## MIT License
+
+# Node Cache Documentation
+## https://www.npmjs.com/package/node-cache
+The Node Cache documentation provides comprehensive guidelines on implementing in-memory caching in Node.js applications. It details TTL configuration, key generation strategies, and real-world usage patterns to improve performance by reusing computed data. This source directly addresses core implementation needs for caching plot outputs in repository0-plot-code-lib.
+## MIT License
+
+# Node.js Streams in Practice
+## https://nodejs.org/en/knowledge/advanced/streams/
+This documentation offers detailed explanations on using Node.js streams for handling large data processing tasks and piping data efficiently. It covers creating, consuming, and managing streams, which could inspire future enhancements of processing bulk plot data or streaming plot output.
+## Node.js Documentation License
