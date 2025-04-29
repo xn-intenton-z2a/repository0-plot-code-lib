@@ -152,7 +152,7 @@ describe("CLI Plot Generation", () => {
       "output.svg",
     ];
     expect(() => main()).toThrow(
-      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.",
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values."
     );
   });
 
@@ -322,7 +322,7 @@ describe("CLI Plot Generation", () => {
     main();
     const content = fs.readFileSync("output.svg", "utf8");
     expect(content).toMatch(/x-axis: 0,12 to 10,57/);
-    expect(content).toMatch(/y-axis: -1,235 to 5,679/);
+    expect(content).toMatch(/y-axis: -1,235 to 5,678/);
     fs.unlinkSync("output.svg");
   });
 

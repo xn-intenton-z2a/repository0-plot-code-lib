@@ -207,10 +207,10 @@ describe("Configuration File Management", () => {
 
   test("should correctly process YAML configuration file with nested environment variables", () => {
     const yamlConfig = `
-resolution: "\${NUM_RES}"
+resolution: "${NUM_RES}"
 display:
-  width: "\${IMG_WIDTH}"
-  height: "\${IMG_HEIGHT}"
+  width: "${IMG_WIDTH}"
+  height: "${IMG_HEIGHT}"
 `;
     fs.writeFileSync(tempYamlFile, yamlConfig, "utf8");
     process.argv = [
