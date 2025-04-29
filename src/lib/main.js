@@ -704,8 +704,8 @@ app.get("/plot", (req, res) => {
 
   res.set("Vary", "Accept");
   let accept = req.headers.accept;
-  // If the Accept header is a wildcard, treat it as not provided to use fileType fallback
-  const effectiveAccept = (accept && accept.includes("*/*")) ? "" : accept;
+  // Updated effectiveAccept: remove any "*/*" entries from the Accept header
+  const effectiveAccept = accept ? accept.split(",").map(a => a.trim()).filter(a => a !== "*/*").join(",") : "";
   if (effectiveAccept) {
     if (effectiveAccept.includes("image/svg+xml")) {
       res.type("image/svg+xml");
