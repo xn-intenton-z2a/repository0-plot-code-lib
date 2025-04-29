@@ -1,18 +1,16 @@
 # OVERVIEW
-This update expands the existing plot engine functionality by integrating advanced SVG customization features. In addition to supporting bulk export of multiple plots, it now offers enhanced stroke styling, marker customization, and extended gradient configuration. These improvements provide users detailed control over plot aesthetics including stroke width, dash patterns and line caps, as well as the ability to include custom markers and multi-stop gradients. Overall, this enhancement deepens the library's core plotting capability while maintaining CLI and HTTP generation modes.
+This update merges caching functionality into the core Plot Engine, enhancing the plotting capabilities with performance improvements. It not only retains advanced SVG customization features, marker support, gradient configuration, and curve smoothing, but it also integrates a caching mechanism to store and reuse computed plot data. This integration reduces redundant computations on repeated requests and improves responsiveness across both CLI and HTTP modes.
 
 # IMPLEMENTATION
-- Extend the configuration schema and interpolation routines to accept new parameters such as strokeWidth, strokeDashArray, strokeLinecap, markerStart, markerEnd, markerShape, markerWidth, markerHeight, and markerFill.
-- Update the SVG generation logic to:
-  - Apply stroke style attributes (stroke-width, stroke-dasharray, stroke-linecap) when provided and validate these inputs.
-  - Include marker definitions in the SVG <defs> section when markerStart or markerEnd is enabled, using default marker paths or custom parameters.
-  - Incorporate extended gradient support by processing a JSON string of gradientStops and falling back to gradientStartColor and gradientEndColor if not provided.
-  - Maintain support for curve smoothing via a smoothingFactor parameter that adjusts quadratic Bezier curve controls.
-- Ensure error handling provides detailed feedback if invalid values (e.g., negative strokeWidth or empty strokeDashArray) are submitted.
-- Update CLI and HTTP endpoint logic to parse and incorporate the new parameters and pass them to the SVG rendering functions. Modify Zod schemas in the configuration loader to validate additional numeric and enumerated fields for stroke and marker customization.
-- Update tests in the unit test suite to cover scenarios for new stroke parameters, marker configurations, and extended gradient stops. This ensures robust quality assurance for both command line and HTTP API modes.
+- Extend the configuration schema and interpolation routines to accept additional parameters for caching TTL and check period if needed.
+- Update the SVG generation logic to merge new caching checks alongside the existing advanced plot features.
+- On HTTP and CLI requests, generate a cache key based on the expression, range, smoothing, markers, and gradient details via JSON stringification.
+- Before generating the SVG or computing plot details, check the cache for an existing valid result; if found, return the cached output immediately.
+- If caching misses occur, compute the plot, save the result in cache with a sensible TTL (e.g., 60 seconds), and then return the computed result.
+- Ensure error handling provides detailed feedback for invalid parameter values and clearly logs cache hits and misses while preserving previous validations on stroke styling, marker customization, and smoothing parameters.
 
 # IMPACT
-- Enhanced user control over plot aesthetics improves the expressiveness of visualizations.
-- Detailed customization allows plots to be tailored for publication-quality graphics, meeting diverse user requirements.
-- The added features align with the mission of making the library the go-to tool for visualizing mathematical formulas and time series data, fulfilling both simplicity and flexibility in core functionality.
+- Improved responsiveness by reusing plot computations for identical queries, reducing duplicated work.
+- Enhanced user experience through faster plot generation in both HTTP and CLI modes.
+- Consolidation of similar performance features reduces complexity by merging caching and plot engine capabilities into one cohesive feature.
+- Aligns with the mission of providing a go-to plot library with high performance and expressive styling options without redundancy in the code base.
