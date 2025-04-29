@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="intl_numberformat" href="#intl_numberformat"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>INTL_NUMBERFORMAT</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Intl.NumberFormat provides a constructor and several methods for locale-sensitive number formatting. Key specifications include the static method supportedLocalesOf, instance methods like format, formatRange, formatToParts, and resolvedOptions. The options allow customization such as style (currency, unit), currency code, maximumSignificantDigits, and unit display. Concrete examples demonstrate currency output for different locales, significant digit formatting, and locale fallback mechanisms.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Constructor
+<ul class="md-github">
+<li class="md-github">Usage: new Intl.NumberFormat([locales, options])</li>
+</ul>
+</li>
+<li class="md-github">Static Method: supportedLocalesOf
+<ul class="md-github">
+<li class="md-github">Signature: Intl.NumberFormat.supportedLocalesOf(locales: string | string[], options?: object) =&gt; string[]</li>
+</ul>
+</li>
+<li class="md-github">Instance Methods
+<ul class="md-github">
+<li class="md-github">format(number: number) =&gt; string</li>
+<li class="md-github">formatRange(start: number, end: number) =&gt; string</li>
+<li class="md-github">formatRangeToParts(start: number, end: number) =&gt; Array<Object></li>
+<li class="md-github">formatToParts(number: number) =&gt; Array<Object></li>
+<li class="md-github">resolvedOptions() =&gt; Object</li>
+</ul>
+</li>
+<li class="md-github">Options &amp; Configurations
+<ul class="md-github">
+<li class="md-github">style: 'decimal' | 'currency' | 'percent' | 'unit'</li>
+<li class="md-github">currency: string (e.g., 'EUR', 'JPY')</li>
+<li class="md-github">currencyDisplay: 'symbol' | 'code' | 'name'</li>
+<li class="md-github">maximumSignificantDigits: number</li>
+<li class="md-github">unit: string (for style 'unit', e.g., 'kilometer-per-hour', 'liter')</li>
+<li class="md-github">unitDisplay: 'short' | 'long'</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Topics:</p>
+<ol class="md-github">
+<li class="md-github">Constructor: Creates a new Intl.NumberFormat instance; accepts optional locales (as string or array) and an options object containing configuration parameters.</li>
+<li class="md-github">supportedLocalesOf: Determines supported locales from the provided list without falling back to the default locale.</li>
+<li class="md-github">format: Converts a number to a formatted string based on the locale and specified options.</li>
+<li class="md-github">Format Range Methods: Provide rich formatting options for numeric ranges, returning either a complete string or segmented parts for custom formatting.</li>
+<li class="md-github">resolvedOptions: Outputs the final configuration used by the formatter, allowing developers to inspect active settings.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Parameter Values and Configurations:</p>
+<ul class="md-github">
+<li class="md-github">locales: Accepts BCP 47 language tags (e.g., 'en-US', 'de-DE').</li>
+<li class="md-github">options:
+style: Default 'decimal'. When set to 'currency', requires a valid ISO 4217 currency code (e.g., 'EUR', 'JPY').
+currencyDisplay: Defaults to 'symbol'. Options: 'code', 'name'.
+maximumSignificantDigits: Numeric value to limit formatted digits (e.g., 3).
+unit: Requires a valid unit string when style is 'unit' (e.g., 'kilometer-per-hour').
+unitDisplay: 'short' (default) or 'long'.</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Create a new instance: new Intl.NumberFormat('locale', { options }).</li>
+<li class="md-github">Format numbers using format() for immediate output.</li>
+<li class="md-github">For finer control, use formatToParts() to get an array of parts with types such as 'integer', 'decimal', 'fraction'.</li>
+<li class="md-github">Use supportedLocalesOf() for validating locale support before instantiation.</li>
+</ol>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always provide explicit locale to avoid discrepancies.</li>
+<li class="md-github">Use fallback locale arrays for broader compatibility.</li>
+<li class="md-github">Validate resolvedOptions() to ensure configuration is as expected.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">If output format is not as expected, check the options object and ensure correct types for style and currency.</li>
+<li class="md-github">Use console.log(formatter.resolvedOptions()) to debug configuration.</li>
+<li class="md-github">Verify browser compatibility if encountering unsupported behavior.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications and Code Examples:</p>
+<p class="md-github">Constructor:</p>
+<ul class="md-github">
+<li class="md-github">Signature: new Intl.NumberFormat(locales?: string | string[], options?: {
+style?: 'decimal' | 'currency' | 'percent' | 'unit',
+currency?: string,
+currencyDisplay?: 'symbol' | 'code' | 'name',
+minimumIntegerDigits?: number,
+minimumFractionDigits?: number,
+maximumFractionDigits?: number,
+minimumSignificantDigits?: number,
+maximumSignificantDigits?: number,
+useGrouping?: boolean,
+unit?: string,
+unitDisplay?: 'short' | 'long',
+localeMatcher?: 'lookup' | 'best fit'
+})</li>
+</ul>
+<p class="md-github">Static Method:</p>
+<ul class="md-github">
+<li class="md-github">Intl.NumberFormat.supportedLocalesOf(locales: string | string[], options?: { localeMatcher?: 'lookup' | 'best fit' }): string[]</li>
+</ul>
+<p class="md-github">Instance Methods:</p>
+<ol class="md-github">
+<li class="md-github">format(number: number): string</li>
+<li class="md-github">formatRange(start: number, end: number): string</li>
+<li class="md-github">formatRangeToParts(start: number, end: number): Array&lt;{ type: string, value: string }&gt;</li>
+<li class="md-github">formatToParts(number: number): Array&lt;{ type: string, value: string }&gt;</li>
+<li class="md-github">resolvedOptions(): {
+locale: string,
+numberingSystem: string,
+style: string,
+currency?: string,
+currencyDisplay?: string,
+minimumIntegerDigits: number,
+minimumFractionDigits: number,
+maximumFractionDigits: number,
+minimumSignificantDigits?: number,
+maximumSignificantDigits?: number,
+useGrouping: boolean
+}</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="full-code-example-currency-formatting" href="#full-code-example-currency-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Full Code Example (Currency Formatting):</h2>
+<p class="md-github">// Create a formatter for German locale with Euro currency
+const number = 123456.789;
+const formatterDE = new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' });
+console.log(formatterDE.format(number));
+// Expected output: &quot;123.456,79 €&quot;</p>
+<p class="md-github">// Japanese Yen formatting (no minor unit)
+const formatterJP = new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' });
+console.log(formatterJP.format(number));
+// Expected output: &quot;￥123,457&quot;</p>
+<p class="md-github">// Formatting with significant digits
+const formatterIN = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 });
+console.log(formatterIN.format(number));
+// Expected output: &quot;1,23,000&quot;</p>
+<p class="md-github">Configuration Options Details:</p>
+<ul class="md-github">
+<li class="md-github">style defaults to 'decimal'; setting to 'currency' requires a valid currency code.</li>
+<li class="md-github">maximumSignificantDigits supports any positive integer; typical values: 3 or 4.</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">Command: console.log(formatter.resolvedOptions());
+Expected output: An object with keys such as locale, numberingSystem, style, currency (if applicable), minimumIntegerDigits, and useGrouping.</li>
+<li class="md-github">If output is inconsistent, verify the provided locale string and the options structure.</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">For internationalized applications, always specify the locale explicitly.</li>
+<li class="md-github">Use fallback arrays for locales when uncertain about browser support, e.g., new Intl.NumberFormat(['ban', 'id']).</li>
+<li class="md-github">Check resolvedOptions() to confirm that the formatter is configured correctly.</li>
+</ul>
+<p class="md-github">Exceptions:</p>
+<ul class="md-github">
+<li class="md-github">If an invalid currency code is passed when style is 'currency', a RangeError will be thrown.</li>
+<li class="md-github">Similarly, invalid locales or options may result in a RangeError.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Intl.NumberFormat: constructor(new Intl.NumberFormat(locales?: string|array, options?: {style:'decimal'|'currency'|'percent'|'unit', currency?: string, currencyDisplay?: 'symbol'|'code'|'name', minimumIntegerDigits?: number, minimumFractionDigits?: number, maximumFractionDigits?: number, minimumSignificantDigits?: number, maximumSignificantDigits?: number, useGrouping?: boolean, unit?: string, unitDisplay?: 'short'|'long', localeMatcher?: 'lookup'|'best fit'})). Static: supportedLocalesOf(locales, options) =&gt; string[]. Instance: format(number) =&gt; string; formatRange(start, end) =&gt; string; formatRangeToParts(start, end) =&gt; Array<object>; formatToParts(number) =&gt; Array<object>; resolvedOptions() =&gt; object. Options example: { style:'currency', currency:'EUR' } =&gt; Output formatted according to locale. Code: new Intl.NumberFormat('de-DE', {style:'currency',currency:'EUR'}).format(123456.789) yields &quot;123.456,79 €&quot;. Troubleshoot by logging resolvedOptions(); exceptions: RangeError for invalid codes or options.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Constructor
+<ul class="md-github">
+<li class="md-github">Usage: new Intl.NumberFormat([locales, options])</li>
+</ul>
+</li>
+<li class="md-github">Static Method: supportedLocalesOf
+<ul class="md-github">
+<li class="md-github">Signature: Intl.NumberFormat.supportedLocalesOf(locales: string | string[], options?: object) =&gt; string[]</li>
+</ul>
+</li>
+<li class="md-github">Instance Methods
+<ul class="md-github">
+<li class="md-github">format(number: number) =&gt; string</li>
+<li class="md-github">formatRange(start: number, end: number) =&gt; string</li>
+<li class="md-github">formatRangeToParts(start: number, end: number) =&gt; Array<Object></li>
+<li class="md-github">formatToParts(number: number) =&gt; Array<Object></li>
+<li class="md-github">resolvedOptions() =&gt; Object</li>
+</ul>
+</li>
+<li class="md-github">Options &amp; Configurations
+<ul class="md-github">
+<li class="md-github">style: 'decimal' | 'currency' | 'percent' | 'unit'</li>
+<li class="md-github">currency: string (e.g., 'EUR', 'JPY')</li>
+<li class="md-github">currencyDisplay: 'symbol' | 'code' | 'name'</li>
+<li class="md-github">maximumSignificantDigits: number</li>
+<li class="md-github">unit: string (for style 'unit', e.g., 'kilometer-per-hour', 'liter')</li>
+<li class="md-github">unitDisplay: 'short' | 'long'</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Topics:</p>
+<ol class="md-github">
+<li class="md-github">Constructor: Creates a new Intl.NumberFormat instance; accepts optional locales (as string or array) and an options object containing configuration parameters.</li>
+<li class="md-github">supportedLocalesOf: Determines supported locales from the provided list without falling back to the default locale.</li>
+<li class="md-github">format: Converts a number to a formatted string based on the locale and specified options.</li>
+<li class="md-github">Format Range Methods: Provide rich formatting options for numeric ranges, returning either a complete string or segmented parts for custom formatting.</li>
+<li class="md-github">resolvedOptions: Outputs the final configuration used by the formatter, allowing developers to inspect active settings.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">MDN Intl.NumberFormat Documentation
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-intl_numberformat" href="#digest-of-intl_numberformat"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of INTL_NUMBERFORMAT</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="intlnumberformat-detailed-digest-retrieved-2025-02-11" href="#intlnumberformat-detailed-digest-retrieved-2025-02-11"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Intl.NumberFormat Detailed Digest (Retrieved: 2025-02-11)</h1>
+<h1 class="md-github"><a class="md-github__anchor" name="constructor" href="#constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h1>
+<p class="md-github">Intl.NumberFormat()</p>
+<ul class="md-github">
+<li class="md-github">Description: Creates a new NumberFormat object for language-sensitive number formatting.</li>
+<li class="md-github">Usage: new Intl.NumberFormat([locales[, options]])</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="static-methods" href="#static-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Static Methods</h1>
+<ol class="md-github">
+<li class="md-github">Intl.NumberFormat.supportedLocalesOf(locales, options)
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">locales: (string | Array<string>) - the locale or locales to check for support</li>
+<li class="md-github">options: (object) - optional configuration.</li>
+</ul>
+</li>
+<li class="md-github">Returns: An array of supported locale strings.</li>
+</ul>
+</li>
+</ol>
+<h1 class="md-github"><a class="md-github__anchor" name="instance-properties" href="#instance-properties"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Instance Properties</h1>
+<ul class="md-github">
+<li class="md-github">constructor: Reference to Intl.NumberFormat constructor.</li>
+<li class="md-github">[Symbol.toStringTag]: Defaults to &quot;Intl.NumberFormat&quot; used in Object.prototype.toString().</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="instance-methods" href="#instance-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Instance Methods</h1>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">format(number)</p>
+<ul class="md-github">
+<li class="md-github">Formats a number based on the provided locale and options.</li>
+<li class="md-github">Returns: A formatted string.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">formatRange(start, end)</p>
+<ul class="md-github">
+<li class="md-github">Formats a numeric range into a locale-aware string.</li>
+<li class="md-github">Returns: A formatted string representing the range.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">formatRangeToParts(start, end)</p>
+<ul class="md-github">
+<li class="md-github">Returns an Array of objects representing the range parts for custom formatting.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">formatToParts(number)</p>
+<ul class="md-github">
+<li class="md-github">Returns an Array of objects representing the parts of the formatted number with types.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">resolvedOptions()</p>
+<ul class="md-github">
+<li class="md-github">Returns an object with the actual properties resolved during initialization.</li>
+</ul>
+</li>
+</ol>
+<h1 class="md-github"><a class="md-github__anchor" name="options-and-configuration" href="#options-and-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options and Configuration</h1>
+<ul class="md-github">
+<li class="md-github">style: 'decimal', 'currency', 'percent', or 'unit'.</li>
+<li class="md-github">currency: When style is 'currency', specify the currency code (e.g., 'EUR', 'JPY').</li>
+<li class="md-github">currencyDisplay: 'symbol', 'code', or 'name' (affects how the currency is displayed).</li>
+<li class="md-github">maximumSignificantDigits: Limits the number of significant digits (example: 3).</li>
+<li class="md-github">unit: When style is 'unit', specify the unit (e.g., 'kilometer-per-hour', 'liter').</li>
+<li class="md-github">unitDisplay: 'short' (default) or 'long'.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="code-examples" href="#code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Examples</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="example-1-currency-formatting" href="#example-1-currency-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example 1: Currency Formatting</h2>
+<p class="md-github">const number = 123456.789;
+console.log(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(number));
+// Output: &quot;123.456,79 €&quot;</p>
+<h2 class="md-github"><a class="md-github__anchor" name="example-2-japanese-yen-formatting" href="#example-2-japanese-yen-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example 2: Japanese Yen Formatting</h2>
+<p class="md-github">console.log(new Intl.NumberFormat('ja-JP', { style: 'currency', currency: 'JPY' }).format(number));
+// Output: &quot;￥123,457&quot;</p>
+<h2 class="md-github"><a class="md-github__anchor" name="example-3-significant-digits" href="#example-3-significant-digits"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example 3: Significant Digits</h2>
+<p class="md-github">console.log(new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(number));
+// Output: &quot;1,23,000&quot;</p>
+<h2 class="md-github"><a class="md-github__anchor" name="example-4-formatting-with-units" href="#example-4-formatting-with-units"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example 4: Formatting with Units</h2>
+<p class="md-github">console.log(new Intl.NumberFormat('pt-PT', { style: 'unit', unit: 'kilometer-per-hour' }).format(50));
+// Output: &quot;50 km/h&quot;</p>
+<h1 class="md-github"><a class="md-github__anchor" name="implementation-patterns" href="#implementation-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Implementation Patterns</h1>
+<ul class="md-github">
+<li class="md-github">Always specify locale for UI consistency.</li>
+<li class="md-github">Use fallback arrays when a locale may not be supported, e.g., new Intl.NumberFormat(['ban', 'id']).</li>
+<li class="md-github">Leverage resolvedOptions() to debug or adjust settings dynamically.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="browser-compatibility--specifications" href="#browser-compatibility--specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Browser Compatibility &amp; Specifications</h1>
+<ul class="md-github">
+<li class="md-github">Widely supported in modern browsers.</li>
+<li class="md-github">Compliance with ECMAScript® 2026 Internationalization API Specification for number formatting.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="attribution--data-size" href="#attribution--data-size"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution &amp; Data Size</h1>
+<ul class="md-github">
+<li class="md-github">Crawled from MDN Intl.NumberFormat Documentation with data size 1884357 bytes.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: MDN Intl.NumberFormat Documentation</li>
+<li class="md-github">URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat</li>
+<li class="md-github">License: CC BY-SA</li>
+<li class="md-github">Crawl Date: 2025-04-29T20:50:44.522Z</li>
+<li class="md-github">Data Size: 1884357 bytes</li>
+<li class="md-github">Links Found: 16066</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-29</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-29T21:23:03.837Z</p>
+  </footer>
+</body>
+</html>
