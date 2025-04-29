@@ -177,3 +177,13 @@ This article by Twilio outlines best practices for managing environment variable
 ## https://blog.risingstack.com/node-js-batch-queue-processing/
 This comprehensive blog post from RisingStack explores batch processing patterns in Node.js, including effective queue management, asynchronous handling, and robust error resilience. Its actionable insights directly support the batch plotting feature of repository0-plot-code-lib, offering practical strategies for processing multiple tasks efficiently and reliably.
 ## Unknown
+
+# MDN SVG Filters Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/SVG_Filters
+This MDN documentation provides a comprehensive guide on SVG Filters. It covers various filter primitives such as feGaussianBlur, feOffset, and composite filter effects, offering actionable techniques for applying dynamic visual effects in SVG graphics. These insights can be leveraged to enhance the visual appeal and clarity of plotted data with subtle blurring and color adjustments, all while maintaining accessibility standards. (Last updated: regularly revised by MDN)
+## CC BY-SA
+
+# CSS-Tricks: Guide to SVG Gradients
+## https://css-tricks.com/guide-svg-gradients/
+This guide from CSS-Tricks delivers practical insights into creating and customizing SVG gradients. It covers both linear and radial gradients, explaining how to manage color transitions, define multiple stops, and apply blending modes. The resource provides actionable techniques that are especially valuable for implementing dynamic gradient effects in SVG-based plots, thereby enhancing visual aesthetics and user engagement. (Publication date: Updated regularly)
+## Unknown (CSS-Tricks)
