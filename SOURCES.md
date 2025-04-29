@@ -252,3 +252,18 @@ The Serverless Framework documentation offers detailed resources for building, d
 ## https://nodejs.dev/learn/nodejs-security-best-practices
 This resource outlines practical security measures for Node.js applications, including secure dependency management, proper use of environment variables, and safe configuration practices. It provides actionable guidelines to safeguard applications against common vulnerabilities, ensuring that repositories like repository0-plot-code-lib remain secure in production environments.
 ## Unknown License
+
+# YAML 1.2 Specification
+## https://yaml.org/spec/1.2/spec.html
+The YAML 1.2 Specification provides authoritative technical details on the YAML markup language, essential for writing and validating configuration files with complex structures and environment variable interpolations. It delivers actionable guidance on YAML syntax, data representation, and design patterns for robust configuration management.
+## Public Domain
+
+# ESLint Official Documentation
+## https://eslint.org/docs/latest/user-guide/getting-started
+The ESLint official documentation offers comprehensive technical guidance on linting JavaScript and Node.js projects. It includes detailed instructions on configuration, rule customization, and integration with code editors and build tools, ensuring high code quality and maintainability.
+## MIT License
+
+# Prettier Documentation
+## https://prettier.io/docs/en/index.html
+Prettier's documentation provides actionable insights for setting up and configuring code formatting in JavaScript projects. It covers usage, integration with various editors, and best practices to ensure consistent code style across the codebase, improving readability and quality.
+## MIT License
