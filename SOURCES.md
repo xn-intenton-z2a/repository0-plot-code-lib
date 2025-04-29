@@ -167,3 +167,13 @@ This comprehensive MDN documentation details the SVG <path> element, exploring i
 ## https://github.com/d3/d3-shape
 The D3-shape documentation delivers in-depth insights into creating and manipulating shapes, including line generators, curve interpolations, and area charts. Although it is part of a larger visualization ecosystem, this resource offers valuable examples and best practices for data-driven graphic generation. Its emphasis on flexible and high-performance shape construction can inform enhancements in dynamic plot and curve rendering within the repository.
 ## BSD-3-Clause
+
+# Using Environment Variables in Node.js
+## https://www.twilio.com/blog/2017/08/using-environment-variables-node-js.html
+This article by Twilio outlines best practices for managing environment variables in Node.js applications, discussing security, configuration management, and integration with dotenv. Its practical guidance is particularly relevant for repository0-plot-code-lib, which relies on dynamic configuration and environment variable interpolation to drive its functionality.
+## Unknown
+
+# Batch Processing in Node.js: Best Practices
+## https://blog.risingstack.com/node-js-batch-queue-processing/
+This comprehensive blog post from RisingStack explores batch processing patterns in Node.js, including effective queue management, asynchronous handling, and robust error resilience. Its actionable insights directly support the batch plotting feature of repository0-plot-code-lib, offering practical strategies for processing multiple tasks efficiently and reliably.
+## Unknown
