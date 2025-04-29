@@ -24,430 +24,488 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="express_api" href="#express_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESS_API</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Express API 5.x provides built-in middleware (json, raw, text, urlencoded, static), application creation via express(), and router creation via express.Router. Each middleware supports options with precise types and default values. The API includes detailed method signatures for HTTP routing (app.get, app.post, app.all, etc.), app settings configuration (trust proxy, view engine, etag) and usage patterns with complete examples. Technical content includes precise option tables and code snippets for immediate implementation.</p>
+<p class="md-github">Express API detailed technical specifications include methods for initializing the app, middleware functions (json, raw, text, urlencoded), routing (get, post, put, delete, all), static file serving with detailed options, router creation with options for case sensitivity and parameter merging, and application settings management. All options show types, default values, and detailed behavior with complete method signatures and example code.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">Middleware Functions
+<li class="md-github">
+<p class="md-github">Express Initialization</p>
+</li>
+<li class="md-github">
+<p class="md-github">Middleware Functions</p>
 <ul class="md-github">
-<li class="md-github">express.json: Options: inflate (Boolean, true), limit (Mixed, '100kb'), reviver (Function, null), strict (Boolean, true), type (Mixed, 'application/json'), verify (Function, undefined).</li>
-<li class="md-github">express.raw: Options: inflate (true), limit ('100kb'), type ('application/octet-stream'), verify (undefined).</li>
-<li class="md-github">express.text: Options: defaultCharset ('utf-8'), inflate (true), limit ('100kb'), type ('text/plain'), verify (undefined).</li>
-<li class="md-github">express.urlencoded: Options: extended (false), inflate (true), limit ('100kb'), parameterLimit (1000), type ('application/x-www-form-urlencoded'), verify (undefined).</li>
+<li class="md-github">express.json(options)</li>
+<li class="md-github">express.raw(options)</li>
+<li class="md-github">express.text(options)</li>
+<li class="md-github">express.urlencoded(options)</li>
 </ul>
 </li>
-<li class="md-github">Static Middleware
+<li class="md-github">
+<p class="md-github">Router and Static Serving</p>
 <ul class="md-github">
-<li class="md-github">express.static: Requires root directory. Options include: dotfiles (String, 'ignore'), etag (Boolean, true), extensions (Mixed, false), fallthrough (Boolean, true), immutable (Boolean, false), index (Mixed, 'index.html'), lastModified (Boolean, true), maxAge (Number, 0), redirect (Boolean, true), setHeaders (Function, custom).</li>
+<li class="md-github">express.Router(options)</li>
+<li class="md-github">express.static(root, options)</li>
 </ul>
 </li>
-<li class="md-github">Express Application and Routing
+<li class="md-github">
+<p class="md-github">Application Object and Methods</p>
 <ul class="md-github">
-<li class="md-github">Create app with express(). Use methods: app.get, app.post, app.put, app.delete, app.all.</li>
-<li class="md-github">app.listen supports multiple signatures matching Node's http.Server.listen.</li>
-<li class="md-github">Example: const app = express(); app.get('/', (req, res) =&gt; { res.send('hello world'); }); app.listen(3000).</li>
+<li class="md-github">app methods (get, post, put, delete, all, route, render, engine)</li>
 </ul>
 </li>
-<li class="md-github">Router and Sub-Application
+<li class="md-github">
+<p class="md-github">Configuration and Settings</p>
 <ul class="md-github">
-<li class="md-github">express.Router supports options: caseSensitive (Boolean, false), mergeParams (Boolean, false), strict (Boolean, false).</li>
-<li class="md-github">Sub-app mounting: app.use('/admin', subApp) and using app.mountpath.</li>
+<li class="md-github">app.locals, app.mountpath, enable/disable settings</li>
 </ul>
 </li>
-<li class="md-github">Application Settings
+<li class="md-github">
+<p class="md-github">Event Handling and Parameter Processing</p>
 <ul class="md-github">
-<li class="md-github">Use app.set/get for properties like 'trust proxy', 'view engine', 'etag', 'jsonp callback name', 'query parser', etc.</li>
-<li class="md-github">Detailed trust proxy configurations support Boolean, String (CSV), Array, Number, or Function.
-Each section lists precise parameter types, default values and behavior for immediate use in implementation.</li>
+<li class="md-github">app.on('mount', callback)</li>
+<li class="md-github">app.param(name, callback)</li>
 </ul>
+</li>
+<li class="md-github">
+<p class="md-github">Express Initialization:</p>
 </li>
 </ol>
+<ul class="md-github">
+<li class="md-github">Use const express = require('express') and call express() to create an app function.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Middleware Functions:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">express.json([options]): Parses JSON with options: inflate (true), limit ('100kb'), reviver (null), strict (true), type (&quot;application/json&quot;), verify (undefined).</li>
+<li class="md-github">express.raw([options]): Parses payload into Buffer with options: inflate (true), limit ('100kb'), type (&quot;application/octet-stream&quot;), verify (undefined).</li>
+<li class="md-github">express.text([options]): Parses text with defaultCharset ('utf-8'), inflate (true), limit ('100kb'), type (&quot;text/plain&quot;), verify (undefined).</li>
+<li class="md-github">express.urlencoded([options]): Parses urlencoded payloads with options: extended (false), inflate (true), limit ('100kb'), parameterLimit (1000), type (&quot;application/x-www-form-urlencoded&quot;), verify (undefined).</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Router and Static Serving:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">express.Router([options]): Creates router with options: caseSensitive, mergeParams (false), strict.</li>
+<li class="md-github">express.static(root, [options]): Serves files using options: dotfiles ('ignore'), etag (true), extensions (false or array), fallthrough (true), immutable (false), index ('index.html'), lastModified (true), maxAge (0), redirect (true), setHeaders (function callback).</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Application Object and Methods:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">app.get(path, callback): For GET requests.</li>
+<li class="md-github">app.post, app.put, app.delete similarly defined.</li>
+<li class="md-github">app.all(path, callback...): Matches all HTTP verbs.</li>
+<li class="md-github">app.route(path): Returns route instance to chain HTTP verb methods.</li>
+<li class="md-github">app.render(view, [locals], callback): Renders view as HTML string.</li>
+<li class="md-github">app.engine(ext, callback): Registers template engine; callback signature: (path, options, callback).</li>
+<li class="md-github">app.set(name, value) and app.get(name) manage settings.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Configuration and Settings:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">app.locals: Persistent locals for views.</li>
+<li class="md-github">app.mountpath: Returns mount path or paths of sub-apps.</li>
+<li class="md-github">Toggle settings via app.enable('setting') and app.disable('setting').</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Event Handling and Parameter Processing:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">app.on('mount', function(parent) {...}) triggers on mounting a sub-app.</li>
+<li class="md-github">app.param(name, callback) attaches parameter middleware; called once per request per parameter.</li>
+</ul>
+<p class="md-github">Code Example:
+// Create and configure Express app
+const express = require('express')
+const app = express()
+app.use(express.json({ limit: '200kb', strict: true }))
+app.get('/', (req, res) =&gt; { res.send('hello world') })
+app.listen(3000, () =&gt; { console.log('Server running on port 3000') })</p>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Middleware Specifications:</p>
+<p class="md-github">Technical Specifications:</p>
+<ol class="md-github">
+<li class="md-github">express.json(options):</li>
+</ol>
 <ul class="md-github">
-<li class="md-github">express.json(options): Returns middleware function processing JSON request bodies. Options:
-inflate: true; limit: '100kb'; reviver: null; strict: true; type: 'application/json'; verify: undefined.</li>
-<li class="md-github">express.raw(options): Returns Buffer containing request.body if matching Content-Type 'application/octet-stream'. Same options structure as above with adjusted type default.</li>
-<li class="md-github">express.text(options): Returns middleware that parses text. Options include defaultCharset: 'utf-8', inflate: true, limit: '100kb', type: 'text/plain', verify: undefined.</li>
-<li class="md-github">express.urlencoded(options): Parses URL-encoded bodies. Options: extended: false; inflate: true; limit: '100kb'; parameterLimit: 1000; type: 'application/x-www-form-urlencoded'; verify: undefined.</li>
+<li class="md-github">inflate: Boolean = true; Accepts gzip/deflate encoded bodies.</li>
+<li class="md-github">limit: Mixed = '100kb'; Can be number (bytes) or string parsed by bytes library.</li>
+<li class="md-github">reviver: Function = null; Passed as second parameter to JSON.parse.</li>
+<li class="md-github">strict: Boolean = true; Rejects non-array/object payloads.</li>
+<li class="md-github">type: Mixed = 'application/json'; Determines content type matching.</li>
+<li class="md-github">verify: Function = undefined; Signature: verify(req, res, buf, encoding).</li>
 </ul>
-<p class="md-github">Static Middleware (express.static):
-Requires root directory and options. Table:
-dotfiles: 'ignore'; etag: true; extensions: false; fallthrough: true; immutable: false; index: 'index.html'; lastModified: true; maxAge: 0; redirect: true; setHeaders: custom function (signature: (res, path, stat)).</p>
-<p class="md-github">Express Application :
-Create app: const app = express();
-Usage: app.get(path, callback) etc.
-app.listen([port[, host[, backlog]]], callback) returns http.Server.</p>
-<p class="md-github">Router:
-Create using: const router = express.Router({ caseSensitive: false, mergeParams: false, strict: false });</p>
-<p class="md-github">Application Settings Examples:
-app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
-app.set('view engine', 'pug');</p>
-<p class="md-github">This section includes exact parameter values, default settings, and recommended implementation steps (such as validating req.body data, using next() in middleware, and caching views in production).</p>
+<ol start="2" class="md-github">
+<li class="md-github">express.raw(options):</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">inflate: Boolean = true;</li>
+<li class="md-github">limit: Mixed = '100kb';</li>
+<li class="md-github">type: Mixed = 'application/octet-stream';</li>
+<li class="md-github">verify: Function = undefined;</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">express.static(root, options):</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">dotfiles: String = 'ignore'; Values: 'allow', 'deny', 'ignore'.</li>
+<li class="md-github">etag: Boolean = true;</li>
+<li class="md-github">extensions: Mixed = false or array (e.g., ['html', 'htm']).</li>
+<li class="md-github">fallthrough: Boolean = true; If false, errors propagate.</li>
+<li class="md-github">immutable: Boolean = false; Use with maxAge option for caching.</li>
+<li class="md-github">index: Mixed = 'index.html'; Can disable by setting false.</li>
+<li class="md-github">lastModified: Boolean = true; Sets Last-Modified header.</li>
+<li class="md-github">maxAge: Number = 0; Sets Cache-Control max-age.</li>
+<li class="md-github">redirect: Boolean = true; Redirects to add trailing slash if directory.</li>
+<li class="md-github">setHeaders: Function; Signature: setHeaders(res, path, stat) for custom headers.</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">App Settings Examples:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">app.set('trust proxy', 'loopback, linklocal, uniquelocal') to trust proxies.</li>
+<li class="md-github">app.engine('html', require('ejs').renderFile) to register EJS for HTML.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Troubleshooting Procedures:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">If req.body is undefined with express.json(), check Content-Type header.</li>
+<li class="md-github">To debug static file serving, log using setHeaders callback.</li>
+<li class="md-github">Use app.param() logging to verify parameter middleware execution.</li>
+<li class="md-github">Validate user input from req.body after middleware processing to avoid errors in type conversion.</li>
+<li class="md-github">For server startup errors, ensure the correct port is provided to app.listen.</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Full Code Example:
+const express = require('express')
+const app = express()</li>
+</ol>
+<p class="md-github">// Middleware configuration with custom JSON options
+app.use(express.json({
+inflate: true,
+limit: '200kb',
+strict: true,
+type: 'application/json',
+verify: function(req, res, buf, encoding) {
+// Custom verification: throw error to reject if necessary
+if (buf &amp;&amp; buf.length &gt; 0 &amp;&amp; encoding !== 'utf8') {
+throw new Error('Invalid encoding');
+}
+}
+}))</p>
+<p class="md-github">// Define a route
+app.get('/', (req, res) =&gt; {
+res.send('Hello, Express!')
+})</p>
+<p class="md-github">// Start server
+app.listen(3000, () =&gt; {
+console.log('Server listening on port 3000')
+})</p>
+<p class="md-github">Troubleshooting Commands:</p>
+<ul class="md-github">
+<li class="md-github">To test JSON parsing error: curl -X POST -H &quot;Content-Type: application/json&quot; -d '{bad json}' http://localhost:3000</li>
+<li class="md-github">Check console logs for middleware verification errors.</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">API Specifications:</p>
+<p class="md-github">API Specifications:
+express() -&gt; Application Object (Function)
+Usage: const app = express()</p>
+<p class="md-github">express.json([options]) -&gt; Middleware Function
+Parameters: options: {
+inflate: Boolean (default true),
+limit: Mixed (default '100kb'),
+reviver: Function (default null),
+strict: Boolean (default true),
+type: Mixed (default 'application/json'),
+verify: Function (default undefined)
+}
+Returns: function(req, res, next) that populates req.body with JSON data.</p>
+<p class="md-github">express.raw([options]) -&gt; Middleware Function
+Parameters: options: {
+inflate: Boolean (default true),
+limit: Mixed (default '100kb'),
+type: Mixed (default 'application/octet-stream'),
+verify: Function (default undefined)
+}
+Returns: function(req, res, next) that populates req.body as Buffer.</p>
+<p class="md-github">express.text([options]) -&gt; Middleware Function
+Parameters: options: {
+defaultCharset: String (default 'utf-8'),
+inflate: Boolean (default true),
+limit: Mixed (default '100kb'),
+type: Mixed (default 'text/plain'),
+verify: Function (default undefined)
+}
+Returns: function(req, res, next) that parses request body to string.</p>
+<p class="md-github">express.urlencoded([options]) -&gt; Middleware Function
+Parameters: options: {
+extended: Boolean (default false),
+inflate: Boolean (default true),
+limit: Mixed (default '100kb'),
+parameterLimit: Number (default 1000),
+type: Mixed (default 'application/x-www-form-urlencoded'),
+verify: Function (default undefined)
+}
+Returns: function(req, res, next) that populates req.body with parsed urlencoded data.</p>
+<p class="md-github">express.Router([options]) -&gt; Router Object
+Parameters: options: {
+caseSensitive: Boolean (default undefined),
+mergeParams: Boolean (default false),
+strict: Boolean (default undefined)
+}
+Methods: router.get, router.post, etc.</p>
+<p class="md-github">express.static(root, [options]) -&gt; Middleware Function
+Parameters: root: String (root directory), options: {
+dotfiles: String (default 'ignore'),
+etag: Boolean (default true),
+extensions: Mixed (default false or array),
+fallthrough: Boolean (default true),
+immutable: Boolean (default false),
+index: Mixed (default 'index.html'),
+lastModified: Boolean (default true),
+maxAge: Number (default 0),
+redirect: Boolean (default true),
+setHeaders: Function (optional)
+}
+Returns: middleware that serves static files.</p>
+<p class="md-github">app Methods:</p>
+<ul class="md-github">
+<li class="md-github">app.all(path, callback...): Matches all HTTP verbs.</li>
+<li class="md-github">app.get(path, callback...), app.post, app.put, app.delete: Standard HTTP routing.</li>
+<li class="md-github">app.use(middleware): Registers middleware.</li>
+<li class="md-github">app.listen([port[, host[, backlog]]], callback): Starts HTTP server.</li>
+</ul>
+<p class="md-github">Full Code Example Provided in Supplementary Details, with inline comments.</p>
+<p class="md-github">Configuration Options and Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Use appropriate body parser middleware with correct Content-Type headers.</li>
+<li class="md-github">Configure express.static with caching headers (maxAge, immutable) for production.</li>
+<li class="md-github">Use app.set and app.get for application wide configurations (e.g., trust proxy, view engine).</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github">express.json(options?) -&gt; Middleware Function</p>
-<ul class="md-github">
-<li class="md-github">Options:
-{ inflate?: boolean = true, limit?: number|string = '100kb', reviver?: Function = null, strict?: boolean = true, type?: string|Array|string|Function = 'application/json', verify?: Function = undefined }</li>
-<li class="md-github">Returns: function(req, res, next) with parsed JSON in req.body or undefined.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.raw(options?) -&gt; Middleware Function</p>
-<ul class="md-github">
-<li class="md-github">Options:
-{ inflate?: boolean = true, limit?: number|string = '100kb', type?: string|Array|string|Function = 'application/octet-stream', verify?: Function = undefined }</li>
-<li class="md-github">Returns: Buffer assigned to req.body.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.text(options?) -&gt; Middleware Function</p>
-<ul class="md-github">
-<li class="md-github">Options:
-{ defaultCharset?: string = 'utf-8', inflate?: boolean = true, limit?: number|string = '100kb', type?: string|Array|string|Function = 'text/plain', verify?: Function = undefined }</li>
-<li class="md-github">Returns: String assigned to req.body.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.urlencoded(options?) -&gt; Middleware Function</p>
-<ul class="md-github">
-<li class="md-github">Options:
-{ extended?: boolean = false, inflate?: boolean = true, limit?: number|string = '100kb', parameterLimit?: number = 1000, type?: string|Array|string|Function = 'application/x-www-form-urlencoded', verify?: Function = undefined }</li>
-<li class="md-github">Returns: Object with key-value pairs in req.body.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.static(root, options?) -&gt; Middleware Function</p>
-<ul class="md-github">
-<li class="md-github">Parameters:
-root: string (directory path)
-options: {
-dotfiles: string = 'ignore',
-etag: boolean = true,
-extensions: false|Array<string> = false,
-fallthrough: boolean = true,
-immutable: boolean = false,
-index: string|false = 'index.html',
-lastModified: boolean = true,
-maxAge: number|string = 0,
-redirect: boolean = true,
-setHeaders?: function(res, path, stat): void
-}</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.Router(options?) -&gt; Router Object</p>
-<ul class="md-github">
-<li class="md-github">Options:
-{ caseSensitive?: boolean = false, mergeParams?: boolean = false, strict?: boolean = false }</li>
-<li class="md-github">Returns: Router instance with methods get, post, etc.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Application Methods (Example):</p>
-<ul class="md-github">
-<li class="md-github">app.all(path, callback [, callback ...])</li>
-<li class="md-github">app.get(path, callback [, callback ...])</li>
-<li class="md-github">app.post(path, callback [, callback ...])</li>
-<li class="md-github">app.put(path, callback [, callback ...])</li>
-<li class="md-github">app.delete(path, callback [, callback ...])</li>
-<li class="md-github">app.listen([port[, host[, backlog]]], callback) -&gt; http.Server</li>
-<li class="md-github">Example code:
-const express = require('express');
-const app = express();
-app.get('/', (req, res) =&gt; { res.send('GET response'); });
-app.listen(3000, () =&gt; { console.log('Listening on port 3000'); });</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Configuration and Settings:</p>
-<ul class="md-github">
-<li class="md-github">app.set('trust proxy', value); where value can be Boolean, string (CSV) or array. Example: 'loopback, linklocal, uniquelocal'</li>
-<li class="md-github">app.engine(ext, callback): Example: app.engine('pug', require('pug').__express)</li>
-<li class="md-github">Troubleshooting: Check req.body type validations, ensure middleware order is correct, use console.log and error handlers. Use http.Server.listen’s callback to log output.</li>
-</ul>
-</li>
+<li class="md-github">Verify Content-Type header matches expected type in middleware.</li>
+<li class="md-github">Log raw request buffers using the verify function in middleware.</li>
+<li class="md-github">Ensure proper error handling: middleware should forward errors using next(err).</li>
+<li class="md-github">For routing issues, test with curl commands and check server logs.</li>
 </ol>
-<p class="md-github">Best Practices:</p>
-<ul class="md-github">
-<li class="md-github">Always validate req.body data after middleware has parsed it.</li>
-<li class="md-github">Use reverse proxy caching with express.static for performance improvements.</li>
-<li class="md-github">Use app.param for parameter pre-loading.</li>
-<li class="md-github">Set 'trust proxy' appropriately if behind a proxy.</li>
-</ul>
-<p class="md-github">Step-by-Step Troubleshooting:</p>
-<ol class="md-github">
-<li class="md-github">Validate Content-Type of incoming requests against middleware type.</li>
-<li class="md-github">If req.body is undefined, check if request body exists and header matches.</li>
-<li class="md-github">Use error handling middleware: app.use((err, req, res, next) =&gt; { console.error(err); res.status(500).send(err.message); });</li>
-<li class="md-github">Confirm configuration options by logging app.get('trust proxy'), etc.</li>
-</ol>
-<p class="md-github">Commands:</p>
-<ul class="md-github">
-<li class="md-github">To start the server: node app.js</li>
-<li class="md-github">To test middleware: use curl -X POST -H &quot;Content-Type: application/json&quot; -d '{&quot;name&quot;:&quot;test&quot;}' http://localhost:3000
-Expected output: Parsed JSON in req.body and proper response from defined route.</li>
-</ul>
+<p class="md-github">Return Types for API methods: All middleware methods return a function with signature (req, res, next).</p>
+<p class="md-github">Exception Handling: Middleware functions automatically call next(err) on synchronous exceptions or rejected promises.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">express.json({inflate:true,limit:'100kb',reviver:null,strict:true,type:'application/json',verify:undefined}); express.raw({inflate:true,limit:'100kb',type:'application/octet-stream',verify:undefined}); express.text({defaultCharset:'utf-8',inflate:true,limit:'100kb',type:'text/plain',verify:undefined}); express.urlencoded({extended:false,inflate:true,limit:'100kb',parameterLimit:1000,type:'application/x-www-form-urlencoded',verify:undefined}); express.static(root, {dotfiles:'ignore',etag:true,extensions:false,fallthrough:true,immutable:false,index:'index.html',lastModified:true,maxAge:0,redirect:true,setHeaders:function(res,path,stat){/* custom */}}); express.Router({caseSensitive:false,mergeParams:false,strict:false}); app.listen([port,host,backlog],callback); app.all(path,callback,...); app.get(path,callback,...); app.param('name',callback); app.engine(ext,callback); app.set/get for 'trust proxy','view engine','etag','jsonp callback name','query parser'. Validate req.body types, use reverse proxy caching with static middleware, check middleware order, use error handling middleware. Testing via curl POST with proper Content-Type.</p>
+<p class="md-github">express() -&gt; creates app; express.json(options): inflate=true, limit='100kb', reviver=null, strict=true, type='application/json', verify=undefined; express.raw(options): inflate=true, limit='100kb', type='application/octet-stream'; express.text(options): defaultCharset='utf-8', inflate=true, limit='100kb', type='text/plain'; express.urlencoded(options): extended=false, inflate=true, limit='100kb', parameterLimit=1000, type='application/x-www-form-urlencoded'; express.Router(options): caseSensitive, mergeParams=false, strict; express.static(root, options): dotfiles='ignore', etag=true, extensions=false/array, fallthrough=true, immutable=false, index='index.html', lastModified=true, maxAge=0, redirect=true, setHeaders(fn); app methods: all, get, post, put, delete, route, render, engine; settings: app.set/get, enable/disable; API functions return middleware function (req, res, next); complete code examples and troubleshooting via header validation and error propagation.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">Middleware Functions
+<li class="md-github">
+<p class="md-github">Express Initialization</p>
+</li>
+<li class="md-github">
+<p class="md-github">Middleware Functions</p>
 <ul class="md-github">
-<li class="md-github">express.json: Options: inflate (Boolean, true), limit (Mixed, '100kb'), reviver (Function, null), strict (Boolean, true), type (Mixed, 'application/json'), verify (Function, undefined).</li>
-<li class="md-github">express.raw: Options: inflate (true), limit ('100kb'), type ('application/octet-stream'), verify (undefined).</li>
-<li class="md-github">express.text: Options: defaultCharset ('utf-8'), inflate (true), limit ('100kb'), type ('text/plain'), verify (undefined).</li>
-<li class="md-github">express.urlencoded: Options: extended (false), inflate (true), limit ('100kb'), parameterLimit (1000), type ('application/x-www-form-urlencoded'), verify (undefined).</li>
+<li class="md-github">express.json(options)</li>
+<li class="md-github">express.raw(options)</li>
+<li class="md-github">express.text(options)</li>
+<li class="md-github">express.urlencoded(options)</li>
 </ul>
 </li>
-<li class="md-github">Static Middleware
+<li class="md-github">
+<p class="md-github">Router and Static Serving</p>
 <ul class="md-github">
-<li class="md-github">express.static: Requires root directory. Options include: dotfiles (String, 'ignore'), etag (Boolean, true), extensions (Mixed, false), fallthrough (Boolean, true), immutable (Boolean, false), index (Mixed, 'index.html'), lastModified (Boolean, true), maxAge (Number, 0), redirect (Boolean, true), setHeaders (Function, custom).</li>
+<li class="md-github">express.Router(options)</li>
+<li class="md-github">express.static(root, options)</li>
 </ul>
 </li>
-<li class="md-github">Express Application and Routing
+<li class="md-github">
+<p class="md-github">Application Object and Methods</p>
 <ul class="md-github">
-<li class="md-github">Create app with express(). Use methods: app.get, app.post, app.put, app.delete, app.all.</li>
-<li class="md-github">app.listen supports multiple signatures matching Node's http.Server.listen.</li>
-<li class="md-github">Example: const app = express(); app.get('/', (req, res) =&gt; { res.send('hello world'); }); app.listen(3000).</li>
+<li class="md-github">app methods (get, post, put, delete, all, route, render, engine)</li>
 </ul>
 </li>
-<li class="md-github">Router and Sub-Application
+<li class="md-github">
+<p class="md-github">Configuration and Settings</p>
 <ul class="md-github">
-<li class="md-github">express.Router supports options: caseSensitive (Boolean, false), mergeParams (Boolean, false), strict (Boolean, false).</li>
-<li class="md-github">Sub-app mounting: app.use('/admin', subApp) and using app.mountpath.</li>
+<li class="md-github">app.locals, app.mountpath, enable/disable settings</li>
 </ul>
 </li>
-<li class="md-github">Application Settings
+<li class="md-github">
+<p class="md-github">Event Handling and Parameter Processing</p>
 <ul class="md-github">
-<li class="md-github">Use app.set/get for properties like 'trust proxy', 'view engine', 'etag', 'jsonp callback name', 'query parser', etc.</li>
-<li class="md-github">Detailed trust proxy configurations support Boolean, String (CSV), Array, Number, or Function.
-Each section lists precise parameter types, default values and behavior for immediate use in implementation.</li>
+<li class="md-github">app.on('mount', callback)</li>
+<li class="md-github">app.param(name, callback)</li>
 </ul>
+</li>
+<li class="md-github">
+<p class="md-github">Express Initialization:</p>
 </li>
 </ol>
+<ul class="md-github">
+<li class="md-github">Use const express = require('express') and call express() to create an app function.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Middleware Functions:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">express.json([options]): Parses JSON with options: inflate (true), limit ('100kb'), reviver (null), strict (true), type ('application/json'), verify (undefined).</li>
+<li class="md-github">express.raw([options]): Parses payload into Buffer with options: inflate (true), limit ('100kb'), type ('application/octet-stream'), verify (undefined).</li>
+<li class="md-github">express.text([options]): Parses text with defaultCharset ('utf-8'), inflate (true), limit ('100kb'), type ('text/plain'), verify (undefined).</li>
+<li class="md-github">express.urlencoded([options]): Parses urlencoded payloads with options: extended (false), inflate (true), limit ('100kb'), parameterLimit (1000), type ('application/x-www-form-urlencoded'), verify (undefined).</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Router and Static Serving:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">express.Router([options]): Creates router with options: caseSensitive, mergeParams (false), strict.</li>
+<li class="md-github">express.static(root, [options]): Serves files using options: dotfiles ('ignore'), etag (true), extensions (false or array), fallthrough (true), immutable (false), index ('index.html'), lastModified (true), maxAge (0), redirect (true), setHeaders (function callback).</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Application Object and Methods:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">app.get(path, callback): For GET requests.</li>
+<li class="md-github">app.post, app.put, app.delete similarly defined.</li>
+<li class="md-github">app.all(path, callback...): Matches all HTTP verbs.</li>
+<li class="md-github">app.route(path): Returns route instance to chain HTTP verb methods.</li>
+<li class="md-github">app.render(view, [locals], callback): Renders view as HTML string.</li>
+<li class="md-github">app.engine(ext, callback): Registers template engine; callback signature: (path, options, callback).</li>
+<li class="md-github">app.set(name, value) and app.get(name) manage settings.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Configuration and Settings:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">app.locals: Persistent locals for views.</li>
+<li class="md-github">app.mountpath: Returns mount path or paths of sub-apps.</li>
+<li class="md-github">Toggle settings via app.enable('setting') and app.disable('setting').</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Event Handling and Parameter Processing:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">app.on('mount', function(parent) {...}) triggers on mounting a sub-app.</li>
+<li class="md-github">app.param(name, callback) attaches parameter middleware; called once per request per parameter.</li>
+</ul>
+<p class="md-github">Code Example:
+// Create and configure Express app
+const express = require('express')
+const app = express()
+app.use(express.json({ limit: '200kb', strict: true }))
+app.get('/', (req, res) =&gt; { res.send('hello world') })
+app.listen(3000, () =&gt; { console.log('Server running on port 3000') })</p>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">Express.js API Documentation
+<p class="md-github">Express API Reference
 https://expressjs.com/en/api.html</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-express_api" href="#digest-of-express_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPRESS_API</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="express-api-documentation" href="#express-api-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express API Documentation</h1>
-<p class="md-github">Date Retrieved: 2023-10-04</p>
-<p class="md-github">This document contains the exact specifications for Express.js 5.x including middleware functions, application methods, router options, and configuration settings. It provides complete method signatures, configuration option tables, and code examples.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="middleware-functions" href="#middleware-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Middleware Functions</h2>
-<ol class="md-github">
-<li class="md-github">
-<p class="md-github">express.json([options])</p>
+<h1 class="md-github"><a class="md-github__anchor" name="express" href="#express"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express()</h1>
+<p class="md-github">Creates an Express application. Usage:
+const express = require('express')
+const app = express()</p>
+<h1 class="md-github"><a class="md-github__anchor" name="expressjsonoptions" href="#expressjsonoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.json([options])</h1>
+<p class="md-github">Middleware to parse JSON payloads.
+Returns a middleware function that populates req.body with parsed JSON if Content-Type matches.
+Options object properties:
+inflate: Boolean, default true, handles gzip/deflate.
+limit: Mixed, default '100kb', controls max body size (number or string parsed by bytes library).
+reviver: Function, default null, passed to JSON.parse.
+strict: Boolean, default true, only accepts arrays and objects.
+type: Mixed, default 'application/json', can be string, array, or function.
+verify: Function, default undefined, signature verify(req, res, buf, encoding).</p>
+<h1 class="md-github"><a class="md-github__anchor" name="expressrawoptions" href="#expressrawoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.raw([options])</h1>
+<p class="md-github">Middleware to parse request payloads into a Buffer. Returns middleware that sets req.body as Buffer if Content-Type matches.
+Options:
+inflate: Boolean, true
+limit: Mixed, '100kb'
+type: Mixed, default 'application/octet-stream'
+verify: Function, default undefined.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="expressrouteroptions" href="#expressrouteroptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.Router([options])</h1>
+<p class="md-github">Creates a new router object. Options:
+caseSensitive: (Boolean) enable case sensitivity.
+mergeParams: (Boolean) default false, preserves parent req.params.
+strict: (Boolean) routing strict flags, distinguishing '/foo' vs '/foo/'.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="expressstaticroot-options" href="#expressstaticroot-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.static(root, [options])</h1>
+<p class="md-github">Serves static files from the specified root directory.
+Options include:
+dotfiles: String, default 'ignore' (values: 'allow', 'deny', 'ignore').
+etag: Boolean, default true.
+extensions: Mixed, default false (array for fallbacks, e.g. ['html', 'htm']).
+fallthrough: Boolean, default true.
+immutable: Boolean, default false.
+index: Mixed, default 'index.html'.
+lastModified: Boolean, default true.
+maxAge: Number, default 0 (milliseconds or string format).
+redirect: Boolean, default true.
+setHeaders: Function, no default; signature: setHeaders(res, path, stat).</p>
+<h1 class="md-github"><a class="md-github__anchor" name="expresstextoptions" href="#expresstextoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.text([options])</h1>
+<p class="md-github">Parses payloads into a string. Options:
+defaultCharset: String, 'utf-8'
+inflate: Boolean, true
+limit: Mixed, '100kb'
+type: Mixed, default 'text/plain'
+verify: Function, default undefined.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="expressurlencodedoptions" href="#expressurlencodedoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.urlencoded([options])</h1>
+<p class="md-github">Parses URL-encoded payloads. Options:
+extended: Boolean, default false, decides between querystring (false) or qs (true) parser.
+inflate: Boolean, true
+limit: Mixed, '100kb'
+parameterLimit: Number, default 1000
+type: Mixed, default 'application/x-www-form-urlencoded'
+verify: Function, default undefined.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="application-object-and-methods" href="#application-object-and-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Application Object and Methods</h1>
 <ul class="md-github">
-<li class="md-github">Signature: express.json([options]) returns middleware function with signature (req, res, next)</li>
-<li class="md-github">Options Object Properties:
-<ul class="md-github">
-<li class="md-github">inflate: Boolean, default true. Enables/Disables gzip/deflate inflation.</li>
-<li class="md-github">limit: Mixed, default &quot;100kb&quot;. Maximum request body size (bytes or string parsed by bytes library).</li>
-<li class="md-github">reviver: Function, default null. Passed to JSON.parse as the reviver argument.</li>
-<li class="md-github">strict: Boolean, default true. Only accepts arrays and objects.</li>
-<li class="md-github">type: Mixed, default &quot;application/json&quot;. Specifies media type to match.</li>
-<li class="md-github">verify: Function, default undefined. Called as verify(req, res, buf, encoding) to validate raw body.</li>
+<li class="md-github">Created using express(); acts as a callback for HTTP servers.</li>
+<li class="md-github">Methods include routing (app.get, app.post, etc.), middleware configuration, view rendering (app.render), and template engine registration (app.engine).</li>
+<li class="md-github">Example:
+const app = express()
+app.get('/', (req, res) =&gt; { res.send('hello world') })
+app.listen(3000)</li>
 </ul>
-</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.raw([options])</p>
-<ul class="md-github">
-<li class="md-github">Signature: express.raw([options]) returns middleware function.</li>
-<li class="md-github">Options:
-<ul class="md-github">
-<li class="md-github">inflate: Boolean, default true</li>
-<li class="md-github">limit: Mixed, default &quot;100kb&quot;</li>
-<li class="md-github">type: Mixed, default &quot;application/octet-stream&quot;</li>
-<li class="md-github">verify: Function, default undefined.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.text([options])</p>
-<ul class="md-github">
-<li class="md-github">Signature: express.text([options]) returns middleware function.</li>
-<li class="md-github">Options:
-<ul class="md-github">
-<li class="md-github">defaultCharset: String, default &quot;utf-8&quot;</li>
-<li class="md-github">inflate: Boolean, default true</li>
-<li class="md-github">limit: Mixed, default &quot;100kb&quot;</li>
-<li class="md-github">type: Mixed, default &quot;text/plain&quot;</li>
-<li class="md-github">verify: Function, default undefined.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.urlencoded([options])</p>
-<ul class="md-github">
-<li class="md-github">Signature: express.urlencoded([options]) returns middleware function.</li>
-<li class="md-github">Options:
-<ul class="md-github">
-<li class="md-github">extended: Boolean, default false (use querystring) or true (use qs library)</li>
-<li class="md-github">inflate: Boolean, default true</li>
-<li class="md-github">limit: Mixed, default &quot;100kb&quot;</li>
-<li class="md-github">parameterLimit: Number, default 1000</li>
-<li class="md-github">type: Mixed, default &quot;application/x-www-form-urlencoded&quot;</li>
-<li class="md-github">verify: Function, default undefined.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.static(root, [options])</p>
-<ul class="md-github">
-<li class="md-github">Signature: express.static(root, [options]) returns middleware function for serving static files.</li>
-<li class="md-github">Options:
-<ul class="md-github">
-<li class="md-github">dotfiles: String, default &quot;ignore&quot;. Values: &quot;allow&quot;, &quot;deny&quot;, &quot;ignore&quot;.</li>
-<li class="md-github">etag: Boolean, default true.</li>
-<li class="md-github">extensions: Mixed, default false. Array of extension fallbacks (e.g. ['html', 'htm']).</li>
-<li class="md-github">fallthrough: Boolean, default true.</li>
-<li class="md-github">immutable: Boolean, default false.</li>
-<li class="md-github">index: Mixed, default &quot;index.html&quot;.</li>
-<li class="md-github">lastModified: Boolean, default true.</li>
-<li class="md-github">maxAge: Number, default 0 (can also be string in ms format).</li>
-<li class="md-github">redirect: Boolean, default true.</li>
-<li class="md-github">setHeaders: Function, used as setHeaders(res, path, stat).</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">express.Router([options])</p>
-<ul class="md-github">
-<li class="md-github">Signature: const router = express.Router([options])</li>
-<li class="md-github">Options:
-<ul class="md-github">
-<li class="md-github">caseSensitive: Boolean, default false. (When true, '/Foo' != '/foo')</li>
-<li class="md-github">mergeParams: Boolean, default false. (Inherit parent req.params)</li>
-<li class="md-github">strict: Boolean, default false. (Strict routing: '/foo' vs '/foo/')</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h2 class="md-github"><a class="md-github__anchor" name="express-application" href="#express-application"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express Application</h2>
-<p class="md-github">Creating an Express application:</p>
-<p class="md-github">const express = require('express');
-const app = express();</p>
-<p class="md-github">Methods include:</p>
-<ul class="md-github">
-<li class="md-github">app.get(path, callback [, callback ...])</li>
-<li class="md-github">app.post(path, callback [, callback ...])</li>
-<li class="md-github">app.put(path, callback [, callback ...])</li>
-<li class="md-github">app.delete(path, callback [, callback ...])</li>
-<li class="md-github">app.all(path, callback [, callback ...])</li>
-<li class="md-github">app.listen([port[, host[, backlog]]][, callback])</li>
-</ul>
-<p class="md-github">Example:</p>
-<p class="md-github">const app = express();
-app.get('/', (req, res) =&gt; {
-res.send('hello world');
-});
-app.listen(3000);</p>
-<p class="md-github">Other Application properties:</p>
-<ul class="md-github">
-<li class="md-github">app.locals: Local variables persist for application lifetime.</li>
-<li class="md-github">app.mountpath: Base mount path of sub-applications.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="router-and-sub-app-mounting" href="#router-and-sub-app-mounting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Router and Sub-App Mounting</h2>
-<p class="md-github">Creating routers:
-const router = express.Router();
-router.get('/', (req, res) =&gt; {
-res.send('hello world');
-});
-app.use('/admin', router);</p>
-<p class="md-github">Sub-app mounting:
-const admin = express();
-admin.on('mount', (parent) =&gt; {
-// triggered when admin is mounted
-});
-app.use('/admin', admin);</p>
-<h2 class="md-github"><a class="md-github__anchor" name="application-settings" href="#application-settings"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Application Settings</h2>
-<p class="md-github">Settings can be configured using app.set and app.get:</p>
-<ul class="md-github">
-<li class="md-github">case sensitive routing: Boolean</li>
-<li class="md-github">env: string ('production' or 'development')</li>
-<li class="md-github">etag: varied, with options weak or strong</li>
-<li class="md-github">jsonp callback name: default &quot;callback&quot;</li>
-<li class="md-github">query parser: 'simple' or 'extended' or custom function</li>
-<li class="md-github">strict routing: Boolean</li>
-<li class="md-github">subdomain offset: Number, default 2</li>
-<li class="md-github">trust proxy: varied (Boolean, String list, Array, Number, Function)</li>
-<li class="md-github">views: directory path, default process.cwd() + '/views'</li>
-<li class="md-github">view cache: Boolean, true in production</li>
-<li class="md-github">view engine: String extension</li>
-<li class="md-github">x-powered-by: Boolean, default true</li>
-</ul>
-<p class="md-github">Example configuration:
-app.set('trust proxy', ['loopback', 'linklocal', 'uniquelocal']);
-app.set('view engine', 'pug');</p>
-<h2 class="md-github"><a class="md-github__anchor" name="http-methods-and-routing" href="#http-methods-and-routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP Methods and Routing</h2>
-<p class="md-github">Standard routing methods include:</p>
-<ul class="md-github">
-<li class="md-github">app.all(path, callback [, callback ...])
-<ul class="md-github">
-<li class="md-github">Matches all HTTP methods and can be used for pre-condition middleware.</li>
-</ul>
-</li>
-<li class="md-github">app.METHOD, e.g. app.get, app.post, etc.</li>
-<li class="md-github">Special routing for HTTP DELETE, PUT, etc., with multiple callback functions allowed.</li>
-</ul>
-<p class="md-github">Full example using multiple callbacks:</p>
-<p class="md-github">app.all('/secret', (req, res, next) =&gt; {
-console.log('Accessing secret section');
-next();
-});</p>
-<h2 class="md-github"><a class="md-github__anchor" name="additional-api-details" href="#additional-api-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional API Details</h2>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github">app.engine(ext, callback): Registers a template engine. Example:
-app.engine('html', require('ejs').renderFile);</p>
-</li>
-<li class="md-github">
-<p class="md-github">app.param(name, callback): Used to define param middleware for route parameters. Example:
-app.param('user', (req, res, next, id) =&gt; {
-User.find(id, (err, user) =&gt; {
-if (err) return next(err);
-if (user) {
-req.user = user;
-next();
-} else {
-next(new Error('failed to load user'));
-}
-});
-});</p>
-</li>
-<li class="md-github">
-<p class="md-github">app.render(view, [locals], callback): Renders a view template to a string.</p>
-</li>
-<li class="md-github">
-<p class="md-github">app.listen: Returns an http.Server object. Overloaded to support various argument formats similar to Node's http.Server.listen().</p>
-</li>
-</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="app-properties" href="#app-properties"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>App Properties</h1>
+<p class="md-github">app.locals: Persistent variables for templates.
+app.mountpath: Contains the mount path(s) of sub-apps.
+app.router: Lazily created internal router instance.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="event-handling" href="#event-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Event Handling</h1>
+<p class="md-github">app.on('mount', callback): Triggered when a sub-app is mounted with parent as argument.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="core-routing-methods" href="#core-routing-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Routing Methods</h1>
+<p class="md-github">app.all(path, callback...): Applies to all HTTP verbs. Example:
+app.all('/secret', (req, res, next) =&gt; {
+console.log('Accessing secret section')
+next()
+})</p>
+<p class="md-github">app.delete(path, callback...): Routes DELETE requests. Example:
+app.delete('/', (req, res) =&gt; { res.send('DELETE request to homepage') })</p>
+<p class="md-github">app.get(path, callback...): Routes GET requests. Example:
+app.get('/', (req, res) =&gt; { res.send('GET request to homepage') })</p>
+<p class="md-github">app.post(path, callback...): Routes POST requests. Example:
+app.post('/', (req, res) =&gt; { res.send('POST request to homepage') })</p>
+<p class="md-github">app.put(path, callback...): Routes PUT requests. Example:
+app.put('/', (req, res) =&gt; { res.send('PUT request to homepage') })</p>
+<h1 class="md-github"><a class="md-github__anchor" name="utility-methods" href="#utility-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Methods</h1>
+<p class="md-github">app.disable(name), app.enable(name): Toggle Boolean settings.
+app.disabled(name), app.enabled(name): Check status of settings.
+app.engine(ext, callback): Register a template engine. E.g.,
+app.engine('pug', require('pug').__express)
+app.get(name): Get setting value; app.set(name, value): Set a configuration.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="additional-api-details" href="#additional-api-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional API Details</h1>
+<p class="md-github">Methods also include app.render(view, [locals], callback) for rendering views as strings
+and app.route(path) to streamline multiple HTTP method attachments for a route.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="date-retrieved-2023-10-xx" href="#date-retrieved-2023-10-xx"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Date Retrieved: 2023-10-xx</h1>
+<p class="md-github">Attribution: Express API documentation crawled from expressjs.com; Data Size: 14956746 bytes; Links: 16382.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
-<li class="md-github">Source: Express.js API Documentation</li>
+<li class="md-github">Source: Express API Reference</li>
 <li class="md-github">URL: https://expressjs.com/en/api.html</li>
 <li class="md-github">License: MIT License</li>
-<li class="md-github">Crawl Date: 2025-04-28T15:48:40.918Z</li>
-<li class="md-github">Data Size: 27592178 bytes</li>
-<li class="md-github">Links Found: 23015</li>
+<li class="md-github">Crawl Date: 2025-04-28T23:47:32.190Z</li>
+<li class="md-github">Data Size: 14956746 bytes</li>
+<li class="md-github">Links Found: 16382</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
 <p class="md-github">2025-04-28</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-28T23:23:06.904Z</p>
+    <p>Generated on 2025-04-29T00:37:45.114Z</p>
   </footer>
 </body>
 </html>
