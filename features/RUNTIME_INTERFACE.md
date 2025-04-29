@@ -1,16 +1,15 @@
 # Overview
-This feature consolidates CLI help, version information, runtime configuration, and HTTP API access into one unified interface. In this update, the core runtime interface now includes robust configuration management, content negotiation for SVG, PNG, and JSON outputs, and an added rate limiting middleware for enhanced stability and security of the HTTP endpoint.
+This feature unifies CLI and HTTP interactions while reinforcing robust configuration management. It consolidates help, version information, runtime configuration loading, environment variable interpolation, and HTTP API access into a single interface. Recent enhancements include more thorough configuration validation with Zod, improved parsing of environment variable placeholders with fallback values, and dynamic configuration reloading via SIGHUP signal. This ensures a consistent user experience across command-line operations and web API requests.
 
 # Implementation
-- Merge CLI help and version flag processing along with HTTP serving. The runtime interface now recognizes "--help" and "--version" flags, in addition to enabling HTTP mode via the "--serve" flag.
-- Enhance the CLI parsing logic to display detailed help text (with usage examples including HTTP interface). The version command prints the version from dependencies and then exits.
-- Update the HTTP /plot endpoint to support content negotiation (SVG, PNG, JSON) and share the same configuration and validation routines used in CLI operations. Both operating modes use enhanced environment variable interpolation, error handling, and dynamic parameter validation.
-- Introduce a rate limiting middleware using the express-rate-limit library to control incoming requests to the /plot endpoint. This middleware limits the number of requests per minute (for example, 60 requests per minute) and returns a HTTP 429 (Too Many Requests) error when the limit is exceeded. The middleware is applied before processing plot generation requests.
-- Adjust configuration merging logic so that CLI flags can override internal defaults from configuration files and environment variables. Configuration reload on SIGHUP now also preserves the new rate limitation settings.
-- Update unit tests in tests/unit/http.test.js to verify that the HTTP endpoint enforces rate limiting in addition to validating proper help/version responses and dynamic plot generation in both CLI and HTTP modes.
+- Merge CLI help and version flag handling with HTTP serving and configuration management. The runtime interface now processes both command-line arguments and configuration files (JSON or YAML), recursively interpolating environment variables with fallback support (e.g. ${VAR:defaultValue}).
+- Enhance the configuration loading function using Zod to validate not only simple flags but complex nested objects. Detailed error messages are produced when numeric types or required fields are malformed. All configuration parameters (including resolution, dimensions, marker customizations, and stroke styling) are merged with CLI flags, where CLI options override file-based configuration.
+- Support dynamic configuration reload triggered by the SIGHUP signal. Upon reload, configuration is revalidated, ensuring any changes in environment variables or external config files are applied seamlessly.
+- Update the HTTP /plot endpoint and CLI processing to incorporate the robust configuration and interpolation routines. The endpoint now supports enhanced error reporting when configuration misparses occur and provides clear diagnostic messages.
+- Comprehensive unit tests are added to cover configuration file interpolation, fallback defaults, and validation errors. This ensures that each configuration parameter is correctly interpreted and any misconfigurations are reported with actionable feedback.
 
 # Impact
-- Simplifies maintenance by unifying CLI and HTTP runtime behaviors and adding a protective layer against abusive usage via rate limiting.
-- Enhances user experience by providing clear and consistent interactions across CLI and HTTP interfaces while protecting server resources.
-- Improves production stability and security by mitigating potential DoS attacks on the HTTP /plot endpoint.
-- Meets the mission goal of being the go-to plot library with robust and secure interface designs.
+- Simplifies maintenance and improves resilience by unifying runtime interfaces and configuration management into a robust system.
+- Enhances user experience by providing consistent behavior across CLI and HTTP modes, along with clear messaging on configuration errors.
+- Reduces operational risks by ensuring invalid configurations are caught early, ultimately contributing to production stability and ease-of-use.
+- Aligns with the mission to be the go-to plot library, by supporting flexible configuration and secure, reliable runtime behavior.
