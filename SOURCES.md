@@ -107,3 +107,18 @@ The D3.js API Reference offers comprehensive technical details on data-driven do
 ## https://github.com/tj/commander.js/#readme
 This documentation provides detailed guidelines for building command-line interfaces in Node.js using Commander.js. It outlines advanced options parsing, help text generation, and configuration management, offering actionable insights for creating robust and user-friendly CLIs. These principles can be applied to refine the CLI experience in repository0-plot-code-lib.
 ## MIT License
+
+# WAI-ARIA Authoring Practices
+## https://www.w3.org/TR/wai-aria-practices/
+This document provides detailed guidelines on implementing accessible user interface components for web applications, including best practices for using ARIA roles, states, and properties. It is particularly useful for ensuring that dynamic SVG elements and interactive features meet accessibility standards, which is crucial for the repository's focus on inclusive design.
+## W3C Document License
+
+# The Twelve-Factor App - Configuration
+## https://12factor.net/config
+This resource outlines best practices for application configuration management in cloud-native environments. It emphasizes storing configuration in the environment, a principle that aligns with the repository's use of dotenv and environment variable interpolation. This guide offers actionable insights for designing robust configuration systems in modern Node.js applications.
+## Public Domain
+
+# dotenv Safe Documentation
+## https://www.npmjs.com/package/dotenv-safe
+The dotenv-safe package documentation provides insights into enhancing configuration management by ensuring that all required environment variables are defined. While the repository currently uses dotenv, this source offers valuable best practices for safer environment variable handling and can inform further improvements in configuration validation and interpolation.
+## MIT License
