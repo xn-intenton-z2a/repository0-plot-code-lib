@@ -302,3 +302,13 @@ This article provides an in-depth exploration of SVG gradients, explaining the m
 ## https://devcenter.heroku.com/articles/config-vars
 This guide demonstrates best practices for managing configuration variables in Node.js applications deployed on Heroku. It covers secure storage, dynamic environment configuration, and practical tips for externalizing sensitive settings, aligning with modern configuration management strategies.
 ## Unknown
+
+# SVGOMG - SVG Optimizer
+## https://jakearchibald.github.io/svgomg/
+This interactive tool offers a user-friendly interface to optimize and minify SVG files by removing unnecessary whitespace, metadata, and redundant elements. The detailed options provided help developers understand and implement effective SVG minification techniques, aligning with the repository's feature for reducing file size without sacrificing quality.
+## MIT License
+
+# MDN HTTP Accept Header Documentation
+## https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept
+This MDN documentation provides comprehensive information on the HTTP Accept header, outlining how content negotiation works in HTTP. It offers actionable insights into handling various media types, which is especially useful for implementing robust content negotiation in the repository’s HTTP endpoint that serves SVG, PNG, or JSON responses.
+## CC BY-SA
