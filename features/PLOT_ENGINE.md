@@ -1,16 +1,15 @@
 # OVERVIEW
-This update merges caching functionality into the core Plot Engine, enhancing the plotting capabilities with performance improvements. It not only retains advanced SVG customization features, marker support, gradient configuration, and curve smoothing, but it also integrates a caching mechanism to store and reuse computed plot data. This integration reduces redundant computations on repeated requests and improves responsiveness across both CLI and HTTP modes.
+This update enhances the core Plot Engine by merging existing advanced SVG plotting capabilities with a new SVG minification option. When enabled via a CLI flag or HTTP query parameter (minify=true), the generated SVG output is automatically minified to remove superfluous whitespace and newlines. This reduces file size and transmission payload, improving performance for web delivery without sacrificing any style or accessibility features.
 
 # IMPLEMENTATION
-- Extend the configuration schema and interpolation routines to accept additional parameters for caching TTL and check period if needed.
-- Update the SVG generation logic to merge new caching checks alongside the existing advanced plot features.
-- On HTTP and CLI requests, generate a cache key based on the expression, range, smoothing, markers, and gradient details via JSON stringification.
-- Before generating the SVG or computing plot details, check the cache for an existing valid result; if found, return the cached output immediately.
-- If caching misses occur, compute the plot, save the result in cache with a sensible TTL (e.g., 60 seconds), and then return the computed result.
-- Ensure error handling provides detailed feedback for invalid parameter values and clearly logs cache hits and misses while preserving previous validations on stroke styling, marker customization, and smoothing parameters.
+- Update the SVG plot generation routine in the main library (createSvgPlot function) to check for a new parameter called minify (available in customLabels or CLI options).
+- If minify is set to true, post-process the generated SVG string by stripping extra whitespace, newlines, and redundant spaces between tags. Use simple string replacement methods to ensure that the output remains valid SVG while being compact.
+- Ensure that the minification is applied only after all other dynamic features (e.g., marker support, gradient definitions, axis labels, and embedded metadata) are incorporated into the SVG.
+- Update tests to verify that when the minify option is enabled, the returned SVG contains no extraneous whitespace and is significantly smaller in size compared to the regular output.
+- Maintain backward compatibility so that if the minify flag is not provided the SVG will be returned as originally formatted.
 
 # IMPACT
-- Improved responsiveness by reusing plot computations for identical queries, reducing duplicated work.
-- Enhanced user experience through faster plot generation in both HTTP and CLI modes.
-- Consolidation of similar performance features reduces complexity by merging caching and plot engine capabilities into one cohesive feature.
-- Aligns with the mission of providing a go-to plot library with high performance and expressive styling options without redundancy in the code base.
+- Reduced SVG file sizes lead to faster transmission and quicker rendering in client applications.
+- Enhances the library’s suitability for web applications where bandwidth and load times are critical.
+- Provides additional customization for end users interested in embedding streamlined graphics in production environments.
+- Aligns with the mission of being the go-to plot library by offering both powerful visualization and performance optimizations in a single cohesive feature set.
