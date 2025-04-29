@@ -1,223 +1,266 @@
 # NODE_JS
 
 ## Crawl Summary
-Node.js provides an event-driven, non-blocking I/O architecture to efficiently handle concurrent operations. Key technical details include the use of createServer with a callback handling http.IncomingMessage and http.ServerResponse objects, process management via child_process and cluster, multiple installation methods including official binaries and version managers, comprehensive API documentation with full method signatures, and emphasis on asynchronous operations to avoid blocking. Detailed code examples, configuration options for server.listen, and troubleshooting guidelines (such as verifying server startup via console output) are provided.
+Condensed technical details include the Node.js assert module API, HTTP server creation, CLI usage, and configuration options. Key aspects cover method signatures for assert functions (assert, deepEqual, deepStrictEqual, doesNotMatch, doesNotReject, doesNotThrow), class definitions for AssertionError and CallTracker with all parameters, return types, and detailed code examples.
 
 ## Normalised Extract
 Table of Contents:
-1. HTTP Server Implementation
-   - Import the HTTP module via 'import { createServer } from node:http'
-   - Use createServer(callback) where callback properties: req (http.IncomingMessage), res (http.ServerResponse)
-   - Set response status using res.writeHead(200, {'Content-Type': 'text/plain'}) and send data using res.end('Hello World!\n')
-   - Listen using server.listen(3000, '127.0.0.1', callback)
-
-2. Process Management
-   - Use child_process.fork() for spawning processes
-   - Use the cluster module to distribute connections among cores
-
-3. Installation & Configuration
-   - Official methods: Direct download of Node.js binaries
-   - Community methods: nvm, brew, apt, etc.
-   - Configuration options: Version selection (e.g., v22.15.0 for LTS), command-line flags to enable experimental features
-
-4. Security and Reporting
-   - Report security bugs via HackerOne with guaranteed response times
-   - Follow best practices for non-blocking I/O and error handling
-
-5. API Specifications
-   - createServer(requestListener: (req: IncomingMessage, res: ServerResponse) => void): Server
-   - server.listen(port: number, hostname: string, callback: () => void): void
-   - In-depth error handling, parameter validations, and use of asynchronous callbacks
-
-Each topic includes precise implementation details: exact method signatures, usage of native modules, parameter requirements (e.g., headers as object literals), and expected runtime outputs.
+ 1. Usage and Example
+    - Node.js command-line syntax: node [options] [script.js]
+    - HTTP server creation using createServer from node:http
+ 2. Assert Module
+    - assert(value[, message]) : void
+    - assert.deepEqual(actual, expected[, message]) : void
+    - assert.deepStrictEqual(actual, expected[, message]) : void
+    - assert.doesNotMatch(string, regexp[, message]) : void
+    - assert.doesNotReject(asyncFn[, error][, message]) : Promise<void>
+    - assert.doesNotThrow(fn[, error][, message]) : void
+ 3. Assertion Error Handling
+    - Class: assert.AssertionError(options)
+      * Parameters: message (string), actual (any), expected (any), operator (string), stackStartFn (Function)
+    - Class: assert.CallTracker
+      * Method: calls(fn[, exact]): Function
+      * Method: getCalls(fn): Array of call details
+      * Method: report(): Array of error details
+      * Method: reset([fn]): void
+      * Method: verify(): void
+Detailed Technical Information:
+- For assert methods, parameter types are strictly enforced. deepStrictEqual uses Object.is() and prototype comparisons.
+- HTTP server example demonstrates listening on port 3000 at 127.0.0.1 with appropriate header setup.
+- Environment configurations like NO_COLOR can be set to disable terminal colors.
+- The CallTracker class is used to ensure functions are called an exact number of times; failures are reported with call counts and stack traces.
 
 ## Supplementary Details
 Technical Specifications:
-- HTTP Module:
-  • Signature: createServer((req: http.IncomingMessage, res: http.ServerResponse) => void): http.Server
-  • Method server.listen(port: number, hostname: string, callback: () => void): void
-  • Example: res.writeHead(200, {'Content-Type': 'text/plain'}) followed by res.end('Hello World!\n')
-
-- Process Management:
-  • child_process.fork(modulePath: string, args?: string[], options?: ChildProcessForkOptions): ChildProcess
-  • Cluster: cluster.fork() to spawn worker processes that share server ports
-
-- Installation Methods:
-  • Official Installation: Download official binaries from nodejs.org
-  • Community Installation: Use package managers like nvm or brew; ensure OS compatibility (Windows 10/11, Linux distributions)
-
-- Configuration Options:
-  • Version: e.g., v22.15.0 (LTS), v23.11.0 (Current)
-  • Command-line flags: Enable experimental features, debug mode
-
-- Best Practices:
-  • Use non-blocking asynchronous APIs to avoid thread blocking
-  • Proper error handling on asynchronous callbacks
-  • Verify server status by checking console logs (e.g., 'Listening on 127.0.0.1:3000')
-
-- Troubleshooting Procedures:
-  • Run server with: node server.mjs
-  • Expected Output: 'Listening on 127.0.0.1:3000'
-  • Check port occupancy if errors occur (e.g., lsof -i:3000)
-  • Validate callback executions by inserting console.log statements
-  • Verify installation by running node -v and npm -v
+- assert(value[, message]): Checks truthiness. Throws AssertionError if value is falsy.
+- assert.deepEqual(actual, expected[, message]): Uses loose equality (==) for primitive comparisons, allowing type conversion.
+- assert.deepStrictEqual(actual, expected[, message]): Uses Object.is() for primitives, compares prototypes and enumerable own properties, ensuring strict equality.
+- assert.doesNotMatch(string, regexp[, message]): Verifies that the provided string does not match the provided regular expression.
+- assert.doesNotReject(asyncFn[, error][, message]): Awaits the async function or promise; returns a rejected promise if the function throws or returns a non-promise.
+- assert.doesNotThrow(fn[, error][, message]): Immediately invokes fn and throws if an error is encountered matching the provided error type.
+- assert.AssertionError requires an options object with properties: message, actual, expected, operator, and optionally stackStartFn.
+- assert.CallTracker: Use calls(fn, exact) to wrap functions. getCalls returns details as an array with {thisArg, arguments}. report provides an array of call summary objects. reset and verify for clearing and validating call counts.
+- HTTP Server: createServer(callback) returns a server instance; listen(port, hostname, callback) starts the server. 
+Configuration Option Details:
+- NO_COLOR: When defined, disables colored output in terminal applications.
+- NODE_DISABLE_COLORS: Same effect as NO_COLOR.
+Exact Implementation Steps:
+1. To use strict assertion mode, import assert from 'node:assert/strict'.
+2. Instantiate HTTP server with createServer and use listen to bind to a port.
+3. For CallTracker usage, create a new tracker; wrap functions using tracker.calls, invoke them, and call tracker.verify on process exit.
+4. Use environment variables to control terminal output settings.
 
 ## Reference Details
 API Specifications:
-HTTP Module:
-  1. createServer:
-     • Signature: createServer(requestListener: (req: IncomingMessage, res: ServerResponse) => void): Server
-     • Example Usage:
-          import { createServer } from 'node:http';
-          const server = createServer((req, res) => {
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end('Hello World!\n');
-          });
-          server.listen(3000, '127.0.0.1', () => {
-            console.log('Listening on 127.0.0.1:3000');
-          });
-     • Parameters:
-          req: http.IncomingMessage { method, url, headers }
-          res: http.ServerResponse { writeHead(statusCode: number, headers: object), end(data?: string | Buffer) }
-  2. server.listen:
-     • Signature: listen(port: number, hostname: string, callback: () => void): void
-     • Callback is invoked when server starts listening.
 
-Child Processes:
-  • Method: child_process.fork(modulePath: string, args?: string[], options?: ChildProcessForkOptions): ChildProcess
-     - Returns a ChildProcess instance with IPC enabled. 
+1. assert(value: any, message?: string): void
+   - Throws: AssertionError if value is falsy.
 
-Cluster Module:
-  • Usage: cluster.fork() to create worker processes.
+2. assert.deepEqual(actual: any, expected: any, message?: string): void
+   - Comparison: Uses == operator for primitives and recursively compares enumerable properties.
 
-Configuration and Installation:
-  • Node.js installation from official website uses pre-built binaries.
-  • Alternative installation: nvm install <version>, brew install node
-  • Command-line flags: --experimental-modules, --inspect for debugging.
+3. assert.deepStrictEqual(actual: any, expected: any, message?: string): void
+   - Comparison: Uses Object.is(), compares prototypes, own properties, including symbols; strict equality enforced.
 
-Best Practices:
-  • Always use asynchronous callbacks to prevent blocking.
-  • Use environment variables to configure production settings.
-  • Validate input parameters in every API call.
+4. assert.doesNotMatch(string: string, regexp: RegExp, message?: string): void
+   - Throws AssertionError if string matches regexp.
 
-Troubleshooting Procedures:
-  1. Start Server: Execute command 'node server.mjs'
-  2. Expected Output: 'Listening on 127.0.0.1:3000'
-  3. Check port usage: 'lsof -i:3000' to ensure no conflicts.
-  4. Validate installation: 'node -v' should return expected version.
-  5. For errors, review logs and stack traces for missing module issues.
+5. assert.doesNotReject(asyncFn: (() => Promise<any>) | Promise<any>, error?: RegExp | Function, message?: string): Promise<void>
+   - Usage: await assert.doesNotReject(asyncFn, [error], [message]).
 
-Concrete Example Code:
-  // Full HTTP server example with inline comments
-  import { createServer } from 'node:http';
-  
-  // Create an HTTP server instance
-  const server = createServer((req, res) => {
-    // Set status code and response header
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    // End the response with a message
-    res.end('Hello World!\n');
-  });
-  
-  // Listen on localhost:3000 and log a confirmation message
-  server.listen(3000, '127.0.0.1', () => {
-    console.log('Listening on 127.0.0.1:3000');
-  });
+6. assert.doesNotThrow(fn: Function, error?: RegExp | Function, message?: string): void
+   - Immediately executes fn and validates that no error is thrown.
+
+7. class assert.AssertionError extends Error
+   - Constructor: new assert.AssertionError(options: { message?: string, actual: any, expected: any, operator: string, stackStartFn?: Function })
+   - Properties: message, actual, expected, operator, generatedMessage (boolean), code (== 'ERR_ASSERTION')
+
+8. class assert.CallTracker
+   - Constructor: new assert.CallTracker()
+   - Method: calls(fn: Function, exact?: number = 1): Function
+       Example:
+         const tracker = new assert.CallTracker();
+         const wrappedFn = tracker.calls(myFunction, 2);
+   - Method: getCalls(fn: Function): Array<{ thisArg: any, arguments: any[] }>
+   - Method: report(): Array<{ message: string, actual: number, expected: number, operator: string, stack: any }>
+   - Method: reset(fn?: Function): void
+   - Method: verify(): void (throws error if call counts do not match)
+
+HTTP Server Example:
+
+    import { createServer } from 'node:http';
+    
+    const server = createServer((req, res) => {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('Hello World!\n');
+    });
+    
+    server.listen(3000, '127.0.0.1', () => {
+      console.log('Server running at http://127.0.0.1:3000/');
+    });
+
+Best Practices and Troubleshooting:
+- Always use assert.deepStrictEqual over assert.deepEqual in production to avoid unexpected type coercions.
+- Use strict mode by importing from 'node:assert/strict'.
+- For CallTracker, ensure tracker.verify() is called on process exit to catch missed function calls:
+
+    process.on('exit', () => {
+      tracker.verify();
+    });
+
+- To deactivate color output in logs, set environment variable NO_COLOR or NODE_DISABLE_COLORS:
+
+    export NO_COLOR=1
+
+Expected Outputs:
+- When an assertion fails, an AssertionError is thrown with properties set (message, actual, expected, operator) and a diff may be shown in strict mode.
+- HTTP server logs confirmation message with the listening address.
+
 
 ## Information Dense Extract
-Node.js runtime using V8 engine; createServer(callback: (req: IncomingMessage, res: ServerResponse) => void) returns Server; server.listen(port: number, hostname: string, callback: () => void); child_process.fork(modulePath, args, options) returns ChildProcess; cluster.fork() for multicore utilization; installation via official binaries or nvm; configuration options include version selection (e.g., v22.15.0, v23.11.0) and command-line flags (--experimental-modules, --inspect); best practices: use asynchronous I/O, proper error handling, logging; troubleshooting: check console logs, use lsof -i:PORT; complete code examples provided with inline comments and exact method signatures.
+NODE_JS API: assert(value[,message]), deepEqual(actual,expected[,message]), deepStrictEqual(actual,expected[,message]), doesNotMatch(string,regexp[,message]), doesNotReject(asyncFn[,error][,message])=>Promise, doesNotThrow(fn[,error][,message]); Class assert.AssertionError(options:{message?,actual,expected,operator,stackStartFn?}); Class assert.CallTracker with methods: calls(fn,exact=1):Function, getCalls(fn):Array<{thisArg, arguments}>, report():Array, reset([fn]):void, verify():void; HTTP server via createServer(callback) with listen(port,hostname,callback); CLI: node [options] [script]; Env: NO_COLOR, NODE_DISABLE_COLORS disable terminal colors; Retrieved 2023-10-10, Data Size=3340473 bytes.
 
 ## Sanitised Extract
 Table of Contents:
-1. HTTP Server Implementation
-   - Import the HTTP module via 'import { createServer } from node:http'
-   - Use createServer(callback) where callback properties: req (http.IncomingMessage), res (http.ServerResponse)
-   - Set response status using res.writeHead(200, {'Content-Type': 'text/plain'}) and send data using res.end('Hello World!'n')
-   - Listen using server.listen(3000, '127.0.0.1', callback)
-
-2. Process Management
-   - Use child_process.fork() for spawning processes
-   - Use the cluster module to distribute connections among cores
-
-3. Installation & Configuration
-   - Official methods: Direct download of Node.js binaries
-   - Community methods: nvm, brew, apt, etc.
-   - Configuration options: Version selection (e.g., v22.15.0 for LTS), command-line flags to enable experimental features
-
-4. Security and Reporting
-   - Report security bugs via HackerOne with guaranteed response times
-   - Follow best practices for non-blocking I/O and error handling
-
-5. API Specifications
-   - createServer(requestListener: (req: IncomingMessage, res: ServerResponse) => void): Server
-   - server.listen(port: number, hostname: string, callback: () => void): void
-   - In-depth error handling, parameter validations, and use of asynchronous callbacks
-
-Each topic includes precise implementation details: exact method signatures, usage of native modules, parameter requirements (e.g., headers as object literals), and expected runtime outputs.
+ 1. Usage and Example
+    - Node.js command-line syntax: node [options] [script.js]
+    - HTTP server creation using createServer from node:http
+ 2. Assert Module
+    - assert(value[, message]) : void
+    - assert.deepEqual(actual, expected[, message]) : void
+    - assert.deepStrictEqual(actual, expected[, message]) : void
+    - assert.doesNotMatch(string, regexp[, message]) : void
+    - assert.doesNotReject(asyncFn[, error][, message]) : Promise<void>
+    - assert.doesNotThrow(fn[, error][, message]) : void
+ 3. Assertion Error Handling
+    - Class: assert.AssertionError(options)
+      * Parameters: message (string), actual (any), expected (any), operator (string), stackStartFn (Function)
+    - Class: assert.CallTracker
+      * Method: calls(fn[, exact]): Function
+      * Method: getCalls(fn): Array of call details
+      * Method: report(): Array of error details
+      * Method: reset([fn]): void
+      * Method: verify(): void
+Detailed Technical Information:
+- For assert methods, parameter types are strictly enforced. deepStrictEqual uses Object.is() and prototype comparisons.
+- HTTP server example demonstrates listening on port 3000 at 127.0.0.1 with appropriate header setup.
+- Environment configurations like NO_COLOR can be set to disable terminal colors.
+- The CallTracker class is used to ensure functions are called an exact number of times; failures are reported with call counts and stack traces.
 
 ## Original Source
-Node.js Documentation
-https://nodejs.org/en/docs/
+Node.js Official Documentation
+https://nodejs.org/api/
 
 ## Digest of NODE_JS
 
-# Node.js Documentation Digest
+# Node.js Documentation Overview
 
-Retrieved: 2023-10-XX
+Date Retrieved: 2023-10-10
+Data Size: 3340473 bytes
+Links Found: 1956
 
-## Node.js Overview
-Node.js is a cross-platform, open-source JavaScript runtime built on the V8 engine. It uses an event-driven, non-blocking I/O model to enable highly scalable network applications. Important characteristics include asynchronous I/O, single-threaded execution with an event loop, and built-in modules for HTTP, file system operations, child processes, and more.
+# Assert Module
 
-## HTTP Server Implementation
-The HTTP module in Node.js provides the createServer method. Its signature is:
+## Overview
+The Node.js assert module provides a set of assertion functions for verifying invariants. It includes both strict methods and legacy methods. 
 
-  createServer(requestListener: (req: http.IncomingMessage, res: http.ServerResponse) => void): http.Server
+## Method Signatures and Specifications
 
-Usage Example:
+- assert(value[, message])
+  - Parameters: value (any), message (optional string)
+  - Description: Tests for truthiness.
 
-  // Import the HTTP module
-  import { createServer } from 'node:http';
+- assert.deepEqual(actual, expected[, message])
+  - Parameters: actual (any), expected (any), message (optional string)
+  - Note: Uses == for comparison (legacy mode).
 
-  // Define the server using a callback that handles incoming requests
-  const server = createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World!\n');
-  });
+- assert.deepStrictEqual(actual, expected[, message])
+  - Parameters: actual (any), expected (any), message (optional string)
+  - Description: Uses Object.is() and strict checks for deep equality.
 
-  // Listen on a specific port and hostname
-  server.listen(3000, '127.0.0.1', () => {
-    console.log('Listening on 127.0.0.1:3000');
-  });
+- assert.doesNotMatch(string, regexp[, message])
+  - Parameters: string (string), regexp (RegExp), message (optional string or Error)
+  - Throws an AssertionError if the string matches the regexp.
 
-Method Details:
-- req (http.IncomingMessage): Contains details of the HTTP request including headers and method.
-- res (http.ServerResponse): Provides methods such as writeHead and end to send the HTTP response.
+- assert.doesNotReject(asyncFn[, error][, message])
+  - Parameters: asyncFn (Function or Promise), error (optional RegExp or Function), message (optional string)
+  - Returns: Promise that resolves if no rejection occurs.
 
-## Child Processes and Cluster
-Node.js offers the child_process.fork() and cluster module for spawning new processes on different cores to distribute workloads. This is achieved while retaining simple inter-process communication.
+- assert.doesNotThrow(fn[, error][, message])
+  - Parameters: fn (Function), error (optional RegExp or Function), message (optional string)
 
-## Configuration and Installation
-Installation methods include:
-- Official binaries from nodejs.org
-- Platform package managers
-- Version managers such as nvm
+## Classes
 
-Configuration Options:
-- Version: LTS releases recommended, for instance, Node.js v22.15.0 (LTS) or v23.11.0 (Current).
-- Command-line options allow toggling experimental features with flags.
+### assert.AssertionError
+- Constructor: new assert.AssertionError(options)
+  - Options Object:
+    - message: string (optional)
+    - actual: any
+    - expected: any
+    - operator: string
+    - stackStartFn: Function (optional)
+- Properties: message, actual, expected, operator, generatedMessage (boolean), code: 'ERR_ASSERTION'
 
-## Security, API, and Best Practices
-Security reporting is supported via HackerOne. API usage is documented with full SDK method signatures including complete error handling. Best practices include using asynchronous I/O, properly handling events, and avoiding synchronous API calls for performance reasons.
+### assert.CallTracker
+- Constructor: new assert.CallTracker()
+- Methods:
+  - tracker.calls(fn[, exact])
+    - Parameters: fn (Function), exact (number, default = 1)
+    - Returns: A wrapped function that must be called exactly the specified number of times.
 
-Attribution: Retrieved from Node.js official documentation; Data Size: 118294 bytes; Links: 1926.
+  - tracker.getCalls(fn)
+    - Parameters: fn (Function)
+    - Returns: Array of call details [{ thisArg, arguments }]
+
+  - tracker.report()
+    - Returns: Array of objects with details: message, actual, expected, operator, stack
+
+  - tracker.reset([fn])
+    - Parameters: fn (optional Function)
+    - Description: Resets call counts for the specified function or all if omitted.
+
+  - tracker.verify()
+    - Description: Throws an error if any tracked function has not been called the expected number of times.
+
+# HTTP Server and CLI Usage
+
+## HTTP Server Example
+
+A basic HTTP server using node:http module:
+
+    import { createServer } from 'node:http';
+    
+    const server = createServer((req, res) => {
+      res.writeHead(200, { 'Content-Type': 'text/plain' });
+      res.end('Hello World!\n');
+    });
+    
+    server.listen(3000, '127.0.0.1', () => {
+      console.log('Listening on 127.0.0.1:3000');
+    });
+
+## Command-Line Usage
+
+Usage: node [options] [V8 options] [script.js | -e "script" | - ] [arguments]
+
+Refer to the command-line options documentation for further details.
+
+# Configuration Options
+
+- NO_COLOR or NODE_DISABLE_COLORS: Disable terminal color output (applies to REPL as well).
+
+# Attribution
+
+Content extracted from Node.js official documentation (v23.11.0) retrieved on 2023-10-10.
+
 
 ## Attribution
-- Source: Node.js Documentation
-- URL: https://nodejs.org/en/docs/
-- License: Public Domain / Node.js License (Refer to individual module licenses)
-- Crawl Date: 2025-04-27T14:47:29.864Z
-- Data Size: 118294 bytes
-- Links Found: 1926
+- Source: Node.js Official Documentation
+- URL: https://nodejs.org/api/
+- License: Node.js Documentation License
+- Crawl Date: 2025-04-29T03:08:14.038Z
+- Data Size: 3340473 bytes
+- Links Found: 1956
 
 ## Retrieved
-2025-04-27
+2025-04-29
