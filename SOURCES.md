@@ -152,3 +152,18 @@ This official MDN documentation explains the use of the <title> element in SVG, 
 ## https://nodejs.dev/en/learn/command-line-process-argv
 This guide offers a comprehensive overview of handling command line arguments in Node.js. It explains the usage of the process.argv array, parsing techniques, and best practices for building robust CLI applications. The insights provided are especially valuable for projects like repository0-plot-code-lib that rely on precise and effective CLI argument parsing and configuration management.
 ## Node.js Documentation License
+
+# Node.js Error Handling Best Practices
+## https://nodejs.dev/learn/error-handling-in-nodejs
+This source provides detailed guidelines and practical techniques for error detection, propagation, and handling in Node.js applications. It covers both synchronous and asynchronous error handling mechanisms along with best practices for writing robust, maintainable code. Its actionable insights are pivotal for ensuring reliable runtime behavior and effective error management, especially in a library that processes dynamic input and configuration.
+## Public Domain
+
+# MDN SVG <path> Element Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path
+This comprehensive MDN documentation details the SVG <path> element, exploring its syntax, available commands, and construction techniques. It provides actionable guidance for constructing smooth curves and complex shapes, supporting functionalities like quadratic Bézier interpolation and dynamic plot path generation. Developers can leverage these technical insights to ensure the generated SVG paths are optimized and standards-compliant.
+## CC BY-SA
+
+# D3-shape Documentation
+## https://github.com/d3/d3-shape
+The D3-shape documentation delivers in-depth insights into creating and manipulating shapes, including line generators, curve interpolations, and area charts. Although it is part of a larger visualization ecosystem, this resource offers valuable examples and best practices for data-driven graphic generation. Its emphasis on flexible and high-performance shape construction can inform enhancements in dynamic plot and curve rendering within the repository.
+## BSD-3-Clause
