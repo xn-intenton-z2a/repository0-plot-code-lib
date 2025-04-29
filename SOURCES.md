@@ -77,3 +77,18 @@ Plotly.js Documentation provides robust insights into creating interactive and p
 ## https://nodeca.github.io/js-yaml/
 This documentation offers detailed guidance on using js-yaml for parsing and serializing YAML in JavaScript. It is especially useful for developers working with configuration files that utilize YAML syntax, ensuring reliable and efficient configuration management in applications.
 ## MIT License
+
+# Vitest Documentation
+## https://vitest.dev/
+Vitest is a fast unit testing framework designed for modern web projects and Node.js applications. Its documentation provides comprehensive guides on test writing, configuration, mocking, and coverage reporting, ensuring robust test suites and efficient debugging. This resource is particularly valuable for maintaining the suite of tests in this repository. (Last updated: 2023)
+## MIT License
+
+# MDN Intl.NumberFormat Documentation
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+This MDN documentation covers the Intl.NumberFormat API, a critical tool for formatting numbers according to locale-specific rules. It offers detailed examples and best practices for localizing numerical output in JavaScript, which directly supports features like adaptive axis labels in the plotting library. (Last updated: Regularly revised by MDN)
+## CC BY-SA
+
+# Node.js Official Documentation
+## https://nodejs.org/api/
+The official Node.js documentation provides extensive technical details and examples on Node.js core modules, ES module syntax, asynchronous programming, and runtime configuration. This authoritative source directly supports the development and maintenance of both CLI and HTTP server functionalities in the repository. (Last updated: Regularly updated with Node.js releases)
+## Node.js Documentation License
