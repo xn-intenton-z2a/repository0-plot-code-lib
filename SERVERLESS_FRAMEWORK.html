@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="serverless_framework" href="#serverless_framework"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SERVERLESS_FRAMEWORK</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Serverless Framework technical details include a YAML configuration file (serverless.yml) defining service name, provider settings (AWS, runtime nodejs14.x, region, stage, memorySize, timeout), function declarations with event triggers, and plugins (serverless-offline, serverless-prune-plugin, webpack, domain-manager) with custom configuration options. CLI commands such as deploy, invoke local, logs, and remove are specified. API specifications include AWS Lambda handler signature and plugin method definitions.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Core Serverless Configuration
+<ul class="md-github">
+<li class="md-github">serverless.yml structure with service, provider (aws, runtime, region, stage, memory, timeout) and functions declaration.</li>
+</ul>
+</li>
+<li class="md-github">Function Declaration and Event Bindings
+<ul class="md-github">
+<li class="md-github">Declare function name, handler (e.g. handler.hello) and events (HTTP path and method).</li>
+</ul>
+</li>
+<li class="md-github">Plugin Integration and Custom Configurations
+<ul class="md-github">
+<li class="md-github">Plugins list: serverless-offline (with port configuration), serverless-prune-plugin (with number of versions to preserve), serverless-webpack, serverless-domain-manager.</li>
+<li class="md-github">Custom block details: key-value pairs for each plugin.</li>
+</ul>
+</li>
+<li class="md-github">CLI Commands and Deployment Steps
+<ul class="md-github">
+<li class="md-github">serverless deploy, serverless invoke local -f <function>, serverless logs -f <function>, serverless remove.</li>
+</ul>
+</li>
+<li class="md-github">Troubleshooting Procedures
+<ul class="md-github">
+<li class="md-github">Check logs via serverless logs, run in offline mode, validate YAML configuration.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Technical Information:
+Core Configuration: Use serverless.yml to define service. Specify provider: name: aws, runtime: nodejs14.x, region: us-east-1, stage: dev, memorySize: 1024, timeout: 10.
+Function Declaration: Under functions, add a function with key 'hello' with handler 'handler.hello' and an HTTP GET event on path '/hello'.
+Plugins: Add plugins array with values &quot;serverless-offline&quot;, &quot;serverless-prune-plugin&quot;. In custom configuration, define serverless-offline port: 3000 and prune settings like automatic: true, number: 3.
+CLI and Deployment: Use serverless deploy for deployment. To test locally, use serverless invoke local -f hello. To get function logs run serverless logs -f hello.
+Troubleshooting: Validate YAML, review logs, and use serverless offline for local emulation.
+API and SDK Methods: AWS Lambda handler signature: function(event: Object, context: Object, callback: Function): Promise<Object>. Plugin APIs expose methods like start() and stop() with Promise return types.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Serverless.yml Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">service: string (e.g., 'my-service')</li>
+<li class="md-github">provider: {
+name: 'aws',
+runtime: 'nodejs14.x',
+region: 'us-east-1',
+stage: 'dev',
+memorySize: 1024,
+timeout: 10
+}</li>
+<li class="md-github">functions: {
+[functionName]: {
+handler: 'file.method',
+events: [{ http: { path: '/path', method: 'get' } }]
+}
+}</li>
+<li class="md-github">plugins: Array of plugin names</li>
+<li class="md-github">custom: {
+serverless-offline: { port: 3000 },
+prune: { automatic: true, number: 3 }
+}</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Create serverless.yml with the above structure.</li>
+<li class="md-github">Write function handler in a file (e.g., handler.js) with signature: async (event, context) =&gt; {}</li>
+<li class="md-github">Install plugins via npm (npm install serverless-offline serverless-prune-plugin --save-dev)</li>
+<li class="md-github">Deploy with 'serverless deploy'.</li>
+<li class="md-github">For local testing, run 'serverless offline'.</li>
+</ol>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">For deployment errors, run 'sls deploy --verbose' to get detailed logs.</li>
+<li class="md-github">Validate YAML using online linters.</li>
+<li class="md-github">Use 'sls logs -f <function>' to fetch real-time logs.</li>
+</ul>
+<p class="md-github">CLI Commands:</p>
+<ul class="md-github">
+<li class="md-github">Deploy: serverless deploy --stage dev</li>
+<li class="md-github">Invoke function locally: serverless invoke local -f hello</li>
+<li class="md-github">Show logs: serverless logs -f hello</li>
+<li class="md-github">Remove deployment: serverless remove</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Function Handler Signature:
+function handler(event: Object, context: Object, callback: Function): Promise<Object></p>
+</li>
+<li class="md-github">
+<p class="md-github">Plugin API Example:
+class OfflinePlugin {
+constructor(options: { port: number, host?: string })
+start(): Promise<void>
+stop(): Promise<void>
+}</p>
+</li>
+</ul>
+<p class="md-github">SDK and CLI Commands:</p>
+<ul class="md-github">
+<li class="md-github">serverless deploy [--stage <stage>]: Deploy the service to AWS; default stage is 'dev'.</li>
+<li class="md-github">serverless invoke local -f <functionName>: Invoke the function locally with the event payload.</li>
+<li class="md-github">serverless logs -f <functionName>: Fetch logs for the specified function.</li>
+<li class="md-github">serverless remove: Remove deployed service.</li>
+</ul>
+<p class="md-github">Complete Code Example:
+// serverless.yml
+service: my-service
+provider:
+name: aws
+runtime: nodejs14.x
+region: us-east-1
+stage: dev
+memorySize: 1024
+timeout: 10
+functions:
+hello:
+handler: handler.hello
+events:
+- http:
+path: hello
+method: get
+plugins:</p>
+<ul class="md-github">
+<li class="md-github">serverless-offline</li>
+<li class="md-github">serverless-prune-plugin
+custom:
+serverless-offline:
+port: 3000
+prune:
+automatic: true
+number: 3</li>
+</ul>
+<p class="md-github">// handler.js
+module.exports.hello = async (event, context) =&gt; {
+// Log incoming event
+console.log('Event:', event);
+// Return response
+return {
+statusCode: 200,
+body: JSON.stringify({ message: 'Hello Serverless' })
+};
+};</p>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always validate serverless.yml for syntax errors.</li>
+<li class="md-github">Use environment-specific configurations by leveraging the 'stage' variable.</li>
+<li class="md-github">Secure sensitive data through environment variables loaded from .env files using dotenv.</li>
+<li class="md-github">Test functions locally using serverless-offline before deployment.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ol class="md-github">
+<li class="md-github">YAML Validation:
+Command: yamllint serverless.yml
+Expected Output: No errors.</li>
+<li class="md-github">Deployment Debug:
+Command: serverless deploy --verbose
+Expected: Detailed logs of each deployment step.</li>
+<li class="md-github">Function Logs:
+Command: serverless logs -f hello
+Expected: Real-time log output from the AWS Lambda function.</li>
+<li class="md-github">Local Testing:
+Command: serverless offline
+Expected: Local emulation of AWS API Gateway and Lambda functions running on port 3000.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">serverless.yml: service=my-service, provider={name: aws, runtime: nodejs14.x, region: us-east-1, stage: dev, memorySize:1024, timeout:10}, functions: {hello: {handler: handler.hello, events:[{http:{path:'/hello', method:'get'}}]}}, plugins: [serverless-offline, serverless-prune-plugin], custom: {serverless-offline: {port:3000}, prune: {automatic:true, number:3}}; Lambda handler signature: function handler(event:Object, context:Object, callback:Function):Promise<Object>; CLI: serverless deploy, invoke local, logs, remove; Code example provided in handler.js; troubleshooting: yamllint check, deploy --verbose, logs -f hello, offline for local debugging.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Core Serverless Configuration
+<ul class="md-github">
+<li class="md-github">serverless.yml structure with service, provider (aws, runtime, region, stage, memory, timeout) and functions declaration.</li>
+</ul>
+</li>
+<li class="md-github">Function Declaration and Event Bindings
+<ul class="md-github">
+<li class="md-github">Declare function name, handler (e.g. handler.hello) and events (HTTP path and method).</li>
+</ul>
+</li>
+<li class="md-github">Plugin Integration and Custom Configurations
+<ul class="md-github">
+<li class="md-github">Plugins list: serverless-offline (with port configuration), serverless-prune-plugin (with number of versions to preserve), serverless-webpack, serverless-domain-manager.</li>
+<li class="md-github">Custom block details: key-value pairs for each plugin.</li>
+</ul>
+</li>
+<li class="md-github">CLI Commands and Deployment Steps
+<ul class="md-github">
+<li class="md-github">serverless deploy, serverless invoke local -f <function>, serverless logs -f <function>, serverless remove.</li>
+</ul>
+</li>
+<li class="md-github">Troubleshooting Procedures
+<ul class="md-github">
+<li class="md-github">Check logs via serverless logs, run in offline mode, validate YAML configuration.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Technical Information:
+Core Configuration: Use serverless.yml to define service. Specify provider: name: aws, runtime: nodejs14.x, region: us-east-1, stage: dev, memorySize: 1024, timeout: 10.
+Function Declaration: Under functions, add a function with key 'hello' with handler 'handler.hello' and an HTTP GET event on path '/hello'.
+Plugins: Add plugins array with values 'serverless-offline', 'serverless-prune-plugin'. In custom configuration, define serverless-offline port: 3000 and prune settings like automatic: true, number: 3.
+CLI and Deployment: Use serverless deploy for deployment. To test locally, use serverless invoke local -f hello. To get function logs run serverless logs -f hello.
+Troubleshooting: Validate YAML, review logs, and use serverless offline for local emulation.
+API and SDK Methods: AWS Lambda handler signature: function(event: Object, context: Object, callback: Function): Promise<Object>. Plugin APIs expose methods like start() and stop() with Promise return types.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Serverless Framework Documentation
+https://www.serverless.com/framework/docs/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-serverless_framework" href="#digest-of-serverless_framework"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SERVERLESS_FRAMEWORK</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="serverless-framework-documentation" href="#serverless-framework-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Serverless Framework Documentation</h1>
+<p class="md-github">Retrieved: 2025-??-?? (Using current retrieval date as provided, e.g., 2025-04-17 is one of the dates in the crawl)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="core-configuration" href="#core-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Configuration</h2>
+<ul class="md-github">
+<li class="md-github">File: serverless.yml</li>
+<li class="md-github">Service declaration: service: my-service</li>
+<li class="md-github">Provider configuration:
+provider:
+name: aws
+runtime: nodejs14.x
+region: us-east-1
+stage: dev
+memorySize: 1024
+timeout: 10</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="functions-declaration" href="#functions-declaration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Functions Declaration</h2>
+<ul class="md-github">
+<li class="md-github">Example function declaration:
+functions:
+hello:
+handler: handler.hello
+events:
+- http:
+path: hello
+method: get</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="plugins-and-custom-configurations" href="#plugins-and-custom-configurations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugins and Custom Configurations</h2>
+<ul class="md-github">
+<li class="md-github">Plugins are declared under the plugins section. Common plugins include:
+<ul class="md-github">
+<li class="md-github">serverless-offline: Emulates AWS Lambda and API Gateway locally</li>
+<li class="md-github">serverless-prune-plugin: Deletes older function versions</li>
+<li class="md-github">serverless-webpack: Bundles lambda functions with Webpack</li>
+<li class="md-github">serverless-domain-manager: Handles customization of API Gateway domains</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Custom configuration is handled under the custom field:
+custom:
+serverless-offline:
+port: 3000
+prune:
+automatic: true
+number: 3</p>
+<h2 class="md-github"><a class="md-github__anchor" name="cli-commands-and-deployment" href="#cli-commands-and-deployment"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Commands and Deployment</h2>
+<ul class="md-github">
+<li class="md-github">Deployment: serverless deploy</li>
+<li class="md-github">Local invocation: serverless invoke local -f hello</li>
+<li class="md-github">Logs retrieval: serverless logs -f hello</li>
+<li class="md-github">Removal: serverless remove</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="advanced-settings" href="#advanced-settings"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Settings</h2>
+<ul class="md-github">
+<li class="md-github">Environment Variables: Use dotenv or inline definition under provider.environment</li>
+<li class="md-github">IAM Role Customizations: Define per function under functions.[functionName].iamRoleStatements</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h2>
+<ul class="md-github">
+<li class="md-github">Check logs: serverless logs -f <functionName></li>
+<li class="md-github">Run in offline mode to debug: serverless offline</li>
+<li class="md-github">Validate YAML configuration: use online YAML lint tools</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="api-and-sdk-method-signatures" href="#api-and-sdk-method-signatures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API and SDK Method Signatures</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">AWS Lambda handler sample:
+function handler(event: Object, context: Object, callback: Function): Promise<Object> {
+// implementation
+}</p>
+</li>
+<li class="md-github">
+<p class="md-github">Serverless Plugin API example:
+class OfflinePlugin {
+constructor(options: { port: number, host?: string })
+start(): Promise<void>
+stop(): Promise<void>
+}</p>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="code-example" href="#code-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Example</h2>
+<p class="md-github">// File: serverless.yml
+service: my-service</p>
+<p class="md-github">provider:
+name: aws
+runtime: nodejs14.x
+region: us-east-1
+stage: dev
+memorySize: 1024
+timeout: 10</p>
+<p class="md-github">functions:
+hello:
+handler: handler.hello
+events:
+- http:
+path: hello
+method: get</p>
+<p class="md-github">plugins:</p>
+<ul class="md-github">
+<li class="md-github">serverless-offline</li>
+<li class="md-github">serverless-prune-plugin</li>
+</ul>
+<p class="md-github">custom:
+serverless-offline:
+port: 3000
+prune:
+automatic: true
+number: 3</p>
+<p class="md-github">// File: handler.js
+module.exports.hello = async (event, context) =&gt; {
+// Example Lambda function
+return {
+statusCode: 200,
+body: JSON.stringify({ message: 'Hello Serverless' })
+};
+};</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Serverless Framework Documentation</li>
+<li class="md-github">URL: https://www.serverless.com/framework/docs/</li>
+<li class="md-github">License: Apache 2.0</li>
+<li class="md-github">Crawl Date: 2025-04-29T13:54:47.403Z</li>
+<li class="md-github">Data Size: 649952 bytes</li>
+<li class="md-github">Links Found: 2105</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-29</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-29T14:23:36.527Z</p>
+  </footer>
+</body>
+</html>
