@@ -202,3 +202,13 @@ This article offers in-depth perspectives on designing efficient and user-friend
 ## https://nodejs.dev/learn/nodejs-performance-optimisation
 This resource provides actionable insights into optimizing Node.js applications. It covers performance tuning, effective memory management, asynchronous programming patterns, and profiling techniques. These best practices are essential for ensuring that both CLI tools and HTTP server components perform robustly in production environments.
 ## License: Node.js Documentation License
+
+# Observable Plot Documentation
+## https://observablehq.com/@observablehq/plot
+This documentation provides an interactive, open-source grammar of graphics developed for Observable Plot. It offers detailed examples on data binding, dynamic updates, and interactivity, delivering actionable insights for creating dynamic, high-quality visualizations. These techniques can inspire further enhancements in repository0-plot-code-lib's approach to dynamic SVG and PNG plot generation.
+## Unknown License
+
+# In-Memory Caching Strategies in Node.js
+## https://www.sitepoint.com/caching-in-nodejs/
+This article from SitePoint explains practical approaches to implementing in-memory caching in Node.js applications. It covers performance optimization techniques, code examples, and common pitfalls, aligning well with the caching mechanisms used in repository0-plot-code-lib to reduce redundant computations and improve efficiency.
+## Unknown License
