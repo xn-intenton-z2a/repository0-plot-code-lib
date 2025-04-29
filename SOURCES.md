@@ -222,3 +222,13 @@ This documentation provides comprehensive information on configuring and impleme
 ## https://css-tricks.com/animating-svgs-with-css/
 This guide from CSS-Tricks explores various techniques for animating SVG elements using CSS. It covers the use of CSS transitions, keyframe animations, and performance considerations when animating complex SVG graphics. The practical examples and in-depth explanations provide actionable insights for enhancing dynamic visualizations with smooth, engaging animations—useful for developers aiming to add interactive elements to their plots.
 ## License: Unknown
+
+# Node.js Signal Handling and Process Management
+## https://nodejs.dev/learn/process-signals
+This comprehensive guide from Node.js provides detailed insights on handling system signals like SIGHUP, SIGINT, and SIGTERM. It discusses strategies for safely reloading configurations, managing process lifecycle events, and ensuring zero downtimes in production systems. This source is highly relevant for repository0-plot-code-lib’s dynamic configuration reload feature triggered by SIGHUP, enhancing implementation resilience through best practices for graceful process management.
+## Node.js Documentation License
+
+# Managing Environment Variables in Node.js
+## https://www.freecodecamp.org/news/how-to-use-environment-variables-in-node-js/
+This detailed tutorial from freeCodeCamp explains best practices for managing environment variables in Node.js applications. It covers secure storage, interpolation techniques, and fallback default mechanisms, which are central to repository0-plot-code-lib’s configuration strategy. The article provides actionable advice for implementing dynamic configuration loading and environment variable interpolation to ensure reliable and robust application behavior.
+## FreeCodeCamp License (Free to use with attribution)
