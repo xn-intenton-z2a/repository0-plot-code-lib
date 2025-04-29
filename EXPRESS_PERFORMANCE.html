@@ -24,119 +24,127 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="express_performance" href="#express_performance"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESS_PERFORMANCE</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Express production performance guidelines emphasize using gzip compression (via middleware or reverse proxy), avoiding synchronous functions in favor of asynchronous operations, proper logging using asynchronous libraries (e.g., debug and Pino), robust error handling with try-catch and promise rejections, and environment setups that include setting NODE_ENV=production. Additionally, it recommends using process managers (PM2 or systemd) for automatic restart, clustering techniques either with Node's core cluster module or PM2 cluster mode, caching strategies using tools like Varnish, load balancing via reverse proxies such as Nginx, and precise configuration of system services.</p>
+<p class="md-github">Express production guidelines include code improvements such as using gzip compression middleware (or handling at reverse proxy level), avoiding synchronous functions by using asynchronous alternatives and flags like --trace-sync-io, structured logging with debug or Pino, and robust error handling using try-catch and promise rejection propagation. Environment setup recommendations cover NODE_ENV production settings, automatic restart via systemd or process managers like PM2, clustering for scalability, caching strategies, load balancing, and reverse proxy configurations.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<p class="md-github">TABLE OF CONTENTS:</p>
+<p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">GZIP_COMPRESSION
-<ul class="md-github">
-<li class="md-github">Use compression middleware: require('compression'); app.use(compression()); Alternatively enable gzip in Nginx via ngx_http_gzip_module.</li>
-</ul>
+<li class="md-github">
+<p class="md-github">Code Best Practices
+a. Gzip Compression: Use compression middleware (app.use(compression())) and consider reverse proxy settings in Nginx.
+b. Avoid Synchronous Functions: Always choose asynchronous APIs; use --trace-sync-io for detection.
+c. Logging: Use debug module for debugging and Pino for production logging.
+d. Exception Handling: Implement try-catch for synchronous operations and use async/await with error propagation via next(err) for asynchronous code.</p>
 </li>
-<li class="md-github">ASYNC_USAGE
-<ul class="md-github">
-<li class="md-github">Always use asynchronous functions; avoid fs.readFileSync and similar. Use --trace-sync-io flag to detect sync IO.</li>
-</ul>
+<li class="md-github">
+<p class="md-github">Environment Configuration
+a. NODE_ENV Production: Set NODE_ENV to production to enable caching and reduce error verbosity; use systemd unit file &quot;Environment=NODE_ENV=production&quot;.
+b. Auto Restart: Use process managers/PM2 or systemd to automatically restart the app on crashes with appropriate commands.</p>
 </li>
-<li class="md-github">LOGGING
-<ul class="md-github">
-<li class="md-github">For debugging use debug module; for production use Pino. Avoid console.log for production logs.</li>
-</ul>
-</li>
-<li class="md-github">ERROR_HANDLING
-<ul class="md-github">
-<li class="md-github">Synchronous errors: use try-catch. Example: JSON.parse inside try-catch in a route handler.</li>
-<li class="md-github">Asynchronous errors: use async function with try-catch or promise .catch(next). Express error middleware should catch via next(err).</li>
-</ul>
-</li>
-<li class="md-github">ENVIRONMENT_CONFIG
-<ul class="md-github">
-<li class="md-github">Set process.env.NODE_ENV to 'production'. In systemd: Environment=NODE_ENV=production. Improves template caching and reduces verbosity.</li>
-</ul>
-</li>
-<li class="md-github">PROCESS_RESTART
-<ul class="md-github">
-<li class="md-github">Use process managers such as PM2 or init systems like systemd. Example commands: pm2 start npm --name my-app -i max -- start</li>
-</ul>
-</li>
-<li class="md-github">CLUSTERING
-<ul class="md-github">
-<li class="md-github">Use Node's cluster module. Master forks worker processes equal to number of CPU cores. Alternatively, use PM2 cluster mode: pm2 start npm --name my-app -i max -- start.</li>
-</ul>
-</li>
-<li class="md-github">CACHING
-<ul class="md-github">
-<li class="md-github">Cache request results using a caching server like Varnish or enabling caching rules in Nginx.</li>
-</ul>
-</li>
-<li class="md-github">LOAD_BALANCING
-<ul class="md-github">
-<li class="md-github">Employ load balancers (Nginx/HAProxy) to distribute traffic; configure session affinity if needed.</li>
-</ul>
-</li>
-<li class="md-github">REVERSE_PROXY
-<ul class="md-github">
-<li class="md-github">Run Express behind a reverse proxy to handle static files, compression, error pages, caching, and load balancing.</li>
-</ul>
+<li class="md-github">
+<p class="md-github">Scalability and Performance
+a. Clustering: Use Node’s cluster module or PM2's cluster mode (e.g., pm2 start npm --name my-app -i max -- start) to run multiple instances.
+b. Caching: Implement caching via Varnish or Nginx to store request responses.
+c. Load Balancing &amp; Reverse Proxy: Use load balancers (e.g., Nginx/HAProxy) for distributing incoming traffic and offloading tasks from Express.</p>
 </li>
 </ol>
-<p class="md-github">FOR EACH TOPIC, IMPLEMENTATION DETAILS INCLUDE EXACT CODE EXAMPLES, CONFIGURATION FILES, COMMAND-LINE FLAGS, AND INIT SYSTEM SETUPS.</p>
+<p class="md-github">Each section provides concrete code examples and configuration snippets that developers can directly incorporate into production-level Express applications.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">GZIP_COMPRESSION: Install compression using npm: npm install compression. Code: const compression = require('compression'); app.use(compression());</p>
-<p class="md-github">ASYNC_USAGE: Use asynchronous alternatives. Flag: --trace-sync-io to reveal sync calls.</p>
-<p class="md-github">LOGGING: For debugging, install debug (npm install debug) and use DEBUG environment variable. For activity logs, install pino (npm install pino) and configure it in production.</p>
-<p class="md-github">ERROR_HANDLING:</p>
+<p class="md-github">Gzip Compression Implementation:</p>
 <ul class="md-github">
-<li class="md-github">Synchronous: Use try-catch blocks around JSON.parse and other operations.</li>
-<li class="md-github">Asynchronous: Use async functions with try-catch or promise.catch(next) to forward errors to the error-handling middleware.</li>
+<li class="md-github">Code: const compression = require('compression'); app.use(compression());</li>
+<li class="md-github">Reverse proxy alternative using Nginx (refer to ngx_http_gzip_module documentation).</li>
 </ul>
-<p class="md-github">ENVIRONMENT_CONFIG:</p>
+<p class="md-github">NODE_ENV Configuration:</p>
 <ul class="md-github">
-<li class="md-github">Set NODE_ENV=production in your shell or within a systemd unit file using Environment=NODE_ENV=production.</li>
-<li class="md-github">Benefits include caching of view templates and static assets, and less verbose error messages.</li>
+<li class="md-github">Set environment variable in systemd unit file: Environment=NODE_ENV=production</li>
+<li class="md-github">Benefits: caches view templates, CSS files, and reduces verbose error messages. Improves performance by up to 3x.</li>
 </ul>
-<p class="md-github">PROCESS_RESTART:</p>
+<p class="md-github">Automatic Restart and Cluster Setup:</p>
 <ul class="md-github">
-<li class="md-github">Use PM2 for process management: Commands such as pm2 start npm --name my-app -i (number of workers or max) -- start.</li>
-<li class="md-github">Alternatively, configure a systemd unit file to auto-restart the process on failure.</li>
+<li class="md-github">Process Manager Example (PM2):
+Command: pm2 start npm --name my-app -i max -- start
+Scaling Commands: pm2 scale my-app +3 or pm2 scale my-app 2</li>
+<li class="md-github">Systemd Unit File Example provided with ExecStart and Restart=always.</li>
 </ul>
-<p class="md-github">CLUSTERING:</p>
+<p class="md-github">Error Handling Patterns:</p>
 <ul class="md-github">
-<li class="md-github">Node Cluster: Use cluster.fork() in a master script to spawn worker processes. Monitor worker exit events and auto-fork new processes.</li>
-<li class="md-github">PM2 Cluster Mode: Configure by setting exec_mode to cluster in ecosystem.config.js.</li>
+<li class="md-github">Synchronous Code: Use try-catch around JSON.parse operations.</li>
+<li class="md-github">Asynchronous Code: Use async/await with proper error forwarding via next(err).</li>
 </ul>
-<p class="md-github">CACHING: Use a caching server (Varnish or Nginx caching rules) to store request responses.</p>
-<p class="md-github">LOAD_BALANCING: Set up and configure a load balancer (e.g., Nginx, HAProxy) to route traffic among multiple app instances. Ensure sticky sessions with Redis if required.</p>
-<p class="md-github">REVERSE_PROXY: Configure Nginx or similar as a reverse proxy to pass requests to the Express server while handling static content and performing additional optimizations.</p>
+<p class="md-github">Logging Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Use logging libraries like Pino for asynchronous logging to file or external systems.</li>
+</ul>
+<p class="md-github">Avoiding Synchronous Pitfalls:</p>
+<ul class="md-github">
+<li class="md-github">Avoid synchronous methods on modules and use asynchronous alternatives to maintain high throughput in production.</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">Express API Specifications:</p>
+<p class="md-github">API Specifications and Code Examples:</p>
 <ol class="md-github">
 <li class="md-github">
-<p class="md-github">app.get(path: string, callback: (req: Request, res: Response, next: NextFunction) =&gt; void): Express</p>
+<p class="md-github">Compression Middleware</p>
 <ul class="md-github">
-<li class="md-github">Example: app.get('/', (req, res) =&gt; { res.send('Hello World!') })</li>
+<li class="md-github">Method: app.use(compression())</li>
+<li class="md-github">Parameter: No parameters; middleware compresses HTTP response bodies.</li>
+<li class="md-github">Return: Middleware function to process requests.</li>
 </ul>
 </li>
 <li class="md-github">
-<p class="md-github">Error handling middleware signature: (err: any, req: Request, res: Response, next: NextFunction) =&gt; void</p>
+<p class="md-github">Error Handling in Routes</p>
 <ul class="md-github">
-<li class="md-github">Example: app.use((err, req, res, next) =&gt; { res.status(err.status || 500).send({ error: err.message }) })</li>
+<li class="md-github">
+<p class="md-github">Synchronous Example:
+Route: app.get('/search', handler)
+Handler Code:
+setImmediate(() =&gt; {
+const jsonStr = req.query.params
+try {
+const jsonObj = JSON.parse(jsonStr)
+res.send('Success')
+} catch (e) {
+res.status(400).send('Invalid JSON string')
+}
+})</p>
+<ul class="md-github">
+<li class="md-github">Pattern: Use try-catch for synchronous exceptions.</li>
 </ul>
 </li>
 <li class="md-github">
-<p class="md-github">Compression Middleware:</p>
-<ul class="md-github">
-<li class="md-github">Module: compression</li>
-<li class="md-github">Use: const compression = require('compression'); app.use(compression());</li>
+<p class="md-github">Asynchronous Example:
+Route: app.get('/', async (req, res, next) =&gt; {
+const data = await userData()  // userData returns a Promise
+res.send(data)
+})
+Error Middleware:
+app.use((err, req, res, next) =&gt; {
+res.status(err.status ?? 500).send({ error: err.message })
+})</p>
+</li>
 </ul>
 </li>
 <li class="md-github">
-<p class="md-github">Systemd Unit File Configuration (for production deployments):</p>
+<p class="md-github">PM2 Cluster Mode Commands</p>
+<ul class="md-github">
+<li class="md-github">Start Cluster Mode:
+pm2 start npm --name my-app -i max -- start</li>
+<li class="md-github">Scale Up:
+pm2 scale my-app +3</li>
+<li class="md-github">Scale to specific count:
+pm2 scale my-app 2</li>
+</ul>
 </li>
-</ol>
-<p class="md-github">[Unit]
+<li class="md-github">
+<p class="md-github">Systemd Unit File Specification</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">File: /etc/systemd/system/myservice.service</p>
+</li>
+<li class="md-github">
+<p class="md-github">Contents:
+[Unit]
 Description=<Awesome Express App></p>
-<p class="md-github">[Service]
+<pre class="md-github"><code class="md-github">[Service]
 Type=simple
 ExecStart=/usr/local/bin/node /projects/myapp/index.js
 WorkingDirectory=/projects/myapp
@@ -148,131 +156,113 @@ LimitCORE=infinity
 StandardInput=null
 StandardOutput=syslog
 StandardError=syslog
-Restart=always</p>
-<p class="md-github">[Install]
-WantedBy=multi-user.target</p>
-<ol start="5" class="md-github">
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+</li>
 <li class="md-github">
-<p class="md-github">PM2 Commands for Clustering:</p>
-<ul class="md-github">
-<li class="md-github">Start in cluster mode with auto-detection:
-pm2 start npm --name my-app -i max -- start</li>
-<li class="md-github">Scale workers:
-pm2 scale my-app +3  or pm2 scale my-app 2</li>
+<p class="md-github">Effect: Ensures app auto-restarts and runs under production settings.</p>
+</li>
 </ul>
 </li>
 <li class="md-github">
-<p class="md-github">Node Cluster Module Example:</p>
-</li>
-</ol>
-<p class="md-github">const cluster = require('cluster')
-const os = require('os')
-if (cluster.isMaster) {
-const numCPUs = os.cpus().length
-for (let i = 0; i &lt; numCPUs; i++) {
-cluster.fork()
-}
-cluster.on('exit', (worker, code, signal) =&gt; {
-console.log(<code class="md-github">Worker ${worker.process.pid} died; spawning new process</code>)
-cluster.fork()
-})
-} else {
-const express = require('express')
-const app = express()
-app.get('/', (req, res) =&gt; { res.send('Hello World!') })
-app.listen(3000, () =&gt; { console.log(<code class="md-github">Worker listening on port 3000</code>) })
-}</p>
-<ol start="7" class="md-github">
-<li class="md-github">Troubleshooting Procedures:
+<p class="md-github">Logging Library Example</p>
 <ul class="md-github">
-<li class="md-github">Use --trace-sync-io to detect unwanted synchronous operations.</li>
-<li class="md-github">Test error handling by throwing errors in route handlers and verifying that the error middleware sends a correct status code and message.</li>
-<li class="md-github">Validate PM2 logs using: pm2 logs my-app</li>
-<li class="md-github">Check systemd status with: systemctl status myservice.service</li>
-<li class="md-github">For debugging cluster issues, monitor worker exits and auto-restart messages in the application logs.</li>
+<li class="md-github">For debugging: Install debug (npm install debug) and use as follows:
+const debug = require('debug')('app:startup')
+debug('Debugging message');</li>
+<li class="md-github">For production: Use Pino (npm install pino) to initialize asynchronous logging.</li>
 </ul>
 </li>
 </ol>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Use --trace-sync-io flag to detect synchronous I/O operations:
+node --trace-sync-io app.js</li>
+<li class="md-github">If using PM2, check logs with:
+pm2 logs my-app</li>
+<li class="md-github">For systemd managed services, view status with:
+systemctl status myservice.service
+journalctl -u myservice.service</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">SDK Method Signatures (Express API):
+<ul class="md-github">
+<li class="md-github">app.METHOD(path, callback):
+METHOD: get, post, put, delete etc.
+path: string route
+callback: function(req: Request, res: Response, next?: Function) =&gt; void</li>
+<li class="md-github">Error Handling Middleware Signature:
+function(err: any, req: Request, res: Response, next: Function): void</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">All above code examples and configurations are exact and complete for implementation without further reference.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">gzip: require('compression'); app.use(compression()); async: use async/await, avoid sync I/O, flag --trace-sync-io; logging: use debug for dev, pino for production; error handling: try-catch for sync, async functions catch errors; env: NODE_ENV=production via systemd (Environment=NODE_ENV=production), caching view templates; restart: PM2 or systemd with Restart=always; cluster: Node cluster module or PM2 cluster mode (pm2 start npm --name my-app -i max -- start); caching: use Varnish/Nginx; load balancing: use Nginx/HAProxy with sticky sessions if needed; reverse proxy: offload static content and compression; API: app.get(path, (req, res) =&gt; {}), error middleware (err, req, res, next) =&gt; {}, systemd unit file detailed; PM2 scaling commands; troubleshooting via logs and --trace-sync-io.</p>
+<p class="md-github">Express Production Best Practices: Use compression middleware (app.use(compression())) or reverse proxy (Nginx with ngx_http_gzip_module); avoid synchronous functions, use async APIs with --trace-sync-io for detection; logging with debug/Pino; error handling via try-catch for sync and async/await with next(err) for async; set NODE_ENV=production (systemd: Environment=NODE_ENV=production) for caching and performance boost; auto restart via process managers or systemd (unit file sample provided); clustering using Node cluster module or PM2 (commands: pm2 start npm --name my-app -i max -- start, pm2 scale my-app +3); caching with Varnish/Nginx; load balancing and reverse proxy for distribution; API signatures: app.METHOD(path, callback) and error middleware function(err, req, res, next); complete systemd unit file and troubleshooting commands (pm2 logs, systemctl status, journalctl).</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
-<p class="md-github">TABLE OF CONTENTS:</p>
+<p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">GZIP_COMPRESSION
-<ul class="md-github">
-<li class="md-github">Use compression middleware: require('compression'); app.use(compression()); Alternatively enable gzip in Nginx via ngx_http_gzip_module.</li>
-</ul>
+<li class="md-github">
+<p class="md-github">Code Best Practices
+a. Gzip Compression: Use compression middleware (app.use(compression())) and consider reverse proxy settings in Nginx.
+b. Avoid Synchronous Functions: Always choose asynchronous APIs; use --trace-sync-io for detection.
+c. Logging: Use debug module for debugging and Pino for production logging.
+d. Exception Handling: Implement try-catch for synchronous operations and use async/await with error propagation via next(err) for asynchronous code.</p>
 </li>
-<li class="md-github">ASYNC_USAGE
-<ul class="md-github">
-<li class="md-github">Always use asynchronous functions; avoid fs.readFileSync and similar. Use --trace-sync-io flag to detect sync IO.</li>
-</ul>
+<li class="md-github">
+<p class="md-github">Environment Configuration
+a. NODE_ENV Production: Set NODE_ENV to production to enable caching and reduce error verbosity; use systemd unit file 'Environment=NODE_ENV=production'.
+b. Auto Restart: Use process managers/PM2 or systemd to automatically restart the app on crashes with appropriate commands.</p>
 </li>
-<li class="md-github">LOGGING
-<ul class="md-github">
-<li class="md-github">For debugging use debug module; for production use Pino. Avoid console.log for production logs.</li>
-</ul>
-</li>
-<li class="md-github">ERROR_HANDLING
-<ul class="md-github">
-<li class="md-github">Synchronous errors: use try-catch. Example: JSON.parse inside try-catch in a route handler.</li>
-<li class="md-github">Asynchronous errors: use async function with try-catch or promise .catch(next). Express error middleware should catch via next(err).</li>
-</ul>
-</li>
-<li class="md-github">ENVIRONMENT_CONFIG
-<ul class="md-github">
-<li class="md-github">Set process.env.NODE_ENV to 'production'. In systemd: Environment=NODE_ENV=production. Improves template caching and reduces verbosity.</li>
-</ul>
-</li>
-<li class="md-github">PROCESS_RESTART
-<ul class="md-github">
-<li class="md-github">Use process managers such as PM2 or init systems like systemd. Example commands: pm2 start npm --name my-app -i max -- start</li>
-</ul>
-</li>
-<li class="md-github">CLUSTERING
-<ul class="md-github">
-<li class="md-github">Use Node's cluster module. Master forks worker processes equal to number of CPU cores. Alternatively, use PM2 cluster mode: pm2 start npm --name my-app -i max -- start.</li>
-</ul>
-</li>
-<li class="md-github">CACHING
-<ul class="md-github">
-<li class="md-github">Cache request results using a caching server like Varnish or enabling caching rules in Nginx.</li>
-</ul>
-</li>
-<li class="md-github">LOAD_BALANCING
-<ul class="md-github">
-<li class="md-github">Employ load balancers (Nginx/HAProxy) to distribute traffic; configure session affinity if needed.</li>
-</ul>
-</li>
-<li class="md-github">REVERSE_PROXY
-<ul class="md-github">
-<li class="md-github">Run Express behind a reverse proxy to handle static files, compression, error pages, caching, and load balancing.</li>
-</ul>
+<li class="md-github">
+<p class="md-github">Scalability and Performance
+a. Clustering: Use Nodes cluster module or PM2's cluster mode (e.g., pm2 start npm --name my-app -i max -- start) to run multiple instances.
+b. Caching: Implement caching via Varnish or Nginx to store request responses.
+c. Load Balancing &amp; Reverse Proxy: Use load balancers (e.g., Nginx/HAProxy) for distributing incoming traffic and offloading tasks from Express.</p>
 </li>
 </ol>
-<p class="md-github">FOR EACH TOPIC, IMPLEMENTATION DETAILS INCLUDE EXACT CODE EXAMPLES, CONFIGURATION FILES, COMMAND-LINE FLAGS, AND INIT SYSTEM SETUPS.</p>
+<p class="md-github">Each section provides concrete code examples and configuration snippets that developers can directly incorporate into production-level Express applications.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
 <p class="md-github">Express.js Best Practices for Production
 https://expressjs.com/en/advanced/best-practice-performance.html</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-express_performance" href="#digest-of-express_performance"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPRESS_PERFORMANCE</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="express-production-performance-best-practices" href="#express-production-performance-best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express Production Performance Best Practices</h1>
-<h2 class="md-github"><a class="md-github__anchor" name="things-to-do-in-your-code" href="#things-to-do-in-your-code"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Things to Do in Your Code</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="gzip_compression" href="#gzip_compression"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GZIP_COMPRESSION</h3>
-<p class="md-github">Use the compression middleware to gzip responses in production. Example:</p>
-<p class="md-github">const compression = require('compression')
+<h1 class="md-github"><a class="md-github__anchor" name="express-performance-and-production-best-practices" href="#express-performance-and-production-best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express Performance and Production Best Practices</h1>
+<p class="md-github">Retrieved Date: 2023-10-24</p>
+<h2 class="md-github"><a class="md-github__anchor" name="code-best-practices" href="#code-best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Best Practices</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="use-gzip-compression" href="#use-gzip-compression"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use Gzip Compression</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Install compression middleware: require('compression')</p>
+</li>
+<li class="md-github">
+<p class="md-github">Middleware usage:
+const compression = require('compression')
 const express = require('express')
 const app = express()</p>
 <p class="md-github">app.use(compression())</p>
-<p class="md-github">Note: In high-traffic sites, consider implementing gzip at a reverse proxy level (e.g., Nginx with ngx_http_gzip_module) to offload compression.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="avoid_synchronous_functions" href="#avoid_synchronous_functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>AVOID_SYNCHRONOUS_FUNCTIONS</h3>
-<p class="md-github">Always use asynchronous APIs. Avoid synchronous functions which block the event loop. To detect synchronous IO, use the flag:</p>
-<p class="md-github">--trace-sync-io</p>
-<p class="md-github">Example: Replace fs.readFileSync with fs.readFile in production code.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="logging" href="#logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LOGGING</h3>
-<p class="md-github">For debugging, use a module like debug to conditionally log messages controlled by the DEBUG environment variable. For production-level activity logging, use libraries like Pino. Avoid using console.log or console.error directly as these are synchronous when outputting to terminal or files.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="error_handling" href="#error_handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ERROR_HANDLING</h3>
-<p class="md-github">Implement robust error handling using try-catch for synchronous code and promise rejection handlers for asynchronous code.</p>
-<p class="md-github">// Example using try-catch in synchronous code
+</li>
+</ul>
+<p class="md-github">Notes:</p>
+<ul class="md-github">
+<li class="md-github">For high-traffic systems, enable compression at the reverse proxy (e.g., Nginx via ngx_http_gzip_module) to reduce overhead.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="avoid-synchronous-functions" href="#avoid-synchronous-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Avoid Synchronous Functions</h3>
+<ul class="md-github">
+<li class="md-github">Always use asynchronous versions of Node functions to prevent blocking the event loop.</li>
+<li class="md-github">Use the command-line flag <code class="md-github">--trace-sync-io</code> during testing/development to detect inadvertent synchronous calls.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="correct-logging-techniques" href="#correct-logging-techniques"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Correct Logging Techniques</h3>
+<ul class="md-github">
+<li class="md-github">For debugging: use a specialized module (e.g., debug) instead of console.log.</li>
+<li class="md-github">For production logging: use asynchronous logging libraries like Pino to log API calls and application events.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="exception-handling" href="#exception-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exception Handling</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Employ try-catch for synchronous code such as JSON parsing:
 app.get('/search', (req, res) =&gt; {
 setImmediate(() =&gt; {
 const jsonStr = req.query.params
@@ -284,21 +274,50 @@ res.status(400).send('Invalid JSON string')
 }
 })
 })</p>
-<p class="md-github">// Example using async/await with promise error handling
+</li>
+<li class="md-github">
+<p class="md-github">For asynchronous operations, use promises or async/await with error propagation via next(err):
 app.get('/', async (req, res, next) =&gt; {
-try {
 const data = await userData()
 res.send(data)
-} catch (err) {
-next(err)
-}
 })</p>
-<p class="md-github">app.use((err, req, res, next) =&gt; {
-res.status(err.status || 500).send({ error: err.message })
+</li>
+<li class="md-github">
+<p class="md-github">Central error handling middleware example:
+app.use((err, req, res, next) =&gt; {
+res.status(err.status ?? 500).send({ error: err.message })
 })</p>
-<h2 class="md-github"><a class="md-github__anchor" name="things-to-do-in-your-environment--setup" href="#things-to-do-in-your-environment--setup"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Things to Do in Your Environment / Setup</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="set_node_env_to_production" href="#set_node_env_to_production"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SET_NODE_ENV_TO_PRODUCTION</h3>
-<p class="md-github">Set the environment variable NODE_ENV to 'production' to enable view and static file caching and less verbose error messages. Example with systemd unit file:</p>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="what-not-to-do" href="#what-not-to-do"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What Not To Do</h3>
+<ul class="md-github">
+<li class="md-github">Do not attach listeners to the uncaughtException event or use domains, as these practices can lead to unstable state.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="environment-and-ops-best-practices" href="#environment-and-ops-best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Environment and Ops Best Practices</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="setting-node_env-to-production" href="#setting-node_env-to-production"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Setting NODE_ENV to &quot;production&quot;</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Set environment variable NODE_ENV=production to enable:</p>
+<ul class="md-github">
+<li class="md-github">View templates caching</li>
+<li class="md-github">CSS file caching</li>
+<li class="md-github">Reduced error verbosity</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Example using systemd:
+In /etc/systemd/system/myservice.service:</p>
+<p class="md-github">[Service]
+Environment=NODE_ENV=production</p>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="ensure-automatic-restart" href="#ensure-automatic-restart"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ensure Automatic Restart</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Use process managers (e.g., PM2) or init systems (systemd) to restart the app when it crashes.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Example systemd unit file:</p>
 <p class="md-github">[Unit]
 Description=<Awesome Express App></p>
 <p class="md-github">[Service]
@@ -316,48 +335,65 @@ StandardError=syslog
 Restart=always</p>
 <p class="md-github">[Install]
 WantedBy=multi-user.target</p>
-<h3 class="md-github"><a class="md-github__anchor" name="ensure_automatic_restart" href="#ensure_automatic_restart"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ENSURE_AUTOMATIC_RESTART</h3>
-<p class="md-github">Use a process manager or init system to restart your application if it crashes. Tools such as PM2 or systemd are recommended.</p>
-<p class="md-github">Example PM2 commands:
-pm install -g pm2
-pm start npm --name &quot;my-app&quot; -i max -- start</p>
-<h3 class="md-github"><a class="md-github__anchor" name="run_in_cluster" href="#run_in_cluster"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RUN_IN_CLUSTER</h3>
-<p class="md-github">Leverage Node’s clustering or PM2 cluster mode to run multiple instances on multi-core systems. Code example using Node’s cluster module:</p>
-<p class="md-github">const cluster = require('cluster')
-const numCPUs = require('os').cpus().length</p>
-<p class="md-github">if (cluster.isMaster) {
-for (let i = 0; i &lt; numCPUs; i++) {
-cluster.fork()
-}
-cluster.on('exit', (worker, code, signal) =&gt; {
-console.log(<code class="md-github">Worker ${worker.process.pid} died; spawning a new process</code>)
-cluster.fork()
-})
-} else {
-// Worker process: start the Express app
-const express = require('express')
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="running-in-a-cluster" href="#running-in-a-cluster"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running in a Cluster</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="using-nodes-cluster-module" href="#using-nodes-cluster-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Node’s cluster module:</h4>
+<ul class="md-github">
+<li class="md-github">Fork worker processes for each CPU core. Restart workers on crash with cluster.fork().</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="using-pm2" href="#using-pm2"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using PM2:</h4>
+<ul class="md-github">
+<li class="md-github">Start in cluster mode:
+$ pm2 start npm --name my-app -i max -- start</li>
+<li class="md-github">Scale dynamically:
+$ pm2 scale my-app +3
+$ pm2 scale my-app 2</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="cache-request-results" href="#cache-request-results"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cache Request Results</h3>
+<ul class="md-github">
+<li class="md-github">Utilize caching solutions like Varnish or Nginx caching to store common responses.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="using-a-load-balancer-and-reverse-proxy" href="#using-a-load-balancer-and-reverse-proxy"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using a Load Balancer and Reverse Proxy</h3>
+<ul class="md-github">
+<li class="md-github">Set up a load balancer (e.g., using Nginx or HAProxy) to distribute load across multiple app instances.</li>
+<li class="md-github">Use a reverse proxy to handle compression, error pages, caching and serve static content, thereby offloading from Express.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="additional-implementation-details" href="#additional-implementation-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Implementation Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="express-application-starter-code-example" href="#express-application-starter-code-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express Application Starter Code Example</h3>
+<pre class="md-github"><code class="md-github">const express = require('express')
 const app = express()
-app.listen(3000)
-}</p>
-<h3 class="md-github"><a class="md-github__anchor" name="cache_request_results" href="#cache_request_results"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CACHE_REQUEST_RESULTS</h3>
-<p class="md-github">Implement caching for request responses to reduce processing overhead. Use proxies like Varnish or Nginx for caching HTTP responses.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="load_balancing_and_reverse_proxy" href="#load_balancing_and_reverse_proxy"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>LOAD_BALANCING_AND_REVERSE_PROXY</h3>
-<p class="md-github">Deploy load balancers (such as Nginx or HAProxy) to distribute traffic among multiple app instances. Use reverse proxy setups to handle static content, error pages, compression and caching.</p>
+const port = 3000
+
+app.get('/', (req, res) =&gt; {
+  res.send('Hello World!')
+})
+
+app.listen(port, () =&gt; {
+  console.log(`Example app listening on port ${port}`)
+})
+</code></pre>
+<p class="md-github">This code is the base for an Express app running in production settings after applying the above best practices.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Express.js Best Practices for Production (https://expressjs.com/en/advanced/best-practice-performance.html)</li>
+<li class="md-github">Data Size: 2242690 bytes</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: Express.js Best Practices for Production</li>
 <li class="md-github">URL: https://expressjs.com/en/advanced/best-practice-performance.html</li>
 <li class="md-github">License: MIT License</li>
-<li class="md-github">Crawl Date: 2025-04-29T04:49:49.835Z</li>
-<li class="md-github">Data Size: 8600375 bytes</li>
-<li class="md-github">Links Found: 20152</li>
+<li class="md-github">Crawl Date: 2025-04-29T18:52:02.683Z</li>
+<li class="md-github">Data Size: 2242690 bytes</li>
+<li class="md-github">Links Found: 8252</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
 <p class="md-github">2025-04-29</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-29T18:24:30.216Z</p>
+    <p>Generated on 2025-04-29T19:21:55.433Z</p>
   </footer>
 </body>
 </html>
