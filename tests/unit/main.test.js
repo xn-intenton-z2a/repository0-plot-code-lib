@@ -443,7 +443,7 @@ describe("CLI Plot Generation", () => {
     expect(content).toContain('id="dynamicGradient"');
     expect(content).toContain('<stop offset="0%" stop-color="green"');
     expect(content).toContain('<stop offset="100%" stop-color="yellow"');
-    expect(content).toMatch(/stroke="url\(#dynamicGradient\)"/);
+    expect(content).toMatch(/stroke="url\(\#dynamicGradient\)"/);
     fs.unlinkSync(testFile);
   });
 
