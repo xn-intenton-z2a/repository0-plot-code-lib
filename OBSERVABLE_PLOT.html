@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="observable_plot" href="#observable_plot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OBSERVABLE_PLOT</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Observable Plot is a JavaScript visualization library with layered geometric shapes, providing methods such as Plot.dot, Plot.rectY, Plot.ruleY and transforms like Plot.binX, which automatically bin and compute counts. It supports vanilla HTML via CDN, Node.js using JSDOM, and integrations with React, Vue, Svelte. Key parameters include configuration objects for marks, transforms, and document rendering options. The API exposes full TypeScript definitions and usage examples.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Marks and Geometric Shapes
+<ul class="md-github">
+<li class="md-github">Methods: Plot.dot(data, {x, y, stroke}), Plot.rectY(data, transform), Plot.ruleY(values)</li>
+<li class="md-github">Returns a detached DOM element (SVG or HTML) which must be appended to a container using element.append.</li>
+</ul>
+</li>
+<li class="md-github">Scales and Transforms
+<ul class="md-github">
+<li class="md-github">Scales map abstract values to visual values.</li>
+<li class="md-github">Transforms such as Plot.binX({y: 'count'}, {x: function}) perform binning and aggregation.</li>
+</ul>
+</li>
+<li class="md-github">Installation and Setup
+<ul class="md-github">
+<li class="md-github">Vanilla HTML: Import Plot from a CDN (ESM or UMD bundles), use with dependency D3.</li>
+<li class="md-github">NPM: Install @observablehq/plot and import using ES Modules.</li>
+</ul>
+</li>
+<li class="md-github">Framework Integration
+<ul class="md-github">
+<li class="md-github">React: Use Plot.plot with an option document: new Document() for SSR or useRef with useEffect for client-side rendering.</li>
+<li class="md-github">Vue &amp; Svelte: Similar approach with component lifecycle hooks.</li>
+<li class="md-github">Node.js: Use JSDOM to generate a document and serialize the plot using outerHTML.</li>
+</ul>
+</li>
+<li class="md-github">Configuration and Code Samples
+<ul class="md-github">
+<li class="md-github">Exact configuration: {length: 10000} for plot dimensions, mark options with property names matching dataset keys.</li>
+<li class="md-github">In server-side, set XML namespace attributes for SVG.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Details:
+Marks: Use Plot methods to denote different visualization types. Example signature: Plot.dot(data: Array|Object, options: {x: string, y: string, stroke?: string}) -&gt; Mark.
+Transforms: Plot.binX({y: 'count'}, {x: function}) aggregates data into bins and outputs a new mark element.
+Installation: For CDN, include <script type="module"> with import from jsDelivr; for local development, use UMD bundles with manual script inclusion.
+Frameworks: SSR in React using virtual Document enables returning a hyperScript element; useRef hook with cleanup removes old plots.
+Node.js integration: Provide a DOM via JSDOM, then serialize the plot to SVG. Use sharp or canvg for rasterization if needed.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Technical Specifications:</p>
+<ul class="md-github">
+<li class="md-github">Mark Methods:
+<ul class="md-github">
+<li class="md-github">Plot.dot(data, options): options include x (string), y (string), stroke (string, optional).</li>
+<li class="md-github">Plot.rectY(data, transform): requires parameter object for rectangle length and a transform function such as Plot.binX.</li>
+<li class="md-github">Plot.ruleY(values): accepts an array of numbers to draw horizontal rules.</li>
+</ul>
+</li>
+<li class="md-github">Transform Functions:
+<ul class="md-github">
+<li class="md-github">Plot.binX({y: &quot;count&quot;}, {x: function}) returns a binned mark configuration, aggregating counts.</li>
+</ul>
+</li>
+<li class="md-github">API Options:
+<ul class="md-github">
+<li class="md-github">In Plot.plot(options), common options include:
+grid: boolean (default: false),
+color: object (e.g., {scheme: &quot;burd&quot;}),
+marks: array of mark elements.</li>
+</ul>
+</li>
+<li class="md-github">Framework Integration Notes:
+<ul class="md-github">
+<li class="md-github">React SSR Component:
+function PlotFigure({options}) {
+return Plot.plot({ ...options, document: new Document() }).toHyperScript();
+}</li>
+<li class="md-github">Vue SSR Component uses similar pattern with render function and virtual DOM.</li>
+<li class="md-github">Svelte: use reactive $effect to remove and append new plots on state change.</li>
+<li class="md-github">Node.js: When rendering HTML, set attributes using setAttributeNS for proper SVG namespace handling.</li>
+</ul>
+</li>
+<li class="md-github">Installation Configuration:
+<ul class="md-github">
+<li class="md-github">CDN URL: https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm for ESM modules.</li>
+<li class="md-github">UMD Bundle: Includes Plot and dependency on D3, loaded via <script> tags.</li>
+<li class="md-github">NPM package: @observablehq/plot with full TypeScript declarations.</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Include Plot via CDN or npm install.</li>
+<li class="md-github">Create a container element (e.g. a DIV with an id).</li>
+<li class="md-github">Generate a plot element by calling a Plot method (e.g. Plot.rectY({length: 10000}, Plot.binX({y: &quot;count&quot;}, {x: Math.random}))).plot();</li>
+<li class="md-github">Append the generated plot to the container using container.append(plot).</li>
+<li class="md-github">For dynamic updates, remove the old plot before appending the new plot.</li>
+</ol>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">If the plot does not display, ensure that the correct DOM element is selected and appended to.</li>
+<li class="md-github">In Node.js, verify that JSDOM is correctly installed and that the document option is passed to Plot.plot.</li>
+<li class="md-github">Validate namespace attributes in SVG output using setAttributeNS with correct URI strings.</li>
+<li class="md-github">Use browser console and server logs to check for JavaScript errors related to dependency loading (e.g. D3 missing).</li>
+<li class="md-github">For framework integration, ensure the virtual Document implementation is correctly provided for SSR.</li>
+</ul>
+<p class="md-github">Configuration Options and Defaults:</p>
+<ul class="md-github">
+<li class="md-github">Plot.plot({ grid: false, color: {scheme: &quot;burd&quot;}, marks: [...] }) where grid defaults to false unless explicitly enabled.</li>
+<li class="md-github">Mark options such as {length: 10000} are numeric and define the dimension of the mark elements.</li>
+<li class="md-github">Transform options using Plot.binX require specifying the target field for aggregation (e.g., y: &quot;count&quot;).</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Function: Plot.plot(options: Object): HTMLElement
+Parameters:
+options: { grid?: boolean, color?: { scheme?: string, legend?: boolean }, marks: Array<HTMLElement>, document?: Document }
+Returns: A detached DOM element (SVG or HTML) representing the plot.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Function: Plot.dot(data: Array|Object, options: { x: string, y: string, stroke?: string }): HTMLElement
+Returns: A mark element configured as a scatter plot.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Function: Plot.rectY(data: Array|Object, transform: Function): HTMLElement
+Parameters: data, transform function (e.g. Plot.binX) that configures binning and aggregation.
+Returns: A rectangle mark element.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transform Function: Plot.binX(transformOptions: Object, fieldOptions: Object): Function
+Example: Plot.binX({ y: &quot;count&quot; }, { x: Math.random }) aggregates data and returns a bin transform.</p>
+</li>
+</ul>
+<p class="md-github">Full Code Examples:
+// Basic Plot Creation in Vanilla HTML using ESM
+import * as Plot from &quot;https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm&quot;;
+const myPlot = Plot.rectY({ length: 10000 }, Plot.binX({ y: &quot;count&quot; }, { x: Math.random })).plot();
+document.querySelector(&quot;#plotContainer&quot;).append(myPlot);</p>
+<p class="md-github">// React Server-Side Rendering Example
+import * as Plot from &quot;@observablehq/plot&quot;;
+import { createElement as h } from &quot;react&quot;;
+export default function PlotFigure({ options }) {
+// Using a new Document() for virtual DOM simulation
+return Plot.plot({ ...options, document: new Document() }).toHyperScript();
+}</p>
+<p class="md-github">// Node.js SVG Rendering Example
+import { readFile } from &quot;node:fs/promises&quot;;
+import * as Plot from &quot;@observablehq/plot&quot;;
+import * as d3 from &quot;d3&quot;;
+import { JSDOM } from &quot;jsdom&quot;;
+(async () =&gt; {
+const csvData = await readFile(&quot;./penguins.csv&quot;, &quot;utf-8&quot;);
+const penguins = d3.csvParse(csvData, d3.autoType);
+const dom = new JSDOM(&quot;&quot;);
+const plotElement = Plot.plot({
+document: dom.window.document,
+marks: [
+Plot.dot(penguins, { x: &quot;culmen_length_mm&quot;, y: &quot;culmen_depth_mm&quot;, stroke: &quot;species&quot; })
+]
+});
+plotElement.setAttributeNS(&quot;http://www.w3.org/2000/xmlns/&quot;, &quot;xmlns&quot;, &quot;http://www.w3.org/2000/svg&quot;);
+plotElement.setAttributeNS(&quot;http://www.w3.org/2000/xmlns/&quot;, &quot;xmlns:xlink&quot;, &quot;http://www.w3.org/1999/xlink&quot;);
+process.stdout.write(plotElement.outerHTML);
+})();</p>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">CDN (ESM): &quot;https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm&quot;</li>
+<li class="md-github">UMD Bundle paths: d3.js, plot.js (or minified versions d3.min.js, plot.min.js)</li>
+<li class="md-github">NPM installation: &quot;@observablehq/plot&quot;</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always remove the old plot element before appending a new one to avoid DOM clutter. In React, use the useEffect cleanup function.</li>
+<li class="md-github">Use a virtual Document (new Document() or JSDOM) for server-side rendering to manage SVG output.</li>
+<li class="md-github">Validate namespace attributes when exporting SVG to ensure compatibility.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ol class="md-github">
+<li class="md-github">Check that the container element exists and is correctly selected.</li>
+<li class="md-github">Verify that all dependencies (D3, Plot) are properly loaded via CDN or bundler.</li>
+<li class="md-github">In Node.js, ensure JSDOM is installed and used; inspect console error messages.</li>
+<li class="md-github">For SSR in React/Vue, confirm that the virtual Document is correctly implemented.</li>
+<li class="md-github">Use browser developer tools to inspect the appended DOM element and validate its SVG structure.</li>
+</ol>
+<p class="md-github">Return Types and Exceptions:</p>
+<ul class="md-github">
+<li class="md-github">All Plot functions return a DOM element; if the provided data or options are invalid, runtime errors will be thrown. Ensure that options adhere exactly to the specified types.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Observable Plot JS library; key methods: Plot.plot({ grid?, color?, marks, document? }) returns DOM element; Plot.dot(data, {x, y, stroke?}), Plot.rectY(data, transform), Plot.ruleY([values]); Transform: Plot.binX({y:'count'}, {x: function}); Installation via CDN (https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm) or npm (@observablehq/plot); Framework integration: React SSR (document: new Document()), Vue and Svelte use mounted/render hooks; Node.js SSR via JSDOM, setAttributeNS for namespaces; full API specifications include complete method signatures, parameter types, return types; recommended best practices: remove old plot elements, validate SVG namespaces; troubleshooting: verify container existence, dependency loading, check error logs; sample code provided for vanilla, React, Node.js; configuration options default grid: false, color scheme: 'burd'; all technical details specified as per API and code examples.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Marks and Geometric Shapes
+<ul class="md-github">
+<li class="md-github">Methods: Plot.dot(data, {x, y, stroke}), Plot.rectY(data, transform), Plot.ruleY(values)</li>
+<li class="md-github">Returns a detached DOM element (SVG or HTML) which must be appended to a container using element.append.</li>
+</ul>
+</li>
+<li class="md-github">Scales and Transforms
+<ul class="md-github">
+<li class="md-github">Scales map abstract values to visual values.</li>
+<li class="md-github">Transforms such as Plot.binX({y: 'count'}, {x: function}) perform binning and aggregation.</li>
+</ul>
+</li>
+<li class="md-github">Installation and Setup
+<ul class="md-github">
+<li class="md-github">Vanilla HTML: Import Plot from a CDN (ESM or UMD bundles), use with dependency D3.</li>
+<li class="md-github">NPM: Install @observablehq/plot and import using ES Modules.</li>
+</ul>
+</li>
+<li class="md-github">Framework Integration
+<ul class="md-github">
+<li class="md-github">React: Use Plot.plot with an option document: new Document() for SSR or useRef with useEffect for client-side rendering.</li>
+<li class="md-github">Vue &amp; Svelte: Similar approach with component lifecycle hooks.</li>
+<li class="md-github">Node.js: Use JSDOM to generate a document and serialize the plot using outerHTML.</li>
+</ul>
+</li>
+<li class="md-github">Configuration and Code Samples
+<ul class="md-github">
+<li class="md-github">Exact configuration: {length: 10000} for plot dimensions, mark options with property names matching dataset keys.</li>
+<li class="md-github">In server-side, set XML namespace attributes for SVG.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Details:
+Marks: Use Plot methods to denote different visualization types. Example signature: Plot.dot(data: Array|Object, options: {x: string, y: string, stroke?: string}) -&gt; Mark.
+Transforms: Plot.binX({y: 'count'}, {x: function}) aggregates data into bins and outputs a new mark element.
+Installation: For CDN, include <script type='module'> with import from jsDelivr; for local development, use UMD bundles with manual script inclusion.
+Frameworks: SSR in React using virtual Document enables returning a hyperScript element; useRef hook with cleanup removes old plots.
+Node.js integration: Provide a DOM via JSDOM, then serialize the plot to SVG. Use sharp or canvg for rasterization if needed.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Observable Plot Documentation
+https://observablehq.com/@observablehq/plot</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-observable_plot" href="#digest-of-observable_plot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of OBSERVABLE_PLOT</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h1>
+<p class="md-github">Observable Plot is a JavaScript library for exploratory data visualization. It uses a grammar-of-graphics approach with layered geometric marks (bars, dots, lines) instead of pre-defined chart types.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="core-concepts" href="#core-concepts"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Concepts</h1>
+<ol class="md-github">
+<li class="md-github">Marks and Geometric Shapes
+<ul class="md-github">
+<li class="md-github">Methods such as Plot.dot, Plot.rectY, Plot.ruleY are used to generate marks.</li>
+<li class="md-github">Example: Plot.rectY({length: 10000}, Plot.binX({y: &quot;count&quot;}, {x: Math.random})).plot() creates a plot with binning transform.</li>
+</ul>
+</li>
+<li class="md-github">Scales
+<ul class="md-github">
+<li class="md-github">Scales map abstract values (time, temperature) to visual attributes (position, color).</li>
+</ul>
+</li>
+<li class="md-github">Transforms
+<ul class="md-github">
+<li class="md-github">Transforms derive data on-the-fly (binning, rolling averages).</li>
+</ul>
+</li>
+<li class="md-github">Facets
+<ul class="md-github">
+<li class="md-github">Use facets to create small multiples (repeating plots for data partitions).</li>
+</ul>
+</li>
+<li class="md-github">Projections
+<ul class="md-github">
+<li class="md-github">Supports GeoJSON and D3’s spherical projection system for geographic maps.</li>
+</ul>
+</li>
+</ol>
+<h1 class="md-github"><a class="md-github__anchor" name="installation-and-integration" href="#installation-and-integration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation and Integration</h1>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">In vanilla HTML, import Plot from a CDN:
+Example (ESM):
+import * as Plot from &quot;https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm&quot;;
+Then attach the plot to a DOM element:
+const plot = Plot.rectY({length: 10000}, Plot.binX({y: &quot;count&quot;}, {x: Math.random})).plot();
+document.querySelector(&quot;#myplot&quot;).append(plot);</p>
+</li>
+<li class="md-github">
+<p class="md-github">NPM Installation:
+yarn add @observablehq/plot
+npm install @observablehq/plot
+Usage: import * as Plot from &quot;@observablehq/plot&quot;;</p>
+</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="framework-integrations" href="#framework-integrations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Framework Integrations</h1>
+<ul class="md-github">
+<li class="md-github">React: Two approaches available (SSR with document option, client-side with useRef and useEffect).
+Example SSR:
+import * as Plot from &quot;@observablehq/plot&quot;;
+import {createElement as h} from &quot;react&quot;;
+export default function PlotFigure({options}) {
+return Plot.plot({ ...options, document: new Document() }).toHyperScript();
+}</li>
+<li class="md-github">Vue: Use a render function with virtual DOM support via document option for SSR or mounted lifecycle for client-side.</li>
+<li class="md-github">Svelte: Render client-side with reactive statements and remove old chart before appending new one.</li>
+<li class="md-github">Node.js: Use JSDOM to provide a DOM implementation and serialize using outerHTML.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="api-and-method-signatures" href="#api-and-method-signatures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API and Method Signatures</h1>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Plot.plot(options: Object): DOMElement
+Options include configuration for axes, grid, color schemes, and marks.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Plot.dot(data: Array|Object, options: Object): Mark
+Options: { x: String, y: String, stroke?: String }</p>
+</li>
+<li class="md-github">
+<p class="md-github">Plot.rectY(data: Array|Object, transform: Function): Mark
+Example transform: Plot.binX({ y: &quot;count&quot; }, { x: someFunction })</p>
+</li>
+<li class="md-github">
+<p class="md-github">Plot.ruleY(values: Array<Number>): Mark</p>
+</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="code-examples" href="#code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Examples</h1>
+<p class="md-github">Vanilla HTML (ESM):</p>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Observable Plot Example</title>
+  </head>
+  <body>
+    <div id="myplot"></div>
+    <script type="module">
+      import * as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
+      const plot = Plot.rectY({length: 10000}, Plot.binX({y: "count"}, {x: Math.random})).plot();
+      document.querySelector("#myplot").append(plot);
+    </script>
+  </body>
+</html>
+<p class="md-github">Node.js Server-side Rendering:</p>
+<p class="md-github">import {readFile} from &quot;node:fs/promises&quot;;
+import * as Plot from &quot;@observablehq/plot&quot;;
+import * as d3 from &quot;d3&quot;;
+import {JSDOM} from &quot;jsdom&quot;;</p>
+<p class="md-github">(async () =&gt; {
+const csvData = await readFile(&quot;./penguins.csv&quot;, &quot;utf-8&quot;);
+const penguins = d3.csvParse(csvData, d3.autoType);
+const dom = new JSDOM(&quot;&quot;);
+const plot = Plot.plot({
+document: dom.window.document,
+marks: [
+Plot.dot(penguins, {x: &quot;culmen_length_mm&quot;, y: &quot;culmen_depth_mm&quot;, stroke: &quot;species&quot;})
+]
+});
+plot.setAttributeNS(&quot;http://www.w3.org/2000/xmlns/&quot;, &quot;xmlns&quot;, &quot;http://www.w3.org/2000/svg&quot;);
+plot.setAttributeNS(&quot;http://www.w3.org/2000/xmlns/&quot;, &quot;xmlns:xlink&quot;, &quot;http://www.w3.org/1999/xlink&quot;);
+process.stdout.write(plot.outerHTML);
+})();</p>
+<h1 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options</h1>
+<ul class="md-github">
+<li class="md-github">For CDN usage, default dependency on D3 is automatically loaded.</li>
+<li class="md-github">Using document option in frameworks allows server-side rendering.</li>
+<li class="md-github">Mark transformation options include parameters such as length, binning options, and fill opacity.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="remarks" href="#remarks"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Remarks</h1>
+<p class="md-github">Observable Plot includes TypeScript declarations and extensive inline documentation to support advanced code completion in editors such as VS Code.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Observable Plot Documentation</li>
+<li class="md-github">URL: https://observablehq.com/@observablehq/plot</li>
+<li class="md-github">License: Unknown License</li>
+<li class="md-github">Crawl Date: 2025-04-30T04:51:46.365Z</li>
+<li class="md-github">Data Size: 1002206 bytes</li>
+<li class="md-github">Links Found: 4287</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-30</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-30T05:23:31.634Z</p>
+  </footer>
+</body>
+</html>
