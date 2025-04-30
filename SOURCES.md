@@ -332,3 +332,13 @@ This resource offers detailed insights and best practices for logging, error rep
 ## https://css-tricks.com/optimizing-svgs-for-production/
 This guide from CSS-Tricks provides practical techniques for optimizing SVG assets for production use. It covers strategies for SVG minification, performance enhancements, and reducing file sizes without compromising visual quality, aligning with the repository's efforts in efficient SVG output generation.
 ## Unknown
+
+# Smashing Magazine: SVG in Modern Web Design
+## https://www.smashingmagazine.com/2012/11/svg-in-modern-web-design/
+This article from Smashing Magazine delves into the practical use of SVG in modern web design. It covers techniques for stroke styling, marker customization, and the application of dynamic color gradients—key areas that align with the new features of repository0-plot-code-lib. It provides deep insights that can aid developers in refining visual presentation and interactivity in SVG plots.
+## Unknown
+
+# RisingStack: Advanced Node.js Configuration Patterns
+## https://blog.risingstack.com/node-js-configuration-management-best-practices/
+This article from RisingStack offers advanced insights into Node.js configuration management. It explores strategies for managing environment variables, merging CLI options with configuration files, and ensuring robust validation—topics directly related to the enhanced configuration engine in repository0-plot-code-lib. The article provides actionable examples that can help developers streamline and secure application configuration processes.
+## Unknown
