@@ -703,8 +703,15 @@ app.get("/plot", (req, res) => {
   }
 
   res.set("Vary", "Accept");
-  // Use req.accepts for content negotiation
-  const preferredType = req.accepts(["image/svg+xml", "image/png", "application/json"]);
+
+  // Determine response type based on both Accept header and query fileType
+  let preferredType = req.accepts(["image/svg+xml", "image/png", "application/json"]);
+  if (req.query.fileType === "svg") {
+    preferredType = "image/svg+xml";
+  } else if (req.query.fileType === "png") {
+    preferredType = "image/png";
+  }
+
   if (preferredType === "image/svg+xml") {
     res.type("image/svg+xml");
     return res.send(String(svg));
