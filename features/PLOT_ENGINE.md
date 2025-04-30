@@ -1,18 +1,18 @@
 # OVERVIEW
-This update extends the core Plot Engine functionality by incorporating advanced stroke styling, marker customization, and extended gradient configurations. In addition to existing SVG generation improvements and accessibility enhancements, the Plot Engine now supports parameters for stroke width, dash patterns, and line cap styles along with detailed marker definitions at both the start and end of curves. These enhancements provide users with greater control over the aesthetics and clarity of their plots.
+This update enhances the core Plot Engine functionality by retaining all previous improvements (advanced stroke styling, marker customization, extended gradient configurations, smooth curve generation, and dynamic configuration merging) and adding explicit SVG accessibility enhancements. The new accessibility features ensure that the generated SVGs are compliant with best practices for assistive technology support.
 
-# ENHANCEMENTS
-- Stroke Styling: New parameters (strokeWidth, strokeDashArray, strokeLinecap) allow users to customize the appearance of plot lines. Validation errors ensure that only positive numbers and valid values (butt, round, square) are accepted.
-- Marker Customization: With markerStart and markerEnd flags along with markerShape, markerWidth, markerHeight, and markerFill options, users can now add custom markers to the plot curves. This improves the visual guidance at the endpoints.
-- Extended Gradient Support: The Plot Engine supports both basic two-stop gradients (via gradientStartColor and gradientEndColor) and extended gradients using a JSON array string provided in gradientStops, enhancing dynamic color transitions on plot lines.
-- Configuration and Accessibility: The enhancements remain backward-compatible. New parameters are seamlessly merged with existing configuration options. Detailed metadata embedding and ARIA attributes continue to support accessibility best practices.
+# ACCESSIBILITY ENHANCEMENTS
+- A new <title> element is injected as the first child of the SVG. The title element includes a unique identifier (generated using a timestamp or similar approach) and contains descriptive text provided via an optional parameter (e.g., svgTitle).
+- Optionally, a <desc> element can be added when a descriptive text parameter (e.g., svgDesc) is provided. This description aids screen readers further.
+- The SVG element is updated to include an aria-labelledby attribute that references the IDs of the <title> (and <desc> if available), ensuring that screen readers can correctly announce the purpose and content of the plot.
+- These accessibility improvements are integrated without affecting the existing customizations such as dynamic stroke attributes, marker definitions, color gradients, and smoothing capabilities.
 
-# IMPLEMENTATION
-- Update the createSvgPlot function in the source file (src/lib/main.js) to process new query parameters for stroke styling and marker configuration. Integrate error handling and validations for numeric values and allowed enumerations.
-- Incorporate additional rendering logic based on the smooth flag to switch between polyline and smooth path generation with quadratic Bezier curves.
-- Modify test files to include test cases for stroke styling (strokeWidth, strokeDashArray, strokeLinecap) and marker customization. Ensure that gradient configurations with both simple and extended stops are validated.
-- Update documentation files (USAGE.md and README.md) to reflect new CLI flags and web query parameters, along with usage examples and expected outputs.
+# IMPLEMENTATION DETAILS
+- Modify the createSvgPlot function to prepend a <title> element with a unique id to the SVG output. Optionally add a <desc> element if a description is provided through CLI or configuration.
+- Update the SVG tag to include an aria-labelledby attribute referencing the title (and description) IDs.
+- Ensure the new accessibility elements are inserted before other SVG child elements (such as <defs> or shape elements) to adhere to SVG best practices.
+- Maintain backward compatibility so that if no accessibility parameters are provided, the SVG remains unchanged except for the inclusion of a default title element.
 
 # IMPACT
-- User Impact: Provides a higher degree of customization for visual styling, enabling users to produce plots that are both accessible and visually appealing for diverse presentation needs.
-- Core Functionality: Enhances the plotting engine's flexibility without breaking backward compatibility, aligning with the mission of becoming a go-to plot library for formula visualisations.
+- Improves accessibility compliance for users with visual impairments and ensures that the plots are announced correctly by screen readers.
+- Aligns the plot output with industry best practices as outlined in SVG accessibility guidelines, contributing to a more inclusive user experience.
