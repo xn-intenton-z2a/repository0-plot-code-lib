@@ -209,8 +209,8 @@ function computePlotData(expression, range, customLabels = {}) {
   } else if (xPrecision !== null && locale === "de-DE") {
     let rx = roundHalfAwayFromZero(xMin, xPrecision);
     let rX = roundHalfAwayFromZero(xMax, xPrecision);
-    rx = rx.replace(".", ",");
-    rX = rX.replace(".", ",");
+    rx = rx.replace(".",",");
+    rX = rX.replace(".",",");
     xAxisLabelText = `x-axis: ${rx} to ${rX}`;
   } else if (xPrecision !== null && locale) {
     const formatter = new Intl.NumberFormat(locale, {
@@ -230,8 +230,8 @@ function computePlotData(expression, range, customLabels = {}) {
   } else if (yPrecision !== null && locale === "de-DE") {
     let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
     let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
-    ry = ry.replace(".", ",");
-    rY = rY.replace(".", ",");
+    ry = ry.replace(".",",");
+    rY = rY.replace(".",",");
     yAxisLabelText = `y-axis: ${ry} to ${rY}`;
   } else if (yPrecision !== null && locale) {
     const formatter = new Intl.NumberFormat(locale, {
@@ -687,6 +687,7 @@ app.get("/plot", (req, res) => {
     try {
       const plotData = computePlotData(expression, range, req.query);
       res.set("Vary", "Accept");
+      res.set("Content-Type", "application/json");
       return res.json(plotData);
     } catch (e) {
       res.status(400).send(e.message);
@@ -704,7 +705,6 @@ app.get("/plot", (req, res) => {
 
   res.set("Vary", "Accept");
 
-  // Determine response type based on both Accept header and query fileType
   let preferredType = req.accepts(["image/svg+xml", "image/png", "application/json"]);
   if (req.query.fileType === "svg") {
     preferredType = "image/svg+xml";
@@ -713,13 +713,14 @@ app.get("/plot", (req, res) => {
   }
 
   if (preferredType === "image/svg+xml") {
-    res.type("image/svg+xml");
+    res.set("Content-Type", "image/svg+xml");
     return res.send(String(svg));
   } else if (preferredType === "image/png") {
     const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-    res.type("image/png");
+    res.set("Content-Type", "image/png");
     return res.send(dummyPng);
   } else if (preferredType === "application/json") {
+    res.set("Content-Type", "application/json");
     return res.json({ expression: expression, range: range, message: "Plot generation details" });
   } else {
     return res.status(406).send("Not Acceptable");
