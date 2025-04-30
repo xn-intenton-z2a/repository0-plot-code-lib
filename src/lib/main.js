@@ -53,7 +53,7 @@ function interpolateEnv(input) {
       } else if (defaultVal !== undefined) {
         return defaultVal;
       } else {
-        return `\${`{"${varName}"}`}`; // fallback replacement
+        return "${" + varName + "}";
       }
     });
   } else if (Array.isArray(input)) {
