@@ -67,3 +67,13 @@ SVGO is a highly effective tool for optimizing SVG files by stripping unnecessar
 ## https://nodejs.org/api/fs.html
 This documentation from Node.js covers the file system module in great detail, including file reading, writing, and stream management. It offers practical examples and best practices that are critical for handling file outputs, such as writing SVG or PNG files, ensuring reliable file I/O operations in the repository.
 ## MIT
+
+# OpenAI API Documentation
+## https://platform.openai.com/docs/api-reference/
+The OpenAI API documentation provides comprehensive details on how to interact with OpenAI's machine learning models. It includes examples of API requests, response formats, and best practices for integrating advanced AI capabilities into applications. This resource is authoritative, regularly updated, and offers actionable insights for solving complex implementation challenges.
+## N/A
+
+# Zod Documentation
+## https://github.com/colinhacks/zod
+Zod is a TypeScript-first schema declaration and validation library that enables developers to build robust and type-safe applications. The documentation details how to define, parse, and validate data structures, offering practical examples and integration guides that are essential for ensuring data integrity in application workflows.
+## MIT
