@@ -1,54 +1,69 @@
 # MDN SVG Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/SVG
-This source provides an in-depth guide to SVG, including specifications for elements, attributes, and best practices for creating graphical content. It is highly useful for developers implementing dynamic SVG generation, as it clearly explains concepts crucial for rendering and manipulating SVGs in a web environment. The documentation is frequently updated with modern browser compatibility details and usage guidelines.
+This source provides an in-depth guide to SVG, including detailed specifications for elements, attributes, and practical best practices for creating and manipulating graphical content. It is highly valuable for developers implementing dynamic SVG generation, ensuring compatibility and modern usage guidelines.
 ## CC-BY-SA
 
 # Sharp Image Processing Library Documentation
 ## https://sharp.pixelplumbing.com/
-The Sharp documentation is an essential resource for developers performing high-performance image processing in Node.js. It includes comprehensive examples, API references, and performance tips for converting and manipulating images (e.g., converting SVG content to PNG), which directly supports the repository's core image output generation features.
+The Sharp documentation is an essential resource for high-performance image processing in Node.js. It offers comprehensive API references, examples, and performance tips for converting and manipulating images (e.g., converting SVG content to PNG), directly supporting the repository's core image output features.
 ## MIT
 
 # Vitest Testing Framework Documentation
 ## https://vitest.dev/
-This source provides detailed technical guidance on using Vitest, a fast and modern unit testing framework for Node.js. It covers setup, configuration, and best practices for writing effective tests, ensuring that the repository's code remains robust, reliable, and maintainable.
+This documentation provides clear and actionable guidance on using Vitest for unit testing in Node.js. It covers installation, configuration, and advanced testing practices to ensure robust and maintainable code within the repository.
 ## MIT
 
 # Node.js ECMAScript Modules (ESM) Guide
 ## https://nodejs.org/api/esm.html
-The Node.js ESM documentation explains the usage of native ECMAScript Modules, offering actionable insights into module resolution, the import/export syntax, and migration strategies from CommonJS to ESM. This guide is critical for ensuring modern compatibility and performance optimization in the repository.
+This guide explains the use of native ECMAScript Modules in Node.js, offering in-depth insights into module resolution, import/export syntax, and migration strategies from CommonJS. It is crucial for maintaining modern code compatibility and performance optimization.
 ## MIT
 
 # Math.js Documentation
 ## https://mathjs.org/
-Math.js provides extensive functionality for mathematical operations, expression parsing, and computation in JavaScript and Node.js. Its detailed API references and examples are invaluable for enhancing the repository's capabilities in handling complex mathematical expressions, particularly in formula evaluation and plotting scenarios.
+Math.js offers extensive functionality for mathematical operations, expression parsing, and computation in JavaScript and Node.js. Its detailed API and examples are invaluable for enhancing the repository's capabilities in evaluating and plotting complex mathematical expressions.
 ## Apache-2.0
 
 # D3.js Official Documentation
 ## https://d3js.org/
-D3.js is a powerful JavaScript library for producing dynamic, interactive data visualizations. Its documentation covers data binding, DOM manipulation, and transitions, which can be leveraged to enhance the repository's SVG generation capabilities with advanced techniques for data-driven document manipulation.
+D3.js is a powerful library for dynamic, interactive data visualizations. The documentation covers data binding, transitions, and DOM manipulation, providing actionable techniques that can inspire advanced SVG generation methods within the repository.
 ## BSD-3-Clause
 
 # SVG.js Documentation
 ## https://svgjs.dev/docs/3.0/
-SVG.js offers a lightweight yet powerful API for creating, manipulating, and animating SVG elements. The documentation navigates through topics from basic element creation to advanced animations, providing actionable insights for developers looking to integrate sophisticated SVG features into plotting functionalities.
+SVG.js offers a lightweight yet versatile API for creating, manipulating, and animating SVG elements. The documentation provides clear examples from basic element creation to advanced animations, serving as a practical guide for enhancing SVG functionalities in plot generation.
 ## MIT
 
 # Math Expression Evaluator (expr-eval) Documentation
 ## https://github.com/silentmatt/expr-eval
-This repository and documentation offer a robust mathematical expression evaluator for JavaScript. It provides practical guidance on parsing and evaluating expressions, proving useful for the repository’s future enhancements to parse and compute mathematical expressions more reliably. The content is clear and actionable, with numerous examples and API details that directly address formula evaluation challenges.
+This repository offers a robust mathematical expression evaluator for JavaScript, complete with comprehensive API details and practical examples. It is particularly useful for reliably parsing and computing mathematical expressions, addressing common challenges in formula evaluation.
 ## MIT
 
 # W3C SVG Specification
 ## https://www.w3.org/Graphics/SVG/
-The W3C SVG Specification is the authoritative source for all aspects of SVG. It delivers comprehensive details on SVG elements, attributes, and behavior, providing a solid foundation for understanding and implementing SVG-related features. Although highly technical, it offers essential insights for addressing advanced SVG implementation needs.
+The W3C SVG Specification is the definitive reference on SVG elements, attributes, and behaviors. Although highly technical, it provides the foundational details necessary for advanced SVG implementation and troubleshooting in any SVG-based project.
 ## W3C Document License
 
 # Yargs - Command Line Argument Parser for Node.js
 ## https://yargs.js.org/
-Yargs is a powerful command-line argument parsing library for Node.js, offering best practices and detailed usage examples. Its documentation provides guidance on building robust CLI tools, which is particularly valuable for refining the repository’s command-line interface and error handling features.
+Yargs is a powerful tool for building command-line interfaces in Node.js. Its documentation offers best practices, detailed usage examples, and configuration techniques that are essential for refining and expanding the repository's CLI features.
 ## MIT
 
 # Commander.js Documentation
 ## https://github.com/tj/commander.js/blob/main/README.md
-Commander.js is a popular library for building command-line interfaces in Node.js. The documentation includes extensive examples and API references designed to simplify the development of CLI applications. Its focus on practical usage and integration can serve as an excellent reference for future enhancements to the repository's CLI functionality.
+Commander.js is a widely used library for creating intuitive command-line interfaces. The documentation is rich with examples and API references that guide developers in building robust CLI applications, making it an important resource for enhancing the repository's interface functionality.
+## MIT
+
+# Plotly.js Official Documentation
+## https://plotly.com/javascript/
+Plotly.js documentation delivers extensive technical guidance on creating interactive and advanced visualizations using JavaScript. It explores detailed API references, customization options, and performance optimization techniques, all of which provide actionable insights for enhancing plotting capabilities or inspiring future features.
+## MIT
+
+# SVGO (SVG Optimizer) Documentation
+## https://github.com/svg/svgo
+SVGO is a highly effective tool for optimizing SVG files by stripping unnecessary data without affecting output quality. Its documentation provides technical insights into SVG optimization strategies, making it an excellent resource for improving rendering performance and file size in SVG-based plot outputs.
+## MIT
+
+# Node.js File System Documentation
+## https://nodejs.org/api/fs.html
+This documentation from Node.js covers the file system module in great detail, including file reading, writing, and stream management. It offers practical examples and best practices that are critical for handling file outputs, such as writing SVG or PNG files, ensuring reliable file I/O operations in the repository.
 ## MIT
