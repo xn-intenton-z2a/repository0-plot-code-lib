@@ -19,17 +19,17 @@ describe("CLI main function - Plot Generation", () => {
 
   test("should error if --expression is not provided", async () => {
     await main(["--range", "x=-3:3"]);
-    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: --expression flag is required./));
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/\[.*\] Error: --expression flag is required./));
   });
 
   test("should error if unsupported output format is provided", async () => {
     await main(["--expression", "y=sin(x)", "--output-format", "jpg"]);
-    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: Unsupported output format. Supported formats are 'svg' and 'png'./));
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/\[.*\] Error: Unsupported output format. Supported formats are 'svg' and 'png'./));
   });
 
   test("should error if png output is requested without file flag", async () => {
     await main(["--expression", "y=sin(x)", "--output-format", "png"]);
-    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: --file flag is required when --output-format is png./));
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/\[.*\] Error: --file flag is required when --output-format is png./));
   });
 
   test("should print SVG to console when no file is provided (single expression)", async () => {
@@ -49,7 +49,7 @@ describe("CLI main function - Plot Generation", () => {
 
   test("should error if expressions are empty after splitting", async () => {
     await main(["--expression", "  ;  "]);
-    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: No valid expressions provided./));
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/\[.*\] Error: No valid expressions provided./));
   });
 
   // New tests for custom dimensions
@@ -72,12 +72,12 @@ describe("CLI main function - Plot Generation", () => {
 
   test("should error on invalid --width value", async () => {
     await main(["--expression", "y=sin(x)", "--width", "-100"]);
-    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: --width must be a positive number./));
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/\[\d{4}-\d{2}-\d{2}T.*Z\] Error: --width must be a positive number/));
   });
 
   test("should error on invalid --height value", async () => {
     await main(["--expression", "y=sin(x)", "--height", "abc"]);
-    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: --height must be a positive number./));
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/\[\d{4}-\d{2}-\d{2}T.*Z\] Error: --height must be a positive number/));
   });
 });
 
