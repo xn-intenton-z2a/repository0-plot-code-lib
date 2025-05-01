@@ -15,7 +15,7 @@ This documentation provides clear and actionable guidance on using Vitest for un
 
 # Node.js and JavaScript Documentation
 ## https://nodejs.org/api/esm.html
-This combined resource merges the insights from the Node.js ECMAScript Modules Guide with key aspects of the MDN JavaScript documentation. It covers module resolution, import/export syntax, and modern JavaScript language features, offering best practices and detailed technical specifications essential for developing in a modern Node.js environment.
+This combined resource merges insights from the Node.js ECMAScript Modules Guide with key aspects of modern JavaScript. It covers module resolution, syntax updates, and best practices, offering essential technical guidelines for developing in a contemporary Node.js environment.
 ## MIT / CC-BY-SA
 
 # Math.js Documentation
@@ -43,10 +43,10 @@ This repository offers a robust mathematical expression evaluator for JavaScript
 The W3C SVG Specification is the definitive reference on SVG elements, attributes, and behaviors. Although highly technical, it provides the foundational details necessary for advanced SVG implementation and troubleshooting in any SVG-based project.
 ## W3C Document License
 
-# CLI Argument Parsing Libraries
-## https://yargs.js.org/ (and https://github.com/tj/commander.js)
-This merged source covers two essential CLI libraries: Yargs and Commander.js. Both offer robust tools for building command-line interfaces in Node.js, providing best practices, detailed usage examples, and configuration techniques that are vital for creating intuitive and reliable CLI tools.
-## MIT
+# Node.js CLI Best Practices
+## https://nodejs.dev/learn/command-line-tools
+This resource offers actionable insights and best practices for building robust CLI tools with Node.js. It merges guidance on argument parsing, error handling, and logging (with references to tools like Winston) into a comprehensive guide that directly addresses the core implementation needs of CLI-based applications.
+## N/A
 
 # Plotly.js Official Documentation
 ## https://plotly.com/javascript/
