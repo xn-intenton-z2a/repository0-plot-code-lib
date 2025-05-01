@@ -7,18 +7,18 @@ paths:
   missionFilepath:
     path: MISSION.md
   librarySourcesFilepath:
-    path: SOURCES.md
-    limit: 32
+    path: LIBRARY_SOURCES.md
+    limit: 16
     permissions:
       - write
   libraryDocumentsPath:
-    path: library/
-    limit: 8
+    path: LIBRARY_DOCUMENT.md
+    limit: 1
     permissions:
       - write
   featuresPath:
-    path: features/
-    limit: 2
+    path: PLOT_GENERATION.md
+    limit: 1
     permissions:
       - write
 
@@ -27,22 +27,25 @@ paths:
     path: CONTRIBUTING.md
   allTestsPaths:
     paths:
-      - tests/unit/
+      - tests/unit/main.test.js
+      - tests/unit/plot-generation.test.js
   targetTestsPath:
-    path: tests/unit/
+    path: tests/unit/plot-generation.test.js
     permissions:
       - write
   allSourcePaths:
     paths:
       - src/lib/
   targetSourcePath:
-    path: src/lib/
+    path: src/lib/main.js
     permissions:
       - write
   dependenciesFilepath:
     path: package.json
+    permissions:
+      - write
   documentationPath:
-    path: docs/
+    path: USAGE.md
     permissions:
       - write
 
@@ -53,6 +56,8 @@ paths:
     path: eslint.config.js
   readmeFilepath:
     path: README.md
+    permissions:
+      - write
 
 # Execution commands
 buildScript: "npm run build"
