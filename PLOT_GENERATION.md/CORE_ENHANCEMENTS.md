@@ -1,28 +1,20 @@
 # Overview
-This feature consolidates critical aspects of our CLI tool into one robust enhancement. It not only improves error logging and input validation as previously implemented, but it also introduces multi-expression support. Users can now supply multiple mathematical expressions in the --expression flag by separating them with a semicolon. The tool will generate individual SVG plot segments for each expression and merge them into a single SVG output. When converting to PNG, the merged SVG output will be processed accordingly. This enhancement continues to enforce strict argument validations using the Zod library and ensures errors are logged with timestamps, optionally to a log file if LOG_FILE is set.
+This enhancement consolidates core improvements to the CLI tool. In addition to multi-expression support and robust error logging, the CLI now accepts additional parameters to customize the SVG output size through the new --width and --height flags. These flags allow users to define the width of the generated SVG and the height of each expression segment, providing flexible customizations to visually tailor plots.
 
 # Implementation
-- Update the main source file (src/lib/main.js):
-  - Enhance parseArgs to accept and detect multiple expressions separated by semicolons in the --expression flag.
-  - Modify the plotting logic: 
-    - If multiple expressions are detected, split the string into individual expressions.
-    - Generate separate SVG segments for each expression by invoking the existing generateSVG function with appropriate parameters.
-    - Merge the SVG segments into one final SVG document by stacking them vertically. Use a fixed vertical offset for each segment to ensure they do not overlap.
-    - Maintain backwards compatibility for single expression inputs.
-  - Update the PNG conversion logic to handle the merged SVG output when --output-format is set to png.
-  - Ensure that error handling and input validation are performed on every expression part. Log errors using the logError function if the LOG_FILE environment variable is set.
-- Testing enhancements in tests/unit/main.test.js:
-  - Add tests to verify that providing multiple expressions results in a merged SVG that correctly includes all input expressions.
-  - Validate that the multi-expression mode does not break existing single-expression behavior.
-  - Confirm that errors in multi-expression inputs are correctly logged both to the console and to the log file when enabled.
-- Documentation updates in README.md and USAGE.md:
-  - Document the new multi-expression capability, including usage instructions and examples.
-  - Outline how multiple expressions should be separated with semicolons and how the output will be structured.
+- Update the main source file to parse new optional flags: --width and --height. Extend the parseArgs function to detect these parameters if present and include them as options.
+- In generateSVG and generateMultiSVG functions, use the specified --width value to set the overall SVG width. Similarly, if --height is provided, use it as the segment height for multi-expression plots. Fallback to default values if not provided.
+- Ensure that updates do not affect the currently validated multi-expression logic, error logging, and PNG conversion processes.
+- Verify that provided width and height values are valid numbers and within a reasonable range. Log errors if invalid parameters are encountered.
 
 # Testing & Quality Assurance
-- Unit tests must cover both valid and invalid multi-expression scenarios.
-- Validate that error logging works seamlessly for both single and multiple expression cases.
-- Updated README and USAGE documentation will be manually verified to ensure clarity for end users.
+- In the unit test files, add tests to simulate scenarios where --width and --height flags are included. Ensure that the SVG output reflects these overrides in its dimensions.
+- Maintain tests to ensure backward compatibility for cases when these flags are omitted.
+- Confirm that invalid numeric values are correctly handled by logging the error.
+
+# Documentation
+- Update the README and Usage Guide to include examples using the new --width and --height flags. Specify that these flags are optional and describe how they affect the SVG’s overall layout and the vertical offset for multi-expression graphics.
+- Document the default values when --width and --height are not provided, and update the guidelines regarding parameter validation.
 
 # Conclusion
-This enhancement directly supports our mission to be a go-to plot library by improving reliability through robust error logging and user input validation while extending functionality with flexible multi-expression support. Users will benefit from increased versatility and a more intuitive interface for generating multiple plots from a single command line invocation.
+This combined enhancement delivers substantial user impact by not only supporting multi-expression plots but also by providing customizable output dimensions. It reinforces the mission to offer a versatile plotting tool while ensuring reliability and user feedback through improved error logging and parameter validation.
