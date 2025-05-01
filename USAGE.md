@@ -24,8 +24,8 @@ The above command converts the internally generated SVG plot to PNG format and w
 
 You can now customize the dimensions of your SVG output using the new `--width` and `--height` flags:
 
-- For **single expression plots**, `--width` sets the width of the SVG (default is 640). The height remains at 400 unless otherwise modified by future updates.
-
+- For **single expression plots**, `--width` sets the width of the SVG (default is 640). The height remains at 400.
+  
   Example:
 
     node src/lib/main.js --expression "y=sin(x)" --width 800
@@ -38,7 +38,7 @@ You can now customize the dimensions of your SVG output using the new `--width` 
 
     node src/lib/main.js --expression "y=sin(x); y=cos(x)" --width 800 --height 120
 
-  This generates an SVG with a width of 800, each segment with a height of 120, and a total height of 240 (for two expressions).
+  This generates an SVG with a width of 800, each segment with a height of 120, and a total height of 240 for two expressions.
 
 ## Generating Merged SVG Plots with Multiple Expressions
 

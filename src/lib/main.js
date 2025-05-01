@@ -82,7 +82,9 @@ function parseArgs(args) {
     } else if (arg === "--output-format" && i + 1 < args.length) {
       options.outputFormat = args[i + 1].toLowerCase();
       i++;
-    } else if (arg === "--width" && i + 1 < args.length) {
+    } 
+    // Custom dimension flags
+    else if (arg === "--width" && i + 1 < args.length) {
       const widthVal = parseFloat(args[i + 1]);
       if (isNaN(widthVal) || widthVal <= 0) {
         logError("Error: --width must be a positive number.");
@@ -107,6 +109,7 @@ function parseArgs(args) {
 
 function generateSVG(expression, range, width) {
   // For a single expression, generate a simple SVG string with a text element.
+  // Uses custom width if provided, with default height set to 400.
   const svgWidth = width || 640;
   const svgHeight = 400;
   const displayRange = range || "default range";
@@ -118,9 +121,11 @@ function generateSVG(expression, range, width) {
 }
 
 function generateMultiSVG(expressions, range, width, height) {
-  // Each expression will be rendered in its own segment with a vertical offset
+  // Each expression will be rendered in its own segment with a vertical offset.
+  // Custom width is applied for overall SVG width.
+  // Custom height (or default 100) is used for each segment, and total height is recalculated.
   const svgWidth = width || 640;
-  const segmentHeight = height || 100; // fixed height per segment if not provided
+  const segmentHeight = height || 100; // Fixed height per segment if not provided
   const totalHeight = segmentHeight * expressions.length;
   const displayRange = range || "default range";
 
