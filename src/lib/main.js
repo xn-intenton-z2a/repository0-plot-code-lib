@@ -85,18 +85,22 @@ function parseArgs(args) {
     } 
     // Custom dimension flags
     else if (arg === "--width" && i + 1 < args.length) {
+      // Parse custom width; must be a positive number
       const widthVal = parseFloat(args[i + 1]);
       if (isNaN(widthVal) || widthVal <= 0) {
-        logError("Error: --width must be a positive number.");
+        // Enhanced error message including the received value and timestamp
+        logError("Error: --width must be a positive number. Received: " + args[i + 1]);
         options.invalid = true;
       } else {
         options.width = widthVal;
       }
       i++;
     } else if (arg === "--height" && i + 1 < args.length) {
+      // Parse custom height; must be a positive number
       const heightVal = parseFloat(args[i + 1]);
       if (isNaN(heightVal) || heightVal <= 0) {
-        logError("Error: --height must be a positive number.");
+        // Enhanced error message including the received value and timestamp
+        logError("Error: --height must be a positive number. Received: " + args[i + 1]);
         options.invalid = true;
       } else {
         options.height = heightVal;
