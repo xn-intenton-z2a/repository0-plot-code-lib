@@ -5,7 +5,7 @@ This source provides a comprehensive guide to using SVG for graphics on the web.
 
 # Node.js CLI and ESM Documentation
 ## https://nodejs.org/api/esm.html
-This documentation from Node.js covers the intricacies of using ECMAScript Modules (ESM) for building command-line tools. It explains how to properly structure modules, import/export functions, and leverage Node's CLI capabilities, which is pivotal for the functionality of a CLI-based plotting library.
+This documentation from Node.js covers the intricacies of using ECMAScript Modules (ESM) for building command-line tools. It explains how to properly structure modules, import/export functions, and leverage Node's CLI capabilities. It is pivotal for the functionality of a CLI-based plotting library.
 ## Node.js Documentation License
 
 # Vitest Testing Framework Documentation
@@ -15,12 +15,12 @@ This source provides in-depth guidance on using Vitest for unit testing in Node.
 
 # OpenAI API Documentation
 ## https://platform.openai.com/docs/api-reference
-A key technical resource for developers looking to integrate AI capabilities. While the repository uses OpenAI in a limited scope, this documentation offers actionable insights and detailed API references that can help in adding advanced features or ensuring smooth integration with similar services.
+A key technical resource for developers looking to integrate AI capabilities. While the repository uses OpenAI in a limited scope, this documentation offers actionable insights and detailed API references that can assist in enhancing features or ensuring smooth integration with similar services.
 ## Various
 
 # Dotenv Package Documentation
 ## https://github.com/motdotla/dotenv
-This source explains how to manage environment variables securely and efficiently in Node.js applications. It's crucial for configuring runtime environments and helps maintain a scalable deployment approach for the library.
+This source explains how to manage environment variables securely and efficiently in Node.js applications. It's crucial for configuring runtime environments and contributes to a scalable deployment approach for the library.
 ## MIT
 
 # EJS Templating Engine Documentation
@@ -35,7 +35,7 @@ This documentation offers detailed insights into parsing and serializing YAML in
 
 # Zod Schema Validation Documentation
 ## https://zod.dev
-A comprehensive resource on using Zod for runtime schema validation in JavaScript. This guide provides actionable examples and best practices, directly supporting the library's need for robust input validation and error handling in a CLI environment.
+A comprehensive resource on using Zod for runtime schema validation in JavaScript. This guide provides actionable examples and best practices that directly support the library's requirement for robust input validation and error handling in a CLI environment.
 ## MIT
 
 # ESLint Documentation
@@ -50,5 +50,20 @@ D3.js is a powerful library for creating dynamic, interactive data visualization
 
 # Math.js Expressions Documentation
 ## https://mathjs.org/docs/expressions/
-This detailed documentation covers the syntax and capabilities of Math.js, focusing on mathematical expression parsing and evaluation. It provides technical insights that can be applied to interpreting and rendering mathematical expressions into accurate plots.
+This detailed documentation covers the syntax and capabilities of Math.js, focusing on mathematical expression parsing and evaluation. It provides technical insights applicable to converting mathematical expressions into accurate time series data and plots.
 ## Apache-2.0
+
+# W3C SVG 2 Specification
+## https://www.w3.org/TR/SVG2/
+The W3C SVG 2 Specification is the official recommendation for SVG graphics on the web. It provides exhaustive technical details on SVG elements, rendering, and advanced features. This source is crucial for developers looking to leverage the latest standards in generating high-fidelity visualizations.
+## W3C License
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js/
+This documentation offers comprehensive guidance on using Commander.js, a popular library for building CLI interfaces in Node.js. It details configuration, command parsing, and practical examples that can inform enhancements to the repository's CLI utilities.
+## MIT
+
+# Node.js Best Practices
+## https://github.com/goldbergyoni/nodebestpractices
+An extensive collection of Node.js best practices covering error handling, asynchronous programming, and code structuring. This source provides practical, actionable insights for building robust, maintainable Node.js applications, with a particular focus on CLI tool development.
+## MIT
