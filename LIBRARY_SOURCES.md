@@ -5,7 +5,7 @@ This source provides an in-depth guide to SVG, including detailed specifications
 
 # Sharp Image Processing Library Documentation
 ## https://sharp.pixelplumbing.com/
-The Sharp documentation is an essential resource for high-performance image processing in Node.js. It offers comprehensive API references, examples, and performance tips for converting and manipulating images (e.g., converting SVG content to PNG), directly supporting the repository's core image output features.
+The Sharp documentation is an essential resource for high-performance image processing in Node.js. It offers comprehensive API references, examples, and performance tips for converting and manipulating images, directly supporting core image output features of the repository.
 ## MIT
 
 # Vitest Testing Framework Documentation
@@ -13,14 +13,14 @@ The Sharp documentation is an essential resource for high-performance image proc
 This documentation provides clear and actionable guidance on using Vitest for unit testing in Node.js. It covers installation, configuration, and advanced testing practices to ensure robust and maintainable code within the repository.
 ## MIT
 
-# Node.js ECMAScript Modules (ESM) Guide
+# Node.js and JavaScript Documentation
 ## https://nodejs.org/api/esm.html
-This guide explains the use of native ECMAScript Modules in Node.js, offering in-depth insights into module resolution, import/export syntax, and migration strategies from CommonJS. It is crucial for maintaining modern code compatibility and performance optimization.
-## MIT
+This combined resource merges the insights from the Node.js ECMAScript Modules Guide with key aspects of the MDN JavaScript documentation. It covers module resolution, import/export syntax, and modern JavaScript language features, offering best practices and detailed technical specifications essential for developing in a modern Node.js environment.
+## MIT / CC-BY-SA
 
 # Math.js Documentation
 ## https://mathjs.org/
-Math.js offers extensive functionality for mathematical operations, expression parsing, and computation in JavaScript and Node.js. Its detailed API and examples are invaluable for enhancing the repository's capabilities in evaluating and plotting complex mathematical expressions.
+Math.js offers extensive functionality for mathematical operations, expression parsing, and computation in JavaScript. Its detailed API and examples are invaluable for enhancing the repository's capabilities in evaluating and plotting complex mathematical expressions.
 ## Apache-2.0
 
 # D3.js Official Documentation
@@ -43,19 +43,14 @@ This repository offers a robust mathematical expression evaluator for JavaScript
 The W3C SVG Specification is the definitive reference on SVG elements, attributes, and behaviors. Although highly technical, it provides the foundational details necessary for advanced SVG implementation and troubleshooting in any SVG-based project.
 ## W3C Document License
 
-# Yargs - Command Line Argument Parser for Node.js
-## https://yargs.js.org/
-Yargs is a powerful tool for building command-line interfaces in Node.js. Its documentation offers best practices, detailed usage examples, and configuration techniques that are essential for refining and expanding the repository's CLI features.
-## MIT
-
-# Commander.js Documentation
-## https://github.com/tj/commander.js/blob/main/README.md
-Commander.js is a widely used library for creating intuitive command-line interfaces. The documentation is rich with examples and API references that guide developers in building robust CLI applications, making it an important resource for enhancing the repository's interface functionality.
+# CLI Argument Parsing Libraries
+## https://yargs.js.org/ (and https://github.com/tj/commander.js)
+This merged source covers two essential CLI libraries: Yargs and Commander.js. Both offer robust tools for building command-line interfaces in Node.js, providing best practices, detailed usage examples, and configuration techniques that are vital for creating intuitive and reliable CLI tools.
 ## MIT
 
 # Plotly.js Official Documentation
 ## https://plotly.com/javascript/
-Plotly.js documentation delivers extensive technical guidance on creating interactive and advanced visualizations using JavaScript. It explores detailed API references, customization options, and performance optimization techniques, all of which provide actionable insights for enhancing plotting capabilities or inspiring future features.
+Plotly.js documentation delivers extensive technical guidance on creating interactive and advanced visualizations using JavaScript. It explores detailed API references, customization options, and performance optimization techniques, offering actionable insights for enhancing plotting capabilities or inspiring future features.
 ## MIT
 
 # SVGO (SVG Optimizer) Documentation
@@ -65,15 +60,20 @@ SVGO is a highly effective tool for optimizing SVG files by stripping unnecessar
 
 # Node.js File System Documentation
 ## https://nodejs.org/api/fs.html
-This documentation from Node.js covers the file system module in great detail, including file reading, writing, and stream management. It offers practical examples and best practices that are critical for handling file outputs, such as writing SVG or PNG files, ensuring reliable file I/O operations in the repository.
+This documentation covers the Node.js file system module in great detail, including file reading, writing, and stream management. It offers practical examples and best practices that are critical for handling file I/O operations, such as writing SVG or PNG files reliably.
 ## MIT
 
 # OpenAI API Documentation
 ## https://platform.openai.com/docs/api-reference/
-The OpenAI API documentation provides comprehensive details on how to interact with OpenAI's machine learning models. It includes examples of API requests, response formats, and best practices for integrating advanced AI capabilities into applications. This resource is authoritative, regularly updated, and offers actionable insights for solving complex implementation challenges.
+The OpenAI API documentation provides comprehensive details on interacting with OpenAI's models. It includes examples, response formats, and integration best practices that offer actionable insights for incorporating advanced AI capabilities into applications.
 ## N/A
 
 # Zod Documentation
 ## https://github.com/colinhacks/zod
-Zod is a TypeScript-first schema declaration and validation library that enables developers to build robust and type-safe applications. The documentation details how to define, parse, and validate data structures, offering practical examples and integration guides that are essential for ensuring data integrity in application workflows.
+Zod is a TypeScript-first schema declaration and validation library enabling developers to build robust, type-safe applications. Its documentation details how to define, parse, and validate data structures, offering practical examples and integration guides essential for ensuring data integrity in application workflows.
 ## MIT
+
+# Gnuplot Documentation
+## https://www.gnuplot.info/documentation.html
+Gnuplot is a powerful command-line driven plotting tool. Its documentation offers an extensive collection of guides, command references, and examples, providing valuable insights into advanced plotting techniques that can inspire enhancements in plot generation features.
+## Various
