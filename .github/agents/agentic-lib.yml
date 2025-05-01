@@ -5,59 +5,48 @@ schedule: schedule-3
 paths:
   # Filepaths for elaborator workflows
   missionFilepath:
-    path: MISSION.md
+    path: 'MISSION.md'
   librarySourcesFilepath:
-    path: LIBRARY_SOURCES.md
+    path: 'LIBRARY_SOURCES.md'
+    permissions: [ 'write' ]
     limit: 16
-    permissions:
-      - write
   libraryDocumentsPath:
-    path: LIBRARY_DOCUMENT.md
+    path: 'LIBRARY_DOCUMENT.md'
+    permissions: [ 'write' ]
     limit: 1
-    permissions:
-      - write
   featuresPath:
-    path: PLOT_GENERATION.md
+    path: 'PLOT_GENERATION.md'
+    permissions: [ 'write' ]
     limit: 1
-    permissions:
-      - write
 
   # Filepaths for engineer workflows
   contributingFilepath:
-    path: CONTRIBUTING.md
-  allTestsPaths:
-    paths:
-      - tests/unit/main.test.js
-      - tests/unit/plot-generation.test.js
+    path: 'CONTRIBUTING.md'
   targetTestsPath:
-    path: tests/unit/plot-generation.test.js
-    permissions:
-      - write
-  allSourcePaths:
-    paths:
-      - src/lib/
+    path: 'tests/unit/plot-generation.test.js'
+    permissions: [ 'write' ]
+  otherTestsPaths:
+    paths: [ 'tests/unit/main.test.js' ]
   targetSourcePath:
-    path: src/lib/main.js
-    permissions:
-      - write
+    path: 'src/lib/main.js'
+    permissions: [ 'write' ]
+  otherSourcePaths:
+    paths: [ 'src/lib/' ]
   dependenciesFilepath:
-    path: package.json
-    permissions:
-      - write
+    path: 'package.json'
+    permissions: [ 'write' ]
   documentationPath:
-    path: USAGE.md
-    permissions:
-      - write
+    path: 'USAGE.md'
+    permissions: [ 'write' ]
 
   # Filepaths for maintainer workflows
   formattingFilepath:
-    path: .prettierrc
+    path: '.prettierrc'
   lintingFilepath:
-    path: eslint.config.js
+    path: 'eslint.config.js'
   readmeFilepath:
-    path: README.md
-    permissions:
-      - write
+    path: 'README.md'
+    permissions: [ 'write' ]
 
 # Execution commands
 buildScript: "npm run build"
@@ -73,4 +62,4 @@ attemptsPerBranch: 2
 attemptsPerIssue: 2
 
 # Web publishing
-docRoot: public
+docRoot: 'public'
