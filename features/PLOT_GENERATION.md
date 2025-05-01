@@ -1,23 +1,27 @@
-# PLOT_GENERATION Feature
+# Overview
 
-## Overview
-This feature implements the core plotting functionality of the repository. Building on the CLI parser, the new logic processes the mathematical expression and range parameters to generate SVG plots dynamically using the D3 library. This fulfils the key mission goal of transforming mathematical expressions into visual plots that users can save as SVG or PNG files.
+This update extends the plotting functionality to support both SVG and PNG outputs. In addition to generating a standard SVG plot from a mathematical expression, the tool now accepts an optional CLI flag to convert the output to a PNG file. This enhancement directly aligns with the mission of providing versatile output formats, giving users the flexibility to choose the format that best fits their needs.
 
-## Implementation Details
-- Update the main source file (src/lib/main.js) to integrate plotting logic. After parsing CLI arguments, validate the mathematical expression and range values.
-- Utilize D3 to create an SVG element with predetermined dimensions (e.g., 640x400) and margins as specified in D3_JS guidelines. Setup x-scale and y-scale functions, axes, and basic plot elements.
-- The logic should support generating a plot SVG string based on the given parameters. If the output file parameter (--file) is provided, the plot is written to that file.
-- Update error handling to ensure that if the plotting parameters are invalid, a user-friendly error is provided.
-- Modify package.json to add d3 as a dependency (e.g. version ^7.8.2) to leverage its plotting capabilities.
+# Implementation Details
 
-## Testing
-- Update tests in tests/unit/main.test.js to simulate CLI inputs that include valid mathematical expressions and range parameters. The tests should verify that an SVG string is generated and that the output file (if specified) is created.
-- Include tests for invalid inputs to ensure proper error messaging and graceful failure.
+- Extend the CLI parser in the main source file (src/lib/main.js) to recognize a new flag: --output-format. This flag accepts a value of either 'svg' or 'png'. The default output is 'svg'.
+- If the --output-format flag is set to 'png', after generating the SVG string the code should pass the SVG content to a PNG conversion function.
+- Leverage the sharp library for converting SVG content to PNG format. Update the package.json file to include sharp as a dependency (e.g. version ^0.32.1).
+- The conversion process involves creating a Sharp instance from the SVG string and writing the resulting PNG data to a file specified by the --file flag. If the conversion fails, provide a user-friendly error message.
+- Ensure that error handling covers cases where an invalid output format is provided, or when file writing fails.
+- Update the README.md documentation to include instructions and usage examples for the new --output-format flag. For example:
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-3:3,y=-1:1" --output-format png --file output.png
 
-## Documentation
-- Update the README.md file with instructions and examples demonstrating the use of the new plotting functionality. Provide example CLI commands such as:
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-3:3,y=-1:1" --file output.svg
-- Describe the role of D3 in creating dynamic SVG plots and how users can modify plot parameters.
+# Testing
 
-## Dependencies
-- Add d3 to the dependencies list in package.json under dependencies. This dependency is critical for handling SVG generation and scaling as per the provided D3_JS guidelines.
+- In tests/unit/main.test.js, add tests that simulate CLI inputs with the --output-format flag. Verify that when png is specified:
+  - The SVG is successfully converted to PNG using the sharp library.
+  - The output file is correctly written as a PNG file (e.g., checking for PNG header bytes if possible).
+- Maintain existing tests for SVG output and error handling for missing/invalid parameters.
+- Include test cases for error handling when an unsupported output format is specified.
+
+# Documentation & Dependencies
+
+- Update the README.md file to document the new functionality and show usage examples with the --output-format flag.
+- Modify package.json to add a dependency on the sharp library, ensuring the deployment process installs sharp along with existing dependencies.
+- This update maintains integration with the existing CLI parser and plotting logic, providing a seamless enhancement for users in line with the overall mission of the repository.
