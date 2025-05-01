@@ -10,6 +10,10 @@ export async function main(args) {
   args = args || process.argv.slice(2);
   const options = parseArgs(args);
 
+  if (options.invalid) {
+    return;
+  }
+
   if (!options.expression) {
     logError("Error: --expression flag is required.");
     return;
@@ -29,11 +33,11 @@ export async function main(args) {
 
   let svg;
   if (rawExpressions.length === 1) {
-    // Single expression, use existing generateSVG
-    svg = generateSVG(rawExpressions[0], options.range);
+    // Single expression, use generateSVG with optional custom width
+    svg = generateSVG(rawExpressions[0], options.range, options.width);
   } else {
-    // Multiple expressions, merge SVG segments
-    svg = generateMultiSVG(rawExpressions, options.range);
+    // Multiple expressions, merge SVG segments with optional custom width and height per segment
+    svg = generateMultiSVG(rawExpressions, options.range, options.width, options.height);
   }
 
   if (options.outputFormat === 'png') {
@@ -78,14 +82,32 @@ function parseArgs(args) {
     } else if (arg === "--output-format" && i + 1 < args.length) {
       options.outputFormat = args[i + 1].toLowerCase();
       i++;
+    } else if (arg === "--width" && i + 1 < args.length) {
+      const widthVal = parseFloat(args[i + 1]);
+      if (isNaN(widthVal) || widthVal <= 0) {
+        logError("Error: --width must be a positive number.");
+        options.invalid = true;
+      } else {
+        options.width = widthVal;
+      }
+      i++;
+    } else if (arg === "--height" && i + 1 < args.length) {
+      const heightVal = parseFloat(args[i + 1]);
+      if (isNaN(heightVal) || heightVal <= 0) {
+        logError("Error: --height must be a positive number.");
+        options.invalid = true;
+      } else {
+        options.height = heightVal;
+      }
+      i++;
     }
   }
   return options;
 }
 
-function generateSVG(expression, range) {
+function generateSVG(expression, range, width) {
   // For a single expression, generate a simple SVG string with a text element.
-  const svgWidth = 640;
+  const svgWidth = width || 640;
   const svgHeight = 400;
   const displayRange = range || "default range";
 
@@ -95,10 +117,10 @@ function generateSVG(expression, range) {
   </svg>`;
 }
 
-function generateMultiSVG(expressions, range) {
+function generateMultiSVG(expressions, range, width, height) {
   // Each expression will be rendered in its own segment with a vertical offset
-  const svgWidth = 640;
-  const segmentHeight = 100; // fixed height per segment
+  const svgWidth = width || 640;
+  const segmentHeight = height || 100; // fixed height per segment if not provided
   const totalHeight = segmentHeight * expressions.length;
   const displayRange = range || "default range";
 

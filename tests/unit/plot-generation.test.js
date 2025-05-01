@@ -51,4 +51,38 @@ describe("CLI main function - Plot Generation", () => {
     await main(["--expression", "  ;  "]);
     expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: No valid expressions provided./));
   });
+
+  // New tests for custom dimensions
+  test("should use custom width for single expression", async () => {
+    await main(["--expression", "y=sin(x)", "--width", "800"]);
+    const output = console.log.mock.calls[0][0];
+    expect(output).toContain('width="800"');
+    expect(output).toContain('height="400"');
+  });
+
+  test("should use custom width and height for multiple expressions", async () => {
+    await main(["--expression", "y=sin(x); y=cos(x)", "--width", "800", "--height", "120"]);
+    const output = console.log.mock.calls[0][0];
+    expect(output).toContain('width="800"');
+    // Total height should be 120 * 2 = 240 for two expressions
+    expect(output).toContain('height="240"');
+    // Check that each segment uses the custom height
+    expect(output).toContain('height="120"');
+  });
+
+  test("should error on invalid --width value", async () => {
+    await main(["--expression", "y=sin(x)", "--width", "-100"]);
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: --width must be a positive number./));
+  });
+
+  test("should error on invalid --height value", async () => {
+    await main(["--expression", "y=sin(x)", "--height", "abc"]);
+    expect(console.error).toHaveBeenCalledWith(expect.stringMatching(/Error: --height must be a positive number./));
+  });
+});
+
+describe("Main Module Import", () => {
+  test("should be non-null", () => {
+    expect(main).not.toBeNull();
+  });
 });
