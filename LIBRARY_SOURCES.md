@@ -1,79 +1,79 @@
-# MDN SVG Documentation
+# Comprehensive SVG Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/SVG
-This source provides an in-depth guide to SVG, including detailed specifications for elements, attributes, and practical best practices for creating and manipulating graphical content. It is highly valuable for developers implementing dynamic SVG generation, ensuring compatibility and modern usage guidelines.
-## CC-BY-SA
+This resource combines the detailed guidance from MDN with insights from the W3C SVG Specification. It covers elements, attributes, best practices, and modern usage guidelines essential for advanced SVG generation and troubleshooting. It addresses core implementation needs for any tool that generates or manipulates SVG content.
+## CC-BY-SA / W3C Document License
 
 # Sharp Image Processing Library Documentation
 ## https://sharp.pixelplumbing.com/
-The Sharp documentation is an essential resource for high-performance image processing in Node.js. It offers comprehensive API references, examples, and performance tips for converting and manipulating images, directly supporting core image output features of the repository.
+An essential resource for high-performance image processing. It provides comprehensive API references, examples, and performance tips, directly supporting the repository's image conversion features, particularly for generating PNG outputs from SVG content.
 ## MIT
 
 # Vitest Testing Framework Documentation
 ## https://vitest.dev/
-This documentation provides clear and actionable guidance on using Vitest for unit testing in Node.js. It covers installation, configuration, and advanced testing practices to ensure robust and maintainable code within the repository.
+This documentation offers clear and actionable guidance on using Vitest for unit testing in Node.js. It covers installation, configuration, and advanced testing practices to ensure the reliability and maintainability of the codebase.
 ## MIT
 
-# Node.js and JavaScript Documentation
-## https://nodejs.org/api/esm.html
-This combined resource merges insights from the Node.js ECMAScript Modules Guide with key aspects of modern JavaScript. It covers module resolution, syntax updates, and best practices, offering essential technical guidelines for developing in a contemporary Node.js environment.
-## MIT / CC-BY-SA
+# Node.js Core Documentation
+## https://nodejs.org/api/
+A consolidated reference covering Node.js core modules, including file system operations, CLI best practices, and ECMAScript module guidelines. This source delivers practical implementation details that support robust CLI tool development and efficient file I/O operations.
+## MIT
 
 # Math.js Documentation
 ## https://mathjs.org/
-Math.js offers extensive functionality for mathematical operations, expression parsing, and computation in JavaScript. Its detailed API and examples are invaluable for enhancing the repository's capabilities in evaluating and plotting complex mathematical expressions.
+Math.js provides extensive functionality for mathematical computations, expression parsing, and evaluation. Its detailed API and examples are invaluable for integrating robust mathematical operations and visualizations within the repository.
 ## Apache-2.0
 
 # D3.js Official Documentation
 ## https://d3js.org/
-D3.js is a powerful library for dynamic, interactive data visualizations. The documentation covers data binding, transitions, and DOM manipulation, providing actionable techniques that can inspire advanced SVG generation methods within the repository.
+D3.js is a powerful library for creating dynamic, interactive data visualizations. Its documentation details data binding, transitions, and DOM manipulation techniques that can inform advanced SVG generation methods.
 ## BSD-3-Clause
 
 # SVG.js Documentation
 ## https://svgjs.dev/docs/3.0/
-SVG.js offers a lightweight yet versatile API for creating, manipulating, and animating SVG elements. The documentation provides clear examples from basic element creation to advanced animations, serving as a practical guide for enhancing SVG functionalities in plot generation.
+SVG.js offers a lightweight yet versatile API for creating, manipulating, and animating SVG elements. The documentation provides clear examples from basic element creation to sophisticated animations, aiding in enhancing the SVG capabilities of the tool.
 ## MIT
 
-# Math Expression Evaluator (expr-eval) Documentation
+# Math Expression Evaluator Documentation
 ## https://github.com/silentmatt/expr-eval
-This repository offers a robust mathematical expression evaluator for JavaScript, complete with comprehensive API details and practical examples. It is particularly useful for reliably parsing and computing mathematical expressions, addressing common challenges in formula evaluation.
+This resource delivers a robust mathematical expression evaluator with comprehensive API details and practical examples. It is particularly useful for parsing and computing expressions, addressing common challenges in formula evaluation.
 ## MIT
-
-# W3C SVG Specification
-## https://www.w3.org/Graphics/SVG/
-The W3C SVG Specification is the definitive reference on SVG elements, attributes, and behaviors. Although highly technical, it provides the foundational details necessary for advanced SVG implementation and troubleshooting in any SVG-based project.
-## W3C Document License
-
-# Node.js CLI Best Practices
-## https://nodejs.dev/learn/command-line-tools
-This resource offers actionable insights and best practices for building robust CLI tools with Node.js. It merges guidance on argument parsing, error handling, and logging (with references to tools like Winston) into a comprehensive guide that directly addresses the core implementation needs of CLI-based applications.
-## N/A
 
 # Plotly.js Official Documentation
 ## https://plotly.com/javascript/
-Plotly.js documentation delivers extensive technical guidance on creating interactive and advanced visualizations using JavaScript. It explores detailed API references, customization options, and performance optimization techniques, offering actionable insights for enhancing plotting capabilities or inspiring future features.
+Plotly.js documentation provides extensive technical guidance for creating interactive and customizable visualizations. It offers detailed API references and performance optimization techniques, inspiring advanced plotting features.
 ## MIT
 
 # SVGO (SVG Optimizer) Documentation
 ## https://github.com/svg/svgo
-SVGO is a highly effective tool for optimizing SVG files by stripping unnecessary data without affecting output quality. Its documentation provides technical insights into SVG optimization strategies, making it an excellent resource for improving rendering performance and file size in SVG-based plot outputs.
-## MIT
-
-# Node.js File System Documentation
-## https://nodejs.org/api/fs.html
-This documentation covers the Node.js file system module in great detail, including file reading, writing, and stream management. It offers practical examples and best practices that are critical for handling file I/O operations, such as writing SVG or PNG files reliably.
+SVGO is an effective tool for optimizing SVG files by removing unnecessary data without compromising output quality. Its documentation outlines technical optimization strategies to improve rendering performance and file size.
 ## MIT
 
 # OpenAI API Documentation
 ## https://platform.openai.com/docs/api-reference/
-The OpenAI API documentation provides comprehensive details on interacting with OpenAI's models. It includes examples, response formats, and integration best practices that offer actionable insights for incorporating advanced AI capabilities into applications.
+This comprehensive guide details the integration of OpenAI's models into applications, including request formats, response handling, and best practices, providing actionable insights for incorporating advanced AI capabilities.
 ## N/A
 
 # Zod Documentation
 ## https://github.com/colinhacks/zod
-Zod is a TypeScript-first schema declaration and validation library enabling developers to build robust, type-safe applications. Its documentation details how to define, parse, and validate data structures, offering practical examples and integration guides essential for ensuring data integrity in application workflows.
+Zod is a TypeScript-first schema declaration and validation library. Its documentation offers practical examples for defining, parsing, and validating data structures, ensuring robust type safety and data integrity in applications.
 ## MIT
 
 # Gnuplot Documentation
 ## https://www.gnuplot.info/documentation.html
-Gnuplot is a powerful command-line driven plotting tool. Its documentation offers an extensive collection of guides, command references, and examples, providing valuable insights into advanced plotting techniques that can inspire enhancements in plot generation features.
+Gnuplot is a powerful command-line driven plotting tool. Its extensive documentation provides guides, command references, and advanced plotting techniques that can inspire enhancements in plot generation capabilities.
 ## Various
+
+# SVG 2 Specification
+## https://www.w3.org/TR/SVG2/
+The SVG 2 Specification offers updated technical guidelines for SVG, introducing new features and improvements over SVG 1.1. It is crucial for implementing cutting-edge SVG generation techniques and ensuring compatibility with modern standards.
+## W3C Document License
+
+# Inkscape Developer Documentation
+## https://inkscape.org/doc/
+Inkscape's developer documentation provides in-depth insights into advanced SVG editing and vector graphics manipulation. It offers actionable guidelines that support enhanced SVG interoperability and optimization within the tool.
+## GPL
+
+# Graphviz Documentation
+## https://graphviz.org/documentation/
+Graphviz documentation delivers practical guidance on creating graph visualizations using the DOT language. It offers actionable insights into layout algorithms and visualization techniques, providing alternative approaches for graph-based plotting implementations.
+## EPL
