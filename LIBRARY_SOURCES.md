@@ -1,79 +1,79 @@
 # Comprehensive SVG Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/SVG
-This resource combines the detailed guidance from MDN with insights from the W3C SVG Specification. It covers elements, attributes, best practices, and modern usage guidelines essential for advanced SVG generation and troubleshooting. It addresses core implementation needs for any tool that generates or manipulates SVG content.
+This resource from MDN provides extensive guidance on SVG elements, attributes, and best practices, combining practical tutorials with in-depth standards from the W3C. It is indispensable for advanced SVG generation and troubleshooting.
 ## CC-BY-SA / W3C Document License
 
 # Sharp Image Processing Library Documentation
 ## https://sharp.pixelplumbing.com/
-An essential resource for high-performance image processing. It provides comprehensive API references, examples, and performance tips, directly supporting the repository's image conversion features, particularly for generating PNG outputs from SVG content.
+An essential resource for high-performance image processing, offering thorough API references, examples, and performance optimization tips. It directly supports the repository's functionality in converting SVGs to PNGs.
 ## MIT
 
 # Vitest Testing Framework Documentation
 ## https://vitest.dev/
-This documentation offers clear and actionable guidance on using Vitest for unit testing in Node.js. It covers installation, configuration, and advanced testing practices to ensure the reliability and maintainability of the codebase.
+This documentation presents clear, actionable instructions for using Vitest to implement unit tests in Node.js, ensuring reliability and maintainability of the CLI tool.
 ## MIT
 
-# Node.js Core Documentation
+# Node.js Core and CLI Best Practices Documentation
 ## https://nodejs.org/api/
-A consolidated reference covering Node.js core modules, including file system operations, CLI best practices, and ECMAScript module guidelines. This source delivers practical implementation details that support robust CLI tool development and efficient file I/O operations.
+This combined resource covers Node.js core modules and best practices for building command-line interfaces. It includes essential details from the Node.js API and additional insights from guides such as the CLI development tutorial on nodejs.dev. These insights help in creating robust file I/O operations and effective CLI tooling.
 ## MIT
 
-# Math.js Documentation
+# Mathematical Computation and Expression Evaluation Documentation
 ## https://mathjs.org/
-Math.js provides extensive functionality for mathematical computations, expression parsing, and evaluation. Its detailed API and examples are invaluable for integrating robust mathematical operations and visualizations within the repository.
-## Apache-2.0
+This source merges the strengths of Math.js and complementary expression evaluators to provide robust mathematical computation and expression parsing capabilities. It offers detailed API references, examples, and practical advice for integrating complex calculations and formula evaluations into applications.
+## Apache-2.0 / MIT
 
 # D3.js Official Documentation
 ## https://d3js.org/
-D3.js is a powerful library for creating dynamic, interactive data visualizations. Its documentation details data binding, transitions, and DOM manipulation techniques that can inform advanced SVG generation methods.
+D3.js documentation provides comprehensive technical guidance for creating dynamic, interactive data visualizations. Its detailed tutorials on data binding and DOM manipulation inform sophisticated SVG generation techniques.
 ## BSD-3-Clause
 
 # SVG.js Documentation
 ## https://svgjs.dev/docs/3.0/
-SVG.js offers a lightweight yet versatile API for creating, manipulating, and animating SVG elements. The documentation provides clear examples from basic element creation to sophisticated animations, aiding in enhancing the SVG capabilities of the tool.
-## MIT
-
-# Math Expression Evaluator Documentation
-## https://github.com/silentmatt/expr-eval
-This resource delivers a robust mathematical expression evaluator with comprehensive API details and practical examples. It is particularly useful for parsing and computing expressions, addressing common challenges in formula evaluation.
+SVG.js offers a lightweight and versatile API for creating and animating SVG elements. The documentation is filled with clear examples that support both basic and advanced SVG manipulation, aligning with the repository’s core features.
 ## MIT
 
 # Plotly.js Official Documentation
 ## https://plotly.com/javascript/
-Plotly.js documentation provides extensive technical guidance for creating interactive and customizable visualizations. It offers detailed API references and performance optimization techniques, inspiring advanced plotting features.
+Plotly.js documentation offers extensive technical insights for creating interactive visualizations. Detailed API references and performance optimization techniques inspire advanced implementations of plotting capabilities.
 ## MIT
 
 # SVGO (SVG Optimizer) Documentation
 ## https://github.com/svg/svgo
-SVGO is an effective tool for optimizing SVG files by removing unnecessary data without compromising output quality. Its documentation outlines technical optimization strategies to improve rendering performance and file size.
+SVGO's documentation outlines strategies for optimizing SVG files by removing unnecessary metadata without compromising quality. It provides technical methods to improve rendering performance and reduce file sizes.
 ## MIT
 
 # OpenAI API Documentation
 ## https://platform.openai.com/docs/api-reference/
-This comprehensive guide details the integration of OpenAI's models into applications, including request formats, response handling, and best practices, providing actionable insights for incorporating advanced AI capabilities.
+This comprehensive guide details the integration of OpenAI's models into applications. It covers request formats, response handling, and best practices, offering actionable insights for embedding advanced AI functionalities.
 ## N/A
 
 # Zod Documentation
 ## https://github.com/colinhacks/zod
-Zod is a TypeScript-first schema declaration and validation library. Its documentation offers practical examples for defining, parsing, and validating data structures, ensuring robust type safety and data integrity in applications.
+Zod is a TypeScript-first schema validation library. Its documentation provides practical examples for defining, parsing, and validating data structures, ensuring robust type safety throughout the application.
 ## MIT
 
-# Gnuplot Documentation
-## https://www.gnuplot.info/documentation.html
-Gnuplot is a powerful command-line driven plotting tool. Its extensive documentation provides guides, command references, and advanced plotting techniques that can inspire enhancements in plot generation capabilities.
-## Various
+# Graph Visualization Tools Documentation
+## https://graphviz.org/documentation/
+This merged source brings together insights from Graphviz and Gnuplot, offering guidance on creating graph visualizations using DOT language and command-line plotting techniques. It presents actionable strategies for implementing layout algorithms and effective plotting workflows.
+## EPL / Various
 
 # SVG 2 Specification
 ## https://www.w3.org/TR/SVG2/
-The SVG 2 Specification offers updated technical guidelines for SVG, introducing new features and improvements over SVG 1.1. It is crucial for implementing cutting-edge SVG generation techniques and ensuring compatibility with modern standards.
+The SVG 2 Specification provides updated technical guidelines and new features for SVG, ensuring that modern and cutting-edge implementations comply with the latest web standards.
 ## W3C Document License
 
 # Inkscape Developer Documentation
 ## https://inkscape.org/doc/
-Inkscape's developer documentation provides in-depth insights into advanced SVG editing and vector graphics manipulation. It offers actionable guidelines that support enhanced SVG interoperability and optimization within the tool.
+Inkscape's developer documentation offers deep insights into advanced SVG editing and vector graphic manipulation. It delivers actionable guidelines for enhanced interoperability and performance in SVG-based tools.
 ## GPL
 
-# Graphviz Documentation
-## https://graphviz.org/documentation/
-Graphviz documentation delivers practical guidance on creating graph visualizations using the DOT language. It offers actionable insights into layout algorithms and visualization techniques, providing alternative approaches for graph-based plotting implementations.
-## EPL
+# dotenv Documentation
+## https://github.com/motdotla/dotenv#readme
+This resource covers the dotenv library, which is essential for loading environment variables in Node.js applications. It provides practical examples and usage guidelines that can help maintain configuration consistency across different environments.
+## BSD-2-Clause
+
+# ESLint Official Documentation
+## https://eslint.org/docs/latest/
+ESLint's official documentation offers detailed information on linting JavaScript code, including configuration, rule definitions, and best practices for maintaining code quality. It is invaluable for enforcing coding standards and ensuring a clean codebase.
+## MIT
