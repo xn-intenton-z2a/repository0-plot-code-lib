@@ -81,10 +81,6 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 
 ## Additional Options
 
-- The --range flag can be used to specify a range (e.g., "x=-3:3"). When provided, the range information will be displayed in the generated SVG plot.
-
-## Important Notes
-
 - The --expression flag is required.
 - When generating PNG plots, the --file flag is mandatory.
 - Ensure that values provided for --width and --height (or --segmentHeight) are positive numbers. Invalid values will produce an error.
