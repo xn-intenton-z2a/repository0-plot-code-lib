@@ -1,24 +1,23 @@
 # Overview
-This unified PLOT_ENGINE consolidates all plotting functionalities into one robust CLI tool. It integrates inline SVG rendering and PNG conversion (via the sharp library) while leveraging dynamic segmentation for multiple expressions, comprehensive axis labeling, and customizable styling. This single feature replaces multiple legacy plotting modules, improving maintainability and user experience.
+This feature consolidates all plotting functionalities into a single, robust CLI tool. It integrates inline SVG rendering, dynamic segment height adjustment via autoSegment, axis labeling, customizable styling, and optional PNG conversion using the sharp library. The unified PLOT_ENGINE replaces legacy modules and streamlines the user experience for generating mathematical plots.
 
 # Functionality
-- Parses command-line arguments, converting kebab-case to camelCase for consistent internal processing.
-- Supports both single and multiple expressions (separated by semicolons).
-- For single expressions, uses a configurable fixed height (default 400) via the --height flag. For multiple expressions, computes total SVG height using either a specified segment height (--segmentHeight) or dynamically via the --autoSegment flag.
-- Dynamically calculates segment height when --autoSegment is enabled by starting with a base height and adding extra pixels based on expression length, presence of axis labels (--xlabel, --ylabel), and range (--range) information.
-- Renders inline SVG plots that may include a background rectangle (using --backgroundColor) and a plot line (using --lineColor).
-- Adds axis labels positioned appropriately (x-axis label centered at the bottom and y-axis label rotated along the left side) with customizable text colors (--textColor).
-- When the --output-format flag is set to png, converts the generated SVG to a PNG file, requiring the --file flag for output. Incorporates error handling with detailed logging, ensuring mandatory flags are provided and valid.
+- Parses command-line arguments and converts kebab-case flags to camelCase for internal consistency.
+- Supports both single and multiple mathematical expressions (separated by semicolons) with separate treatment for each expression in multi-plot mode.
+- For single expressions, uses a fixed or user-specified height; for multiple expressions, calculates total SVG height based on a provided segmentHeight flag or a fallback height.
+- Enables dynamic segmentation via the autoSegment flag. The dynamic height is computed based on a base value, the length of each expression, and additional paddings if x-axis labels, y-axis labels, or range information are provided.
+- Renders inline SVG plots with an optional background rectangle, text elements displaying expressions and (if specified) range information, and configurable axis labels (x-axis centered at the bottom and y-axis rotated along the left side).
+- Supports customizable style attributes including textColor, lineColor, and backgroundColor.
+- When the output-format is set to png, the tool converts the SVG to a PNG file, ensuring that required flags (such as --file) are provided.
 
 # Implementation
-- All functionalities are implemented in a single source file (src/lib/main.js), consolidating features from previous modules.
-- Helper functions are used to render text elements, axis labels, and optional range details within the SVG.
-- Uses the sharp library for converting SVG to PNG while managing file writing errors gracefully.
-- Ensures robust input validation for required flags and non-empty values for styling parameters, in line with the guidelines in CONTRIBUTING.md.
+- All functionalities are implemented in a single source file (src/lib/main.js) to maintain simplicity and ensure easy maintainability.
+- The feature merges previous plot generation, SVG rendering, and style customization logic into one unified workflow.
+- Robust validations ensure required flags (like --expression and non-empty styling flags) are properly supplied. Specific error messages are logged with detailed timestamps.
 
 # Testing & Documentation
-- Unit tests check for proper SVG output, dynamic height calculation for both single and multiple expressions, error logging for missing or empty parameters, and successful PNG conversion.
-- The usage guide (USAGE.md) and README have been updated with comprehensive examples that reflect the unified functionality.
+- Unit tests cover key functionalities including SVG generation for single and multiple expressions, dynamic height adjustment, axis label rendering, error handling for empty flags, and successful PNG conversion.
+- Documentation in the USAGE.md and README files has been updated to reflect the combined capabilities of the unified PLOT_ENGINE.
 
 # Impact
-By merging previous plot generation and SVG rendering functionalities into a single, unified PLOT_ENGINE, this feature streamlines the usage and development of repository0-plot-code-lib. It directly supports the mission of becoming the go-to plot library for formulae visualizations by offering a simplified, high-impact user experience with enhanced configurability and reliability.
+By merging legacy functionalities into a consolidated PLOT_ENGINE, this feature delivers substantial user impact. It simplifies the plotting process, reduces maintenance overhead, and directly supports the mission by providing a reliable, high-impact tool for generating mathematical visualizations from a CLI.
