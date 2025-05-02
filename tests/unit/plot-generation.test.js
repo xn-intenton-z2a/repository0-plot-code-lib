@@ -48,4 +48,12 @@ describe("SVG Render Feature", () => {
     expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
     expect(svg).toContain(`height="${totalHeight}"`);
   });
+
+  test("single expression with custom height override", () => {
+    const expressions = ["y=tan(x)"];
+    const customHeight = 500;
+    const svg = renderSVG({ expressions, width: 800, height: customHeight });
+    expect(svg.startsWith("<svg")).toBe(true);
+    expect(svg).toContain(`height="${customHeight}"`);
+  });
 });
