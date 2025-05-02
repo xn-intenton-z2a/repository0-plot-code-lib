@@ -1,19 +1,22 @@
-# Overview
-This feature implements core plot generation functionality for the CLI tool. It processes command line arguments to produce SVG or PNG plots from mathematical expressions. The primary focus is on parsing input flags, validating parameters, and generating the output plot as prescribed by the usage documentation.
+# PLOT_GENERATION Feature Update
 
-# Functionality
-The CLI now supports the following capabilities:
-- Parsing required and optional flags including --expression, --range, --file, --width, --height, and --output-format.
-- Validating that --expression is provided and that --file is present when generating PNG plots.
-- Generating an SVG plot based on the input expression. For multiple expressions, segments are created according to range and dimension flags.
-- Converting SVG to PNG when the output-format flag is set to png. This utilizes existing libraries with minimal dependency changes if necessary.
-- Displaying error messages with timestamp and details when required flags are missing or invalid values are provided.
+## Overview
+This update enhances the existing plot generation functionality by implementing robust command-line argument parsing, detailed error handling, and improved SVG/PNG conversion processes. The changes focus on critical aspects like parsing required flags, managing multiple expressions with dynamic SVG sizing, and validating user input based on test cases and documentation guidelines.
 
-# Integration and Impact
-This feature directly addresses the library mission to transform mathematical expressions into visual plots from the command line. The addition of robust argument parsing and error handling greatly improves the overall functionality and user experience. It consolidates core functionality within the single source file and ensures test coverage via updated unit tests.
+## Functionality
+- Enhance the CLI tool in src/lib/main.js to parse multiple flags (such as --expression, --range, --file, --width, --height, --output-format) reliably.
+- Validate that the required flag --expression is provided and enforce --file presence when generating PNG outputs.
+- Calculate proper dimensions for SVG plots, supporting single and multiple expressions with dynamic height calculation based on the number of expressions.
+- Display informative error messages with timestamps for missing or invalid flag values.
+- Update command-line usage examples in README.md and USAGE.md to guide users on specifying dimension flags and multiple expressions.
 
-# Changes Made
-- The source file (src/lib/main.js) is updated to include argument parsing logic and error handling routines.
-- The test file (tests/unit/main.test.js) is extended to verify parsing functionality and error conditions.
-- Relevant sections in the README (README.md) and USAGE documentation (USAGE.md) are updated with examples and flag descriptions.
-- Minimal dependency adjustments are performed in package.json to ensure compatibility with tools for converting SVG to PNG if the user chooses that option.
+## Integration and Impact
+- Source modifications are concentrated in src/lib/main.js for argument parsing and plot logic enhancements without adding new files.
+- Update tests in tests/unit/main.test.js to verify advanced flag parsing and error conditions.
+- Minimal dependency updates in package.json ensure compatibility with libraries for converting SVG to PNG as necessary.
+- These updates are aligned with the mission to provide a reliable and intuitive tool for generating plots from mathematical expressions.
+
+## Testing and Documentation
+- The test suite is updated to include tests for dynamic SVG dimension calculation and error handling conditions.
+- Documentation in USAGE.md and README.md is revised to include usage examples, parameter details, and error scenarios.
+- This update provides a more robust user experience by thoroughly validating inputs and guiding users through proper usage.
