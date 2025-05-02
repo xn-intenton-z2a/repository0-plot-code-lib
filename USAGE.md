@@ -34,7 +34,18 @@ The segment height used will be the maximum computed height among all expression
 
   node src/lib/main.js --expression "y=sin(x); y=cos(x) + extra-long-term" --width 640 --autoSegment true --xlabel "Time" --ylabel "Value" --range "x=-5:5"
 
-In this example, the dynamic segment height is computed based on the content of each expression and the provided labels, and the total SVG height is determined accordingly.
+### Adding a Plot Title with --title
+
+A new feature allows you to add a title to your plot. Use the --title flag to specify a title that appears at the top center of the SVG. The title is rendered as a `<text>` element with the following attributes:
+
+- x coordinate: set to half of the width (i.e., width/2).
+- y coordinate: set to approximately 30.
+- Font size: 18.
+- Fill color: uses the provided --textColor value, or defaults to black if not specified.
+
+**Example:**
+
+  node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400 --title "Sine Wave Plot"
 
 ## Generating a PNG Plot
 
@@ -63,7 +74,7 @@ Usage example:
 
 You can customize the appearance of the generated SVG plot using the following new flags:
 
-- --textColor: Sets the fill color for all text elements (plot expressions, axis labels, and annotations).
+- --textColor: Sets the fill color for all text elements (plot expressions, axis labels, annotations, and title).
 - --lineColor: Sets the stroke color for the plot line element.
 - --backgroundColor: Sets the background color of the SVG. This is applied by rendering a background rectangle covering the entire SVG.
 
@@ -82,13 +93,11 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 
 ## Annotations
 
-A new feature allows you to add custom annotations to your plot. Use the --annotation flag to include a note in the generated SVG. The annotation is rendered as a <text> element positioned in the top-right corner at coordinates (x = width - 100, y = 20) with a font size of 14. The annotation's fill color is set using the --textColor value if provided, or defaults to black.
+You can add custom annotations to your plot using the --annotation flag. The annotation is rendered as a `<text>` element positioned in the top-right corner at coordinates (x = width - 100, y = 20 or adjusted if a title is present) with a font size of 14. Its fill color is determined by --textColor if provided, or defaults to black.
 
 **Example:**
 
   node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400 --annotation "Data collected on 2025-05-02" --textColor "purple"
-
-In the above example, the annotation "Data collected on 2025-05-02" will appear in the top-right corner of the SVG.
 
 ## Additional Options
 
@@ -98,7 +107,7 @@ In the above example, the annotation "Data collected on 2025-05-02" will appear 
 - When providing multiple expressions, separate them with a semicolon (;) so that each valid expression is rendered in its own segment.
 - The flag --output-format (or --outputFormat) determines the output format. If set to png, the SVG will be converted to a PNG image using the sharp library.
 - The new --autoSegment flag allows dynamic adjustment of segment heights for multi-expression plots based on expression complexity and additional elements.
-- The new --annotation flag allows you to add custom text notes to the plot.
+- The new --title flag allows you to add a custom title at the top center of the plot.
 
 **Sample Error Output:**
 
