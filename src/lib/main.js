@@ -59,6 +59,21 @@ function validateOptionNotEmpty(options, optionName) {
   return true;
 }
 
+/**
+ * Computes the auto segment height based on the expression and provided display flags.
+ * Base height is calculated as: 100 + 5 * floor(expression length / 10).
+ * Each additional flag (--xlabel, --ylabel, --range, --annotation, --title) adds 20.
+ */
+function computeAutoSegmentHeight(expr, flags) {
+  let base = 100 + Math.floor(expr.length / 10) * 5;
+  if (flags.xlabel) base += 20;
+  if (flags.ylabel) base += 20;
+  if (flags.range) base += 20;
+  if (flags.annotation) base += 20;
+  if (flags.title) base += 20;
+  return base;
+}
+
 export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation, title }) {
   const ns = "http://www.w3.org/2000/svg";
   let svgContent = "";
@@ -68,10 +83,10 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   const renderExprText = (x, baseY, text, range) => {
     const yPos = range ? baseY - 10 : baseY;
     // Add fill attribute if textColor is provided
-    const fillAttr = textColor ? ` fill=\"${textColor}\"` : "";
-    let txt = `<text x=\"${x}\" y=\"${yPos}\" font-size=\"16\"${fillAttr}>${text.trim()}</text>`;
+    const fillAttr = textColor ? ` fill="${textColor}"` : "";
+    let txt = `<text x="${x}" y="${yPos}" font-size="16"${fillAttr}>${text.trim()}</text>`;
     if (range) {
-      txt += `<text x=\"${x}\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"${textColor ? textColor : 'gray'}\">Range: ${range}</text>`;
+      txt += `<text x="${x}" y="${yPos + 20}" font-size="12" fill="${textColor ? textColor : 'gray'}">Range: ${range}</text>`;
     }
     return txt;
   };
@@ -79,27 +94,21 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   // Append axis labels if provided.
   const appendAxisLabels = (content, svgWidth, svgHeight, xlabel, ylabel) => {
     let result = content;
-    const textFill = textColor ? ` fill=\"${textColor}\"` : "";
+    const textFill = textColor ? ` fill="${textColor}"` : "";
     if (xlabel) {
-      result += `\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight - 10}\" text-anchor=\"middle\" font-size=\"14\"${textFill}>${xlabel.trim()}</text>`;
+      result += `\n  <text x="${svgWidth / 2}" y="${svgHeight - 10}" text-anchor="middle" font-size="14"${textFill}>${xlabel.trim()}</text>`;
     }
     if (ylabel) {
-      result += `\n  <text x=\"15\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${svgHeight / 2})\" font-size=\"14\"${textFill}>${ylabel.trim()}</text>`;
+      result += `\n  <text x="15" y="${svgHeight / 2}" text-anchor="middle" transform="rotate(-90,15,${svgHeight / 2})" font-size="14"${textFill}>${ylabel.trim()}</text>`;
     }
     return result;
   };
 
+  let computedSegmentHeight;
   if (expressions.length > 1) {
-    let computedSegmentHeight;
-    // If autoSegment is enabled and segmentHeight is not explicitly provided, compute dynamically
     if ((autoSegment === true || autoSegment === "true") && typeof segmentHeight === "undefined") {
       computedSegmentHeight = expressions.reduce((maxH, expr) => {
-        let computed = 100 + Math.floor(expr.length / 10) * 5;
-        if (xlabel) computed += 20;
-        if (ylabel) computed += 20;
-        if (range) computed += 20;
-        if (annotation) computed += 20;
-        if (title) computed += 20;
+        const computed = computeAutoSegmentHeight(expr, { xlabel, ylabel, range, annotation, title });
         return Math.max(maxH, computed);
       }, 0);
     } else {
@@ -122,7 +131,7 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   // Build SVG with optional background rectangle.
   let backgroundRect = "";
   if (backgroundColor) {
-    backgroundRect = `<rect width=\"${width}\" height=\"${svgHeight}\" fill=\"${backgroundColor}\"/>
+    backgroundRect = `<rect width="${width}" height="${svgHeight}" fill="${backgroundColor}"/>
   `;
   }
 
@@ -130,16 +139,16 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   const effectiveLineColor = lineColor ? lineColor : "black";
 
   // Add title element if provided, rendered at top center.
-  const titleElement = title ? `<text x=\"${width / 2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"${textColor ? textColor : 'black'}\">${title.trim()}</text>
+  const titleElement = title ? `<text x="${width / 2}" y="30" text-anchor="middle" font-size="18" fill="${textColor ? textColor : 'black'}">${title.trim()}</text>
   ` : "";
 
   // Adjust annotation element position if title is present to avoid overlap
-  const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"${title ? 50 : 20}\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>
+  const annotationElement = annotation ? `<text x="${width - 100}" y="${title ? 50 : 20}" font-size="14" fill="${textColor ? textColor : 'black'}">${annotation}</text>
   ` : "";
 
-  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\" viewBox=\"0 0 ${width} ${svgHeight}\">
+  const svg = `<svg xmlns="${ns}" width="${width}" height="${svgHeight}" viewBox="0 0 ${width} ${svgHeight}">
   ${backgroundRect}${titleElement}${annotationElement}${svgContent}
-  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />
+  <line x1="0" y1="0" x2="${width}" y2="${svgHeight}" stroke="${effectiveLineColor}" />
 </svg>`;
   return svg;
 }
@@ -196,15 +205,7 @@ export async function main(args = []) {
     if (options.segmentHeight) {
       segHeight = parseInt(options.segmentHeight, 10);
     } else if (autoSegment) {
-      segHeight = expressions.reduce((maxH, expr) => {
-        let computed = 100 + Math.floor(expr.length / 10) * 5;
-        if (xlabel) computed += 20;
-        if (ylabel) computed += 20;
-        if (range) computed += 20;
-        if (annotation) computed += 20;
-        if (title) computed += 20;
-        return Math.max(maxH, computed);
-      }, 0);
+      segHeight = expressions.reduce((maxH, expr) => Math.max(maxH, computeAutoSegmentHeight(expr, { xlabel, ylabel, range, annotation, title })), 0);
     } else {
       segHeight = options.height ? parseInt(options.height, 10) : 100;
     }
