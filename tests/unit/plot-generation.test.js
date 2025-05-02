@@ -164,23 +164,48 @@ describe("SVG Render Feature", () => {
     expect(consoleSpy.mock.calls[0][0]).toContain("Error: --backgroundColor flag provided with empty value");
     consoleSpy.mockRestore();
   });
-});
 
-describe("PNG Conversion Error Handling", () => {
-  test("should error when output-format is png without file flag", async () => {
+  // New tests for autoSegment dynamic height adjustment
+  test("autoSegment dynamic height adjustment for multiple expressions with axis labels and range", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Two expressions, one short and one longer
+    // For first expression: length ~ 9 => 100 + 0*5 = 100
+    // For second: length 26 => 100 + Math.floor(26/10)*5 = 100 + 10 = 110
+    // With xlabel, ylabel, and range, add 20 each: so first becomes 160 and second becomes 170
+    // Maximum computed segment height = 170, total height = 2 * 170 = 340
+    await main([
+      "--expression", "y=sin(x); y=cos(x) + extra-long-term",
+      "--width", "640",
+      "--autoSegment", "true",
+      "--xlabel", "Time",
+      "--ylabel", "Value",
+      "--range", "x=-5:5"
+    ]);
+    const logged = consoleSpy.mock.calls[0][0];
+    expect(logged).toContain('height="340"');
+    consoleSpy.mockRestore();
+  });
+
+  test("PNG Conversion Error Handling: output-format png without file flag", async () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--outputFormat", "png"]);
     const errorMsg = consoleErrorSpy.mock.calls[0][0];
     expect(errorMsg).toContain("Error: --file flag is required");
     consoleErrorSpy.mockRestore();
   });
-});
 
-describe("PNG Conversion Success", () => {
-  test("should convert SVG to PNG and write file when outputFormat is png and file flag is provided", async () => {
+  test("PNG Conversion Success", async () => {
     const fsSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--outputFormat", "png", "--file", "output.png"]);
     expect(fsSpy).toHaveBeenCalledWith("output.png", Buffer.from("PNG"));
     fsSpy.mockRestore();
+  });
+});
+
+describe("Default Main Execution", () => {
+  test("should terminate without error when --expression is missing", () => {
+    // This test triggers the error message, but ensures main() exits gracefully.
+    process.argv = ["node", "src/lib/main.js"];
+    main();
   });
 });
