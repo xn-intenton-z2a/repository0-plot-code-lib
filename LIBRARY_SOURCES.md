@@ -20,12 +20,12 @@ This consolidated resource aggregates key Node.js API documentation, ECMAScript 
 
 # Mathematical Computation and Expression Evaluation Documentation
 ## https://mathjs.org/
-An extensive guide for integrating complex mathematical computations into applications. This source is critical for formula parsing, dynamic expression evaluation, and generating time series data for plotting. It includes detailed API references, parsing techniques, and practical examples directly relevant to producing accurate visualizations.
+An extensive guide for integrating complex mathematical computations into applications. This source is critical for formula parsing, dynamic expression evaluation, and generating time series data for plotting. It includes detailed API references, parsing techniques, and practical examples to support accurate visualization generation.
 ## License: Apache-2.0 / MIT
 
 # Advanced Visualization, Graphing, and Chart APIs Documentation
 ## https://vega.github.io/vega-lite/ | https://d3js.org/ | https://plotly.com/javascript/ | https://graphviz.org/documentation/ | https://quickchart.io/documentation/
-This merged resource provides comprehensive documentation for leading visualization libraries. It offers actionable guidance on data binding, DOM manipulation, interactive charting, and advanced graphing techniques, directly addressing the core needs of dynamically generating high-quality plots and charts.
+A merged resource providing comprehensive documentation for leading visualization libraries. It offers actionable guidance on data binding, DOM manipulation, interactive charting, and advanced graphing techniques that directly address the core requirements of dynamically generating high-quality plots and charts.
 ## License: Various (BSD-3-Clause, MIT, EPL, N/A)
 
 # OpenAI API Documentation
@@ -40,7 +40,7 @@ Offers robust guidance on schema creation and data validation using Zod. With cl
 
 # SVG Optimization Guides
 ## https://github.com/svg/svgo | https://jakearchibald.github.io/svgomg/
-A definitive resource for optimizing SVG files, combining both the official SVGO documentation and the interactive SVGOMG tool. It includes configuration recommendations, CLI usage instructions, and best practices to minimize file size without sacrificing visual fidelity, enhancing performance in web and CLI-rendered outputs.
+A definitive resource for optimizing SVG files, combining both the official SVGO documentation and the interactive SVGOMG tool. It includes configuration recommendations, CLI usage instructions, and best practices to minimize file size without sacrificing visual fidelity, thereby enhancing performance in both web and CLI-rendered outputs.
 ## License: MIT
 
 # Gnuplot Documentation
@@ -50,7 +50,7 @@ This resource offers comprehensive techniques for scientific plotting using Gnup
 
 # Yargs Documentation
 ## https://yargs.js.org/docs/
-This documentation details the usage of Yargs for robust command-line argument parsing. It includes practical examples, error handling strategies, and configuration options, serving as a crucial reference for developing resilient CLI tools and ensuring intuitive user interfaces.
+This documentation details the usage of Yargs for robust command-line argument parsing. It includes practical examples, error handling strategies, and configuration options, serving as a crucial reference for developing resilient CLI tools and ensuring intuitive user interfaces for command-line applications.
 ## License: MIT
 
 # MathJax Documentation
@@ -64,13 +64,13 @@ Provides a lightweight and intuitive approach to programmatically manipulating S
 ## License: MIT
 
 # CLI Tools and Best Practices
-## https://github.com/tj/commander.js | https://github.com/jlevy/the-art-of-command-line
-This merged resource combines the official Commander.js documentation with best practices from 'The Art of Command Line'. It covers command definition, argument parsing, and efficient CLI design, serving as an invaluable guide for developing user-friendly command-line interfaces.
+## https://oclif.io/ | https://github.com/tj/commander.js | https://github.com/jlevy/the-art-of-command-line
+This merged resource combines documentation from leading CLI frameworks and best practices guides. It now includes resources on oclif for building scalable CLI applications, alongside Commander.js for command parsing and 'The Art of Command Line' for design insights. This update provides actionable guidance on command definition, argument parsing, efficient CLI design, and integration strategies, making it an invaluable resource for developing user-friendly command-line interfaces.
 ## License: MIT / Unknown
 
 # Code Quality and Formatting Tools
 ## https://eslint.org/docs/latest/ | https://prettier.io/docs/en/index.html
-A combined resource offering guidelines on maintaining high code quality through ESLint and Prettier. It details configuration, rule customization, and integration strategies to enforce consistent coding standards across projects, ensuring maintainable and high-quality codebases.
+A combined resource offering guidelines on maintaining high code quality through ESLint and Prettier. It details configuration, rule customization, and integration strategies to enforce consistent coding standards across projects, ensuring a maintainable and high-quality codebase.
 ## License: MIT
 
 # Node.js Best Practices
