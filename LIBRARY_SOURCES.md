@@ -1,6 +1,6 @@
 # SVG and Vector Graphics Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/SVG
-This comprehensive guide covers the effective use of scalable vector graphics on the web. It provides in-depth tutorials, dynamic manipulation techniques, and best practices for both static and interactive designs. Continually updated by web standards organizations, it offers actionable insights for both design and implementation.
+This comprehensive guide covers the effective use of scalable vector graphics on the web. It provides in-depth tutorials, dynamic manipulation techniques, and best practices for both static and interactive designs. Additionally, it references the official W3C SVG 2.0 specification (https://www.w3.org/TR/SVG2/) for authoritative details on SVG standards. Continually updated by web standards organizations, it offers actionable insights for both design and implementation.
 ## License: Various (CC-BY-SA, W3C Document License, MIT, GPL)
 
 # High-performance Image Processing and SVG Rasterization
@@ -15,7 +15,7 @@ Provides practical guidelines for implementing unit tests in Node.js environment
 
 # Node.js Core, CLI, and Best Practices Documentation
 ## https://nodejs.org/api/
-This source offers essential insights into Node.js core APIs, asynchronous programming, and CLI development. Combined with best practices from community guides (such as https://github.com/goldbergyoni/nodebestpractices), it provides a robust foundation for building efficient and secure CLI tools, error handling, and performance optimizations.
+This source offers essential insights into Node.js core APIs, asynchronous programming, and CLI development. In addition to the core Node.js documentation, it is complemented by advanced CLI design guidelines available at https://clig.dev/, which offer actionable recommendations for designing intuitive and efficient command-line interfaces. Together, these resources form a robust foundation for building efficient and secure CLI tools, including error handling and performance optimizations.
 ## License: MIT
 
 # Mathematical Computation and Expression Evaluation Documentation
@@ -52,11 +52,6 @@ A definitive guide on optimizing SVG files with strategies to reduce file size w
 ## https://gnuplot.sourceforge.net/documentation.html
 Features comprehensive techniques for scientific plotting including command usage, data formatting, and export options. It provides actionable insights for high-quality rendering and detailed customization of plots, valuable for generating precise visuals.
 ## License: GPL
-
-# CLI Argument Parsing Libraries Documentation
-## https://github.com/tj/commander.js | https://yargs.js.org/
-Consolidates insights from leading CLI argument parsing libraries, offering best practices for robust parsing, efficient help message generation, and error handling. This is critical for building reliable and user-friendly command-line tools.
-## License: MIT
 
 # PEG.js Documentation
 ## https://pegjs.org/documentation
