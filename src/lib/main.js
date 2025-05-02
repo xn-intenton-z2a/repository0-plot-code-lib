@@ -121,17 +121,20 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   // Build SVG with optional background rectangle.
   let backgroundRect = "";
   if (backgroundColor) {
-    backgroundRect = `<rect width=\"${width}\" height=\"${svgHeight}\" fill=\"${backgroundColor}\"/>\n  `;
+    backgroundRect = `<rect width=\"${width}\" height=\"${svgHeight}\" fill=\"${backgroundColor}\"/>
+  `;
   }
 
   // Determine effective line color.
   const effectiveLineColor = lineColor ? lineColor : "black";
 
   // Add title element if provided, rendered at top center.
-  const titleElement = title ? `<text x=\"${width / 2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"${textColor ? textColor : 'black'}\">${title.trim()}</text>\n  ` : "";
+  const titleElement = title ? `<text x=\"${width / 2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"${textColor ? textColor : 'black'}\">${title.trim()}</text>
+  ` : "";
 
   // Adjust annotation element position if title is present to avoid overlap
-  const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"${title ? 50 : 20}\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>\n  ` : "";
+  const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"${title ? 50 : 20}\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>
+  ` : "";
 
   const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${titleElement}${annotationElement}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
   return svg;
