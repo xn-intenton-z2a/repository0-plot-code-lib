@@ -35,25 +35,22 @@ export function renderSVG({ expressions, width, height, segmentHeight, range }) 
       let baseY = index * segHeight + segHeight / 2;
       // Adjust position if range is provided to accommodate extra text line
       const yPos = range ? baseY - 10 : baseY;
-      svgContent += `<text x="10" y="${yPos}" font-size="16">${expr.trim()}</text>`;
+      svgContent += `<text x=\"10\" y=\"${yPos}\" font-size=\"16\">${expr.trim()}</text>`;
       if (range) {
-        svgContent += `<text x="10" y="${yPos + 20}" font-size="12" fill="gray">Range: ${range}</text>`;
+        svgContent += `<text x=\"10\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"gray\">Range: ${range}</text>`;
       }
     });
   } else {
     svgHeight = height || 400;
     const baseY = svgHeight / 2;
     const yPos = range ? baseY - 10 : baseY;
-    svgContent = `<text x="10" y="${yPos}" font-size="16">${expressions[0].trim()}</text>`;
+    svgContent = `<text x=\"10\" y=\"${yPos}\" font-size=\"16\">${expressions[0].trim()}</text>`;
     if (range) {
-      svgContent += `<text x="10" y="${yPos + 20}" font-size="12" fill="gray">Range: ${range}</text>`;
+      svgContent += `<text x=\"10\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"gray\">Range: ${range}</text>`;
     }
   }
 
-  const svg = `<svg xmlns="${ns}" width="${width}" height="${svgHeight}">
-  ${svgContent}
-  <line x1="0" y1="0" x2="${width}" y2="${svgHeight}" stroke="black" />
-</svg>`;
+  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"black\" />\n</svg>`;
   return svg;
 }
 
@@ -72,7 +69,8 @@ export async function main(args = []) {
   let svgOutput;
 
   if (expressions.length > 1) {
-    const segHeight = options.height ? parseInt(options.height, 10) : 100;
+    // For multi-expression, use segmentHeight flag if provided; otherwise fallback to --height or default 100
+    const segHeight = options.segmentHeight ? parseInt(options.segmentHeight, 10) : (options.height ? parseInt(options.height, 10) : 100);
     svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range });
   } else {
     const height = options.height ? parseInt(options.height, 10) : 400;
