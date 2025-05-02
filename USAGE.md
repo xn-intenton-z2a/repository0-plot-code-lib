@@ -35,6 +35,14 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
 node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
 ```
 
+## Argument Validation with Zod
+
+This version of the CLI leverages the Zod library for schema-based validation of CLI arguments. This improves error reporting and maintainability. The validations include:
+
+- Ensuring that both `--expression` and `--range` are provided. If either is missing, the error "Error: --expression and --range are required arguments." is shown.
+- Validating that the `--range` follows the format (e.g., `x=low:high` or `x=low:high,y=low:high`). If the format is incorrect, a descriptive error is given.
+- Confirming that the `--file` argument, if provided, ends with `.svg` or `.png`.
+
 ## API
 
 The primary exported function is `main(args)`, which processes the command line arguments and executes the plot generation logic.
@@ -47,5 +55,7 @@ The primary exported function is `main(args)`, which processes the command line 
 ## Error Handling
 
 - Missing required parameters or invalid formats will result in descriptive error messages in the console.
-- The `--range` argument is validated to ensure it contains numerical bounds.
+- The `--range` argument is validated to ensure it contains numerical bounds in the correct format.
 - The file output is checked to ensure only `.svg` or `.png` formats are accepted.
+
+This enhanced validation mechanism, powered by Zod, ensures a robust and self-documenting CLI experience.
