@@ -23,6 +23,11 @@ function parseArgs(args) {
   return options;
 }
 
+// Helper function to log error with timestamp
+function logError(message) {
+  console.error(`[${new Date().toISOString()}] Error: ${message}`);
+}
+
 export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation }) {
   const ns = "http://www.w3.org/2000/svg";
   let svgContent = "";
@@ -56,10 +61,17 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   if (expressions.length > 1) {
     // Determine segment height based on --autoSegment flag
     let segHeight;
+    // Use segmentHeight if provided, otherwise fallback to height
+    if (typeof segmentHeight !== 'undefined') {
+      segHeight = segmentHeight;
+    } else {
+      segHeight = height ? height : 100;
+    }
+    
     // autoSegment flag can be boolean true or string "true"
     const autoSeg = autoSegment === true || autoSegment === "true";
     if (autoSeg) {
-      // Compute dynamic segment height using heuristic: base 100 + extra based on expression length and additional padding for labels and range
+      // Compute dynamic segment height using heuristic
       segHeight = expressions.reduce((maxH, expr) => {
         let computed = 100 + Math.floor(expr.length / 10) * 5;
         if (xlabel) computed += 20;
@@ -67,8 +79,6 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
         if (range) computed += 20;
         return Math.max(maxH, computed);
       }, 0);
-    } else {
-      segHeight = segmentHeight ? parseInt(segmentHeight, 10) : (height ? parseInt(height, 10) : 100);
     }
     svgHeight = segHeight * expressions.length;
     expressions.forEach((expr, index) => {
@@ -103,28 +113,47 @@ export async function main(args = []) {
   const options = parseArgs(args);
 
   if (!options.expression) {
-    console.error(`[${new Date().toISOString()}] Error: --expression flag is required.`);
+    logError("--expression flag is required.");
     return;
   }
 
+  // Validate axis labels
   if ("xlabel" in options && typeof options.xlabel === "string" && options.xlabel.trim() === "") {
-    console.error(`[${new Date().toISOString()}] Error: --xlabel flag provided with empty value.`);
+    logError("--xlabel flag provided with empty value.");
     return;
   }
   if ("ylabel" in options && typeof options.ylabel === "string" && options.ylabel.trim() === "") {
-    console.error(`[${new Date().toISOString()}] Error: --ylabel flag provided with empty value.`);
+    logError("--ylabel flag provided with empty value.");
     return;
   }
   if ("textColor" in options && typeof options.textColor === "string" && options.textColor.trim() === "") {
-    console.error(`[${new Date().toISOString()}] Error: --textColor flag provided with empty value.`);
+    logError("--textColor flag provided with empty value.");
     return;
   }
   if ("lineColor" in options && typeof options.lineColor === "string" && options.lineColor.trim() === "") {
-    console.error(`[${new Date().toISOString()}] Error: --lineColor flag provided with empty value.`);
+    logError("--lineColor flag provided with empty value.");
     return;
   }
   if ("backgroundColor" in options && typeof options.backgroundColor === "string" && options.backgroundColor.trim() === "") {
-    console.error(`[${new Date().toISOString()}] Error: --backgroundColor flag provided with empty value.`);
+    logError("--backgroundColor flag provided with empty value.");
+    return;
+  }
+
+  // Validate numeric flags: width, height, segmentHeight (if provided)
+  const numericFlags = ["width", "height", "segmentHeight"];
+  for (const flag of numericFlags) {
+    if (flag in options) {
+      // Accept only positive integers
+      if (!/^[1-9]\d*$/.test(options[flag])) {
+        logError(`--${flag} must be a positive number.`);
+        return;
+      }
+    }
+  }
+
+  // Validate PNG conversion parameters
+  if (options.outputFormat && options.outputFormat.toLowerCase() === "png" && !options.file) {
+    logError("--file flag is required when using png output format.");
     return;
   }
 
@@ -137,13 +166,20 @@ export async function main(args = []) {
   const textColor = options.textColor ? options.textColor : null;
   const lineColor = options.lineColor ? options.lineColor : null;
   const backgroundColor = options.backgroundColor ? options.backgroundColor : null;
-  const autoSegment = options.autoSegment || false;
   const annotation = options.annotation ? options.annotation : null;
+  const autoSegment = options.autoSegment === true || options.autoSegment === "true";
   let svgOutput;
 
   if (expressions.length > 1) {
     let segHeight;
-    if (autoSegment === true || autoSegment === "true") {
+    // If segmentHeight is provided, use it; otherwise fallback to height or default 100
+    if (options.segmentHeight) {
+      segHeight = parseInt(options.segmentHeight, 10);
+    } else {
+      segHeight = options.height ? parseInt(options.height, 10) : 100;
+    }
+
+    if (autoSegment) {
       segHeight = expressions.reduce((maxH, expr) => {
         let computed = 100 + Math.floor(expr.length / 10) * 5;
         if (xlabel) computed += 20;
@@ -151,9 +187,8 @@ export async function main(args = []) {
         if (range) computed += 20;
         return Math.max(maxH, computed);
       }, 0);
-    } else {
-      segHeight = options.segmentHeight ? parseInt(options.segmentHeight, 10) : (options.height ? parseInt(options.height, 10) : 100);
     }
+    
     svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation });
   } else {
     const heightVal = options.height ? parseInt(options.height, 10) : 400;
@@ -161,17 +196,12 @@ export async function main(args = []) {
   }
 
   if (options.outputFormat && options.outputFormat.toLowerCase() === "png") {
-    if (!options.file) {
-      const errorMsg = `[${new Date().toISOString()}] Error: --file flag is required when using png output format.`;
-      console.error(errorMsg);
-      return;
-    }
     try {
       const pngBuffer = await sharp(Buffer.from(svgOutput)).png().toBuffer();
       fs.writeFileSync(options.file, pngBuffer);
       console.log(`PNG saved to ${options.file}`);
     } catch (error) {
-      console.error(`[${new Date().toISOString()}] PNG conversion failed: ${error.message}`);
+      logError(`PNG conversion failed: ${error.message}`);
       return;
     }
   } else {
