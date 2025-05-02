@@ -13,7 +13,7 @@ For single expressions, the width can be set using the --width flag (default is 
 For multiple expressions, separate each expression with a semicolon (;). In this mode:
 
 - The --width flag sets the overall SVG width.
-- The --segmentHeight flag (new) sets the height for each individual expression segment. If --segmentHeight is not provided, the tool will fall back to using the --height flag if set, or default to 100 per expression.
+- The --segmentHeight flag sets the height for each individual expression segment. If --segmentHeight is not provided, the tool will fall back to using the --height flag if set, or default to 100 per expression.
 - The total SVG height will be calculated as (number of expressions * segment height).
 
 Example for multiple expressions using --segmentHeight:
@@ -38,7 +38,7 @@ Usage example:
 
 **Important:** When using PNG output, the --file flag is mandatory. If --file is not provided, the program will output an error message with a timestamp and error details.
 
-## Customizing SVG Dimensions
+## Customizing SVG Dimensions and Style
 
 - For single expression plots:
   - The --width flag sets the width of the SVG.
@@ -49,6 +49,18 @@ Usage example:
   - The --segmentHeight flag sets the height for each individual expression segment. If omitted, the tool uses the --height flag if provided, or defaults to 100 per expression.
   - The total height of the SVG is calculated as (number of expressions * segment height).
 
+### Custom Style Options
+
+You can customize the appearance of the generated SVG plot using the following new flags:
+
+- --textColor: Sets the fill color for all text elements (plot expressions and axis labels).
+- --lineColor: Sets the stroke color for the plot line element.
+- --backgroundColor: Sets the background color of the SVG. This is applied by rendering a background rectangle covering the entire SVG.
+
+**Example:**
+
+  node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400 --textColor "red" --lineColor "blue" --backgroundColor "#efefef"
+
 ## Axis Labels
 
 You can enhance your plot by adding axis labels using the --xlabel and --ylabel flags. When provided, these flags add text labels for the x-axis and y-axis:
@@ -56,11 +68,7 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 - The x-axis label is centered at the bottom of the SVG.
 - The y-axis label is positioned along the left side of the SVG and rotated -90 degrees.
 
-**Note:** Supplying an empty value for --xlabel or --ylabel will result in an error, and no SVG output will be rendered.
-
-Example:
-
-  node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400 --xlabel "Time (s)" --ylabel "Amplitude"
+**Note:** Supplying an empty value for --xlabel, --ylabel, --textColor, --lineColor, or --backgroundColor will result in an error, and no SVG output will be rendered.
 
 ## Additional Options
 
