@@ -54,8 +54,24 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   };
 
   if (expressions.length > 1) {
-    // For multiple expressions, use segmentHeight flag if provided or fallback to height flag or default to 100.
-    const segHeight = segmentHeight ? parseInt(segmentHeight, 10) : (height ? parseInt(height, 10) : 100);
+    // Determine segment height based on --autoSegment flag
+    let segHeight;
+    // autoSegment flag can be boolean true or string "true"
+    const autoSegment = (arguments.length > 0 && arguments[0] && arguments[0].autoSegment) || false; // fallback
+    
+    // autoSegment flag will be passed via options in main, so check later
+    if (autoSegment === true || autoSegment === "true") {
+      // Compute dynamic segment height using heuristic: base 100 + extra based on expression length and additional padding for labels and range
+      segHeight = expressions.reduce((maxH, expr) => {
+        let computed = 100 + Math.floor(expr.length / 10) * 5;
+        if (xlabel) computed += 20;
+        if (ylabel) computed += 20;
+        if (range) computed += 20;
+        return Math.max(maxH, computed);
+      }, 0);
+    } else {
+      segHeight = segmentHeight ? parseInt(segmentHeight, 10) : (height ? parseInt(height, 10) : 100);
+    }
     svgHeight = segHeight * expressions.length;
     expressions.forEach((expr, index) => {
       const baseY = index * segHeight + segHeight / 2;
@@ -119,12 +135,24 @@ export async function main(args = []) {
   const textColor = options.textColor ? options.textColor : null;
   const lineColor = options.lineColor ? options.lineColor : null;
   const backgroundColor = options.backgroundColor ? options.backgroundColor : null;
+  const autoSegment = options.autoSegment || false;
   let svgOutput;
 
   if (expressions.length > 1) {
-    // For multi-expression, use segmentHeight flag if provided; otherwise fallback to --height or default 100
-    const segHeight = options.segmentHeight ? parseInt(options.segmentHeight, 10) : (options.height ? parseInt(options.height, 10) : 100);
-    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor });
+    let segHeight;
+    if (autoSegment === true || autoSegment === "true") {
+      // Compute dynamic segment height: base 100 + extra based on expression length and additional padding for axis labels and range
+      segHeight = expressions.reduce((maxH, expr) => {
+        let computed = 100 + Math.floor(expr.length / 10) * 5;
+        if (xlabel) computed += 20;
+        if (ylabel) computed += 20;
+        if (range) computed += 20;
+        return Math.max(maxH, computed);
+      }, 0);
+    } else {
+      segHeight = options.segmentHeight ? parseInt(options.segmentHeight, 10) : (options.height ? parseInt(options.height, 10) : 100);
+    }
+    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment });
   } else {
     const heightVal = options.height ? parseInt(options.height, 10) : 400;
     svgOutput = renderSVG({ expressions, width, height: heightVal, range, xlabel, ylabel, textColor, lineColor, backgroundColor });

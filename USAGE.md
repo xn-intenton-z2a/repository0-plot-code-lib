@@ -16,17 +16,25 @@ For multiple expressions, separate each expression with a semicolon (;). In this
 - The --segmentHeight flag sets the height for each individual expression segment. If --segmentHeight is not provided, the tool will fall back to using the --height flag if set, or default to 100 per expression.
 - The total SVG height will be calculated as (number of expressions * segment height).
 
-Example for multiple expressions using --segmentHeight:
+### Dynamic Height Adjustment with --autoSegment
 
-  node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-3:3" --width 800 --segmentHeight 120
+A new flag, --autoSegment, has been introduced. When enabled (by passing --autoSegment true), the tool dynamically calculates the segment height for multi-expression plots based on the complexity (length) of each expression and the presence of additional elements such as axis labels and range information. 
 
-This command generates an SVG with an overall width of 800, each segment with a height of 120, and displays the range information if provided.
+The dynamic calculation uses the following heuristic:
 
-Example for multiple expressions without --segmentHeight (using --height as fallback):
+- Start with a base height of 100.
+- Add an extra 5 pixels for every 10 characters in the expression.
+- Add an additional 20 pixels if an x-axis label (--xlabel) is provided.
+- Add an additional 20 pixels if a y-axis label (--ylabel) is provided.
+- Add an additional 20 pixels if a range (--range) is specified.
 
-  node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-3:3" --width 800 --height 120
+The segment height used will be the maximum computed height among all expressions, ensuring a consistent look and sufficient space for each expression. 
 
-In this case, each segment will have a height of 120, yielding a total height of (number of expressions * 120).
+**Example with autoSegment enabled:**
+
+  node src/lib/main.js --expression "y=sin(x); y=cos(x) + extra-long-term" --width 640 --autoSegment true --xlabel "Time" --ylabel "Value" --range "x=-5:5"
+
+In this example, the dynamic segment height is computed based on the content of each expression and the provided labels, and the total SVG height is determined accordingly.
 
 ## Generating a PNG Plot
 
@@ -46,7 +54,8 @@ Usage example:
 
 - For multiple expression plots:
   - The --width flag sets the overall SVG width.
-  - The --segmentHeight flag sets the height for each individual expression segment. If omitted, the tool uses the --height flag if provided, or defaults to 100 per expression.
+  - The --segmentHeight flag sets the height for each individual expression segment. If omitted and --autoSegment is not enabled, the tool uses the --height flag if provided, or defaults to 100 per expression.
+  - With --autoSegment enabled, the segment height is dynamically calculated.
   - The total height of the SVG is calculated as (number of expressions * segment height).
 
 ### Custom Style Options
@@ -81,5 +90,6 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 - Ensure that values provided for --width and --height (or --segmentHeight) are positive numbers. Invalid values will produce an error.
 - When providing multiple expressions, separate them with a semicolon (;) so that each valid expression is rendered in its own segment.
 - The flag --output-format (or --outputFormat) determines the output format. If set to png, the SVG will be converted to a PNG image using the sharp library.
+- The new --autoSegment flag allows dynamic adjustment of segment heights for multi-expression plots based on expression complexity and additional elements.
 
 Happy plotting!
