@@ -1,29 +1,23 @@
 # Overview
-This feature consolidates all plot generation and rendering functionality into a single unified CLI tool. It encapsulates SVG generation, dynamic dimension calculation, support for multiple expressions, axis labelling, PNG conversion, and new style customization options. This unified feature aligns with the mission to be the go-to plot library by delivering reliable, customizable, and visually appealing mathematical visualisations.
+This feature consolidates all plot generation functionalities into a single unified CLI tool. It covers inline SVG rendering for both single and multiple mathematical expressions, optional axis labelling, configurable style properties, and PNG conversion using the sharp library. The CLI now accepts a range of flags to specify dimensions, appearance, and output formats, ensuring that users can generate high-quality, customizable plots in one consistent command.
 
 # Functionality
-- Parses input expressions and splits them if they are separated by semicolons, supporting both single and multi-expression plots.
-- Dynamically calculates SVG dimensions. For single expressions, a fixed height is used, while for multiple expressions the total height is computed based on a segment height flag (or falls back to the height flag).
-- Allows optional axis labelling via --xlabel and --ylabel flags to provide additional context for the plots.
-- Integrates PNG conversion using the sharp library when the --output-format flag is set to png. Enforces the presence of a mandatory --file flag for file output.
-- New: Introduces style customization options via additional CLI flags:
-  - --textColor: Specifies the fill color for text elements in the SVG.
-  - --lineColor: Specifies the color for plot lines and the boundary line in the SVG.
-  - --backgroundColor: Applies a background color to the SVG canvas.
-These style options allow users to tailor the visual appearance of plots to meet diverse presentation and branding requirements.
+- Parses a mathematical expression (or multiple separated by semicolons) to generate an SVG image.
+- For a single expression, uses a fixed height (default 400) and for multiple expressions, calculates total SVG height based on the provided segment height or fallback height.
+- Supports optional axis labels via --xlabel and --ylabel flags. When provided, the x-axis label is centered at the bottom and the y-axis label is rotated and placed along the left side.
+- Provides additional style customization options via --textColor, --lineColor, and --backgroundColor. These flags apply color styling to text, plot lines, and the SVG canvas background respectively.
+- Includes a range flag (--range) to display additional context information directly within the plot.
+- Implements PNG conversion when the --output-format flag is set to png. In this case, a mandatory --file flag is required to write the PNG image, with the conversion handled by the sharp library.
+- Performs robust validations on all input flags, including checks for required flags, ensuring non-empty values for axis labels, and validating positive numerical values for width, height, and segment height.
 
 # Implementation
-- The main source file (src/lib/main.js) is updated to parse new CLI flags (--textColor, --lineColor, --backgroundColor) and pass these options to the SVG rendering function.
-- The renderSVG function is enhanced to include style attributes:
-  - The root SVG element checks for a backgroundColor parameter and applies it.
-  - Text elements receive a fill attribute based on the provided textColor flag.
-  - The line element for plot boundaries uses the lineColor flag for its stroke attribute.
-- Input validations ensure that if style flags are provided, they are non-empty valid color values.
+- The main source file (src/lib/main.js) has been updated to merge existing plot generation, axis labelling, style customization, and SVG rendering functionalities into a single coherent workflow.
+- The CLI parser has been maintained and extended to support both legacy and new flags. The renderSVG function dynamically builds the SVG output by combining text elements, style attributes, and range information.
+- PNG conversion is integrated within the main execution flow and utilizes the sharp library to convert the dynamically generated SVG to a PNG image when requested.
 
 # Testing & Documentation
-- Unit tests in the test suite are updated to cover the new style customization options, ensuring that the generated SVG contains the expected style attributes when these flags are provided.
-- The usage guide (USAGE.md) is updated with examples demonstrating the new style flags and their impact on the rendered plot.
-- The README.md is updated to reflect these improvements, underscoring the enhanced capabilities and customization features aligned with our mission.
+- Unit tests in tests/unit/plot-generation.test.js and tests/unit/main.test.js cover all aspects of the functionality: single and multiple expressions, custom dimensions, axis labels, style options, range display, and PNG conversion error handling and success conditions.
+- The usage guide (USAGE.md) and README.md have been updated with comprehensive examples and detailed instructions for all supported flags and options.
 
 # Impact
-This enhancement offers users increased control over the aesthetics of generated plots, facilitating a more tailored and professional visual output. By merging all existing features and adding style customization, the tool now meets a broader range of user requirements while remaining a single, coherent CLI tool for reliable mathematical visualisation.
+This merged feature ensures that all key plotting functionalities are available in one consolidated CLI tool. By combining SVG rendering, axis labelling, style customization, and PNG conversion, the tool now offers a robust, user-friendly solution for generating reliable mathematical visualizations in line with our mission.
