@@ -8,12 +8,12 @@ For a single expression, run:
 
   node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400
 
-For single expressions, the width can be set using the --width flag (default is 640 if not provided) and the height defaults to 400 but can be overridden using the --height flag.
+For single expressions, the width can be set using the --width flag (default is 640 if not provided) and the height defaults to 400 but can be overridden using the --height flag. Note: Only positive numeric values are accepted for these dimensions.
 
 For multiple expressions, separate each expression with a semicolon (;). In this mode:
 
 - The --width flag sets the overall SVG width.
-- The --segmentHeight flag sets the height for each individual expression segment. If --segmentHeight is not provided, the tool will fall back to using the --height flag if set, or default to 100 per expression.
+- The --segmentHeight flag sets the height for each individual expression segment. If provided, it takes precedence over the --height flag. If --segmentHeight is not provided, the tool will fall back to using the --height flag if set, or default to 100 per expression.
 - The total SVG height will be calculated as (number of expressions * segment height).
 
 ### Dynamic Height Adjustment with --autoSegment
@@ -44,7 +44,7 @@ Usage example:
 
   node src/lib/main.js --expression "y=sin(x)" --output-format png --file output.png
 
-**Important:** When using PNG output, the --file flag is mandatory. If --file is not provided, the program will output an error message with a timestamp and error details.
+**Important:** When using PNG output, the --file flag is mandatory. If --file is not provided, the program will output a timestamped error message and abort the PNG conversion.
 
 ## Customizing SVG Dimensions and Style
 
@@ -55,6 +55,7 @@ Usage example:
 - For multiple expression plots:
   - The --width flag sets the overall SVG width.
   - The --segmentHeight flag sets the height for each individual expression segment. If omitted and --autoSegment is not enabled, the tool uses the --height flag if provided, or defaults to 100 per expression.
+  - **Note:** Only positive numeric values are accepted for --width, --height, and --segmentHeight. In multi-expression mode, if both --height and --segmentHeight are provided, --segmentHeight takes precedence.
   - With --autoSegment enabled, the segment height is dynamically calculated.
   - The total height of the SVG is calculated as (number of expressions * segment height).
 
@@ -77,7 +78,7 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 - The x-axis label is centered at the bottom of the SVG.
 - The y-axis label is positioned along the left side of the SVG and rotated -90 degrees.
 
-**Note:** Supplying an empty value for --xlabel, --ylabel, --textColor, --lineColor, or --backgroundColor will result in an error, and no SVG output will be rendered.
+**Note:** Supplying an empty value for --xlabel, --ylabel, --textColor, --lineColor, or --backgroundColor will result in a timestamped error message and no SVG output will be rendered.
 
 ## Annotations
 
@@ -93,10 +94,14 @@ In the above example, the annotation "Data collected on 2025-05-02" will appear 
 
 - The --expression flag is required.
 - When generating PNG plots, the --file flag is mandatory.
-- Ensure that values provided for --width and --height (or --segmentHeight) are positive numbers. Invalid values will produce an error.
+- Ensure that values provided for --width and --height (or --segmentHeight) are positive numbers. Invalid values (negative, zero, or non-numeric) will produce a timestamped error message and no output.
 - When providing multiple expressions, separate them with a semicolon (;) so that each valid expression is rendered in its own segment.
 - The flag --output-format (or --outputFormat) determines the output format. If set to png, the SVG will be converted to a PNG image using the sharp library.
 - The new --autoSegment flag allows dynamic adjustment of segment heights for multi-expression plots based on expression complexity and additional elements.
 - The new --annotation flag allows you to add custom text notes to the plot.
+
+**Sample Error Output:**
+
+  [2025-05-02T15:42:39.724Z] Error: --width must be a positive number.
 
 Happy plotting!

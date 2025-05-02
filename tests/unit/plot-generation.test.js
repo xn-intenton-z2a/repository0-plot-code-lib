@@ -12,6 +12,13 @@ vi.mock("sharp", () => ({
   }))
 }));
 
+// Helper function to test error logs
+function expectErrorLog(consoleSpy, expectedSubstring) {
+  const logged = consoleSpy.mock.calls[0][0];
+  expect(logged).toContain(expectedSubstring);
+  expect(logged).toMatch(/\[.*\]/); // timestamp present
+}
+
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -33,8 +40,7 @@ describe("Plot Generation CLI Logging", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main([]);
     expect(consoleSpy).toHaveBeenCalled();
-    const errorMsg = consoleSpy.mock.calls[0][0];
-    expect(errorMsg).toContain("Error: --expression flag is required");
+    expect(consoleSpy.mock.calls[0][0]).toContain("--expression flag is required");
     consoleSpy.mockRestore();
   });
 });
@@ -114,14 +120,14 @@ describe("SVG Render Feature", () => {
   test("logs error for empty --xlabel value", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--xlabel", ""]);
-    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --xlabel flag provided with empty value");
+    expect(consoleSpy.mock.calls[0][0]).toContain("--xlabel flag provided with empty value");
     consoleSpy.mockRestore();
   });
 
   test("logs error for empty --ylabel value", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--ylabel", ""]);
-    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --ylabel flag provided with empty value");
+    expect(consoleSpy.mock.calls[0][0]).toContain("--ylabel flag provided with empty value");
     consoleSpy.mockRestore();
   });
 
@@ -139,21 +145,21 @@ describe("SVG Render Feature", () => {
   test("logs error for empty --textColor value", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--textColor", ""]);
-    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --textColor flag provided with empty value");
+    expect(consoleSpy.mock.calls[0][0]).toContain("--textColor flag provided with empty value");
     consoleSpy.mockRestore();
   });
 
   test("logs error for empty --lineColor value", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--lineColor", ""]);
-    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --lineColor flag provided with empty value");
+    expect(consoleSpy.mock.calls[0][0]).toContain("--lineColor flag provided with empty value");
     consoleSpy.mockRestore();
   });
 
   test("logs error for empty --backgroundColor value", async () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--backgroundColor", ""]);
-    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --backgroundColor flag provided with empty value");
+    expect(consoleSpy.mock.calls[0][0]).toContain("--backgroundColor flag provided with empty value");
     consoleSpy.mockRestore();
   });
 
@@ -177,6 +183,45 @@ describe("SVG Render Feature", () => {
     await main(["--expression", "y=sin(x)", "--width", "800", "--height", "400", "--annotation", "TestAnnotation", "--textColor", "purple"]);
     const logged = consoleSpy.mock.calls[0][0];
     expect(logged).toContain(`<text x=\"${800 - 100}\" y=\"20\" font-size=\"14\" fill=\"purple\">TestAnnotation</text>`);
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("CLI Numeric Validations", () => {
+  test("logs error for negative --width value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--width", "-640"]);
+    expectErrorLog(consoleSpy, "--width must be a positive number");
+    consoleSpy.mockRestore();
+  });
+
+  test("logs error for zero --height value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--height", "0"]);
+    expectErrorLog(consoleSpy, "--height must be a positive number");
+    consoleSpy.mockRestore();
+  });
+
+  test("logs error for non-numeric --segmentHeight value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x); y=cos(x)", "--segmentHeight", "abc"]);
+    expectErrorLog(consoleSpy, "--segmentHeight must be a positive number");
+    consoleSpy.mockRestore();
+  });
+
+  test("in multi-expression mode, --segmentHeight takes precedence over --height", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x); y=cos(x)", "--width", "640", "--height", "200", "--segmentHeight", "120"]);
+    const logged = consoleSpy.mock.calls[0][0];
+    // 2 expressions * 120 = 240
+    expect(logged).toContain('height="240"');
+    consoleSpy.mockRestore();
+  });
+
+  test("logs error for missing --file flag in PNG mode", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--outputFormat", "png"]);
+    expectErrorLog(consoleSpy, "--file flag is required when using png output format");
     consoleSpy.mockRestore();
   });
 });
