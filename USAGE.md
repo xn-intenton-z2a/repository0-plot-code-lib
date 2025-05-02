@@ -14,10 +14,12 @@ For multiple expressions, separate each expression with a semicolon (;). In this
 
 - The --width flag sets the overall SVG width.
 - The --segmentHeight flag sets the height for each individual expression segment. If provided, it takes precedence over the --height flag.
-- When explicit --segmentHeight is not provided and --autoSegment is enabled, the tool will dynamically calculate a suitable segment height based on the expression length and additional flags.
-- **Enhancement:** The generated SVG now includes a dynamic viewBox attribute (e.g. viewBox="0 0 [width] [totalHeight]") to ensure responsiveness, and each expression is wrapped in its own <g> element with a unique id (e.g. <g id="expr-1">
-  ...
-</g>) for better grouping and future interactivity.
+- When explicit --segmentHeight is not provided and --autoSegment is enabled, the tool calculates a suitable segment height dynamically using the formula:
+
+  computed_segment_height = 100 + 5 * floor(expression_length / 10) + (20 * number_of_display_flags)
+
+where the display flags are: --xlabel, --ylabel, --range, --annotation, and --title. This ensures that the SVG has enough space for each expression as well as any additional visual elements.
+
 - If neither --segmentHeight nor --autoSegment is used, the tool will use the --height flag (if provided) or default to 100 pixels per expression.
 - The total SVG height is calculated as:
 
@@ -25,17 +27,13 @@ For multiple expressions, separate each expression with a semicolon (;). In this
 
 ### Dynamic Height Adjustment with --autoSegment
 
-When enabled (by passing --autoSegment true) without an explicit --segmentHeight, the tool automatically computes a suitable segment height based on the expression length and additional elements. This ensures that each expression has enough space for its rendering along with any axis labels, range information, annotations, or title.
+When enabled (by passing --autoSegment true) without an explicit --segmentHeight, the tool computes the segment height automatically. It starts with a base height of 100 plus an additional 5 pixels for every 10 characters in the expression. Then, for each of the following flags provided (--xlabel, --ylabel, --range, --annotation, --title), it adds 20 pixels. This consistent, reproducible calculation ensures uniform spacing across multi-expression plots.
 
 **Example with autoSegment enabled:**
 
   node src/lib/main.js --expression "y=sin(x); y=cos(x)" --width 640 --autoSegment true --xlabel "Time" --ylabel "Value" --range "x=-5:5" --annotation "Note" --title "Title"
 
-In this example, for each expression, the computed segment height is based on the formula:
-
-  computed_segment_height = 100 + (5 * floor(expression_length / 10)) + (20 * number_of_flags)
-
-where the contributing flags are: --xlabel, --ylabel, --range, --annotation, and --title.
+In this example, for an expression of moderate length, the computed segment height might be 200 pixels per expression (depending on the exact expression length), resulting in a total SVG height that is the number of expressions multiplied by the computed segment height.
 
 ## Generating a PNG Plot
 
@@ -57,7 +55,7 @@ Usage example:
   - The --width flag sets the overall SVG width.
   - The --segmentHeight flag sets the height for each individual expression segment. If omitted and --autoSegment is not enabled, the tool uses the --height flag (if provided) or defaults to 100 per expression.
   - **Note:** Only positive numeric values are accepted for --width, --height, and --segmentHeight. In multi-expression mode, if both --height and --segmentHeight are provided, --segmentHeight takes precedence.
-  - With --autoSegment enabled (and no explicit --segmentHeight), the segment height is dynamically calculated.
+  - With --autoSegment enabled (and no explicit --segmentHeight), the segment height is dynamically calculated as described above.
   - The total height of the SVG is calculated as (number of expressions * segment height).
 
 ## Dynamic SVG ViewBox and Grouping Enhancements
@@ -117,8 +115,16 @@ You can add a title to your plot using the --title flag. The title appears at th
 - Ensure numeric flags (e.g., --width, --height, --segmentHeight) are positive numbers; otherwise, a timestamped error message is displayed.
 - For multiple expressions, separate them with a semicolon (;) so that each valid expression is rendered in its own segment.
 - The flag --output-format (or --outputFormat) determines the output format. When set to png, the SVG is converted to PNG using the sharp library.
-- The --autoSegment flag (when no explicit --segmentHeight is provided) dynamically computes the segment height based on expression length and additional flags (--xlabel, --ylabel, --range, --annotation, --title).
+- The --autoSegment flag (when no explicit --segmentHeight is provided) dynamically computes the segment height based on the expression length and additional elements (--xlabel, --ylabel, --range, --annotation, --title).
 - The --title flag adds a custom title at the top of the plot.
+
+## Error Handling
+
+All error messages are logged with a timestamp in the format:
+
+  [YYYY-MM-DDTHH:MM:SS.sssZ] Error: <error message>
+
+This ensures uniformity and helps with debugging when invalid or empty flag values are provided.
 
 **Sample Error Output:**
 

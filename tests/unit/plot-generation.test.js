@@ -102,8 +102,8 @@ describe("SVG Render Feature", () => {
     const ylabel = "Amplitude";
     const customHeight = 500;
     const svg = renderSVG({ expressions, width: 800, height: customHeight, xlabel, ylabel });
-    expect(svg).toContain(`<text x=\"${800/2}\" y=\"${customHeight - 10}\" text-anchor=\"middle\" font-size=\"14\"`);
-    expect(svg).toContain(`<text x=\"15\" y=\"${customHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${customHeight/2})\" font-size=\"14\"`);
+    expect(svg).toContain(`<text x="${800/2}" y="${customHeight - 10}" text-anchor="middle" font-size="14"`);
+    expect(svg).toContain(`<text x="15" y="${customHeight/2}" text-anchor="middle" transform="rotate(-90,15,${customHeight/2})" font-size="14"`);
   });
 
   test("renders x-axis and y-axis labels for multiple expressions", () => {
@@ -113,8 +113,8 @@ describe("SVG Render Feature", () => {
     const xlabel = "Distance";
     const ylabel = "Value";
     const svg = renderSVG({ expressions, width: 640, segmentHeight: segHeight, xlabel, ylabel });
-    expect(svg).toContain(`<text x=\"${640/2}\" y=\"${totalHeight - 10}\" text-anchor=\"middle\" font-size=\"14\"`);
-    expect(svg).toContain(`<text x=\"15\" y=\"${totalHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${totalHeight/2})\" font-size=\"14\"`);
+    expect(svg).toContain(`<text x="${640/2}" y="${totalHeight - 10}" text-anchor="middle" font-size="14"`);
+    expect(svg).toContain(`<text x="15" y="${totalHeight/2}" text-anchor="middle" transform="rotate(-90,15,${totalHeight/2})" font-size="14"`);
   });
 
   test("logs error for empty --xlabel value", async () => {
@@ -137,9 +137,9 @@ describe("SVG Render Feature", () => {
     const lineColor = "blue";
     const backgroundColor = "#efefef";
     const svg = renderSVG({ expressions, width: 800, height: 400, textColor, lineColor, backgroundColor });
-    expect(svg).toContain(`fill=\"${textColor}\"`);
-    expect(svg).toContain(`stroke=\"${lineColor}\"`);
-    expect(svg).toContain(`<rect width=\"800\" height=\"400\" fill=\"${backgroundColor}\"`);
+    expect(svg).toContain(`fill="${textColor}"`);
+    expect(svg).toContain(`stroke="${lineColor}"`);
+    expect(svg).toContain(`<rect width="800" height="400" fill="${backgroundColor}"`);
   });
 
   test("logs error for empty --textColor value", async () => {
@@ -169,7 +169,7 @@ describe("SVG Render Feature", () => {
     const annotation = "Data collected on 2025-05-02";
     const textColor = "green";
     const svg = renderSVG({ expressions, width: 800, height: 400, annotation, textColor });
-    expect(svg).toContain(`<text x=\"${800 - 100}\" y=\"20\" font-size=\"14\" fill=\"${textColor}\">${annotation}</text>`);
+    expect(svg).toContain(`<text x="${800 - 100}" y="20" font-size="14" fill="${textColor}">${annotation}</text>`);
   });
 
   test("does not render annotation element when flag is absent", () => {
@@ -182,7 +182,7 @@ describe("SVG Render Feature", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--width", "800", "--height", "400", "--annotation", "TestAnnotation", "--textColor", "purple"]);
     const logged = consoleSpy.mock.calls[0][0];
-    expect(logged).toContain(`<text x=\"${800 - 100}\" y=\"20\" font-size=\"14\" fill=\"purple\">TestAnnotation</text>`);
+    expect(logged).toContain(`<text x="${800 - 100}" y="20" font-size="14" fill="purple">TestAnnotation</text>`);
     consoleSpy.mockRestore();
   });
 
@@ -191,14 +191,14 @@ describe("SVG Render Feature", () => {
     const expressions = ["y=sin(x)"];
     const title = "Test Title";
     const svg = renderSVG({ expressions, width: 800, height: 400, title, textColor: "purple" });
-    expect(svg).toContain(`<text x=\"${800/2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"purple\">Test Title</text>`);
+    expect(svg).toContain(`<text x="${800/2}" y="30" text-anchor="middle" font-size="18" fill="purple">Test Title</text>`);
   });
 
   test("CLI title flag outputs SVG with title element in multi-expression mode", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x); y=cos(x)", "--width", "800", "--segmentHeight", "150", "--title", "Multi Expr Title", "--textColor", "orange"]);
     const logged = consoleSpy.mock.calls[0][0];
-    expect(logged).toContain(`<text x=\"${800/2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"orange\">Multi Expr Title</text>`);
+    expect(logged).toContain(`<text x="${800/2}" y="30" text-anchor="middle" font-size="18" fill="orange">Multi Expr Title</text>`);
     consoleSpy.mockRestore();
   });
 
