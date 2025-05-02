@@ -15,17 +15,17 @@ Offers practical guidelines for implementing unit and integration tests in Node.
 
 # Node.js Core, CLI, and Best Practices Documentation
 ## https://nodejs.org/api/
-Delivers essential insights into Node.js core APIs, asynchronous programming, and effective CLI development. In addition, this source now incorporates recent release notes (e.g., Node.js v20 at https://nodejs.org/en/blog/release/v20.0.0/) to help developers stay updated on new features and performance improvements critical for building efficient command-line interfaces.
+Delivers essential insights into Node.js core APIs, asynchronous programming, and effective CLI development. This source also includes recent release notes (e.g., Node.js v20) to help developers stay updated on new features and performance improvements critical for building efficient command-line interfaces.
 ## License: MIT
 
 # Mathematical Computation and Expression Evaluation Documentation
 ## https://mathjs.org/
-A highly actionable resource for integrating complex mathematical computations and expression evaluation into applications. It details API references, practical examples, and advanced parsing techniques, critical for implementing dynamic plotting utilities.
+A highly actionable resource for integrating complex mathematical computations and expression evaluation into applications. It details API references, practical examples, and advanced parsing techniques, which are critical for implementing dynamic plotting utilities.
 ## License: Apache-2.0 / MIT
 
-# Visualization and Graphing and Chart APIs Documentation
+# Visualization, Graphing, and Chart APIs Documentation
 ## https://vega.github.io/vega-lite/ | https://d3js.org/ | https://plotly.com/javascript/ | https://graphviz.org/documentation/ | https://quickchart.io/documentation/
-This merged resource consolidates documentation from leading visualization libraries and chart generation APIs. It provides actionable insights for creating interactive, high-performance visualizations and charts. It covers data binding, DOM manipulation, graph plotting, layout algorithms, and URL-based chart generation, all essential for robust data representation and rapid prototyping of plot interfaces.
+This merged resource consolidates documentation from leading visualization libraries and chart generation APIs. It provides actionable insights for creating interactive, high-performance visualizations and charts, covering data binding, DOM manipulation, graph plotting, layout algorithms, and URL-based chart generation.
 ## License: Various (BSD-3-Clause, MIT, EPL, N/A)
 
 # OpenAI API Documentation
@@ -72,3 +72,13 @@ Offers best practices for using ECMAScript Modules in Node.js, covering module s
 ## https://ejs.co | https://github.com/nodeca/js-yaml | https://expressjs.com | https://prettier.io/docs/en/index.html | https://yargs.js.org/
 This merged resource aggregates documentation from essential Node.js ecosystem tools and CLI development resources. It covers dynamic templating with EJS, YAML parsing with js-yaml, robust web application development with Express, code formatting best practices with Prettier, and command-line argument parsing with Yargs. These resources together provide actionable configuration and implementation guides designed to bolster modern development workflows and CLI tool creation.
 ## License: Various (MIT and similar)
+
+# SVG.js Documentation
+## https://svgjs.dev/docs/3.0/
+SVG.js is a lightweight library for manipulating and animating SVG. Its documentation provides clear, practical examples on creating, modifying, and interacting with SVG elements programmatically. This source is particularly valuable for developers looking to integrate dynamic and interactive vector graphics into their applications, enhancing the customization capabilities of SVG plots.
+## License: MIT
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js
+Commander.js is a widely adopted library for building command-line interfaces in Node.js. The documentation offers comprehensive details on argument parsing, command definition, and generating help outputs. This resource is essential for understanding robust CLI design patterns, which can inform improvements in user input handling and overall command structure in plot generation tools.
+## License: MIT
