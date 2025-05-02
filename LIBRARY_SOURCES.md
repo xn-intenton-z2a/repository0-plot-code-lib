@@ -1,6 +1,6 @@
 # SVG and Vector Graphics Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/SVG
-This merged resource consolidates comprehensive guidance on scalable vector graphics. It brings together the extensive tutorials and standards from MDN, the official SVG 2 specifications, practical manipulation techniques from SVG.js, optimization strategies from SVGO, and advanced editing insights from Inkscape's developer documentation. Together, these sources address core implementation needs by providing detailed standards, actionable examples, and best practices for creating and managing SVG content. (Last known updates range from 2019 to 2023 across the respective resources.)
+This merged resource consolidates comprehensive guidance on scalable vector graphics. It brings together extensive tutorials and standards from MDN, the official SVG 2 specifications, practical manipulation techniques from SVG.js, optimization strategies from SVGO, and advanced editing insights from Inkscape's developer documentation. It addresses core implementation needs by providing detailed standards, actionable examples, and best practices for creating and managing SVG content. (Last known updates range from 2019 to 2023 across the respective resources.)
 ## Various: CC-BY-SA, W3C Document License, MIT, GPL
 
 # High-performance Image Processing and SVG Rasterization
@@ -66,4 +66,14 @@ This source offers actionable insights into creating interactive charts and grap
 # SVGO Optimization Guide
 ## https://github.com/svg/svgo
 SVGO is an essential optimization tool for SVG files. This guide dives into practical strategies for reducing file size without compromising quality, outlining configuration best practices and command-line usage that are critical for efficient SVG management.
+## MIT
+
+# Gnuplot Documentation
+## https://gnuplot.sourceforge.net/documentation.html
+Gnuplot offers robust techniques for scientific plotting with detailed guides on advanced plotting commands, data formatting, and exporting graphs into various formats. This documentation provides actionable insights and practical examples that can be leveraged to implement plot rendering and optimization strategies, making it a valuable reference for enhancing plotting functionalities.
+## GPL
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js
+Commander.js provides guidelines and best practices for designing robust and user-friendly command-line interfaces. It covers topics such as argument parsing, help generation, command structuring, and error handling that can be instrumental for refining the CLI experience of repository0-plot-code-lib.
 ## MIT
