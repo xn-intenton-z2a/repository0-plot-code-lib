@@ -5,17 +5,17 @@ Comprehensive guide covering the effective use of scalable vector graphics on th
 
 # High-performance Image Processing and SVG Rasterization
 ## https://sharp.pixelplumbing.com/
-Provides in-depth documentation on high-performance image processing with a focus on SVG rasterization. It covers API references, optimization strategies, and conversion techniques to generate high-quality PNG images from SVG content for both CLI and server-side applications.
+Provides in-depth documentation on high-performance image processing with a focus on SVG rasterization. It covers API references, optimization strategies, and conversion techniques for generating high-quality PNG images from SVG content in both CLI and server-side applications.
 ## License: MIT
 
 # Vitest Testing Framework Documentation
 ## https://vitest.dev/
-Offers practical guidelines for implementing unit and integration tests in Node.js environments. It includes instructions on CLI usage, test-driven development, and continuous integration setups to ensure robust and reliable code testing.
+Offers practical guidelines for implementing unit and integration tests in Node.js environments. It covers CLI usage, test-driven development, and continuous integration setups to ensure robust and reliable code testing.
 ## License: MIT
 
 # Node.js Core, CLI, and Best Practices Documentation
 ## https://nodejs.org/api/
-Delivers essential insights into Node.js core APIs, asynchronous programming, and effective CLI development. Complemented by additional CLI design recommendations from related sources, it is indispensable for building efficient command-line interfaces with strong error handling.
+Delivers essential insights into Node.js core APIs, asynchronous programming, and effective CLI development. In addition, this source now incorporates recent release notes (e.g., Node.js v20 at https://nodejs.org/en/blog/release/v20.0.0/) to help developers stay updated on new features and performance improvements critical for building efficient command-line interfaces.
 ## License: MIT
 
 # Mathematical Computation and Expression Evaluation Documentation
@@ -25,12 +25,12 @@ A highly actionable resource for integrating complex mathematical computations a
 
 # Visualization and Graphing and Chart APIs Documentation
 ## https://vega.github.io/vega-lite/ | https://d3js.org/ | https://plotly.com/javascript/ | https://graphviz.org/documentation/ | https://quickchart.io/documentation/
-This merged resource consolidates documentation from leading visualization libraries and chart generation APIs. It provides actionable insights for creating interactive, high-performance visualizations and charts. This source covers data binding, DOM manipulation, graph plotting, layout algorithms, and URL-based chart generation, all essential for robust data representation and rapid prototyping of plot interfaces.
+This merged resource consolidates documentation from leading visualization libraries and chart generation APIs. It provides actionable insights for creating interactive, high-performance visualizations and charts. It covers data binding, DOM manipulation, graph plotting, layout algorithms, and URL-based chart generation, all essential for robust data representation and rapid prototyping of plot interfaces.
 ## License: Various (BSD-3-Clause, MIT, EPL, N/A)
 
 # OpenAI API Documentation
 ## https://platform.openai.com/docs/api-reference/
-Provides comprehensive technical insights for integrating OpenAI models into applications, detailing request-response structures, error handling protocols, and usage examples. Its authoritative guidelines facilitate the enhancement of AI-driven features in plot generation and other advanced functionalities.
+Provides comprehensive technical insights for integrating OpenAI models into applications, detailing request-response structures, error handling protocols, and usage examples. Its authoritative guidelines facilitate the enhancement of AI-driven features such as plot generation and advanced analytic functionalities.
 ## License: N/A
 
 # Zod Documentation
@@ -40,17 +40,17 @@ Details robust data schema creation, parsing, and validation using Zod. With cle
 
 # ESLint Official Documentation
 ## https://eslint.org/docs/latest/
-Highlights best practices and configurations for maintaining high-quality JavaScript code. It covers rule customization, integration with development workflows, and strategies for continuous integration to ensure code quality over time.
+Highlights best practices and configurations for maintaining high-quality JavaScript code. It covers rule customization, integration with development workflows, and strategies for continuous integration to ensure long-term code quality.
 ## License: MIT
 
 # SVGO Optimization Guide
 ## https://github.com/svg/svgo
-A definitive guide on optimizing SVG files to reduce file size without compromising quality. It includes configuration best practices and command-line usage instructions, vital for performance tuning in SVG management.
+A definitive guide on optimizing SVG files to reduce file size without compromising quality. It includes configuration best practices and command-line usage instructions, which are vital for performance tuning in SVG management and processing.
 ## License: MIT
 
 # Gnuplot Documentation
 ## https://gnuplot.sourceforge.net/documentation.html
-Features comprehensive techniques for scientific plotting, including detailed command usage, data formatting, and export options. This resource offers actionable insights for producing high-quality rendering and precise plot customization using established plotting standards.
+Features comprehensive techniques for scientific plotting, including detailed command usage, data formatting, and export options. This resource offers actionable insights for producing high-quality renderings and precise plot customizations using established plotting standards.
 ## License: GPL
 
 # PEG.js Documentation
@@ -60,20 +60,15 @@ Provides detailed guidance on generating parsers with PEG.js, including example 
 
 # MathJax Documentation
 ## https://docs.mathjax.org/en/latest/
-Offers extensive guidelines for rendering mathematical notation on the web. Covering configuration, advanced rendering techniques, and integration strategies, this resource ensures accurate display of mathematical expressions in dynamic visualizations.
+Offers extensive guidelines for rendering mathematical notation on the web. Covering configuration, advanced rendering techniques, and integration strategies, this resource ensures the accurate display of mathematical expressions in dynamic visualizations.
 ## License: Apache-2.0
-
-# SVG.js Documentation
-## https://svgjs.dev/docs/3.0/
-Provides an intuitive API for creating, manipulating, and animating SVG elements within the browser. With comprehensive tutorials and interactive examples, it is ideal for implementing advanced graphical manipulations and interactive visual representations.
-## License: MIT
 
 # ECMAScript Modules in Node.js Documentation
 ## https://nodejs.org/api/esm.html
-Offers best practices for using ECMAScript Modules in Node.js, covering module syntax, interoperability with CommonJS, and strategies for modular design. This source is critical for building maintainable and scalable JavaScript applications.
+Offers best practices for using ECMAScript Modules in Node.js, covering module syntax, interoperability with CommonJS, and strategies for modular design. This source is critical for building maintainable and scalable JavaScript applications in the modern ecosystem.
 ## License: MIT
 
-# Node.js Ecosystem and Tooling Documentation
-## https://ejs.co | https://github.com/nodeca/js-yaml | https://expressjs.com | https://prettier.io/docs/en/index.html
-This merged resource aggregates documentation from essential Node.js ecosystem tools. It covers dynamic templating with EJS, YAML parsing with js-yaml, robust web application development with Express, and code formatting standards with Prettier. Each component provides actionable configuration and implementation guides designed to bolster modern development practices.
+# Node.js Ecosystem, Tooling, and CLI Resources
+## https://ejs.co | https://github.com/nodeca/js-yaml | https://expressjs.com | https://prettier.io/docs/en/index.html | https://yargs.js.org/
+This merged resource aggregates documentation from essential Node.js ecosystem tools and CLI development resources. It covers dynamic templating with EJS, YAML parsing with js-yaml, robust web application development with Express, code formatting best practices with Prettier, and command-line argument parsing with Yargs. These resources together provide actionable configuration and implementation guides designed to bolster modern development workflows and CLI tool creation.
 ## License: Various (MIT and similar)
