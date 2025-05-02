@@ -90,23 +90,24 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   };
 
   if (expressions.length > 1) {
-    // Determine segment height; use provided segmentHeight or fallback to height
-    let segHeight = typeof segmentHeight !== 'undefined' ? segmentHeight : (height ? height : 100);
-    
-    // If autoSegment flag is true, dynamically compute segment height.
-    const autoSeg = autoSegment === true || autoSegment === "true";
-    if (autoSeg) {
-      segHeight = expressions.reduce((maxH, expr) => {
+    let computedSegmentHeight;
+    // If autoSegment is enabled and segmentHeight is not explicitly provided, compute dynamically
+    if ((autoSegment === true || autoSegment === "true") && typeof segmentHeight === "undefined") {
+      computedSegmentHeight = expressions.reduce((maxH, expr) => {
         let computed = 100 + Math.floor(expr.length / 10) * 5;
         if (xlabel) computed += 20;
         if (ylabel) computed += 20;
         if (range) computed += 20;
+        if (annotation) computed += 20;
+        if (title) computed += 20;
         return Math.max(maxH, computed);
       }, 0);
+    } else {
+      computedSegmentHeight = typeof segmentHeight !== "undefined" ? segmentHeight : (height ? height : 100);
     }
-    svgHeight = segHeight * expressions.length;
+    svgHeight = computedSegmentHeight * expressions.length;
     expressions.forEach((expr, index) => {
-      const baseY = index * segHeight + segHeight / 2;
+      const baseY = index * computedSegmentHeight + computedSegmentHeight / 2;
       svgContent += renderExprText(10, baseY, expr, range);
     });
   } else {
@@ -185,26 +186,26 @@ export async function main(args = []) {
   const title = options.title ? options.title : null;
   const autoSegment = options.autoSegment === true || options.autoSegment === "true";
   let svgOutput;
-
+  
   if (expressions.length > 1) {
     let segHeight;
-    // Use segmentHeight if provided, otherwise fallback to height or default to 100.
+    // If explicit segmentHeight is provided, use it; else if autoSegment enabled compute dynamically; otherwise fallback to --height or default 100.
     if (options.segmentHeight) {
       segHeight = parseInt(options.segmentHeight, 10);
-    } else {
-      segHeight = options.height ? parseInt(options.height, 10) : 100;
-    }
-
-    if (autoSegment) {
+    } else if (autoSegment) {
       segHeight = expressions.reduce((maxH, expr) => {
         let computed = 100 + Math.floor(expr.length / 10) * 5;
         if (xlabel) computed += 20;
         if (ylabel) computed += 20;
         if (range) computed += 20;
+        if (annotation) computed += 20;
+        if (title) computed += 20;
         return Math.max(maxH, computed);
       }, 0);
+    } else {
+      segHeight = options.height ? parseInt(options.height, 10) : 100;
     }
-    
+
     svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation, title });
   } else {
     const heightVal = options.height ? parseInt(options.height, 10) : 400;
