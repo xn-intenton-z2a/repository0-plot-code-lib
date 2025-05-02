@@ -191,14 +191,14 @@ describe("SVG Render Feature", () => {
     const expressions = ["y=sin(x)"];
     const title = "Test Title";
     const svg = renderSVG({ expressions, width: 800, height: 400, title, textColor: "purple" });
-    expect(svg).toContain(`<text x=\"400\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"purple\">Test Title</text>`);
+    expect(svg).toContain(`<text x=\"${800/2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"purple\">Test Title</text>`);
   });
 
   test("CLI title flag outputs SVG with title element in multi-expression mode", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x); y=cos(x)", "--width", "800", "--segmentHeight", "150", "--title", "Multi Expr Title", "--textColor", "orange"]);
     const logged = consoleSpy.mock.calls[0][0];
-    expect(logged).toContain(`<text x=\"400\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"orange\">Multi Expr Title</text>`);
+    expect(logged).toContain(`<text x=\"${800/2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"orange\">Multi Expr Title</text>`);
     consoleSpy.mockRestore();
   });
 
@@ -221,6 +221,21 @@ describe("SVG Render Feature", () => {
     // With two expressions, height should be 2 * 200 = 400
     expect(logged).toContain('height="400"');
     consoleSpy.mockRestore();
+  });
+
+  // New tests for viewBox and grouping <g> elements
+  test("SVG output includes dynamic viewBox attribute for single expression", () => {
+    const expressions = ["y=sin(x)"];
+    const svg = renderSVG({ expressions, width: 800, height: 400 });
+    expect(svg).toContain('viewBox="0 0 800 400"');
+    expect(svg).toContain('<g id="expr-1">');
+  });
+
+  test("each expression is wrapped in a <g> with unique id for multiple expressions", () => {
+    const expressions = ["y=sin(x)", "y=cos(x)"];
+    const svg = renderSVG({ expressions, width: 640, segmentHeight: 150 });
+    expect(svg).toContain('<g id="expr-1">');
+    expect(svg).toContain('<g id="expr-2">');
   });
 });
 

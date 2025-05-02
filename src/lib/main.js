@@ -108,13 +108,13 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
     svgHeight = computedSegmentHeight * expressions.length;
     expressions.forEach((expr, index) => {
       const baseY = index * computedSegmentHeight + computedSegmentHeight / 2;
-      svgContent += renderExprText(10, baseY, expr, range);
+      svgContent += `<g id="expr-${index + 1}">` + renderExprText(10, baseY, expr, range) + `</g>`;
     });
   } else {
     // Single expression case: use height or default to 400.
     svgHeight = height || 400;
     const baseY = svgHeight / 2;
-    svgContent = renderExprText(10, baseY, expressions[0], range);
+    svgContent = `<g id="expr-1">` + renderExprText(10, baseY, expressions[0], range) + `</g>`;
   }
 
   svgContent = appendAxisLabels(svgContent, width, svgHeight, xlabel, ylabel);
@@ -137,7 +137,10 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"${title ? 50 : 20}\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>
   ` : "";
 
-  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${titleElement}${annotationElement}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
+  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\" viewBox=\"0 0 ${width} ${svgHeight}\">
+  ${backgroundRect}${titleElement}${annotationElement}${svgContent}
+  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />
+</svg>`;
   return svg;
 }
 
