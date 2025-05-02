@@ -2,9 +2,147 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 export function main(args = process.argv.slice(2)) {
-  console.log(`Run with: ${JSON.stringify(args)}`);
+  // Simple CLI argument parsing
+  let expression = null;
+  let range = null;
+  let fileOutput = null;
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === '--expression') {
+      expression = args[i + 1];
+      i++;
+    } else if (arg === '--range') {
+      range = args[i + 1];
+      i++;
+    } else if (arg === '--file') {
+      fileOutput = args[i + 1];
+      i++;
+    } else if (arg === '--help' || arg === '-h') {
+      console.log(`Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg]`);
+      return;
+    }
+  }
+
+  // Validate required parameters
+  if (!expression || !range) {
+    console.error("Error: --expression and --range are required arguments.");
+    process.exit(1);
+  }
+
+  // Validate range argument
+  let xRange = null;
+  let yRange = null;
+  const parts = range.split(",");
+  for (const part of parts) {
+    const [axis, bounds] = part.split("=");
+    if (!axis || !bounds) {
+      console.error(`Error: invalid range format for part '${part}'. Expected format axis=low:high`);
+      process.exit(1);
+    }
+    const [lowStr, highStr] = bounds.split(":");
+    const low = parseFloat(lowStr);
+    const high = parseFloat(highStr);
+    if (isNaN(low) || isNaN(high)) {
+      console.error(`Error: invalid numerical values in range '${part}'.`);
+      process.exit(1);
+    }
+    if (axis.trim().toLowerCase() === "x") {
+      xRange = { low, high };
+    } else if (axis.trim().toLowerCase() === "y") {
+      yRange = { low, high };
+    } else {
+      console.error(`Error: unsupported axis '${axis}'. Only 'x' and 'y' are allowed.`);
+      process.exit(1);
+    }
+  }
+
+  if (!xRange) {
+    console.error("Error: x range must be specified in --range.");
+    process.exit(1);
+  }
+
+  // Validate --file argument if provided
+  if (fileOutput) {
+    if (!(fileOutput.endsWith(".svg") || fileOutput.endsWith(".png"))) {
+      console.error("Error: --file must have a .svg or .png extension.");
+      process.exit(1);
+    }
+  }
+
+  // Parse expression (support only y=sin(x) or y=cos(x))
+  let func = null;
+  if (expression.startsWith("y=")) {
+    const funcStr = expression.slice(2).trim();
+    if (funcStr === "sin(x)") {
+      func = Math.sin;
+    } else if (funcStr === "cos(x)") {
+      func = Math.cos;
+    } else {
+      console.error(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported.`);
+      process.exit(1);
+    }
+  } else {
+    console.error("Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'.");
+    process.exit(1);
+  }
+
+  // Compute time series data (sample 20 points between xRange.low and xRange.high)
+  const points = [];
+  const steps = 20;
+  const stepSize = (xRange.high - xRange.low) / (steps - 1);
+  for (let i = 0; i < steps; i++) {
+    const x = xRange.low + i * stepSize;
+    const y = func(x);
+    points.push({ x, y });
+  }
+
+  // Dual output functionality
+  if (fileOutput) {
+    if (fileOutput.endsWith(".svg")) {
+      // Generate simple SVG content
+      let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">\n`;
+      // Determine y boundaries
+      const yMin = yRange ? yRange.low : Math.min(...points.map(p => p.y));
+      const yMax = yRange ? yRange.high : Math.max(...points.map(p => p.y));
+      const polylinePoints = points.map(p => {
+        const svgX = ((p.x - xRange.low) / (xRange.high - xRange.low)) * 500;
+        const svgY = 300 - ((p.y - yMin) / (yMax - yMin)) * 300;
+        return `${svgX},${svgY}`;
+      }).join(" ");
+      svgContent += `<polyline points="${polylinePoints}" fill="none" stroke="black" />\n`;
+      svgContent += `</svg>`;
+      try {
+        fs.writeFileSync(fileOutput, svgContent);
+        console.log(`SVG plot generated and saved to ${fileOutput}`);
+      } catch (e) {
+        console.error(`Error writing file: ${e.message}`);
+        process.exit(1);
+      }
+    } else if (fileOutput.endsWith(".png")) {
+      // Simulate PNG output with placeholder text (actual PNG generation requires additional libraries)
+      let pngContent = `PNG PLOT DATA\nExpression: ${expression}\nPoints:\n`;
+      points.forEach(p => {
+        pngContent += `(${p.x.toFixed(2)}, ${p.y.toFixed(2)})\n`;
+      });
+      try {
+        fs.writeFileSync(fileOutput, pngContent);
+        console.log(`PNG plot generated and saved to ${fileOutput}`);
+      } catch (e) {
+        console.error(`Error writing file: ${e.message}`);
+        process.exit(1);
+      }
+    }
+  } else {
+    // No file provided: output text preview to console
+    console.log("Text Preview of Plot:");
+    points.forEach(p => {
+      console.log(`x: ${p.x.toFixed(2)}, y: ${p.y.toFixed(2)}`);
+    });
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

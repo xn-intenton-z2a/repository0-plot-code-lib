@@ -10,23 +10,42 @@ Execute the CLI by running:
 
 The tool parses the provided expression and range parameters to generate plots in SVG or PNG formats.
 
-## API
+### Dual Output Modes
 
-The primary exported function is `main(args)`, which logs the provided arguments and serves as the entry point for CLI execution.
+- If the `--file` parameter is provided with a valid file name ending in `.svg` or `.png`, the plot will be generated and saved to that file.
+- If the `--file` parameter is omitted, a text preview of the plot (a list of computed points) will be displayed on the console.
 
-## Examples
+#### Examples
 
-### Running via CLI:
+**Generate an SVG file:**
 
 ```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file output.svg
+node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg
 ```
 
-### Using the API directly:
+**Generate a PNG file (simulated output):**
 
-```js
-import { main } from "@src/lib/main.js";
-
-// Pass command-line arguments
-main(["--expression", "y=cos(x)", "--range", "x=-5:5"]);
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
 ```
+
+**Text Preview (no file output):**
+
+```sh
+node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
+```
+
+## API
+
+The primary exported function is `main(args)`, which processes the command line arguments and executes the plot generation logic.
+
+- **Parameters:**
+  - `--expression` (required): A mathematical expression (currently supports `y=sin(x)` or `y=cos(x)`).
+  - `--range` (required): The range of values; expected in format `x=low:high` (optionally, `y=low:high` can also be specified).
+  - `--file` (optional): The output file. Must end with `.svg` or `.png`. When omitted, a text preview is displayed.
+
+## Error Handling
+
+- Missing required parameters or invalid formats will result in descriptive error messages in the console.
+- The `--range` argument is validated to ensure it contains numerical bounds.
+- The file output is checked to ensure only `.svg` or `.png` formats are accepted.
