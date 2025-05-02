@@ -25,12 +25,12 @@ function parseCLIArgs(args) {
   return result;
 }
 
-// Define a schema for the CLI arguments using Zod
+// Define a schema for range argument using Zod with custom refinement
 const rangeSchema = z.string().superRefine((val, ctx) => {
   const parts = val.split(",");
   for (const part of parts) {
     const trimmed = part.trim();
-    // Regex: axis=low:high, where axis is x or y, and low and high are numbers
+    // Expect format: axis=low:high, where axis is x or y, and low/high are numbers
     if (!/^[xy]=[-+]?\d*\.?\d+:[-+]?\d*\.?\d+$/.test(trimmed)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -41,18 +41,24 @@ const rangeSchema = z.string().superRefine((val, ctx) => {
   }
 });
 
+// Define a schema for the --file argument
 const fileSchema = z.string().refine(
   (val) => val.endsWith('.svg') || val.endsWith('.png'),
   { message: "Error: --file must have a .svg or .png extension." }
 );
 
+// Define the CLI schema using Zod
 const cliSchema = z.object({
-  expression: z.string({ required_error: "Error: --expression and --range are required arguments." }).nonempty({
-    message: "Error: --expression and --range are required arguments."
-  }).refine(val => val.startsWith('y='), { message: "Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'." }),
-  range: z.string({ required_error: "Error: --expression and --range are required arguments." }).nonempty({
-    message: "Error: --expression and --range are required arguments."
-  }).pipe(rangeSchema),
+  expression: z.string({ required_error: "Error: --expression and --range are required arguments." })
+    .nonempty({
+      message: "Error: --expression and --range are required arguments."
+    })
+    .refine(val => val.startsWith('y='), { message: "Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'." }),
+  range: z.string({ required_error: "Error: --expression and --range are required arguments." })
+    .nonempty({
+      message: "Error: --expression and --range are required arguments."
+    })
+    .pipe(rangeSchema),
   file: z.optional(fileSchema)
 });
 
@@ -71,7 +77,7 @@ export function main(args = process.argv.slice(2)) {
     validated = cliSchema.parse(parsedArgs);
   } catch (e) {
     if (e instanceof z.ZodError) {
-      // Get the first error message
+      // Get the first error message from Zod validation
       console.error(e.errors[0].message);
       process.exit(1);
     } else {
@@ -93,8 +99,6 @@ export function main(args = process.argv.slice(2)) {
     console.error(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported.`);
     process.exit(1);
   }
-
-  // Validate --file argument if provided (already validated by Zod)
 
   // Validate and parse range argument
   let xRange = null;

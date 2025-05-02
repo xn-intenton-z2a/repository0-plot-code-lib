@@ -35,13 +35,16 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
 node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
 ```
 
-## Argument Validation with Zod
+## CLI Argument Validation with Zod
 
-This version of the CLI leverages the Zod library for schema-based validation of CLI arguments. This improves error reporting and maintainability. The validations include:
+This version of the CLI leverages the Zod library for schema-based validation of CLI arguments. Key validations include:
 
 - Ensuring that both `--expression` and `--range` are provided. If either is missing, the error "Error: --expression and --range are required arguments." is shown.
-- Validating that the `--range` follows the format (e.g., `x=low:high` or `x=low:high,y=low:high`). If the format is incorrect, a descriptive error is given.
+- Validating that the `--expression` begins with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
+- Validating that the `--range` argument follows the format (e.g., `x=low:high` or `x=low:high,y=low:high`), with numerical bounds.
 - Confirming that the `--file` argument, if provided, ends with `.svg` or `.png`.
+
+Leveraging Zod not only simplifies the code but also ensures clear and consistent error messages, making the CLI more robust and user friendly.
 
 ## API
 
@@ -54,8 +57,8 @@ The primary exported function is `main(args)`, which processes the command line 
 
 ## Error Handling
 
-- Missing required parameters or invalid formats will result in descriptive error messages in the console.
+- Missing required parameters or invalid formats will result in descriptive error messages displayed in the console.
 - The `--range` argument is validated to ensure it contains numerical bounds in the correct format.
-- The file output is checked to ensure only `.svg` or `.png` formats are accepted.
+- The file output name is validated so that only `.svg` or `.png` formats are accepted.
 
-This enhanced validation mechanism, powered by Zod, ensures a robust and self-documenting CLI experience.
+*Note: The CLI argument validation is now powered by Zod, offering a more maintainable and self-documenting validation approach.*
