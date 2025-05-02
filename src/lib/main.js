@@ -10,9 +10,12 @@ import sharp from "sharp";
  * Example: "output-format" => "outputFormat"
  */
 function kebabToCamel(str) {
-  return str.split("-").map((word, index) => {
-    return index === 0 ? word : word[0].toUpperCase() + word.slice(1);
-  }).join("");
+  return str
+    .split("-")
+    .map((word, index) => {
+      return index === 0 ? word : word[0].toUpperCase() + word.slice(1);
+    })
+    .join("");
 }
 
 /**
@@ -56,7 +59,7 @@ function validateOptionNotEmpty(options, optionName) {
   return true;
 }
 
-export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation }) {
+export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation, title }) {
   const ns = "http://www.w3.org/2000/svg";
   let svgContent = "";
   let svgHeight;
@@ -124,10 +127,13 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   // Determine effective line color.
   const effectiveLineColor = lineColor ? lineColor : "black";
 
-  // Add annotation element if provided.
-  const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"20\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>\n  ` : "";
+  // Add title element if provided, rendered at top center.
+  const titleElement = title ? `<text x=\"${width / 2}\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"${textColor ? textColor : 'black'}\">${title.trim()}</text>\n  ` : "";
 
-  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${annotationElement}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
+  // Adjust annotation element position if title is present to avoid overlap
+  const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"${title ? 50 : 20}\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>\n  ` : "";
+
+  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${titleElement}${annotationElement}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
   return svg;
 }
 
@@ -173,6 +179,7 @@ export async function main(args = []) {
   const lineColor = options.lineColor ? options.lineColor : null;
   const backgroundColor = options.backgroundColor ? options.backgroundColor : null;
   const annotation = options.annotation ? options.annotation : null;
+  const title = options.title ? options.title : null;
   const autoSegment = options.autoSegment === true || options.autoSegment === "true";
   let svgOutput;
 
@@ -195,10 +202,10 @@ export async function main(args = []) {
       }, 0);
     }
     
-    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation });
+    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation, title });
   } else {
     const heightVal = options.height ? parseInt(options.height, 10) : 400;
-    svgOutput = renderSVG({ expressions, width, height: heightVal, range, xlabel, ylabel, textColor, lineColor, backgroundColor, annotation });
+    svgOutput = renderSVG({ expressions, width, height: heightVal, range, xlabel, ylabel, textColor, lineColor, backgroundColor, annotation, title });
   }
 
   // Handle PNG conversion if outputFormat is png, otherwise print SVG.
