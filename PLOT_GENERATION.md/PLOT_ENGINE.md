@@ -1,22 +1,24 @@
 # Overview
-This feature merges all existing plotting functionalities into a single unified CLI tool. The new PLOT_ENGINE supports inline SVG rendering for one or multiple mathematical expressions, dynamic axis labeling, style customization, and PNG conversion using the sharp library. This consolidation streamlines usage, improves consistency and error handling, and simplifies maintenance in line with our mission to provide a go-to tool for creating mathematical visualizations.
+This feature unifies all plotting functionalities into a single, robust command-line tool. PLOT_ENGINE combines SVG rendering, PNG conversion, axis labeling, style customization, and comprehensive input validation. The unified engine supports both single and multiple mathematical expressions and leverages existing libraries to generate high-quality plots according to user-specified parameters.
 
 # Functionality
-- Accepts one or multiple mathematical expressions using the --expression flag. For multiple expressions, segment heights are calculated either via a dedicated --segmentHeight flag or by falling back to the --height flag or a default value.
-- Dynamically generates inline SVG plotting the expressions with configurable width, height, and optional segment height for multiple expressions.
-- Provides optional axis labels (--xlabel and --ylabel) which are rendered with proper positioning and error checking for empty inputs.
-- Supports additional style customization options such as text color, line color, and background color.
-- Displays range information within the SVG plot when the --range flag is provided.
-- Converts the generated SVG to PNG format when the --output-format flag is set to "png" and ensures that a mandatory --file flag is provided for saving the PNG file.
-- Implements robust validations for required parameters and outputs descriptive error messages with timestamps when needed.
+- Parses CLI arguments to accept one or multiple mathematical expressions separated by semicolons.
+- Generates inline SVG plots with configurable dimensions. For single expressions, uses a fixed height (default 400) while for multiple expressions, calculates total height using a segment height (via --segmentHeight) or falls back to --height.
+- Supports additional features like axis labeling (--xlabel and --ylabel), custom color styling (--textColor, --lineColor, and --backgroundColor), and optional range display (--range flag).
+- Integrates PNG conversion: when the --output-format flag is set to png, the engine converts the generated SVG to a PNG file using the sharp library, requiring a valid --file flag for saving.
+- Implements robust validations for required flags and non-empty values for custom options, logging detailed error messages with timestamps.
 
 # Implementation
-- Consolidates logic from previously separate modules into a single source file (src/lib/main.js). This single entry point parses the CLI arguments, computes the dimensions dynamically, generates the SVG content, and optionally converts it to a PNG file.
-- The merging supports both legacy and new flags, maintaining backward compatibility while improving internal consistency.
+- Consolidates prior distinct modules and feature implementations into a single source file (src/lib/main.js).
+- The CLI argument parser converts kebab-case flags to camelCase for consistent internal use.
+- Features include dynamic SVG generation: text elements, optional background rectangle, and a configurable plot line. Axis labels are rendered appropriately with center alignment and rotation for the y-axis label.
+- Error handling is thorough, ensuring that missing or empty critical flags (such as --expression, --xlabel, --ylabel, --textColor, --lineColor, or --backgroundColor) result in descriptive console error outputs.
+- PNG conversion utilizes the sharp library to process the SVG and output a PNG file, with validations ensuring mandatory file output paths are provided.
 
 # Testing & Documentation
-- Unit tests cover all aspects of SVG generation including single and multiple expressions, axis labeling, range display, and PNG conversion error handling.
-- Documentation in the README and usage guides are updated to provide clear instructions on how to use the unified CLI tool.
+- Unit tests cover SVG generation for both single and multiple expressions, validating dimension calculations, label positioning, style applications, and error conditions for improper flag values.
+- The README, Usage Guide, and contributing guidelines have been updated to reflect unified functionality, providing comprehensive examples and command-line instructions.
+- Documentation emphasizes both the core plotting capabilities and the expanded error handling, highlighting the ease of generating high-quality mathematical visualizations from simple expressions.
 
 # Impact
-By integrating multiple plotting capabilities into PLOT_ENGINE, this feature significantly simplifies both end-user experience and ongoing development, ensuring that our library remains the go-to solution for high-quality, customizable mathematical visualizations.
+This unified PLOT_ENGINE simplifies user experience and maintenance by merging previously separate plotting modules into one streamlined tool. It directly supports the mission of becoming the go-to plot library for formulae visualizations, delivering high impact through consolidated functionality and improved error handling across all plot generation scenarios.
