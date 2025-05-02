@@ -10,7 +10,7 @@ This documentation details the sharp library’s capabilities for high-performan
 
 # Vitest Testing Framework Documentation
 ## https://vitest.dev/
-A comprehensive guide on utilizing Vitest for unit and integration testing in Node.js environments. The resource provides detailed instructions on CLI usage, test-driven development, and continuous integration practice, ensuring robust testing for both plotting logic and command-line functionality.
+A comprehensive guide on utilizing Vitest for unit and integration testing in Node.js environments. The resource provides detailed instructions on CLI usage, test-driven development, and continuous integration practices, ensuring robust testing for both plotting logic and command-line functionality.
 ## License: MIT
 
 # Comprehensive Node.js Documentation and Tooling
@@ -48,11 +48,6 @@ A definitive resource for optimizing SVG files, combining the official SVGO docu
 This resource offers comprehensive techniques for scientific plotting using Gnuplot. It provides insights into command usage, data formatting, and export options, making it indispensable for creating high-quality scientific visualizations and understanding plot rendering intricacies.
 ## License: GPL
 
-# Yargs Documentation
-## https://yargs.js.org/docs/
-This documentation details the usage of Yargs for robust command-line argument parsing. It includes practical examples, error handling strategies, and configuration options, serving as a crucial reference for developing resilient CLI tools and ensuring intuitive user interfaces in command-line applications.
-## License: MIT
-
 # MathJax Documentation
 ## https://docs.mathjax.org/en/latest/
 Offers extensive guidelines for rendering complex mathematical notation on the web. Detailed configuration options and rendering techniques ensure accurate display of mathematical expressions, a vital component when visualizing formulas or scientific data directly within plots.
@@ -64,9 +59,9 @@ Provides a lightweight and intuitive approach to programmatically manipulating S
 ## License: MIT
 
 # CLI Tools and Best Practices
-## https://oclif.io/ | https://github.com/tj/commander.js | https://github.com/jlevy/the-art-of-command-line | https://nodejs.dev/learn/command-line-apps
-This merged resource combines documentation from leading CLI frameworks and best practices guides. In addition to resources on oclif and Commander.js, it now includes the Node.js guide on building command-line applications. The resource offers actionable guidance on command definition, argument parsing, efficient CLI design, and integration strategies—critical for developing a user-friendly and robust command-line interface for plot generation.
-## License: MIT / Unknown
+## https://oclif.io/ | https://github.com/tj/commander.js | https://github.com/jlevy/the-art-of-command-line | https://nodejs.dev/learn/command-line-apps | https://yargs.js.org/docs/
+This merged resource combines documentation from leading CLI frameworks and best practices guides, and now also includes detailed insights from Yargs. It offers actionable guidance on command definition, argument parsing, efficient CLI design, and integration strategies—critical for developing a user-friendly and robust command-line interface for plot generation.
+## License: MIT / Various
 
 # Code Quality and Formatting Tools
 ## https://eslint.org/docs/latest/ | https://prettier.io/docs/en/index.html
@@ -76,4 +71,9 @@ A combined resource offering guidelines on maintaining high code quality using E
 # Node.js Best Practices
 ## https://github.com/goldbergyoni/nodebestpractices
 This comprehensive resource provides deep insights into best practices for Node.js development. Covering areas such as error handling, security, performance optimization, and scalability, it offers actionable advice and practical examples for building robust and maintainable server-side applications.
+## License: MIT
+
+# Inquirer.js Documentation
+## https://github.com/SBoudrias/Inquirer.js
+Inquirer.js offers a robust framework for building interactive command-line user interfaces. Its detailed guidance on prompt configuration, dynamic question flows, and input validation is invaluable for enhancing user interaction in CLI applications, complementing the command-line features of this plotting library.
 ## License: MIT
