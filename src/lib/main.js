@@ -5,14 +5,28 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import sharp from "sharp";
 
+/**
+ * Helper function to convert kebab-case string to camelCase.
+ * Example: "output-format" => "outputFormat"
+ */
+function kebabToCamel(str) {
+  return str.split("-").map((word, index) => {
+    return index === 0 ? word : word[0].toUpperCase() + word.slice(1);
+  }).join("");
+}
+
+/**
+ * Parses command-line arguments into an options object.
+ * Flags in the form --flagName are transformed into camelCase properties.
+ */
 function parseArgs(args) {
   const options = {};
   for (let i = 0; i < args.length; i++) {
     if (args[i].startsWith("--")) {
-      const rawKey = args[i].substring(2);
-      // Convert kebab-case to camelCase (e.g., output-format -> outputFormat)
-      const key = rawKey.split("-").map((word, index) => index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)).join("");
+      // Remove leading '--' and convert to camelCase
+      const key = kebabToCamel(args[i].substring(2));
       let value = true;
+      // Check if the next argument is a value (and doesn't start with --)
       if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
         value = args[i + 1];
         i++;
@@ -23,9 +37,23 @@ function parseArgs(args) {
   return options;
 }
 
-// Helper function to log error with timestamp
+/**
+ * Logs error messages with a timestamp.
+ */
 function logError(message) {
   console.error(`[${new Date().toISOString()}] Error: ${message}`);
+}
+
+/**
+ * Validates that an option value is not an empty string.
+ * Logs an error if the option exists and has an empty string value.
+ */
+function validateOptionNotEmpty(options, optionName) {
+  if (optionName in options && typeof options[optionName] === "string" && options[optionName].trim() === "") {
+    logError(`--${optionName} flag provided with empty value.`);
+    return false;
+  }
+  return true;
 }
 
 export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation }) {
@@ -36,7 +64,7 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   // Helper function to render a text element with optional range info.
   const renderExprText = (x, baseY, text, range) => {
     const yPos = range ? baseY - 10 : baseY;
-    // If textColor is provided, add fill attribute
+    // Add fill attribute if textColor is provided
     const fillAttr = textColor ? ` fill=\"${textColor}\"` : "";
     let txt = `<text x=\"${x}\" y=\"${yPos}\" font-size=\"16\"${fillAttr}>${text.trim()}</text>`;
     if (range) {
@@ -45,7 +73,7 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
     return txt;
   };
 
-  // Helper function to append optional axis labels.
+  // Append axis labels if provided.
   const appendAxisLabels = (content, svgWidth, svgHeight, xlabel, ylabel) => {
     let result = content;
     const textFill = textColor ? ` fill=\"${textColor}\"` : "";
@@ -59,19 +87,12 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   };
 
   if (expressions.length > 1) {
-    // Determine segment height based on --autoSegment flag
-    let segHeight;
-    // Use segmentHeight if provided, otherwise fallback to height
-    if (typeof segmentHeight !== 'undefined') {
-      segHeight = segmentHeight;
-    } else {
-      segHeight = height ? height : 100;
-    }
+    // Determine segment height; use provided segmentHeight or fallback to height
+    let segHeight = typeof segmentHeight !== 'undefined' ? segmentHeight : (height ? height : 100);
     
-    // autoSegment flag can be boolean true or string "true"
+    // If autoSegment flag is true, dynamically compute segment height.
     const autoSeg = autoSegment === true || autoSegment === "true";
     if (autoSeg) {
-      // Compute dynamic segment height using heuristic
       segHeight = expressions.reduce((maxH, expr) => {
         let computed = 100 + Math.floor(expr.length / 10) * 5;
         if (xlabel) computed += 20;
@@ -86,6 +107,7 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
       svgContent += renderExprText(10, baseY, expr, range);
     });
   } else {
+    // Single expression case: use height or default to 400.
     svgHeight = height || 400;
     const baseY = svgHeight / 2;
     svgContent = renderExprText(10, baseY, expressions[0], range);
@@ -93,16 +115,16 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
 
   svgContent = appendAxisLabels(svgContent, width, svgHeight, xlabel, ylabel);
 
-  // Build SVG content with optional background rectangle
+  // Build SVG with optional background rectangle.
   let backgroundRect = "";
   if (backgroundColor) {
     backgroundRect = `<rect width=\"${width}\" height=\"${svgHeight}\" fill=\"${backgroundColor}\"/>\n  `;
   }
 
-  // Use provided lineColor for the line element if given, default to black
+  // Determine effective line color.
   const effectiveLineColor = lineColor ? lineColor : "black";
 
-  // Add annotation if provided
+  // Add annotation element if provided.
   const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"20\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>\n  ` : "";
 
   const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${annotationElement}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
@@ -112,38 +134,22 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
 export async function main(args = []) {
   const options = parseArgs(args);
 
+  // Validate required flag --expression.
   if (!options.expression) {
     logError("--expression flag is required.");
     return;
   }
 
-  // Validate axis labels
-  if ("xlabel" in options && typeof options.xlabel === "string" && options.xlabel.trim() === "") {
-    logError("--xlabel flag provided with empty value.");
-    return;
-  }
-  if ("ylabel" in options && typeof options.ylabel === "string" && options.ylabel.trim() === "") {
-    logError("--ylabel flag provided with empty value.");
-    return;
-  }
-  if ("textColor" in options && typeof options.textColor === "string" && options.textColor.trim() === "") {
-    logError("--textColor flag provided with empty value.");
-    return;
-  }
-  if ("lineColor" in options && typeof options.lineColor === "string" && options.lineColor.trim() === "") {
-    logError("--lineColor flag provided with empty value.");
-    return;
-  }
-  if ("backgroundColor" in options && typeof options.backgroundColor === "string" && options.backgroundColor.trim() === "") {
-    logError("--backgroundColor flag provided with empty value.");
-    return;
+  // Validate that certain options are not provided as empty strings.
+  const flagsToValidate = ["xlabel", "ylabel", "textColor", "lineColor", "backgroundColor"];
+  for (const flag of flagsToValidate) {
+    if (!validateOptionNotEmpty(options, flag)) return;
   }
 
-  // Validate numeric flags: width, height, segmentHeight (if provided)
+  // Validate numeric flags: width, height, segmentHeight.
   const numericFlags = ["width", "height", "segmentHeight"];
   for (const flag of numericFlags) {
     if (flag in options) {
-      // Accept only positive integers
       if (!/^[1-9]\d*$/.test(options[flag])) {
         logError(`--${flag} must be a positive number.`);
         return;
@@ -151,13 +157,13 @@ export async function main(args = []) {
     }
   }
 
-  // Validate PNG conversion parameters
+  // For PNG conversion, ensure --file is provided.
   if (options.outputFormat && options.outputFormat.toLowerCase() === "png" && !options.file) {
     logError("--file flag is required when using png output format.");
     return;
   }
 
-  // Split expressions by semicolon for multiple expressions
+  // Split expressions by semicolon, trim spaces.
   const expressions = options.expression.split(";").map(e => e.trim()).filter(e => e);
   const width = options.width ? parseInt(options.width, 10) : 640;
   const range = options.range ? options.range : null;
@@ -172,7 +178,7 @@ export async function main(args = []) {
 
   if (expressions.length > 1) {
     let segHeight;
-    // If segmentHeight is provided, use it; otherwise fallback to height or default 100
+    // Use segmentHeight if provided, otherwise fallback to height or default to 100.
     if (options.segmentHeight) {
       segHeight = parseInt(options.segmentHeight, 10);
     } else {
@@ -195,6 +201,7 @@ export async function main(args = []) {
     svgOutput = renderSVG({ expressions, width, height: heightVal, range, xlabel, ylabel, textColor, lineColor, backgroundColor, annotation });
   }
 
+  // Handle PNG conversion if outputFormat is png, otherwise print SVG.
   if (options.outputFormat && options.outputFormat.toLowerCase() === "png") {
     try {
       const pngBuffer = await sharp(Buffer.from(svgOutput)).png().toBuffer();
