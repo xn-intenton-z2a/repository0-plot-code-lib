@@ -10,6 +10,8 @@ repository0-plot-code-lib is a command-line tool designed to transform mathemati
 - Option to convert SVG plots to PNG using the sharp library.
 - Support for axis labels using the --xlabel and --ylabel flags; error messages are displayed if empty values are provided.
 - Displaying range information via the --range flag.
+- **Auto-Segmentation:** Use the --autoSegment flag to dynamically adjust segment heights based on expression complexity and additional elements, ensuring appropriate spacing for multi-expression plots.
+- **Annotation Support:** Add custom annotations to the plot using the --annotation flag; the annotation is rendered in the top-right corner with styling based on the --textColor flag.
 
 While the current implementation logs received command-line arguments and produces plots, further enhancements and extended plotting capabilities are planned for future releases.
 
