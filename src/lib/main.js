@@ -28,35 +28,43 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   let svgContent = "";
   let svgHeight;
 
+  // Helper function to render a text element with optional range info.
+  const renderExprText = (x, baseY, text, range) => {
+    const yPos = range ? baseY - 10 : baseY;
+    let txt = `<text x=\"${x}\" y=\"${yPos}\" font-size=\"16\">${text.trim()}</text>`;
+    if (range) {
+      txt += `<text x=\"${x}\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"gray\">Range: ${range}</text>`;
+    }
+    return txt;
+  };
+
+  // Helper function to append optional axis labels.
+  const appendAxisLabels = (content, svgWidth, svgHeight, xlabel, ylabel) => {
+    let result = content;
+    if (xlabel) {
+      result += `\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel.trim()}</text>`;
+    }
+    if (ylabel) {
+      result += `\n  <text x=\"15\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${svgHeight / 2})\" font-size=\"14\">${ylabel.trim()}</text>`;
+    }
+    return result;
+  };
+
   if (expressions.length > 1) {
-    const segHeight = segmentHeight || 100;
+    // For multiple expressions, use segmentHeight flag if provided or fallback to height flag or default to 100.
+    const segHeight = segmentHeight ? parseInt(segmentHeight, 10) : (height ? parseInt(height, 10) : 100);
     svgHeight = segHeight * expressions.length;
     expressions.forEach((expr, index) => {
-      let baseY = index * segHeight + segHeight / 2;
-      // Adjust position if range is provided to accommodate extra text line
-      const yPos = range ? baseY - 10 : baseY;
-      svgContent += `<text x=\"10\" y=\"${yPos}\" font-size=\"16\">${expr.trim()}</text>`;
-      if (range) {
-        svgContent += `<text x=\"10\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"gray\">Range: ${range}</text>`;
-      }
+      const baseY = index * segHeight + segHeight / 2;
+      svgContent += renderExprText(10, baseY, expr, range);
     });
   } else {
     svgHeight = height || 400;
     const baseY = svgHeight / 2;
-    const yPos = range ? baseY - 10 : baseY;
-    svgContent = `<text x=\"10\" y=\"${yPos}\" font-size=\"16\">${expressions[0].trim()}</text>`;
-    if (range) {
-      svgContent += `<text x=\"10\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"gray\">Range: ${range}</text>`;
-    }
+    svgContent = renderExprText(10, baseY, expressions[0], range);
   }
 
-  // Append axis labels if provided
-  if (xlabel) {
-    svgContent += `\n  <text x=\"${width/2}\" y=\"${svgHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel.trim()}</text>`;
-  }
-  if (ylabel) {
-    svgContent += `\n  <text x=\"15\" y=\"${svgHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${svgHeight/2})\" font-size=\"14\">${ylabel.trim()}</text>`;
-  }
+  svgContent = appendAxisLabels(svgContent, width, svgHeight, xlabel, ylabel);
 
   const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"black\" />\n</svg>`;
   return svg;
