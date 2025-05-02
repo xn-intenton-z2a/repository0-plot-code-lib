@@ -22,15 +22,13 @@ function removeFile(filepath) {
   }
 }
 
+// Tests for refactored CLI argument parsing
 describe('CLI Dual Output Functionality', () => {
   test('should output text preview when --file is not provided', () => {
-    // Capture console.log output
     const output = captureOutput(() => {
       main(['--expression', 'y=cos(x)', '--range', 'x=0:10']);
     });
-    // Expect the preview header
     expect(output[0]).toBe('Text Preview of Plot:');
-    // Check that at least one point is printed
     expect(output.find(line => line.includes('x:'))).toBeDefined();
   });
 

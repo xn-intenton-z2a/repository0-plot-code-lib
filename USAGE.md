@@ -46,6 +46,16 @@ This version of the CLI leverages the Zod library for schema-based validation of
 
 Leveraging Zod not only simplifies the code but also ensures clear and consistent error messages, making the CLI more robust and user friendly.
 
+## Refactored CLI Parsing
+
+The CLI argument parsing and validation logic has been refactored into three distinct functions:
+
+- **parseArguments:** Converts raw CLI arguments into an object.
+- **validateArguments:** Validates the parsed arguments using a Zod schema, ensuring clear and consistent error messages.
+- **processRange:** Processes the range string, converting it into usable numeric boundaries for the x and y axes.
+
+This refactoring enhances code readability and maintainability without altering the core functionality of plot generation.
+
 ## API
 
 The primary exported function is `main(args)`, which processes the command line arguments and executes the plot generation logic.
@@ -61,4 +71,4 @@ The primary exported function is `main(args)`, which processes the command line 
 - The `--range` argument is validated to ensure it contains numerical bounds in the correct format.
 - The file output name is validated so that only `.svg` or `.png` formats are accepted.
 
-*Note: The CLI argument validation is now powered by Zod, offering a more maintainable and self-documenting validation approach.*
+*Note: The refactored CLI parsing implementation improves modularity and simplifies future enhancements.*
