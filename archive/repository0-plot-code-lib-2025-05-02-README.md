@@ -2,34 +2,27 @@
 
 _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
-repository0-plot-code-lib is a CLI tool that generates plots from mathematical expressions. The tool supports producing plots in both SVG and PNG formats. It converts simple mathematical expressions into graphical representations, making it easy to visualize formulas.
+## Overview
+
+repository0-plot-code-lib is a command-line tool designed to transform mathematical expressions into visual plots in both SVG and PNG formats. The tool supports both single and multiple expressions (separated by semicolons) and offers options for customizing the plot dimensions and labels. Key features include:
+
+- Generating SVG plots with customizable width, height, and segment height (for multiple expressions).
+- Option to convert SVG plots to PNG using the sharp library.
+- Support for axis labels using the --xlabel and --ylabel flags; error messages are displayed if empty values are provided.
+- Displaying range information via the --range flag.
+- **Auto-Segmentation:** Use the --autoSegment flag to dynamically adjust segment heights based on expression complexity and additional elements, ensuring appropriate spacing for multi-expression plots.
+- **Annotation Support:** Add custom annotations to the plot using the --annotation flag; the annotation is rendered in the top-right corner with styling based on the --textColor flag.
+- **Title Support:** Add a custom title to your plot using the --title flag. The title is rendered at the top center of the plot and, in multi-expression mode, the layout automatically adjusts to prevent overlaps with annotations or other elements.
+
+While the current implementation logs received command-line arguments and produces plots, further enhancements and extended plotting capabilities are planned for future releases.
 
 ## Usage
 
-This library is intended to be used from the command line. For detailed usage examples and instructions, please refer to the [Usage Guide](docs/USAGE.md).
+For basic usage, run:
 
-### Basic SVG Plot
+  node src/lib/main.js [arguments]
 
-To generate an SVG plot:
-
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-3:3"
-
-To write the output to a file:
-
-  node src/lib/main.js --expression "y=sin(x)" --file output.svg
-
-### PNG Plot Generation
-
-Ensure that the dependency "sharp" is installed. To generate a PNG plot:
-
-  node src/lib/main.js --expression "y=sin(x)" --output-format png --file output.png
-
-_Note:_ The `--expression` flag is mandatory. When generating PNG output, the `--file` flag is required.
-
-## Error Handling
-
-- If `--expression` is missing, the CLI returns an error: "Error: --expression flag is required."
-- If an unsupported output format is specified, a relevant error message is displayed.
+For detailed usage instructions, including examples for generating SVG and PNG plots, please see the [Usage Guide](docs/USAGE.md).
 
 ## License
 

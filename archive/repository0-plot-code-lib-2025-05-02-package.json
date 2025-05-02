@@ -1,6 +1,6 @@
 {
   "name": "@xn-intenton-z2a/repository0-plot-code-lib",
-  "version": "1.2.0-0",
+  "version": "1.2.0-1",
   "description": "Be a go-to plot library with a CLI, be the jq of formulae visualisations.",
   "type": "module",
   "main": "src/lib/main.js",
@@ -25,12 +25,12 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.5.0",
-    "openai": "^4.96.2",
+    "openai": "^4.95.1",
     "ejs": "^3.1.10",
     "js-yaml": "^4.1.0",
     "minimatch": "^10.0.1",
     "zod": "^3.24.3",
-    "sharp": "^0.32.1"
+    "sharp": "^0.32.6"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.1.0",
