@@ -169,7 +169,7 @@ describe("SVG Render Feature", () => {
     const annotation = "Data collected on 2025-05-02";
     const textColor = "green";
     const svg = renderSVG({ expressions, width: 800, height: 400, annotation, textColor });
-    expect(svg).toContain(`<text x="${800 - 100}" y="20" font-size="14" fill="${textColor}">${annotation}</text>`);
+    expect(svg).toContain(`<text x=\"${800 - 100}\" y=\"20\" font-size=\"14\" fill=\"${textColor}\">${annotation}</text>`);
   });
 
   test("does not render annotation element when flag is absent", () => {
@@ -182,7 +182,7 @@ describe("SVG Render Feature", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--width", "800", "--height", "400", "--annotation", "TestAnnotation", "--textColor", "purple"]);
     const logged = consoleSpy.mock.calls[0][0];
-    expect(logged).toContain(`<text x="${800 - 100}" y="20" font-size="14" fill="purple">TestAnnotation</text>`);
+    expect(logged).toContain(`<text x=\"${800 - 100}\" y=\"20\" font-size=\"14\" fill=\"purple\">TestAnnotation</text>`);
     consoleSpy.mockRestore();
   });
 
@@ -191,14 +191,35 @@ describe("SVG Render Feature", () => {
     const expressions = ["y=sin(x)"];
     const title = "Test Title";
     const svg = renderSVG({ expressions, width: 800, height: 400, title, textColor: "purple" });
-    expect(svg).toContain(`<text x="400" y="30" text-anchor="middle" font-size="18" fill="purple">Test Title</text>`);
+    expect(svg).toContain(`<text x=\"400\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"purple\">Test Title</text>`);
   });
 
   test("CLI title flag outputs SVG with title element in multi-expression mode", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x); y=cos(x)", "--width", "800", "--segmentHeight", "150", "--title", "Multi Expr Title", "--textColor", "orange"]);
     const logged = consoleSpy.mock.calls[0][0];
-    expect(logged).toContain(`<text x="400" y="30" text-anchor="middle" font-size="18" fill="orange">Multi Expr Title</text>`);
+    expect(logged).toContain(`<text x=\"400\" y=\"30\" text-anchor=\"middle\" font-size=\"18\" fill=\"orange\">Multi Expr Title</text>`);
+    consoleSpy.mockRestore();
+  });
+
+  // New test for autoSegment dynamic calculation when no explicit segmentHeight is provided
+  test("autoSegment computes correct segment height with additional flags", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // For expression length ~8, floor(8/10)=0 so base=100, plus 5 flags * 20 = 100, total = 200 per expression
+    await main([
+      "--expression", "y=sin(x); y=cos(x)",
+      "--width", "800",
+      "--autoSegment", "true",
+      "--xlabel", "Time",
+      "--ylabel", "Value",
+      "--range", "x=-5:5",
+      "--annotation", "Note",
+      "--title", "Title",
+      "--textColor", "black"
+    ]);
+    const logged = consoleSpy.mock.calls[0][0];
+    // With two expressions, height should be 2 * 200 = 400
+    expect(logged).toContain('height="400"');
     consoleSpy.mockRestore();
   });
 });
