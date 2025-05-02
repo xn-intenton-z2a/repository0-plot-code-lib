@@ -62,7 +62,7 @@ Usage example:
 
 You can customize the appearance of the generated SVG plot using the following new flags:
 
-- --textColor: Sets the fill color for all text elements (plot expressions and axis labels).
+- --textColor: Sets the fill color for all text elements (plot expressions, axis labels, and annotations).
 - --lineColor: Sets the stroke color for the plot line element.
 - --backgroundColor: Sets the background color of the SVG. This is applied by rendering a background rectangle covering the entire SVG.
 
@@ -79,6 +79,16 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 
 **Note:** Supplying an empty value for --xlabel, --ylabel, --textColor, --lineColor, or --backgroundColor will result in an error, and no SVG output will be rendered.
 
+## Annotations
+
+A new feature allows you to add custom annotations to your plot. Use the --annotation flag to include a note in the generated SVG. The annotation is rendered as a <text> element positioned in the top-right corner at coordinates (x = width - 100, y = 20) with a font size of 14. The annotation's fill color is set using the --textColor value if provided, or defaults to black.
+
+**Example:**
+
+  node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400 --annotation "Data collected on 2025-05-02" --textColor "purple"
+
+In the above example, the annotation "Data collected on 2025-05-02" will appear in the top-right corner of the SVG.
+
 ## Additional Options
 
 - The --expression flag is required.
@@ -87,5 +97,6 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 - When providing multiple expressions, separate them with a semicolon (;) so that each valid expression is rendered in its own segment.
 - The flag --output-format (or --outputFormat) determines the output format. If set to png, the SVG will be converted to a PNG image using the sharp library.
 - The new --autoSegment flag allows dynamic adjustment of segment heights for multi-expression plots based on expression complexity and additional elements.
+- The new --annotation flag allows you to add custom text notes to the plot.
 
 Happy plotting!

@@ -23,7 +23,7 @@ function parseArgs(args) {
   return options;
 }
 
-export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor }) {
+export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation }) {
   const ns = "http://www.w3.org/2000/svg";
   let svgContent = "";
   let svgHeight;
@@ -57,10 +57,8 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
     // Determine segment height based on --autoSegment flag
     let segHeight;
     // autoSegment flag can be boolean true or string "true"
-    const autoSegment = (arguments.length > 0 && arguments[0] && arguments[0].autoSegment) || false; // fallback
-    
-    // autoSegment flag will be passed via options in main, so check later
-    if (autoSegment === true || autoSegment === "true") {
+    const autoSeg = autoSegment === true || autoSegment === "true";
+    if (autoSeg) {
       // Compute dynamic segment height using heuristic: base 100 + extra based on expression length and additional padding for labels and range
       segHeight = expressions.reduce((maxH, expr) => {
         let computed = 100 + Math.floor(expr.length / 10) * 5;
@@ -93,7 +91,11 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
 
   // Use provided lineColor for the line element if given, default to black
   const effectiveLineColor = lineColor ? lineColor : "black";
-  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
+
+  // Add annotation if provided
+  const annotationElement = annotation ? `<text x=\"${width - 100}\" y=\"20\" font-size=\"14\" fill=\"${textColor ? textColor : 'black'}\">${annotation}</text>\n  ` : "";
+
+  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${annotationElement}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
   return svg;
 }
 
@@ -136,12 +138,12 @@ export async function main(args = []) {
   const lineColor = options.lineColor ? options.lineColor : null;
   const backgroundColor = options.backgroundColor ? options.backgroundColor : null;
   const autoSegment = options.autoSegment || false;
+  const annotation = options.annotation ? options.annotation : null;
   let svgOutput;
 
   if (expressions.length > 1) {
     let segHeight;
     if (autoSegment === true || autoSegment === "true") {
-      // Compute dynamic segment height: base 100 + extra based on expression length and additional padding for axis labels and range
       segHeight = expressions.reduce((maxH, expr) => {
         let computed = 100 + Math.floor(expr.length / 10) * 5;
         if (xlabel) computed += 20;
@@ -152,10 +154,10 @@ export async function main(args = []) {
     } else {
       segHeight = options.segmentHeight ? parseInt(options.segmentHeight, 10) : (options.height ? parseInt(options.height, 10) : 100);
     }
-    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment });
+    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor, autoSegment, annotation });
   } else {
     const heightVal = options.height ? parseInt(options.height, 10) : 400;
-    svgOutput = renderSVG({ expressions, width, height: heightVal, range, xlabel, ylabel, textColor, lineColor, backgroundColor });
+    svgOutput = renderSVG({ expressions, width, height: heightVal, range, xlabel, ylabel, textColor, lineColor, backgroundColor, annotation });
   }
 
   if (options.outputFormat && options.outputFormat.toLowerCase() === "png") {
