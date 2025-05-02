@@ -63,3 +63,11 @@ attemptsPerIssue: 2
 
 # Web publishing
 docRoot: 'public'
+
+# Repository seeding
+seeding:
+  repositoryReseed: 'true'
+  sourceFilepath: 'seeds/zero-main.js'
+  testsFilepath: 'seeds/zero-tests.js'
+  dependenciesFilepath: 'seeds/zero-package.json'
+  readmeFilepath: 'seeds/zero-README.md'
