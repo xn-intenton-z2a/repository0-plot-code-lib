@@ -5,6 +5,12 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 
 export function main(args = process.argv.slice(2)) {
+  // If no arguments, display usage and terminate without error
+  if (args.length === 0) {
+    console.log(`Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg]`);
+    return;
+  }
+
   // Simple CLI argument parsing
   let expression = null;
   let range = null;
