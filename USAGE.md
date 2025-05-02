@@ -14,22 +14,26 @@ For multiple expressions, separate each expression with a semicolon (;). In this
 
 Example for multiple expressions:
 
-  node src/lib/main.js --expression "y=sin(x); y=cos(x)" --width 800 --height 120
+  node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-3:3" --width 800 --height 120
 
-This command generates an SVG with an overall width of 800, each segment with a height of 120, and a total height of 240 for two expressions.
+This command generates an SVG with an overall width of 800, each segment with a height of 120, and displays the range information if provided.
 
 ## Generating a PNG Plot
 
 To generate a PNG plot, ensure you have the required dependency installed (sharp is needed). Then run:
 
-  node src/lib/main.js --expression "y=sin(x)" --output-format png --file output.png
+  node src/lib/main.js --expression "y=sin(x)" --outputFormat png --file output.png
 
-The above command converts the internally generated SVG plot to PNG format and writes it to the specified file.
+**Important:** When using PNG output, the --file flag is mandatory. If --file is not provided, the program will output an error message with a timestamp and error details.
 
 ## Customizing SVG Dimensions
 
 - For single expression plots, the --width flag sets the width of the SVG and the --height flag sets the height (default is 400 if not provided).
 - For multiple expression plots, --width sets the overall SVG width, while --height sets the height for each individual segment. The total height of the SVG is calculated as (number of expressions * segment height).
+
+## Additional Options
+
+- The --range flag can be used to specify a range (e.g., "x=-3:3"). When provided, the range information will be displayed in the generated SVG plot.
 
 ## Important Notes
 

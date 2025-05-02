@@ -2,6 +2,8 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
+import fs from "fs";
+import sharp from "sharp";
 
 function parseArgs(args) {
   const options = {};
@@ -19,60 +21,82 @@ function parseArgs(args) {
   return options;
 }
 
-export function renderSVG({ expressions, width, height, segmentHeight }) {
-  let svgWidth = width;
+export function renderSVG({ expressions, width, height, segmentHeight, range }) {
+  const ns = "http://www.w3.org/2000/svg";
   let svgContent = "";
   let svgHeight;
-  const ns = "http://www.w3.org/2000/svg";
 
   if (expressions.length > 1) {
-    // For multiple expressions, each uses segmentHeight (default to 100 if not provided)
     const segHeight = segmentHeight || 100;
     svgHeight = segHeight * expressions.length;
     expressions.forEach((expr, index) => {
-      const yPos = index * segHeight + segHeight / 2;
-      svgContent += `<text x=\"10\" y=\"${yPos}\" font-size=\"16\">${expr.trim()}</text>`;
+      let baseY = index * segHeight + segHeight / 2;
+      // Adjust position if range is provided to accommodate extra text line
+      const yPos = range ? baseY - 10 : baseY;
+      svgContent += `<text x="10" y="${yPos}" font-size="16">${expr.trim()}</text>`;
+      if (range) {
+        svgContent += `<text x="10" y="${yPos + 20}" font-size="12" fill="gray">Range: ${range}</text>`;
+      }
     });
   } else {
-    // For a single expression, use provided height or default to 400
     svgHeight = height || 400;
-    svgContent = `<text x=\"10\" y=\"${svgHeight / 2}\" font-size=\"16\">${expressions[0].trim()}</text>`;
+    const baseY = svgHeight / 2;
+    const yPos = range ? baseY - 10 : baseY;
+    svgContent = `<text x="10" y="${yPos}" font-size="16">${expressions[0].trim()}</text>`;
+    if (range) {
+      svgContent += `<text x="10" y="${yPos + 20}" font-size="12" fill="gray">Range: ${range}</text>`;
+    }
   }
 
-  // Include a simple line placeholder
-  const svg = `<svg xmlns=\"${ns}\" width=\"${svgWidth}\" height=\"${svgHeight}\">
+  const svg = `<svg xmlns="${ns}" width="${width}" height="${svgHeight}">
   ${svgContent}
-  <line x1=\"0\" y1=\"0\" x2=\"${svgWidth}\" y2=\"${svgHeight}\" stroke=\"black\" />
+  <line x1="0" y1="0" x2="${width}" y2="${svgHeight}" stroke="black" />
 </svg>`;
   return svg;
 }
 
-export function main(args = []) {
+export async function main(args = []) {
   const options = parseArgs(args);
 
-  // If --expression is provided, generate an SVG plot
-  if (options.expression) {
-    // Split expressions by semicolon for multiple expressions
-    const expressions = options.expression.split(";").map(e => e.trim()).filter(e => e);
-    // Determine width; default is 640 if not specified
-    const width = options.width ? parseInt(options.width, 10) : 640;
-    let svgOutput;
-    if (expressions.length > 1) {
-      // For multiple expressions, use --height as segment height (default 100)
-      const segHeight = options.height ? parseInt(options.height, 10) : 100;
-      svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight });
-    } else {
-      // For a single expression, height defaults to 400 but can be overridden by --height
-      const height = options.height ? parseInt(options.height, 10) : 400;
-      svgOutput = renderSVG({ expressions, width, height });
-    }
-    console.log(svgOutput);
+  if (!options.expression) {
+    console.error(`[${new Date().toISOString()}] Error: --expression flag is required.`);
+    return;
+  }
+
+  // Split expressions by semicolon for multiple expressions
+  const expressions = options.expression.split(";").map(e => e.trim()).filter(e => e);
+  const width = options.width ? parseInt(options.width, 10) : 640;
+  const range = options.range ? options.range : null;
+  let svgOutput;
+
+  if (expressions.length > 1) {
+    const segHeight = options.height ? parseInt(options.height, 10) : 100;
+    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range });
   } else {
-    console.log(`Run with: ${JSON.stringify(args)}`);
+    const height = options.height ? parseInt(options.height, 10) : 400;
+    svgOutput = renderSVG({ expressions, width, height, range });
+  }
+
+  if (options.outputFormat && options.outputFormat.toLowerCase() === "png") {
+    if (!options.file) {
+      const errorMsg = `[${new Date().toISOString()}] Error: --file flag is required when using png output format.`;
+      console.error(errorMsg);
+      return;
+    }
+    try {
+      const pngBuffer = await sharp(Buffer.from(svgOutput)).png().toBuffer();
+      fs.writeFileSync(options.file, pngBuffer);
+      console.log(`PNG saved to ${options.file}`);
+    } catch (error) {
+      console.error(`[${new Date().toISOString()}] PNG conversion failed: ${error.message}`);
+      return;
+    }
+  } else {
+    console.log(svgOutput);
   }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  await main(args);
 }
