@@ -1,20 +1,23 @@
 # Overview
-This feature consolidates all plot generation functionalities into a unified engine. It merges inline SVG rendering, dynamic multi-expression handling, axis labeling, style customization, optional PNG conversion, and annotation support into a single coherent CLI tool. The unified PLOT_ENGINE simplifies usage, reduces maintenance overhead, and delivers high-impact functionality in line with the mission of generating reliable plot visualizations.
+This feature consolidates all plot generation functionalities into a single unified engine. It combines the capabilities of inline SVG rendering, dynamic multi-expression handling, axis labeling, style customization, PNG conversion, and annotation support into one streamlined CLI tool. This integration simplifies usage and maintenance while ensuring high-quality, customizable plots from mathematical expressions in both SVG and PNG formats.
 
 # Functionality
-- Accepts a mathematical expression or multiple expressions separated by semicolons. For multiple expressions, the total height is calculated as the number of expressions multiplied by either a fixed segment height or a dynamically computed segment height when --autoSegment is enabled.
-- Supports SVG plot generation with customizable dimensions via --width, --height, and --segmentHeight flags. In multi-expression mode, if both --height and --segmentHeight are provided, segmentHeight takes precedence.
-- Provides additional optional features, including custom axis labels using --xlabel and --ylabel, range information with --range, and an annotation element (via --annotation) positioned in the top-right corner.
-- Integrates PNG conversion using the sharp library by ensuring that --file is provided when --outputFormat is set to png. Error handling with timestamped logs ensures users are informed of missing or invalid flags.
+- Parses one or multiple mathematical expressions (separated by semicolons) and dynamically calculates plot dimensions. For multi-expression inputs, the total SVG height is computed by multiplying the segment height (determined by a provided --segmentHeight flag, fallback to --height, or auto-calculated using --autoSegment) by the number of expressions.
+- Supports inline SVG generation with customizable attributes such as width, height, text color, line color, background color, and additional styling options.
+- Provides robust axis labeling through --xlabel and --ylabel flags, ensuring labels are correctly positioned and styled.
+- Features PNG conversion using the sharp library. When the --outputFormat flag is set to png, a mandatory --file flag must be provided to save the PNG image.
+- Includes annotation support via the --annotation flag. The annotation is rendered in the top-right corner, with its style tied to the specified text color.
+- Integrates comprehensive error handling and validation of numeric flags as well as non-empty values for text-based flags.
 
 # Implementation
-- All functionalities are implemented in a single source file, keeping the repository simple and maintainable. Core logic includes CLI argument parsing, conversion of kebab-case to camelCase flag names, dynamic segmentation computations, SVG content construction with inline style attributes, and conditional processing of PNG conversion.
-- For multiple expressions, dynamic height calculation is based on a heuristic that adjusts the segment height according to the length of each expression and the presence of axis labels or range information.
-- Proper validations ensure that all required flags are provided and that numeric flags are positive integer values.
+- All functionalities are realized in a single source file. The engine parses command-line arguments converting kebab-case flags to camelCase for internal processing.
+- The engine dynamically builds SVG content by concatenating elements for expressions, labels, annotations, and optional background rectangles.
+- In multi-expression mode, if auto-segmentation is enabled (--autoSegment true), it computes an optimal segment height based on expression length and additional parameters (labels and range).
+- PNG conversion is achieved by passing the generated SVG content to the sharp library, and the resulting image is written to disk if a valid --file flag is provided.
 
 # Testing & Documentation
-- Unit tests cover all key functionalities including single expression and multi-expression SVG rendering, dynamic segment height adjustments, proper placement of axis labels, error handling of empty flag values, and PNG conversion conditions.
-- The updated Usage Guide and README reflect detailed examples for invoking the CLI with all available options, ensuring consistency in documentation and user guidance.
+- Extensive unit tests are provided to cover single expression and multi-expression scenarios, ensuring proper handling of dimensions, labels, dynamic segmentation, PNG conversion, and error conditions.
+- Documentation and usage guides (in USAGE.md and README.md) have been updated to reflect the comprehensive capabilities of the unified plot engine.
 
 # Impact
-This unified PLOT_ENGINE delivers substantial user impact by providing a streamlined, reliable, and customizable plot generation solution. The consolidation of multiple legacy features into a single engine makes the tool easier to use, maintain, and extend while directly supporting the mission of serving as the go-to plot library for mathematical visualizations.
+By merging legacy plot generation features into a single PLOT_ENGINE, the tool delivers substantial user impact. Users benefit from a more intuitive command-line interface, reduced complexity in command usage, and a robust solution that adheres to our mission of being the go-to plot library for mathematical visualizations.
