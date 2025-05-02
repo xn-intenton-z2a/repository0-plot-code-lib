@@ -1,22 +1,24 @@
 # Overview
-This feature consolidates all plot generation capabilities into one unified CLI tool. It encompasses functionalities for rendering SVG plots from mathematical expressions, adding customizable axis labels, configurable style options, and converting SVG outputs to PNG using the sharp library. The new feature simplifies the workflow by merging all previous implementations into a single coherent module.
+This feature consolidates all plot generation functionalities into one unified CLI tool. It merges capabilities for inline SVG rendering, PNG conversion with the sharp library, optional axis labeling, and custom style options. The tool supports both single and multiple mathematical expressions, handling dimension calculations based on provided flags. This update streamlines the plotting workflow, ensuring robust error handling, dynamic SVG construction, and clear usage guidance.
 
 # Functionality
-- Parses a single or multiple mathematical expressions using the --expression flag (separated by semicolons) and determines the appropriate dimensions using the --width and --height flags. For multi-expression setups, it uses --segmentHeight or falls back to --height as the segment height.
-- Provides optional axis labeling using the --xlabel and --ylabel flags. When provided, labels are rendered at the bottom center (x-axis) and along the left side (y-axis) of the SVG respectively.
-- Supports additional style customization options through flags such as --textColor, --lineColor, and --backgroundColor. Further customization includes displaying supplemental range information via the --range flag.
-- Implements robust error handling and input validation. Required flags must be present (such as --expression and --file for PNG output), and numerical values are validated to be positive, providing timestamped error outputs when validation fails.
-- When the --output-format flag is set to png, the tool converts the generated SVG into a PNG image using the sharp library. In this case, the --file flag is mandatory to specify the output file location.
+- Parses one or multiple mathematical expressions using a required --expression flag. Multiple expressions are separated by semicolons, with dynamic segment height calculation when a --segmentHeight flag is provided or falling back to --height.
+- Accepts dimension flags such as --width and --height to customize the SVG output. For multiple expressions, the total height is computed as the number of expressions multiplied by the segment height.
+- Enhances plots with optional axis labeling through --xlabel and --ylabel flags. The x-axis label is centered at the bottom, and the y-axis label is rotated and positioned on the left side of the SVG.
+- Offers additional style customization and range display via the --range flag and other style update options.
+- Integrates PNG conversion using the sharp library when the --output-format flag is set to png, ensuring that a mandatory --file flag specifies the output file for PNG images.
+- Implements robust input validations for required parameters and numerical values, outputting error messages with timestamps when validations fail.
 
 # Implementation
-- The main source file is updated to include a consolidated CLI parser, merging prior segregated functionalities. The render function creates the SVG using dynamic content based on the number of expressions, adding axis labels and range text when specified.
-- The process flow differentiates between single and multiple expressions, adjusting dimensions accordingly. For PNG conversion, sharp is integrated directly into the pipeline and file I/O is managed within the same module.
-- Error messages are logged with timestamps to provide better debugging support in case of missing flags or invalid inputs.
+- The main source file is updated to include a unified CLI parser that extracts all relevant flags such as --expression, --width, --height, --segmentHeight, --range, --xlabel, --ylabel, --output-format and --file (for PNG conversion).
+- The SVG is dynamically built by rendering text elements for the plot content. For multiple expressions, the function iterates over each expression to calculate positions and include range information if provided.
+- The feature cleanly integrates axis labeling by appending text elements into the SVG based on provided labels and computed positions.
+- When PNG conversion is requested, the SVG content is passed through the sharp library to generate a PNG buffer and written to the file system.
 
 # Testing & Documentation
-- Unit tests are updated and merged to cover single-expression and multi-expression scenarios, axis labeling validations, proper handling of style and range options, and PNG conversion error handling.
-- The usage guides in the README.md and USAGE.md are revised to include comprehensive examples and command-line instructions for both SVG and PNG outputs.
-- Documentation is consolidated to reflect the integrated capabilities, ensuring users have clear instructions on how to utilize all features in a unified command structure.
+- Unit tests cover single and multiple expression scenarios, ensuring that dimensions, axis labels, and range information render correctly in the SVG output.
+- Special tests validate that errors are logged appropriately if required flags (such as --expression or --file for PNG conversion) are missing or if axis label values are empty.
+- Documentation, including the README and USAGE guides, is updated to reflect the consolidated command-line usage, clearly instructing users on how to specify each flag and view comprehensive usage examples.
 
 # Impact
-This integrated PLOT_ENGINE feature streamlines the user experience by combining all plot generation functionalities into one coherent tool. It reduces redundancy, simplifies the command-line interface, and supports both traditional SVG output and high-quality PNG conversion, making it an essential core functionality aligned with the library's mission.
+This consolidated PLOT_ENGINE feature significantly reduces redundancy and improves the usability of the plot tool by merging several discrete functionalities into one cohesive module. It meets the mission of being a go-to tool for generating high-quality mathematical visualizations in both SVG and PNG formats, while simplifying the command structure and maintenance.
