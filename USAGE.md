@@ -56,11 +56,11 @@ You can enhance your plot by adding axis labels using the --xlabel and --ylabel 
 - The x-axis label is centered at the bottom of the SVG.
 - The y-axis label is positioned along the left side of the SVG and rotated -90 degrees.
 
+**Note:** Supplying an empty value for --xlabel or --ylabel will result in an error, and no SVG output will be rendered.
+
 Example:
 
   node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400 --xlabel "Time (s)" --ylabel "Amplitude"
-
-**Note:** If an empty value is provided for either --xlabel or --ylabel, the tool will display an error message and no labels will be rendered.
 
 ## Additional Options
 
