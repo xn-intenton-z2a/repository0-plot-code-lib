@@ -49,6 +49,19 @@ Usage example:
   - The --segmentHeight flag sets the height for each individual expression segment. If omitted, the tool uses the --height flag if provided, or defaults to 100 per expression.
   - The total height of the SVG is calculated as (number of expressions * segment height).
 
+## Axis Labels
+
+You can enhance your plot by adding axis labels using the --xlabel and --ylabel flags. When provided, these flags add text labels for the x-axis and y-axis:
+
+- The x-axis label is centered at the bottom of the SVG.
+- The y-axis label is positioned along the left side of the SVG and rotated -90 degrees.
+
+Example:
+
+  node src/lib/main.js --expression "y=sin(x)" --width 800 --height 400 --xlabel "Time (s)" --ylabel "Amplitude"
+
+**Note:** If an empty value is provided for either --xlabel or --ylabel, the tool will display an error message and no labels will be rendered.
+
 ## Additional Options
 
 - The --range flag can be used to specify a range (e.g., "x=-3:3"). When provided, the range information will be displayed in the generated SVG plot.

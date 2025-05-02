@@ -23,7 +23,7 @@ function parseArgs(args) {
   return options;
 }
 
-export function renderSVG({ expressions, width, height, segmentHeight, range }) {
+export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel }) {
   const ns = "http://www.w3.org/2000/svg";
   let svgContent = "";
   let svgHeight;
@@ -50,6 +50,14 @@ export function renderSVG({ expressions, width, height, segmentHeight, range }) 
     }
   }
 
+  // Append axis labels if provided
+  if (xlabel) {
+    svgContent += `\n  <text x=\"${width/2}\" y=\"${svgHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel.trim()}</text>`;
+  }
+  if (ylabel) {
+    svgContent += `\n  <text x=\"15\" y=\"${svgHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${svgHeight/2})\" font-size=\"14\">${ylabel.trim()}</text>`;
+  }
+
   const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"black\" />\n</svg>`;
   return svg;
 }
@@ -62,19 +70,30 @@ export async function main(args = []) {
     return;
   }
 
+  if ("xlabel" in options && typeof options.xlabel === "string" && options.xlabel.trim() === "") {
+    console.error(`[${new Date().toISOString()}] Error: --xlabel flag provided with empty value.`);
+    return;
+  }
+  if ("ylabel" in options && typeof options.ylabel === "string" && options.ylabel.trim() === "") {
+    console.error(`[${new Date().toISOString()}] Error: --ylabel flag provided with empty value.`);
+    return;
+  }
+
   // Split expressions by semicolon for multiple expressions
   const expressions = options.expression.split(";").map(e => e.trim()).filter(e => e);
   const width = options.width ? parseInt(options.width, 10) : 640;
   const range = options.range ? options.range : null;
+  const xlabel = options.xlabel ? options.xlabel : null;
+  const ylabel = options.ylabel ? options.ylabel : null;
   let svgOutput;
 
   if (expressions.length > 1) {
     // For multi-expression, use segmentHeight flag if provided; otherwise fallback to --height or default 100
     const segHeight = options.segmentHeight ? parseInt(options.segmentHeight, 10) : (options.height ? parseInt(options.height, 10) : 100);
-    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range });
+    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel });
   } else {
     const height = options.height ? parseInt(options.height, 10) : 400;
-    svgOutput = renderSVG({ expressions, width, height, range });
+    svgOutput = renderSVG({ expressions, width, height, range, xlabel, ylabel });
   }
 
   if (options.outputFormat && options.outputFormat.toLowerCase() === "png") {
