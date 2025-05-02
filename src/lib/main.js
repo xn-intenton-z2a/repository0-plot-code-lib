@@ -3,7 +3,7 @@
 
 import { fileURLToPath } from "url";
 
-export function main(args) {
+export function main(args = process.argv.slice(2)) {
   console.log(`Run with: ${JSON.stringify(args)}`);
 }
 
