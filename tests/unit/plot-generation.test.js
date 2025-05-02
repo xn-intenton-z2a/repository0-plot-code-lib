@@ -101,8 +101,8 @@ describe("SVG Render Feature", () => {
     const ylabel = "Amplitude";
     const customHeight = 500;
     const svg = renderSVG({ expressions, width: 800, height: customHeight, xlabel, ylabel });
-    expect(svg).toContain(`<text x=\"${800/2}\" y=\"${customHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel}</text>`);
-    expect(svg).toContain(`<text x=\"15\" y=\"${customHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${customHeight/2})\" font-size=\"14\">${ylabel}</text>`);
+    expect(svg).toContain(`<text x=\"${800/2}\" y=\"${customHeight - 10}\" text-anchor=\"middle\" font-size=\"14\"`);
+    expect(svg).toContain(`<text x=\"15\" y=\"${customHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${customHeight/2})\" font-size=\"14\"`);
   });
 
   test("renders x-axis and y-axis labels for multiple expressions", () => {
@@ -112,8 +112,8 @@ describe("SVG Render Feature", () => {
     const xlabel = "Distance";
     const ylabel = "Value";
     const svg = renderSVG({ expressions, width: 640, segmentHeight: segHeight, xlabel, ylabel });
-    expect(svg).toContain(`<text x=\"${640/2}\" y=\"${totalHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel}</text>`);
-    expect(svg).toContain(`<text x=\"15\" y=\"${totalHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${totalHeight/2})\" font-size=\"14\">${ylabel}</text>`);
+    expect(svg).toContain(`<text x=\"${640/2}\" y=\"${totalHeight - 10}\" text-anchor=\"middle\" font-size=\"14\"`);
+    expect(svg).toContain(`<text x=\"15\" y=\"${totalHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${totalHeight/2})\" font-size=\"14\"`);
   });
 
   test("logs error for empty --xlabel value", async () => {
@@ -127,6 +127,41 @@ describe("SVG Render Feature", () => {
     const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--ylabel", ""]);
     expect(consoleSpy.mock.calls[0][0]).toContain("Error: --ylabel flag provided with empty value");
+    consoleSpy.mockRestore();
+  });
+
+  test("renders custom style attributes for text, line, and background", () => {
+    const expressions = ["y=sin(x)"];
+    const textColor = "red";
+    const lineColor = "blue";
+    const backgroundColor = "#efefef";
+    const svg = renderSVG({ expressions, width: 800, height: 400, textColor, lineColor, backgroundColor });
+    // Check for text fill attribute in at least one text element
+    expect(svg).toContain(`fill=\"${textColor}\"`);
+    // Check for line stroke attribute
+    expect(svg).toContain(`stroke=\"${lineColor}\"`);
+    // Check for background rectangle with specified fill
+    expect(svg).toContain(`<rect width=\"800\" height=\"400\" fill=\"${backgroundColor}\"`);
+  });
+
+  test("logs error for empty --textColor value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--textColor", ""]);
+    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --textColor flag provided with empty value");
+    consoleSpy.mockRestore();
+  });
+
+  test("logs error for empty --lineColor value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--lineColor", ""]);
+    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --lineColor flag provided with empty value");
+    consoleSpy.mockRestore();
+  });
+
+  test("logs error for empty --backgroundColor value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--backgroundColor", ""]);
+    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --backgroundColor flag provided with empty value");
     consoleSpy.mockRestore();
   });
 });

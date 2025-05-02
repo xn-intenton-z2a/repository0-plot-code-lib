@@ -23,7 +23,7 @@ function parseArgs(args) {
   return options;
 }
 
-export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel }) {
+export function renderSVG({ expressions, width, height, segmentHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor }) {
   const ns = "http://www.w3.org/2000/svg";
   let svgContent = "";
   let svgHeight;
@@ -31,9 +31,11 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   // Helper function to render a text element with optional range info.
   const renderExprText = (x, baseY, text, range) => {
     const yPos = range ? baseY - 10 : baseY;
-    let txt = `<text x=\"${x}\" y=\"${yPos}\" font-size=\"16\">${text.trim()}</text>`;
+    // If textColor is provided, add fill attribute
+    const fillAttr = textColor ? ` fill=\"${textColor}\"` : "";
+    let txt = `<text x=\"${x}\" y=\"${yPos}\" font-size=\"16\"${fillAttr}>${text.trim()}</text>`;
     if (range) {
-      txt += `<text x=\"${x}\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"gray\">Range: ${range}</text>`;
+      txt += `<text x=\"${x}\" y=\"${yPos + 20}\" font-size=\"12\" fill=\"${textColor ? textColor : 'gray'}\">Range: ${range}</text>`;
     }
     return txt;
   };
@@ -41,11 +43,12 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
   // Helper function to append optional axis labels.
   const appendAxisLabels = (content, svgWidth, svgHeight, xlabel, ylabel) => {
     let result = content;
+    const textFill = textColor ? ` fill=\"${textColor}\"` : "";
     if (xlabel) {
-      result += `\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel.trim()}</text>`;
+      result += `\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight - 10}\" text-anchor=\"middle\" font-size=\"14\"${textFill}>${xlabel.trim()}</text>`;
     }
     if (ylabel) {
-      result += `\n  <text x=\"15\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${svgHeight / 2})\" font-size=\"14\">${ylabel.trim()}</text>`;
+      result += `\n  <text x=\"15\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${svgHeight / 2})\" font-size=\"14\"${textFill}>${ylabel.trim()}</text>`;
     }
     return result;
   };
@@ -66,7 +69,15 @@ export function renderSVG({ expressions, width, height, segmentHeight, range, xl
 
   svgContent = appendAxisLabels(svgContent, width, svgHeight, xlabel, ylabel);
 
-  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"black\" />\n</svg>`;
+  // Build SVG content with optional background rectangle
+  let backgroundRect = "";
+  if (backgroundColor) {
+    backgroundRect = `<rect width=\"${width}\" height=\"${svgHeight}\" fill=\"${backgroundColor}\"/>\n  `;
+  }
+
+  // Use provided lineColor for the line element if given, default to black
+  const effectiveLineColor = lineColor ? lineColor : "black";
+  const svg = `<svg xmlns=\"${ns}\" width=\"${width}\" height=\"${svgHeight}\">\n  ${backgroundRect}${svgContent}\n  <line x1=\"0\" y1=\"0\" x2=\"${width}\" y2=\"${svgHeight}\" stroke=\"${effectiveLineColor}\" />\n</svg>`;
   return svg;
 }
 
@@ -86,6 +97,18 @@ export async function main(args = []) {
     console.error(`[${new Date().toISOString()}] Error: --ylabel flag provided with empty value.`);
     return;
   }
+  if ("textColor" in options && typeof options.textColor === "string" && options.textColor.trim() === "") {
+    console.error(`[${new Date().toISOString()}] Error: --textColor flag provided with empty value.`);
+    return;
+  }
+  if ("lineColor" in options && typeof options.lineColor === "string" && options.lineColor.trim() === "") {
+    console.error(`[${new Date().toISOString()}] Error: --lineColor flag provided with empty value.`);
+    return;
+  }
+  if ("backgroundColor" in options && typeof options.backgroundColor === "string" && options.backgroundColor.trim() === "") {
+    console.error(`[${new Date().toISOString()}] Error: --backgroundColor flag provided with empty value.`);
+    return;
+  }
 
   // Split expressions by semicolon for multiple expressions
   const expressions = options.expression.split(";").map(e => e.trim()).filter(e => e);
@@ -93,15 +116,18 @@ export async function main(args = []) {
   const range = options.range ? options.range : null;
   const xlabel = options.xlabel ? options.xlabel : null;
   const ylabel = options.ylabel ? options.ylabel : null;
+  const textColor = options.textColor ? options.textColor : null;
+  const lineColor = options.lineColor ? options.lineColor : null;
+  const backgroundColor = options.backgroundColor ? options.backgroundColor : null;
   let svgOutput;
 
   if (expressions.length > 1) {
     // For multi-expression, use segmentHeight flag if provided; otherwise fallback to --height or default 100
     const segHeight = options.segmentHeight ? parseInt(options.segmentHeight, 10) : (options.height ? parseInt(options.height, 10) : 100);
-    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel });
+    svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight, range, xlabel, ylabel, textColor, lineColor, backgroundColor });
   } else {
-    const height = options.height ? parseInt(options.height, 10) : 400;
-    svgOutput = renderSVG({ expressions, width, height, range, xlabel, ylabel });
+    const heightVal = options.height ? parseInt(options.height, 10) : 400;
+    svgOutput = renderSVG({ expressions, width, height: heightVal, range, xlabel, ylabel, textColor, lineColor, backgroundColor });
   }
 
   if (options.outputFormat && options.outputFormat.toLowerCase() === "png") {
