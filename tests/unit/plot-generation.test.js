@@ -1,16 +1,62 @@
-import { describe, test, expect } from "vitest";
-import * as mainModule from "@src/lib/main.js";
+import { describe, test, expect, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
-    expect(mainModule).not.toBeNull();
+    expect(main).not.toBeNull();
   });
 });
 
-describe("Default main", () => {
-  test("should terminate without error", () => {
-    process.argv = ["node", "src/lib/main.js"];
-    main();
+describe("Default main execution without parameters", () => {
+  test("should print error for missing parameters", () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    // No parameters passed
+    main([]);
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    consoleErrorSpy.mockRestore();
+  });
+});
+
+describe("CLI parameter validation", () => {
+  test("should output simulation message for valid parameters", () => {
+    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-10:10,y=-1:1",
+      "--file", "output.svg"
+    ];
+    main(args);
+    expect(consoleLogSpy).toHaveBeenCalledWith("Plot generation simulated:");
+    expect(consoleLogSpy).toHaveBeenCalledWith("Expression: y=sin(x)");
+    expect(consoleLogSpy).toHaveBeenCalledWith("Range: x=-10:10,y=-1:1");
+    expect(consoleLogSpy).toHaveBeenCalledWith("Output file: output.svg");
+    consoleLogSpy.mockRestore();
+  });
+
+  test("should output error for missing parameters (e.g. missing --range)", () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const args = [
+      "--expression", "y=sin(x)",
+      "--file", "output.svg"
+    ];
+    main(args);
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    const errorOutput = consoleErrorSpy.mock.calls[0][1];
+    expect(errorOutput).toContain("The --range parameter is required");
+    consoleErrorSpy.mockRestore();
+  });
+
+  test("should output error for invalid --range format", () => {
+    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "invalid",
+      "--file", "output.svg"
+    ];
+    main(args);
+    expect(consoleErrorSpy).toHaveBeenCalled();
+    const errorOutput = consoleErrorSpy.mock.calls[0][1];
+    expect(errorOutput).toContain("The --range parameter format is invalid");
+    consoleErrorSpy.mockRestore();
   });
 });
