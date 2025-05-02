@@ -1,19 +1,18 @@
 # Overview
-This feature refines the existing plot generation functionality by enhancing CLI argument parsing, adding robust error handling, and ensuring that generated plots (in SVG or PNG format) are properly validated before output. This consolidation retains core functionality while improving reliability and clarity for end users.
+This update enhances the plot generation feature by refining CLI argument parsing, improving error handling, and adding a help (--help) option for user guidance. The changes ensure that mathematical expressions and ranges are validated properly while offering users a quick reference via the CLI. The feature continues to support SVG and PNG outputs along with a console preview when no output file is specified.
 
 # Implementation Details
-1. Update the main source file to parse CLI arguments for --expression, --range, and --file. Validate that mandatory fields (expression and range) are provided; otherwise, display clear error messages.
-2. Implement a helper function to parse the range string into numerical bounds for the x and y axes. Include error handling to manage improperly formatted input.
-3. Enhance the mathematical expression handling by ensuring that the expression is validated before computing time series data.
-4. Generate time series data using a simple algorithm that iterates over a defined set of x-values. Compute corresponding y-values from the supplied expression.
-5. Integrate SVG and PNG generation logic. If an output file is specified, write the plot image to file; if not, print a text preview of the plot to the console.
-6. Update the command line output to provide users with concise feedback on success or error conditions.
+1. Update the main source file to include a '--help' flag. If provided, display a clear help message outlining required arguments (--expression, --range) and optional parameters (--file).
+2. Enhance CLI parsing to detect the help flag and exit with the usage information, in addition to validating mandatory arguments. Ensure that errors for missing or malformed parameters are concise.
+3. Improve range string parsing by checking numeric bounds for both x and y axes with descriptive error messages for invalid input.
+4. Add robust error handling around mathematical expression parsing and time series generation to ensure graceful failures and user-friendly feedback.
+5. Ensure generated plots in SVG and PNG formats are validated before output, and if no '--file' flag is specified, provide a text preview on the console.
 
 # Testing and Documentation
-1. Update unit tests in the test files to check proper command line argument parsing, range validation, and error handling for missing or incorrect parameters.
-2. Extend existing unit tests to include scenarios for both valid and invalid inputs for the mathematical expression and range.
-3. Update the README and USAGE files with command examples, ensuring that usage of new CLI arguments is clear and aligned with the mission of providing a go-to plot library.
-4. Review the dependencies file (package.json) to ensure that any new libraries used (if applicable) conform with the repository constraints.
+1. Update unit tests to cover new help functionality. Add test cases to check that the '--help' flag outputs the correct usage message without further processing.
+2. Extend existing tests for command line argument validation to include both positive and negative cases, including help invocation.
+3. Update the README and USAGE documentation to include examples of using the '--help' flag as well as enhanced CLI usage examples with correct flag order and error scenarios.
+4. Verify that dependency updates (if any) continue to support Node 20 and ESM standards while maintaining performance and compatibility.
 
 # Impact
-This refined feature delivers substantial user impact by enforcing robust input validation and clear usage feedback while retaining the core niche of transforming mathematical expressions to visual time series. It builds on existing functionality in a streamlined manner that adheres to the repository mission and guidance provided in CONTRIBUTING.md.
+This updated feature delivers substantial user impact by making the CLI more accessible and self-documenting. Users benefit from clear error messages, accessible help information, and robust input validation which align perfectly with the mission of providing a go-to tool for visualizing mathematical expressions.
