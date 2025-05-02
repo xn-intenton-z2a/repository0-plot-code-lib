@@ -67,3 +67,13 @@ Provides detailed guidance on generating parsers using PEG.js, including example
 ## https://docs.mathjax.org/en/latest/
 Offers extensive documentation on MathJax, a robust typesetting library for rendering mathematical notation on the web. It covers configuration, advanced rendering techniques, and integration approaches, making it a valuable resource for enhancing the display of mathematical expressions in plots.
 ## License: Apache-2.0
+
+# SVG.js Documentation
+## https://svgjs.dev/docs/3.0/
+SVG.js provides an intuitive API for creating, manipulating, and animating SVG elements in the browser. This documentation offers in-depth tutorials, interactive examples, and performance tips, making it an excellent resource for developers looking to add interactivity or advanced graphic manipulations to their SVG-based plots.
+## License: MIT
+
+# Node.js Best Practices Guide
+## https://github.com/goldbergyoni/nodebestpractices
+A comprehensive guide compiling actionable best practices for developing efficient, secure, and scalable Node.js applications. This resource covers performance optimization, error handling, asynchronous programming patterns, and deployment strategies, providing critical insights for robust CLI tool development.
+## License: MIT
