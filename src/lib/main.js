@@ -27,13 +27,16 @@ export function main(args = []) {
 
   const cliSchema = z.object({
     expression: z.string().nonempty("The --expression parameter is required"),
-    range: z
-      .string()
-      .nonempty("The --range parameter is required")
-      .regex(
-        /^(?:[a-z]+=[-]?\d+:[-]?\d+)(?:,[a-z]+=[-]?\d+:[-]?\d+)*$/,
-        "The --range parameter format is invalid. Expected format e.g. x=-10:10,y=-1:1"
-      ),
+    range: z.preprocess(
+      (val) => (typeof val === "undefined" ? "" : val),
+      z
+        .string()
+        .nonempty("The --range parameter is required")
+        .regex(
+          /^(?:[a-z]+=[-]?\d+:[-]?\d+)(?:,[a-z]+=[-]?\d+:[-]?\d+)*$/,
+          "The --range parameter format is invalid. Expected format e.g. x=-10:10,y=-1:1"
+        )
+    ),
     file: z.string().nonempty("The --file parameter is required")
   });
 
