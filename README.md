@@ -12,6 +12,7 @@ repository0-plot-code-lib is a command-line tool designed to transform mathemati
 - Displaying range information via the --range flag.
 - **Auto-Segmentation:** Use the --autoSegment flag to dynamically adjust segment heights based on expression complexity and additional elements, ensuring appropriate spacing for multi-expression plots.
 - **Annotation Support:** Add custom annotations to the plot using the --annotation flag; the annotation is rendered in the top-right corner with styling based on the --textColor flag.
+- **Title Support:** Add a custom title to your plot using the --title flag. The title is rendered at the top center of the plot and, in multi-expression mode, the layout automatically adjusts to prevent overlaps with annotations or other elements.
 
 While the current implementation logs received command-line arguments and produces plots, further enhancements and extended plotting capabilities are planned for future releases.
 
