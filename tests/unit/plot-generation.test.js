@@ -1,5 +1,17 @@
 import { describe, test, expect, vi } from "vitest";
+import fs from "fs";
 import { main, renderSVG } from "@src/lib/main.js";
+import sharp from "sharp";
+
+// Mock sharp globally to simulate PNG conversion
+vi.mock("sharp", () => ({
+  default: vi.fn(() => ({
+    png: () => ({
+      toBuffer: async () => Buffer.from("PNG")
+    })
+  }))
+}));
+
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -70,5 +82,14 @@ describe("PNG Conversion Error Handling", () => {
     const errorMsg = consoleErrorSpy.mock.calls[0][0];
     expect(errorMsg).toContain("Error: --file flag is required");
     consoleErrorSpy.mockRestore();
+  });
+});
+
+describe("PNG Conversion Success", () => {
+  test("should convert SVG to PNG and write file when outputFormat is png and file flag is provided", async () => {
+    const fsSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--outputFormat", "png", "--file", "output.png"]);
+    expect(fsSpy).toHaveBeenCalledWith("output.png", Buffer.from("PNG"));
+    fsSpy.mockRestore();
   });
 });

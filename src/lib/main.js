@@ -9,7 +9,9 @@ function parseArgs(args) {
   const options = {};
   for (let i = 0; i < args.length; i++) {
     if (args[i].startsWith("--")) {
-      const key = args[i].substring(2);
+      const rawKey = args[i].substring(2);
+      // Convert kebab-case to camelCase (e.g., output-format -> outputFormat)
+      const key = rawKey.split("-").map((word, index) => index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)).join("");
       let value = true;
       if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
         value = args[i + 1];

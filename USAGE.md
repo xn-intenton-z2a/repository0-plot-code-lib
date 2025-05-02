@@ -20,9 +20,11 @@ This command generates an SVG with an overall width of 800, each segment with a 
 
 ## Generating a PNG Plot
 
-To generate a PNG plot, ensure you have the required dependency installed (sharp is needed). Then run:
+To generate a PNG plot, ensure you have the required dependency installed (the sharp library is needed).
 
-  node src/lib/main.js --expression "y=sin(x)" --outputFormat png --file output.png
+Usage example:
+
+  node src/lib/main.js --expression "y=sin(x)" --output-format png --file output.png
 
 **Important:** When using PNG output, the --file flag is mandatory. If --file is not provided, the program will output an error message with a timestamp and error details.
 
@@ -41,5 +43,6 @@ To generate a PNG plot, ensure you have the required dependency installed (sharp
 - When generating PNG plots, the --file flag is mandatory.
 - Ensure that values provided for --width and --height are positive numbers. Invalid values will produce an error.
 - When providing multiple expressions, separate them with a semicolon (;) so that each valid expression is rendered in its own segment.
+- The flag --output-format (or --outputFormat) determines the output format. If set to png, the SVG will be converted to a PNG image using the sharp library.
 
 Happy plotting!
