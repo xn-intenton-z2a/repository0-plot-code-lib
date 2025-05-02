@@ -49,9 +49,9 @@ describe("SVG Render Feature", () => {
     expect(svg).toContain('height="400"');
   });
 
-  test("multiple expressions generate SVG with total height equal to number of expressions * segment height", () => {
+  test("multiple expressions generate SVG with total height equal to number of expressions * segment height (using --height fallback)", () => {
     const expressions = ["y=sin(x)", "y=cos(x)"];
-    const segHeight = 120;
+    const segHeight = 150;
     const totalHeight = expressions.length * segHeight;
     const svg = renderSVG({ expressions, width: 640, segmentHeight: segHeight });
     expect(svg.startsWith("<svg")).toBe(true);
@@ -59,7 +59,27 @@ describe("SVG Render Feature", () => {
     expect(svg).toContain(`height="${totalHeight}"`);
   });
 
-  test("single expression with custom height override", () => {
+  test("multiple expressions with segmentHeight flag provided via CLI should use that value", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Using both --expression and --segmentHeight
+    await main(["--expression", "y=sin(x); y=cos(x)", "--width", "640", "--segmentHeight", "120"]);
+    const logged = consoleSpy.mock.calls[0][0];
+    // Expected height = 2 * 120 = 240
+    expect(logged).toContain('height="240"');
+    consoleSpy.mockRestore();
+  });
+
+  test("multiple expressions without segmentHeight flag should use --height as fallback", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Using --expression and --height for multi-expression
+    await main(["--expression", "y=sin(x); y=cos(x)", "--width", "640", "--height", "130"]);
+    const logged = consoleSpy.mock.calls[0][0];
+    // Expected height = 2 * 130 = 260
+    expect(logged).toContain('height="260"');
+    consoleSpy.mockRestore();
+  });
+
+  test("single expression with custom height override remains unaffected by segmentHeight flag", () => {
     const expressions = ["y=tan(x)"];
     const customHeight = 500;
     const svg = renderSVG({ expressions, width: 800, height: customHeight });
