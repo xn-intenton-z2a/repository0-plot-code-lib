@@ -1,18 +1,19 @@
 # Overview
-This merged feature integrates robust plot generation and inline SVG rendering into a single coherent CLI tool. It enhances argument parsing, supports dynamic dimension calculations for both single and multiple mathematical expressions, and provides consistent error handling and logging for better user feedback. Enhancements cover both SVG output for instant visualisation and PNG conversion when specified.
+This merged feature consolidates all plot generation functionality into a single robust CLI tool. It provides dynamic inline SVG rendering for single and multiple mathematical expressions as well as PNG conversion when requested. All aspects, including error handling, dimension calculation, and dependency updates, have been integrated into one coherent feature in line with the project mission.
 
 # Functionality
-The feature updates the core CLI tool (src/lib/main.js) to:
-- Parse multiple flags including --expression, --range, --file, --width, --height, and --output-format.
-- Validate that required flags are provided. For example, the --expression flag is mandatory, and when output format is PNG, the --file flag must be present.
-- Dynamically calculate SVG dimensions based on the number of expressions provided. For single expression plots, width defaults to 640 and height to 400 (or overridden by --width). For multiple expressions, --height specifies the segment height and overall SVG height is calculated as the segment height multiplied by the number of expressions.
-- Convert SVG to PNG using minimal dependency updates when PNG output is requested.
-- Provide detailed error messages with timestamps for missing or invalid parameters.
+- When the CLI is run with the --expression flag, the tool splits expressions across semicolons and renders an SVG image. For a single expression a fixed height of 400 is used. For multiple expressions, a segment height (specified via --height) is applied and the overall height is calculated accordingly.
+- If the user supplies the --output-format flag with a value of png, the CLI now leverages the sharp library to convert the generated SVG into a PNG image and writes it to a file. In this case, the --file flag is mandatory and an error is thrown if missing.
+- All input flags (e.g. --expression, --width, --height, --file) are validated. Provided dimensions are required to be positive numbers and clear error messages with timestamps are provided for missing or invalid inputs.
 
-# Testing and Documentation
-- Update unit tests in tests/unit/plot-generation.test.js and tests/unit/main.test.js to validate flag parsing, dynamic SVG/PNG conversion, and proper error conditions.
-- Revise usage examples in README.md and USAGE.md to reflect enhanced functionality and clear guidelines for both SVG and PNG outputs.
-- Align updates with the mission to deliver a reliable and intuitive plotting CLI tool that transforms mathematical expressions into accurate visual representations.
+# Implementation
+- Updates to src/lib/main.js include a code block that checks for the --output-format flag. When set to png, the generated SVG is passed to sharp (added as a dependency) for conversion and then written to the file specified by --file. Otherwise, the SVG is simply printed to the console.
+- The underlying SVG generation function remains robust, handling both single and multiple expressions. The conversion flow is added as an extension of the main plot generation logic.
 
-# Integration
-- All source changes are limited to src/lib/main.js and associated tests and documentation files. No new files are created or removed, ensuring a focused and achievable enhancement in this single repository.
+# Testing & Documentation
+- Unit tests in tests/unit/plot-generation.test.js and tests/unit/main.test.js are updated to cover the new PNG conversion path. Tests verify that the PNG conversion only occurs when the --output-format flag is set to png and that a file output is properly forced.
+- The usage guide in USAGE.md and the README.md are updated to include sample commands and guidelines for generating PNG plots. Instructions now clearly state the requirement for the sharp library and that the --file flag must be used with PNG output.
+- The dependency file (package.json) is updated to include a new dependency, sharp, ensuring compatibility with existing npm scripts and project requirements.
+
+# Impact
+This consolidated feature ensures that all plot generation capabilities are available in one unified CLI tool, providing a seamless experience for users. By integrating PNG conversion directly into the workflow, the tool now supports more versatile use cases and adheres to the mission of delivering reliable mathematical visualisations.
