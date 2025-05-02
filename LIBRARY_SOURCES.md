@@ -20,7 +20,7 @@ Covers the fundamentals of Node.js core modules and outlines best practices for 
 
 # Mathematical Computation and Expression Evaluation Documentation
 ## https://mathjs.org/
-Offers extensive technical insights for performing mathematical computations and parsing expressions. It features detailed API references and rich practical examples for integrating complex calculations and formula evaluations into applications. This resource also includes perspectives on using parser generators like PEG.js (https://pegjs.org/documentation) for custom expression grammars, enhancing the ability to interpret and process a variety of mathematical notations.
+Offers extensive technical insights for performing mathematical computations and parsing expressions. It features detailed API references and rich practical examples for integrating complex calculations and formula evaluations into applications. It also touches on the use of parser generators like PEG.js to extend custom expression grammars.
 ## License: Apache-2.0 / MIT
 
 # Interactive Visualization Libraries Documentation
@@ -42,11 +42,6 @@ Offers practical examples for defining, parsing, and validating data structures 
 ## https://graphviz.org/documentation/
 Delivers actionable insights for creating graph visualizations using the DOT language and command-line plotting techniques. It covers implementation details of layout algorithms and efficient plotting workflows, making it an essential guide for integrating graph visualizations.
 ## License: EPL / Various
-
-# dotenv Documentation
-## https://github.com/motdotla/dotenv#readme
-Provides essential guidelines for using dotenv to manage environment variables in Node.js applications. It includes practical usage instructions and configuration best practices necessary for ensuring consistent application behavior across different environments.
-## License: BSD-2-Clause
 
 # ESLint Official Documentation
 ## https://eslint.org/docs/latest/
@@ -76,4 +71,9 @@ Gnuplot offers robust techniques for scientific plotting with detailed guides on
 # Commander.js Documentation
 ## https://github.com/tj/commander.js
 Commander.js provides guidelines and best practices for designing robust and user-friendly command-line interfaces. It covers topics such as argument parsing, help generation, command structuring, and error handling, which are instrumental in refining the CLI experience of repository0-plot-code-lib.
+## License: MIT
+
+# PEG.js Documentation
+## https://pegjs.org/documentation
+Provides detailed insights on generating parsers using PEG.js, allowing developers to define custom expression grammars. It offers actionable examples and practical guidelines for integrating parser generation into projects, which is essential for implementing advanced mathematical expression parsing capabilities in plotting libraries.
 ## License: MIT
