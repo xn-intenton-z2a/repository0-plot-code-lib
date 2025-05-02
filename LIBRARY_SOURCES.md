@@ -1,7 +1,7 @@
-# SVG and Vector Graphics Documentation
-## https://developer.mozilla.org/en-US/docs/Web/SVG
-A comprehensive guide covering the effective use of scalable vector graphics on the web. This source provides detailed tutorials, interactive examples, and reference to the official W3C SVG 2.0 specification. Its actionable insights ensure standards-compliant SVG implementations.
-## License: Various (CC-BY-SA, W3C Document License, MIT, GPL)
+# Comprehensive SVG Documentation and Accessibility
+## https://developer.mozilla.org/en-US/docs/Web/SVG | https://developer.mozilla.org/en-US/docs/Web/SVG/Accessibility
+This merged resource provides a complete guide to scalable vector graphics on the web. It covers not only the basics and advanced features of SVG—including interactive examples and references to the W3C SVG 2.0 specification—but also includes best practices for accessibility, addressing ARIA roles, descriptive titles, and metadata for screen readers. This ensures developers have actionable insights for both design and accessibility compliance.
+## License: Various (CC-BY-SA, W3C Document License)
 
 # High-performance Image Processing and SVG Rasterization
 ## https://sharp.pixelplumbing.com/
@@ -15,27 +15,27 @@ Offers practical guidelines for implementing unit and integration tests in Node.
 
 # Comprehensive Node.js Documentation and Tooling
 ## https://nodejs.org/api/ | https://nodejs.org/api/esm.html | https://ejs.co/
-This merged resource consolidates Node.js core documentation, ECMAScript Modules best practices, and essential CLI tooling guides. It includes insights into asynchronous programming, module interoperability, command-line interface design, and supportive ecosystem tools, providing a complete picture of Node.js development and best practices.
+This consolidated resource merges Node.js core documentation with ECMAScript module best practices and essential CLI tooling guides. It provides insights into asynchronous programming, module interoperability, and command-line interface design, offering a holistic overview of Node.js development and best practices.
 ## License: MIT
 
 # Mathematical Computation and Expression Evaluation Documentation
 ## https://mathjs.org/
-A highly actionable resource for integrating complex mathematical computations and expression evaluations into applications. It details API references, practical examples, and advanced parsing techniques that are critical when implementing dynamic formula plotting utilities.
+A highly actionable resource for integrating complex mathematical computations and expression evaluations into applications. It details API references, practical examples, and advanced parsing techniques critical for implementing dynamic formula plotting utilities.
 ## License: Apache-2.0 / MIT
 
 # Visualization, Graphing, and Chart APIs Documentation
 ## https://vega.github.io/vega-lite/ | https://d3js.org/ | https://plotly.com/javascript/ | https://graphviz.org/documentation/ | https://quickchart.io/documentation/
-This merged source aggregates documentation from leading visualization libraries. It offers actionable guidance for constructing interactive, high-performance visualizations with detailed coverage on data binding, DOM manipulation, graph plotting, layout algorithms, and URL-based chart generation.
+This merged source aggregates documentation from leading visualization libraries. It offers actionable guidance for constructing interactive, high-performance visualizations with detailed coverage on data binding, DOM manipulation, graph plotting, layout algorithms, and chart generation via URL parameters.
 ## License: Various (BSD-3-Clause, MIT, EPL, N/A)
 
 # OpenAI API Documentation
 ## https://platform.openai.com/docs/api-reference/
-Provides comprehensive technical insights for integrating OpenAI models into applications. It details request-response structures, error handling protocols, and usage examples, all of which are invaluable when enhancing AI-driven features in your plotting library.
+Provides comprehensive technical insights for integrating OpenAI models into applications. It includes detailed descriptions of request-response structures, error handling protocols, and usage examples, which are invaluable when adding AI-driven features to your plotting library.
 ## License: N/A
 
 # Zod Documentation
 ## https://github.com/colinhacks/zod
-Details robust data schema creation, parsing, and validation using Zod. With clear examples and API guidelines, this resource is essential for enforcing type safety and consistent input validation throughout your project.
+Offers robust guidance on creating and validating data schemas using Zod. Its clear examples and API guidelines are essential for enforcing type safety and consistent input validation throughout your project.
 ## License: MIT
 
 # ESLint Official Documentation
@@ -45,17 +45,17 @@ Highlights best practices and configurations for maintaining high-quality JavaSc
 
 # SVGO Optimization Guide
 ## https://github.com/svg/svgo
-A definitive guide on optimizing SVG files to reduce file size while preserving quality. It includes configuration best practices and command-line usage instructions, which are vital for performance tuning in SVG processing and management.
+A definitive guide on optimizing SVG files to reduce file size while preserving quality. It includes best practices for configuration and command-line usage instructions, which are vital for performance tuning in SVG processing and management.
 ## License: MIT
 
 # Gnuplot Documentation
 ## https://gnuplot.sourceforge.net/documentation.html
-Features comprehensive techniques for scientific plotting, including command usage, data formatting, and export options. This resource offers actionable insights for producing high-quality renderings and precise plot customizations following established plotting standards.
+Features comprehensive techniques for scientific plotting, including command usage, data formatting, and export options. This resource provides actionable insights for producing high-quality renderings and achieving precise plot customizations following established plotting standards.
 ## License: GPL
 
 # PEG.js Documentation
 ## https://pegjs.org/documentation
-Provides detailed guidance on generating parsers with PEG.js, including example grammars and advanced parser customization techniques. It is particularly useful for converting complex expressions into structured, actionable data.
+Provides detailed guidance on generating parsers with PEG.js. It includes example grammars and advanced customization techniques that are useful for converting complex expressions into structured, actionable data.
 ## License: MIT
 
 # MathJax Documentation
@@ -65,15 +65,15 @@ Offers extensive guidelines for rendering mathematical notation on the web. Cove
 
 # SVG.js Documentation
 ## https://svgjs.dev/docs/3.0/
-SVG.js is a lightweight library for manipulating and animating SVG elements. Its documentation provides practical examples for creating, modifying, and interacting with SVG elements programmatically, which is particularly valuable for building dynamic and interactive vector graphics in plotting tools.
+SVG.js is a lightweight library for manipulating and animating SVG elements. Its documentation provides practical examples for creating, modifying, and interacting with SVG content programmatically, which is particularly valuable for building dynamic and interactive vector graphics in plotting tools.
 ## License: MIT
 
 # Commander.js Documentation
 ## https://github.com/tj/commander.js
-Commander.js is a widely adopted library for building command-line interfaces in Node.js. The documentation covers argument parsing, command definitions, and help output generation, providing essential insights into robust CLI design patterns crucial for your plotting library.
+Commander.js is a widely adopted library for building command-line interfaces in Node.js. The documentation covers argument parsing, command definitions, and help output generation, offering essential insights into robust CLI design patterns critical for your plotting library.
 ## License: MIT
 
 # Prettier Official Documentation
 ## https://prettier.io/docs/en/index.html
-Prettier offers detailed guidelines for code formatting and style consistency. Its documentation covers configuration options, integration with various development tools, and best practices for maintaining a clean codebase, thereby supporting high-quality project standards.
+Prettier offers detailed guidelines for code formatting and style consistency. Its documentation includes configuration options, integration with development tools, and best practices for maintaining a clean and well-formatted codebase, thereby supporting high-quality project standards.
 ## License: MIT
