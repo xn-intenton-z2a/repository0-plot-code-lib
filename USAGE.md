@@ -44,17 +44,15 @@ This version of the CLI leverages the Zod library for schema-based validation of
 - Validating that the `--range` argument follows the format (e.g., `x=low:high` or `x=low:high,y=low:high`), with numerical bounds.
 - Confirming that the `--file` argument, if provided, ends with `.svg` or `.png`.
 
-Leveraging Zod not only simplifies the code but also ensures clear and consistent error messages, making the CLI more robust and user friendly.
-
 ## Refactored CLI Parsing
 
-The CLI argument parsing and validation logic has been refactored into three distinct functions:
-
+The CLI argument parsing and validation logic has been refactored into distinct, single-purpose functions:
 - **parseArguments:** Converts raw CLI arguments into an object.
-- **validateArguments:** Validates the parsed arguments using a Zod schema, ensuring clear and consistent error messages.
-- **processRange:** Processes the range string, converting it into usable numeric boundaries for the x and y axes.
+- **validateArguments:** Validates parsed arguments using Zod with consistent error handling.
+- **processRange:** Processes the range string into numeric boundaries.
+- A helper function **exitWithError** centralizes error logging and process termination for uniform error handling.
 
-This refactoring enhances code readability and maintainability without altering the core functionality of plot generation.
+This refactored approach improves code readability, maintainability, and consistency in error reporting.
 
 ## API
 
@@ -67,8 +65,6 @@ The primary exported function is `main(args)`, which processes the command line 
 
 ## Error Handling
 
-- Missing required parameters or invalid formats will result in descriptive error messages displayed in the console.
+- Missing required parameters or invalid formats will result in descriptive error messages displayed on the console using a centralized error handler.
 - The `--range` argument is validated to ensure it contains numerical bounds in the correct format.
 - The file output name is validated so that only `.svg` or `.png` formats are accepted.
-
-*Note: The refactored CLI parsing implementation improves modularity and simplifies future enhancements.*

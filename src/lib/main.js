@@ -8,6 +8,15 @@ import { z } from "zod";
 const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg]`;
 
 /**
+ * Exit the process with an error message.
+ * @param {string} message - The error message to display.
+ */
+function exitWithError(message) {
+  console.error(message);
+  process.exit(1);
+}
+
+/**
  * Parse raw CLI arguments into an object.
  * @param {string[]} args - Raw CLI arguments.
  * @returns {object} Parsed arguments object.
@@ -76,11 +85,9 @@ function validateArguments(argsObj) {
     return cliSchema.parse(argsObj);
   } catch (e) {
     if (e instanceof z.ZodError) {
-      console.error(e.errors[0].message);
-      process.exit(1);
+      exitWithError(e.errors[0].message);
     } else {
-      console.error(e);
-      process.exit(1);
+      exitWithError(e.toString());
     }
   }
 }
@@ -104,13 +111,11 @@ function processRange(rangeStr) {
     } else if (axis.trim().toLowerCase() === "y") {
       yRange = { low, high };
     } else {
-      console.error(`Error: unsupported axis '${axis}'. Only 'x' and 'y' are allowed.`);
-      process.exit(1);
+      exitWithError(`Error: unsupported axis '${axis}'. Only 'x' and 'y' are allowed.`);
     }
   }
   if (!xRange) {
-    console.error("Error: x range must be specified in --range.");
-    process.exit(1);
+    exitWithError("Error: x range must be specified in --range.");
   }
   return { xRange, yRange };
 }
@@ -138,8 +143,7 @@ export function main(args = process.argv.slice(2)) {
   } else if (funcStr === "cos(x)") {
     func = Math.cos;
   } else {
-    console.error(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported.`);
-    process.exit(1);
+    exitWithError(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported.`);
   }
 
   // Compute time series data (sample 20 points between xRange.low and xRange.high)
@@ -171,8 +175,7 @@ export function main(args = process.argv.slice(2)) {
         fs.writeFileSync(fileOutput, svgContent);
         console.log(`SVG plot generated and saved to ${fileOutput}`);
       } catch (e) {
-        console.error(`Error writing file: ${e.message}`);
-        process.exit(1);
+        exitWithError(`Error writing file: ${e.message}`);
       }
     } else if (fileOutput.endsWith(".png")) {
       // Simulate PNG output with placeholder text (actual PNG generation requires additional libraries)
@@ -184,8 +187,7 @@ export function main(args = process.argv.slice(2)) {
         fs.writeFileSync(fileOutput, pngContent);
         console.log(`PNG plot generated and saved to ${fileOutput}`);
       } catch (e) {
-        console.error(`Error writing file: ${e.message}`);
-        process.exit(1);
+        exitWithError(`Error writing file: ${e.message}`);
       }
     }
   } else {
