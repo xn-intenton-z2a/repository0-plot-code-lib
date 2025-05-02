@@ -21,35 +21,35 @@ function parseArgs(args) {
 
 export function renderSVG({ expressions, width, height, segmentHeight }) {
   let svgWidth = width;
-  let svgHeight, svgContent = "";
+  let svgContent = "";
+  let svgHeight;
   const ns = "http://www.w3.org/2000/svg";
-  
+
   if (expressions.length > 1) {
     // For multiple expressions, each uses segmentHeight (default to 100 if not provided)
     const segHeight = segmentHeight || 100;
     svgHeight = segHeight * expressions.length;
-    // Add a <text> element for each expression as a placeholder
     expressions.forEach((expr, index) => {
       const yPos = index * segHeight + segHeight / 2;
-      svgContent += `<text x="10" y="${yPos}" font-size="16">${expr.trim()}</text>`;
+      svgContent += `<text x=\"10\" y=\"${yPos}\" font-size=\"16\">${expr.trim()}</text>`;
     });
   } else {
-    // For a single expression, use fixed height of 400 (unless explicitly provided via height parameter)
+    // For a single expression, use provided height or default to 400
     svgHeight = height || 400;
-    svgContent = `<text x="10" y="${svgHeight / 2}" font-size="16">${expressions[0].trim()}</text>`;
+    svgContent = `<text x=\"10\" y=\"${svgHeight / 2}\" font-size=\"16\">${expressions[0].trim()}</text>`;
   }
-  
+
   // Include a simple line placeholder
-  const svg = `<svg xmlns="${ns}" width="${svgWidth}" height="${svgHeight}">
+  const svg = `<svg xmlns=\"${ns}\" width=\"${svgWidth}\" height=\"${svgHeight}\">
   ${svgContent}
-  <line x1="0" y1="0" x2="${svgWidth}" y2="${svgHeight}" stroke="black" />
+  <line x1=\"0\" y1=\"0\" x2=\"${svgWidth}\" y2=\"${svgHeight}\" stroke=\"black\" />
 </svg>`;
   return svg;
 }
 
 export function main(args = []) {
   const options = parseArgs(args);
-  
+
   // If --expression is provided, generate an SVG plot
   if (options.expression) {
     // Split expressions by semicolon for multiple expressions
@@ -62,8 +62,9 @@ export function main(args = []) {
       const segHeight = options.height ? parseInt(options.height, 10) : 100;
       svgOutput = renderSVG({ expressions, width, segmentHeight: segHeight });
     } else {
-      // For a single expression, height is fixed at 400
-      svgOutput = renderSVG({ expressions, width, height: 400 });
+      // For a single expression, height defaults to 400 but can be overridden by --height
+      const height = options.height ? parseInt(options.height, 10) : 400;
+      svgOutput = renderSVG({ expressions, width, height });
     }
     console.log(svgOutput);
   } else {
