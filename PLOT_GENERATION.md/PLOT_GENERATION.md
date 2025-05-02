@@ -1,18 +1,17 @@
 # Overview
-This update enhances the plot generation feature by refining CLI argument parsing, improving error handling, and adding a help (--help) option for user guidance. The changes ensure that mathematical expressions and ranges are validated properly while offering users a quick reference via the CLI. The feature continues to support SVG and PNG outputs along with a console preview when no output file is specified.
+This update refines the CLI argument parsing for generating plots from mathematical expressions. It adds robust handling for the help option, organizes parameter validation for --expression, --range, and --file flags, and provides clear and concise error messages. The enhancement is designed to make the command line tool self-documenting and more user-friendly, while ensuring smooth operation on Node 20 and compatibility with the ESM standards.
 
 # Implementation Details
-1. Update the main source file to include a '--help' flag. If provided, display a clear help message outlining required arguments (--expression, --range) and optional parameters (--file).
-2. Enhance CLI parsing to detect the help flag and exit with the usage information, in addition to validating mandatory arguments. Ensure that errors for missing or malformed parameters are concise.
-3. Improve range string parsing by checking numeric bounds for both x and y axes with descriptive error messages for invalid input.
-4. Add robust error handling around mathematical expression parsing and time series generation to ensure graceful failures and user-friendly feedback.
-5. Ensure generated plots in SVG and PNG formats are validated before output, and if no '--file' flag is specified, provide a text preview on the console.
+1. Modify the main source file to implement a full CLI parser. When the flag --help is provided or no arguments are passed, display a usage guide outlining required parameters (--expression, --range) and the optional --file parameter.
+2. Utilize a simple argument checker to validate that --expression and --range are present when not in help mode. Ensure that --range input is parsed correctly, checking for valid numeric bounds for both x and y axes.
+3. Implement concise error messages for missing or malformed parameters. Integrate existing libraries (for example, using zod for schema validation) to streamline input validation and improve error handling.
+4. Ensure that when --file is provided, the output is generated in the requested SVG or PNG format. If the flag is absent, output a text preview on the console.
+5. Update the help output to provide clear examples based on the mission to serve as a go-to tool for visualizing mathematical expressions.
 
 # Testing and Documentation
-1. Update unit tests to cover new help functionality. Add test cases to check that the '--help' flag outputs the correct usage message without further processing.
-2. Extend existing tests for command line argument validation to include both positive and negative cases, including help invocation.
-3. Update the README and USAGE documentation to include examples of using the '--help' flag as well as enhanced CLI usage examples with correct flag order and error scenarios.
-4. Verify that dependency updates (if any) continue to support Node 20 and ESM standards while maintaining performance and compatibility.
+1. Update existing unit tests to cover the new help functionality and error conditions. Add cases simulating correct and incorrect CLI usage to confirm that errors are reported appropriately.
+2. Enhance the README and USAGE documents with new usage examples that include the help flag, proper ordering of arguments, and expected behaviour for missing flags.
+3. Make sure that dependency versions continue to support Node 20 and remain consistent with the ESM module standards.
 
 # Impact
-This updated feature delivers substantial user impact by making the CLI more accessible and self-documenting. Users benefit from clear error messages, accessible help information, and robust input validation which align perfectly with the mission of providing a go-to tool for visualizing mathematical expressions.
+This enhancement significantly improves the usability and reliability of the CLI tool. It directly enhances the product's primary purpose by ensuring that users can quickly access usage information, effectively validate their inputs, and understand error messages. These changes align with the mission of being the go-to plot library and empower users in visualizing mathematical expressions with a clear and self-guiding interface.
