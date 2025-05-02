@@ -1,22 +1,19 @@
-# Feature Overview
-This feature introduces the core functionality of generating plot visualisations from a mathematical expression and numeric range. The CLI will now accept arguments for expression, range, and output file. If provided, it will compute a simple time series from the expression within the defined range and generate a plot image in SVG (or PNG) format.
+# Overview
+This feature refines the existing plot generation functionality by enhancing CLI argument parsing, adding robust error handling, and ensuring that generated plots (in SVG or PNG format) are properly validated before output. This consolidation retains core functionality while improving reliability and clarity for end users.
 
 # Implementation Details
-The main source file will be updated to parse command line arguments such as --expression, --range, and --file. The implementation will include:
-
-1. Validating that an expression and range are provided.
-2. Parsing the range string into proper numerical bounds for the x and y axes.
-3. Generating a simple time series based on the mathematical expression; the algorithm will compute y-values for a set of x-values in the given range.
-4. Creating a basic SVG plot using the computed values. This includes outlining axes, plotting points/lines, and then writing the result to the specified file if provided.
-5. If no output file is provided, the plot will be printed to the console.
+1. Update the main source file to parse CLI arguments for --expression, --range, and --file. Validate that mandatory fields (expression and range) are provided; otherwise, display clear error messages.
+2. Implement a helper function to parse the range string into numerical bounds for the x and y axes. Include error handling to manage improperly formatted input.
+3. Enhance the mathematical expression handling by ensuring that the expression is validated before computing time series data.
+4. Generate time series data using a simple algorithm that iterates over a defined set of x-values. Compute corresponding y-values from the supplied expression.
+5. Integrate SVG and PNG generation logic. If an output file is specified, write the plot image to file; if not, print a text preview of the plot to the console.
+6. Update the command line output to provide users with concise feedback on success or error conditions.
 
 # Testing and Documentation
-Unit tests in the existing test files (e.g., tests/unit/plot-generation.test.js) will be updated to validate:
+1. Update unit tests in the test files to check proper command line argument parsing, range validation, and error handling for missing or incorrect parameters.
+2. Extend existing unit tests to include scenarios for both valid and invalid inputs for the mathematical expression and range.
+3. Update the README and USAGE files with command examples, ensuring that usage of new CLI arguments is clear and aligned with the mission of providing a go-to plot library.
+4. Review the dependencies file (package.json) to ensure that any new libraries used (if applicable) conform with the repository constraints.
 
-- The correct parsing of command line arguments.
-- The proper handling of missing or invalid parameters.
-- The generation of an SVG file and its proper output.
-
-The README.md and USAGE.md files will be updated with command examples and explanations on how to use the new CLI parameters. This ensures that users have a clear guide on how to generate plots with the new functionality.
-
-This feature is designed in alignment with the mission to offer a go-to plot library with CLI capabilities, focusing on delivering core functionality that addresses the primary purpose of transforming expressions to visual time series representations.
+# Impact
+This refined feature delivers substantial user impact by enforcing robust input validation and clear usage feedback while retaining the core niche of transforming mathematical expressions to visual time series. It builds on existing functionality in a streamlined manner that adheres to the repository mission and guidance provided in CONTRIBUTING.md.
