@@ -7,16 +7,20 @@ import { z } from "zod";
 
 const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg]`;
 
-// Helper to parse CLI arguments into an object
-function parseCLIArgs(args) {
+/**
+ * Parse raw CLI arguments into an object.
+ * @param {string[]} args - Raw CLI arguments.
+ * @returns {object} Parsed arguments object.
+ */
+function parseArguments(args) {
   const result = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    if (arg === '--help' || arg === '-h') {
+    if (arg === "--help" || arg === "-h") {
       console.log(USAGE_MESSAGE);
       process.exit(0);
     }
-    if (arg.startsWith('--')) {
+    if (arg.startsWith("--")) {
       const key = arg.slice(2);
       result[key] = args[i + 1];
       i++;
@@ -43,7 +47,7 @@ const rangeSchema = z.string().superRefine((val, ctx) => {
 
 // Define a schema for the --file argument
 const fileSchema = z.string().refine(
-  (val) => val.endsWith('.svg') || val.endsWith('.png'),
+  (val) => val.endsWith(".svg") || val.endsWith(".png"),
   { message: "Error: --file must have a .svg or .png extension." }
 );
 
@@ -53,7 +57,7 @@ const cliSchema = z.object({
     .nonempty({
       message: "Error: --expression and --range are required arguments."
     })
-    .refine(val => val.startsWith('y='), { message: "Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'." }),
+    .refine(val => val.startsWith("y="), { message: "Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'." }),
   range: z.string({ required_error: "Error: --expression and --range are required arguments." })
     .nonempty({
       message: "Error: --expression and --range are required arguments."
@@ -62,22 +66,16 @@ const cliSchema = z.object({
   file: z.optional(fileSchema)
 });
 
-export function main(args = process.argv.slice(2)) {
-  // If no arguments, display usage and terminate without error
-  if (args.length === 0) {
-    console.log(USAGE_MESSAGE);
-    return;
-  }
-
-  // Parse CLI arguments into an object
-  const parsedArgs = parseCLIArgs(args);
-
-  let validated;
+/**
+ * Validate CLI arguments using Zod schema.
+ * @param {object} argsObj - Parsed arguments object.
+ * @returns {object} Validated arguments.
+ */
+function validateArguments(argsObj) {
   try {
-    validated = cliSchema.parse(parsedArgs);
+    return cliSchema.parse(argsObj);
   } catch (e) {
     if (e instanceof z.ZodError) {
-      // Get the first error message from Zod validation
       console.error(e.errors[0].message);
       process.exit(1);
     } else {
@@ -85,25 +83,17 @@ export function main(args = process.argv.slice(2)) {
       process.exit(1);
     }
   }
+}
 
-  const { expression, range, file: fileOutput } = validated;
-
-  // Parse expression (support only y=sin(x) or y=cos(x))
-  let func = null;
-  const funcStr = expression.slice(2).trim();
-  if (funcStr === 'sin(x)') {
-    func = Math.sin;
-  } else if (funcStr === 'cos(x)') {
-    func = Math.cos;
-  } else {
-    console.error(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported.`);
-    process.exit(1);
-  }
-
-  // Validate and parse range argument
+/**
+ * Process the range string into numeric boundaries.
+ * @param {string} rangeStr - The range string from CLI.
+ * @returns {object} Object containing xRange and yRange.
+ */
+function processRange(rangeStr) {
   let xRange = null;
   let yRange = null;
-  const parts = range.split(",");
+  const parts = rangeStr.split(",");
   for (const part of parts) {
     const [axis, bounds] = part.split("=");
     const [lowStr, highStr] = bounds.split(":");
@@ -118,9 +108,37 @@ export function main(args = process.argv.slice(2)) {
       process.exit(1);
     }
   }
-
   if (!xRange) {
     console.error("Error: x range must be specified in --range.");
+    process.exit(1);
+  }
+  return { xRange, yRange };
+}
+
+export function main(args = process.argv.slice(2)) {
+  // If no arguments, display usage and terminate without error
+  if (args.length === 0) {
+    console.log(USAGE_MESSAGE);
+    return;
+  }
+
+  // Parse and validate CLI arguments
+  const parsedArgs = parseArguments(args);
+  const validatedArgs = validateArguments(parsedArgs);
+  const { expression, range, file: fileOutput } = validatedArgs;
+
+  // Process range into xRange and yRange objects
+  const { xRange, yRange } = processRange(range);
+
+  // Parse expression (support only y=sin(x) or y=cos(x))
+  let func = null;
+  const funcStr = expression.slice(2).trim();
+  if (funcStr === "sin(x)") {
+    func = Math.sin;
+  } else if (funcStr === "cos(x)") {
+    func = Math.cos;
+  } else {
+    console.error(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported.`);
     process.exit(1);
   }
 
