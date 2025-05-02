@@ -93,6 +93,42 @@ describe("SVG Render Feature", () => {
     const svg = renderSVG({ expressions, width: 640, height: 400, range });
     expect(svg).toContain("Range: x=-5:5");
   });
+
+  // New tests for axis labels
+  test("renders x-axis and y-axis labels for single expression", () => {
+    const expressions = ["y=exp(x)"];
+    const xlabel = "Time (s)";
+    const ylabel = "Amplitude";
+    const customHeight = 500;
+    const svg = renderSVG({ expressions, width: 800, height: customHeight, xlabel, ylabel });
+    expect(svg).toContain(`<text x=\"${800/2}\" y=\"${customHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel}</text>`);
+    expect(svg).toContain(`<text x=\"15\" y=\"${customHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${customHeight/2})\" font-size=\"14\">${ylabel}</text>`);
+  });
+
+  test("renders x-axis and y-axis labels for multiple expressions", () => {
+    const expressions = ["y=exp(x)", "y=log(x)"];
+    const segHeight = 120;
+    const totalHeight = expressions.length * segHeight;
+    const xlabel = "Distance";
+    const ylabel = "Value";
+    const svg = renderSVG({ expressions, width: 640, segmentHeight: segHeight, xlabel, ylabel });
+    expect(svg).toContain(`<text x=\"${640/2}\" y=\"${totalHeight - 10}\" text-anchor=\"middle\" font-size=\"14\">${xlabel}</text>`);
+    expect(svg).toContain(`<text x=\"15\" y=\"${totalHeight/2}\" text-anchor=\"middle\" transform=\"rotate(-90,15,${totalHeight/2})\" font-size=\"14\">${ylabel}</text>`);
+  });
+
+  test("logs error for empty --xlabel value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--xlabel", ""]);
+    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --xlabel flag provided with empty value");
+    consoleSpy.mockRestore();
+  });
+
+  test("logs error for empty --ylabel value", async () => {
+    const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--ylabel", ""]);
+    expect(consoleSpy.mock.calls[0][0]).toContain("Error: --ylabel flag provided with empty value");
+    consoleSpy.mockRestore();
+  });
 });
 
 describe("PNG Conversion Error Handling", () => {
