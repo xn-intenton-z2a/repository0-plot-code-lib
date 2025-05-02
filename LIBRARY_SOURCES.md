@@ -72,3 +72,8 @@ This merged resource combines the official Commander.js documentation with pract
 ## https://eslint.org/docs/latest/ | https://prettier.io/docs/en/index.html
 A combined resource offering guidelines on maintaining high code quality through ESLint and Prettier. It includes configuration, rule customization, and integration strategies to enforce consistent coding standards. Widely adopted and continuously updated, these tools are indispensable for modern development.
 ## License: MIT
+
+# Node.js Best Practices
+## https://github.com/goldbergyoni/nodebestpractices
+This comprehensive resource offers a deep dive into best practices for Node.js development. It covers a wide range of topics from error handling and security to performance optimization and scalability, providing actionable insights and practical examples to build reliable and maintainable applications. Regularly updated by the community, it serves as an essential guide for both novice and experienced Node.js developers.
+## License: MIT
