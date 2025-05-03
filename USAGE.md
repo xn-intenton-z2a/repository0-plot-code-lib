@@ -14,6 +14,10 @@ Run the CLI with the required options:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
+Note:
+- Required parameters: --expression and --range
+- Optional parameters: --file (with .svg or .png extensions), --width, and --height
+
 - If the `--file` option is provided with a valid file extension (.svg or .png), the tool generates and saves the corresponding plot.
 - If the `--file` option is omitted, a text preview of the computed points is printed to the console.
 
@@ -45,32 +49,24 @@ Customize the plot's resolution using the `--width` and `--height` flags. Both p
 
 For PNG output, the custom dimensions will be reflected in the placeholder text.
 
-#### 5. Enhanced Error Messaging and Guidance
+#### 5. Help and Error Guidance
 
-This version of repository0-plot-code-lib includes interactive error messages that provide detailed guidance along with a usage hint. For example:
+Use the `--help` or `-h` flag to display detailed usage instructions along with an overview of required and optional parameters. Additionally, the tool provides descriptive error messages if inputs are missing or invalid. For example:
 
 - **Missing Parameters:**
   
-  If mandatory parameters are missing, you might see an error like:
-
   Error: --expression and --range are required arguments.
   Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
 - **Invalid Range Format:**
-  
-  An error for an incorrectly formatted range might appear as:
 
   Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10
 
 - **Unsupported File Extension:**
-  
-  If you use an unsupported file extension, the error message will indicate:
 
   Error: --file must have a .svg or .png extension. Example: output.svg or output.png
 
 - **Invalid Custom Dimensions:**
-
-  Errors related to custom dimensions will clearly indicate the need for positive numeric values, e.g:
 
   Error: --width must be a positive number.
 

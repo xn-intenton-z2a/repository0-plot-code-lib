@@ -5,7 +5,10 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import { z } from "zod";
 
-const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`;
+// Updated USAGE_MESSAGE to include required and optional parameter overview
+const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
+Required parameters: --expression, --range
+Optional parameters: --file (SVG or PNG), --width, --height`;
 
 /**
  * Exit the process with an error message.
@@ -27,6 +30,7 @@ function parseArguments(args) {
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--help" || arg === "-h") {
+      // Display help message and exit if help flag is provided
       console.log(USAGE_MESSAGE);
       process.exit(0);
     }
@@ -139,7 +143,7 @@ function processRange(rangeStr) {
 }
 
 export function main(args = process.argv.slice(2)) {
-  // If no arguments, display usage and terminate without error
+  // If no arguments are provided, display usage message with detailed overview and terminate
   if (args.length === 0) {
     console.log(USAGE_MESSAGE);
     return;
@@ -161,7 +165,8 @@ export function main(args = process.argv.slice(2)) {
   } else if (funcStr === "cos(x)") {
     func = Math.cos;
   } else {
-    exitWithError(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported. Example: y=sin(x)`);
+    // Updated error message for unsupported expressions
+    exitWithError(`Error: Unsupported expression '${expression}'. Supported expressions: y=sin(x) and y=cos(x). Example: y=sin(x)`);
   }
 
   // Compute time series data (sample 20 points between xRange.low and xRange.high)
@@ -174,7 +179,9 @@ export function main(args = process.argv.slice(2)) {
     points.push({ x, y });
   }
 
-  // Dual output functionality
+  // Dual output functionality:
+  // If --file option is provided, generate file output (SVG or PNG) with custom dimensions;
+  // Otherwise, output a text preview to the console.
   if (fileOutput) {
     if (fileOutput.endsWith(".svg")) {
       // Generate simple SVG content with custom width and height
@@ -211,7 +218,7 @@ export function main(args = process.argv.slice(2)) {
       }
     }
   } else {
-    // No file provided: output text preview to console
+    // Output text preview of plot
     console.log("Text Preview of Plot:");
     points.forEach(p => {
       console.log(`x: ${p.x.toFixed(2)}, y: ${p.y.toFixed(2)}`);
