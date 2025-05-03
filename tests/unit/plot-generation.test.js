@@ -84,6 +84,14 @@ describe('CLI Dual Output Functionality', () => {
     }).toThrow(/process.exit: 1/);
     spy.mockRestore();
   });
+
+  test('should error with unsupported expression', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    expect(() => {
+      main(['--expression', 'y=tan(x)', '--range', 'x=0:10']);
+    }).toThrow(/process.exit: 1/);
+    spy.mockRestore();
+  });
 });
 
 // Tests for custom dimension options
