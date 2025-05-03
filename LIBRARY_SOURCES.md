@@ -48,11 +48,6 @@ A definitive resource for optimizing SVG files through configuration recommendat
 This comprehensive resource provides techniques for scientific plotting with Gnuplot, detailing command usage, data formatting, and export options. It is indispensable for creating high-quality scientific visualizations and understanding plot rendering intricacies.
 ## License: GPL
 
-# MathJax Documentation
-## https://docs.mathjax.org/en/latest/
-Offering extensive guidelines for rendering complex mathematical notation on the web, this resource details configuration options and rendering techniques to ensure the accurate display of mathematical expressions—a vital component when visualizing formulas or scientific data.
-## License: Apache-2.0
-
 # SVG.js Documentation
 ## https://svgjs.dev/docs/3.0/
 This documentation provides a lightweight approach to programmatically manipulating SVG elements with interactive examples and clear API instructions. It is essential for creating dynamic, responsive vector graphics that meet modern web standards and support our library's SVG output.
@@ -60,7 +55,7 @@ This documentation provides a lightweight approach to programmatically manipulat
 
 # CLI Tools and Best Practices
 ## https://oclif.io/ | https://github.com/tj/commander.js | https://github.com/jlevy/the-art-of-command-line | https://nodejs.dev/learn/command-line-apps | https://yargs.js.org/docs/
-A merged resource offering guidelines from leading CLI frameworks, this source provides actionable advice on command definition, argument parsing, and efficient CLI design necessary for developing a user-friendly, robust command-line interface for plot generation.
+A merged resource offering guidelines from leading CLI frameworks. It provides actionable advice on command definition, argument parsing, and efficient CLI design necessary for developing a user-friendly, robust command-line interface for plot generation.
 ## License: MIT / Various
 
 # Node.js Best Practices and Code Quality
@@ -73,7 +68,7 @@ This combined resource offers in-depth insights into Node.js development best pr
 Inquirer.js offers a robust framework for building interactive command-line user interfaces. Its detailed documentation on prompt configuration, dynamic question flows, and input validation is invaluable for enhancing user interactions in CLI applications.
 ## License: MIT
 
-# GitHub Actions Documentation
-## https://docs.github.com/en/actions
-This official GitHub resource provides comprehensive guidance on automating workflows using GitHub Actions. It covers setting up CI/CD pipelines, automating tests and linting, and best practices for continuous integration in modern software development. Its actionable insights and recent updates (2023) make it indispensable for integrating automated development workflows.
-## License: N/A
+# Mathematical Typesetting Libraries
+## https://docs.mathjax.org/en/latest/ | https://katex.org/docs/
+This merged resource provides comprehensive guidelines for rendering complex mathematical notation in web applications by leveraging both MathJax and KaTeX. It covers configuration options, performance considerations, and integration techniques, ensuring accurate and efficient typesetting of mathematical expressions in dynamic interfaces.
+## License: Apache-2.0 (MathJax), MIT (KaTeX)
