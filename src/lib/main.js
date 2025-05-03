@@ -6,9 +6,9 @@ import fs from "fs";
 import { z } from "zod";
 
 // Updated USAGE_MESSAGE to include required and optional parameter overview
-const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
+const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
 Required parameters: --expression, --range
-Optional parameters: --file (SVG or PNG), --width, --height`;
+Optional parameters: --file (SVG or PNG), --width, --height, --json (outputs validated parameters as JSON)`;
 
 /**
  * Exit the process with an error message and usage guidance.
@@ -23,7 +23,7 @@ function exitWithError(message) {
 
 /**
  * Parse raw CLI arguments into an object.
- * Iterates over arguments and maps them to key-value pairs.
+ * Iterates over arguments and maps them to key-value pairs. Supports flags without values.
  * @param {string[]} args - Raw CLI arguments.
  * @returns {object} Parsed arguments object.
  */
@@ -38,8 +38,13 @@ function parseArguments(args) {
     }
     if (arg.startsWith("--")) {
       const key = arg.slice(2);
-      result[key] = args[i + 1];
-      i++;
+      // If next argument doesn't exist or starts with '--', treat as boolean flag
+      if (i + 1 >= args.length || args[i + 1].startsWith("--")) {
+        result[key] = true;
+      } else {
+        result[key] = args[i + 1];
+        i++;
+      }
     }
   }
   return result;
@@ -85,18 +90,15 @@ const heightSchema = z.optional(
 // Define the CLI schema using Zod
 const cliSchema = z.object({
   expression: z.string({ required_error: "Error: --expression and --range are required arguments." })
-    .nonempty({
-      message: "Error: --expression and --range are required arguments."
-    })
+    .nonempty({ message: "Error: --expression and --range are required arguments." })
     .refine(val => val.startsWith("y="), { message: "Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'. Example: y=sin(x)" }),
   range: z.string({ required_error: "Error: --expression and --range are required arguments." })
-    .nonempty({
-      message: "Error: --expression and --range are required arguments."
-    })
+    .nonempty({ message: "Error: --expression and --range are required arguments." })
     .pipe(rangeSchema),
   file: z.optional(fileSchema),
   width: dimensionSchema,
-  height: heightSchema
+  height: heightSchema,
+  json: z.optional(z.boolean()).default(false)
 });
 
 /**
@@ -156,7 +158,13 @@ export function main(args = process.argv.slice(2)) {
   // Parse and validate CLI arguments
   const parsedArgs = parseArguments(args);
   const validatedArgs = validateArguments(parsedArgs);
-  const { expression, range, file: fileOutput, width, height } = validatedArgs;
+  const { expression, range, file: fileOutput, width, height, json } = validatedArgs;
+
+  // If json flag is provided, output the validated arguments as a JSON string
+  if (json) {
+    console.log(JSON.stringify(validatedArgs));
+    return;
+  }
 
   // Process range into xRange and yRange objects
   const { xRange, yRange } = processRange(range);
