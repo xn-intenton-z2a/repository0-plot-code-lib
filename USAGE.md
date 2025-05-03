@@ -35,6 +35,27 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
 node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
 ```
 
+### Custom Resolution Options
+
+You can specify custom output dimensions using the `--width` and `--height` options:
+
+- `--width`: Optional. Specifies the width of the plot output. Must be a positive number. Default is 500.
+- `--height`: Optional. Specifies the height of the plot output. Must be a positive number. Default is 300.
+
+#### Examples with Custom Dimensions
+
+**Generate an SVG file with custom dimensions:**
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg --width 800 --height 600
+```
+
+**Generate a PNG file with custom dimensions (simulated output):**
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png --width 1024 --height 768
+```
+
 ## CLI Argument Validation with Zod
 
 This version of the CLI leverages the Zod library for schema-based validation of CLI arguments. Key validations include:
@@ -43,6 +64,7 @@ This version of the CLI leverages the Zod library for schema-based validation of
 - Validating that the `--expression` begins with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
 - Validating that the `--range` argument follows the format (e.g., `x=low:high` or `x=low:high,y=low:high`), with numerical bounds.
 - Confirming that the `--file` argument, if provided, ends with `.svg` or `.png`.
+- Validating that `--width` and `--height`, if provided, are positive numbers.
 
 ## Refactored CLI Parsing
 
@@ -62,9 +84,12 @@ The primary exported function is `main(args)`, which processes the command line 
   - `--expression` (required): A mathematical expression (currently supports `y=sin(x)` or `y=cos(x)`).
   - `--range` (required): The range of values; expected in format `x=low:high` (optionally, `y=low:high` can also be specified).
   - `--file` (optional): The output file. Must end with `.svg` or `.png`. When omitted, a text preview is displayed.
+  - `--width` (optional): Custom width for the plot output. Default is 500.
+  - `--height` (optional): Custom height for the plot output. Default is 300.
 
 ## Error Handling
 
 - Missing required parameters or invalid formats will result in descriptive error messages displayed on the console using a centralized error handler.
 - The `--range` argument is validated to ensure it contains numerical bounds in the correct format.
 - The file output name is validated so that only `.svg` or `.png` formats are accepted.
+- The `--width` and `--height` arguments, if provided, must be positive numbers.
