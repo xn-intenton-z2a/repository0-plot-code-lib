@@ -17,48 +17,68 @@ Run the CLI with the required options:
 - If the `--file` option is provided with a valid file extension (.svg or .png), the tool generates and saves the corresponding plot.
 - If the `--file` option is omitted, a text preview of the computed points is printed to the console.
 
-## Examples
+### Examples
 
-### 1. Generate an SVG File
+#### 1. Generate an SVG File
 
 Generate a smooth sine wave plot and save it as an SVG file with default dimensions:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg
 
-### 2. Generate a PNG File
+#### 2. Generate a PNG File
 
 Produce a PNG plot (simulated output) with default dimensions:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
 
-### 3. Display a Text Preview
+#### 3. Display a Text Preview
 
 Output a text preview of computed plot points for a cosine function:
 
   node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
 
-## Custom Dimensions
+#### 4. Custom Dimensions
 
-Customize the plot's resolution using the `--width` and `--height` flags. Both parameters must be positive numbers. For example, to set a custom SVG size:
+Customize the plot's resolution using the `--width` and `--height` flags. Both parameters must be positive numbers. For example, to set custom dimensions for an SVG file:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg --width 800 --height 600
 
 For PNG output, the custom dimensions will be reflected in the placeholder text.
 
+#### 5. Error Handling Examples
+
+- Missing mandatory parameters (both `--expression` and `--range` must be provided):
+
+  node src/lib/main.js --range "x=0:10"
+
+  This will output an error: "Error: --expression and --range are required arguments."
+
+- Using an unsupported expression (only `y=sin(x)` and `y=cos(x)` are supported):
+
+  node src/lib/main.js --expression "y=tan(x)" --range "x=0:10"
+
+  This will output an error: "Error: Unsupported expression 'y=tan(x)'. Only 'y=sin(x)' and 'y=cos(x)' are supported."
+
+- Providing an invalid range format:
+
+  node src/lib/main.js --expression "y=sin(x)" --range "invalid-range"
+
+  This will output an error explaining the correct range format.
+
 ## CLI Argument Validation & Error Handling
 
 The tool uses robust validation via Zod to ensure:
-- Both `--expression` and `--range` are provided. 
+- Both `--expression` and `--range` are provided.
 - The expression strictly starts with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
 - The range follows the format `axis=low:high` (for example, `x=-10:10`), with numeric bounds.
 - The `--file` option (if provided) ends with either `.svg` or `.png`.
 - Custom dimensions passed via `--width` and `--height` are positive numbers.
 
-If any validation fails, an informative error message is displayed.
+If any validation fails, an informative error message is displayed and the process exits with a non-zero status code.
 
 ## Contributing
 
-We welcome contributions that enhance the functionality and usability of repository0-plot-code-lib. Please refer to our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting issues and pull requests.
+We welcome contributions that enhance the functionality and usability of repository0-plot-code-lib. Please refer to our CONTRIBUTING.md for guidelines on submitting issues and pull requests.
 
 ## Summary
 
