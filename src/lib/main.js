@@ -12,8 +12,9 @@ const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --ran
  * @param {string} message - The error message to display.
  */
 function exitWithError(message) {
-  console.error(message + "\n" + USAGE_MESSAGE);
-  process.exit(1);
+  const errorMessage = message + "\n" + USAGE_MESSAGE;
+  console.error(errorMessage);
+  throw new Error(errorMessage);
 }
 
 /**

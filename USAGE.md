@@ -69,8 +69,8 @@ This version of repository0-plot-code-lib includes interactive error messages th
   Error: --file must have a .svg or .png extension. Example: output.svg or output.png
 
 - **Invalid Custom Dimensions:**
-  
-  Errors related to custom dimensions will clearly indicate the need for positive numeric values, e.g.:
+
+  Errors related to custom dimensions will clearly indicate the need for positive numeric values, e.g:
 
   Error: --width must be a positive number.
 

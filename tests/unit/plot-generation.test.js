@@ -59,43 +59,43 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error when mandatory parameters are missing', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Missing mandatory parameters.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--range', 'x=0:10']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     expect(() => {
       main(['--expression', 'y=sin(x)']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     spy.mockRestore();
   });
 
   test('should error with invalid range format', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: invalid range format\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'invalid-range']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     spy.mockRestore();
   });
 
   test('should error with unsupported file extension', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --file must have a .svg or .png extension.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=0:10', '--file', 'output.jpg']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     spy.mockRestore();
   });
 
   test('should error with unsupported expression', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Unsupported expression\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=tan(x)', '--range', 'x=0:10']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     spy.mockRestore();
   });
 
   // New test for interactive error messaging
   test('should include usage guidance in error message when mandatory parameters are missing', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     try {
       main(['--range', 'x=0:10']);
     } catch (e) {
@@ -134,21 +134,21 @@ describe('Custom Dimension Options', () => {
   });
 
   test('should error with invalid non-numeric width', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --width must be a positive number.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--width', 'abc']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     spy.mockRestore();
   });
 
   test('should error with zero or negative height', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --height must be a positive number.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--height', '-300']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--height', '0']);
-    }).toThrow(/process.exit: 1/);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
     spy.mockRestore();
   });
 });
