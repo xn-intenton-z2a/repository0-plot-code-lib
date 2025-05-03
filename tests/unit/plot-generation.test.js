@@ -59,7 +59,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error when mandatory parameters are missing', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]'}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]`); });
     expect(() => {
       main(['--range', 'x=0:10']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);

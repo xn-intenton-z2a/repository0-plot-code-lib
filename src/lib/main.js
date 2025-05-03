@@ -72,20 +72,14 @@ const fileSchema = z.string().refine(
   { message: "Error: --file must have a .svg or .png extension. Example: output.svg or output.png" }
 );
 
-// Add optional width and height flags with default values and validation
-const dimensionSchema = z.optional(
-  z.preprocess(
-    (val) => Number(val),
-    z.number().positive({ message: "Error: --width must be a positive number." })
-  )
-).default(500);
+// Add optional width and height flags with default values and validation using z.coerce
+const dimensionSchema = z.coerce.number({
+  invalid_type_error: "Error: --width must be a positive number."
+}).positive({ message: "Error: --width must be a positive number." }).default(500);
 
-const heightSchema = z.optional(
-  z.preprocess(
-    (val) => Number(val),
-    z.number().positive({ message: "Error: --height must be a positive number." })
-  )
-).default(300);
+const heightSchema = z.coerce.number({
+  invalid_type_error: "Error: --height must be a positive number."
+}).positive({ message: "Error: --height must be a positive number." }).default(300);
 
 // Define the CLI schema using Zod
 const cliSchema = z.object({
