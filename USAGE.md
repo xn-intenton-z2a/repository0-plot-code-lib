@@ -6,20 +6,30 @@ repository0-plot-code-lib is a powerful CLI tool that transforms mathematical ex
 
 ## Command Line Interface (CLI) Overview
 
-This CLI tool processes a mathematical expression and range parameters to generate plots. Depending on the options provided, the tool can either output a text preview of computed points, generate a plot file in SVG or PNG format, or output the validated parameters in JSON format for further processing.
+This CLI tool processes a mathematical expression and range parameters to generate plots. Depending on the options provided, the tool can:
+
+- Output a text preview of computed points
+- Generate a plot file in SVG or PNG format
+- Output the validated parameters in JSON format
+- Output computed plot points in CSV format (using the --csv flag)
+- Display additional debug information (using the --verbose flag)
 
 ### Basic Usage
 
 Run the CLI with the required options:
 
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]
 
 Note:
 - Required parameters: --expression and --range
-- Optional parameters: --file (with .svg or .png extensions), --width, --height
-- Additional flag: --json (if provided, the tool outputs the validated parameters as a JSON string instead of generating a plot or text preview)
+- Optional parameters: 
+  - --file (with .svg or .png extensions)
+  - --width and --height (custom dimensions for output files)
+  - --json (outputs validated parameters as a JSON string)
+  - --csv (outputs computed plot points in CSV format with header "x,y")
+  - --verbose (displays detailed logs including validated arguments, computed ranges, and point data)
 
-If input validation fails, the tool will output a clear error message followed by the usage instructions to help correct the input format.
+If input validation fails, the tool will output a clear error message followed by the usage instructions.
 
 ### Examples
 
@@ -47,17 +57,25 @@ For integration or debugging, you can output the validated parameters as JSON us
 
   node src/lib/main.js --expression "y=cos(x)" --range "x=0:10" --json
 
-The output will be a JSON string reflecting the provided options.
+#### 5. Output CSV Formatted Data
 
-#### 5. Custom Dimensions
+Export the computed plot points in CSV format. This will include a header and comma-separated x and y values (only when no file output is specified):
+
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --csv
+
+#### 6. Enable Verbose Mode
+
+Display additional internal processing details such as the validated arguments, computed range values, and full list of generated points:
+
+  node src/lib/main.js --expression "y=cos(x)" --range "x=0:10" --verbose
+
+#### 7. Custom Dimensions
 
 Customize the plot's resolution using the --width and --height flags. Both parameters must be positive numbers. For example, to set custom dimensions for an SVG file:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg --width 800 --height 600
 
-For PNG output, the custom dimensions will be reflected in the placeholder text output.
-
-#### 6. Help and Error Guidance
+### Help and Error Guidance
 
 Use the --help or -h flag, or run the CLI without any arguments, to display detailed usage instructions along with an overview of required and optional parameters. For example:
 
@@ -69,22 +87,22 @@ If invalid inputs are provided, the CLI will output error messages that include 
 - **Missing Parameters:**
 
   Error: --expression and --range are required arguments.
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]
 
 - **Invalid Range Format:**
 
   Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]
 
 - **Unsupported File Extension:**
 
   Error: --file must have a .svg or .png extension. Example: output.svg or output.png
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]
 
 - **Invalid Custom Dimensions:**
 
   Error: --width and --height must be positive numbers.
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]
 
 ## CLI Argument Validation & Error Handling
 
@@ -94,9 +112,11 @@ The tool uses robust validation via Zod to ensure:
 - The range follows the format "axis=low:high" (for example, "x=-10:10"), with numeric bounds.
 - The --file option (if provided) ends with either .svg or .png.
 - Custom dimensions passed via --width and --height are positive numbers.
-- The optional --json flag, if provided, triggers JSON output of the validated parameters.
+- The optional --json flag outputs the validated parameters as JSON.
+- The --csv flag outputs computed plot points in CSV format (only when no file output is provided).
+- The --verbose flag, when provided, logs additional processing details.
 
-If any validation fails, an informative error message is displayed along with the usage instructions to guide you towards the correct input format.
+If any validation fails, an informative error message is displayed along with the usage instructions.
 
 ## Contributing
 

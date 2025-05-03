@@ -5,10 +5,10 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import { z } from "zod";
 
-// Updated USAGE_MESSAGE to include required and optional parameter overview
-const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
+// Updated USAGE_MESSAGE to include additional optional flags --csv and --verbose
+const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]
 Required parameters: --expression, --range
-Optional parameters: --file (SVG or PNG), --width, --height, --json (outputs validated parameters as JSON)`;
+Optional parameters: --file (SVG or PNG), --width, --height, --json (outputs validated parameters as JSON), --csv (outputs plot points in CSV format), --verbose (displays additional debug logs)`;
 
 /**
  * Exit the process with an error message and usage guidance.
@@ -88,7 +88,7 @@ const heightSchema = z.coerce.number({
   invalid_type_error: "Error: --height must be a positive number."
 }).positive({ message: "Error: --height must be a positive number." }).default(300);
 
-// Define the CLI schema using Zod
+// Define the CLI schema using Zod, now including csv and verbose flags
 const cliSchema = z.object({
   expression: z.string({ required_error: "Error: --expression and --range are required arguments." })
     .nonempty({ message: "Error: --expression and --range are required arguments." })
@@ -99,7 +99,9 @@ const cliSchema = z.object({
   file: z.optional(fileSchema),
   width: dimensionSchema,
   height: heightSchema,
-  json: z.optional(z.boolean()).default(false)
+  json: z.optional(z.boolean()).default(false),
+  csv: z.optional(z.boolean()).default(false),
+  verbose: z.optional(z.boolean()).default(false)
 });
 
 /**
@@ -159,7 +161,7 @@ export function main(args = process.argv.slice(2)) {
   // Parse and validate CLI arguments
   const parsedArgs = parseArguments(args);
   const validatedArgs = validateArguments(parsedArgs);
-  const { expression, range, file: fileOutput, width, height, json } = validatedArgs;
+  const { expression, range, file: fileOutput, width, height, json, csv, verbose } = validatedArgs;
 
   // If json flag is provided, output the validated arguments as a JSON string
   if (json) {
@@ -178,7 +180,6 @@ export function main(args = process.argv.slice(2)) {
   } else if (funcStr === "cos(x)") {
     func = Math.cos;
   } else {
-    // Enhanced error message for unsupported expressions
     exitWithError(`Error: Unsupported expression '${expression}'. Supported expressions: y=sin(x) and y=cos(x). Example: y=sin(x)`);
   }
 
@@ -188,13 +189,13 @@ export function main(args = process.argv.slice(2)) {
   const stepSize = (xRange.high - xRange.low) / (steps - 1);
   for (let i = 0; i < steps; i++) {
     const x = xRange.low + i * stepSize;
-    const y = func(x);
-    points.push({ x, y });
+    const yVal = func(x);
+    points.push({ x, y: yVal });
   }
 
   // Dual output functionality:
   // If --file option is provided, generate plot file (SVG or PNG) with custom dimensions;
-  // Otherwise, output a text preview of the plot to the console
+  // Otherwise, output a text preview, CSV output, and/or verbose logs as appropriate
   if (fileOutput) {
     if (fileOutput.endsWith(".svg")) {
       // Generate SVG content with custom width and height
@@ -229,6 +230,27 @@ export function main(args = process.argv.slice(2)) {
       }
     }
   } else {
+    // If --csv flag is set and no file output, output CSV formatted data
+    if (csv) {
+      let csvText = "x,y\n";
+      points.forEach(p => {
+        csvText += `${p.x},${p.y}\n`;
+      });
+      console.log(csvText.trim());
+      return;
+    }
+
+    // If verbose flag is enabled, log detailed processing info
+    if (verbose) {
+      console.log("Verbose Mode Enabled:");
+      console.log("Validated Arguments: " + JSON.stringify(validatedArgs));
+      console.log(`xRange: { low: ${xRange.low}, high: ${xRange.high} }`);
+      if (yRange) {
+        console.log(`yRange: { low: ${yRange.low}, high: ${yRange.high} }`);
+      }
+      console.log("Generated Points: " + JSON.stringify(points));
+    }
+    
     // Output text preview of plot points
     console.log("Text Preview of Plot:");
     points.forEach(p => {
