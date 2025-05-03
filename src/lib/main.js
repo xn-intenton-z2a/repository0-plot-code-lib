@@ -5,7 +5,7 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import { z } from "zod";
 
-const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg]`;
+const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`;
 
 /**
  * Exit the process with an error message.
@@ -60,6 +60,21 @@ const fileSchema = z.string().refine(
   { message: "Error: --file must have a .svg or .png extension." }
 );
 
+// Add optional width and height flags with default values and validation
+const dimensionSchema = z.optional(
+  z.preprocess(
+    (val) => Number(val),
+    z.number().positive({ message: "Error: --width must be a positive number." })
+  )
+).default(500);
+
+const heightSchema = z.optional(
+  z.preprocess(
+    (val) => Number(val),
+    z.number().positive({ message: "Error: --height must be a positive number." })
+  )
+).default(300);
+
 // Define the CLI schema using Zod
 const cliSchema = z.object({
   expression: z.string({ required_error: "Error: --expression and --range are required arguments." })
@@ -72,7 +87,9 @@ const cliSchema = z.object({
       message: "Error: --expression and --range are required arguments."
     })
     .pipe(rangeSchema),
-  file: z.optional(fileSchema)
+  file: z.optional(fileSchema),
+  width: dimensionSchema,
+  height: heightSchema
 });
 
 /**
@@ -130,7 +147,7 @@ export function main(args = process.argv.slice(2)) {
   // Parse and validate CLI arguments
   const parsedArgs = parseArguments(args);
   const validatedArgs = validateArguments(parsedArgs);
-  const { expression, range, file: fileOutput } = validatedArgs;
+  const { expression, range, file: fileOutput, width, height } = validatedArgs;
 
   // Process range into xRange and yRange objects
   const { xRange, yRange } = processRange(range);
@@ -159,17 +176,19 @@ export function main(args = process.argv.slice(2)) {
   // Dual output functionality
   if (fileOutput) {
     if (fileOutput.endsWith(".svg")) {
-      // Generate simple SVG content
-      let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">\n`;
+      // Generate simple SVG content with custom width and height
+      let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+`;
       // Determine y boundaries
       const yMin = yRange ? yRange.low : Math.min(...points.map(p => p.y));
       const yMax = yRange ? yRange.high : Math.max(...points.map(p => p.y));
       const polylinePoints = points.map(p => {
-        const svgX = ((p.x - xRange.low) / (xRange.high - xRange.low)) * 500;
-        const svgY = 300 - ((p.y - yMin) / (yMax - yMin)) * 300;
+        const svgX = ((p.x - xRange.low) / (xRange.high - xRange.low)) * width;
+        const svgY = height - ((p.y - yMin) / (yMax - yMin)) * height;
         return `${svgX},${svgY}`;
       }).join(" ");
-      svgContent += `<polyline points="${polylinePoints}" fill="none" stroke="black" />\n`;
+      svgContent += `<polyline points="${polylinePoints}" fill="none" stroke="black" />
+`;
       svgContent += `</svg>`;
       try {
         fs.writeFileSync(fileOutput, svgContent);
@@ -178,8 +197,8 @@ export function main(args = process.argv.slice(2)) {
         exitWithError(`Error writing file: ${e.message}`);
       }
     } else if (fileOutput.endsWith(".png")) {
-      // Simulate PNG output with placeholder text (actual PNG generation requires additional libraries)
-      let pngContent = `PNG PLOT DATA\nExpression: ${expression}\nPoints:\n`;
+      // Simulate PNG output with placeholder text including custom dimensions
+      let pngContent = `PNG PLOT DATA (Width: ${width}, Height: ${height})\nExpression: ${expression}\nPoints:\n`;
       points.forEach(p => {
         pngContent += `(${p.x.toFixed(2)}, ${p.y.toFixed(2)})\n`;
       });
