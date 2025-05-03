@@ -1,95 +1,73 @@
 # Usage Documentation for repository0-plot-code-lib
 
-This library provides a CLI to generate plots from mathematical expressions and time series data.
+## Mission
 
-## Command Line Usage
+Inspired by our mission to be the go-to plot library for formula visualisations, repository0-plot-code-lib transforms mathematical expressions and range parameters into stunning visual plots. Our goal is to empower users to quickly generate and customize plots using a simple CLI interface.
 
-Execute the CLI by running:
+## Command Line Interface (CLI) Overview
 
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file output.svg
+This CLI tool processes a mathematical expression along with a specified range, generating either an SVG or PNG plot. If no file is provided, a text preview of computed points is displayed on the console.
 
-The tool parses the provided expression and range parameters to generate plots in SVG or PNG formats.
+## How to Use
+
+### Basic Usage
+
+Run the CLI with the required parameters:
+
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
 ### Dual Output Modes
 
-- If the `--file` parameter is provided with a valid file name ending in `.svg` or `.png`, the plot will be generated and saved to that file.
-- If the `--file` parameter is omitted, a text preview of the plot (a list of computed points) will be displayed on the console.
+- **File Output:** When the `--file` option is provided with a valid file name ending in `.svg` or `.png`, the CLI will generate and save the plot.
+- **Text Preview:** If the `--file` parameter is omitted, the CLI outputs a text preview (list of computed points) to the console.
 
 #### Examples
 
-**Generate an SVG file:**
+- **Generate an SVG file:**
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg
-```
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg
 
-**Generate a PNG file (simulated output):**
+- **Generate a PNG file (simulated output):**
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
-```
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
 
-**Text Preview (no file output):**
+- **Display a text preview:**
 
-```sh
-node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
-```
+  node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
 
 ### Custom Resolution Options
 
-You can specify custom output dimensions using the `--width` and `--height` options:
+Customize the dimensions of your output by providing the `--width` and `--height` options:
 
-- `--width`: Optional. Specifies the width of the plot output. Must be a positive number. Default is 500.
-- `--height`: Optional. Specifies the height of the plot output. Must be a positive number. Default is 300.
+- `--width`: Specifies the width of the plot output. Must be a positive number (default: 500).
+- `--height`: Specifies the height of the plot output. Must be a positive number (default: 300).
 
-#### Examples with Custom Dimensions
+#### Example with Custom Dimensions
 
-**Generate an SVG file with custom dimensions:**
+- **SVG with custom dimensions:**
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg --width 800 --height 600
-```
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg --width 800 --height 600
 
-**Generate a PNG file with custom dimensions (simulated output):**
+- **PNG with custom dimensions (simulated):**
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png --width 1024 --height 768
-```
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png --width 1024 --height 768
 
-## CLI Argument Validation with Zod
+## CLI Argument Validation
 
-This version of the CLI leverages the Zod library for schema-based validation of CLI arguments. Key validations include:
+The tool leverages robust validation via Zod, ensuring:
 
-- Ensuring that both `--expression` and `--range` are provided. If either is missing, the error "Error: --expression and --range are required arguments." is shown.
-- Validating that the `--expression` begins with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
-- Validating that the `--range` argument follows the format (e.g., `x=low:high` or `x=low:high,y=low:high`), with numerical bounds.
-- Confirming that the `--file` argument, if provided, ends with `.svg` or `.png`.
-- Validating that `--width` and `--height`, if provided, are positive numbers.
+- Both `--expression` and `--range` are provided.
+- The `--expression` starts with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
+- The `--range` follows the format `axis=low:high` (e.g., `x=-10:10`), with numeric bounds.
+- The `--file` (if provided) ends with `.svg` or `.png`.
+- The `--width` and `--height` parameters (if provided) are positive numbers.
 
-## Refactored CLI Parsing
+If any validations fail, a descriptive error message is displayed.
 
-The CLI argument parsing and validation logic has been refactored into distinct, single-purpose functions:
-- **parseArguments:** Converts raw CLI arguments into an object.
-- **validateArguments:** Validates parsed arguments using Zod with consistent error handling.
-- **processRange:** Processes the range string into numeric boundaries.
-- A helper function **exitWithError** centralizes error logging and process termination for uniform error handling.
+## Contributing
 
-This refactored approach improves code readability, maintainability, and consistency in error reporting.
+We welcome contributions! Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to submit pull requests, report issues, and contribute to the project.
 
-## API
+## Summary
 
-The primary exported function is `main(args)`, which processes the command line arguments and executes the plot generation logic.
-
-- **Parameters:**
-  - `--expression` (required): A mathematical expression (currently supports `y=sin(x)` or `y=cos(x)`).
-  - `--range` (required): The range of values; expected in format `x=low:high` (optionally, `y=low:high` can also be specified).
-  - `--file` (optional): The output file. Must end with `.svg` or `.png`. When omitted, a text preview is displayed.
-  - `--width` (optional): Custom width for the plot output. Default is 500.
-  - `--height` (optional): Custom height for the plot output. Default is 300.
-
-## Error Handling
-
-- Missing required parameters or invalid formats will result in descriptive error messages displayed on the console using a centralized error handler.
-- The `--range` argument is validated to ensure it contains numerical bounds in the correct format.
-- The file output name is validated so that only `.svg` or `.png` formats are accepted.
-- The `--width` and `--height` arguments, if provided, must be positive numbers.
+This CLI tool is designed to be simple yet powerful, offering both file-based plot generation and console-based previews. Its flexible design and strong argument validation help ensure a smooth user experience.
