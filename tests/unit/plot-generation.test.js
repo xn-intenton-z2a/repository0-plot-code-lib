@@ -59,7 +59,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error when mandatory parameters are missing', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Missing mandatory parameters.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]'}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]'}`); });
     expect(() => {
       main(['--range', 'x=0:10']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -70,7 +70,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error with invalid range format', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: invalid range format\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'invalid-range']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -78,7 +78,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error with unsupported file extension', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --file must have a .svg or .png extension.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --file must have a .svg or .png extension. Example: output.svg or output.png\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=0:10', '--file', 'output.jpg']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -86,7 +86,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error with unsupported expression', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Unsupported expression\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Unsupported expression 'y=tan(x)'. Supported expressions: y=sin(x) and y=cos(x). Example: y=sin(x)\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     expect(() => {
       main(['--expression', 'y=tan(x)', '--range', 'x=0:10']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -103,7 +103,7 @@ describe('CLI Dual Output Functionality', () => {
     spy.mockRestore();
   });
 
-  // New tests for help flag
+  // New tests for help flag and no-argument scenario
   test('should display usage message when help flag is provided (--help)', () => {
     const output = captureOutput(() => {
       try {
@@ -119,6 +119,14 @@ describe('CLI Dual Output Functionality', () => {
       try {
         main(['-h']);
       } catch (e) {}
+    });
+    expect(output[0]).toContain('Usage: node src/lib/main.js');
+    expect(output[0]).toContain('Required parameters: --expression, --range');
+  });
+
+  test('should display usage message when no arguments are provided', () => {
+    const output = captureOutput(() => {
+      main([]);
     });
     expect(output[0]).toContain('Usage: node src/lib/main.js');
     expect(output[0]).toContain('Required parameters: --expression, --range');

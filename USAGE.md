@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a powerful CLI tool that transforms mathematical expressions and specified ranges into stunning visual plots. In line with our mission, "Be a go-to plot library with a CLI, be the jq of formulae visualisations," this tool is designed to deliver fast and accurate plotting capabilities to both new and experienced users.
+repository0-plot-code-lib is a powerful CLI tool that transforms mathematical expressions and specified ranges into visual plots. In line with our mission, "Be a go-to plot library with a CLI, be the jq of formulae visualisations," this tool is designed to deliver fast and accurate plotting capabilities to both new and experienced users.
 
 ## Command Line Interface (CLI) Overview
 
@@ -18,8 +18,7 @@ Note:
 - Required parameters: --expression and --range
 - Optional parameters: --file (with .svg or .png extensions), --width, and --height
 
-- If the `--file` option is provided with a valid file extension (.svg or .png), the tool generates and saves the corresponding plot.
-- If the `--file` option is omitted, a text preview of the computed points is printed to the console.
+If input validation fails, the tool will output a clear error message followed by the usage instructions to help correct the input format.
 
 ### Examples
 
@@ -43,45 +42,51 @@ Output a text preview of computed plot points for a cosine function:
 
 #### 4. Custom Dimensions
 
-Customize the plot's resolution using the `--width` and `--height` flags. Both parameters must be positive numbers. For example, to set custom dimensions for an SVG file:
+Customize the plot's resolution using the --width and --height flags. Both parameters must be positive numbers. For example, to set custom dimensions for an SVG file:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg --width 800 --height 600
 
-For PNG output, the custom dimensions will be reflected in the placeholder text.
+For PNG output, the custom dimensions will be reflected in the placeholder text output.
 
 #### 5. Help and Error Guidance
 
-Use the `--help` or `-h` flag to display detailed usage instructions along with an overview of required and optional parameters. Additionally, the tool provides descriptive error messages if inputs are missing or invalid. For example:
+Use the --help or -h flag, or run the CLI without any arguments, to display detailed usage instructions along with an overview of required and optional parameters. For example:
+
+  node src/lib/main.js --help
+  node src/lib/main.js
+
+If invalid inputs are provided, the CLI will output error messages that include guidance on the correct usage. Examples include:
 
 - **Missing Parameters:**
-  
+
   Error: --expression and --range are required arguments.
   Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
 - **Invalid Range Format:**
 
   Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
 - **Unsupported File Extension:**
 
   Error: --file must have a .svg or .png extension. Example: output.svg or output.png
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
 - **Invalid Custom Dimensions:**
 
-  Error: --width must be a positive number.
-
-These enhancements aim to provide immediate, actionable feedback to help correct input mistakes.
+  Error: --width and --height must be positive numbers.
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
 ## CLI Argument Validation & Error Handling
 
 The tool uses robust validation via Zod to ensure:
-- Both `--expression` and `--range` are provided.
-- The expression strictly starts with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
-- The range follows the format `axis=low:high` (for example, `x=-10:10`), with numeric bounds.
-- The `--file` option (if provided) ends with either `.svg` or `.png`.
-- Custom dimensions passed via `--width` and `--height` are positive numbers.
+- Both --expression and --range are provided.
+- The expression strictly starts with "y=" and supports only "y=sin(x)" or "y=cos(x)".
+- The range follows the format "axis=low:high" (for example, "x=-10:10"), with numeric bounds.
+- The --file option (if provided) ends with either .svg or .png.
+- Custom dimensions passed via --width and --height are positive numbers.
 
-If any validation fails, an informative error message is displayed along with a usage hint to guide you towards the correct input format.
+If any validation fails, an informative error message is displayed along with the usage instructions to guide you towards the correct input format.
 
 ## Contributing
 

@@ -11,7 +11,8 @@ Required parameters: --expression, --range
 Optional parameters: --file (SVG or PNG), --width, --height`;
 
 /**
- * Exit the process with an error message.
+ * Exit the process with an error message and usage guidance.
+ * Appends the usage message to provide clear guidance on expected inputs.
  * @param {string} message - The error message to display.
  */
 function exitWithError(message) {
@@ -22,6 +23,7 @@ function exitWithError(message) {
 
 /**
  * Parse raw CLI arguments into an object.
+ * Iterates over arguments and maps them to key-value pairs.
  * @param {string[]} args - Raw CLI arguments.
  * @returns {object} Parsed arguments object.
  */
@@ -99,6 +101,7 @@ const cliSchema = z.object({
 
 /**
  * Validate CLI arguments using Zod schema.
+ * Returns validated arguments or exits with an error if validation fails.
  * @param {object} argsObj - Parsed arguments object.
  * @returns {object} Validated arguments.
  */
@@ -116,6 +119,7 @@ function validateArguments(argsObj) {
 
 /**
  * Process the range string into numeric boundaries.
+ * Splits range string (e.g., x=-10:10,y=-5:5) and returns corresponding range objects.
  * @param {string} rangeStr - The range string from CLI.
  * @returns {object} Object containing xRange and yRange.
  */
@@ -165,7 +169,7 @@ export function main(args = process.argv.slice(2)) {
   } else if (funcStr === "cos(x)") {
     func = Math.cos;
   } else {
-    // Updated error message for unsupported expressions
+    // Enhanced error message for unsupported expressions
     exitWithError(`Error: Unsupported expression '${expression}'. Supported expressions: y=sin(x) and y=cos(x). Example: y=sin(x)`);
   }
 
@@ -180,11 +184,11 @@ export function main(args = process.argv.slice(2)) {
   }
 
   // Dual output functionality:
-  // If --file option is provided, generate file output (SVG or PNG) with custom dimensions;
-  // Otherwise, output a text preview to the console.
+  // If --file option is provided, generate plot file (SVG or PNG) with custom dimensions;
+  // Otherwise, output a text preview of the plot to the console
   if (fileOutput) {
     if (fileOutput.endsWith(".svg")) {
-      // Generate simple SVG content with custom width and height
+      // Generate SVG content with custom width and height
       let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
 `;
       // Determine y boundaries
@@ -218,7 +222,7 @@ export function main(args = process.argv.slice(2)) {
       }
     }
   } else {
-    // Output text preview of plot
+    // Output text preview of plot points
     console.log("Text Preview of Plot:");
     points.forEach(p => {
       console.log(`x: ${p.x.toFixed(2)}, y: ${p.y.toFixed(2)}`);
