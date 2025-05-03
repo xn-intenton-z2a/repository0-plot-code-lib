@@ -22,7 +22,7 @@ function removeFile(filepath) {
   }
 }
 
-// Tests for refactored CLI argument parsing
+// Tests for CLI Dual Output Functionality
 describe('CLI Dual Output Functionality', () => {
   test('should output text preview when --file is not provided', () => {
     const output = captureOutput(() => {
@@ -59,7 +59,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error when mandatory parameters are missing', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Missing mandatory parameters.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Missing mandatory parameters.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]'}`); });
     expect(() => {
       main(['--range', 'x=0:10']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -93,7 +93,6 @@ describe('CLI Dual Output Functionality', () => {
     spy.mockRestore();
   });
 
-  // New test for interactive error messaging
   test('should include usage guidance in error message when mandatory parameters are missing', () => {
     const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
     try {
@@ -102,6 +101,27 @@ describe('CLI Dual Output Functionality', () => {
       expect(e.message).toContain('Usage: node src/lib/main.js');
     }
     spy.mockRestore();
+  });
+
+  // New tests for help flag
+  test('should display usage message when help flag is provided (--help)', () => {
+    const output = captureOutput(() => {
+      try {
+        main(['--help']);
+      } catch (e) {}
+    });
+    expect(output[0]).toContain('Usage: node src/lib/main.js');
+    expect(output[0]).toContain('Required parameters: --expression, --range');
+  });
+
+  test('should display usage message when help flag is provided (-h)', () => {
+    const output = captureOutput(() => {
+      try {
+        main(['-h']);
+      } catch (e) {}
+    });
+    expect(output[0]).toContain('Usage: node src/lib/main.js');
+    expect(output[0]).toContain('Required parameters: --expression, --range');
   });
 });
 
