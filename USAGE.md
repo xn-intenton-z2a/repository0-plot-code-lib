@@ -22,14 +22,14 @@ Run the CLI with the required options:
 
 Note:
 - Required parameters: --expression and --range
-- Optional parameters: 
+- Optional parameters:
   - --file (with .svg or .png extensions)
   - --width and --height (custom dimensions for output files)
   - --json (outputs validated parameters as a JSON string)
   - --csv (outputs computed plot points in CSV format with header "x,y")
-  - --verbose (displays detailed logs including validated arguments, computed ranges, and point data)
+  - --verbose (displays detailed logs including validated arguments, computed ranges, and full generated points)
 
-If input validation fails, the tool will output a clear error message followed by the usage instructions.
+**Important:** When using the --verbose flag, additional debug logs will be printed only in text preview mode. If the --file flag is provided, verbose logging is suppressed to avoid interfering with file output.
 
 ### Examples
 
@@ -65,7 +65,7 @@ Export the computed plot points in CSV format. This will include a header and co
 
 #### 6. Enable Verbose Mode
 
-Display additional internal processing details such as the validated arguments, computed range values, and full list of generated points:
+Display additional internal processing details such as the validated arguments, computed range values, and full list of generated points. Note that verbose logs are only shown in text preview mode and are suppressed when outputting to a file:
 
   node src/lib/main.js --expression "y=cos(x)" --range "x=0:10" --verbose
 
@@ -114,7 +114,7 @@ The tool uses robust validation via Zod to ensure:
 - Custom dimensions passed via --width and --height are positive numbers.
 - The optional --json flag outputs the validated parameters as JSON.
 - The --csv flag outputs computed plot points in CSV format (only when no file output is provided).
-- The --verbose flag, when provided, logs additional processing details.
+- The --verbose flag, when provided, logs additional processing details (only in text preview mode).
 
 If any validation fails, an informative error message is displayed along with the usage instructions.
 
