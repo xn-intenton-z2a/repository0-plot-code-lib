@@ -1,0 +1,242 @@
+tests/unit/plot-generation.test.js
+# tests/unit/plot-generation.test.js
+import { describe, test, expect, vi } from 'vitest';
+import { main } from '@src/lib/main.js';
+import fs from 'fs';
+
+// Helper to capture console output
+function captureOutput(callback) {
+  const log = [];
+  const originalLog = console.log;
+  console.log = (msg) => log.push(msg);
+  try {
+    callback();
+  } finally {
+    console.log = originalLog;
+  }
+  return log;
+}
+
+// Clean up files created during tests
+function removeFile(filepath) {
+  if (fs.existsSync(filepath)) {
+    fs.unlinkSync(filepath);
+  }
+}
+
+// Tests for CLI Dual Output Functionality
+describe('CLI Dual Output Functionality', () => {
+  test('should output text preview when --file is not provided', () => {
+    const output = captureOutput(() => {
+      main(['--expression', 'y=cos(x)', '--range', 'x=0:10']);
+    });
+    expect(output[0]).toBe('Text Preview of Plot:');
+    expect(output.find(line => line.includes('x:'))).toBeDefined();
+  });
+
+  test('should generate SVG file when --file with .svg is provided', () => {
+    const testSvg = 'test-output.svg';
+    removeFile(testSvg);
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--file', testSvg]);
+    });
+    expect(fs.existsSync(testSvg)).toBe(true);
+    const fileContent = fs.readFileSync(testSvg, 'utf-8');
+    expect(fileContent).toContain('<svg');
+    expect(output[0]).toContain('SVG plot generated');
+    removeFile(testSvg);
+  });
+
+  test('should generate PNG file when --file with .png is provided', () => {
+    const testPng = 'test-output.png';
+    removeFile(testPng);
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-5:5', '--file', testPng]);
+    });
+    expect(fs.existsSync(testPng)).toBe(true);
+    const fileContent = fs.readFileSync(testPng, 'utf-8');
+    expect(fileContent).toContain('PNG PLOT DATA');
+    expect(output[0]).toContain('PNG plot generated');
+    removeFile(testPng);
+  });
+
+  test('should error when mandatory parameters are missing', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]'}`); });
+    expect(() => {
+      main(['--range', 'x=0:10']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    expect(() => {
+      main(['--expression', 'y=sin(x)']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    spy.mockRestore();
+  });
+
+  test('should error with invalid range format', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]'}`); });
+    expect(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'invalid-range']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    spy.mockRestore();
+  });
+
+  test('should error with unsupported file extension', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --file must have a .svg or .png extension. Example: output.svg or output.png\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]'}`); });
+    expect(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=0:10', '--file', 'output.jpg']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    spy.mockRestore();
+  });
+
+  test('should error with unsupported expression', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Unsupported expression 'y=tan(x)'. Supported expressions: y=sin(x) and y=cos(x). Example: y=sin(x)\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]'}`); });
+    expect(() => {
+      main(['--expression', 'y=tan(x)', '--range', 'x=0:10']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    spy.mockRestore();
+  });
+
+  test('should include usage guidance in error message when mandatory parameters are missing', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]'}`); });
+    try {
+      main(['--range', 'x=0:10']);
+    } catch (e) {
+      expect(e.message).toContain('Usage: node src/lib/main.js');
+    }
+    spy.mockRestore();
+  });
+
+  test('should display usage message when help flag is provided (--help)', () => {
+    const output = captureOutput(() => {
+      try {
+        main(['--help']);
+      } catch (e) {}
+    });
+    expect(output[0]).toContain('Usage: node src/lib/main.js');
+    expect(output[0]).toContain('Required parameters: --expression, --range');
+  });
+
+  test('should display usage message when help flag is provided (-h)', () => {
+    const output = captureOutput(() => {
+      try {
+        main(['-h']);
+      } catch (e) {}
+    });
+    expect(output[0]).toContain('Usage: node src/lib/main.js');
+    expect(output[0]).toContain('Required parameters: --expression, --range');
+  });
+
+  test('should display usage message when no arguments are provided', () => {
+    const output = captureOutput(() => {
+      main([]);
+    });
+    expect(output[0]).toContain('Usage: node src/lib/main.js');
+    expect(output[0]).toContain('Required parameters: --expression, --range');
+  });
+});
+
+// Tests for custom dimension options
+describe('Custom Dimension Options', () => {
+  test('should generate SVG with custom width and height when specified', () => {
+    const testSvg = 'test-dimensions.svg';
+    removeFile(testSvg);
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--file', testSvg, '--width', '800', '--height', '600']);
+    });
+    expect(fs.existsSync(testSvg)).toBe(true);
+    const fileContent = fs.readFileSync(testSvg, 'utf-8');
+    expect(fileContent).toContain('width="800"');
+    expect(fileContent).toContain('height="600"');
+    removeFile(testSvg);
+  });
+
+  test('should generate PNG with custom dimensions in placeholder text', () => {
+    const testPng = 'test-dimensions.png';
+    removeFile(testPng);
+    const output = captureOutput(() => {
+      main(['--expression', 'y=cos(x)', '--range', 'x=0:10', '--file', testPng, '--width', '1024', '--height', '768']);
+    });
+    expect(fs.existsSync(testPng)).toBe(true);
+    const fileContent = fs.readFileSync(testPng, 'utf-8');
+    expect(fileContent).toContain('Width: 1024');
+    expect(fileContent).toContain('Height: 768');
+    removeFile(testPng);
+  });
+
+  test('should error with invalid non-numeric width', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --width must be a positive number.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]'}`); });
+    expect(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--width', 'abc']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    spy.mockRestore();
+  });
+
+  test('should error with zero or negative height', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --height must be a positive number.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json] [--csv] [--verbose]'}`); });
+    expect(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--height', '-300']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    expect(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--height', '0']);
+    }).toThrow(/Usage: node src\/lib\/main\.js/);
+    spy.mockRestore();
+  });
+});
+
+// Tests for JSON output functionality
+describe('JSON Output Functionality', () => {
+  test('should output JSON info when --json flag is provided', () => {
+    const output = captureOutput(() => {
+      main(['--expression', 'y=cos(x)', '--range', 'x=0:10', '--json']);
+    });
+    let parsed;
+    expect(() => { parsed = JSON.parse(output[0]); }).not.toThrow();
+    expect(parsed).toHaveProperty('expression', 'y=cos(x)');
+    expect(parsed).toHaveProperty('range', 'x=0:10');
+    expect(parsed).toHaveProperty('json', true);
+  });
+
+  test('should output JSON info with additional parameters', () => {
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--file', 'plot.svg', '--width', '800', '--height', '600', '--json']);
+    });
+    let parsed;
+    expect(() => { parsed = JSON.parse(output[0]); }).not.toThrow();
+    expect(parsed).toHaveProperty('file', 'plot.svg');
+    expect(parsed).toHaveProperty('width', 800);
+    expect(parsed).toHaveProperty('height', 600);
+  });
+});
+
+// New tests for CSV and Verbose output functionality
+describe('Additional Output Modes', () => {
+  test('should output CSV formatted data when --csv flag is provided', () => {
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--csv']);
+    });
+    // CSV output should have header 'x,y' on the first line
+    expect(output[0]).toMatch(/^x,y/);
+    // At least one data row expected
+    expect(output.join('\n')).toMatch(/\d+,\d+(\.\d+)?/);
+  });
+
+  test('should output verbose logs when --verbose flag is provided in text preview mode', () => {
+    const output = captureOutput(() => {
+      main(['--expression', 'y=cos(x)', '--range', 'x=0:10', '--verbose']);
+    });
+    expect(output.join('\n')).toContain('Verbose Mode Enabled:');
+    expect(output.join('\n')).toContain('Validated Arguments:');
+    expect(output.join('\n')).toContain('Generated Points:');
+    expect(output.join('\n')).toContain('Text Preview of Plot:');
+  });
+
+  test('should not output verbose logs when --file is provided even with --verbose flag', () => {
+    const testSvg = 'test-verbose-file-output.svg';
+    removeFile(testSvg);
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--file', testSvg, '--verbose']);
+    });
+    // In file output mode, verbose logs should be suppressed
+    expect(output.join('\n')).not.toContain('Verbose Mode Enabled:');
+    removeFile(testSvg);
+  });
+});
