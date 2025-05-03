@@ -16,9 +16,20 @@ Optional parameters: --file (SVG or PNG), --width, --height, --json (outputs val
  * @param {string} message - The error message to display.
  */
 function exitWithError(message) {
-  const errorMessage = message + "\n" + USAGE_MESSAGE;
+  const errorMessage = `${message}\n${USAGE_MESSAGE}`;
   console.error(errorMessage);
   throw new Error(errorMessage);
+}
+
+/**
+ * Checks if the arguments contain a help flag and, if so, displays the usage message and exits.
+ * @param {string[]} args - Raw CLI arguments.
+ */
+function handleHelpFlag(args) {
+  if (args.includes("--help") || args.includes("-h")) {
+    console.log(USAGE_MESSAGE);
+    process.exit(0);
+  }
 }
 
 /**
@@ -28,14 +39,10 @@ function exitWithError(message) {
  * @returns {object} Parsed arguments object.
  */
 function parseArguments(args) {
+  handleHelpFlag(args);
   const result = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    if (arg === "--help" || arg === "-h") {
-      // Display help message and exit if help flag is provided
-      console.log(USAGE_MESSAGE);
-      process.exit(0);
-    }
     if (arg.startsWith("--")) {
       const key = arg.slice(2);
       // If next argument doesn't exist or starts with '--', treat as boolean flag
@@ -191,8 +198,7 @@ export function main(args = process.argv.slice(2)) {
   if (fileOutput) {
     if (fileOutput.endsWith(".svg")) {
       // Generate SVG content with custom width and height
-      let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
-`;
+      let svgContent = `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"${width}\" height=\"${height}\">\n`;
       // Determine y boundaries
       const yMin = yRange ? yRange.low : Math.min(...points.map(p => p.y));
       const yMax = yRange ? yRange.high : Math.max(...points.map(p => p.y));
@@ -201,8 +207,7 @@ export function main(args = process.argv.slice(2)) {
         const svgY = height - ((p.y - yMin) / (yMax - yMin)) * height;
         return `${svgX},${svgY}`;
       }).join(" ");
-      svgContent += `<polyline points="${polylinePoints}" fill="none" stroke="black" />
-`;
+      svgContent += `<polyline points=\"${polylinePoints}\" fill=\"none\" stroke=\"black\" />\n`;
       svgContent += `</svg>`;
       try {
         fs.writeFileSync(fileOutput, svgContent);
@@ -233,6 +238,5 @@ export function main(args = process.argv.slice(2)) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const args = process.argv.slice(2);
-  main(args);
+  main(process.argv.slice(2));
 }
