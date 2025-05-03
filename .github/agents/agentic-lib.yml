@@ -1,5 +1,5 @@
 # Which agentic-lib workflow schedule should be used?
-schedule: schedule-2
+schedule: schedule-3
 
 # Mapping for from symbolic keys to filepaths for access by agentic-lib workflows with limits and access permissions
 paths:
@@ -7,17 +7,17 @@ paths:
   missionFilepath:
     path: 'MISSION.md'
   librarySourcesFilepath:
-    path: 'LIBRARY_SOURCES.md'
+    path: 'SOURCES.md'
     permissions: [ 'write' ]
     limit: 16
   libraryDocumentsPath:
-    path: 'LIBRARY_DOCUMENT.md'
+    path: 'library/'
     permissions: [ 'write' ]
     limit: 1
   featuresPath:
-    path: 'PLOT_GENERATION.md'
+    path: 'features/'
     permissions: [ 'write' ]
-    limit: 1
+    limit: 2
 
   # Filepaths for engineer workflows
   contributingFilepath:
