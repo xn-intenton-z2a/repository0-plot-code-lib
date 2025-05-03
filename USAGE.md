@@ -1,73 +1,65 @@
 # Usage Documentation for repository0-plot-code-lib
 
-## Mission
+## Introduction
 
-Inspired by our mission to be the go-to plot library for formula visualisations, repository0-plot-code-lib transforms mathematical expressions and range parameters into stunning visual plots. Our goal is to empower users to quickly generate and customize plots using a simple CLI interface.
+repository0-plot-code-lib is a powerful CLI tool that transforms mathematical expressions and specified ranges into stunning visual plots. In line with our mission, "Be a go-to plot library with a CLI, be the jq of formulae visualisations," this tool is designed to deliver fast and accurate plotting capabilities to both new and experienced users.
 
 ## Command Line Interface (CLI) Overview
 
-This CLI tool processes a mathematical expression along with a specified range, generating either an SVG or PNG plot. If no file is provided, a text preview of computed points is displayed on the console.
-
-## How to Use
+This CLI tool processes a mathematical expression and range parameters to generate plots. Depending on the options provided, the tool can either output a text preview of computed points or generate a plot file in SVG or PNG format.
 
 ### Basic Usage
 
-Run the CLI with the required parameters:
+Run the CLI with the required options:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
-### Dual Output Modes
+- If the `--file` option is provided with a valid file extension (.svg or .png), the tool generates and saves the corresponding plot.
+- If the `--file` option is omitted, a text preview of the computed points is printed to the console.
 
-- **File Output:** When the `--file` option is provided with a valid file name ending in `.svg` or `.png`, the CLI will generate and save the plot.
-- **Text Preview:** If the `--file` parameter is omitted, the CLI outputs a text preview (list of computed points) to the console.
+## Examples
 
-#### Examples
+### 1. Generate an SVG File
 
-- **Generate an SVG file:**
+Generate a smooth sine wave plot and save it as an SVG file with default dimensions:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg
 
-- **Generate a PNG file (simulated output):**
+### 2. Generate a PNG File
+
+Produce a PNG plot (simulated output) with default dimensions:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png
 
-- **Display a text preview:**
+### 3. Display a Text Preview
+
+Output a text preview of computed plot points for a cosine function:
 
   node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
 
-### Custom Resolution Options
+## Custom Dimensions
 
-Customize the dimensions of your output by providing the `--width` and `--height` options:
-
-- `--width`: Specifies the width of the plot output. Must be a positive number (default: 500).
-- `--height`: Specifies the height of the plot output. Must be a positive number (default: 300).
-
-#### Example with Custom Dimensions
-
-- **SVG with custom dimensions:**
+Customize the plot's resolution using the `--width` and `--height` flags. Both parameters must be positive numbers. For example, to set a custom SVG size:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" --file plot.svg --width 800 --height 600
 
-- **PNG with custom dimensions (simulated):**
+For PNG output, the custom dimensions will be reflected in the placeholder text.
 
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-5:5" --file plot.png --width 1024 --height 768
+## CLI Argument Validation & Error Handling
 
-## CLI Argument Validation
+The tool uses robust validation via Zod to ensure:
+- Both `--expression` and `--range` are provided. 
+- The expression strictly starts with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
+- The range follows the format `axis=low:high` (for example, `x=-10:10`), with numeric bounds.
+- The `--file` option (if provided) ends with either `.svg` or `.png`.
+- Custom dimensions passed via `--width` and `--height` are positive numbers.
 
-The tool leverages robust validation via Zod, ensuring:
-
-- Both `--expression` and `--range` are provided.
-- The `--expression` starts with `y=` and supports only `y=sin(x)` or `y=cos(x)`.
-- The `--range` follows the format `axis=low:high` (e.g., `x=-10:10`), with numeric bounds.
-- The `--file` (if provided) ends with `.svg` or `.png`.
-- The `--width` and `--height` parameters (if provided) are positive numbers.
-
-If any validations fail, a descriptive error message is displayed.
+If any validation fails, an informative error message is displayed.
 
 ## Contributing
 
-We welcome contributions! Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to submit pull requests, report issues, and contribute to the project.
+We welcome contributions that enhance the functionality and usability of repository0-plot-code-lib. Please refer to our [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting issues and pull requests.
 
 ## Summary
 
-This CLI tool is designed to be simple yet powerful, offering both file-based plot generation and console-based previews. Its flexible design and strong argument validation help ensure a smooth user experience.
+repository0-plot-code-lib empowers users to easily generate and customize plots via a simple CLI interface. Whether you're creating visual representations for mathematical functions or building dynamic data visualizations, this tool is designed to deliver an intuitive and robust plotting experience.
