@@ -217,15 +217,24 @@ describe('Additional Output Modes', () => {
     expect(output.join('\n')).toMatch(/\d+,\d+(\.\d+)?/);
   });
 
-  test('should output verbose logs when --verbose flag is provided', () => {
+  test('should output verbose logs when --verbose flag is provided in text preview mode', () => {
     const output = captureOutput(() => {
       main(['--expression', 'y=cos(x)', '--range', 'x=0:10', '--verbose']);
     });
-    // Check for verbose indicators
     expect(output.join('\n')).toContain('Verbose Mode Enabled:');
     expect(output.join('\n')).toContain('Validated Arguments:');
     expect(output.join('\n')).toContain('Generated Points:');
-    // Also check that text preview is displayed
     expect(output.join('\n')).toContain('Text Preview of Plot:');
+  });
+
+  test('should not output verbose logs when --file is provided even with --verbose flag', () => {
+    const testSvg = 'test-verbose-file-output.svg';
+    removeFile(testSvg);
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--file', testSvg, '--verbose']);
+    });
+    // In file output mode, verbose logs should be suppressed
+    expect(output.join('\n')).not.toContain('Verbose Mode Enabled:');
+    removeFile(testSvg);
   });
 });

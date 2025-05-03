@@ -195,7 +195,7 @@ export function main(args = process.argv.slice(2)) {
 
   // Dual output functionality:
   // If --file option is provided, generate plot file (SVG or PNG) with custom dimensions;
-  // Otherwise, output a text preview, CSV output, and/or verbose logs as appropriate
+  // Verbose logging is intentionally suppressed in file output mode.
   if (fileOutput) {
     if (fileOutput.endsWith(".svg")) {
       // Generate SVG content with custom width and height
@@ -240,7 +240,7 @@ export function main(args = process.argv.slice(2)) {
       return;
     }
 
-    // If verbose flag is enabled, log detailed processing info
+    // If verbose flag is enabled in text preview mode, log detailed processing info
     if (verbose) {
       console.log("Verbose Mode Enabled:");
       console.log("Validated Arguments: " + JSON.stringify(validatedArgs));
