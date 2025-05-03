@@ -6,17 +6,18 @@ repository0-plot-code-lib is a powerful CLI tool that transforms mathematical ex
 
 ## Command Line Interface (CLI) Overview
 
-This CLI tool processes a mathematical expression and range parameters to generate plots. Depending on the options provided, the tool can either output a text preview of computed points or generate a plot file in SVG or PNG format.
+This CLI tool processes a mathematical expression and range parameters to generate plots. Depending on the options provided, the tool can either output a text preview of computed points, generate a plot file in SVG or PNG format, or output the validated parameters in JSON format for further processing.
 
 ### Basic Usage
 
 Run the CLI with the required options:
 
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
 
 Note:
 - Required parameters: --expression and --range
-- Optional parameters: --file (with .svg or .png extensions), --width, and --height
+- Optional parameters: --file (with .svg or .png extensions), --width, --height
+- Additional flag: --json (if provided, the tool outputs the validated parameters as a JSON string instead of generating a plot or text preview)
 
 If input validation fails, the tool will output a clear error message followed by the usage instructions to help correct the input format.
 
@@ -40,7 +41,15 @@ Output a text preview of computed plot points for a cosine function:
 
   node src/lib/main.js --expression "y=cos(x)" --range "x=0:10"
 
-#### 4. Custom Dimensions
+#### 4. Output JSON of Parameters
+
+For integration or debugging, you can output the validated parameters as JSON using the --json flag:
+
+  node src/lib/main.js --expression "y=cos(x)" --range "x=0:10" --json
+
+The output will be a JSON string reflecting the provided options.
+
+#### 5. Custom Dimensions
 
 Customize the plot's resolution using the --width and --height flags. Both parameters must be positive numbers. For example, to set custom dimensions for an SVG file:
 
@@ -48,7 +57,7 @@ Customize the plot's resolution using the --width and --height flags. Both param
 
 For PNG output, the custom dimensions will be reflected in the placeholder text output.
 
-#### 5. Help and Error Guidance
+#### 6. Help and Error Guidance
 
 Use the --help or -h flag, or run the CLI without any arguments, to display detailed usage instructions along with an overview of required and optional parameters. For example:
 
@@ -60,22 +69,22 @@ If invalid inputs are provided, the CLI will output error messages that include 
 - **Missing Parameters:**
 
   Error: --expression and --range are required arguments.
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
 
 - **Invalid Range Format:**
 
   Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
 
 - **Unsupported File Extension:**
 
   Error: --file must have a .svg or .png extension. Example: output.svg or output.png
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
 
 - **Invalid Custom Dimensions:**
 
   Error: --width and --height must be positive numbers.
-  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]
 
 ## CLI Argument Validation & Error Handling
 
@@ -85,6 +94,7 @@ The tool uses robust validation via Zod to ensure:
 - The range follows the format "axis=low:high" (for example, "x=-10:10"), with numeric bounds.
 - The --file option (if provided) ends with either .svg or .png.
 - Custom dimensions passed via --width and --height are positive numbers.
+- The optional --json flag, if provided, triggers JSON output of the validated parameters.
 
 If any validation fails, an informative error message is displayed along with the usage instructions to guide you towards the correct input format.
 

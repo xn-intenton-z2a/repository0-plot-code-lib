@@ -59,7 +59,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error when mandatory parameters are missing', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]'}`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\n${'Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]'}`); });
     expect(() => {
       main(['--range', 'x=0:10']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -70,7 +70,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error with invalid range format', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'invalid-range']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -78,7 +78,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error with unsupported file extension', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --file must have a .svg or .png extension. Example: output.svg or output.png\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --file must have a .svg or .png extension. Example: output.svg or output.png\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=0:10', '--file', 'output.jpg']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -86,7 +86,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should error with unsupported expression', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Unsupported expression 'y=tan(x)'. Supported expressions: y=sin(x) and y=cos(x). Example: y=sin(x)\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: Unsupported expression 'y=tan(x)'. Supported expressions: y=sin(x) and y=cos(x). Example: y=sin(x)\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]`); });
     expect(() => {
       main(['--expression', 'y=tan(x)', '--range', 'x=0:10']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -94,7 +94,7 @@ describe('CLI Dual Output Functionality', () => {
   });
 
   test('should include usage guidance in error message when mandatory parameters are missing', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --expression and --range are required arguments.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]`); });
     try {
       main(['--range', 'x=0:10']);
     } catch (e) {
@@ -162,7 +162,7 @@ describe('Custom Dimension Options', () => {
   });
 
   test('should error with invalid non-numeric width', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --width must be a positive number.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --width must be a positive number.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--width', 'abc']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -170,7 +170,7 @@ describe('Custom Dimension Options', () => {
   });
 
   test('should error with zero or negative height', () => {
-    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --height must be a positive number.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]`); });
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Error: --height must be a positive number.\nUsage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300] [--json]`); });
     expect(() => {
       main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--height', '-300']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
@@ -178,5 +178,31 @@ describe('Custom Dimension Options', () => {
       main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--height', '0']);
     }).toThrow(/Usage: node src\/lib\/main\.js/);
     spy.mockRestore();
+  });
+});
+
+// New tests for JSON output functionality
+describe('JSON Output Functionality', () => {
+  test('should output JSON info when --json flag is provided', () => {
+    const output = captureOutput(() => {
+      main(['--expression', 'y=cos(x)', '--range', 'x=0:10', '--json']);
+    });
+    // Expect the output to be a valid JSON string
+    let parsed;
+    expect(() => { parsed = JSON.parse(output[0]); }).not.toThrow();
+    expect(parsed).toHaveProperty('expression', 'y=cos(x)');
+    expect(parsed).toHaveProperty('range', 'x=0:10');
+    expect(parsed).toHaveProperty('json', true);
+  });
+
+  test('should output JSON info with additional parameters', () => {
+    const output = captureOutput(() => {
+      main(['--expression', 'y=sin(x)', '--range', 'x=-10:10', '--file', 'plot.svg', '--width', '800', '--height', '600', '--json']);
+    });
+    let parsed;
+    expect(() => { parsed = JSON.parse(output[0]); }).not.toThrow();
+    expect(parsed).toHaveProperty('file', 'plot.svg');
+    expect(parsed).toHaveProperty('width', 800);
+    expect(parsed).toHaveProperty('height', 600);
   });
 });
