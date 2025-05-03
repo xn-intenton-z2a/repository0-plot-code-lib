@@ -45,25 +45,36 @@ Customize the plot's resolution using the `--width` and `--height` flags. Both p
 
 For PNG output, the custom dimensions will be reflected in the placeholder text.
 
-#### 5. Error Handling Examples
+#### 5. Enhanced Error Messaging and Guidance
 
-- Missing mandatory parameters (both `--expression` and `--range` must be provided):
+This version of repository0-plot-code-lib includes interactive error messages that provide detailed guidance along with a usage hint. For example:
 
-  node src/lib/main.js --range "x=0:10"
+- **Missing Parameters:**
+  
+  If mandatory parameters are missing, you might see an error like:
 
-  This will output an error: "Error: --expression and --range are required arguments."
+  Error: --expression and --range are required arguments.
+  Usage: node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10" [--file output.svg] [--width 500 --height 300]
 
-- Using an unsupported expression (only `y=sin(x)` and `y=cos(x)` are supported):
+- **Invalid Range Format:**
+  
+  An error for an incorrectly formatted range might appear as:
 
-  node src/lib/main.js --expression "y=tan(x)" --range "x=0:10"
+  Error: invalid range format for part 'invalid-range'. Expected format axis=low:high. Example: x=-10:10
 
-  This will output an error: "Error: Unsupported expression 'y=tan(x)'. Only 'y=sin(x)' and 'y=cos(x)' are supported."
+- **Unsupported File Extension:**
+  
+  If you use an unsupported file extension, the error message will indicate:
 
-- Providing an invalid range format:
+  Error: --file must have a .svg or .png extension. Example: output.svg or output.png
 
-  node src/lib/main.js --expression "y=sin(x)" --range "invalid-range"
+- **Invalid Custom Dimensions:**
+  
+  Errors related to custom dimensions will clearly indicate the need for positive numeric values, e.g.:
 
-  This will output an error explaining the correct range format.
+  Error: --width must be a positive number.
+
+These enhancements aim to provide immediate, actionable feedback to help correct input mistakes.
 
 ## CLI Argument Validation & Error Handling
 
@@ -74,7 +85,7 @@ The tool uses robust validation via Zod to ensure:
 - The `--file` option (if provided) ends with either `.svg` or `.png`.
 - Custom dimensions passed via `--width` and `--height` are positive numbers.
 
-If any validation fails, an informative error message is displayed and the process exits with a non-zero status code.
+If any validation fails, an informative error message is displayed along with a usage hint to guide you towards the correct input format.
 
 ## Contributing
 

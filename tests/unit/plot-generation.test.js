@@ -92,6 +92,17 @@ describe('CLI Dual Output Functionality', () => {
     }).toThrow(/process.exit: 1/);
     spy.mockRestore();
   });
+
+  // New test for interactive error messaging
+  test('should include usage guidance in error message when mandatory parameters are missing', () => {
+    const spy = vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`process.exit: ${code}`); });
+    try {
+      main(['--range', 'x=0:10']);
+    } catch (e) {
+      expect(e.message).toContain('Usage: node src/lib/main.js');
+    }
+    spy.mockRestore();
+  });
 });
 
 // Tests for custom dimension options
