@@ -12,8 +12,9 @@ const USAGE_MESSAGE = `Usage: node src/lib/main.js --expression "y=sin(x)" --ran
  * @param {string} message - The error message to display.
  */
 function exitWithError(message) {
-  console.error(message);
-  process.exit(1);
+  const errorMessage = message + "\n" + USAGE_MESSAGE;
+  console.error(errorMessage);
+  throw new Error(errorMessage);
 }
 
 /**
@@ -47,7 +48,7 @@ const rangeSchema = z.string().superRefine((val, ctx) => {
     if (!/^[xy]=[-+]?\d*\.?\d+:[-+]?\d*\.?\d+$/.test(trimmed)) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: `Error: invalid range format for part '${trimmed}'. Expected format axis=low:high`
+        message: `Error: invalid range format for part '${trimmed}'. Expected format axis=low:high. Example: x=-10:10`
       });
       return;
     }
@@ -57,7 +58,7 @@ const rangeSchema = z.string().superRefine((val, ctx) => {
 // Define a schema for the --file argument
 const fileSchema = z.string().refine(
   (val) => val.endsWith(".svg") || val.endsWith(".png"),
-  { message: "Error: --file must have a .svg or .png extension." }
+  { message: "Error: --file must have a .svg or .png extension. Example: output.svg or output.png" }
 );
 
 // Add optional width and height flags with default values and validation
@@ -81,7 +82,7 @@ const cliSchema = z.object({
     .nonempty({
       message: "Error: --expression and --range are required arguments."
     })
-    .refine(val => val.startsWith("y="), { message: "Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'." }),
+    .refine(val => val.startsWith("y="), { message: "Error: Expression must be in the format 'y=sin(x)' or 'y=cos(x)'. Example: y=sin(x)" }),
   range: z.string({ required_error: "Error: --expression and --range are required arguments." })
     .nonempty({
       message: "Error: --expression and --range are required arguments."
@@ -160,7 +161,7 @@ export function main(args = process.argv.slice(2)) {
   } else if (funcStr === "cos(x)") {
     func = Math.cos;
   } else {
-    exitWithError(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported.`);
+    exitWithError(`Error: Unsupported expression '${expression}'. Only 'y=sin(x)' and 'y=cos(x)' are supported. Example: y=sin(x)`);
   }
 
   // Compute time series data (sample 20 points between xRange.low and xRange.high)
