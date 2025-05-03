@@ -230,7 +230,7 @@ export function main(args = process.argv.slice(2)) {
       }
     }
   } else {
-    // If --csv flag is set and no file output, output CSV formatted data
+    // If --csv flag is set (and no file or JSON output) output CSV formatted data
     if (csv) {
       let csvText = "x,y\n";
       points.forEach(p => {
