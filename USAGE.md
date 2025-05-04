@@ -128,6 +128,38 @@ curl -s "http://localhost:3000/ndjson?expression=x&range=0:2&points=3"
 {"x":2,"y":2}
 ```
 
+#### GET /stream
+
+Stream time series data in real-time using Server-Sent Events (SSE).
+
+- Query parameters:
+  - `expression` (string, required)
+  - `range` (string, required)
+  - `points` (number, optional, default 100)
+- Response:
+  - Status 200
+  - Content-Type: `text/event-stream`
+  - Headers:
+    - `Cache-Control: no-cache`
+    - `Connection: keep-alive`
+  - Body: streamed SSE events for each data point, e.g.:
+```
+data: {"x":0,"y":0}
+
+
+data: {"x":1,"y":1}
+
+
+data: {"x":2,"y":2}
+
+```
+
+**Example:**
+
+```bash
+curl -N "http://localhost:3000/stream?expression=x&range=0:2&points=3"
+```
+
 #### POST /plot
 
 Accepts form data or JSON body:
