@@ -61,6 +61,10 @@ repository0-plot-code-lib plot --expression "x*2" --range "0:10" [options]
 - `--height <number>` (optional, default 600): Height in pixels
 - `--title <string>` (optional): Title for SVG plots
 
+**PNG Output Implementation**
+
+When `--plot-format png` is specified, the tool first renders the chart as SVG and then converts it to a full-featured PNG image using the `sharp` library. This produces a proper PNG file with a valid signature and image data.
+
 ## Quick Start Examples
 
 ### Generate CSV Time Series to stdout
