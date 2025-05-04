@@ -91,7 +91,10 @@ export function serializeJSON(data) {
  * Generate SVG line chart from data.
  */
 function escapeXML(str) {
-  return str.replace(/&/g, '&amp;').nreplace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
 }
 
 export function generateSVG(data, width, height, title) {
