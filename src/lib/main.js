@@ -223,6 +223,10 @@ export function mainCLI(argv = process.argv.slice(2)) {
  * Parse CLI options using commander.
  */
 export function main(argv = process.argv) {
+  // If no CLI arguments beyond the node and script, exit gracefully
+  if (argv.length <= 2) {
+    return;
+  }
   const program = new Command();
   program
     .requiredOption('--expression <expr>', 'Mathematical expression in terms of x')
