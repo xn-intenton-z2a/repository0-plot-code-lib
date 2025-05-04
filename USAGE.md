@@ -78,7 +78,7 @@ x,y
 5,10
 7.5,15
 10,20
-``` 
+```
 
 ### Generate JSON and Save to File
 
@@ -109,6 +109,28 @@ repository0-plot-code-lib plot --expression "x^2" --range "0:5" --plot-format sv
 ```bash
 repository0-plot-code-lib plot --expression "x^2" --range "0:5" --plot-format png --output-file plot.png
 ```
+
+## CLI Parsing with Commander
+
+The CLI also supports returning a structured JSON object representing the parsed options:
+
+```bash
+$ repository0-plot-code-lib --expression "y=sin(x)" --range "0:10" --file out.svg --points 50 --format svg
+```
+
+**Output:**
+
+```json
+{
+  "expression": "y=sin(x)",
+  "range": "0:10",
+  "file": "out.svg",
+  "points": 50,
+  "format": "svg"
+}
+```
+
+This helps in integrating the CLI into automation pipelines.
 
 ## Feature Overview
 

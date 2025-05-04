@@ -5,6 +5,7 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { evaluate } from 'mathjs';
 import { z } from 'zod';
+import { Command } from 'commander';
 
 /**
  * Parse a range string into an array of numbers.
@@ -117,7 +118,7 @@ export function generateSVG(data, width, height, title) {
 }
 
 /**
- * Main CLI logic. Returns the output string or throws on error.
+ * Main CLI logic for data and plots.
  */
 export function mainCLI(argv = process.argv.slice(2)) {
   let isPlot = false;
@@ -219,25 +220,33 @@ export function mainCLI(argv = process.argv.slice(2)) {
 }
 
 /**
- * Wrapper for direct invocation.
+ * Parse CLI options using commander.
  */
-export function main(argv = process.argv.slice(2)) {
-  // If no CLI args provided, exit gracefully
-  if (argv.length === 0) {
+export function main(argv = process.argv) {
+  // If no CLI arguments beyond the node and script, exit gracefully
+  if (argv.length <= 2) {
     return;
   }
-  try {
-    const out = mainCLI(argv);
-    if (!argv.includes('--output-file')) {
-      process.stdout.write(out);
-    }
-    process.exit(0);
-  } catch (err) {
-    console.error(`Error: ${err.message}`);
-    process.exit(1);
-  }
+  const program = new Command();
+  program
+    .requiredOption('--expression <expr>', 'Mathematical expression in terms of x')
+    .requiredOption('--range <range>', 'Range specifier, e.g., 0:10 or -1:1:0.2')
+    .option('--file <path>', 'Output file path')
+    .option('--points <number>', 'Number of points', (value) => parseInt(value, 10), 100)
+    .option('--format <format>', 'Output format (csv, json, svg, png)', 'csv');
+
+  program.parse(argv);
+  const opts = program.opts();
+  return {
+    expression: opts.expression,
+    range: opts.range,
+    file: opts.file,
+    points: opts.points,
+    format: opts.format,
+  };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main();
+  const options = main();
+  console.log(JSON.stringify(options, null, 2));
 }
