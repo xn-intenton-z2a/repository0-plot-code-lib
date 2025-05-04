@@ -1,12 +1,14 @@
 import { describe, test, expect } from 'vitest';
 import fs from 'fs';
 import path from 'path';
+import request from 'supertest';
 import {
   parseRange,
   evaluateExpression,
   serializeCSV,
   serializeJSON,
   mainCLI,
+  startHTTPServer,
 } from '@src/lib/main.js';
 
 describe('parseRange', () => {
@@ -122,8 +124,7 @@ describe('Plot generation', () => {
 
   test('PNG output writes valid PNG file', async () => {
     const tmp = path.join(process.cwd(), 'plot.png');
-    if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
-    await mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
+    if (fs.existsSync(tmp)) fs.unlinkSync(tmp);\n    await mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
     expect(fs.existsSync(tmp)).toBe(true);
     const buf = fs.readFileSync(tmp);
     expect(buf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
@@ -137,5 +138,54 @@ describe('Plot generation', () => {
   test('Invalid width/height throws error', async () => {
     await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--width', '-10'])).rejects.toThrow();
     await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--height', '0'])).rejects.toThrow();
+  });
+});
+
+// HTTP Server tests
+
+describe('HTTP Server', () => {
+  const app = startHTTPServer();
+
+  test('GET / returns HTML form with CORS headers', async () => {
+    const res = await request(app).get('/');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/html/);
+    expect(res.headers['access-control-allow-origin']).toBe('*');
+    expect(res.text).toMatch(/<form/);
+    expect(res.text).toMatch(/name="expression"/);
+    expect(res.text).toMatch(/name="range"/);
+    expect(res.text).toMatch(/name="points"/);
+    expect(res.text).toMatch(/name="plotFormat"/);
+  });
+
+  test('POST /plot with valid SVG returns inline SVG', async () => {
+    const res = await request(app)
+      .post('/plot')
+      .send({ expression: 'x', range: '0:2', points: '3', plotFormat: 'svg', width: '200', height: '100', title: 'Test' })
+      .set('Content-Type', 'application/json');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/html/);
+    expect(res.text).toContain('<svg');
+    expect(res.text).toContain('<polyline points="');
+  });
+
+  test('POST /plot with valid PNG returns inline image tag', async () => {
+    const res = await request(app)
+      .post('/plot')
+      .send({ expression: 'x', range: '0:2', points: '3', plotFormat: 'png', width: '200', height: '100' })
+      .set('Content-Type', 'application/json');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/html/);
+    expect(res.text).toContain('<img src="data:image/png;base64,');
+  });
+
+  test('POST /plot missing parameters returns 400 error', async () => {
+    const res = await request(app)
+      .post('/plot')
+      .send({})
+      .set('Content-Type', 'application/json');
+    expect(res.status).toBe(400);
+    const body = res.body;
+    expect(body).toHaveProperty('error');
   });
 });

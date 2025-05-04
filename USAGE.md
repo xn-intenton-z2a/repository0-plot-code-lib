@@ -56,14 +56,55 @@ repository0-plot-code-lib plot --expression "x*2" --range "0:10" [options]
 
 #### Plot Options
 
-- `--plot-format <svg|png>` (optional, default svg): Image format
-- `--width <number>` (optional, default 800): Width in pixels
-- `--height <number>` (optional, default 600): Height in pixels
-- `--title <string>` (optional): Title for SVG plots
+- `--plot-format <svg|png>` (optional, default svg)
+- `--width <number>` (optional, default 800)
+- `--height <number>` (optional, default 600)
+- `--title <string>` (optional)
 
 **PNG Output Implementation**
 
 When `--plot-format png` is specified, the tool first renders the chart as SVG and then converts it to a full-featured PNG image using the `sharp` library. This produces a proper PNG file with a valid signature and image data.
+
+## HTTP Server Mode
+
+Start the HTTP server:
+
+```bash
+repository0-plot-code-lib --serve --port 3000
+```
+
+Or via environment variable:
+
+```bash
+HTTP_PORT=3000 repository0-plot-code-lib
+```
+
+### Web Interface
+
+Navigate to http://localhost:3000/ to access the web form. Fill in the fields and submit to generate SVG or PNG plots inline.
+
+### API Endpoints
+
+#### GET /
+
+Returns the HTML form interface.
+
+#### POST /plot
+
+Accepts form data or JSON body:
+
+- expression: string (required)
+- range: string (required)
+- points: number (optional)
+- plotFormat: svg|png (optional)
+- width: number (optional)
+- height: number (optional)
+- title: string (optional)
+
+For `plotFormat=svg`, returns an HTML page with embedded inline SVG.  
+For `plotFormat=png`, returns an HTML page with an `<img>` tag containing a base64 PNG.
+
+Responses include CORS headers.
 
 ## Quick Start Examples
 
