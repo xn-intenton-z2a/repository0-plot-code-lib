@@ -106,6 +106,23 @@ For `plotFormat=png`, returns an HTML page with an `<img>` tag containing a base
 
 Responses include CORS headers.
 
+## Programmatic API
+
+The library exposes functions for direct use in Node.js applications:
+
+```js
+import { getTimeSeries, generateSVG, generatePNG } from '@xn-intenton-z2a/repository0-plot-code-lib';
+
+(async () => {
+  const data = await getTimeSeries('x*2', '0:10', { points: 5 });
+  console.log(data);
+  const svg = generateSVG(data, 800, 600, 'My Plot');
+  console.log(svg);
+  const pngBuffer = await generatePNG(data, 800, 600, 'My Plot');
+  // Use pngBuffer as needed
+})();
+```
+
 ## Quick Start Examples
 
 ### Generate CSV Time Series to stdout
@@ -160,7 +177,7 @@ repository0-plot-code-lib plot --expression "x^2" --range "0:5" --plot-format pn
 The CLI also supports returning a structured JSON object representing the parsed options:
 
 ```bash
-$ repository0-plot-code-lib --expression "y=sin(x)" --range "0:10" --file out.svg --points 50 --format svg
+$ repository0-plot-code-lib --expression "y=sin(x)" --range "0:10" --output-file out.svg --points 50 --format svg
 ```
 
 **Output:**
@@ -169,7 +186,7 @@ $ repository0-plot-code-lib --expression "y=sin(x)" --range "0:10" --file out.sv
 {
   "expression": "y=sin(x)",
   "range": "0:10",
-  "file": "out.svg",
+  "output-file": "out.svg",
   "points": 50,
   "format": "svg"
 }

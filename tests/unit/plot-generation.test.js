@@ -9,6 +9,8 @@ import {
   serializeJSON,
   mainCLI,
   startHTTPServer,
+  getTimeSeries,
+  generatePNG,
 } from '@src/lib/main.js';
 
 describe('parseRange', () => {
@@ -122,13 +124,19 @@ describe('Plot generation', () => {
     expect(pts).toHaveLength(3);
   });
 
+  test('PNG output writes valid PNG buffer', async () => {
+    const buf = await mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50']);
+    expect(buf).toBeInstanceOf(Buffer);
+    expect(buf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+  });
+
   test('PNG output writes valid PNG file', async () => {
     const tmp = path.join(process.cwd(), 'plot.png');
     if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
     await mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
     expect(fs.existsSync(tmp)).toBe(true);
-    const buf = fs.readFileSync(tmp);
-    expect(buf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+    const diskBuf = fs.readFileSync(tmp);
+    expect(diskBuf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
     fs.unlinkSync(tmp);
   });
 
@@ -139,6 +147,30 @@ describe('Plot generation', () => {
   test('Invalid width/height throws error', async () => {
     await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--width', '-10'])).rejects.toThrow();
     await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--height', '0'])).rejects.toThrow();
+  });
+});
+
+// Programmatic API tests
+
+describe('Programmatic API', () => {
+  test('getTimeSeries returns correct data', async () => {
+    const data = await getTimeSeries('x*2', '0:4', { points: 3 });
+    expect(data).toEqual([
+      { x: 0, y: 0 },
+      { x: 2, y: 4 },
+      { x: 4, y: 8 },
+    ]);
+  });
+
+  test('generatePNG returns buffer starting with PNG signature', async () => {
+    const data = [
+      { x: 0, y: 0 },
+      { x: 1, y: 1 },
+      { x: 2, y: 4 },
+    ];
+    const buf = await generatePNG(data, 100, 100, 'Test');
+    expect(buf).toBeInstanceOf(Buffer);
+    expect(buf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
   });
 });
 

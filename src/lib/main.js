@@ -119,6 +119,23 @@ export function generateSVG(data, width, height, title) {
 }
 
 /**
+ * Programmatic API: return time series data array.
+ */
+export async function getTimeSeries(expression, range, options = {}) {
+  const { points = 100 } = options;
+  const xs = parseRange(range, points);
+  return evaluateExpression(expression, xs);
+}
+
+/**
+ * Programmatic API: generate PNG buffer from data.
+ */
+export async function generatePNG(data, width, height, title) {
+  const svg = generateSVG(data, width, height, title);
+  return sharp(Buffer.from(svg)).png().toBuffer();
+}
+
+/**
  * Main CLI logic for data and plots.
  */
 export async function mainCLI(argv = process.argv.slice(2)) {
@@ -156,9 +173,8 @@ export async function mainCLI(argv = process.argv.slice(2)) {
     if (isNaN(width) || width <= 0) throw new Error('Invalid width');
     if (isNaN(height) || height <= 0) throw new Error('Invalid height');
     const title = args.title;
-    const outputFile = args['output-file'];
-    const xs = parseRange(range, points);
-    const data = evaluateExpression(expr, xs);
+    const outputFile = args['output-file'] || args.file;
+    const data = await getTimeSeries(expr, range, { points });
     if (plotFormat === 'svg') {
       const svg = generateSVG(data, width, height, title);
       if (outputFile) {
@@ -166,12 +182,11 @@ export async function mainCLI(argv = process.argv.slice(2)) {
       }
       return svg;
     } else {
-      const svg = generateSVG(data, width, height, title);
-      const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
+      const pngBuffer = await generatePNG(data, width, height, title);
       if (outputFile) {
         fs.writeFileSync(outputFile, pngBuffer);
       }
-      return pngBuffer.toString('base64');
+      return pngBuffer;
     }
   } else {
     // Timeseries default
@@ -183,9 +198,8 @@ export async function mainCLI(argv = process.argv.slice(2)) {
     if (isNaN(points) || points <= 0) throw new Error('Invalid points value');
     const format = args.format || 'csv';
     if (!['csv', 'json'].includes(format)) throw new Error('Unknown format');
-    const outputFile = args['output-file'];
-    const xs = parseRange(range, points);
-    const data = evaluateExpression(expr, xs);
+    const outputFile = args['output-file'] || args.file;
+    const data = await getTimeSeries(expr, range, { points });
     let output;
     if (format === 'csv') {
       output = serializeCSV(data);
@@ -202,8 +216,8 @@ export async function mainCLI(argv = process.argv.slice(2)) {
 /**
  * Parse CLI options using commander.
  */
-export function main(argv = process.argv) {
-  // ... existing commander code unchanged ...
+export function main() {
+  // Placeholder for commander-based CLI if added
 }
 
 // HTTP server utilities
@@ -266,14 +280,12 @@ export function startHTTPServer(port) {
       return res.status(400).json({ error: err.errors ? err.errors.map((e) => e.message).join('; ') : err.message });
     }
     try {
-      const xVals = parseRange(params.range, params.points);
-      const data = evaluateExpression(params.expression, xVals);
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
       if (params.plotFormat === 'svg') {
         const svg = generateSVG(data, params.width, params.height, params.title);
         return res.type('html').send(`<!DOCTYPE html><html><body>${svg}</body></html>`);
       } else {
-        const svg = generateSVG(data, params.width, params.height, params.title);
-        const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
+        const pngBuffer = await generatePNG(data, params.width, params.height, params.title);
         const base64 = pngBuffer.toString('base64');
         return res.type('html').send(`<!DOCTYPE html><html><body><img src="data:image/png;base64,${base64}"/></body></html>`);
       }
@@ -296,6 +308,11 @@ if (process.argv.includes('--serve') || process.env.HTTP_PORT) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const options = main();
-  console.log(JSON.stringify(options, null, 2));
+  mainCLI().then((options) => {
+    try {
+      console.log(JSON.stringify(options, null, 2));
+    } catch {
+      console.log(options);
+    }
+  });
 }
