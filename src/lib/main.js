@@ -136,6 +136,10 @@ export function mainCLI(argv = process.argv.slice(2)) {
  * Wrapper for direct invocation.
  */
 export function main(argv = process.argv.slice(2)) {
+  // If no CLI args provided, exit gracefully
+  if (argv.length === 0) {
+    return;
+  }
   try {
     const out = mainCLI(argv);
     if (!argv.includes('--output-file')) {
