@@ -13,6 +13,11 @@ This guide covers the Node.js stream interfaces, including readable, writable, d
 The Node.js ESM guide outlines import/export syntax, module resolution algorithms, loader hooks, and interoperability with CommonJS. It provides clarity on package.json configuration, file extensions, and dynamic import patterns, essential for structuring the repository as a modern ESM package. Node.js v20; updated 2023.
 ## License: Node.js (MIT-like terms)
 
+# Node.js HTTP Module Documentation
+## https://nodejs.org/api/http.html
+This documentation details the core Node.js HTTP server and client implementations, including request/response lifecycle, status codes, headers, chunked encoding, and socket events. It provides granular control over server timeouts, agent reuse, and backpressure management, informing the implementation of SSE and custom HTTP endpoints. Node.js v20; published 2023.
+## License: Node.js (MIT-like terms)
+
 # Express.js API Reference
 ## https://expressjs.com/en/4x/api.html
 Express 4.x API reference for building HTTP servers, route handlers, middleware, and request/response lifecycle. Practical examples for defining endpoints, error handling, middleware ordering, and streaming responses directly inform the implementation of the HTTP API and SSE /stream, /timeseries, and /plot endpoints. Last updated 2023; authoritative official documentation.
@@ -27,6 +32,11 @@ The cors package documentation details configuring Cross-Origin Resource Sharing
 ## https://zod.dev
 This documentation provides comprehensive technical guidance for the Zod schema validation library, used extensively in the repository for parsing and validating CLI and HTTP query parameters, refining schemas, and managing error handling. It offers practical code examples for common validation patterns, custom refinements, and error messages, directly addressing the core implementation needs of robust input validation. Last updated 2023; highly authoritative as the official source.
 ## License: MIT
+
+# Newline Delimited JSON (NDJSON) Specification
+## http://ndjson.org/
+The NDJSON specification defines a convenient and efficient line-delimited JSON format, detailing the use of newline characters to separate JSON objects, handling of trailing newlines, and MIME type `application/x-ndjson`. It provides essential guidelines for streaming and parsing NDJSON payloads in both CLI and HTTP contexts. Published 2020; community-maintained.
+## License: CC0
 
 # MDN SVG Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/SVG
