@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import fs from 'fs';
-import path from 'path';
 import request from 'supertest';
+import path from 'path';
 import {
   parseRange,
   evaluateExpression,
@@ -245,6 +245,42 @@ describe('HTTP Server', () => {
 
   test('GET /stream missing params returns 400', async () => {
     const res = await request(app).get('/stream');
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
+  });
+
+  test('GET /json returns JSON array with proper headers', async () => {
+    const res = await request(app)
+      .get('/json?expression=x&range=0:2&points=3');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/application\/json/);
+    expect(res.body).toEqual([
+      { x: 0, y: 0 },
+      { x: 1, y: 1 },
+      { x: 2, y: 2 },
+    ]);
+  });
+
+  test('GET /json missing params returns 400', async () => {
+    const res = await request(app).get('/json');
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
+  });
+
+  test('GET /csv returns CSV text with proper headers', async () => {
+    const res = await request(app)
+      .get('/csv?expression=x&range=0:2&points=3');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/text\/csv/);
+    const lines = res.text.split('\n');
+    expect(lines[0]).toBe('x,y');
+    expect(lines[1]).toBe('0,0');
+    expect(lines[2]).toBe('1,1');
+    expect(lines[3]).toBe('2,2');
+  });
+
+  test('GET /csv missing params returns 400', async () => {
+    const res = await request(app).get('/csv');
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty('error');
   });

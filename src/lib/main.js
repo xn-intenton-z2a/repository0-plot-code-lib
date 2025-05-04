@@ -300,12 +300,13 @@ export function startHTTPServer(port) {
   });
 
   // NDJSON endpoint
+  const querySchema = z.object({
+    expression: z.string({ required_error: 'Missing expression' }),
+    range: z.string({ required_error: 'Missing range' }),
+    points: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(100)),
+  });
+
   app.get('/ndjson', async (req, res) => {
-    const querySchema = z.object({
-      expression: z.string({ required_error: 'Missing expression' }),
-      range: z.string({ required_error: 'Missing range' }),
-      points: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(100)),
-    });
     let params;
     try {
       params = querySchema.parse(req.query);
@@ -315,6 +316,7 @@ export function startHTTPServer(port) {
     try {
       const data = await getTimeSeries(params.expression, params.range, { points: params.points });
       res.type('application/x-ndjson');
+  
       const nd = serializeNDJSON(data);
       return res.send(nd);
     } catch (err) {
@@ -322,13 +324,43 @@ export function startHTTPServer(port) {
     }
   });
 
+  // JSON endpoint
+  app.get('/json', async (req, res) => {
+    let params;
+    try {
+      params = querySchema.parse(req.query);
+    } catch (err) {
+      return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
+    }
+    try {
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      res.type('application/json');
+      return res.json(data);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+  });
+
+  // CSV endpoint
+  app.get('/csv', async (req, res) => {
+    let params;
+    try {
+      params = querySchema.parse(req.query);
+    } catch (err) {
+      return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
+    }
+    try {
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      res.type('text/csv');
+      const csv = serializeCSV(data);
+      return res.send(csv);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+  });
+
   // SSE endpoint
   app.get('/stream', async (req, res) => {
-    const querySchema = z.object({
-      expression: z.string({ required_error: 'Missing expression' }),
-      range: z.string({ required_error: 'Missing range' }),
-      points: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(100)),
-    });
     let params;
     try {
       params = querySchema.parse(req.query);
