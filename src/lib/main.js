@@ -91,7 +91,7 @@ export function serializeJSON(data) {
  * Generate SVG line chart from data.
  */
 function escapeXML(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return str.replace(/&/g, '&amp;').nreplace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 export function generateSVG(data, width, height, title) {
@@ -216,8 +216,24 @@ export async function mainCLI(argv = process.argv.slice(2)) {
 /**
  * Parse CLI options using commander.
  */
-export function main() {
-  // Placeholder for commander-based CLI if added
+export async function main() {
+  const args = process.argv.slice(2);
+  if (args.length === 0) {
+    console.log('No command specified. Use --help for usage information.');
+    return;
+  }
+  try {
+    const result = await mainCLI(args);
+    if (Buffer.isBuffer(result)) {
+      process.stdout.write(result);
+    } else {
+      const out = typeof result === 'string' ? result : JSON.stringify(result, null, 2);
+      process.stdout.write(out);
+    }
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
 }
 
 // HTTP server utilities
@@ -308,11 +324,5 @@ if (process.argv.includes('--serve') || process.env.HTTP_PORT) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  mainCLI().then((options) => {
-    try {
-      console.log(JSON.stringify(options, null, 2));
-    } catch {
-      console.log(options);
-    }
-  });
+  main();
 }
