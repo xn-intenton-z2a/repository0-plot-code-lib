@@ -34,3 +34,33 @@ Missing required flags will result in an error:
 repository0-plot-code-lib
 # Error: Missing required flag --expression
 ```
+
+## Plot Generation
+
+The `plot` subcommand generates line chart plots from mathematical expressions.
+
+### Required Flags
+
+- `--expression <string>`: Mathematical expression in terms of `x`.
+- `--range <start:end[:step]>`: Range of `x` values.
+
+### Plot Options
+
+- `--points <number>`: Number of data points (default: `100`).
+- `--plot-format <svg|png>`: Output format (default: `svg`).
+- `--width <number>`: Plot width in pixels (default: `800`).
+- `--height <number>`: Plot height in pixels (default: `600`).
+- `--title <string>`: Optional chart title.
+- `--output-file <path>`: File path to write the output (required for PNG).
+
+### Examples
+
+Generate an SVG plot of `y = sin(x)` from 0 to 2π:
+```bash
+repository0-plot-code-lib plot --expression "sin(x)" --range "0:6.28" --plot-format svg --width 400 --height 200 --title "Sine Wave"
+```
+
+Generate a PNG plot of `y = x` from 0 to 10:
+```bash
+repository0-plot-code-lib plot --expression "x" --range "0:10" --plot-format png --width 500 --height 300 --output-file out.png
+```

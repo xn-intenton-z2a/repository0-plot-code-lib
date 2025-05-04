@@ -101,3 +101,41 @@ describe('mainCLI', () => {
     expect(() => mainCLI(['--expression', 'x'])).toThrow(/Missing required flag --range/);
   });
 });
+
+// Plot generation tests
+
+describe('Plot generation', () => {
+  test('SVG output contains valid structure', () => {
+    const svg = mainCLI(['plot', '--expression', 'x', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--width', '200', '--height', '100', '--title', 'Test']);
+    expect(svg.startsWith('<svg')).toBe(true);
+    expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
+    expect(svg).toContain('<polyline points="');
+    expect(svg).toContain('<title>Test</title>');
+  });
+
+  test('SVG polyline reflects data points', () => {
+    const svg = mainCLI(['plot', '--expression', 'x', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--width', '300', '--height', '300']);
+    const match = svg.match(/<polyline points="([^"]+)"/);
+    const pts = match[1].split(' ');
+    expect(pts).toHaveLength(3);
+  });
+
+  test('PNG output writes valid PNG file', () => {
+    const tmp = path.join(process.cwd(), 'plot.png');
+    if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
+    mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
+    expect(fs.existsSync(tmp)).toBe(true);
+    const buf = fs.readFileSync(tmp);
+    expect(buf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
+    fs.unlinkSync(tmp);
+  });
+
+  test('Invalid plot-format throws error', () => {
+    expect(() => mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'bmp'])).toThrow();
+  });
+
+  test('Invalid width/height throws error', () => {
+    expect(() => mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--width', '-10'])).toThrow();
+    expect(() => mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--height', '0'])).toThrow();
+  });
+});
