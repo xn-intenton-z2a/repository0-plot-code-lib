@@ -139,7 +139,7 @@ describe('Plot generation', () => {
 
   test('SVG polyline reflects data points', async () => {
     const svg = await mainCLI(['plot', '--expression', 'x', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--width', '300', '--height', '300']);
-    const match = svg.match(/<polyline points="([^"]+)"/);
+    const match = svg.match(/<polyline points=\"([^\"]+)\"/);
     const pts = match[1].split(' ');
     expect(pts).toHaveLength(3);
   });
@@ -218,6 +218,35 @@ describe('HTTP Server', () => {
     expect(res.headers['content-type']).toMatch(/application\/x-ndjson/);
     const lines = res.text.split('\n');
     expect(lines).toEqual(['{"x":0,"y":0}', '{"x":1,"y":1}', '{"x":2,"y":2}']);
+  });
+
+  test('GET /stream returns SSE with proper headers and events', async () => {
+    const res = await request(app)
+      .get('/stream?expression=x&range=0:2&points=3')
+      .buffer(true)
+      .parse((res, callback) => {
+        res.setEncoding('utf8');
+        let data = '';
+        res.on('data', (chunk) => { data += chunk; });
+        res.on('end', () => callback(null, data));
+      });
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/text\/event-stream/);
+    const parts = res.body.split('\n\n').filter(Boolean);
+    expect(parts).toHaveLength(3);
+    parts.forEach((part, idx) => {
+      expect(part.startsWith('data:')).toBe(true);
+      const json = part.replace(/^data: /, '');
+      const obj = JSON.parse(json);
+      expect(obj).toHaveProperty('x', idx);
+      expect(obj).toHaveProperty('y', idx);
+    });
+  });
+
+  test('GET /stream missing params returns 400', async () => {
+    const res = await request(app).get('/stream');
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
   });
 
   test('POST /plot with valid SVG returns inline SVG', async () => {

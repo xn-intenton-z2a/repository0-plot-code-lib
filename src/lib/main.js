@@ -204,8 +204,6 @@ export async function mainCLI(argv = process.argv.slice(2)) {
     if (!expr) throw new Error('Missing required flag --expression');
     const range = args.range;
     if (!range) throw new Error('Missing required flag --range');
-    const points = args.points ? parseInt(argv[argv.indexOf('--points') + 1], 10) : 100;
-    // ensure correct points parsing when points provided
     const pts = args.points ? parseInt(args.points, 10) : 100;
     if (args.points && (isNaN(pts) || pts <= 0)) throw new Error('Invalid points value');
     const format = args.format || 'csv';
@@ -324,6 +322,34 @@ export function startHTTPServer(port) {
     }
   });
 
+  // SSE endpoint
+  app.get('/stream', async (req, res) => {
+    const querySchema = z.object({
+      expression: z.string({ required_error: 'Missing expression' }),
+      range: z.string({ required_error: 'Missing range' }),
+      points: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(100)),
+    });
+    let params;
+    try {
+      params = querySchema.parse(req.query);
+    } catch (err) {
+      return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
+    }
+    try {
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+      res.flushHeaders();
+      data.forEach((point) => {
+        res.write(`data: ${JSON.stringify(point)}\n\n`);
+      });
+      res.end();
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+  });
+
   // Handle form submissions
   app.post('/plot', async (req, res) => {
     let params;
@@ -352,7 +378,7 @@ export function startHTTPServer(port) {
     app.listen(port, () => console.log(`HTTP server listening on port ${port}`));
   }
   return app;
-}
+};
 
 // Auto-start HTTP server if requested
 if (process.argv.includes('--serve') || process.env.HTTP_PORT) {
