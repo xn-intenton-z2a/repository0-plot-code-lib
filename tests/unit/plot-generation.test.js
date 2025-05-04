@@ -7,6 +7,7 @@ import {
   evaluateExpression,
   serializeCSV,
   serializeJSON,
+  serializeNDJSON,
   mainCLI,
   startHTTPServer,
   getTimeSeries,
@@ -64,6 +65,19 @@ describe('serializeCSV and serializeJSON', () => {
   });
 });
 
+describe('serializeNDJSON', () => {
+  test('NDJSON output lines', () => {
+    const sample = [
+      { x: 0, y: 0 },
+      { x: 1, y: 1 },
+    ];
+    const ndjson = serializeNDJSON(sample);
+    const lines = ndjson.split('\n');
+    expect(lines).toEqual(['{"x":0,"y":0}', '{"x":1,"y":1}']);
+    expect(ndjson.endsWith('\n')).toBe(false);
+  });
+});
+
 describe('mainCLI', () => {
   test('CSV to stdout', async () => {
     const out = await mainCLI(['--expression', 'x+1', '--range', '0:2', '--points', '3', '--format', 'csv']);
@@ -84,6 +98,12 @@ describe('mainCLI', () => {
     ]);
   });
 
+  test('NDJSON output', async () => {
+    const out = await mainCLI(['--expression', 'x', '--range', '0:2', '--points', '3', '--format', 'ndjson']);
+    const lines = out.split('\n');
+    expect(lines).toEqual(['{"x":0,"y":0}', '{"x":1,"y":1}', '{"x":2,"y":2}']);
+  });
+
   test('output to file', async () => {
     const tmp = path.join(process.cwd(), 'test_output.txt');
     if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
@@ -91,7 +111,7 @@ describe('mainCLI', () => {
       '--expression', 'x',
       '--range', '0:1',
       '--points', '2',
-      '--format', 'csv',
+      '--format', 'ndjson',
       '--output-file', tmp,
     ]);
     expect(fs.existsSync(tmp)).toBe(true);
@@ -189,6 +209,15 @@ describe('HTTP Server', () => {
     expect(res.text).toMatch(/name="range"/);
     expect(res.text).toMatch(/name="points"/);
     expect(res.text).toMatch(/name="plotFormat"/);
+  });
+
+  test('GET /ndjson returns NDJSON with proper headers', async () => {
+    const res = await request(app)
+      .get('/ndjson?expression=x&range=0:2&points=3');
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/application\/x-ndjson/);
+    const lines = res.text.split('\n');
+    expect(lines).toEqual(['{"x":0,"y":0}', '{"x":1,"y":1}', '{"x":2,"y":2}']);
   });
 
   test('POST /plot with valid SVG returns inline SVG', async () => {

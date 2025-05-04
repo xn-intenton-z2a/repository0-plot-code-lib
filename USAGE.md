@@ -36,7 +36,7 @@ The CLI provides two modes: default (timeseries) and `plot`.
 
 ### Timeseries (Default)
 
-Generating a time series (CSV or JSON) without a subcommand:
+Generating a time series (CSV, JSON, or NDJSON) without a subcommand:
 
 ```bash
 repository0-plot-code-lib --expression "sin(x)" --range "0:6.283" [options]
@@ -44,7 +44,20 @@ repository0-plot-code-lib --expression "sin(x)" --range "0:6.283" [options]
 
 #### Timeseries Options
 
-- `--format <csv|json>` (optional, default csv): Output format for the data
+- `--format <csv|json|ndjson>` (optional, default csv): Output format for the data
+
+#### Example: NDJSON Output
+
+```bash
+repository0-plot-code-lib --expression "x" --range "0:2" --points 3 --format ndjson
+```
+
+**Output:**
+```
+{"x":0,"y":0}
+{"x":1,"y":1}
+{"x":2,"y":2}
+```
 
 ### Plot
 
@@ -89,6 +102,32 @@ Navigate to http://localhost:3000/ to access the web form. Fill in the fields an
 
 Returns the HTML form interface.
 
+#### GET /ndjson
+
+Stream time series data in NDJSON format.
+
+- Query parameters:
+  - `expression` (string, required)
+  - `range` (string, required)
+  - `points` (number, optional, default 100)
+- Response:
+  - Status 200
+  - Content-Type: `application/x-ndjson`
+  - Body: one JSON object per line, no trailing newline
+
+**Example:**
+
+```bash
+curl -s "http://localhost:3000/ndjson?expression=x&range=0:2&points=3"
+```
+
+**Response:**
+```
+{"x":0,"y":0}
+{"x":1,"y":1}
+{"x":2,"y":2}
+```
+
 #### POST /plot
 
 Accepts form data or JSON body:
@@ -111,7 +150,7 @@ Responses include CORS headers.
 The library exposes functions for direct use in Node.js applications:
 
 ```js
-import { getTimeSeries, generateSVG, generatePNG } from '@xn-intenton-z2a/repository0-plot-code-lib';
+import { getTimeSeries, generateSVG, generatePNG, serializeNDJSON } from '@xn-intenton-z2a/repository0-plot-code-lib';
 
 (async () => {
   const data = await getTimeSeries('x*2', '0:10', { points: 5 });
@@ -119,6 +158,7 @@ import { getTimeSeries, generateSVG, generatePNG } from '@xn-intenton-z2a/reposi
   const svg = generateSVG(data, 800, 600, 'My Plot');
   console.log(svg);
   const pngBuffer = await generatePNG(data, 800, 600, 'My Plot');
+  console.log(serializeNDJSON(data));
   // Use pngBuffer as needed
 })();
 ```
@@ -148,16 +188,10 @@ x,y
 repository0-plot-code-lib --expression "sin(x)" --range "-1:1:0.5" --format json --output-file data.json
 ```
 
-**data.json content:**
+### Generate NDJSON and Save to File
 
-```json
-[
-  { "x": -1, "y": -0.84 },
-  { "x": -0.5, "y": -0.48 },
-  { "x": 0, "y": 0 },
-  { "x": 0.5, "y": 0.48 },
-  { "x": 1, "y": 0.84 }
-]
+```bash
+repository0-plot-code-lib --expression "sin(x)" --range "-1:1:0.5" --format ndjson --output-file data.ndjson
 ```
 
 ### Generate SVG Plot to stdout
@@ -172,35 +206,13 @@ repository0-plot-code-lib plot --expression "x^2" --range "0:5" --plot-format sv
 repository0-plot-code-lib plot --expression "x^2" --range "0:5" --plot-format png --output-file plot.png
 ```
 
-## CLI Parsing with Commander
-
-The CLI also supports returning a structured JSON object representing the parsed options:
-
-```bash
-$ repository0-plot-code-lib --expression "y=sin(x)" --range "0:10" --output-file out.svg --points 50 --format svg
-```
-
-**Output:**
-
-```json
-{
-  "expression": "y=sin(x)",
-  "range": "0:10",
-  "output-file": "out.svg",
-  "points": 50,
-  "format": "svg"
-}
-```
-
-This helps in integrating the CLI into automation pipelines.
-
 ## Feature Overview
 
 - **Subcommands:**
   - `timeseries` (default): Generate time series data
   - `plot`: Generate image plots
 - **Output Formats:**
-  - Data: CSV, JSON
+  - Data: CSV, JSON, NDJSON
   - Plots: SVG, PNG
 - **Output Destinations:**
   - stdout (default) or file via `--output-file`
