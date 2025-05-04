@@ -1,48 +1,47 @@
 # INTERFACES
 
 ## Purpose
-Combine command-line and HTTP server interfaces into a unified access layer that allows users to generate time series data and visual plots via both CLI commands and web/API endpoints.
+Provide a unified user interface layer that combines a robust CLI powered by commander with an HTTP server, sharing core logic for time series data and plot generation. Use commander for declarative flag definitions, automatic help/version commands, and JSON output to facilitate automation.
 
 ## Behavior
 
-### CLI
-1. Accept two subcommands: timeseries (default) and plot. Without a valid subcommand print usage and exit code 1.
-2. Global flags:
-   • --expression <expr> (required)
-   • --range <start:end[:step]> (required)
-3. timeseries subcommand:
-   • --points <number> (default 100)
-   • --format <csv|json> (default csv)
-   • --output-file <path> (optional) to write output, otherwise stdout
-4. plot subcommand:
-   • --plot-format <svg|png> (default svg)
-   • --width <number> (default 800)
-   • --height <number> (default 600)
-   • --title <string> (optional)
-   • --output-file <path> (required for PNG, optional for SVG)
-5. Validate inputs with zod or simple checks, generate data with parseRange and evaluateExpression, create SVG or PNG, write output or return buffer.
-6. Exit codes: 0 on success, 1 on missing or invalid flags, 2 on evaluation errors.
+### CLI via Commander
+1. Replace the custom argument parser with commander-based CLI in the main entrypoint.
+2. Define two subcommands: `timeseries` (alias default) and `plot`, each with declarative options:
+   • `--expression <expr>` (required)
+   • `--range <start:end[:step]>` (required)
+   • `--points <number>` (default 100)
+   • `--format <csv|json>` for timeseries (default csv)
+   • `--plot-format <svg|png>` for plot (default svg)
+   • `--width <number>`, `--height <number>` (defaults 800, 600)
+   • `--title <string>` (optional)
+   • `--output-file <path>` (optional)
+3. Provide global `--help` and `--version` commands automatically.
+4. Support a structured JSON output mode via a `--json-output` flag that prints parsed options as JSON.
+5. On invocation without subcommand, run timeseries by default.
+6. Integrate zod schemas for input validation, printing errors and exiting with appropriate codes.
 
 ### HTTP Server
-1. Detect --serve flag or HTTP_PORT environment variable to start Express server.
-2. Middleware:
-   • CORS headers for all routes and OPTIONS support.
-   • Body parsers for urlencoded and JSON payloads.
+1. Triggered by a `serve` command or `--serve` global flag, with optional `--port <number>`.
+2. Configure Express with CORS, body parsers, and reuse zod schemas from CLI for validation.
 3. Routes:
-   • GET /      Render HTML form for expression, range, points, plotFormat, width, height, title.
-   • POST /plot Parse form or JSON body, validate with zod schema, generate SVG or PNG, return inline HTML containing SVG or an <img> with base64 PNG.
-   • GET /timeseries Return CSV or JSON { x, y } list with query params expression, range, points; 400/422 on errors.
-   • GET /plot Return raw SVG or PNG image data via query params; 400/422 on errors.
-   • GET /stream Return SSE streaming { x, y } events until complete.
-4. Consistent error handling and status codes, reuse CLI validation logic.
+   • `GET /` serves an HTML form.
+   • `POST /plot` accepts JSON or form data, returns inline SVG or base64 PNG.
+   • `GET /timeseries` returns CSV or JSON dataseries.
+   • `GET /plot` returns raw SVG or PNG binary.
+   • `GET /stream` streams SSE events of `{ x, y }`.
+4. Ensure consistent error responses and status codes share logic with CLI.
 
 ## Implementation
-• In src/lib/main.js integrate both mainCLI and startHTTPServer functions.
-• Use existing parseRange, evaluateExpression, generateSVG, serializeCSV, serializeJSON, and sharp for PNG conversion.
-• Reuse zod schemas for form parameters and CLI flags where appropriate.
-• Configure Express for CORS, OPTIONS, body parsing, and error handling.
-• Ensure CLI and HTTP share core logic to avoid duplication.
+- In `src/lib/main.js`, import commander and define program with subcommands.
+- Use `program.command(...)` for timeseries and plot behaviors calling existing `getTimeSeries`, `generateSVG`, `generatePNG`, `serializeCSV`, `serializeJSON`.
+- Implement a `--json-output` option that prints the parsed options object.
+- Retain `startHTTPServer` and share zod schemas for CLI and HTTP.
+- Deprecate the custom parser by removing its code paths or marking as internal fallback.
+- Update `bin` entry to call the commander-based `main` function.
 
 ## Testing
-• CLI tests (vitest): use mainCLI with various arg sets to verify correct CSV/JSON, SVG, PNG outputs, exit codes, file writes, and error conditions.
-• HTTP tests (supertest): verify GET / returns HTML form with CORS, POST /plot returns correct inline SVG/PNG, API endpoints /timeseries, /plot, /stream return expected data and error codes.
+- Extend existing Vitest CLI tests to use commander invocation: spawn child process with `--help`, `--version`, and verify help text and version number.
+- Add tests for `--json-output` producing valid JSON.
+- Ensure existing CLI tests for CSV, JSON, SVG, PNG continue to pass with new CLI implementation.
+- Verify HTTP tests remain unaffected.
