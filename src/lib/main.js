@@ -81,10 +81,17 @@ export function serializeCSV(data) {
 }
 
 /**
- * Serialize data array to JSON string.
+ * Serialize data array to pretty JSON string.
  */
 export function serializeJSON(data) {
   return JSON.stringify(data, null, 2);
+}
+
+/**
+ * Serialize data array to NDJSON string (one JSON per line, no trailing newline).
+ */
+export function serializeNDJSON(data) {
+  return data.map((d) => JSON.stringify(d)).join('\n');
 }
 
 /**
@@ -197,17 +204,21 @@ export async function mainCLI(argv = process.argv.slice(2)) {
     if (!expr) throw new Error('Missing required flag --expression');
     const range = args.range;
     if (!range) throw new Error('Missing required flag --range');
-    const points = args.points ? parseInt(args.points, 10) : 100;
-    if (isNaN(points) || points <= 0) throw new Error('Invalid points value');
+    const points = args.points ? parseInt(argv[argv.indexOf('--points') + 1], 10) : 100;
+    // ensure correct points parsing when points provided
+    const pts = args.points ? parseInt(args.points, 10) : 100;
+    if (args.points && (isNaN(pts) || pts <= 0)) throw new Error('Invalid points value');
     const format = args.format || 'csv';
-    if (!['csv', 'json'].includes(format)) throw new Error('Unknown format');
+    if (!['csv', 'json', 'ndjson'].includes(format)) throw new Error('Unknown format');
     const outputFile = args['output-file'] || args.file;
-    const data = await getTimeSeries(expr, range, { points });
+    const data = await getTimeSeries(expr, range, { points: pts });
     let output;
     if (format === 'csv') {
       output = serializeCSV(data);
-    } else {
+    } else if (format === 'json') {
       output = serializeJSON(data);
+    } else {
+      output = serializeNDJSON(data);
     }
     if (outputFile) {
       fs.writeFileSync(outputFile, output);
@@ -288,6 +299,29 @@ export function startHTTPServer(port) {
   // Web UI form
   app.get('/', (_req, res) => {
     res.type('html').send(generateFormHtml());
+  });
+
+  // NDJSON endpoint
+  app.get('/ndjson', async (req, res) => {
+    const querySchema = z.object({
+      expression: z.string({ required_error: 'Missing expression' }),
+      range: z.string({ required_error: 'Missing range' }),
+      points: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(100)),
+    });
+    let params;
+    try {
+      params = querySchema.parse(req.query);
+    } catch (err) {
+      return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
+    }
+    try {
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      res.type('application/x-ndjson');
+      const nd = serializeNDJSON(data);
+      return res.send(nd);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
   });
 
   // Handle form submissions
