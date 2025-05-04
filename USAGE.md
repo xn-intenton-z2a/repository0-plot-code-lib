@@ -1,66 +1,97 @@
-# Usage
+# repository0-plot-code-lib
 
-## TIME SERIES Generation
+> "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
-The `repository0-plot-code-lib` CLI generates time series data from mathematical expressions.
+## Installation
 
-### Required Flags
+### Prerequisites
 
-- `--expression <string>`: Mathematical expression in terms of `x` (e.g., `sin(x)`).
-- `--range <start:end[:step]>`: Range of `x` values. If `step` is omitted, defaults to evenly spaced points.
+- Node.js >= 20.0.0
 
-### Optional Flags
+### Global Install
 
-- `--points <number>`: Number of points when `step` is omitted (default: `100`).
-- `--format <csv|json>`: Output format (default: `csv`).
-- `--output-file <path>`: Write output to a file instead of stdout.
+```bash
+npm install -g @xn-intenton-z2a/repository0-plot-code-lib
+```
 
-### Examples
+### Local Install (Development)
 
-Generate 5 CSV points for `y = x * 2` from 0 to 10:
+```bash
+git clone https://github.com/xn-intenton-z2a/repository0-plot-code-lib.git
+cd repository0-plot-code-lib
+npm install
+npm link
+```
+
+## Quick Start
+
+Generate a time series in CSV format and print to stdout:
+
+```bash
+repository0-plot-code-lib --expression "sin(x)" --range "0:6.283" --points 100 --format csv
+```
+
+Generate an SVG plot and print to stdout:
+
+```bash
+repository0-plot-code-lib plot --expression "x*2" --range "0:10" --plot-format svg --width 800 --height 600 --title "Linear Chart"
+```
+
+## Examples
+
+**Generate 5 CSV points (y = 2x) from 0 to 10:**
+
 ```bash
 repository0-plot-code-lib --expression "x*2" --range "0:10" --points 5
 ```
 
-Generate JSON data with step 0.5 from -1 to 1 and write to `data.json`:
+**Output Preview:**
+```
+x,y
+0,0
+2.5,5
+5,10
+7.5,15
+10,20
+```
+
+**Generate JSON data with a 0.5 step from -1 to 1 and save to `data.json`:**
+
 ```bash
 repository0-plot-code-lib --expression "sin(x)" --range "-1:1:0.5" --format json --output-file data.json
 ```
 
-### Error Cases
+**Verify File Content:**
 
-Missing required flags will result in an error:
 ```bash
-repository0-plot-code-lib
-# Error: Missing required flag --expression
+cat data.json
+[
+  { "x": -1, "y": -0.84 },
+  { "x": -0.5, "y": -0.48 },
+  { "x": 0, "y": 0 },
+  { "x": 0.5, "y": 0.48 },
+  { "x": 1, "y": 0.84 }
+]
 ```
 
-## Plot Generation
+## Feature Overview
 
-The `plot` subcommand generates line chart plots from mathematical expressions.
+- **Subcommands**  
+  - `timeseries` (default): Generate CSV or JSON time series.  
+  - `plot`: Generate SVG or PNG plots.
+- **Output Formats**: CSV, JSON for data; SVG, PNG for plots.
+- **Output Mode**: With no `--output-file`, writes to stdout. With `--output-file`, writes to the specified file.
 
-### Required Flags
+## Full Documentation
 
-- `--expression <string>`: Mathematical expression in terms of `x`.
-- `--range <start:end[:step]>`: Range of `x` values.
+- CLI specifications: [features/CLI_TOOL.md](features/CLI_TOOL.md)
+- HTTP server API: [features/HTTP_SERVER.md](features/HTTP_SERVER.md)
+- Usage details (this file): [USAGE.md](USAGE.md)
 
-### Plot Options
+## Contributing
 
-- `--points <number>`: Number of data points (default: `100`).
-- `--plot-format <svg|png>`: Output format (default: `svg`).
-- `--width <number>`: Plot width in pixels (default: `800`).
-- `--height <number>`: Plot height in pixels (default: `600`).
-- `--title <string>`: Optional chart title.
-- `--output-file <path>`: File path to write the output (required for PNG).
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on reporting issues, proposing features, and submitting pull requests.
 
-### Examples
+## License
 
-Generate an SVG plot of `y = sin(x)` from 0 to 2π:
-```bash
-repository0-plot-code-lib plot --expression "sin(x)" --range "0:6.28" --plot-format svg --width 400 --height 200 --title "Sine Wave"
-```
-
-Generate a PNG plot of `y = x` from 0 to 10:
-```bash
-repository0-plot-code-lib plot --expression "x" --range "0:10" --plot-format png --width 500 --height 300 --output-file out.png
-```
+MIT © [Your Name or Organization]
