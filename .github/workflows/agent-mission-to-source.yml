@@ -42,8 +42,8 @@ on:
         required: true
   schedule:
     #- cron: '40 4 */7 * *' # schedule-1
-    #- cron: '40 4 * * *' # schedule-2
-    - cron: '40 */4 * * *' # schedule-3
+    - cron: '40 4 * * *' # schedule-2
+    #- cron: '40 */4 * * *' # schedule-3
     #- cron: '40 */2 * * *' # schedule-4
 
 env:
@@ -57,7 +57,7 @@ env:
 jobs:
 
   agentic-lib:
-    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-agent-config.yml@6.0.0'
+    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-agent-config.yml@6.0.2'
     with:
       configPath: ${{ vars.configPath || '.github/agents/agentic-lib.yml' }}
     secrets:
@@ -71,7 +71,7 @@ jobs:
       contents: write
       issues: write
       id-token: write
-    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-completion-maintain-sources.yml@6.0.0'
+    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-completion-maintain-sources.yml@6.0.2'
     with:
       promptFilepath: '.github/agents/agent-maintain-sources.md'
       agentConfigContent: ${{ needs.agentic-lib.outputs.agentConfigContent }}

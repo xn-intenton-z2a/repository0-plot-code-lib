@@ -29,8 +29,8 @@ on:
         required: true
   schedule:
     #- cron: '0 7 */7 * *' # schedule-1
-    #- cron: '0 7 */7 * *' # schedule-2
-    - cron: '0 0 * * *' # schedule-3
+    - cron: '0 7 */7 * *' # schedule-2
+    #- cron: '0 0 * * *' # schedule-3
     #- cron: '0 0 * * *' # schedule-4
 
 env:
@@ -42,7 +42,7 @@ env:
 jobs:
 
   agentic-lib:
-    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-agent-config.yml@6.0.0'
+    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-agent-config.yml@6.0.2'
     with:
       configPath: ${{ vars.configPath || '.github/agents/agentic-lib.yml' }}
     secrets:

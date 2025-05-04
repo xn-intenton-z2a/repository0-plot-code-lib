@@ -72,3 +72,6 @@ seeding:
   testsPath: 'seeds/zero-tests.js'
   dependenciesFilepath: 'seeds/zero-package.json'
   readmeFilepath: 'seeds/zero-README.md'
+
+discussionBot:
+  seedDiscussionFilepath: 'SEED_DISCUSSION.md'
