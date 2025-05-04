@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="svg_spec" href="#svg_spec"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG_SPEC</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">SVG root element requires width, height, viewBox and namespaces. Core elements (<rect>, <circle>, <path>) have specific coordinate and style attributes. viewBox defines user coordinate system. preserveAspectRatio controls alignment and scaling. Embed via inline <svg>, <img>, <object> or CSS. SVG elements support presentation attributes and CSS properties. Use createElementNS and setAttribute for dynamic DOM. SMIL animation via <animate> and <animateTransform>. Troubleshoot with W3C validator and correct namespaces.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">SVG Root Element</p>
+</li>
+<li class="md-github">
+<p class="md-github">Namespaces</p>
+</li>
+<li class="md-github">
+<p class="md-github">Embedding Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Graphic Elements
+4.1 Rectangle (<rect>)
+4.2 Circle (<circle>)
+4.3 Path (<path>)</p>
+</li>
+<li class="md-github">
+<p class="md-github">viewBox &amp; Coordinate System</p>
+</li>
+<li class="md-github">
+<p class="md-github">CSS Styling</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG DOM API</p>
+</li>
+<li class="md-github">
+<p class="md-github">SMIL Animation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG Root Element
+Attributes:
+width: CSSLength | percentage
+height: CSSLength | percentage
+viewBox: &quot;minX minY width height&quot;
+preserveAspectRatio: align [meet|slice]
+xmlns: &quot;http://www.w3.org/2000/svg&quot;
+xmlns:xlink: &quot;http://www.w3.org/1999/xlink&quot;
+Example:
+<svg width="200px" height="100px" viewBox="0 0 200 100" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"></svg></p>
+</li>
+<li class="md-github">
+<p class="md-github">Namespaces
+Default: http://www.w3.org/2000/svg
+XLink: http://www.w3.org/1999/xlink</p>
+</li>
+<li class="md-github">
+<p class="md-github">Embedding Methods
+Inline: <svg>Syntax above</svg>
+<img src="icon.svg" width="..." height="..." />
+<object data="diagram.svg" type="image/svg+xml"></object>
+CSS: selector { background-image:url('graphic.svg'); }</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Graphic Elements
+4.1 <rect>
+x (number), y (number)
+width (number|percentage), height (number|percentage)
+rx, ry (number)
+fill (color|none), stroke (color|none), stroke-width (number)
+Example: <rect x="10" y="20" width="100" height="50" fill="#00f" stroke="#000" stroke-width="2" /></p>
+</li>
+</ol>
+<p class="md-github">4.2 <circle>
+cx, cy (number)
+r (number)
+fill, stroke, stroke-width
+Example: <circle cx="50" cy="50" r="40" fill="red" /></p>
+<p class="md-github">4.3 <path>
+d: move/line/curve commands
+fill-rule: nonzero|evenodd
+Example: <path d="M10 10 H 90 V 90 H 10 Z" fill="none" stroke="black" /></p>
+<ol start="5" class="md-github">
+<li class="md-github">
+<p class="md-github">viewBox
+Defines user coordinate system. Syntax: minX minY width height. Allows scaling without loss.</p>
+</li>
+<li class="md-github">
+<p class="md-github">CSS Styling
+Properties: fill, stroke, stroke-width, opacity, display, visibility. Use inline or external stylesheets.</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG DOM API
+createElementNS(ns, name)
+setAttribute(name, value)
+getBBox(): returns {x,y,width,height}
+addEventListener(type, listener, options)
+Example:
+const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+svg.setAttribute('viewBox','0 0 100 100');</p>
+</li>
+<li class="md-github">
+<p class="md-github">SMIL Animation
+<animate attributeName="fill" from="red" to="blue" dur="2s" repeatCount="indefinite" />
+<animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="5s" repeatCount="indefinite" /></p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting
+Use xmllint --noout file.svg to validate. Ensure correct MIME (image/svg+xml). Confirm namespaces. Check browser console for warnings.</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Default Values:
+width: auto (if missing)
+height: auto
+viewBox: none (defaults to width/height units)
+preserveAspectRatio: xMidYMid meet
+Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Create root <svg> element with createElementNS</li>
+<li class="md-github">Set mandatory attributes: width, height, viewBox, xmlns</li>
+<li class="md-github">Append shape elements (<rect>,<circle>,<path>) with attributes</li>
+<li class="md-github">Attach to DOM
+Configuration Options:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">preserveAspectRatio values: xMinYMin|xMidYMin|xMaxYMin|xMinYMid|xMidYMid|xMaxYMid|xMinYMax|xMidYMax|xMaxYMax + meet/slice</li>
+<li class="md-github">fill-rule: nonzero or evenodd</li>
+<li class="md-github">stroke-linecap: butt|round|square
+Best Practices:</li>
+<li class="md-github">Use viewBox for responsive scaling</li>
+<li class="md-github">Minify SVG with SVGO</li>
+<li class="md-github">Group reusable shapes with <g> and symbols</li>
+<li class="md-github">Use external CSS for styling multiple SVGs</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">SVGDOM methods:
+createElementNS(namespaceURI: string, qualifiedName: string): SVGElement
+setAttribute(name: string, value: string): void
+getBBox(): SVGRect { x:number; y:number; width:number; height:number }
+addEventListener(type: string, listener: (evt: Event) =&gt; any, options?: boolean | AddEventListenerOptions): void</p>
+<p class="md-github">Core element interfaces:
+interface SVGRectElement extends SVGGeometryElement {
+x: SVGAnimatedLength;
+y: SVGAnimatedLength;
+width: SVGAnimatedLength;
+height: SVGAnimatedLength;
+rx: SVGAnimatedLength;
+ry: SVGAnimatedLength;
+}</p>
+<p class="md-github">interface SVGCircleElement extends SVGGeometryElement {
+cx: SVGAnimatedLength;
+cy: SVGAnimatedLength;
+r: SVGAnimatedLength;
+}</p>
+<p class="md-github">interface SVGPathElement extends SVGGeometryElement {
+pathSegList: SVGPathSegList;
+getTotalLength(): number;
+getPointAtLength(distance: number): DOMPoint;
+}</p>
+<p class="md-github">Code Example: Dynamic SVG Creation
+const SVG_NS='http://www.w3.org/2000/svg';
+function createCircle(cx,cy,r,fill){
+const c=document.createElementNS(SVG_NS,'circle');
+c.setAttribute('cx',cx);
+c.setAttribute('cy',cy);
+c.setAttribute('r',r);
+c.setAttribute('fill',fill);
+return c;
+}
+const svg=document.createElementNS(SVG_NS,'svg');
+svg.setAttribute('viewBox','0 0 100 100');
+svg.appendChild(createCircle(50,50,40,'green'));
+document.body.appendChild(svg);</p>
+<p class="md-github">Troubleshooting Commands:
+xmllint --noout --schema http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd file.svg
+Expected no errors</p>
+<p class="md-github">SVGO CLI:
+npx svgo --multipass input.svg -o output.min.svg
+Expected file size reduction</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">svg root attributes: width CSSLength|%, height CSSLength|%, viewBox=minX minY width height, preserveAspectRatio=align[ meet|slice], xmlns=http://www.w3.org/2000/svg, xmlns:xlink=http://www.w3.org/1999/xlink. embedding: inline <svg>, <img src>, <object data>, CSS background-image. rect: x,y,width,height,rx,ry,fill,stroke,stroke-width. circle: cx,cy,r,fill,stroke,stroke-width. path: d commands, fill-rule. CSS: fill,stroke,opacity,font-size. DOM API: createElementNS(ns,name), setAttribute(name,value), getBBox(), addEventListener(). SMIL: &lt;animate attributeName,from,to,dur,repeatCount&gt;, &lt;animateTransform type,values,dur,repeatCount&gt;. troubleshoot: xmllint, SVGO, validate namespaces and MIME.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">SVG Root Element</p>
+</li>
+<li class="md-github">
+<p class="md-github">Namespaces</p>
+</li>
+<li class="md-github">
+<p class="md-github">Embedding Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Graphic Elements
+4.1 Rectangle (<rect>)
+4.2 Circle (<circle>)
+4.3 Path (<path>)</p>
+</li>
+<li class="md-github">
+<p class="md-github">viewBox &amp; Coordinate System</p>
+</li>
+<li class="md-github">
+<p class="md-github">CSS Styling</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG DOM API</p>
+</li>
+<li class="md-github">
+<p class="md-github">SMIL Animation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG Root Element
+Attributes:
+width: CSSLength | percentage
+height: CSSLength | percentage
+viewBox: 'minX minY width height'
+preserveAspectRatio: align [meet|slice]
+xmlns: 'http://www.w3.org/2000/svg'
+xmlns:xlink: 'http://www.w3.org/1999/xlink'
+Example:
+<svg width='200px' height='100px' viewBox='0 0 200 100' preserveAspectRatio='xMidYMid meet' xmlns='http://www.w3.org/2000/svg'></svg></p>
+</li>
+<li class="md-github">
+<p class="md-github">Namespaces
+Default: http://www.w3.org/2000/svg
+XLink: http://www.w3.org/1999/xlink</p>
+</li>
+<li class="md-github">
+<p class="md-github">Embedding Methods
+Inline: <svg>Syntax above</svg>
+<img src='icon.svg' width='...' height='...' />
+<object data='diagram.svg' type='image/svg+xml'></object>
+CSS: selector { background-image:url('graphic.svg'); }</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Graphic Elements
+4.1 <rect>
+x (number), y (number)
+width (number|percentage), height (number|percentage)
+rx, ry (number)
+fill (color|none), stroke (color|none), stroke-width (number)
+Example: <rect x='10' y='20' width='100' height='50' fill='#00f' stroke='#000' stroke-width='2' /></p>
+</li>
+</ol>
+<p class="md-github">4.2 <circle>
+cx, cy (number)
+r (number)
+fill, stroke, stroke-width
+Example: <circle cx='50' cy='50' r='40' fill='red' /></p>
+<p class="md-github">4.3 <path>
+d: move/line/curve commands
+fill-rule: nonzero|evenodd
+Example: <path d='M10 10 H 90 V 90 H 10 Z' fill='none' stroke='black' /></p>
+<ol start="5" class="md-github">
+<li class="md-github">
+<p class="md-github">viewBox
+Defines user coordinate system. Syntax: minX minY width height. Allows scaling without loss.</p>
+</li>
+<li class="md-github">
+<p class="md-github">CSS Styling
+Properties: fill, stroke, stroke-width, opacity, display, visibility. Use inline or external stylesheets.</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG DOM API
+createElementNS(ns, name)
+setAttribute(name, value)
+getBBox(): returns {x,y,width,height}
+addEventListener(type, listener, options)
+Example:
+const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+svg.setAttribute('viewBox','0 0 100 100');</p>
+</li>
+<li class="md-github">
+<p class="md-github">SMIL Animation
+<animate attributeName='fill' from='red' to='blue' dur='2s' repeatCount='indefinite' />
+<animateTransform attributeName='transform' type='rotate' from='0 50 50' to='360 50 50' dur='5s' repeatCount='indefinite' /></p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting
+Use xmllint --noout file.svg to validate. Ensure correct MIME (image/svg+xml). Confirm namespaces. Check browser console for warnings.</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">MDN SVG Documentation
+https://developer.mozilla.org/en-US/docs/Web/SVG</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-svg_spec" href="#digest-of-svg_spec"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SVG_SPEC</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="svg-root-element" href="#svg-root-element"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG Root Element</h1>
+<p class="md-github">&lt;svg
+width: CSSLength | percentage (e.g., &quot;200px&quot;, &quot;50%&quot;),
+height: CSSLength | percentage,
+viewBox: four numbers &quot;min-x min-y width height&quot; defining internal coordinate system,
+preserveAspectRatio: <align> [meet|slice] (default xMidYMid meet),
+xmlns: &quot;http://www.w3.org/2000/svg&quot;,
+xmlns:xlink: &quot;http://www.w3.org/1999/xlink&quot;</p>
+<blockquote class="md-github"></blockquote>
+<h1 class="md-github"><a class="md-github__anchor" name="namespaces" href="#namespaces"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Namespaces</h1>
+<ul class="md-github">
+<li class="md-github">Default namespace URI: http://www.w3.org/2000/svg</li>
+<li class="md-github">XLink namespace URI: http://www.w3.org/1999/xlink</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="embedding-svg-in-html" href="#embedding-svg-in-html"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Embedding SVG in HTML</h1>
+<p class="md-github">Inline: <svg> ... </svg></p>
+<p class="md-github">Object: <object data="file.svg" type="image/svg+xml"></object></p>
+<p class="md-github">Image: <img src="file.svg" width="..." height="..." /></p>
+<p class="md-github">CSS: background-image: url(&quot;file.svg&quot;);</p>
+<h1 class="md-github"><a class="md-github__anchor" name="core-graphic-elements--attributes" href="#core-graphic-elements--attributes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Graphic Elements &amp; Attributes</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="rectangle-rect" href="#rectangle-rect"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rectangle (<rect>)</h2>
+<ul class="md-github">
+<li class="md-github">x, y: coordinate of top-left corner (number, default 0)</li>
+<li class="md-github">width, height: CSSLength (required)</li>
+<li class="md-github">rx, ry: corner radii (number)</li>
+<li class="md-github">fill: paint (color|none)</li>
+<li class="md-github">stroke: paint</li>
+<li class="md-github">stroke-width: number</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="circle-circle" href="#circle-circle"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Circle (<circle>)</h2>
+<ul class="md-github">
+<li class="md-github">cx, cy: center coordinates (number, default 0)</li>
+<li class="md-github">r: radius (number, required)</li>
+<li class="md-github">fill, stroke, stroke-width as above</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="path-path" href="#path-path"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Path (<path>)</h2>
+<ul class="md-github">
+<li class="md-github">d: path data string (commands M, L, C, Z, etc.)</li>
+<li class="md-github">fill-rule: nonzero|evenodd (default nonzero)</li>
+<li class="md-github">stroke, stroke-width</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="viewbox--coordinate-systems" href="#viewbox--coordinate-systems"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>viewBox &amp; Coordinate Systems</h1>
+<p class="md-github">viewBox=&quot;minX minY width height&quot;</p>
+<p class="md-github">Coord space transforms to viewport via preserveAspectRatio.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="css--external-styling" href="#css--external-styling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSS &amp; External Styling</h1>
+<p class="md-github">SVG elements accept presentation attributes and CSS properties: fill, stroke, stroke-opacity, font-size, display, visibility</p>
+<h1 class="md-github"><a class="md-github__anchor" name="svg-dom-api" href="#svg-dom-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG DOM API</h1>
+<p class="md-github">document.createElementNS(namespaceURI: string, qualifiedName: string): Element</p>
+<p class="md-github">element.setAttribute(name: string, value: string)
+element.getBBox(): SVGRect</p>
+<p class="md-github">element.addEventListener(type: string, listener: EventListener, options?: boolean|AddEventListenerOptions)</p>
+<h1 class="md-github"><a class="md-github__anchor" name="smil-animation-elements" href="#smil-animation-elements"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SMIL Animation Elements</h1>
+<animate>
+  attributeName: string,
+  from: number|string,
+  to: number|string,
+  dur: time (e.g., "2s"),
+  repeatCount: number | "indefinite"
+</animate>
+<animateTransform>
+  type: rotate|scale|translate|skewX|skewY,
+  values: semicolon-separated list,
+  dur, repeatCount
+</animateTransform>
+<h1 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h1>
+<ul class="md-github">
+<li class="md-github">Validate XML namespaces and correct MIME type</li>
+<li class="md-github">Use W3C validator: xmllint --noout file.svg</li>
+<li class="md-github">Check console for unsupported features in target browsers</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: MDN SVG Documentation</li>
+<li class="md-github">URL: https://developer.mozilla.org/en-US/docs/Web/SVG</li>
+<li class="md-github">License: License: CC-BY-SA</li>
+<li class="md-github">Crawl Date: 2025-05-04T01:08:19.026Z</li>
+<li class="md-github">Data Size: 1365385 bytes</li>
+<li class="md-github">Links Found: 37438</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-04</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-04T01:53:52.570Z</p>
+  </footer>
+</body>
+</html>
