@@ -6,6 +6,7 @@ import { fileURLToPath } from 'url';
 import { evaluate } from 'mathjs';
 import { z } from 'zod';
 import { Command } from 'commander';
+import sharp from 'sharp';
 
 /**
  * Parse a range string into an array of numbers.
@@ -120,7 +121,7 @@ export function generateSVG(data, width, height, title) {
 /**
  * Main CLI logic for data and plots.
  */
-export function mainCLI(argv = process.argv.slice(2)) {
+export async function mainCLI(argv = process.argv.slice(2)) {
   let isPlot = false;
   const args = [...argv];
   if (args[0] === 'plot') {
@@ -207,14 +208,19 @@ export function mainCLI(argv = process.argv.slice(2)) {
       }
       return svg;
     } else {
-      // png
+      // png via sharp
+      const svg = generateSVG(data, params.width, params.height, params.title);
+      let pngBuffer;
+      try {
+        pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
+      } catch (err) {
+        throw new Error(`PNG generation error: ${err.message}`);
+      }
       if (!params['output-file']) {
         throw new Error('Missing required flag --output-file for PNG output');
       }
-      // Write minimal PNG signature to satisfy tests
-      const pngSig = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
-      fs.writeFileSync(params['output-file'], pngSig);
-      return '';
+      fs.writeFileSync(params['output-file'], pngBuffer);
+      return pngBuffer;
     }
   }
 }

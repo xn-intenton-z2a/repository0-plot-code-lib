@@ -61,8 +61,8 @@ describe('serializeCSV and serializeJSON', () => {
 });
 
 describe('mainCLI', () => {
-  test('CSV to stdout', () => {
-    const out = mainCLI(['--expression', 'x+1', '--range', '0:2', '--points', '3', '--format', 'csv']);
+  test('CSV to stdout', async () => {
+    const out = await mainCLI(['--expression', 'x+1', '--range', '0:2', '--points', '3', '--format', 'csv']);
     const lines = out.split('\n');
     expect(lines[0]).toBe('x,y');
     expect(lines[1]).toBe('0,1');
@@ -70,8 +70,8 @@ describe('mainCLI', () => {
     expect(lines[3]).toBe('2,3');
   });
 
-  test('JSON output', () => {
-    const out = mainCLI(['--expression', 'x', '--range', '0:2', '--points', '3', '--format', 'json']);
+  test('JSON output', async () => {
+    const out = await mainCLI(['--expression', 'x', '--range', '0:2', '--points', '3', '--format', 'json']);
     const arr = JSON.parse(out);
     expect(arr).toEqual([
       { x: 0, y: 0 },
@@ -80,10 +80,10 @@ describe('mainCLI', () => {
     ]);
   });
 
-  test('output to file', () => {
+  test('output to file', async () => {
     const tmp = path.join(process.cwd(), 'test_output.txt');
     if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
-    const out = mainCLI([
+    const out = await mainCLI([
       '--expression', 'x',
       '--range', '0:1',
       '--points', '2',
@@ -96,46 +96,46 @@ describe('mainCLI', () => {
     fs.unlinkSync(tmp);
   });
 
-  test('missing flags throws', () => {
-    expect(() => mainCLI([])).toThrow(/Missing required flag --expression/);
-    expect(() => mainCLI(['--expression', 'x'])).toThrow(/Missing required flag --range/);
+  test('missing flags throws', async () => {
+    await expect(mainCLI([])).rejects.toThrow(/Missing required flag --expression/);
+    await expect(mainCLI(['--expression', 'x'])).rejects.toThrow(/Missing required flag --range/);
   });
 });
 
 // Plot generation tests
 
 describe('Plot generation', () => {
-  test('SVG output contains valid structure', () => {
-    const svg = mainCLI(['plot', '--expression', 'x', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--width', '200', '--height', '100', '--title', 'Test']);
+  test('SVG output contains valid structure', async () => {
+    const svg = await mainCLI(['plot', '--expression', 'x', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--width', '200', '--height', '100', '--title', 'Test']);
     expect(svg.startsWith('<svg')).toBe(true);
     expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
     expect(svg).toContain('<polyline points="');
     expect(svg).toContain('<title>Test</title>');
   });
 
-  test('SVG polyline reflects data points', () => {
-    const svg = mainCLI(['plot', '--expression', 'x', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--width', '300', '--height', '300']);
+  test('SVG polyline reflects data points', async () => {
+    const svg = await mainCLI(['plot', '--expression', 'x', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--width', '300', '--height', '300']);
     const match = svg.match(/<polyline points="([^"]+)"/);
     const pts = match[1].split(' ');
     expect(pts).toHaveLength(3);
   });
 
-  test('PNG output writes valid PNG file', () => {
+  test('PNG output writes valid PNG file', async () => {
     const tmp = path.join(process.cwd(), 'plot.png');
     if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
-    mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
+    await mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
     expect(fs.existsSync(tmp)).toBe(true);
     const buf = fs.readFileSync(tmp);
     expect(buf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));
     fs.unlinkSync(tmp);
   });
 
-  test('Invalid plot-format throws error', () => {
-    expect(() => mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'bmp'])).toThrow();
+  test('Invalid plot-format throws error', async () => {
+    await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'bmp'])).rejects.toThrow();
   });
 
-  test('Invalid width/height throws error', () => {
-    expect(() => mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--width', '-10'])).toThrow();
-    expect(() => mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--height', '0'])).toThrow();
+  test('Invalid width/height throws error', async () => {
+    await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--width', '-10'])).rejects.toThrow();
+    await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--height', '0'])).rejects.toThrow();
   });
 });
