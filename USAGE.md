@@ -67,16 +67,16 @@ When `--plot-format png` is specified, the tool first renders the chart as SVG a
 
 ## HTTP Server Mode
 
-Start the HTTP server:
+Start the HTTP server on default port (3000):
 
 ```bash
-repository0-plot-code-lib --serve --port 3000
+repository0-plot-code-lib --serve
 ```
 
-Or via environment variable:
+Or specify a different port via environment variable:
 
 ```bash
-HTTP_PORT=3000 repository0-plot-code-lib
+HTTP_PORT=3000 repository0-plot-code-lib --serve
 ```
 
 ### Web Interface

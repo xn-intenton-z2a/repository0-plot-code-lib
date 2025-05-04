@@ -124,7 +124,8 @@ describe('Plot generation', () => {
 
   test('PNG output writes valid PNG file', async () => {
     const tmp = path.join(process.cwd(), 'plot.png');
-    if (fs.existsSync(tmp)) fs.unlinkSync(tmp);\n    await mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
+    if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
+    await mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--points', '2', '--plot-format', 'png', '--width', '100', '--height', '50', '--output-file', tmp]);
     expect(fs.existsSync(tmp)).toBe(true);
     const buf = fs.readFileSync(tmp);
     expect(buf.slice(0, 4)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47]));

@@ -5,7 +5,6 @@ import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { evaluate } from 'mathjs';
 import { z } from 'zod';
-import { Command } from 'commander';
 import sharp from 'sharp';
 import express from 'express';
 
@@ -123,7 +122,81 @@ export function generateSVG(data, width, height, title) {
  * Main CLI logic for data and plots.
  */
 export async function mainCLI(argv = process.argv.slice(2)) {
-  // ... existing CLI code unchanged ...
+  // simple argument parser
+  const args = {};
+  const rest = [];
+  for (let i = 0; i < argv.length; i++) {
+    const token = argv[i];
+    if (token.startsWith('--')) {
+      const key = token.slice(2);
+      const next = argv[i + 1];
+      if (next === undefined || next.startsWith('--')) {
+        args[key] = true;
+      } else {
+        args[key] = next;
+        i++;
+      }
+    } else {
+      rest.push(token);
+    }
+  }
+  const isPlot = rest[0] === 'plot';
+  if (isPlot) {
+    // Plot subcommand
+    const expr = args.expression;
+    if (!expr) throw new Error('Missing required flag --expression');
+    const range = args.range;
+    if (!range) throw new Error('Missing required flag --range');
+    const points = args.points ? parseInt(args.points, 10) : 100;
+    if (isNaN(points) || points <= 0) throw new Error('Invalid points value');
+    const plotFormat = args['plot-format'] || 'svg';
+    if (!['svg', 'png'].includes(plotFormat)) throw new Error('Invalid plot-format');
+    const width = args.width ? parseInt(args.width, 10) : 800;
+    const height = args.height ? parseInt(args.height, 10) : 600;
+    if (isNaN(width) || width <= 0) throw new Error('Invalid width');
+    if (isNaN(height) || height <= 0) throw new Error('Invalid height');
+    const title = args.title;
+    const outputFile = args['output-file'];
+    const xs = parseRange(range, points);
+    const data = evaluateExpression(expr, xs);
+    if (plotFormat === 'svg') {
+      const svg = generateSVG(data, width, height, title);
+      if (outputFile) {
+        fs.writeFileSync(outputFile, svg);
+      }
+      return svg;
+    } else {
+      const svg = generateSVG(data, width, height, title);
+      const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
+      if (outputFile) {
+        fs.writeFileSync(outputFile, pngBuffer);
+      }
+      return pngBuffer.toString('base64');
+    }
+  } else {
+    // Timeseries default
+    const expr = args.expression;
+    if (!expr) throw new Error('Missing required flag --expression');
+    const range = args.range;
+    if (!range) throw new Error('Missing required flag --range');
+    const points = args.points ? parseInt(args.points, 10) : 100;
+    if (isNaN(points) || points <= 0) throw new Error('Invalid points value');
+    const format = args.format || 'csv';
+    if (!['csv', 'json'].includes(format)) throw new Error('Unknown format');
+    const outputFile = args['output-file'];
+    const xs = parseRange(range, points);
+    const data = evaluateExpression(expr, xs);
+    let output;
+    if (format === 'csv') {
+      output = serializeCSV(data);
+    } else {
+      output = serializeJSON(data);
+    }
+    if (outputFile) {
+      fs.writeFileSync(outputFile, output);
+    }
+    return output;
+  }
 }
 
 /**
@@ -190,7 +263,7 @@ export function startHTTPServer(port) {
     try {
       params = formSchema.parse(req.body);
     } catch (err) {
-      return res.status(400).json({ error: err.errors ? err.errors.map(e => e.message).join('; ') : err.message });
+      return res.status(400).json({ error: err.errors ? err.errors.map((e) => e.message).join('; ') : err.message });
     }
     try {
       const xVals = parseRange(params.range, params.points);
