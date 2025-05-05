@@ -72,7 +72,7 @@ function parseAndValidateArgs(args) {
 }
 
 function exportTimeSeries({ expression, range, exportFormat, output }) {
-  // Parse the numeric range
+  // Parse the numeric range (supports optional 'x=' prefix)
   const { start, end } = parseRange(range);
   // Parse and compile the mathematical expression
   const parser = new Parser();
@@ -112,7 +112,13 @@ function exportTimeSeries({ expression, range, exportFormat, output }) {
 }
 
 function parseRange(rangeStr) {
-  const parts = rangeStr.split(":");
+  // Support optional 'x=' prefix
+  let r = rangeStr;
+  const eqIndex = r.indexOf("=");
+  if (eqIndex !== -1) {
+    r = r.slice(eqIndex + 1);
+  }
+  const parts = r.split(":");
   if (parts.length !== 2) {
     throw new Error(`Invalid range format: ${rangeStr}`);
   }
@@ -130,7 +136,7 @@ Usage: repository0-plot-code-lib [options]
 
 Options:
   -e, --expression <expr>         A mathematical expression in x (e.g., "sin(x)")
-  -r, --range <range>             Numeric range for x (e.g., "0:6.28")
+  -r, --range <start:end> or x=<start:end>  Numeric range for x (e.g., "0:6.28" or "x=0:6.28")
   -f, --format <svg|png>          Output image format (default: svg)
   -x, --export <csv|json>         Export sampled time series format (default: csv)
   -o, --output, --file <file>     Output file path (default: plot.svg)
