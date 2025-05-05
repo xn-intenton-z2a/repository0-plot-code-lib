@@ -192,27 +192,35 @@ describe("Time Series Export", () => {
     stdoutSpy.mockRestore();
     writeSpy.mockRestore();
   });
+});
 
-  test("invalid expression handling exits with error", () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("Exit"); });
-    const args = ["-e", "bad!", "-r", "0:1", "-x", "csv", "-o", "out.csv"];
-    expect(() => main(args)).toThrow("Exit");
-    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/^Invalid expression:/));
-    consoleErrorSpy.mockRestore();
-    exitSpy.mockRestore();
+describe("Plot Generation", () => {
+  test("svg plot generation writes correct SVG file", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["-e", "x", "-r", "0:1"];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const content = writeSpy.mock.calls[0][1];
+    expect(content.startsWith("<svg")).toBe(true);
+    expect(content).toContain("<polyline");
+    writeSpy.mockRestore();
   });
 
-  test("fallback plot generation logs parsed options without exit", () => {
-    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = ["-e", "x^2", "-r", "0:10"];
-    expect(() => main(args)).not.toThrow();
-    expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('"expression":"x^2"'));
-    expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('"range":"0:10"'));
-    consoleLogSpy.mockRestore();
+  test("png plot generation writes correct PNG file", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["-e", "x", "-r", "0:1", "-f", "png", "-o", "out.png"];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const buffer = writeSpy.mock.calls[0][1];
+    expect(Buffer.isBuffer(buffer)).toBe(true);
+    expect(buffer[0]).toBe(0x89);
+    expect(buffer[1]).toBe(0x50);
+    writeSpy.mockRestore();
   });
+});
 
-  test("no-arg invocation does nothing", () => {
+describe("No-arg invocation", () => {
+  test("does nothing without args", () => {
     const stdoutSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => {});
     const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});

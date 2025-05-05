@@ -19,6 +19,8 @@ Generate an image plot (SVG/PNG):
 npx repository0-plot-code-lib --expression "sin(x)" --range "0:6.28" --format svg --output plot.svg
 # alias for output: --file
 npx repository0-plot-code-lib -e "sin(x)" -r "0:6.28" -f png -o plot.png
+# specify explicit y-range
+npx repository0-plot-code-lib -e "x^2" -r "x=0:10,y=0:100" -f svg -o test.svg
 ```
 
 Export sampled time series (CSV/JSON):
@@ -37,7 +39,7 @@ Use `-` as the `<file>` to stream results to stdout instead of writing to a file
 ## Options
 
 - --expression, -e <expr>: A mathematical expression in x (e.g., "sin(x)")
-- --range, -r <start:end> or x=<start:end>: Numeric range for x (e.g., "0:6.28" or "x=0:6.28")
+- --range, -r <start:end> or x=<start:end>[,y=<start:end>]: Numeric range for x and optional y (e.g., "0:6.28" or "x=0:10,y=0:100")
 - --format, -f <svg|png>: Output image format (default: svg)
 - --export, -x <csv|json>: Export sampled time series format (default: csv)
 - --output, -o, --file <file>: Output file path (default: plot.svg)
