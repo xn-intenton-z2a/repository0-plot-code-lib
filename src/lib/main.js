@@ -29,7 +29,7 @@ export function main(args = process.argv.slice(2)) {
   }
 }
 
-function generatePlot({ expression, range, format, output }) {
+function generatePlot({ expression, range, format, output, samples }) {
   // Parse numeric ranges for x and optional y
   const { xRange, yRange } = parseRanges(range);
   const { start: xStart, end: xEnd } = xRange;
@@ -43,7 +43,7 @@ function generatePlot({ expression, range, format, output }) {
   }
   // Sample points
   const points = [];
-  const count = 100;
+  const count = samples;
   for (let i = 0; i < count; i++) {
     const x = xStart + (i * (xEnd - xStart)) / (count - 1);
     let y;
@@ -170,6 +170,10 @@ function parseAndValidateArgs(args) {
       case "--file":
         raw.output = args[++i];
         break;
+      case "--samples":
+      case "-n":
+        raw.samples = args[++i];
+        break;
       case "--help":
       case "-h":
         printHelp();
@@ -185,11 +189,19 @@ function parseAndValidateArgs(args) {
     format: z.enum(["svg", "png"]).default("svg"),
     exportFormat: z.enum(["csv", "json"]).optional(),
     output: z.string().nonempty().default("plot.svg"),
+    samples: z.preprocess(
+      (val) => {
+        if (val === undefined) return undefined;
+        const num = Number(val);
+        return isNaN(num) ? val : num;
+      },
+      z.number().int().min(2).default(100)
+    ),
   });
   return schema.parse(raw);
 }
 
-function exportTimeSeries({ expression, range, exportFormat, output }) {
+function exportTimeSeries({ expression, range, exportFormat, output, samples }) {
   // Parse the numeric range (supports optional 'x=' prefix)
   const { start, end } = parseRange(range);
   // Parse and compile the mathematical expression
@@ -207,9 +219,9 @@ function exportTimeSeries({ expression, range, exportFormat, output }) {
       throw new Error(`Invalid expression: ${expression}`);
     }
   }
-  // Sample the function at 100 evenly spaced points
+  // Sample the function at specified points
   const points = [];
-  const count = 100;
+  const count = samples;
   for (let i = 0; i < count; i++) {
     const x = start + (i * (end - start)) / (count - 1);
     let y;
@@ -263,7 +275,8 @@ Options:
   -e, --expression <expr>         A mathematical expression in x (e.g., "sin(x)")
   -r, --range <start:end> or x=<start:end>  Numeric range for x (e.g., "0:6.28" or "x=0:6.28,y=-1:1")
   -f, --format <svg|png>          Output image format (default: svg)
-  -x, --export <csv|json>         Export sampled time series format (default: csv)
+  -n, --samples <number>          Number of sample points (integer ≥2, default: 100)
+  -x, --export <csv|json>         Export sampled time series format (default: none)
   -o, --output, --file <file>     Output file path (default: plot.svg)
   -h, --help                      Show help
 `);
