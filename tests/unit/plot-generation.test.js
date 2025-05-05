@@ -124,6 +124,16 @@ describe('mainCLI', () => {
     await expect(mainCLI([])).rejects.toThrow(/Missing required flag --expression/);
     await expect(mainCLI(['--expression', 'x'])).rejects.toThrow(/Missing required flag --range/);
   });
+
+  test('Timeseries derivative JSON output', async () => {
+    const out = await mainCLI(['--expression', 'x^2', '--range', '0:2', '--points', '3', '--format', 'json', '--derivative']);
+    const arr = JSON.parse(out);
+    expect(arr).toEqual([
+      { x: 0, y: 0 },
+      { x: 1, y: 2 },
+      { x: 2, y: 4 },
+    ]);
+  });
 });
 
 // Plot generation tests
@@ -168,6 +178,13 @@ describe('Plot generation', () => {
     await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--width', '-10'])).rejects.toThrow();
     await expect(mainCLI(['plot', '--expression', 'x', '--range', '0:1', '--plot-format', 'svg', '--height', '0'])).rejects.toThrow();
   });
+
+  test('Plot generation derivative SVG', async () => {
+    const svg = await mainCLI(['plot', '--expression', 'x^2', '--range', '0:2', '--points', '3', '--plot-format', 'svg', '--derivative']);
+    expect(svg.startsWith('<svg')).toBe(true);
+    // derivative polyline between (0,0),(1,2),(2,4)
+    expect(svg).toContain('polyline');
+  });
 });
 
 // Programmatic API tests
@@ -179,6 +196,15 @@ describe('Programmatic API', () => {
       { x: 0, y: 0 },
       { x: 2, y: 4 },
       { x: 4, y: 8 },
+    ]);
+  });
+
+  test('getTimeSeries derivative returns correct data', async () => {
+    const data = await getTimeSeries('x^2', '0:2', { points: 3, derivative: true });
+    expect(data).toEqual([
+      { x: 0, y: 0 },
+      { x: 1, y: 2 },
+      { x: 2, y: 4 },
     ]);
   });
 
@@ -283,6 +309,25 @@ describe('HTTP Server', () => {
     const res = await request(app).get('/csv');
     expect(res.status).toBe(400);
     expect(res.body).toHaveProperty('error');
+  });
+
+  test('GET /json derivative parameter returns derivative data', async () => {
+    const res = await request(app)
+      .get('/json?expression=x^2&range=0:2&points=3&derivative=true');
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual([
+      { x: 0, y: 0 },
+      { x: 1, y: 2 },
+      { x: 2, y: 4 },
+    ]);
+  });
+
+  test('GET /csv derivative parameter returns derivative CSV', async () => {
+    const res = await request(app)
+      .get('/csv?expression=x^2&range=0:2&points=3&derivative=true');
+    expect(res.status).toBe(200);
+    const lines = res.text.split('\n');
+    expect(lines).toEqual(['x,y', '0,0', '1,2', '2,4']);
   });
 
   test('POST /plot with valid SVG returns inline SVG', async () => {
