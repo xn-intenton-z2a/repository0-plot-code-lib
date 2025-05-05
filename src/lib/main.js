@@ -5,6 +5,10 @@ import { fileURLToPath } from "url";
 import { z } from "zod";
 
 export function main(args = process.argv.slice(2)) {
+  // If no arguments, do nothing (avoid validation errors)
+  if (!args || args.length === 0) {
+    return;
+  }
   const parsed = parseAndValidateArgs(args);
   // For demonstration, just log parsed options
   console.log(`Parsed options: ${JSON.stringify(parsed)}`);
@@ -45,7 +49,7 @@ function parseAndValidateArgs(args) {
     expression: z.string().nonempty(),
     range: z.string().nonempty(),
     format: z.enum(["svg", "png"]).default("svg"),
-    output: z.string().nonempty().default("plot.svg")
+    output: z.string().nonempty().default("plot.svg"),
   });
   return schema.parse(raw);
 }
@@ -55,11 +59,11 @@ function printHelp() {
 Usage: repository0-plot-code-lib [options]
 
 Options:
-  -e, --expression <expr>  A mathematical expression in x (e.g., "sin(x)")
-  -r, --range <range>      Numeric range for x (e.g., "x=0:6.28")
-  -f, --format <svg|png>   Output image format (default: svg)
-  -o, --output <file>      Output file path (default: plot.svg)
-  -h, --help               Show help
+  -e, --expression <expr>      A mathematical expression in x (e.g., "sin(x)")
+  -r, --range <range>          Numeric range for x (e.g., "x=0:6.28")
+  -f, --format <svg|png>       Output image format (default: svg)
+  -o, --output, --file <file>  Output file path (default: plot.svg)
+  -h, --help                   Show help
 `);
 }
 

@@ -15,6 +15,8 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 ## CLI Usage
 
 ```bash
+npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28" --output output.svg
+# alias for output: --file
 npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28" --file output.svg
 ```
 
@@ -23,7 +25,7 @@ Options:
 - --expression, -e <expr>: A mathematical expression in x (e.g., "sin(x)")
 - --range, -r <range>: Numeric range for x (e.g., "x=0:6.28")
 - --format, -f <svg|png>: Output format (default: svg)
-- --output, -o <file>: Output file path (default: plot.svg)
+- --output, -o, --file <file>: Output file path (default: plot.svg)
 - --help, -h: Show help
 
 ## API Usage
