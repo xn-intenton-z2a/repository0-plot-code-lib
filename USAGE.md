@@ -23,6 +23,10 @@ npx repository0-plot-code-lib -e "sin(x)" -r "0:6.28" -f png -o plot.png
 npx repository0-plot-code-lib -e "x^2" -r "x=0:10,y=0:100" -f svg -o test.svg
 # custom samples count
 npx repository0-plot-code-lib -e "sin(x)" -r "0:6.28" -n 50 -f svg -o sample.svg
+# default output filename (plot.svg) when --output is omitted
+npx repository0-plot-code-lib -e "x" -r "0:1"
+# default output filename (plot.png) when --format png and --output is omitted
+npx repository0-plot-code-lib -e "x" -r "0:1" -f png
 ```
 
 Export sampled time series (CSV/JSON):
@@ -37,6 +41,10 @@ npx repository0-plot-code-lib -e "x^2" -r "0:1" -x json -o -
 # custom samples count for export
 npx repository0-plot-code-lib -e "x" -r "0:1" -x csv -n 20 -o out.csv
 npx repository0-plot-code-lib -e "x" -r "0:1" -x json -n 20 -o out.json
+# default output filename (data.csv) when --export csv and --output is omitted
+npx repository0-plot-code-lib -e "x" -r "0:1" -x csv
+# default output filename (data.json) when --export json and --output is omitted
+npx repository0-plot-code-lib -e "x" -r "0:1" -x json
 ```
 
 Use `-` as the `<file>` to stream results to stdout instead of writing to a file.
@@ -48,7 +56,7 @@ Use `-` as the `<file>` to stream results to stdout instead of writing to a file
 - --format, -f <svg|png>: Output image format (default: svg)
 - --samples, -n <number>: Number of sample points (integer ≥2, default: 100)
 - --export, -x <csv|json>: Export sampled time series format (default: none)
-- --output, -o, --file <file>: Output file path (default: plot.svg)
+- --output, -o, --file <file>: Output file path. Defaults to 'plot.svg' for plots (or 'plot.png' if format is png), and to 'data.csv' or 'data.json' for CSV/JSON exports when omitted.
 - Use `-` for `<file>` to write output to stdout
 - --help, -h: Show help
 

@@ -224,6 +224,27 @@ describe("Time Series Export", () => {
     expect(data[49]).toEqual({ x: 1, y: 1 });
     writeSpy.mockRestore();
   });
+
+  // New tests for default filenames
+  test("csv export with default output filename data.csv", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["-e","x","-r","0:1","-x","csv"];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const path = writeSpy.mock.calls[0][0];
+    expect(path).toBe("data.csv");
+    writeSpy.mockRestore();
+  });
+
+  test("json export with default output filename data.json", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["-e","x","-r","0:1","-x","json"];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const path = writeSpy.mock.calls[0][0];
+    expect(path).toBe("data.json");
+    writeSpy.mockRestore();
+  });
 });
 
 describe("Plot Generation", () => {
@@ -238,6 +259,16 @@ describe("Plot Generation", () => {
     writeSpy.mockRestore();
   });
 
+  test("svg plot generation with default output filename plot.svg", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["-e","x","-r","0:1"];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const path = writeSpy.mock.calls[0][0];
+    expect(path).toBe("plot.svg");
+    writeSpy.mockRestore();
+  });
+
   test("png plot generation writes correct PNG file", () => {
     const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const args = ["-e", "x", "-r", "0:1", "-f", "png", "-o", "out.png"];
@@ -247,6 +278,16 @@ describe("Plot Generation", () => {
     expect(Buffer.isBuffer(buffer)).toBe(true);
     expect(buffer[0]).toBe(0x89);
     expect(buffer[1]).toBe(0x50);
+    writeSpy.mockRestore();
+  });
+
+  test("png plot generation with default output filename plot.png", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["-e","x","-r","0:1","-f","png"];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const path = writeSpy.mock.calls[0][0];
+    expect(path).toBe("plot.png");
     writeSpy.mockRestore();
   });
 });
