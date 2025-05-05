@@ -25,12 +25,14 @@ Export sampled time series (CSV/JSON):
 ```bash
 npx repository0-plot-code-lib --expression "sin(x)" --range "0:6.28" --export csv --output data.csv
 npx repository0-plot-code-lib -e "x^2" -r "0:1" -x json -o series.json
+# Range prefix example:
+npx repository0-plot-code-lib -e "sin(x)" -r "x=0:6.28" -x csv -o data.csv
 ```
 
 ## Options
 
 - --expression, -e <expr>: A mathematical expression in x (e.g., "sin(x)")
-- --range, -r <start:end>: Numeric range for x (e.g., "0:6.28")
+- --range, -r <start:end> or x=<start:end>: Numeric range for x (e.g., "0:6.28" or "x=0:6.28")
 - --format, -f <svg|png>: Output image format (default: svg)
 - --export, -x <csv|json>: Export sampled time series format (default: csv)
 - --output, -o, --file <file>: Output file path (default: plot.svg)

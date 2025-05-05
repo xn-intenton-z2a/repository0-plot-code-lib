@@ -106,4 +106,49 @@ describe("Time Series Export", () => {
     consoleSpy.mockRestore();
     exitSpy.mockRestore();
   });
+
+  test("csv export supports 'x=' range syntax", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = [
+      "-e",
+      "x",
+      "-r",
+      "x=0:1",
+      "-x",
+      "csv",
+      "-o",
+      "out.csv",
+    ];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const content = writeSpy.mock.calls[0][1];
+    const lines = content.split("\n");
+    expect(lines.length).toBe(101);
+    expect(lines[1]).toBe("0,0");
+    expect(lines[100]).toBe("1,1");
+    writeSpy.mockRestore();
+  });
+
+  test("json export supports 'x=' range syntax", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = [
+      "-e",
+      "x",
+      "-r",
+      "x=0:1",
+      "-x",
+      "json",
+      "-o",
+      "out.json",
+    ];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const content = writeSpy.mock.calls[0][1];
+    const data = JSON.parse(content);
+    expect(Array.isArray(data)).toBe(true);
+    expect(data.length).toBe(100);
+    expect(data[0]).toEqual({ x: 0, y: 0 });
+    expect(data[99]).toEqual({ x: 1, y: 1 });
+    writeSpy.mockRestore();
+  });
 });
