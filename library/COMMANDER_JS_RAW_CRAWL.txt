@@ -8599,7 +8599,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
   
     
   
-    Read more about Netdata's customer story
+    Read more about Trustpilot's customer story
     
       
         
@@ -8610,8 +8610,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Netdata
-    Netdata accelerates their developer workflow with built-in security and open source.
+     Trustpilot
+    Global review platform Trustpilot uses GitHub Team to build a better product, faster, with 300 releases per week.
     
       Read story 
 
@@ -8621,7 +8621,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Peak Money's customer story
+    Read more about Tray.io's customer story
     
       
         
@@ -8632,52 +8632,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Peak Money
-    Peak Money collaborates across tools, teams, and time zones with GitHub Team.
-    
-      Read story 
-
-    
-  
-
-
-    
-  
-    Read more about Front's customer story
-    
-      
-        
-  
-  
-  
-  
-
-      
-    
-     Front
-    Front takes the work out of their workflows with GitHub Team.
-    
-      Read story 
-
-    
-  
-
-
-    
-  
-    Read more about Modsy's customer story
-    
-      
-        
-  
-  
-  
-  
-
-      
-    
-     Modsy
-    Modsy leverages GitHub Team to make interior design easy and accessible for all.
+     Tray.io
+    GitHub Team helps the general automation platform build, package, and deploy code faster than ever.
     
       Read story 
 
@@ -8709,7 +8665,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Tray.io's customer story
+    Read more about Peak Money's customer story
     
       
         
@@ -8720,8 +8676,52 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Tray.io
-    GitHub Team helps the general automation platform build, package, and deploy code faster than ever.
+     Peak Money
+    Peak Money collaborates across tools, teams, and time zones with GitHub Team.
+    
+      Read story 
+
+    
+  
+
+
+    
+  
+    Read more about Netdata's customer story
+    
+      
+        
+  
+  
+  
+  
+
+      
+    
+     Netdata
+    Netdata accelerates their developer workflow with built-in security and open source.
+    
+      Read story 
+
+    
+  
+
+
+    
+  
+    Read more about Modsy's customer story
+    
+      
+        
+  
+  
+  
+  
+
+      
+    
+     Modsy
+    Modsy leverages GitHub Team to make interior design easy and accessible for all.
     
       Read story 
 
@@ -10169,9 +10169,9 @@ The ReadME Project
     
         
       
-        Nim
+        OpenGL
       
-      Nim is a statically typed, compiled, garbage-collected systems programming language.
+      OpenGL is a software interface that allows a programmer to communicate with graphics hardware.
     
   
 
@@ -10185,9 +10185,9 @@ The ReadME Project
     
         
       
-        PWA
+        Ratchet
       
-      Progressive Web Apps are traditional web sites that are enhanced with native like features.
+      Ratchet is a set of libraries to handle WebSockets asynchronously in PHP.
     
   
 
@@ -10201,9 +10201,9 @@ The ReadME Project
     
         
       
-        Homebrew
+        Crystal
       
-      Homebrew is a package manager for macOS.
+      Crystal is a self-hosted, general purpose programming language.
     
   
 
@@ -10785,22 +10785,7 @@ The ReadME Project
       
           
             
-  react
-
-          
-          
-            
-  nodejs
-
-          
-          
-            
   javascript
-
-          
-          
-            
-  css
 
           
           
@@ -10815,22 +10800,37 @@ The ReadME Project
           
           
             
-  html5
+  html
 
           
           
             
-  tailwindcss
+  docker
 
           
           
             
-  vite
+  golang
 
           
           
             
-  github-config\n\n\n\nStar
+  ai
+
+          
+          
+            
+  roblox
+
+          
+          
+            
+  github-config
+
+          
+          
+            
+  llm\n\n\n\nStar
 
 
   
@@ -10855,9 +10855,9 @@ The ReadME Project
 
 
       
-        62,180
+        62,419
       
-        8,668
+        8,692
       
         Built by
 
@@ -10902,9 +10902,9 @@ The ReadME Project
 
 
       
-        38,704
+        38,780
       
-        1,612
+        1,618
       
         Built by
 
@@ -10957,9 +10957,9 @@ The ReadME Project
 
 
       
-        356,493
+        356,532
       
-        63,295
+        63,297
       
         Built by
 
@@ -11004,9 +11004,9 @@ The ReadME Project
 
 
       
-        21,040
+        21,057
       
-        1,425
+        1,429
       
         Built by
 
@@ -11051,9 +11051,9 @@ The ReadME Project
 
 
       
-        18,479
+        18,529
       
-        4,762
+        4,770
       
         Built by
 
@@ -11098,9 +11098,9 @@ The ReadME Project
 
 
       
-        693
+        741
       
-        69
+        72
       
         Built by
 
@@ -11145,7 +11145,7 @@ The ReadME Project
 
 
       
-        16,008
+        16,024
       
         1,280
       
@@ -11192,9 +11192,9 @@ The ReadME Project
 
 
       
-        57,642
+        57,742
       
-        2,889
+        2,897
       
         Built by
 
@@ -11239,7 +11239,7 @@ The ReadME Project
 
 
       
-        30,740
+        30,777
       
         3,465
       
@@ -11286,7 +11286,7 @@ The ReadME Project
 
 
       
-        27,941
+        27,965
       
         1,505
       
@@ -11333,9 +11333,9 @@ The ReadME Project
 
 
       
-        2,475
+        2,524
       
-        180
+        182
       
         Built by
 
@@ -11380,9 +11380,9 @@ The ReadME Project
 
 
       
-        8,258
+        8,331
       
-        470
+        472
       
         Built by
 
@@ -11435,7 +11435,7 @@ The ReadME Project
 
 
       
-        91,517
+        91,529
       
         26,950
       
@@ -11482,9 +11482,9 @@ The ReadME Project
 
 
       
-        298,307
+        298,345
       
-        49,538
+        49,541
       
         Built by
 
@@ -11529,9 +11529,9 @@ The ReadME Project
 
 
       
-        53,389
+        53,413
       
-        9,689
+        9,690
       
         Built by
 
@@ -11576,9 +11576,9 @@ The ReadME Project
 
 
       
-        57,671
+        57,712
       
-        4,844
+        4,846
       
         Built by
 
@@ -11623,7 +11623,7 @@ The ReadME Project
 
 
       
-        1,221
+        1,234
       
         857
       
@@ -11670,9 +11670,9 @@ The ReadME Project
 
 
       
-        78,537
+        78,570
       
-        33,523
+        33,530
       
         Built by
 
@@ -13774,9 +13774,9 @@ The ReadME Project
 
 
       
-        62,180
+        62,419
       
-        8,668
+        8,692
       
         Built by
 
@@ -13823,9 +13823,9 @@ The ReadME Project
 
 
       
-        38,704
+        38,780
       
-        1,612
+        1,618
       
         Built by
 
@@ -13880,9 +13880,9 @@ The ReadME Project
 
 
       
-        356,493
+        356,532
       
-        63,295
+        63,297
       
         Built by
 
@@ -13929,9 +13929,9 @@ The ReadME Project
 
 
       
-        21,040
+        21,057
       
-        1,425
+        1,429
       
         Built by
 
@@ -13978,9 +13978,9 @@ The ReadME Project
 
 
       
-        18,479
+        18,529
       
-        4,762
+        4,770
       
         Built by
 
@@ -14027,9 +14027,9 @@ The ReadME Project
 
 
       
-        693
+        741
       
-        69
+        72
       
         Built by
 
@@ -14076,7 +14076,7 @@ The ReadME Project
 
 
       
-        16,008
+        16,024
       
         1,280
       
@@ -14125,9 +14125,9 @@ The ReadME Project
 
 
       
-        57,642
+        57,742
       
-        2,889
+        2,897
       
         Built by
 
@@ -14174,7 +14174,7 @@ The ReadME Project
 
 
       
-        30,740
+        30,777
       
         3,465
       
@@ -14223,7 +14223,7 @@ The ReadME Project
 
 
       
-        27,941
+        27,965
       
         1,505
       
@@ -14272,9 +14272,9 @@ The ReadME Project
 
 
       
-        2,475
+        2,524
       
-        180
+        182
       
         Built by
 
@@ -14321,9 +14321,9 @@ The ReadME Project
 
 
       
-        8,258
+        8,331
       
-        470
+        472
       
         Built by
 
@@ -14378,7 +14378,7 @@ The ReadME Project
 
 
       
-        91,517
+        91,529
       
         26,950
       
@@ -14427,9 +14427,9 @@ The ReadME Project
 
 
       
-        298,307
+        298,345
       
-        49,538
+        49,541
       
         Built by
 
@@ -14476,9 +14476,9 @@ The ReadME Project
 
 
       
-        53,389
+        53,413
       
-        9,689
+        9,690
       
         Built by
 
@@ -14525,9 +14525,9 @@ The ReadME Project
 
 
       
-        57,671
+        57,712
       
-        4,844
+        4,846
       
         Built by
 
@@ -14574,7 +14574,7 @@ The ReadME Project
 
 
       
-        1,221
+        1,234
       
         857
       
@@ -14623,9 +14623,9 @@ The ReadME Project
 
 
       
-        78,537
+        78,570
       
-        33,523
+        33,530
       
         Built by
 
@@ -14839,17 +14839,9 @@ The ReadME Project
     
         
   
-      #
-    Game Engines
-    Frameworks for building games across multiple platforms.
-  
-
-
-        
-  
       
-    Made in Brazil
-    Open source projects built in or receiving significant contributions from Brazil :brazil:
+    Learn to Code
+    Resources to help people learn to code
   
 
 
@@ -14858,6 +14850,14 @@ The ReadME Project
       
     Pixel Art Tools
     Creating pixel art for fun or animated sprites for a game? The digital artist in you will love these apps and tools!
+  
+
+
+        
+  
+      #
+    Game Engines
+    Frameworks for building games across multiple platforms.
   
 
 
@@ -26401,7 +26401,7 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
       
         
           
-          51.2k
+          51.1k
           followers
         · 
           45
@@ -29844,6 +29844,41 @@ Additional navigation options
       
         
           
+    madhur-5
+        
+        
+
+  
+  Is from India
+  
+    India
+  
+  
+
+        
+          
+  
+    
+      Follow
+    
+  
+
+
+        
+      
+    
+  
+
+          
+  
+    
+      
+        
+      
+
+      
+        
+          
     pon88
         
         
@@ -30570,41 +30605,6 @@ Additional navigation options
         
         
  Joined on Apr 10, 2016
-
-        
-          
-  
-    
-      Follow
-    
-  
-
-
-        
-      
-    
-  
-
-          
-  
-    
-      
-        
-      
-
-      
-        
-          
-    The-Best-Codes
-        
-        
-
-  Works for BestCodes
-  
-  
-    BestCodes
-  
-
 
         
           
@@ -35032,7 +35032,7 @@ Additional navigation options
   
   
   ProTip!
-  Mix and match filters to narrow down what you’re looking for.\n\n\n\ntj
+  What’s not been updated in a month: updated:<2025-04-05.\n\n\n\ntj
     
     /
     
@@ -40774,6 +40774,765 @@ Additional navigation options
   
   
     CommitsBranch selector masterUser selectorAll usersDatepickerAll timeCommit HistoryCommits on Jan 20, 202513.1.0abetomocommittede6f56c8Copy full SHA for e6f56c8Add 13.1 to CHANGELOG (#2315)shadowspawnauthoredad3ecf0Copy full SHA for ad3ecf0Commits on Jan 17, 2025Fix example code in Readme_zh-CN.md (#2313)fwgoodauthored2619c99Copy full SHA for 2619c99Commits on Jan 13, 2025Add support for dual long options when no short option (#2312)shadowspawnauthored8263b7fCopy full SHA for 8263b7fCommits on Jan 10, 2025Reorder funding with active maintainers first (#2310)shadowspawnauthoredbb733f4Copy full SHA for bb733f4Commits on Dec 30, 202413.0.0abetomocommittedd6bcb0bCopy full SHA for d6bcb0bUpdate release dateabetomocommittedfa9e5edCopy full SHA for fa9e5edUpdate CHANGELOG for 13.0.0 (#2301)shadowspawnauthoredfb2c46aCopy full SHA for fb2c46aCommits on Dec 27, 2024Add save/restore state to allow multiple calls to parse (#2299)shadowspawnauthored49423a2Copy full SHA for 49423a2Commits on Dec 14, 2024Update dependencies (#2295)shadowspawnauthored497c11dCopy full SHA for 497c11dCommits on Dec 8, 2024Add informative message for missing executable on Windows (#2291)shadowspawnauthoreda8ef5cfCopy full SHA for a8ef5cfAdd clues about what help configuration is available to help with searches and encourage people to look further (#2294)shadowspawnauthored02c603eCopy full SHA for 02c603eCommits on Dec 6, 2024Add links to CHANGELOGshadowspawncommitted37e86afCopy full SHA for 37e86afPrepare for 13.0.0-0 (#2292)shadowspawnauthored53fc8a4Copy full SHA for 53fc8a4Commits on Nov 26, 2024More Help documentation (#2282)shadowspawnauthoredd355b52Copy full SHA for d355b52Split styleItemDescription into option/subcommand/argument (#2283)shadowspawnauthored437e4e3Copy full SHA for 437e4e3Commits on Nov 21, 2024Support color ansi code sequences in custom help (#2251)shadowspawnauthored5629947Copy full SHA for 5629947Commits on Nov 10, 2024Merge branch 'develop' into release/13.xshadowspawncommitted5a79585Copy full SHA for 5a79585Commits on Nov 5, 2024Bump @eslint/js from 9.11.1 to 9.14.0 (#2279)Show description for c0afc31dependabot[bot]authoredc0afc31Copy full SHA for c0afc31Bump typescript from 5.6.2 to 5.6.3 (#2274)Show description for 6f5431fdependabot[bot]authored6f5431fCopy full SHA for 6f5431fBump @types/jest from 29.5.12 to 29.5.14 (#2272)Show description for 0e32985dependabot[bot]authored0e32985Copy full SHA for 0e32985Bump globals from 15.9.0 to 15.11.0 (#2273)Show description for a19ab38dependabot[bot]authoreda19ab38Copy full SHA for a19ab38Commits on Nov 3, 2024Upgrade eslint and tselint (#2278)shadowspawnauthored7bc799bCopy full SHA for 7bc799bCommits on Oct 29, 2024Throw for unsupported option flag setup (#2270)shadowspawnauthored966720aCopy full SHA for 966720aCommits on Oct 13, 2024Update README and examples for allowExcessArguments change (#2266)shadowspawnauthored2c9051aCopy full SHA for 2c9051aCommits on Oct 11, 2024Fix typos (#2264)NathanBaulchauthored3a79d84Copy full SHA for 3a79d84Commits on Oct 6, 2024Bump typescript from 5.5.4 to 5.6.2 (#2255)Show description for 0193201dependabot[bot]authored0193201Copy full SHA for 0193201Bump tsd from 0.31.1 to 0.31.2 (#2258)Show description for 19975e1dependabot[bot]authored19975e1Copy full SHA for 19975e1Bump @types/node from 20.14.9 to 22.7.4 (#2257)Show description for d924c21dependabot[bot]authoredd924c21Copy full SHA for d924c21Bump eslint-plugin-jest from 28.5.0 to 28.8.3 (#2256)Show description for b378166dependabot[bot]authoredb378166Copy full SHA for b378166Bump @eslint/js from 9.9.1 to 9.11.1 (#2259)Show description for 26215d1dependabot[bot]authored26215d1Copy full SHA for 26215d1Commits on Sep 15, 2024Respect negate property in attributeNameShow description for 64c2bceshadowspawncommitted64c2bceCopy full SHA for 64c2bceCommits on Sep 6, 2024Bump ts-jest from 29.2.3 to 29.2.5 (#2243)Show description for 4c1bdb1dependabot[bot]authored4c1bdb1Copy full SHA for 4c1bdb1Bump @eslint/js from 9.6.0 to 9.9.1 (#2242)Show description for bdc671adependabot[bot]authoredbdc671aCopy full SHA for bdc671aBump typescript from 5.4.5 to 5.5.4 (#2240)Show description for 0c35d06dependabot[bot]authored0c35d06Copy full SHA for 0c35d06PaginationPreviousNext\n\n\n\ntj
+    
+    /
+    
+      commander.js
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+        
+          
+        
+
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    1.7k
+
+  
+
+  
+        
+            
+          Star
+          27.3k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          11
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          1
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Wiki
+          
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Wiki
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights\n\n\n\ntj
+    
+    /
+    
+      commander.js
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+        
+          
+        
+
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    1.7k
+
+  
+
+  
+        
+            
+          Star
+          27.3k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          11
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          1
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Wiki
+          
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Wiki
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights\n\n\n\ntj
+    
+    /
+    
+      commander.js
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+        
+          
+        
+
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    1.7k
+
+  
+
+  
+        
+            
+          Star
+          27.3k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          11
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          1
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Wiki
+          
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Wiki
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights\n\n\n\ntj
     
     /
     

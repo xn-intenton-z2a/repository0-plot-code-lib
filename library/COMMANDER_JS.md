@@ -1,255 +1,251 @@
 # COMMANDER_JS
 
 ## Crawl Summary
-Commander.js API: npm install commander; import with `const { program } = require('commander')` or `new Command()`. Define options via program.option(flags, description, default) and variants: requiredOption, negatable (--no-), boolean|value ([arg]), variadic (...), custom via Option class (choices, default, env, conflicts, implies, argParser). Define arguments via program.argument(name, description, default) and addArgument with Argument class. Define subcommands via program.command(nameAndArgs, description, opts) or addCommand; alias; nested commands; life-cycle hooks with .hook(event, fn). Action handlers with .action((...args, options, cmd)=>{}). Parsing with .parse()/.parseAsync(). Version with .version(). Help customization with .helpOption(), .helpCommand(), .addHelpText(), .outputHelp(), .helpInformation(). Error handling with .error(), .exitOverride(), .configureOutput(). Parsing configuration: .enablePositionalOptions(), .passThroughOptions(), .allowUnknownOption(), .allowExcessArguments(). Legacy: .storeOptionsAsProperties(). Factory: createCommand().
+Option method flags, description, default, parser. RequiredOption, parse/parseAsync signatures. Argument(name, desc, default), variadic. Command(name,args,desc,config) returns new or this. addCommand(cmd,config). alias. Hooks events and parsers. Help/version methods with flags and descriptions. Parsing config: enablePositionalOptions, passThroughOptions, allowUnknownOption, allowExcessArguments. Output customization. Option class methods: hideHelp, default, choices, env, preset, argParser, conflicts, implies, makeOptionMandatory. Factory createCommand.
 
 ## Normalised Extract
 Table of Contents:
- 1. Installation & Import
- 2. Program Initialization
- 3. Options Definition
- 4. Argument Definition
- 5. Command & Subcommand Setup
- 6. Action Handlers
- 7. Parsing Methods
- 8. Help & Version Configuration
- 9. Hooks
- 10. Error & Exit Handling
+1 Options Definition
+2 Required Options
+3 Arguments
+4 Commands & Subcommands
+5 Custom Parsers & Processing
+6 Lifecycle Hooks
+7 Help & Version Handling
+8 Parsing Configuration
+9 Output & Error Handling
+10 Supplementary Option Class
 
-1. Installation & Import
- npm install commander
- CommonJS: const { program } = require('commander')
- ESM/TS: import { Command } from 'commander'; const program = new Command()
+1 Options Definition
+.option(flags: string, description: string, defaultValue?: any, parser?: Function): Command
+.flag patterns: '-p, --port <number>' | '--trace' | '--ws, --workspace <name>'
+opts = program.opts()
 
-2. Program Initialization
- program.name('app').description('desc').version('1.0.0')
- create local instances with new Command() or createCommand()
+2 Required Options
+.requiredOption(flags: string, description: string, defaultValue?: any): Command
+Throws 'required option not specified' on parse()
 
-3. Options Definition
- program.option('-f, --flag', 'boolean flag')
- program.option('-v, --value <val>', 'required value')
- program.option('-o, --opt [val]', 'boolean or value')
- program.requiredOption('-r, --req <val>', 'mandatory')
- program.option('-n, --nums <nums...>', 'variadic')
- Custom Option: new Option(flags, desc).default(val).choices([...]).env('VAR').conflicts('other').implies({opt:'val'}).argParser(fn)
- Access options: const opts = program.opts(); opts.flag, opts.value
+3 Arguments
+.argument(name: string, description?: string, defaultValue?: any): Command
+Variadic when name ends with '...'
+program.args array holds unparsed args
 
-4. Argument Definition
- program.argument('<req>', 'required')
- program.argument('[opt]', 'optional', default)
- program.argument('<many...>', 'variadic array')
- Adds via .addArgument(new Argument(...).choices([...]).default(val))
+4 Commands & Subcommands
+.command(nameAndArgs: string, description?: string, config?: object)
+Returns new Command when no description; returns this when description present
+.addCommand(cmd: Command, config?: object)
+.alias(alias: string)
+.parse(argv?: string[], opts?: object)
+.parseAsync(argv?, opts?)
 
-5. Command & Subcommand Setup
- Inline: program.command('cmd <arg>').description('desc').option(...).action(fn)
- Stand-alone: program.command('name', 'desc', {executableFile:'file',isDefault:true,hidden:true})
- Add existing: program.addCommand(cmd, {isDefault,hidden})
- Alias: cmd.alias('alias')
- Inheritance: options/arguments copied on command creation
+5 Custom Parsers & Processing
+Define parse functions: parseFloat, parseInt, custom error via InvalidArgumentError
+.option('-i, --integer <n>', 'integer', myParseInt)
+.argument('<first>', 'int', myParseInt, 0)
 
-6. Action Handlers
- .action((arg1,...,options,command) => {})
- Async handler: .action(async(...)=>{}); use parseAsync
- Context this: function expression sets this to command
+6 Lifecycle Hooks
+.hook(event: 'preAction'|'postAction'|'preSubcommand', listener: Function)
+listener(thisCommand, actionCommand)
 
-7. Parsing Methods
- program.parse([argv],{from:'node'|'electron'|'user'})
- program.parseAsync([argv],{from})
- Default detects Electron and node flags
+7 Help & Version Handling
+.version(version: string, flags?: string, description?: string)
+.helpOption(flags: string, description: string)
+.helpCommand(name?: string, description?: string)
+.addHelpText(position: 'before'|'after', textOrFn)
+.showHelpAfterError(msg?: string)
+.showSuggestionAfterError(enable: boolean)
+.outputHelp(opts?: object)
+.helpInformation(): string
 
-8. Help & Version Configuration
- .version(version, flags?, desc?) default -V,--version
- .helpOption(flags|false, desc?)
- .helpCommand(name|false, desc?)
- .addHelpText(position, textOrFn)
- .outputHelp({error?:true})
- .helpInformation()
- .showHelpAfterError(msg?)
- .showSuggestionAfterError(false)
+8 Parsing Configuration
+.enablePositionalOptions()
+.passThroughOptions()
+.allowUnknownOption(allow?: boolean)
+.allowExcessArguments(allow?: boolean)
 
-9. Hooks
- .hook('preAction'|'postAction'|'preSubcommand', (thisCmd,actionCmd)=>{})
- Async supported with parseAsync
+9 Output & Error Handling
+.exitOverride()
+.configureOutput({ writeOut: Function, writeErr: Function, outputError: Function })
+.error(message: string, options?: { exitCode?: number, code?: string })
 
-10. Error & Exit Handling
- .error(message,{exitCode?,code?}) throws CommanderError
- .exitOverride(fn) override default process.exit; fn receives CommanderError
- .configureOutput({writeOut,writeErr,outputError})
-
-Misc: .enablePositionalOptions(), .passThroughOptions(), .allowUnknownOption(), .allowExcessArguments(), .storeOptionsAsProperties(), .createCommand()
+10 Supplementary Option Class
+new Option(flags: string, description: string)
+.hideHelp(): Option
+.default(val: any, description?: string): Option
+.choices(array: any[]): Option
+.env(varName: string): Option
+.preset(val: any): Option
+.argParser(fn: Function): Option
+.conflicts(name: string): Option
+.implies(map: object): Option
+.makeOptionMandatory(): Option
 
 ## Supplementary Details
-Program.name(String) sets the program name used in help and executable lookup. Program.description(String) sets multi-line description. Version defaults: flags '-V, --version'. Option flags syntax: short and long separated by comma or space or '|'. Angle brackets '<>' denote required argument; square brackets '[]' optional. Multiple flags: '-s, --separator <char>'. Default values apply when option not passed. Boolean options default to undefined; negatable '--no-flag' sets false. Variadic reads until dash or '--'. RequiredOption raises error if missing: exitCode 1, message 'required option ... not specified'. Choice validation: Option.choices([...]) restricts and errors on invalid. Env binding: Option.env('ENV_VAR') sets default from process.env. Implication: Option.implies({opt:'val'}) sets opt if this option present. ArgParser functions signature: fn(value, previous) => newValue; throw InvalidArgumentError for validation failure.
-Argument defaults: defaultValue used when optional missing. Argument.choices([...]) restricts values. Variadic argument must be last.
-Command.executableFile: custom executable path. Command.executableDir(path) overrides subcommand search dir.
-Help formatting: configure via Help class methods sortOptions(Boolean), sortSubcommands(Boolean), showGlobalOptions(Boolean), styleTitle(ColorFn).
-Debugging: node --inspect increments port for child. VSCode autoAttachChildProcesses:true.
-npm run-script: use '--' to pass args to program.
-Legacy storeOptionsAsProperties(): program.opts() maps to command[prop] assignments.
-createCommand(): factory identical to new Command(), overrideable.
-Parsing options scope: .enablePositionalOptions() restricts global options before subcommand. .passThroughOptions() stops option processing after args.
+Option default values: third parameter or .default() with [valueDescription].
+Negatable boolean: flags with --no-prefix.
+Optional value: square brackets in name, non-greedy, ignore dash-starting args.
+Variadic options: '<name...>' collects until dash-start.
+Environment default via .env('VAR').
+Choices enforcement via .choices(['small','medium','large']).
+. conflicts() disables option combinations.
+. implies() sets other options when used.
+Use .storeOptionsAsProperties() for legacy property access.
+TypeScript: import from '@commander-js/extra-typings'.
+Standalone executables: .command('name', 'desc') looks for entry-dir/name-<sub>.js, use .executableDir() to override.
+Debug child with node --inspect, inspector port+1.
+
+npm run-script uses '--' to separate npm and CLI args.
+
+Life cycle hook order: preSubcommand, preAction, action, postAction.
+
+Help positions: beforeAll, before, after, afterAll. Text or function context { error, command }.
+
+.parse(['--port','80'],{from:'user'}) treats array as user args.
+
+.error() default throws CommanderError. .exitOverride() to catch.
+
+.configureOutput writeOut/writeErr prefix logs, outputError transforms error colors.
 
 
 ## Reference Details
-### program.option(flags: string, description?: string, defaultValue?: any): Command
-- flags: '-s, --separator <char>'
-- description: 'separator character'
-- defaultValue: any literal or function return
-- returns: this Command instance
+Command Class Methods:
+option(flags: string, description: string, defaultValue?: any, parser?: (val:string,prev:any)=>any): Command
+requiredOption(flags: string, description: string, defaultValue?: any): Command
+argument(name: string, description?: string, defaultValue?: any): Command
+command(nameAndArgs: string, description?: string, config?: {executableFile?:string,isDefault?:boolean,hidden?:boolean}): Command|this
+addCommand(cmd: Command, config?: {isDefault?:boolean,hidden?:boolean}): this
+alias(alias: string): Command
+version(version: string, flags?: string, description?: string): Command
+helpOption(flags: string, description: string): Command
+helpCommand(name?: string, description?: string): Command
+addHelpText(position: 'beforeAll'|'before'|'after'|'afterAll', textOrFn: string|Function): Command
+showHelpAfterError(msg?: string|boolean): Command
+showSuggestionAfterError(enable: boolean): Command
+configureOutput(opts: { writeOut(str:string):void, writeErr(str:string):void, outputError(str:string, write:(s:string)=>void):void }): Command
+parse(argv?: string[], opts?: {from:'node'|'electron'|'user'}): Command
+parseAsync(argv?: string[], opts?: object): Promise<Command>
+exitOverride(callback?: (err: CommanderError)=>void): Command
+error(message: string, options?: {exitCode?:number,code?:string}): never
 
-### program.requiredOption(flags: string, description: string, defaultValue?: any): Command
-- throws error if value missing post-parse
+Option Class Methods:
+hideHelp(): Option
+default(value:any, description?:string): Option
+choices(values:any[]): Option
+env(variable:string): Option
+preset(value:any): Option
+argParser(fn:(val:string,prev:any)=>any): Option
+conflicts(optionName:string): Option
+implies(map: Record<string,any>): Option
+makeOptionMandatory(): Option
 
-### Option class
-new Option(flags: string, description: string)
-  .default(value: any, description?: string)
-  .choices(values: string[])
-  .env(envVar: string)
-  .conflicts(optionName: string)
-  .implies(keyValue: Object)
-  .argParser(fn: (input: string, previous: any) => any): Option
+Factory:
+createCommand(): Command
 
-### program.argument(name: string, description?: string, defaultValue?: any): Command
-
-### Argument class
-new Argument(name: string, description: string)
-  .choices(values: string[])
-  .default(value: any, description?: string)
-
-### program.command(nameAndArgs: string, description?: string|Object, opts?: {executableFile?:string,isDefault?:boolean,hidden?:boolean}): Command | this
-
-### program.addCommand(cmd: Command, opts?: {isDefault?:boolean, hidden?:boolean}): this
-
-### program.action(handler: (...args: any[]) => void|Promise<void>): Command
-- handler args: declared args..., options:Object, command:Command
-
-### program.parse(argv?: string[], opts?: {from?: 'node'|'electron'|'user'}): Command
-### program.parseAsync(argv?: string[], opts?: {from?: 'node'|'electron'|'user'}): Promise<Command>
-
-### program.version(version: string, flags?: string, description?: string): Command
-
-### program.helpOption(flags: string|false, description?: string): Command
-### program.helpCommand(name?: string|false, description?: string): Command
-### program.addHelpText(position: 'beforeAll'|'before'|'after'|'afterAll', textOrFn: string|((ctx)=>string)): Command
-### program.outputHelp(opts?: {error?:boolean}): string
-### program.helpInformation(): string
-
-### program.hook(event: 'preAction'|'postAction'|'preSubcommand', fn: (thisCmd: Command, actionCmd: Command) => void|Promise<void>): Command
-
-### program.error(message: string, options?: {exitCode?: number, code?: string}): never
-### program.exitOverride(handler?: (err: CommanderError) => never): Command
-### program.configureOutput({writeOut?: (str:string)=>void, writeErr?: (str:string)=>void, outputError?: (str:string,write:(s:string)=>void)=>void}): Command
-
-### program.enablePositionalOptions(): Command
-### program.passThroughOptions(): Command
-### program.allowUnknownOption(): Command
-### program.allowExcessArguments(allow?: boolean): Command
-### program.storeOptionsAsProperties(): Command
-
-### Utility
-import { createCommand } from 'commander';
-const cmd = createCommand();
-
-### Code Example: Custom processing and error override
+Usage Examples:
 ```js
-function myParseInt(val){ const v=parseInt(val,10); if(isNaN(v)) throw new Error('Not number'); return v; }
-program
-  .option('-i, --int <n>', 'integer', myParseInt)
-  .exitOverride(err => { console.error('Error:',err.message); process.exit(err.exitCode); });
-program.parse();
-```
+const { Command, Option, createCommand } = require('commander')
+const program = createCommand()
+program.name('app').usage('[options] <file>')
+program.option('-p, --port <n>','port number', parseInt, 3000)
+program.addOption(new Option('-c, --color <type>').choices(['red','green','blue']))
+program.requiredOption('--input <path>','input file path')
+program.command('serve <script>').alias('s').action((script, opts) => console.log(script, opts))
+program.parse(process.argv)
+``` 
 
-### Troubleshooting
-- unknown option: program.showSuggestionAfterError(false)
-- display full help on error: program.showHelpAfterError()
-- debug child: node --inspect main.js then child on port+1
-- npm args: npm run myscript -- --port=80
-
-### Best Practices
-- Use createCommand() for isolated instances
-- Explicitly set program.name() to avoid script name variability
-- Use Option.env() for environment defaults
-- Validate input with choices() and custom argParser
-- Use requiredOption for mandatory flags
+Troubleshooting:
+- Unknown option: run with --help or enable .showHelpAfterError()
+- Missing required: shows "error: required option '<flag>' not specified"
+- Invalid choice: "error: option '<flag>' argument '<value>' is invalid. Allowed choices are ..."
+- Capturing errors: program.exitOverride(); try{ program.parse() } catch(err){ if(err.code==='commander.executeSubCommandAsync') ... }
+- npm run-script: use `npm run start -- --port 8080`
+- Debug subcommands: set "autoAttachChildProcesses": true in VSCode launch.json
 
 
 ## Information Dense Extract
-commander@^x.x.x: import via require('commander') or new Command(); program.option(flags,desc[,default]), .requiredOption, .addOption(new Option(flags,desc).default(...).choices([...]).env('VAR').conflicts('other').implies({opt:'v'}).argParser(fn)); program.argument(name,desc[,default]), .addArgument(new Argument(name,desc).choices([...]).default(...)); commands: program.command(nameAndArgs,desc[,opts]), .addCommand(cmd,opts), .alias(); .action((...args,options,cmd)=>{}) sync or async; parse([argv],{from:'node'|'electron'|'user'}), parseAsync; .version(ver[,flags][,desc]); help: .helpOption(flags|false,desc), .helpCommand(name|false,desc), .addHelpText(position,textOrFn), .outputHelp({error}), .helpInformation(), .showHelpAfterError(msg), .showSuggestionAfterError(false); hooks: .hook('preAction'|'postAction'|'preSubcommand',fn); error: .error(msg,{exitCode,code}), .exitOverride(fn), .configureOutput({writeOut,writeErr,outputError}); parsingConfig: .enablePositionalOptions(), .passThroughOptions(), .allowUnknownOption(), .allowExcessArguments(bool); legacy: .storeOptionsAsProperties(); factory: createCommand(); best practice: explicit program.name(), Option.env(), requiredOption(), custom validation via choices()/argParser(), use exitOverride() for custom error flow; troubleshooting: use showHelpAfterError(), inspect child with node --inspect autoAttachChildProcesses; npm pass-through: npm run-script <cmd> -- <args>.
+Option: flags string, desc string, default any, parser fn -> Command; requiredOption same; argument(name,desc?,default?) -> Command; variadic by '...'; command(nameAndArgs,desc?,{executableFile?,isDefault?,hidden?}) -> new Command or this; addCommand(cmd,{isDefault?,hidden?}); alias(alias) -> Command; version(ver,flags?,desc?); helpOption(flags,desc); helpCommand(name?,desc?); addHelpText(pos,textOrFn); showHelpAfterError(msg?); showSuggestionAfterError(bool); configureOutput({writeOut,writeErr,outputError}); parse(argv?,{from:'node'|'electron'|'user'}); parseAsync; exitOverride(cb?); error(msg,{exitCode?,code?});
+Option class: new Option(flags,desc): .hideHelp(),.default(val,desc?),.choices(arr),.env(var),.preset(val),.argParser(fn),.conflicts(name),.implies(map),.makeOptionMandatory();
+Parsing config: enablePositionalOptions(),passThroughOptions(),allowUnknownOption(bool),allowExcessArguments(bool);
+Examples: program.option('-p,--port <n>','port',parseInt,3000).requiredOption('--input <p>','in file') .addOption(new Option('-c,--color <t>').choices(['r','g','b'])).hook('preAction',(p,a)=>{}).parse(process.argv);
+Best practices: define all flags and args at top, group options via .addOption, enforce defaults and choices, use exitOverride for custom error flows, configureOutput for UI customization. Debug: use --inspect and autoAttachChildProcesses.
+
 
 ## Sanitised Extract
 Table of Contents:
- 1. Installation & Import
- 2. Program Initialization
- 3. Options Definition
- 4. Argument Definition
- 5. Command & Subcommand Setup
- 6. Action Handlers
- 7. Parsing Methods
- 8. Help & Version Configuration
- 9. Hooks
- 10. Error & Exit Handling
+1 Options Definition
+2 Required Options
+3 Arguments
+4 Commands & Subcommands
+5 Custom Parsers & Processing
+6 Lifecycle Hooks
+7 Help & Version Handling
+8 Parsing Configuration
+9 Output & Error Handling
+10 Supplementary Option Class
 
-1. Installation & Import
- npm install commander
- CommonJS: const { program } = require('commander')
- ESM/TS: import { Command } from 'commander'; const program = new Command()
+1 Options Definition
+.option(flags: string, description: string, defaultValue?: any, parser?: Function): Command
+.flag patterns: '-p, --port <number>' | '--trace' | '--ws, --workspace <name>'
+opts = program.opts()
 
-2. Program Initialization
- program.name('app').description('desc').version('1.0.0')
- create local instances with new Command() or createCommand()
+2 Required Options
+.requiredOption(flags: string, description: string, defaultValue?: any): Command
+Throws 'required option not specified' on parse()
 
-3. Options Definition
- program.option('-f, --flag', 'boolean flag')
- program.option('-v, --value <val>', 'required value')
- program.option('-o, --opt [val]', 'boolean or value')
- program.requiredOption('-r, --req <val>', 'mandatory')
- program.option('-n, --nums <nums...>', 'variadic')
- Custom Option: new Option(flags, desc).default(val).choices([...]).env('VAR').conflicts('other').implies({opt:'val'}).argParser(fn)
- Access options: const opts = program.opts(); opts.flag, opts.value
+3 Arguments
+.argument(name: string, description?: string, defaultValue?: any): Command
+Variadic when name ends with '...'
+program.args array holds unparsed args
 
-4. Argument Definition
- program.argument('<req>', 'required')
- program.argument('[opt]', 'optional', default)
- program.argument('<many...>', 'variadic array')
- Adds via .addArgument(new Argument(...).choices([...]).default(val))
+4 Commands & Subcommands
+.command(nameAndArgs: string, description?: string, config?: object)
+Returns new Command when no description; returns this when description present
+.addCommand(cmd: Command, config?: object)
+.alias(alias: string)
+.parse(argv?: string[], opts?: object)
+.parseAsync(argv?, opts?)
 
-5. Command & Subcommand Setup
- Inline: program.command('cmd <arg>').description('desc').option(...).action(fn)
- Stand-alone: program.command('name', 'desc', {executableFile:'file',isDefault:true,hidden:true})
- Add existing: program.addCommand(cmd, {isDefault,hidden})
- Alias: cmd.alias('alias')
- Inheritance: options/arguments copied on command creation
+5 Custom Parsers & Processing
+Define parse functions: parseFloat, parseInt, custom error via InvalidArgumentError
+.option('-i, --integer <n>', 'integer', myParseInt)
+.argument('<first>', 'int', myParseInt, 0)
 
-6. Action Handlers
- .action((arg1,...,options,command) => {})
- Async handler: .action(async(...)=>{}); use parseAsync
- Context this: function expression sets this to command
+6 Lifecycle Hooks
+.hook(event: 'preAction'|'postAction'|'preSubcommand', listener: Function)
+listener(thisCommand, actionCommand)
 
-7. Parsing Methods
- program.parse([argv],{from:'node'|'electron'|'user'})
- program.parseAsync([argv],{from})
- Default detects Electron and node flags
+7 Help & Version Handling
+.version(version: string, flags?: string, description?: string)
+.helpOption(flags: string, description: string)
+.helpCommand(name?: string, description?: string)
+.addHelpText(position: 'before'|'after', textOrFn)
+.showHelpAfterError(msg?: string)
+.showSuggestionAfterError(enable: boolean)
+.outputHelp(opts?: object)
+.helpInformation(): string
 
-8. Help & Version Configuration
- .version(version, flags?, desc?) default -V,--version
- .helpOption(flags|false, desc?)
- .helpCommand(name|false, desc?)
- .addHelpText(position, textOrFn)
- .outputHelp({error?:true})
- .helpInformation()
- .showHelpAfterError(msg?)
- .showSuggestionAfterError(false)
+8 Parsing Configuration
+.enablePositionalOptions()
+.passThroughOptions()
+.allowUnknownOption(allow?: boolean)
+.allowExcessArguments(allow?: boolean)
 
-9. Hooks
- .hook('preAction'|'postAction'|'preSubcommand', (thisCmd,actionCmd)=>{})
- Async supported with parseAsync
+9 Output & Error Handling
+.exitOverride()
+.configureOutput({ writeOut: Function, writeErr: Function, outputError: Function })
+.error(message: string, options?: { exitCode?: number, code?: string })
 
-10. Error & Exit Handling
- .error(message,{exitCode?,code?}) throws CommanderError
- .exitOverride(fn) override default process.exit; fn receives CommanderError
- .configureOutput({writeOut,writeErr,outputError})
-
-Misc: .enablePositionalOptions(), .passThroughOptions(), .allowUnknownOption(), .allowExcessArguments(), .storeOptionsAsProperties(), .createCommand()
+10 Supplementary Option Class
+new Option(flags: string, description: string)
+.hideHelp(): Option
+.default(val: any, description?: string): Option
+.choices(array: any[]): Option
+.env(varName: string): Option
+.preset(val: any): Option
+.argParser(fn: Function): Option
+.conflicts(name: string): Option
+.implies(map: object): Option
+.makeOptionMandatory(): Option
 
 ## Original Source
 Commander.js Guide
@@ -257,154 +253,103 @@ https://github.com/tj/commander.js#readme
 
 ## Digest of COMMANDER_JS
 
-# Installation
+# Commander.js Core API and Configuration (Retrieved 2024-06-07)
 
-```bash
-npm install commander
-```
+# Option Definition
 
-# Quick Start
+## Command.option(flags: string, description: string, defaultValue?: any, parser?: (val: string, prev: any) => any)
+- flags: "-s, --separator <char>"
+- description: "separator character"
+- defaultValue: any literal or function return
+- parser: custom parse function
+- Returns: Command
 
-```js
-const { program } = require('commander');
-program
-  .option('--first')
-  .option('-s, --separator <char>')
-  .argument('<string>')
-  .parse();
-const options = program.opts();
-const limit = options.first ? 1 : undefined;
-console.log(program.args[0].split(options.separator, limit));
-```
+## Command.requiredOption(flags: string, description: string, defaultValue?: any)
+- Same signature as .option, but enforces presence after parse()
+- Throws error on missing
 
-# Declaring Program Variable
+## Command.parse(argv?: string[], options?: { from: string }): Command
+- argv defaults to process.argv
+- options.from: 'node' | 'electron' | 'user'
+- Populates .opts() and .args
 
-- CommonJS: `const { program } = require('commander');`
-- ESM/TypeScript: `import { Command } from 'commander'; const program = new Command();`
+# Argument Definition
 
-# Options API
+## Command.argument(name: string, description?: string, defaultValue?: any)
+- name: "<string>" | "[files...]"
+- description: help text
+- defaultValue: used if optional
+- Variadic if name ends with "..."
 
-### Signature
+# Command and Subcommand Definition
 
-```ts
-option(flags: string, description?: string, defaultValue?: any): Command
-requiredOption(flags: string, description: string, defaultValue?: any): Command
-```
+## Command.command(nameAndArgs: string, description?: string, config?: { executableFile?: string, isDefault?: boolean, hidden?: boolean }): Command|this
+- If description present: returns this
+- Without description: returns new Command
 
-### Common
+## Command.addCommand(cmd: Command, config?: { isDefault?: boolean, hidden?: boolean }): this
+- Attaches preconfigured Command
 
-```js
-program.option('-d, --debug', 'output extra debugging');
-program.option('-s, --small', 'small pizza size');
-program.option('-p, --pizza-type <type>', 'flavour of pizza');
-```
+## Command.alias(alias: string): Command
 
-### Default Value
+# Custom Processing and Hooks
 
-```js
-program.option('-c, --cheese <type>', 'cheese type', 'blue');
-```
+## Option custom parser example
+function myParseInt(val, prev) { return parseInt(val, 10); }
+program.option('-i, --integer <n>', 'integer', myParseInt, 0);
 
-### Negatable Boolean
+## Hooks
+program.hook('preAction', (parent, action) => { /* tracing */ });
+Supported events: 'preAction', 'postAction', 'preSubcommand'.
 
-```js
-program.option('--no-sauce', 'Remove sauce');
-```
+# Help and Output
 
-### Boolean or Value
+## program.version(version: string, flags?: string, description?: string)
+- Default flags: "-V, --version"
 
-```js
-program.option('-c, --cheese [type]', 'optional cheese type');
-```
+## program.helpOption(flags: string, description: string)
 
-### Variadic
+## program.helpCommand(name?: string, description?: string)
 
-```js
-program.option('-n, --number <numbers...>', 'specify numbers');
-```
+## program.addHelpText(position: 'beforeAll'|'before'|'after'|'afterAll', textOrFn: string|(() => string))
 
-# Advanced Option Configuration
+## program.showHelpAfterError(msg?: string)
+## program.showSuggestionAfterError(enable: boolean)
 
-```js
-const { Option } = require('commander');
-program
-  .addOption(new Option('-t, --timeout <delay>', 'timeout in seconds').default(60, 'one minute'))
-  .addOption(new Option('-d, --drink <size>', 'cup size').choices(['small','medium','large']))
-  .addOption(new Option('--donate [amount]', 'donation').preset('20').argParser(parseFloat))
-  .addOption(new Option('--disable-server', 'disable server').conflicts('port'))
-  .addOption(new Option('--free-drink', 'free drink').implies({ drink: 'small' }));
-```
+## program.configureOutput({ writeOut, writeErr, outputError })
+- writeOut(str: string)
+- writeErr(str: string)
+- outputError(str: string, write: (s:string)=>void)
 
-# Arguments API
+# Parsing Modes
 
-### Signature
+## program.enablePositionalOptions(): Command
+## program.passThroughOptions(): Command
+## program.allowUnknownOption(allow?: boolean): Command
+## program.allowExcessArguments(allow?: boolean): Command
 
-```ts
-argument(name: string, description?: string, defaultValue?: any): Command
-addArgument(arg: Argument): Command
-```
+# Supplementary Classes
 
-### Variadic Arguments
+## new Option(flags: string, description: string)
+- Methods: .hideHelp(), .default(val, desc), .choices(array), .env(varName), .preset(val), .argParser(fn), .conflicts(name), .implies(map), .makeOptionMandatory()
 
-```js
-program.argument('<dirs...>', 'directories to remove');
-```
+# Export and Factory
 
-# Commands API
+## import { Command, Option, createCommand } from 'commander';
 
-```ts
-command(nameAndArgs: string, description?: string|{executableFile?:string,isDefault?:boolean,hidden?:boolean}): Command | this
-addCommand(cmd: Command, opts?: { isDefault?: boolean, hidden?: boolean }): this
-alias(aliasName: string): Command
-```
+# TypeScript Support
 
-# Action Handlers
+- install '@commander-js/extra-typings'
+- run via ts-node with "node -r ts-node/register script.ts"
 
-```ts
-action(handler: (...args: any[]) => void | Promise<void>): Command
-```
-
-Parameters passed: declared arguments, options object, command object.
-
-# Parsing
-
-```ts
-parse(argv?: string[], opts?: { from?: 'node'|'electron'|'user' }): Command
-parseAsync(argv?: string[], opts?: { from?: 'node'|'electron'|'user' }): Promise<Command>
-```
-
-# Help and Version
-
-```ts
-version(version: string, flags?: string, description?: string): Command
-helpOption(flags: string|false, description?: string): Command
-helpCommand(name?: string|false, description?: string): Command
-addHelpText(position: 'beforeAll'|'before'|'after'|'afterAll', textOrFn: string|((ctx) => string)): Command
-outputHelp(opts?: { error?: boolean }): string
-helpInformation(): string
-```
-
-# Hooks
-
-```ts
-hook(event: 'preAction'|'postAction'|'preSubcommand', fn: (thisCmd: Command, actionCmd: Command) => void|Promise<void>): Command
-```
-
-# Error and Exit Handling
-
-```ts
-error(message: string, options?: { exitCode?: number, code?: string }): never
-exitOverride(callback?: (err: CommanderError) => never): Command
-configureOutput(opts: { writeOut?: (str:string)=>void, writeErr?: (str:string)=>void, outputError?: (str:string, write:(s:string)=>void)=>void }): Command
-```
 
 ## Attribution
 - Source: Commander.js Guide
 - URL: https://github.com/tj/commander.js#readme
 - License: License: MIT
-- Crawl Date: 2025-05-05T16:50:41.371Z
-- Data Size: 794677 bytes
-- Links Found: 5502
+- Crawl Date: 2025-05-05T20:48:35.361Z
+- Data Size: 799998 bytes
+- Links Found: 5521
 
 ## Retrieved
 2025-05-05
