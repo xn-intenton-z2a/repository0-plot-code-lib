@@ -29,7 +29,15 @@ npx repository0-plot-code-lib -e "x" -r "0:1"
 npx repository0-plot-code-lib -e "x" -r "0:1" -f png
 ```
 
-Export sampled time series (CSV/JSON):
+Start the HTTP server from the CLI:
+```bash
+# start HTTP server on default port 3000
+npx repository0-plot-code-lib --serve
+# shorthand flags:
+npx repository0-plot-code-lib -S -p 3000
+```
+
+## Export sampled time series (CSV/JSON)
 ```bash
 npx repository0-plot-code-lib --expression "sin(x)" --range "0:6.28" --export csv --output data.csv
 npx repository0-plot-code-lib -e "x^2" -r "0:1" -x json -o series.json
@@ -57,9 +65,7 @@ Start the server:
 ```bash
 # start HTTP server on default port 3000
 npx repository0-plot-code-lib --serve
-# or specify port 3000 explicitly
-npx repository0-plot-code-lib --serve --port 3000
-# shorthand flags
+# or specify port explicitly:
 npx repository0-plot-code-lib -S -p 3000
 ```
 
@@ -72,7 +78,7 @@ curl http://localhost:3000/health
 Response:
 ```json
 { "status": "ok" }
-``` 
+```
 Status code: `200`
 
 ### GET /plot
@@ -84,7 +90,7 @@ Generate a plot image or export data via HTTP:
 - `range` (required): Numeric range for x and optional y (e.g., `0:10` or `x=0:10,y=-1:1`)
 - `samples` (optional): Number of sample points (integer ≥2, default: 100)
 - `format` (optional): `svg` or `png` (default: `svg`)
-- `export` (optional): `csv`, `json`  
+- `export` (optional): `csv` or `json`
 
 #### Examples
 SVG plot:
