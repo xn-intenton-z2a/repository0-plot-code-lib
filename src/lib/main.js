@@ -82,6 +82,13 @@ function exportTimeSeries({ expression, range, exportFormat, output }) {
   } catch (err) {
     throw new Error(`Invalid expression: ${expression}`);
   }
+  // Reject any variable besides x
+  if (typeof expr.variables === 'function') {
+    const vars = expr.variables();
+    if (vars.some((v) => v !== 'x')) {
+      throw new Error(`Invalid expression: ${expression}`);
+    }
+  }
   // Sample the function at 100 evenly spaced points
   const points = [];
   const count = 100;

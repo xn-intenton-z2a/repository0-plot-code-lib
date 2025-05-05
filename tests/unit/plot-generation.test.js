@@ -151,4 +151,78 @@ describe("Time Series Export", () => {
     expect(data[99]).toEqual({ x: 1, y: 1 });
     writeSpy.mockRestore();
   });
+
+  test("csv export to stdout writes correct CSV without file write", () => {
+    const stdoutSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => {});
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = [
+      "--expression",
+      "x",
+      "--range",
+      "0:1",
+      "--export",
+      "csv",
+      "--output",
+      "-",
+    ];
+    main(args);
+    expect(stdoutSpy).toHaveBeenCalled();
+    expect(writeSpy).not.toHaveBeenCalled();
+    const content = stdoutSpy.mock.calls[0][0];
+    const lines = content.split("\n");
+    expect(lines[0]).toBe("x,y");
+    expect(lines.length).toBe(101);
+    stdoutSpy.mockRestore();
+    writeSpy.mockRestore();
+  });
+
+  test("json export to stdout writes correct JSON without file write", () => {
+    const stdoutSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => {});
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["-e", "x", "-r", "0:1", "-x", "json", "-o", "-"];
+    main(args);
+    expect(stdoutSpy).toHaveBeenCalled();
+    expect(writeSpy).not.toHaveBeenCalled();
+    const content = stdoutSpy.mock.calls[0][0];
+    const data = JSON.parse(content);
+    expect(Array.isArray(data)).toBe(true);
+    expect(data.length).toBe(100);
+    expect(data[0]).toEqual({ x: 0, y: 0 });
+    expect(data[99]).toEqual({ x: 1, y: 1 });
+    stdoutSpy.mockRestore();
+    writeSpy.mockRestore();
+  });
+
+  test("invalid expression handling exits with error", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("Exit"); });
+    const args = ["-e", "bad!", "-r", "0:1", "-x", "csv", "-o", "out.csv"];
+    expect(() => main(args)).toThrow("Exit");
+    expect(consoleErrorSpy).toHaveBeenCalledWith(expect.stringMatching(/^Invalid expression:/));
+    consoleErrorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
+
+  test("fallback plot generation logs parsed options without exit", () => {
+    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = ["-e", "x^2", "-r", "0:10"];
+    expect(() => main(args)).not.toThrow();
+    expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('"expression":"x^2"'));
+    expect(consoleLogSpy).toHaveBeenCalledWith(expect.stringContaining('"range":"0:10"'));
+    consoleLogSpy.mockRestore();
+  });
+
+  test("no-arg invocation does nothing", () => {
+    const stdoutSpy = vi.spyOn(process.stdout, "write").mockImplementation(() => {});
+    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() => main()).not.toThrow();
+    expect(() => main([])).not.toThrow();
+    expect(stdoutSpy).not.toHaveBeenCalled();
+    expect(consoleLogSpy).not.toHaveBeenCalled();
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
+    stdoutSpy.mockRestore();
+    consoleLogSpy.mockRestore();
+    consoleErrorSpy.mockRestore();
+  });
 });
