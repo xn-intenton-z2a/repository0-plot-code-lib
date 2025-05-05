@@ -3,7 +3,7 @@
 
 import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { evaluate } from 'mathjs';
+import { evaluate, derivative } from 'mathjs';
 import { z } from 'zod';
 import sharp from 'sharp';
 import express from 'express';
@@ -129,12 +129,16 @@ export function generateSVG(data, width, height, title) {
 }
 
 /**
- * Programmatic API: return time series data array.
+ * Programmatic API: return time series data array, with optional derivative support.
  */
 export async function getTimeSeries(expression, range, options = {}) {
-  const { points = 100 } = options;
+  const { points = 100, derivative: derivFlag = false } = options;
   const xs = parseRange(range, points);
-  return evaluateExpression(expression, xs);
+  let exprToEval = expression;
+  if (derivFlag) {
+    exprToEval = derivative(expression, 'x').toString();
+  }
+  return evaluateExpression(exprToEval, xs);
 }
 
 /**
@@ -184,7 +188,8 @@ export async function mainCLI(argv = process.argv.slice(2)) {
     if (isNaN(height) || height <= 0) throw new Error('Invalid height');
     const title = args.title;
     const outputFile = args['output-file'] || args.file;
-    const data = await getTimeSeries(expr, range, { points });
+    const derivFlag = Boolean(args.derivative);
+    const data = await getTimeSeries(expr, range, { points, derivative: derivFlag });
     if (plotFormat === 'svg') {
       const svg = generateSVG(data, width, height, title);
       if (outputFile) {
@@ -209,7 +214,8 @@ export async function mainCLI(argv = process.argv.slice(2)) {
     const format = args.format || 'csv';
     if (!['csv', 'json', 'ndjson'].includes(format)) throw new Error('Unknown format');
     const outputFile = args['output-file'] || args.file;
-    const data = await getTimeSeries(expr, range, { points: pts });
+    const derivFlag = Boolean(args.derivative);
+    const data = await getTimeSeries(expr, range, { points: pts, derivative: derivFlag });
     let output;
     if (format === 'csv') {
       output = serializeCSV(data);
@@ -258,6 +264,7 @@ const formSchema = z.object({
   width: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(800)),
   height: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(600)),
   title: z.string().optional(),
+  derivative: z.preprocess((v) => v === 'true' || v === true, z.boolean().default(false)),
 });
 
 function generateFormHtml() {
@@ -266,6 +273,7 @@ function generateFormHtml() {
       <label>Expression: <input name="expression" required/></label><br/>
       <label>Range: <input name="range" required/></label><br/>
       <label>Points: <input name="points" value="100"/></label><br/>
+      <label>Derivative: <input type="checkbox" name="derivative" value="true"/></label><br/>
       <label>Format: <select name="plotFormat"><option value="svg">SVG</option><option value="png">PNG</option></select></label><br/>
       <label>Width: <input name="width" value="800"/></label><br/>
       <label>Height: <input name="height" value="600"/></label><br/>
@@ -304,6 +312,7 @@ export function startHTTPServer(port) {
     expression: z.string({ required_error: 'Missing expression' }),
     range: z.string({ required_error: 'Missing range' }),
     points: z.preprocess((v) => parseInt(v, 10), z.number().int().positive().default(100)),
+    derivative: z.preprocess((v) => v === 'true', z.boolean().default(false)),
   });
 
   app.get('/ndjson', async (req, res) => {
@@ -314,9 +323,8 @@ export function startHTTPServer(port) {
       return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
     }
     try {
-      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points, derivative: params.derivative });
       res.type('application/x-ndjson');
-  
       const nd = serializeNDJSON(data);
       return res.send(nd);
     } catch (err) {
@@ -333,7 +341,7 @@ export function startHTTPServer(port) {
       return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
     }
     try {
-      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points, derivative: params.derivative });
       res.type('application/json');
       return res.json(data);
     } catch (err) {
@@ -350,7 +358,7 @@ export function startHTTPServer(port) {
       return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
     }
     try {
-      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points, derivative: params.derivative });
       res.type('text/csv');
       const csv = serializeCSV(data);
       return res.send(csv);
@@ -368,7 +376,7 @@ export function startHTTPServer(port) {
       return res.status(400).json({ error: err.errors.map((e) => e.message).join('; ') });
     }
     try {
-      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points, derivative: params.derivative });
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
@@ -391,7 +399,7 @@ export function startHTTPServer(port) {
       return res.status(400).json({ error: err.errors ? err.errors.map((e) => e.message).join('; ') : err.message });
     }
     try {
-      const data = await getTimeSeries(params.expression, params.range, { points: params.points });
+      const data = await getTimeSeries(params.expression, params.range, { points: params.points, derivative: params.derivative });
       if (params.plotFormat === 'svg') {
         const svg = generateSVG(data, params.width, params.height, params.title);
         return res.type('html').send(`<!DOCTYPE html><html><body>${svg}</body></html>`);
