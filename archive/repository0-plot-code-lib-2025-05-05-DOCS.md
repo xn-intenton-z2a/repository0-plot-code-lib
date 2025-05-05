@@ -1,3 +1,5 @@
+USAGE.md
+# USAGE.md
 # Usage
 
 > Be the jq of formula visualizations: a lightweight library and CLI for time series data and plotting.
