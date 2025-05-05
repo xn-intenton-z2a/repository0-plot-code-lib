@@ -39,8 +39,8 @@ on:
         required: true
   schedule:
     #- cron: '20 4 */7 * *' # schedule-1
-    - cron: '20 4 * * *' # schedule-2
-    #- cron: '20 * * * *' # schedule-3
+    #- cron: '20 4 * * *' # schedule-2
+    - cron: '20 * * * *' # schedule-3
     #- cron: '20 * * * *' # schedule-4
 
 env:
