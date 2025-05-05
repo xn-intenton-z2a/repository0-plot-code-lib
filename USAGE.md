@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-`repository0-plot-code-lib` is a CLI and library that parses mathematical expressions, generates time-series data, and renders SVG/PNG plots.
+`repository0-plot-code-lib` is a CLI and library that parses mathematical expressions, generates time-series data, and renders SVG/PNG plots or exports raw data.
 
 ## Installation
 
@@ -14,17 +14,25 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ## CLI Usage
 
+Generate an image plot (SVG/PNG):
 ```bash
-npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28" --output output.svg
+npx repository0-plot-code-lib --expression "sin(x)" --range "0:6.28" --format svg --output plot.svg
 # alias for output: --file
-npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28" --file output.svg
+npx repository0-plot-code-lib -e "sin(x)" -r "0:6.28" -f png -o plot.png
 ```
 
-Options:
+Export sampled time series (CSV/JSON):
+```bash
+npx repository0-plot-code-lib --expression "sin(x)" --range "0:6.28" --export csv --output data.csv
+npx repository0-plot-code-lib -e "x^2" -r "0:1" -x json -o series.json
+```
+
+## Options
 
 - --expression, -e <expr>: A mathematical expression in x (e.g., "sin(x)")
-- --range, -r <range>: Numeric range for x (e.g., "x=0:6.28")
-- --format, -f <svg|png>: Output format (default: svg)
+- --range, -r <start:end>: Numeric range for x (e.g., "0:6.28")
+- --format, -f <svg|png>: Output image format (default: svg)
+- --export, -x <csv|json>: Export sampled time series format (default: csv)
 - --output, -o, --file <file>: Output file path (default: plot.svg)
 - --help, -h: Show help
 
@@ -35,22 +43,8 @@ import { main } from "@xn-intenton-z2a/repository0-plot-code-lib";
 
 main([
   "--expression", "sin(x)",
-  "--range", "x=0:6.28",
-  "--format", "svg",
-  "--output", "plot.svg"
+  "--range", "0:6.28",
+  "--export", "csv",
+  "--output", "data.csv"
 ]);
 ```
-
-## Examples and Expected Output
-
-Generate a PNG plot of sin(x) over [0, 2π]:
-
-```bash
-npx repository0-plot-code-lib -e "sin(x)" -r "x=0:6.28" -f png -o sin.png
-```
-
-This will produce `sin.png` in the current directory.
-
-Inline SVG Preview:
-
-![Sample Plot](https://via.placeholder.com/400x200.svg?text=Sample+Plot)
