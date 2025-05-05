@@ -188,7 +188,7 @@ function parseAndValidateArgs(args) {
     range: z.string().nonempty(),
     format: z.enum(["svg", "png"]).default("svg"),
     exportFormat: z.enum(["csv", "json"]).optional(),
-    output: z.string().nonempty().default("plot.svg"),
+    output: z.string().nonempty().optional(),
     samples: z.preprocess(
       (val) => {
         if (val === undefined) return undefined;
@@ -198,7 +198,18 @@ function parseAndValidateArgs(args) {
       z.number().int().min(2).default(100)
     ),
   });
-  return schema.parse(raw);
+  const parsed = schema.parse(raw);
+  // Assign context-aware default output filename if not provided
+  if (!parsed.output) {
+    if (parsed.exportFormat === "csv") {
+      parsed.output = "data.csv";
+    } else if (parsed.exportFormat === "json") {
+      parsed.output = "data.json";
+    } else {
+      parsed.output = parsed.format === "png" ? "plot.png" : "plot.svg";
+    }
+  }
+  return parsed;
 }
 
 function exportTimeSeries({ expression, range, exportFormat, output, samples }) {
@@ -277,7 +288,7 @@ Options:
   -f, --format <svg|png>          Output image format (default: svg)
   -n, --samples <number>          Number of sample points (integer ≥2, default: 100)
   -x, --export <csv|json>         Export sampled time series format (default: none)
-  -o, --output, --file <file>     Output file path (default: plot.svg)
+  -o, --output, --file <file>     Output file path (context-aware default)
   -h, --help                      Show help
 `);
 }
