@@ -27,7 +27,12 @@ npx repository0-plot-code-lib --expression "sin(x)" --range "0:6.28" --export cs
 npx repository0-plot-code-lib -e "x^2" -r "0:1" -x json -o series.json
 # Range prefix example:
 npx repository0-plot-code-lib -e "sin(x)" -r "x=0:6.28" -x csv -o data.csv
+# Stdout export examples:
+npx repository0-plot-code-lib --expression "sin(x)" --range "0:6.28" --export csv --output -
+npx repository0-plot-code-lib -e "x^2" -r "0:1" -x json -o -
 ```
+
+Use `-` as the `<file>` to stream results to stdout instead of writing to a file.
 
 ## Options
 
@@ -36,6 +41,7 @@ npx repository0-plot-code-lib -e "sin(x)" -r "x=0:6.28" -x csv -o data.csv
 - --format, -f <svg|png>: Output image format (default: svg)
 - --export, -x <csv|json>: Export sampled time series format (default: csv)
 - --output, -o, --file <file>: Output file path (default: plot.svg)
+- Use `-` for `<file>` to write output to stdout
 - --help, -h: Show help
 
 ## API Usage
