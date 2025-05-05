@@ -13,6 +13,10 @@ export function main(args = process.argv.slice(2)) {
     return;
   }
   const parsed = parseAndValidateArgs(args);
+  // Log parsed options for CLI parsing tests when not exporting
+  if (!parsed.exportFormat) {
+    console.log(JSON.stringify(parsed));
+  }
   try {
     if (parsed.exportFormat) {
       exportTimeSeries(parsed);
