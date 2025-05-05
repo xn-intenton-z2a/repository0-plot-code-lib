@@ -23,126 +23,15 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">Be a go-to plot library with a CLI — the jq of formula visualizations.</p>
-<p class="md-github"><a class="md-github__a" target="_blank" href="https://img.shields.io/npm/v/@xn-intenton-z2a/repository0-plot-code-lib"><img src="https://img.shields.io/npm/v/@xn-intenton-z2a/repository0-plot-code-lib" alt="npm version" class="md-github" style="max-width:100%;">
-<img src="https://img.shields.io/badge/license-MIT-blue" alt="License" class="md-github"></a></p>
-<h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
-<ul class="md-github">
-<li class="md-github">Generate time series data from mathematical expressions in <code class="md-github">x</code> over numeric ranges.</li>
-<li class="md-github">Compute symbolic derivatives on the fly with <code class="md-github">--derivative</code>.</li>
-<li class="md-github">Output in CSV, JSON, or NDJSON formats.</li>
-<li class="md-github">Create SVG or PNG plots via the <code class="md-github">plot</code> subcommand.</li>
-<li class="md-github">Run an HTTP server for data endpoints (NDJSON, JSON, CSV, SSE) and plot generation.</li>
-<li class="md-github">Programmatic API for seamless integration in JavaScript/TypeScript projects.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p class="md-github">Global install:</p>
-<pre class="md-github"><code class="md-github language-bash">npm install -g @xn-intenton-z2a/repository0-plot-code-lib
-</code></pre>
-<p class="md-github">Local project install:</p>
-<pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="cli-usage" href="#cli-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="timeseries-default" href="#timeseries-default"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Timeseries (default)</h3>
-<p class="md-github">Generate numeric series from an expression.</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib \
-  --expression &quot;sin(x)&quot; \
-  --range &quot;0:6.283&quot; \
-  [--points 50] \
-  [--format csv|json|ndjson] \
-  [--derivative] \
-  [--output-file &lt;file&gt;]
-</code></pre>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--expression &lt;expr&gt;</code>   : Mathematical expression in <code class="md-github">x</code> (required).</li>
-<li class="md-github"><code class="md-github">--range &lt;start:end[:step]&gt;</code>: Numeric range (required). When <code class="md-github">step</code> is omitted, points are evenly spaced.</li>
-<li class="md-github"><code class="md-github">--points &lt;number&gt;</code>     : Number of samples (default: 100).</li>
-<li class="md-github"><code class="md-github">--format &lt;csv|json|ndjson&gt;</code>: Output format (default: <code class="md-github">csv</code>).</li>
-<li class="md-github"><code class="md-github">--derivative</code>          : Return derivative series instead of the original function.</li>
-<li class="md-github"><code class="md-github">--output-file &lt;file&gt;</code>  : Write output to file instead of stdout.</li>
-</ul>
-<p class="md-github"><strong class="md-github">Example</strong></p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;x^2&quot; --range &quot;0:2&quot; --points 3 --format csv --derivative
-</code></pre>
-<pre class="md-github"><code class="md-github">x,y
-0,0
-1,2
-2,4
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="plot-subcommand" href="#plot-subcommand"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plot Subcommand</h3>
-<p class="md-github">Generate a visual plot in SVG or PNG.</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib plot \
-  --expression &quot;x^2&quot; \
-  --range &quot;0:5&quot; \
-  [--points 20] \
-  [--plot-format svg|png] \
-  [--width 800] \
-  [--height 600] \
-  [--title &quot;My Plot&quot;] \
-  [--derivative] \
-  [--output-file &lt;file&gt;]
-</code></pre>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--plot-format &lt;svg|png&gt;</code>: Plot format (default: <code class="md-github">svg</code>).</li>
-<li class="md-github"><code class="md-github">--width &lt;px&gt;</code>, <code class="md-github">--height &lt;px&gt;</code>: Dimensions for plot (defaults: 800×600).</li>
-<li class="md-github"><code class="md-github">--title &lt;text&gt;</code>         : Optional title for SVG.</li>
-</ul>
-<p class="md-github"><strong class="md-github">Example</strong></p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib plot --expression &quot;sin(x)&quot; --range &quot;0:6.283&quot; --plot-format png --output-file out.png
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="http-server" href="#http-server"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP Server</h2>
-<p class="md-github">Launch an HTTP server to serve data and plots.</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --serve
-# or use custom port:
-HTTP_PORT=4000 repository0-plot-code-lib --serve
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="endpoints" href="#endpoints"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Endpoints</h3>
-<p class="md-github">All data endpoints accept <code class="md-github">expression</code>, <code class="md-github">range</code>, <code class="md-github">points</code>, and optional <code class="md-github">derivative=true|false</code>.</p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">GET /ndjson</strong>  : NDJSON stream (<code class="md-github">application/x-ndjson</code>).</li>
-<li class="md-github"><strong class="md-github">GET /json</strong>    : JSON array (<code class="md-github">application/json</code>).</li>
-<li class="md-github"><strong class="md-github">GET /csv</strong>     : CSV text (<code class="md-github">text/csv</code>).</li>
-<li class="md-github"><strong class="md-github">GET /stream</strong>  : Server-Sent Events (<code class="md-github">text/event-stream</code>).</li>
-<li class="md-github"><strong class="md-github">POST /plot</strong>   : Generate inline SVG or base64 PNG (JSON or form body). Use <code class="md-github">plotFormat</code>, <code class="md-github">width</code>, <code class="md-github">height</code>, and <code class="md-github">title</code>.</li>
-</ul>
-<p class="md-github">For full details, see <a href="USAGE.md" class="md-github">Usage</a>.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="programmatic-api" href="#programmatic-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Programmatic API</h2>
-<p class="md-github">Import and call functions directly:</p>
-<pre class="md-github"><code class="md-github language-js">import {
-  getTimeSeries,
-  serializeCSV,
-  serializeJSON,
-  serializeNDJSON,
-  generateSVG,
-  generatePNG
-} from '@xn-intenton-z2a/repository0-plot-code-lib';
-
-(async () =&gt; {
-  // simple series
-  const data = await getTimeSeries('x*2', '0:10', { points: 5 });
-  console.log(serializeNDJSON(data));
-
-  // derivative series
-  const deriv = await getTimeSeries('x^2', '0:5', { points: 6, derivative: true });
-  console.log(JSON.stringify(deriv, null, 2));
-
-  // SVG plot
-  const svg = generateSVG(data, 800, 600, 'My Plot');
-  console.log(svg);
-
-  // PNG plot
-  const png = await generatePNG(data, 800, 600, 'My Plot');
-  console.log(png.slice(0, 4)); // PNG signature
-})();
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p class="md-github">See <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for guidelines on reporting issues, submitting pull requests, and documentation.</p>
+<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
+<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-05-05T15:23:54.651Z</p>
+    <p>Generated on 2025-05-05T16:24:31.591Z</p>
   </footer>
 </body>
 </html>
