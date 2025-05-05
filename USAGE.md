@@ -1,4 +1,4 @@
-# repository0-plot-code-lib
+# Usage
 
 > Be the jq of formula visualizations: a lightweight library and CLI for time series data and plotting.
 
@@ -18,25 +18,19 @@ npm link
 ```
 
 ---
-
 ## CLI Quickstart
-
 Two modes: **timeseries** (default) and **plot**.
 
 ### Common Flags
 
-- `--expression <expr>` (required): mathematical expression in `x`.
-- `--range <start:end>` or `<start:end:step>` (required): numeric range for `x`.
-- `--points <number>` (optional, default `100`): number of points (ignored when step is specified).
-- `--derivative` (optional, default `false`): compute the derivative of the expression instead of the original expression.
-- `--output-file <path>` (optional): write output to a file instead of stdout.
-- Format flags (timeseries): `--format csv|json|ndjson`, default `csv`.
-- Plot flags (plot): `--plot-format svg|png`, default `svg`.
-- Size flags (plot): `--width <px>`, `--height <px>`.
-- `--title <text>` (plot): optional title for SVG.
+- `--expression <expr>` (required): Mathematical expression in `x`.
+- `--range <start:end>` or `<start:end:step>` (required): Numeric range. Omitting `step` uses even spacing.
+- `--points <number>` (optional, default `100`): Number of samples (ignored when `step` is specified).
+- `--derivative` (optional, default `false`): Compute derivative of the expression.
+- `--output-file <path>` (optional): Write output to a file.
 
 ### Timeseries (Default)
-Generates data in CSV, JSON, or NDJSON format.
+Generates data in CSV, JSON, or NDJSON formats.
 
 ```bash
 repository0-plot-code-lib \
@@ -91,9 +85,9 @@ repository0-plot-code-lib plot \
   --range "0:5" \
   [--points 20] \
   [--plot-format svg|png] \
-  [--width 800] \
-  [--height 600] \
-  [--title "My Plot"] \
+  [--width W] \
+  [--height H] \
+  [--title "..."] \
   [--derivative] \
   [--output-file plot.svg|plot.png]
 ```
@@ -116,9 +110,7 @@ repository0-plot-code-lib plot --expression "sin(x)" --range "0:6.283" --plot-fo
 ```
 
 ---
-
 ## HTTP Server
-
 Start an HTTP server with Express on port 3000 (default) or custom port.
 
 ```bash
@@ -130,7 +122,6 @@ HTTP_PORT=4000 repository0-plot-code-lib --serve
 ```
 
 ### Endpoints
-
 All query endpoints accept an optional `derivative` parameter (`true|false`).
 
 #### GET /ndjson
@@ -166,7 +157,7 @@ curl -s "http://localhost:3000/csv?expression=x&range=0:2&points=3&derivative=tr
 ```
 
 #### POST /plot
-- Body (JSON or form): `expression`, `range`, `points`, `derivative`, `plotFormat` (svg|png), `width`, `height`, `title`
+- Body (JSON or form): `expression`, `range`, `points`, `derivative`, `plotFormat`, `width`, `height`, `title`
 - Returns: HTML page with inline SVG or base64 PNG
 
 ```bash
@@ -176,26 +167,20 @@ curl -s -X POST http://localhost:3000/plot \
 ```
 
 ---
-
 ## Programmatic API
 
 ```js
 import { getTimeSeries, generateSVG, generatePNG, serializeNDJSON } from '@xn-intenton-z2a/repository0-plot-code-lib';
 (async () => {
-  // simple series
   const data = await getTimeSeries('x*2','0:10',{points:5});
   console.log(serializeNDJSON(data));
 
-  // derivative series
   const deriv = await getTimeSeries('x^2','0:5',{points:6,derivative:true});
-  console.log(JSON.stringify(deriv, null, 2));
+  console.log(JSON.stringify(deriv,null,2));
 
-  // SVG
   console.log(generateSVG(data,800,600,'My Plot'));
-
-  // PNG
   const png = await generatePNG(data,800,600,'My Plot');
-  console.log(png.slice(0,4)); // PNG signature
+  console.log(png.slice(0,4));
 })();
 ```
 
