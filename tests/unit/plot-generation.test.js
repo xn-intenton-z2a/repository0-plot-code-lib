@@ -192,6 +192,38 @@ describe("Time Series Export", () => {
     stdoutSpy.mockRestore();
     writeSpy.mockRestore();
   });
+
+  // New tests for samples flag
+  test("csv export with custom samples writes correct number of lines", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = [
+      "-e", "x", "-r", "0:1", "-x", "csv", "-o", "out.csv", "-n", "50"
+    ];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const content = writeSpy.mock.calls[0][1];
+    const lines = content.split("\n");
+    expect(lines.length).toBe(51);
+    expect(lines[1]).toBe("0,0");
+    expect(lines[50]).toBe("1,1");
+    writeSpy.mockRestore();
+  });
+
+  test("json export with custom samples writes correct array length", () => {
+    const writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = [
+      "-e", "x", "-r", "0:1", "-x", "json", "-o", "out.json", "-n", "50"
+    ];
+    main(args);
+    expect(writeSpy).toHaveBeenCalled();
+    const content = writeSpy.mock.calls[0][1];
+    const data = JSON.parse(content);
+    expect(Array.isArray(data)).toBe(true);
+    expect(data.length).toBe(50);
+    expect(data[0]).toEqual({ x: 0, y: 0 });
+    expect(data[49]).toEqual({ x: 1, y: 1 });
+    writeSpy.mockRestore();
+  });
 });
 
 describe("Plot Generation", () => {
