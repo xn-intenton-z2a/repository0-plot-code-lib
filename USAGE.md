@@ -2,7 +2,7 @@
 
 ## CLI Examples
 
-### Generate time series data to stdout
+### Generate time series data to stdout (JSON)
 
 ```bash
 repository0-plot-code-lib --expression "x^2" --range "x=0:2:1"
@@ -17,7 +17,26 @@ Outputs:
 ]
 ```
 
-### Write output to a file
+### Generate time series data as NDJSON to stdout
+
+```bash
+repository0-plot-code-lib --expression "x+1" --range "x=0:2:1" --format ndjson
+```
+
+Outputs:
+```
+{"x":0,"y":1}
+{"x":1,"y":2}
+{"x":2,"y":3}
+```
+
+### Write NDJSON output to a file
+
+```bash
+repository0-plot-code-lib --expression "x+1" --range "x=0:2:1" --format ndjson --output data.ndjson
+```
+
+### Write JSON output to a file
 
 ```bash
 repository0-plot-code-lib \
@@ -26,12 +45,24 @@ repository0-plot-code-lib \
   --output "data.json"
 ```
 
+### Plot rendering (SVG/PNG) (stub implementation)
+
+_Planning support for rendering plots directly via CLI._
+
+```bash
+repository0-plot-code-lib \
+  --expression "x^2" \
+  --range "x=0:10:1" \
+  --plot-format svg --output plot.svg
+```
+
 ### Options
 
 - `--expression <string>` (required): Mathematical expression to evaluate (single variable).
 - `--range <var=start:end:step>` (required): Numeric range for the variable.
-- `--output <path>`: Path to write JSON output (defaults to stdout).
-- `--plot-format <svg|png>`: Plot output format (optional, not yet implemented).
+- `--output <path>`: Path to write output (defaults to stdout).
+- `--format <json|ndjson>`: Output as pretty JSON array or NDJSON stream (default: json).
+- `--plot-format <svg|png>`: Plot output format (optional, stubbed/not implemented yet).
 
 ## Programmatic Usage
 

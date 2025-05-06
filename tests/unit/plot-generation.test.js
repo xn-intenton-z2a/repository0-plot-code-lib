@@ -101,4 +101,40 @@ describe('CLI integration', () => {
     );
     writeSpy.mockRestore();
   });
+
+  describe('NDJSON output', () => {
+    test('streams NDJSON to stdout', () => {
+      const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      process.argv = ['node', 'src/lib/main.js', '--expression', 'x+1', '--range', 'x=0:2:1', '--format', 'ndjson'];
+      main();
+      expect(logSpy).toHaveBeenCalledTimes(3);
+      expect(logSpy).toHaveBeenNthCalledWith(1, JSON.stringify({ x: 0, y: 1 }));
+      expect(logSpy).toHaveBeenNthCalledWith(2, JSON.stringify({ x: 1, y: 2 }));
+      expect(logSpy).toHaveBeenNthCalledWith(3, JSON.stringify({ x: 2, y: 3 }));
+      logSpy.mockRestore();
+    });
+
+    test('writes NDJSON to file when --output provided', () => {
+      const fakeStream = { write: vi.fn(), end: vi.fn() };
+      const createSpy = vi.spyOn(fs, 'createWriteStream').mockReturnValue(fakeStream);
+      process.argv = [
+        'node',
+        'src/lib/main.js',
+        '--expression',
+        'x+1',
+        '--range',
+        'x=0:1:1',
+        '--format',
+        'ndjson',
+        '--output',
+        'out.ndjson',
+      ];
+      main();
+      expect(createSpy).toHaveBeenCalledWith('out.ndjson', { encoding: 'utf8' });
+      expect(fakeStream.write).toHaveBeenCalledWith(JSON.stringify({ x: 0, y: 1 }) + '\n');
+      expect(fakeStream.write).toHaveBeenCalledWith(JSON.stringify({ x: 1, y: 2 }) + '\n');
+      expect(fakeStream.end).toHaveBeenCalled();
+      createSpy.mockRestore();
+    });
+  });
 });
