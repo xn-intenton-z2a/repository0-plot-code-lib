@@ -86,7 +86,7 @@ Plot rendering not yet implemented
 
 ## Programmatic Usage
 
-Import and use the core functions directly:
+You can also use the library directly in your own Node.js project:
 
 ```js
 import {
@@ -97,12 +97,17 @@ import {
   main as cliMain,
 } from '@xn-intenton-z2a/repository0-plot-code-lib';
 
+// 1. Parse a mathematical expression into an AST
 const exprAst = parseExpression('x^3 + 2');
-const { variableName, start, end, step } = parseRange('x=0:10:2');
-const data = generateTimeSeries(exprAst, variableName, start, end, step);
-console.log(data);
 
-// Example of rendering a plot (stubbed)
+// 2. Parse a range string into numeric parameters
+const { variableName, start, end, step } = parseRange('x=0:10:2');
+
+// 3. Generate the time series data
+const data = generateTimeSeries(exprAst, variableName, start, end, step);
+console.log('Time series data:', data);
+
+// 4. (Optional) Render a plot (stubbed, will throw)
 (async () => {
   try {
     const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600 });
@@ -112,9 +117,9 @@ console.log(data);
   }
 })();
 
-// Example of running the CLI programmatically
-const code = cliMain(['--expression', 'x+1', '--range', 'x=0:5:1']);
-console.log(`CLI exited with code ${code}`);
+// 5. Run the CLI programmatically
+const exitCode = cliMain(['--expression', 'x+1', '--range', 'x=0:5:1']);
+console.log(`CLI exited with code ${exitCode}`);
 ```
 
 ## Next Steps
