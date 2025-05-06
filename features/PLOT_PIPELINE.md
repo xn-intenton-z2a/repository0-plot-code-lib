@@ -1,38 +1,28 @@
 # Overview
-
-Enhance plot rendering to support multiple series in a single chart and deliver full SVG and PNG output via CLI and programmatic API. Users can supply multiple expressions and matching ranges to compare functions on one line chart with distinct colors and labels.
+Implement full plot rendering for single and multiple series in SVG and PNG formats via both CLI and programmatic API. Remove stub and provide complete ChartJSNodeCanvas integration, color palette, axis labels, and error handling.
 
 # Source File Updates
-
 In src/lib/main.js
-1 Extend yargs options:
-   • allow repeatable --expression and --range flags (type array) so users can pass multiple sets. expressions and ranges arrays must be same length.
-   • keep existing --plot-format, --width, --height, --label-x, --label-y options.
-2 In main(), when argv['plot-format'] is set:
-   • read expressions and ranges arrays. for each pair:
-     – parseExpression(expr)
-     – parseRange(range)
-     – generateTimeSeries(exprAst, variableName, start, end, step)
-     – collect series objects with name equal to expr string or label override from argv.
-   • call renderPlot(seriesList, options)
-   • for svg output write utf8 text to file or console.log; for png write Buffer to file or process.stdout.write.
-   • catch errors, print to stderr, return exit code 1.
-3 Update renderPlot signature to accept an array of {label:string,data:Array<{x:number,y:number}>} and options:
-   • instantiate ChartJSNodeCanvas with width, height, transparent background.
-   • build config with type line, labels from union of all x values sorted, datasets array for each series with data(pointMapping), borderColor chosen from a predefined palette, label from series.label, fill false.
-   • set axis titles if options.labels provided.
-   • select mimeType from options.format svg or png; error for unsupported.
-   • call renderToBuffer and return string for svg or Buffer for png.
+1. Remove the stubbed renderPlot implementation and replace with:
+   • Initialize ChartJSNodeCanvas with given width, height, and transparent background.
+   • Accept an array of series objects when called programmatically: for CLI convert single series data into array.
+   • Build chart configuration: type line, labels from sorted unique x values across series, datasets for each series including data mapping, label, distinct borderColor from a predefined palette, fill set to false.
+   • Set axis title labels from options.labels if provided.
+   • Based on options.format select mimeType image/svg+xml or image/png; throw error for unsupported formats.
+   • Call renderToBuffer and return Buffer for PNG or utf8 string for SVG.
+2. In main():
+   • After generating data, if argv['plot-format'] is set, call renderPlot with data array wrapped as one or more series objects. Use repeatable --expression and --range for multiple series: map each expression and range to a series entry before parsing and generation.
+   • Write output to file if --output provided, using fs.writeFileSync for SVG and process.stdout.write for PNG Buffer, or console.log for SVG string.
+   • On error print to stderr and return exit code 1.
 
 # Tests
-
 In tests/unit/plot-generation.test.js
-• add unit test for renderPlot with two series: stub ChartJSNodeCanvas.renderToBuffer, call renderPlot([{label,a,data},{label b,data}]), verify config passed to stub includes two datasets with correct labels and color properties. assert SVG string or Buffer returned based on format.
-• add CLI integration test for multi-series flags: mock renderPlot, run main() with --expression twice and --range twice and --plot-format svg and verify console.log or file write called correctly.
+• Update existing tests to remove stub expectations and stub ChartJSNodeCanvas.renderToBuffer instead of error.
+• Add test for single series: stub renderToBuffer, call renderPlot with one series data and verify buffer or string returned and configuration passed matches input.
+• Add CLI integration tests for svg and png outputs: mock fs write or stdout.write and run main() with --expression and --range and --plot-format and confirm correct write behavior.
 
 # Documentation
-
 Update README.md and USAGE.md
-• document repeatable --expression and --range options and requirement of matching counts.
-• provide CLI example comparing x^2 and sin x in one chart to file and stdout in both svg and png.
-• extend Programmatic API section to show how to construct series list and call renderPlot with multiple series.
+• Document full support for --plot-format svg and png with repeatable --expression and --range options.
+• Provide examples for single series and multiple series plots in both SVG and PNG, showing file output and stdout usage.
+• Show programmatic API usage: constructing series array and calling renderPlot with labels, width, height, and format.
