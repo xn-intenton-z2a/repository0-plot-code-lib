@@ -58,17 +58,20 @@ Outputs:
 {"x":2,"y":3}
 ```
 
-### Generate time series data as CSV to stdout
+### Generate time series data as CSV to stdout (no header)
 
 ```bash
 repository0-plot-code-lib --expression "x" --range "x=0:2:1" --format csv
 ```
 
-Outputs:
+Outputs (CRLF line endings):
 ```
 0,0
+
 1,1
+
 2,2
+
 ```
 
 ### Generate time series data as CSV with header row
@@ -77,12 +80,30 @@ Outputs:
 repository0-plot-code-lib --expression "x" --range "x=0:2:1" --format csv --csv-header
 ```
 
-Outputs:
+Outputs (CRLF line endings):
 ```
 x,y
+
 0,0
+
 1,1
+
 2,2
+
+```
+
+### Customize buffer size for streaming output
+
+Control the streaming backpressure via the `--buffer-size` option (highWaterMark in bytes):
+
+```bash
+repository0-plot-code-lib --expression "x+1" --range "x=0:10:1" --format json-stream --buffer-size 1024 > data.json
+```
+
+You can combine with CSV and headers:
+
+```bash
+repository0-plot-code-lib --expression "x+1" --range "x=0:10:1" --format csv --csv-header --buffer-size 1024 > data.csv
 ```
 
 ### Write CSV output to a file
@@ -120,7 +141,7 @@ This writes binary PNG data (starting with the PNG magic number) to stdout.
 - `--range <var=start:end:step>` (required): Numeric range for the variable.
 - `--output <path>`: Path to write output (defaults to stdout).
 - `--format <json|json-stream|ndjson|csv>`: Output as pretty JSON array, streaming JSON array, NDJSON stream, or CSV (default: json).
-- `--buffer-size <number>`: Buffer size (highWaterMark) for streaming output (default: 16384).
+- `--buffer-size <number>`: Buffer size (highWaterMark in bytes) for streaming output (default: 16384).
 - `--csv-header`: Include header row in CSV output (default: false).
 - `--plot-format <svg|png>`: Plot output format (svg or png).
 - `--width <number>`: Plot width in pixels (default: 800).
@@ -155,16 +176,16 @@ console.log('Time series data:', data);
 
 // 4. Serialize data as a JSON stream
 (async () => {
-  const stream = serializeDataStream(data, { format: 'json-stream', bufferSize: 1024, csvHeader: false });
-  for await (const chunk of stream) {
+  const jsonStream = serializeDataStream(data, { format: 'json-stream', bufferSize: 1024, csvHeader: false });
+  for await (const chunk of jsonStream) {
     process.stdout.write(chunk);
   }
 })();
 
 // 5. Serialize data as CSV with header
 (async () => {
-  const stream = serializeDataStream(data, { format: 'csv', bufferSize: 1024, csvHeader: true });
-  for await (const chunk of stream) {
+  const csvStream = serializeDataStream(data, { format: 'csv', bufferSize: 1024, csvHeader: true });
+  for await (const chunk of csvStream) {
     process.stdout.write(chunk);
   }
 })();
