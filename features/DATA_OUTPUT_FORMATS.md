@@ -1,15 +1,17 @@
 # Overview
-Extend data output formats to support streaming optimization for large datasets and performance benchmarks. It enhances existing JSON, NDJSON, and CSV outputs with Node js stream based implementations and adds a CLI flag for benchmarking.
+Extend data output formats to include JSON streaming for large datasets alongside existing JSON array, NDJSON, and CSV streaming, and enhance performance benchmarking.
 
 # Source File Updates
-1. In main js update NDJSON and CSV branches to use the stream pipeline from stream/promises. Replace manual loops with a Transform stream that serializes each data point on the fly. Support backpressure automatically and allow a new option bufferSize defined by --buffer-size which defaults to 16384 bytes.
-2. Introduce a new CLI flag benchmark (boolean) defined by --benchmark. When enabled the tool runs a warmup phase followed by a measured phase, uses process hrtime to record elapsed time, and computes throughput in points per second.
-3. Expose a new function serializeDataStream(data, options) that returns a Readable stream for programmatic use. Options include format, bufferSize, and encoding. Update exports accordingly and update programmatic API documentation.
+1. Use stream/promises pipeline from stream/promises to implement serializeDataStream for all formats. Accept format, bufferSize, encoding, and streamJson options.
+2. Add CLI flag stream-json (boolean, default false) to enable streaming JSON arrays. When enabled, write opening bracket, then use Transform to serialize each point comma separated, then write closing bracket.
+3. Refactor JSON array output in main to delegate to serializeDataStream when stream-json is enabled, ensuring backpressure and low memory usage.
+4. Retain --buffer-size option (default 16384) and --benchmark flag. When benchmarking, run warmup and measured phases via process.hrtime and report throughput in points per second.
+5. Export serializeDataStream(data, options) that returns a Readable stream producing serialized data in json, ndjson, csv, or json-array modes.
 
 # Tests
-1. Add unit tests for serializeDataStream to verify correct streaming output in json, ndjson, and csv formats. Use PassThrough streams to simulate slow consumers with small highWaterMark buffers and verify data flows without memory accumulation.
-2. Add tests for the --benchmark flag. Mock timers to simulate generation delays and spy on console table output to assert that metrics for elapsed time and points per second are logged.
-3. Ensure existing tests for JSON, NDJSON, and CSV output continue to pass under the new pipeline implementations.
+1. Add unit tests for serializeDataStream with format=json-array and streamJson=true. Use PassThrough with small highWaterMark to simulate backpressure and verify output: opening bracket, comma-separated JSON objects, closing bracket.
+2. Add tests for --stream-json flag in CLI integration. Mock process.stdout.write to capture streamed chunks and assert correct sequence and formatting.
+3. Ensure existing tests for JSON array output without streaming continue to pass and JSON output matches pretty-printed array when stream-json is false.
 
 # Documentation
-Update README md and USAGE md to document the new streaming implementations. Describe the --benchmark and --buffer-size options with example commands showing large data throughput. Include an example of using serializeDataStream in code for integration into other applications.
+Update README.md and USAGE.md to document --stream-json option with example commands for large datasets. Show sample usage of serializeDataStream in code for streaming JSON integration into other applications.
