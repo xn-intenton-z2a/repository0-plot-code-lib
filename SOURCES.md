@@ -64,16 +64,6 @@ Official Vitest docs covering configuration, test suites, mocking, snapshot test
 The IETF standard defining the Common Format and MIME Type for Comma-Separated Values (CSV) files, including guidelines for header rows, record separators, field delimiters, quoting rules, and escaping mechanisms. Provides essential rules for implementing robust CSV output with proper quoting of special characters, newline handling, and interoperability across tools. Published October 2005; IETF standard, public domain.
 ## License: IETF (public domain)
 
-# JSON Lines Specification
-## https://jsonlines.org/
-Describes the JSON Lines format for streaming JSON objects separated by newlines, providing guidelines on record delimitation, line handling, and interoperability. Offers examples and best practices for implementing streaming JSON arrays or objects with minimal memory overhead. Maintained as a community convention with broad tooling support. Viewed 2024; CC0.
-## License: CC0
-
-# RFC 7464: JSON Text Sequences
-## https://datatracker.ietf.org/doc/html/rfc7464
-Specifies the application/json-seq media type for JSON text sequences, using record separators (RS) for streaming JSON records. Defines framing, content-type handling, and error cases—valuable for implementing alternative JSON streaming strategies and inter-process protocols. Published March 2015; IETF standard, public domain.
-## License: IETF (public domain)
-
 # JSONStream Library
 ## https://github.com/dominictarr/JSONStream#readme
 Streaming JSON parser and stringifier for Node.js, covering JSONStream.parse, JSONStream.stringify, and filter/query patterns. Demonstrates efficient backpressure-aware JSON generation and parsing pipelines, as well as integration examples with fs.createReadStream and Transform streams. Last updated 2023; MIT.
@@ -82,4 +72,14 @@ Streaming JSON parser and stringifier for Node.js, covering JSONStream.parse, JS
 # Fast-CSV Library
 ## https://c2fo.github.io/fast-csv/docs/introduction
 Fast, feature-rich CSV parser and formatter for Node.js that supports streaming, custom delimiters, quoting, header handling, and transforming rows. Provides performance benchmarks and best practices for high-throughput CSV generation and parsing with backpressure support. Updated 2024; MIT.
+## License: MIT
+
+# Express Official Documentation
+## https://expressjs.com/
+Detailed guide to setting up middleware, routing, error handling, request/response streaming, content negotiation, and configuration of Express.js applications. Provides practical examples for building RESTful APIs, handling JSON and URL-encoded payloads, streaming large payloads with res.write(), and best practices for error handling and security middleware—critical for implementing the HTTP API serve mode. Updated 2024; MIT.
+## License: MIT
+
+# Supertest HTTP Assertions Library
+## https://github.com/visionmedia/supertest#readme
+API reference for Supertest, a high-level abstraction for testing HTTP servers in Node.js. Covers methods for constructing requests, chaining assertions on status codes, headers, body content, streaming responses, and handling asynchronous tests with Promises and callback interfaces. Essential for writing integration tests for Express-based /api/data and /api/plot endpoints. Last updated 2024; MIT.
 ## License: MIT
