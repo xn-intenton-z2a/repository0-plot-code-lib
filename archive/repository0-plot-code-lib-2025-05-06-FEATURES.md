@@ -1,3 +1,5 @@
+features/HTTP_SERVER.md
+# features/HTTP_SERVER.md
 # Overview
 
 Enhance the existing HTTP server mode and CLI export to unify all data export formats (CSV, JSON, YAML) alongside plot generation. Users can run the tool in HTTP server mode or via the CLI, request image plots or raw time-series exports in any supported format.
