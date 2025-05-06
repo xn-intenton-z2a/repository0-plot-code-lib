@@ -62,18 +62,25 @@ repository0-plot-code-lib \
   --output "data.json"
 ```
 
-### Plot rendering (SVG/PNG) (stub implementation)
+### Plot rendering (SVG/PNG)
 
+Generate an SVG file:
 ```bash
 repository0-plot-code-lib \
   --expression "x^2" \
   --range "x=0:10:1" \
   --plot-format svg --output plot.svg
 ```
-Outputs:
+This writes an SVG file starting with `<svg` to `plot.svg`.
+
+Generate a PNG file:
+```bash
+repository0-plot-code-lib \
+  --expression "sin(x)" \
+  --range "x=0:6.28:0.1" \
+  --plot-format png > plot.png
 ```
-Plot rendering not yet implemented
-```
+This writes binary PNG data (starting with the PNG magic number) to stdout.
 
 ## Options
 
@@ -81,7 +88,11 @@ Plot rendering not yet implemented
 - `--range <var=start:end:step>` (required): Numeric range for the variable.
 - `--output <path>`: Path to write output (defaults to stdout).
 - `--format <json|ndjson>`: Output as pretty JSON array or NDJSON stream (default: json).
-- `--plot-format <svg|png>`: Plot output format; currently stubbed and not implemented.
+- `--plot-format <svg|png>`: Plot output format (svg or png).
+- `--width <number>`: Plot width in pixels (default: 800).
+- `--height <number>`: Plot height in pixels (default: 600).
+- `--label-x <string>`: Label for the x axis.
+- `--label-y <string>`: Label for the y axis.
 - `--help`: Show this help message.
 
 ## Programmatic Usage
@@ -107,22 +118,22 @@ const { variableName, start, end, step } = parseRange('x=0:10:2');
 const data = generateTimeSeries(exprAst, variableName, start, end, step);
 console.log('Time series data:', data);
 
-// 4. (Optional) Render a plot (stubbed, will throw)
+// 4. Render a plot
 (async () => {
   try {
-    const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600 });
+    const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600, labels: { x: 'X', y: 'Y' } });
     console.log('Received PNG buffer with length', pngBuffer.length);
   } catch (err) {
-    console.error('Plot rendering not implemented:', err.message);
+    console.error('Plot rendering failed:', err.message);
   }
 })();
 
 // 5. Run the CLI programmatically
-const exitCode = cliMain(['--expression', 'x+1', '--range', 'x=0:5:1']);
-console.log(`CLI exited with code ${exitCode}`);
-```
+(async () => {
+  const exitCode = await cliMain(['--expression', 'x+1', '--range', 'x=0:5:1', '--plot-format', 'svg']);
+  console.log(`CLI exited with code ${exitCode}`);
+})();
 
 ## Next Steps
 
-- Plot rendering in SVG/PNG via `--plot-format` flag is on the roadmap.
-- Large-data streaming support (NDJSON) is available via `--format ndjson`.
+- Additional performance and format options for large data streaming.

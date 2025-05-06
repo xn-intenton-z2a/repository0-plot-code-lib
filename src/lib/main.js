@@ -70,16 +70,44 @@ export function generateTimeSeries(exprAst, variableName, start, end, step) {
  * @returns {Promise<string|Buffer>}
  */
 export async function renderPlot(data, options) {
-  // Stubbed: actual implementation pending full pipeline
-  throw new Error('Plot rendering not yet implemented');
+  const { width = 800, height = 600, format, labels } = options;
+  if (!['png', 'svg'].includes(format)) {
+    throw new Error(`unsupported format: ${format}`);
+  }
+  const canvas = new ChartJSNodeCanvas({ width, height, backgroundColour: 'transparent' });
+  const configuration = {
+    type: 'line',
+    data: {
+      labels: data.map((p) => p.x),
+      datasets: [
+        {
+          label: labels && labels.y ? labels.y : undefined,
+          data: data.map((p) => p.y),
+          borderColor: 'rgba(75,192,192,1)',
+          fill: false,
+        },
+      ],
+    },
+    options: {
+      scales: {
+        x: labels && labels.x ? { title: { display: true, text: labels.x } } : {},
+        y: labels && labels.y ? { title: { display: true, text: labels.y } } : {},
+      },
+    },
+  };
+  if (format === 'png') {
+    return await canvas.renderToBuffer(configuration);
+  }
+  const svgBuffer = await canvas.renderToBuffer(configuration, 'image/svg+xml');
+  return svgBuffer.toString('utf-8');
 }
 
 /**
  * Main CLI entrypoint. Returns exit code rather than calling process.exit directly.
  * @param {string[]} args - command-line arguments (excluding node and script path)
- * @returns {number} exit code
+ * @returns {Promise<number>} exit code
  */
-export function main(args = process.argv.slice(2)) {
+export async function main(args = process.argv.slice(2)) {
   if (!args || args.length === 0) {
     console.log(`Run with: ${JSON.stringify(args)}`);
     return 0;
@@ -91,6 +119,10 @@ export function main(args = process.argv.slice(2)) {
     .option('output', { type: 'string', describe: 'File path to write output' })
     .option('format', { type: 'string', choices: ['json', 'ndjson'], default: 'json', describe: 'Output format (json or ndjson)' })
     .option('plot-format', { type: 'string', choices: ['svg', 'png'], describe: 'Plot output format (svg or png)' })
+    .option('width', { type: 'number', default: 800, describe: 'Plot width in pixels' })
+    .option('height', { type: 'number', default: 600, describe: 'Plot height in pixels' })
+    .option('label-x', { type: 'string', describe: 'Label for x axis' })
+    .option('label-y', { type: 'string', describe: 'Label for y axis' })
     .strict()
     .help()
     .parseSync();
@@ -102,8 +134,22 @@ export function main(args = process.argv.slice(2)) {
 
     // Handle plot output
     if (argv['plot-format']) {
-      console.error('Plot rendering not yet implemented');
-      return 1;
+      const plotResult = await renderPlot(data, {
+        format: argv['plot-format'],
+        width: argv.width,
+        height: argv.height,
+        labels: argv['label-x'] || argv['label-y'] ? { x: argv['label-x'], y: argv['label-y'] } : undefined,
+      });
+      if (argv.output) {
+        if (argv['plot-format'] === 'png') {
+          fs.writeFileSync(argv.output, plotResult);
+        } else {
+          fs.writeFileSync(argv.output, plotResult, 'utf-8');
+        }
+      } else {
+        process.stdout.write(plotResult);
+      }
+      return 0;
     }
 
     // Handle NDJSON streaming
@@ -138,6 +184,5 @@ export function main(args = process.argv.slice(2)) {
 
 // If run directly from CLI, exit with appropriate code
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const exitCode = main();
-  process.exit(exitCode);
+  main().then((code) => process.exit(code));
 }
