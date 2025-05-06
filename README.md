@@ -13,7 +13,8 @@ repository0-plot-code-lib is a JavaScript library and CLI tool that parses mathe
 - Output results as pretty-printed JSON or newline-delimited JSON (NDJSON) for streaming large datasets.
 - CLI interface for quick data generation and file output.
 - Programmatic API for integration into other JavaScript projects.
-- Plot rendering (SVG/PNG) via `--plot-format` flag is stubbed and in development.
+- Placeholder no-arguments behavior: running the CLI without any flags prints a placeholder message.
+- Plot rendering (SVG/PNG) via `--plot-format` flag is stubbed and currently returns an error.
 
 ## Installation
 
@@ -30,6 +31,16 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 ```
 
 ## CLI Usage
+
+Invoking the CLI without any arguments prints a placeholder message:
+
+```bash
+repository0-plot-code-lib
+```
+Outputs:
+```
+Run with: []
+```
 
 See [USAGE.md](USAGE.md) for detailed examples.
 
@@ -56,7 +67,7 @@ const { variableName, start, end, step } = parseRange('x=0:2:1');
 const data = generateTimeSeries(exprAst, variableName, start, end, step);
 console.log(data);
 
-// Render a plot (stubbed, may throw an error)
+// Render a plot (stubbed, will throw an error)
 (async () => {
   try {
     const svg = await renderPlot(data, {

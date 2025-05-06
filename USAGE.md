@@ -2,6 +2,23 @@
 
 ## CLI Examples
 
+### No arguments (placeholder behavior)
+
+```bash
+repository0-plot-code-lib
+```
+Outputs:
+```
+Run with: []
+```
+
+### Display help
+
+```bash
+repository0-plot-code-lib --help
+```
+Outputs the CLI usage information with available options.
+
 ### Generate time series data to stdout (JSON)
 
 ```bash
@@ -53,14 +70,19 @@ repository0-plot-code-lib \
   --range "x=0:10:1" \
   --plot-format svg --output plot.svg
 ```
+Outputs:
+```
+Plot rendering not yet implemented
+```
 
-### Options
+## Options
 
 - `--expression <string>` (required): Mathematical expression to evaluate (single variable).
 - `--range <var=start:end:step>` (required): Numeric range for the variable.
 - `--output <path>`: Path to write output (defaults to stdout).
 - `--format <json|ndjson>`: Output as pretty JSON array or NDJSON stream (default: json).
-- `--plot-format <svg|png>`: Plot output format (optional, stubbed/not implemented yet).
+- `--plot-format <svg|png>`: Plot output format; currently stubbed and not implemented.
+- `--help`: Show this help message.
 
 ## Programmatic Usage
 
@@ -84,7 +106,6 @@ console.log(data);
 (async () => {
   try {
     const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600 });
-    // Handle the PNG buffer...
     console.log('Received PNG buffer with length', pngBuffer.length);
   } catch (err) {
     console.error('Plot rendering not implemented:', err.message);
