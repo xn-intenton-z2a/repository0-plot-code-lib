@@ -76,3 +76,8 @@ Details the Chart.js plugin architecture, including lifecycle hooks (beforeInit,
 ## https://github.com/Automattic/node-canvas#registerfont
 Describes how to load and register custom TrueType and OpenType fonts in node-canvas for use within Chart.js and manual Canvas drawings. Covers file path resolution, font family naming, style options, and best practices for cross-platform font loading—critical for ensuring consistent text rendering in SVG and PNG outputs. Updated 2024; MIT.
 ## License: MIT
+
+# CSV (RFC 4180) Specification
+## https://datatracker.ietf.org/doc/html/rfc4180
+The IETF standard defining the Common Format and MIME Type for Comma-Separated Values (CSV) files, including guidelines for header rows, record separators, field delimiters, quoting rules, and escaping mechanisms. Provides essential rules for implementing robust CSV output with proper quoting of special characters, newline handling, and interoperability across tools. Published October 2005; IETF standard, public domain.
+## License: IETF (public domain)
