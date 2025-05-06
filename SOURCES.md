@@ -1,7 +1,9 @@
-# Node.js Core IO and Streams Documentation
+# Node.js Core I/O, Streams, Stream Promises, and Performance Hooks Documentation
 ## https://nodejs.org/api/fs.html
 ## https://nodejs.org/api/stream.html
-Combines the definitive references for filesystem and streaming abstractions in Node.js, including synchronous and asynchronous file and directory operations, fs/promises APIs with AbortSignal support, buffer pooling, highWaterMark tuning, backpressure management, duplex and transform streams, and the pipeline() utility. Essential for implementing robust NDJSON streaming, large-file I/O, and memory-efficient CLI output under high data loads. Published 2023; Core runtime docs, authoritative.
+## https://nodejs.org/api/stream.html#stream_promises
+## https://nodejs.org/api/perf_hooks.html
+Comprehensive reference covering filesystem operations (fs, fs/promises with AbortSignal support), low-level and high-level stream APIs (Readable, Writable, Transform, backpressure, object mode), the Promise-based stream utilities (pipeline, finished, async iteration), and the Performance Hooks API (PerformanceObserver, mark/measure, event loop timings). Essential for implementing backpressure-aware serializeDataStream, --buffer-size tuning, and precise benchmarking in the --benchmark feature. Published 2023; Core runtime docs, authoritative.
 ## License: Node.js (MIT-like terms)
 
 # Node.js ECMAScript Modules (ESM) Guide
@@ -23,11 +25,6 @@ Comprehensive CLI toolkit reference covering declarative command modules, positi
 ## https://github.com/silentmatt/expr-eval#readme
 Defines a lightweight JavaScript expression parser and evaluator, detailing supported grammar (operators, functions), AST manipulation, custom function injection, and secure evaluation contexts. Directly informs expression parsing, variable binding, and performance considerations in time series generation. Last updated 2023; MIT.
 ## License: MIT
-
-# Math.js Official Documentation
-## https://mathjs.org/docs/
-Exhaustive guide to symbolic and numeric computations, including expression parsing, derivative and integral calculations, matrix and unit operations, and precision management. Shows how to define custom functions, optimize performance, and handle big numbers—valuable for extending sampling logic and adding advanced mathematical features. Published 2023; Apache-2.0.
-## License: Apache-2.0
 
 # Newline Delimited JSON (NDJSON) Specification
 ## http://ndjson.org/
@@ -54,7 +51,7 @@ Sharp’s API documentation covers image resizing, cropping, compositing, format
 ## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
 ## https://www.chartjs.org/docs/latest/
 ## https://github.com/Automattic/node-canvas#readme
-Unifies the ChartjsNodeCanvas module for generating chart buffers in Node.js with the official Chart.js configuration reference and the underlying node-canvas drawing API. Covers initializing CanvasRenderingContext2D, handling device pixel ratios, asynchronous rendering, and optimizing performance in headless environments. Details Chart.js plugin architecture lifecycle hooks (beforeInit, afterUpdate, etc.) for custom enhancements and demonstrates custom TrueType/OpenType font registration via registerFont for consistent text rendering. Updated 2024; MIT.
+Unifies the ChartjsNodeCanvas module for generating chart buffers in Node.js with the official Chart.js configuration reference and the underlying node-canvas drawing API. Covers initializing CanvasRenderingContext2D, handling device pixel ratios, asynchronous rendering, and optimizing performance in headless environments. Details Chart.js plugin architecture lifecycle hooks and custom font registration for consistent text rendering. Updated 2024; MIT.
 ## License: MIT
 
 # Vitest Documentation
@@ -62,22 +59,27 @@ Unifies the ChartjsNodeCanvas module for generating chart buffers in Node.js wit
 Official Vitest docs covering configuration, test suites, mocking, snapshot testing, coverage analysis, and plugin extensions. Includes lifecycle hooks and performance tuning for rapid unit tests of CLI logic, parser functions, and file I/O. Latest release: 2023; MIT.
 ## License: MIT
 
-# D3.js Official Documentation
-## https://github.com/d3/d3
-Comprehensive documentation of D3 modules including selection, scale, axis, shape, path, and force simulations. Covers data binding patterns, DOM manipulation strategies, and SVG generation techniques—ideal for custom chart creation via D3 in Node.js (with jsdom) or browser environments. Updated 2024; BSD-3-Clause.
-## License: BSD-3-Clause
-
 # CSV (RFC 4180) Specification
 ## https://datatracker.ietf.org/doc/html/rfc4180
 The IETF standard defining the Common Format and MIME Type for Comma-Separated Values (CSV) files, including guidelines for header rows, record separators, field delimiters, quoting rules, and escaping mechanisms. Provides essential rules for implementing robust CSV output with proper quoting of special characters, newline handling, and interoperability across tools. Published October 2005; IETF standard, public domain.
 ## License: IETF (public domain)
 
-# Node.js Stream Promises API
-## https://nodejs.org/api/stream.html#stream_promises
-Details the experimental and stable Promise-based APIs in the Node.js stream module, including pipeline(), finished(), and async iteration over streams. Illustrates idiomatic patterns for composing backpressure-aware pipelines with async/await and error propagation—critical for implementing the serializeDataStream function and --buffer-size optimizations. Updated 2023; Core runtime docs, authoritative.
-## License: Node.js (MIT-like terms)
+# JSON Lines Specification
+## https://jsonlines.org/
+Describes the JSON Lines format for streaming JSON objects separated by newlines, providing guidelines on record delimitation, line handling, and interoperability. Offers examples and best practices for implementing streaming JSON arrays or objects with minimal memory overhead. Maintained as a community convention with broad tooling support. Viewed 2024; CC0.
+## License: CC0
 
-# Node.js Performance Hooks API
-## https://nodejs.org/api/perf_hooks.html
-Comprehensive guide to measuring performance in Node.js via the Performance Hooks API, including PerformanceObserver, mark(), measure(), and performance event loop timings. Explains how to accurately benchmark code using process.hrtime and PerformanceTimers, capturing high-resolution metrics for throughput calculation in the --benchmark feature. Updated 2023; Core runtime docs, authoritative.
-## License: Node.js (MIT-like terms)
+# RFC 7464: JSON Text Sequences
+## https://datatracker.ietf.org/doc/html/rfc7464
+Specifies the application/json-seq media type for JSON text sequences, using record separators (RS) for streaming JSON records. Defines framing, content-type handling, and error cases—valuable for implementing alternative JSON streaming strategies and inter-process protocols. Published March 2015; IETF standard, public domain.
+## License: IETF (public domain)
+
+# JSONStream Library
+## https://github.com/dominictarr/JSONStream#readme
+Streaming JSON parser and stringifier for Node.js, covering JSONStream.parse, JSONStream.stringify, and filter/query patterns. Demonstrates efficient backpressure-aware JSON generation and parsing pipelines, as well as integration examples with fs.createReadStream and Transform streams. Last updated 2023; MIT.
+## License: MIT
+
+# Fast-CSV Library
+## https://c2fo.github.io/fast-csv/docs/introduction
+Fast, feature-rich CSV parser and formatter for Node.js that supports streaming, custom delimiters, quoting, header handling, and transforming rows. Provides performance benchmarks and best practices for high-throughput CSV generation and parsing with backpressure support. Updated 2024; MIT.
+## License: MIT
