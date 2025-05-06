@@ -1,39 +1,36 @@
 # Overview
-Implement an HTTP REST API mode in the CLI tool to serve time series data and plots over HTTP on demand. Provide two endpoints for data and plot requests that enable integration and programmatic access without using the CLI interface.
+Extend the CLI tool with an HTTP server mode to serve time series data and rendered plots on demand. Provide REST endpoints for programmatic integration and support streaming large datasets and image responses.
 
 # Source File Updates
-1. In src/lib/main.js import express, pipeline from stream/promises, and serializeDataStream from the data formats module.
-   - Add function startServer(port) that:
-     * Creates an Express application with JSON and URL-encoded body parsing.
-     * Defines GET /api/data:
-       - Validate query parameters with zod: expression (required string), range (required string), format (enum json, ndjson, csv default json), bufferSize (number default 16384), csvHeader (boolean default false).
-       - Use parseExpression and parseRange to obtain AST and numeric parameters.
-       - Generate data iterator via generateTimeSeries.
-       - For each supported format, use serializeDataStream or manual pipeline to stream directly to the response, setting Content-Type to application/json, application/x-ndjson, or text/csv; honor bufferSize and csvHeader for CSV.
-       - On validation or generation error respond with status 400 and JSON { error: message }.
-     * Defines GET /api/plot:
-       - Validate query parameters with zod: expression (required string), range (required string), plotFormat (enum svg, png), width (number default 800), height (number default 600), labelX (string), labelY (string).
-       - Generate data and call renderPlot to produce Buffer or SVG string.
-       - Set Content-Type to image/png or image/svg+xml and send the result.
-       - On error respond with status 400 and JSON { error: message }.
-     * Listen on the specified port, log a startup message, and return the server instance for testing.
-2. Extend main(args) to recognize a serve command or --serve flag with --port option (default 3000) that invokes startServer and does not exit immediately.
+1. In src/lib/main.js import express and serializeDataStream from data formats module.
+2. Add function startServer(options) that:
+   - Creates an Express app with JSON and URL-encoded body parsing.
+   - Defines GET /api/data:
+     * Validate query parameters with zod: expression (required), range (required), format (json, json-stream, ndjson, csv), bufferSize (number), csvHeader (boolean).
+     * Parse expression and range, generate data iterator.
+     * Use serializeDataStream to stream response with correct Content-Type and backpressure.
+     * On validation or runtime error respond with 400 and JSON error message.
+   - Defines GET /api/plot:
+     * Validate query with zod: expression, range, plotFormat (svg, png), width, height, labelX, labelY.
+     * Generate data and call renderPlot to get Buffer or SVG string.
+     * Send response with Content-Type image/png or image/svg+xml.
+     * On error respond with 400 and JSON error.
+   - Listen on specified port (default 3000) and return server instance for tests.
+3. Extend main(args) to handle a new command serve or --serve flag with --port option to invoke startServer and keep the process alive.
 
 # Tests
-1. Create tests/unit/api.test.js using supertest:
-   - Test GET /api/data?expression=x%2B1&range=x%3D0%3A2%3A1 returns a JSON array and Content-Type application/json.
-   - Test /api/data?format=ndjson streams newline-delimited JSON with correct header.
-   - Test /api/data?format=csv&csvHeader=true returns CSV with CRLF line endings, header row, RFC4180 quoting.
-   - Test GET /api/plot with plotFormat=svg returns a string starting with <svg and status 200.
-   - Test GET /api/plot with plotFormat=png returns a Buffer starting with PNG magic bytes and status 200.
-   - Test invalid parameters yield status 400 and JSON { error }.
-2. Simulate backpressure by configuring a PassThrough or response with small highWaterMark and assert serializeDataStream honors bufferSize.
+1. Unit tests for startServer in tests/unit/api-server.test.js using vitest and zod:
+   - Mock express app and spy on route handlers.
+   - Validate query parameter failures yield 400 and descriptive error.
+2. Integration tests in tests/unit/api.integration.test.js using supertest:
+   - GET /api/data returns JSON array, NDJSON stream, CSV output with header flag, and correct Content-Type.
+   - GET /api/plot returns SVG starting with <svg and PNG Buffer with PNG magic bytes.
+   - Test backpressure and bufferSize by setting small highWaterMark on response.
 
 # Documentation
-1. Update USAGE.md to add an HTTP API section with example curl commands for /api/data and /api/plot endpoints demonstrating all options and formats.
-2. Update README.md under Features to describe HTTP API serve mode, list endpoints, default port, and link to the usage section.
+1. Update USAGE.md to add an HTTP API section with example curl commands for /api/data and /api/plot demonstrating all options and output formats.
+2. Update README.md under Features to describe the HTTP server mode, list endpoints, default port, query parameters, and link to usage details.
 
 # Dependencies
-1. Ensure express is listed under dependencies in package.json and remove it from devDependencies if needed.
-2. Add supertest to devDependencies for HTTP endpoint tests.
-
+1. Ensure express is listed under dependencies in package.json.
+2. Add supertest to devDependencies for HTTP integration tests.
