@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="plugin_guide" href="#plugin_guide"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>PLUGIN_GUIDE</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Defines plugin object: id:string, defaults:Object, hook functions. Register globally via Chart.register(plugin:Plugin):void or inline per-chart in plugins config. Plugin id constraints: lowercase, URL safe, follow npm naming. Options under options.plugins.<id> with nested properties. Disable plugin per-chart with options.plugins.<id>=false or disable all with options.plugins=false. Default values via plugin.defaults. Lifecycle hooks list with signatures and cancellation behavior. Typescript typing via declaration merging of PluginOptionsByType interface.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Plugin Object Definition
+2 Registration Methods
+3 Configuration Options Path
+4 Disabling Plugins
+5 Default Values
+6 Lifecycle Hook Signatures
+7 Typescript Declarations</p>
+<p class="md-github">1 Plugin Object Definition
+id: string unique identifier matching npm package name rules
+defaults: Object with keys and default values
+hook methods: beforeInit(chart: Chart, args: any, options: any): void  and similar for update, layout, render, draw, event, destroy hooks</p>
+<p class="md-github">2 Registration Methods
+Global registration: Chart.register(plugin: Plugin): void
+Inline registration: pass plugin in Chart constructor plugins array; inline plugins not globally registered</p>
+<p class="md-github">3 Configuration Options Path
+Plugin options under chart.config.options.plugins.<plugin-id> as an object of key: value pairs; default empty object</p>
+<p class="md-github">4 Disabling Plugins
+Per-plugin disable: set chart.config.options.plugins.<plugin-id> = false
+Disable all plugins: set chart.config.options.plugins = false</p>
+<p class="md-github">5 Default Values
+plugin.defaults property used to define default option values applied unless overridden in chart.options.plugins.<plugin-id>.<option></p>
+<p class="md-github">6 Lifecycle Hook Signatures
+beforeInit(chart: Chart, args: {initial: boolean}, options: any): boolean|void
+afterInit(chart: Chart, args: any, options: any): void
+beforeUpdate(chart: Chart, args: {mode?: string}, options: any): boolean|void
+afterUpdate(chart: Chart, args: any, options: any): void
+beforeLayout(chart: Chart, args: any, options: any): boolean|void
+afterLayout(chart: Chart, args: any, options: any): void
+beforeRender(chart: Chart, args: any, options: any): boolean|void
+afterRender(chart: Chart, args: any, options: any): void
+beforeDraw(chart: Chart, args: any, options: any): boolean|void
+afterDraw(chart: Chart, args: any, options: any): void
+beforeEvent(chart: Chart, args: {event: Event}, options: any): boolean|void
+afterEvent(chart: Chart, args: {event: Event, changed: boolean}, options: any): void
+afterDestroy(chart: Chart, args: any, options: any): void</p>
+<p class="md-github">7 Typescript Declarations
+Add to a .d.ts file:
+declare module 'chart.js' {
+interface PluginOptionsByType<TType extends ChartType> {
+<pluginId>?: { <optionKey>?: <optionType> }
+}
+}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Plugin ID constraints: cannot start with dot or underscore, no uppercase letters, only URL-safe characters, recommended prefix chartjs-plugin- for public plugins. Chart.register signature: static register(...items: ChartComponentLike[]): void. Chart.unregister(...items: ChartComponentLike[]): void. options.plugins type: false| Record&lt;string, any&gt;. plugin.defaults applies to options.plugins.<id>.<key>. Cancellation: returning false from before* hooks stops default processing. Event hook: args.changed boolean indicates need to re-render. Destroy hook deprecated in v3.7.0 replaced by afterDestroy. Inline plugin warning: cannot register inline plugin globally. TypeScript augmentation: merge PluginOptionsByType to include new plugin options for specific chart types.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:
+Chart.register(...items: ChartComponentLike[]): void  // register plugins or components globally
+Chart.unregister(...items: ChartComponentLike[]): void  // unregister globally
+// Chart constructor signature:
+new Chart(ctx: CanvasRenderingContext2D|HTMLCanvasElement|{canvas:HTMLCanvasElement}|ArrayLike&lt;CanvasRenderingContext2D|HTMLCanvasElement&gt;, config: {type: string, data: any, options?: {plugins?: false|Record&lt;string,any&gt;}})</p>
+<p class="md-github">Plugin Object Structure:
+interface Plugin&lt;TOptions = any&gt; {
+id: string  // unique plugin ID
+defaults?: TOptions  // default option values
+beforeInit?(chart: Chart, args: {initial: boolean}, options: TOptions): boolean|void
+afterInit?(chart: Chart, args: any, options: TOptions): void
+beforeUpdate?(chart: Chart, args: {mode?: string}, options: TOptions): boolean|void
+afterUpdate?(chart: Chart, args: any, options: TOptions): void
+beforeLayout?(chart: Chart, args: any, options: TOptions): boolean|void
+afterLayout?(chart: Chart, args: any, options: TOptions): void
+beforeRender?(chart: Chart, args: any, options: TOptions): boolean|void
+afterRender?(chart: Chart, args: any, options: TOptions): void
+beforeDraw?(chart: Chart, args: any, options: TOptions): boolean|void
+afterDraw?(chart: Chart, args: any, options: TOptions): void
+beforeEvent?(chart: Chart, args: {event: Event}, options: TOptions): boolean|void
+afterEvent?(chart: Chart, args: {event: Event, changed: boolean}, options: TOptions): void
+afterDestroy?(chart: Chart, args: any, options: TOptions): void
+}</p>
+<p class="md-github">Configuration Options:
+chart.config.options.plugins = false  // disable all plugins
+chart.config.options.plugins['plugin-id'] = false  // disable specific plugin
+chart.config.options.plugins['plugin-id'] = { key1: value1, key2: value2 }</p>
+<p class="md-github">Best Practices:
+Define plugin.id following npm conventions to avoid collisions.
+Use Chart.register for global plugins before creating chart instances.
+Provide plugin.defaults for user-configurable options with sensible defaults.
+Return false from before* hook to cancel default behavior when needed.
+Use args.changed = true in afterEvent to trigger new render when event changes state.</p>
+<p class="md-github">Implementation Example:
+import {Chart, Plugin} from 'chart.js';</p>
+<p class="md-github">const backgroundPlugin: Plugin&lt;{color: string}&gt; = {
+id: 'custom_canvas_background_color',
+defaults: {color: 'lightGreen'},
+beforeDraw(chart,args,options) {
+const ctx = chart.ctx;
+ctx.save();
+ctx.globalCompositeOperation = 'destination-over';
+ctx.fillStyle = options.color;
+ctx.fillRect(0,0,chart.width,chart.height);
+ctx.restore();
+}
+};</p>
+<p class="md-github">Chart.register(backgroundPlugin);</p>
+<p class="md-github">const chart = new Chart(ctx, {
+type: 'line',
+data: data,
+options: {
+plugins: {
+custom_canvas_background_color: {color: 'pink'}
+}
+}
+});</p>
+<p class="md-github">Troubleshooting:
+Command: console.log(Chart.registry.getPlugin('custom_canvas_background_color'))
+Expected: plugin object with id and defaults.
+If undefined, ensure Chart.register(backgroundPlugin) ran before chart creation.
+Check plugin.id for invalid characters via:
+console.assert(/^[a-z0-9-]+$/.test(plugin.id), 'Invalid plugin id');</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">plugin.id:string; plugin.defaults:Object; hook methods beforeInit(chart:Chart,args,options):boolean|void; afterDestroy(chart,args,options):void; register globally: Chart.register(...items:ChartComponentLike[]):void; unregister: Chart.unregister(...items):void; Chart constructor: new Chart(ctx,config(type,data,options.plugins?:false|Record&lt;string,any&gt;)); options.plugins.<id>:Object|false disables specific plugin; options.plugins:false disables all; id constraints: lowercase, url-safe, no leading . or _; default via plugin.defaults applied to options.plugins.<id>.<key>; returning false from before* cancels default; args.changed in afterEvent triggers re-render; TS declaration merging: extend PluginOptionsByType<TType> with plugin option interface.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1 Plugin Object Definition
+2 Registration Methods
+3 Configuration Options Path
+4 Disabling Plugins
+5 Default Values
+6 Lifecycle Hook Signatures
+7 Typescript Declarations</p>
+<p class="md-github">1 Plugin Object Definition
+id: string unique identifier matching npm package name rules
+defaults: Object with keys and default values
+hook methods: beforeInit(chart: Chart, args: any, options: any): void  and similar for update, layout, render, draw, event, destroy hooks</p>
+<p class="md-github">2 Registration Methods
+Global registration: Chart.register(plugin: Plugin): void
+Inline registration: pass plugin in Chart constructor plugins array; inline plugins not globally registered</p>
+<p class="md-github">3 Configuration Options Path
+Plugin options under chart.config.options.plugins.<plugin-id> as an object of key: value pairs; default empty object</p>
+<p class="md-github">4 Disabling Plugins
+Per-plugin disable: set chart.config.options.plugins.<plugin-id> = false
+Disable all plugins: set chart.config.options.plugins = false</p>
+<p class="md-github">5 Default Values
+plugin.defaults property used to define default option values applied unless overridden in chart.options.plugins.<plugin-id>.<option></p>
+<p class="md-github">6 Lifecycle Hook Signatures
+beforeInit(chart: Chart, args: {initial: boolean}, options: any): boolean|void
+afterInit(chart: Chart, args: any, options: any): void
+beforeUpdate(chart: Chart, args: {mode?: string}, options: any): boolean|void
+afterUpdate(chart: Chart, args: any, options: any): void
+beforeLayout(chart: Chart, args: any, options: any): boolean|void
+afterLayout(chart: Chart, args: any, options: any): void
+beforeRender(chart: Chart, args: any, options: any): boolean|void
+afterRender(chart: Chart, args: any, options: any): void
+beforeDraw(chart: Chart, args: any, options: any): boolean|void
+afterDraw(chart: Chart, args: any, options: any): void
+beforeEvent(chart: Chart, args: {event: Event}, options: any): boolean|void
+afterEvent(chart: Chart, args: {event: Event, changed: boolean}, options: any): void
+afterDestroy(chart: Chart, args: any, options: any): void</p>
+<p class="md-github">7 Typescript Declarations
+Add to a .d.ts file:
+declare module 'chart.js' {
+interface PluginOptionsByType<TType extends ChartType> {
+<pluginId>?: { <optionKey>?: <optionType> }
+}
+}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Chart.js Plugin Developer Guide
+https://www.chartjs.org/docs/latest/developers/plugins.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-plugin_guide" href="#digest-of-plugin_guide"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of PLUGIN_GUIDE</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="plugins" href="#plugins"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugins</h1>
+<p class="md-github">Crawled from https://www.chartjs.org/docs/latest/developers/plugins.html  Data Size: 606912 bytes  Retrieved: 2024-06-09</p>
+<h1 class="md-github"><a class="md-github__anchor" name="using-plugins" href="#using-plugins"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using plugins</h1>
+<p class="md-github">Plugins can be shared between chart instances by passing the plugin object to the Chart constructor:</p>
+<p class="md-github">const plugin = {
+id: 'custom_plugin',
+beforeInit: function(chart, args, options) {
+// plugin setup
+}
+};
+const chart1 = new Chart(ctx, {plugins:[plugin]});
+const chart2 = new Chart(ctx, {plugins:[plugin]});</p>
+<p class="md-github">Inline plugins (not registered globally):
+const chart3 = new Chart(ctx, {plugins:[{beforeInit(chart,args,options){ /<em class="md-github">...</em>/ }}]});</p>
+<h1 class="md-github"><a class="md-github__anchor" name="global-plugins" href="#global-plugins"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global plugins</h1>
+<p class="md-github">Register plugin globally to apply to all charts:
+Chart.register({
+id: 'global_plugin',
+beforeDraw: function(chart,args,options){ /<em class="md-github">...</em>/ }
+});</p>
+<h1 class="md-github"><a class="md-github__anchor" name="plugin-id-and-options" href="#plugin-id-and-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin ID and Options</h1>
+<p class="md-github">Every plugin must define a unique id:</p>
+<ul class="md-github">
+<li class="md-github">Cannot start with . or _</li>
+<li class="md-github">Must be lowercase URL safe (no spaces or uppercase)</li>
+<li class="md-github">Should follow npm package convention: chartjs-plugin-<name></li>
+</ul>
+<p class="md-github">Plugin options live under options.plugins.<plugin-id>:
+const chart = new Chart(ctx, {
+options: {
+plugins: {
+p1: { foo: 10, bar: true },
+p2: { baz: 'value' }
+}
+}
+});</p>
+<h1 class="md-github"><a class="md-github__anchor" name="disabling-plugins" href="#disabling-plugins"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Disabling plugins</h1>
+<p class="md-github">Disable a specific global plugin for one chart:
+Chart.register({id: 'p1', /<em class="md-github">...</em>/});
+const chart = new Chart(ctx, {options:{plugins:{p1:false}}});</p>
+<p class="md-github">Disable all plugins for a chart:
+const chart = new Chart(ctx, {options:{plugins:false}});</p>
+<h1 class="md-github"><a class="md-github__anchor" name="plugin-defaults" href="#plugin-defaults"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin defaults</h1>
+<p class="md-github">Set default option values in plugin.defaults:
+const plugin = {
+id: 'custom_canvas_background_color',
+defaults: { color: 'lightGreen' },
+beforeDraw: (chart,args,options)=&gt;{/<em class="md-github">...</em>/}
+};</p>
+<h1 class="md-github"><a class="md-github__anchor" name="plugin-core-api-hooks" href="#plugin-core-api-hooks"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugin Core API Hooks</h1>
+<p class="md-github">Hooks are called during chart lifecycle events:</p>
+<ul class="md-github">
+<li class="md-github">beforeInit(chart,args,options)</li>
+<li class="md-github">afterInit(chart,args,options)</li>
+<li class="md-github">beforeUpdate(chart,args,options)</li>
+<li class="md-github">afterUpdate(chart,args,options)</li>
+<li class="md-github">beforeLayout(chart,args,options)</li>
+<li class="md-github">afterLayout(chart,args,options)</li>
+<li class="md-github">beforeDatasetsUpdate(chart,args,options)</li>
+<li class="md-github">afterDatasetsUpdate(chart,args,options)</li>
+<li class="md-github">beforeRender(chart,args,options)</li>
+<li class="md-github">afterRender(chart,args,options)</li>
+<li class="md-github">beforeDraw(chart,args,options)</li>
+<li class="md-github">afterDraw(chart,args,options)</li>
+<li class="md-github">beforeDatasetsDraw(chart,args,options)</li>
+<li class="md-github">afterDatasetsDraw(chart,args,options)</li>
+<li class="md-github">beforeDatasetDraw(chart,args,options)</li>
+<li class="md-github">afterDatasetDraw(chart,args,options)</li>
+<li class="md-github">beforeTooltipDraw(chart,args,options)</li>
+<li class="md-github">afterTooltipDraw(chart,args,options)</li>
+<li class="md-github">beforeEvent(chart,args,options)</li>
+<li class="md-github">afterEvent(chart,args,options)</li>
+<li class="md-github">afterDestroy(chart,args,options)  (destroy hook deprecated since v3.7.0)</li>
+</ul>
+<p class="md-github">If a hook returns false, some before* hooks will cancel the default behavior.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="typescript-typings" href="#typescript-typings"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TypeScript Typings</h1>
+<p class="md-github">Provide a .d.ts declaring:
+import {ChartType, Plugin} from 'chart.js';
+declare module 'chart.js' {
+interface PluginOptionsByType<TType extends ChartType> {
+customCanvasBackgroundColor?: { color?: string }
+}
+}</p>
+<p class="md-github">Last Updated: 4/15/2025, 1:19:05 PM</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Chart.js Plugin Developer Guide</li>
+<li class="md-github">URL: https://www.chartjs.org/docs/latest/developers/plugins.html</li>
+<li class="md-github">License: License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-06T12:32:50.223Z</li>
+<li class="md-github">Data Size: 606912 bytes</li>
+<li class="md-github">Links Found: 13974</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-06</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-06T12:47:00.487Z</p>
+  </footer>
+</body>
+</html>
