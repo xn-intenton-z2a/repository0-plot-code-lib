@@ -4,7 +4,7 @@
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
-repository0-plot-code-lib is a JavaScript library and CLI tool that parses mathematical expressions, generates time series data, and exports it in JSON or NDJSON format. It provides a straightforward interface for both command-line and programmatic use.
+`repository0-plot-code-lib` is a JavaScript library and CLI tool that parses mathematical expressions, generates time series data, and exports it in JSON or NDJSON format. It provides a straightforward interface for both command-line and programmatic use.
 
 ## Features
 
@@ -32,7 +32,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ## CLI Usage
 
-Invoking the CLI without any arguments prints a placeholder message:
+### No arguments
 
 ```bash
 repository0-plot-code-lib
@@ -42,7 +42,48 @@ Outputs:
 Run with: []
 ```
 
-See [USAGE.md](USAGE.md) for detailed examples.
+### Default JSON output (to stdout)
+
+```bash
+repository0-plot-code-lib --expression "x^2" --range "x=0:2:1"
+```
+Outputs:
+```json
+[
+  { "x": 0, "y": 0 },
+  { "x": 1, "y": 1 },
+  { "x": 2, "y": 4 }
+]
+```
+
+### NDJSON output (to stdout)
+
+```bash
+repository0-plot-code-lib --expression "x+1" --range "x=0:2:1" --format ndjson
+```
+Outputs:
+```
+{"x":0,"y":1}
+{"x":1,"y":2}
+{"x":2,"y":3}
+```
+
+### Write pretty JSON to a file
+
+```bash
+repository0-plot-code-lib \
+  --expression "sin(x)" \
+  --range "x=0:3.14:0.78" \
+  --output "data.json"
+```
+
+### Write NDJSON to a file
+
+```bash
+repository0-plot-code-lib --expression "x+1" --range "x=0:2:1" --format ndjson --output data.ndjson
+```
+
+See [USAGE.md](USAGE.md) for more detailed examples and options.
 
 ## Programmatic API
 
@@ -57,33 +98,28 @@ import {
   main as cliMain,
 } from '@xn-intenton-z2a/repository0-plot-code-lib';
 
-// Parse an expression AST
-const exprAst = parseExpression('x^2');
+// 1. Parse an expression AST
+const exprAst = parseExpression('x^3 + 2');
 
-// Parse a range string
-const { variableName, start, end, step } = parseRange('x=0:2:1');
+// 2. Parse a range string
+const { variableName, start, end, step } = parseRange('x=0:10:2');
 
-// Generate the time series data
+// 3. Generate the time series data
 const data = generateTimeSeries(exprAst, variableName, start, end, step);
-console.log(data);
+console.log('Time series data:', data);
 
-// Render a plot (stubbed, will throw an error)
+// 4. (Optional) Render a plot (stubbed, will throw)
 (async () => {
   try {
-    const svg = await renderPlot(data, {
-      format: 'svg',
-      width: 800,
-      height: 600,
-      labels: { x: 'X Axis', y: 'Y Axis' },
-    });
-    console.log(svg);
+    const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600 });
+    console.log('Received PNG buffer with length', pngBuffer.length);
   } catch (err) {
     console.error('Plot rendering not implemented:', err.message);
   }
 })();
 
-// Run the CLI programmatically (returns exit code)
-const exitCode = cliMain(['--expression', 'x+1', '--range', 'x=0:5:1', '--format', 'ndjson']);
+// 5. Run the CLI programmatically
+const exitCode = cliMain(['--expression', 'x+1', '--range', 'x=0:5:1']);
 console.log(`CLI exited with code ${exitCode}`);
 ```
 
