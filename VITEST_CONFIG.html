@@ -24,316 +24,547 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="vitest_config" href="#vitest_config"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>VITEST_CONFIG</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Installation commands (npm, yarn, pnpm, bun) with Vite&gt;=5.0.0 and Node&gt;=18.0.0; Test file detection '**/*.{test,spec}.?(c|m)[jt]s?(x)'; Config resolution order: vite.config.ts, vitest.config.ts, --config, env VITEST; Supported config extensions (.js,.mjs,.cjs,.ts,.cts,.mts); CLI flags with defaults: --config, --run, --watch, --update, --environment, --port, --https, --globals, --skip-install-checks, --coverage, --reporter, --outputFile; Workspace array patterns and inline config objects; Dependency resolution options (external, inline, moduleDirectories, optimizer.web, optimizer.ssr) with defaults; Environment options and custom environment interface; Pools settings (threads,forks,vmThreads,vmForks); Example package.json scripts: test, coverage.</p>
+<p class="md-github">Installation commands: npm/yarn/pnpm/bun add -D vitest; require Vite&gt;=5, Node&gt;=18; add scripts test:vitest, coverage:vitest run --coverage; run via npm/yarn/pnpm/bun test. Vitest reads vite.config and vitest.config; supported ext: js,mjs,cjs,ts,cts,mts; defineConfig and mergeConfig from 'vitest/config'. Default test.include '<strong class="md-github">/*.{test,spec}.?(c|m)[jt]s?(x)'; test.exclude '</strong>/node_modules/<strong class="md-github">','</strong>/dist/<strong class="md-github">','</strong>/.{idea,git,cache,output,temp}/<strong class="md-github">','</strong>/{karma,...}.config.*'; includeSource []; globals false; environment 'node'; reporters 'default'; pool 'forks'; watch true in interactive; update false. server.deps.external [//node_modules//]; inline []; fallbackCJS false; cacheDir 'node_modules/.vite'. deps.optimizer enabled false. deps.web.transformAssets true; transformCss true; interopDefault true; moduleDirectories ['node_modules']. workspace support via glob list or config objects. Custom environment via package 'vitest-environment-name'. CLI flags: --config, --watch, --update, --globals, --environment, --pool, --port, --https. Troubleshoot by env VITEST_SKIP_INSTALL_CHECKS, bun run test note.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<p class="md-github">Table of Contents
-1 Installation
-2 Writing Tests
-3 Configuration Resolution
-4 CLI Options
-5 Workspaces Support
-6 Dependency Optimization
-7 Environments
-8 Runner Pools</p>
-<p class="md-github">1 Installation
-Commands:
-npm install -D vitest
-yarn add -D vitest
-pnpm add -D vitest
-bun add -D vitest
-Requirements: Vite &gt;=5.0.0, Node &gt;=18.0.0</p>
-<p class="md-github">2 Writing Tests
-Default file patterns: **/*.{test,spec}.?(c|m)[jt]s?(x)
-Default snapshot extension: .test or .spec in filename
-Basic API: import { test, expect } from 'vitest'
-Example:
-export function sum(a,b){return a+b}
-test('adds',()=&gt;expect(sum(1,2)).toBe(3))
-Add to package.json scripts: { &quot;test&quot;:&quot;vitest&quot; }</p>
-<p class="md-github">3 Configuration Resolution
-Precedence:
-1 vite.config.[js,mjs,cjs,ts,cts,mts] with test property
-2 vitest.config.[js,mjs,cjs,ts,cts,mts]
-3 CLI --config override
-Conditionals via process.env.VITEST or defineConfig({mode})
-Supported extensions: .js .mjs .cjs .ts .cts .mts (no .json)</p>
-<p class="md-github">4 CLI Options
---config <path>         config file path lookup
---run                   run tests once
--w, --watch             enable watch mode (true if interactive)
--u, --update            update snapshots
---environment=<env>     node|jsdom|happy-dom|edge-runtime|custom
---port <n>              server port
---https                 https server
---globals               enable global APIs
---skip-install-checks   VITEST_SKIP_INSTALL_CHECKS=1
---coverage              alias run --coverage
---reporter &lt;name|path&gt;  built-in or custom
---outputFile <path>     output file for json/html/junit reports</p>
-<p class="md-github">5 Workspaces Support
-In vitest.config.ts:
-test.workspace: Array&lt;glob|config&gt; where config includes name, root, environment, setupFiles
-Examples: 'packages/*', {test:{name:'node',root:'./shared',environment:'node',setupFiles:['./setup.ts']}}</p>
-<p class="md-github">6 Dependency Optimization
-test.deps.external: RegExp[] default [//node_modules//]
-test.deps.inline: Array|string|true default []
-test.deps.moduleDirectories: string[] default ['node_modules']
-test.deps.optimizer.web: {enabled:boolean, include:string[], exclude:string[], transformAssets:boolean, transformCss:boolean}
-test.deps.optimizer.ssr: {enabled:boolean, include:string[], exclude:string[]}</p>
-<p class="md-github">7 Environments
-Default: node
-Builtin alternatives: jsdom, happy-dom, edge-runtime
-Custom: export default <Environment>{name,transformMode,setup()}
-Docblock syntax: /** @vitest-environment jsdom */</p>
-<p class="md-github">8 Runner Pools
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Installation and Setup</p>
+</li>
+<li class="md-github">
+<p class="md-github">Test File Patterns</p>
+</li>
+<li class="md-github">
+<p class="md-github">CLI Usage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration File Setup</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Configuration Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspaces</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment Definition</p>
+</li>
+<li class="md-github">
+<p class="md-github">Dependency Resolution</p>
+</li>
+<li class="md-github">
+<p class="md-github">Worker Pools</p>
+</li>
+<li class="md-github">
+<p class="md-github">Reporting and Output</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Installation and Setup
+• npm install -D vitest
+• yarn add -D vitest
+• pnpm add -D vitest
+• bun add -D vitest
+Requirements: Vite&gt;=5.0.0, Node&gt;=18.0.0
+In package.json:
+scripts:
+test: vitest
+coverage: vitest run --coverage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Test File Patterns
+test.include: ['<strong class="md-github">/*.{test,spec}.?(c|m)[jt]s?(x)']
+test.exclude: ['</strong>/node_modules/<strong class="md-github">','</strong>/dist/<strong class="md-github">','</strong>/.{idea,git,cache,output,temp}/<strong class="md-github">','</strong>/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*']
+test.includeSource: []  // run files with import.meta.vitest</p>
+</li>
+<li class="md-github">
+<p class="md-github">CLI Usage
+vitest [options]
+vitest run [--coverage]
+Flags:
+--config <path>
+--watch, -w  (default: !CI &amp;&amp; TTY)
+--update, -u (default: false)
+--globals    (default: false)
+--environment <env>
+--pool &lt;threads|forks|vmThreads|vmForks&gt;
+--port <number>
+--https</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration File Setup
+Supported extensions: .js, .mjs, .cjs, .ts, .cts, .mts
+Priority: vitest.config.ts/js &gt; vite.config.ts/js
+Add triple-slash reference for types:
+/// <reference types="vitest/config" />
+Basic config:
+import { defineConfig } from 'vitest/config'
+export default defineConfig({ test: { /* options <em class="md-github">/ } })
+Merge with Vite config:
+import { mergeConfig } from 'vitest/config'
+export default mergeConfig(viteConfig, defineConfig({ test: { /</em> override */ } }))</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Configuration Options
+test.name: string
+test.root: string    // CLI --root
+test.dir: string     // CLI --dir
+test.watch: boolean  // default: !CI &amp;&amp; TTY
+test.update: boolean // default: false
+test.globals: boolean// default: false
+test.environment: string // default: 'node'
+test.alias: Record&lt;string,string&gt; or Array&lt;{find,replacement,customResolver?&gt;}</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspaces
+test.workspace: Array&lt;glob:string or config object&gt;
+glob =&gt; include sub-project
+config object =&gt; overrides per project</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment Definition
+Built-ins: node, jsdom, happy-dom, edge-runtime
+Custom:
+export default { name, transformMode: 'ssr'|'web', setup(): { teardown() } }
+Docblock override:
+/** @vitest-environment jsdom */</p>
+</li>
+<li class="md-github">
+<p class="md-github">Dependency Resolution
+server.deps.external: [//node_modules//]
+server.deps.inline: [] or true
+server.deps.fallbackCJS: false
+server.deps.cacheDir: 'node_modules/.vite'
+deps.optimizer.ssr.enabled: false
+deps.optimizer.web.enabled: false
+deps.web.transformAssets: true
+deps.web.transformCss: true
+deps.interopDefault: true
+deps.moduleDirectories: ['node_modules']</p>
+</li>
+<li class="md-github">
+<p class="md-github">Worker Pools
+test.pool: threads | forks | vmThreads | vmForks
 Default: forks
-types: threads, forks, vmThreads, vmForks</p>
+Threads: worker_threads
+Forks: child_process</p>
+</li>
+<li class="md-github">
+<p class="md-github">Reporting and Output
+test.reporters: 'default' or Array of built-in names or instances or paths
+test.outputFile: string or Record&lt;string,string&gt;
+benchmark.reporters, outputJson, compare via similar options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting
+disable prompts: export VITEST_SKIP_INSTALL_CHECKS=1
+update snapshots: --update
+enforce config use: --config <path></p>
+</li>
+</ol>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Default test.include: ['<strong class="md-github">/*.{test,spec}.?(c|m)[jt]s?(x)']
-Default test.exclude: ['</strong>/node_modules/<strong class="md-github">','</strong>/dist/<strong class="md-github">','</strong>/cypress/<strong class="md-github">','</strong>/.{idea,git,cache,output,temp}/<strong class="md-github">','</strong>/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*']
-Default coverage.exclude inherits test.include patterns
-VITEST_SKIP_INSTALL_CHECKS disables prompts
-To use globals API in TS: add 'vitest/globals' to tsconfig.types
-To use jsdom globals: add 'vitest/jsdom' to tsconfig.types
-Merge configs via mergeConfig(viteConfig, defineConfig({test:{}}))
-Workspace configs cannot override certain root-only options (indicated by *)
-Automatic dependency install: disabled by VITEST_SKIP_INSTALL_CHECKS
-IDE integration: official VS Code extension
-Examples repos available via GitHub playground links</p>
+<p class="md-github">Installation commands with environment variables
+VITEST_SKIP_INSTALL_CHECKS=1 npm run test</p>
+<p class="md-github">Package.json snippet:
+&quot;devDependencies&quot;: { &quot;vitest&quot;: &quot;^3.1.3&quot; },
+&quot;scripts&quot;: { &quot;test&quot;: &quot;vitest&quot;, &quot;coverage&quot;: &quot;vitest run --coverage&quot; }</p>
+<p class="md-github">TypeScript config:
+tsconfig.json:
+compilerOptions.types += [&quot;vitest/globals&quot;,&quot;vitest/jsdom&quot;]</p>
+<p class="md-github">VSCode extension from Marketplace: vitest.vitest</p>
+<p class="md-github">CI configuration snippet:</p>
+<ul class="md-github">
+<li class="md-github">name: Run Vitest
+run: npm test
+env:
+CI: true
+VITEST_SKIP_INSTALL_CHECKS: 1</li>
+</ul>
+<p class="md-github">Custom runner signature:
+type VitestRunnerConstructor = (config: any)=&gt;Runner</p>
+<p class="md-github">Workspaces example:
+test: { workspace: [&quot;packages/<em class="md-github">&quot;,&quot;tests/</em>/vitest.config.ts&quot;] }</p>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">import { defineConfig, mergeConfig, configDefaults } from 'vitest/config'</p>
-<p class="md-github">// defineConfig signature
-declare function defineConfig(config: UserConfig &amp; { test?: TestConfig }): UserConfig &amp; { test?: TestConfig }</p>
-<p class="md-github">interface TestConfig {
-include?: string[] // default ['**/*.{test,spec}.?(c|m)[jt]s?(x)']
-exclude?: string[] // default [node_modules,dist,...]
+<p class="md-github">API defineConfig
+defineConfig(config: UserConfig): UserConfig</p>
+<p class="md-github">API mergeConfig
+mergeConfig&lt;A,B&gt;(a: A, b: B): A &amp; B</p>
+<p class="md-github">UserConfig.test: {
+include?: string[]
+exclude?: string[]
 includeSource?: string[]
 name?: string
 root?: string
 dir?: string
-coverage?: boolean
+watch?: boolean
+update?: boolean
 globals?: boolean
 environment?: string
-environmentOptions?: Record&lt;string,unknown&gt;
-workspace?: Array&lt;string | WorkspaceConfig&gt;
-runner?: string
-update?: boolean
-watch?: boolean
-reporters?: Array&lt;string | Reporter&gt;
-outputFile?: string | Record&lt;string,string&gt;
-pool?: 'threads'|'forks'|'vmThreads'|'vmForks'
-deps?: {
-external?: Array&lt;string|RegExp&gt;
-inline?: Array&lt;string|RegExp&gt; | true
-moduleDirectories?: string[]
-optimizer?: {
-web?: {enabled:boolean;include:string[];exclude:string[];transformAssets:boolean;transformCss:boolean}
-ssr?: {enabled:boolean;include:string[];exclude:string[]}
-}
-}
+alias?: Record&lt;string,string&gt;|Array&lt;{find:string|RegExp,replacement:string,customResolver?:any}&gt;
 server?: {
 sourcemap?: 'inline'|boolean
-debug?: {dumpModules?:boolean|string;loadDumppedModules?:boolean}
-deps?: {external?:Array&lt;string|RegExp&gt;;inline?:Array&lt;string|RegExp&gt;|true;fallbackCJS?:boolean;cacheDir?:string}
+debug?: { dumpModules?: boolean|string, loadDumppedModules?: boolean }
+deps?: {
+external?: (string|RegExp)[]
+inline?: (string|RegExp)[]|true
+fallbackCJS?: boolean
+cacheDir?: string
 }
+}
+deps?: {
+optimizer?: { ssr?:{enabled:boolean,include?:string[],exclude?:string[]}, web?:{enabled:boolean,include?:string[],exclude?:string[]} }
+web?: { transformAssets?: boolean, transformCss?: boolean, transformGlobPattern?: RegExp|RegExp[] }
+interopDefault?: boolean
+moduleDirectories?: string[]
+}
+runner?: string
+benchmark?: {
+include?: string[]
+exclude?: string[]
+includeSource?: string[]
+reporters?: Array&lt;string|Reporter&gt;
+outputJson?: string
+compare?: string
+}
+reporters?: string[]|Reporter[]
+outputFile?: string|Record&lt;string,string&gt;
+pool?: 'threads'|'forks'|'vmThreads'|'vmForks'
 }</p>
-<p class="md-github">// Example: merge Vite and Vitest
-import viteConfig from './vite.config'
-export default mergeConfig(viteConfig, defineConfig({
-test:{ exclude:['packages/template/*'] }
-}))</p>
-<p class="md-github">// CLI usage examples
-npx vitest --config ./vitest.config.ts --environment jsdom --globals --port 3000 --https</p>
-<p class="md-github">// Troubleshooting
-// Bun users must run: bun run test
-// To skip dependency checks: export VITEST_SKIP_INSTALL_CHECKS=1
-// If tests not found, ensure filenames include .test. or .spec.
-// To debug transformer: enable server.debug.dumpModules=true and inspect cacheDir</p>
+<p class="md-github">CLI options
+--config <path>
+--watch, -w
+--run
+--update, -u
+--globals
+--environment <env>
+--pool <mode>
+--port <number>
+--https</p>
+<p class="md-github">Best Practices:
+• Use single config file for Vite and Vitest
+• Alias node_modules via npm: prefix
+• Inline assets via deps.web.transformAssets
+• Use mergeConfig to avoid duplication</p>
+<p class="md-github">Troubleshooting Steps:
+$ export VITEST_SKIP_INSTALL_CHECKS=1
+$ vitest --config ./vitest.config.ts --run
+Expected exit code 0</p>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">install: npm|yarn|pnpm|bun add -D vitest; requires Vite&gt;=5.0.0,Node&gt;=18.0.0; tests: <em class="md-github"><em class="md-github">/<em class="md-github">.{test,spec}.?(c|m)[jt]s?(x); config: vite.config.</em> then vitest.config.</em> then --config; extensions: .js,.mjs,.cjs,.ts,.cts,.mts; CLI: --config, --run, -w/--watch, -u/--update, --environment, --port, --https, --globals, --skip-install-checks, --coverage, --reporter, --outputFile; defaults: test.include=['</em><em class="md-github">/*.{test,spec}.?(c|m)[jt]s?(x)'],exclude=['</em><em class="md-github">/node_modules/</em>*',...]; deps.external=[//node_modules//],deps.inline=[],optimizer.web/ssr disabled by default; workspace: glob|string config objects; environments: node/jsdom/happy-dom/edge-runtime/custom via Environment interface; pools: forks(default)/threads/vmThreads/vmForks; defineConfig(config:UserConfig&amp;{test?:TestConfig}) =&gt; merged config; troubleshooting: bun run test, VITEST_SKIP_INSTALL_CHECKS=1, filenames pattern, server.debug.dumpModules</p>
+<p class="md-github">install: npm install -D vitest; require Vite&gt;=5,Node&gt;=18; scripts: test:vitest,cov:vitest run --coverage; configFile: vitest.config.ts higher priority; defaults: include['<strong class="md-github">/*.{test,spec}.?(c|m)[jt]s?(x)'],exclude['</strong>/node_modules/<strong class="md-github">','</strong>/dist/**',...],globals:false,env:'node',pool:'forks',watch:!CI&amp;&amp;TTY,update:false; CLI: --config,--watch,-w,--update,-u,--globals,--environment,--pool,--port,--https; defineConfig(UserConfig)-&gt;UserConfig; mergeConfig(a,b)-&gt;a&amp;b; UserConfig.test includes include?,exclude?,includeSource?,name?,root?,dir?,watch?,update?,globals?,environment?,alias?,server{deps{external?,inline?,fallbackCJS?,cacheDir?}},deps{optimizer{ssr{enabled?,include?,exclude?},web{enabled?,include?,exclude?}},web{transformAssets?,transformCss?,transformGlobPattern?},interopDefault?,moduleDirectories?},runner?,benchmark{include?,exclude?,includeSource?,reporters?,outputJson?,compare?},reporters?,outputFile?,pool?; workspaces:Array&lt;string|config&gt;; custom env: {name,transformMode,setup()-&gt;{teardown()}}; disable install checks: VITEST_SKIP_INSTALL_CHECKS=1; snapshot update: -u; mergeConfig to combine vite and vitest configs.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
-<p class="md-github">Table of Contents
-1 Installation
-2 Writing Tests
-3 Configuration Resolution
-4 CLI Options
-5 Workspaces Support
-6 Dependency Optimization
-7 Environments
-8 Runner Pools</p>
-<p class="md-github">1 Installation
-Commands:
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Installation and Setup</p>
+</li>
+<li class="md-github">
+<p class="md-github">Test File Patterns</p>
+</li>
+<li class="md-github">
+<p class="md-github">CLI Usage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration File Setup</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Configuration Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspaces</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment Definition</p>
+</li>
+<li class="md-github">
+<p class="md-github">Dependency Resolution</p>
+</li>
+<li class="md-github">
+<p class="md-github">Worker Pools</p>
+</li>
+<li class="md-github">
+<p class="md-github">Reporting and Output</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Installation and Setup
 npm install -D vitest
 yarn add -D vitest
 pnpm add -D vitest
 bun add -D vitest
-Requirements: Vite &gt;=5.0.0, Node &gt;=18.0.0</p>
-<p class="md-github">2 Writing Tests
-Default file patterns: **/*.{test,spec}.?(c|m)[jt]s?(x)
-Default snapshot extension: .test or .spec in filename
-Basic API: import { test, expect } from 'vitest'
-Example:
-export function sum(a,b){return a+b}
-test('adds',()=&gt;expect(sum(1,2)).toBe(3))
-Add to package.json scripts: { 'test':'vitest' }</p>
-<p class="md-github">3 Configuration Resolution
-Precedence:
-1 vite.config.[js,mjs,cjs,ts,cts,mts] with test property
-2 vitest.config.[js,mjs,cjs,ts,cts,mts]
-3 CLI --config override
-Conditionals via process.env.VITEST or defineConfig({mode})
-Supported extensions: .js .mjs .cjs .ts .cts .mts (no .json)</p>
-<p class="md-github">4 CLI Options
---config <path>         config file path lookup
---run                   run tests once
--w, --watch             enable watch mode (true if interactive)
--u, --update            update snapshots
---environment=<env>     node|jsdom|happy-dom|edge-runtime|custom
---port <n>              server port
---https                 https server
---globals               enable global APIs
---skip-install-checks   VITEST_SKIP_INSTALL_CHECKS=1
---coverage              alias run --coverage
---reporter &lt;name|path&gt;  built-in or custom
---outputFile <path>     output file for json/html/junit reports</p>
-<p class="md-github">5 Workspaces Support
-In vitest.config.ts:
-test.workspace: Array&lt;glob|config&gt; where config includes name, root, environment, setupFiles
-Examples: 'packages/*', {test:{name:'node',root:'./shared',environment:'node',setupFiles:['./setup.ts']}}</p>
-<p class="md-github">6 Dependency Optimization
-test.deps.external: RegExp[] default [/'/node_modules'//]
-test.deps.inline: Array|string|true default []
-test.deps.moduleDirectories: string[] default ['node_modules']
-test.deps.optimizer.web: {enabled:boolean, include:string[], exclude:string[], transformAssets:boolean, transformCss:boolean}
-test.deps.optimizer.ssr: {enabled:boolean, include:string[], exclude:string[]}</p>
-<p class="md-github">7 Environments
-Default: node
-Builtin alternatives: jsdom, happy-dom, edge-runtime
-Custom: export default <Environment>{name,transformMode,setup()}
-Docblock syntax: /** @vitest-environment jsdom */</p>
-<p class="md-github">8 Runner Pools
+Requirements: Vite&gt;=5.0.0, Node&gt;=18.0.0
+In package.json:
+scripts:
+test: vitest
+coverage: vitest run --coverage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Test File Patterns
+test.include: ['<strong class="md-github">/*.{test,spec}.?(c|m)[jt]s?(x)']
+test.exclude: ['</strong>/node_modules/<strong class="md-github">','</strong>/dist/<strong class="md-github">','</strong>/.{idea,git,cache,output,temp}/<strong class="md-github">','</strong>/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*']
+test.includeSource: []  // run files with import.meta.vitest</p>
+</li>
+<li class="md-github">
+<p class="md-github">CLI Usage
+vitest [options]
+vitest run [--coverage]
+Flags:
+--config <path>
+--watch, -w  (default: !CI &amp;&amp; TTY)
+--update, -u (default: false)
+--globals    (default: false)
+--environment <env>
+--pool &lt;threads|forks|vmThreads|vmForks&gt;
+--port <number>
+--https</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration File Setup
+Supported extensions: .js, .mjs, .cjs, .ts, .cts, .mts
+Priority: vitest.config.ts/js &gt; vite.config.ts/js
+Add triple-slash reference for types:
+/// <reference types='vitest/config' />
+Basic config:
+import { defineConfig } from 'vitest/config'
+export default defineConfig({ test: { /* options <em class="md-github">/ } })
+Merge with Vite config:
+import { mergeConfig } from 'vitest/config'
+export default mergeConfig(viteConfig, defineConfig({ test: { /</em> override */ } }))</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Configuration Options
+test.name: string
+test.root: string    // CLI --root
+test.dir: string     // CLI --dir
+test.watch: boolean  // default: !CI &amp;&amp; TTY
+test.update: boolean // default: false
+test.globals: boolean// default: false
+test.environment: string // default: 'node'
+test.alias: Record&lt;string,string&gt; or Array&lt;{find,replacement,customResolver?&gt;}</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspaces
+test.workspace: Array&lt;glob:string or config object&gt;
+glob =&gt; include sub-project
+config object =&gt; overrides per project</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment Definition
+Built-ins: node, jsdom, happy-dom, edge-runtime
+Custom:
+export default { name, transformMode: 'ssr'|'web', setup(): { teardown() } }
+Docblock override:
+/** @vitest-environment jsdom */</p>
+</li>
+<li class="md-github">
+<p class="md-github">Dependency Resolution
+server.deps.external: [/'/node_modules'//]
+server.deps.inline: [] or true
+server.deps.fallbackCJS: false
+server.deps.cacheDir: 'node_modules/.vite'
+deps.optimizer.ssr.enabled: false
+deps.optimizer.web.enabled: false
+deps.web.transformAssets: true
+deps.web.transformCss: true
+deps.interopDefault: true
+deps.moduleDirectories: ['node_modules']</p>
+</li>
+<li class="md-github">
+<p class="md-github">Worker Pools
+test.pool: threads | forks | vmThreads | vmForks
 Default: forks
-types: threads, forks, vmThreads, vmForks</p>
+Threads: worker_threads
+Forks: child_process</p>
+</li>
+<li class="md-github">
+<p class="md-github">Reporting and Output
+test.reporters: 'default' or Array of built-in names or instances or paths
+test.outputFile: string or Record&lt;string,string&gt;
+benchmark.reporters, outputJson, compare via similar options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting
+disable prompts: export VITEST_SKIP_INSTALL_CHECKS=1
+update snapshots: --update
+enforce config use: --config <path></p>
+</li>
+</ol>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
 <p class="md-github">Vitest Documentation
 https://vitest.dev/</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-vitest_config" href="#digest-of-vitest_config"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of VITEST_CONFIG</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="vitest-configuration-and-usage" href="#vitest-configuration-and-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Vitest Configuration and Usage</h1>
-<p class="md-github">Date Retrieved: 2024-06-14
-Attribution: https://vitest.dev/ (Data Size: 38084111 bytes)</p>
-<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
-<pre class="md-github"><code class="md-github language-bash">npm install -D vitest      # npm
-yarn add -D vitest         # yarn
-pnpm add -D vitest         # pnpm
-bun add -D vitest          # bun
-</code></pre>
-<p class="md-github">Requirements: Vite &gt;=5.0.0, Node &gt;=18.0.0</p>
-<h1 class="md-github"><a class="md-github__anchor" name="writing-tests" href="#writing-tests"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Writing Tests</h1>
-<p class="md-github">By default, Vitest detects files matching **/*.{test,spec}.?(c|m)[jt]s?(x)
-Example:</p>
-<pre class="md-github"><code class="md-github language-js">// sum.js
-export function sum(a, b) {
-  return a + b
-}
-
-// sum.test.js
-import { test, expect } from 'vitest'
-import { sum } from './sum.js'
-
-test('adds 1 + 2 to equal 3', () =&gt; {
-  expect(sum(1, 2)).toBe(3)
-})
-</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="getting-started" href="#getting-started"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Getting Started</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p class="md-github">Use one of the following commands to add Vitest to your project:</p>
+<p class="md-github">npm install -D vitest
+yarn add -D vitest
+pnpm add -D vitest
+bun add -D vitest</p>
+<p class="md-github">Requirements: Vite &gt;= 5.0.0, Node.js &gt;= 18.0.0.</p>
 <p class="md-github">Add to package.json:</p>
-<pre class="md-github"><code class="md-github language-json">{
-  &quot;scripts&quot;: {
-    &quot;test&quot;: &quot;vitest&quot;
-  }
-}
-</code></pre>
-<h1 class="md-github"><a class="md-github__anchor" name="configuration-resolution" href="#configuration-resolution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Resolution</h1>
+<p class="md-github">&quot;scripts&quot;: {
+&quot;test&quot;: &quot;vitest&quot;,
+&quot;coverage&quot;: &quot;vitest run --coverage&quot;
+}</p>
+<p class="md-github">Run tests:</p>
+<p class="md-github">npm run test
+yarn test
+pnpm test
+bun run test</p>
+<h1 class="md-github"><a class="md-github__anchor" name="configuration" href="#configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration</h1>
+<p class="md-github">Vitest uses Vite config when available. You can override or extend it via a dedicated config file.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="config-file-types-and-priority" href="#config-file-types-and-priority"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Config File Types and Priority</h2>
 <ol class="md-github">
-<li class="md-github">Read vite.config.[js,mjs,cjs,ts,cts,mts] if it contains test property.</li>
-<li class="md-github">Read vitest.config.[js,mjs,cjs,ts,cts,mts].</li>
-<li class="md-github">--config CLI flag overrides files.</li>
-<li class="md-github">process.env.VITEST or defineConfig mode property for conditional logic.
-Supports .js, .mjs, .cjs, .ts, .cts, .mts (no .json).</li>
+<li class="md-github">vite.config.(js|mjs|cjs|ts|cts|mts) with test property</li>
+<li class="md-github">vitest.config.ts/js/mjs/cjs</li>
+<li class="md-github">CLI --config <path></li>
+<li class="md-github">process.env.VITEST or defineConfig mode property</li>
 </ol>
-<h1 class="md-github"><a class="md-github__anchor" name="cli-options" href="#cli-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Options</h1>
-<p class="md-github"><code class="md-github">vitest [run] [options]</code></p>
-<ul class="md-github">
-<li class="md-github">--config <path>          path to config file</li>
-<li class="md-github">--run                    run tests once (skip watch)</li>
-<li class="md-github">-w, --watch              watch mode (default: true unless CI)</li>
-<li class="md-github">-u, --update             update snapshots (default: false)</li>
-<li class="md-github">--environment=<env>      node|jsdom|happy-dom|edge-runtime|custom (default: node)</li>
-<li class="md-github">--port <number>          dev server port</li>
-<li class="md-github">--https                  enable HTTPS</li>
-<li class="md-github">--globals                enable global APIs (default: false)</li>
-<li class="md-github">--skip-install-checks    bypass dependency prompts (env VITEST_SKIP_INSTALL_CHECKS=1)</li>
-<li class="md-github">--coverage               alias: run --coverage</li>
-<li class="md-github">--reporter &lt;name|path&gt;   built-in or custom reporter</li>
-<li class="md-github">--outputFile <path>      write output when using json/html/junit reporter</li>
-</ul>
-<h1 class="md-github"><a class="md-github__anchor" name="workspaces-support" href="#workspaces-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Workspaces Support</h1>
-<pre class="md-github"><code class="md-github language-ts">import { defineConfig } from 'vitest/config'
-export default defineConfig({
-  test: {
-    workspace: [
-      'packages/*',
-      'tests/*/vitest.config.{e2e,unit}.ts',
-      { test: { name: 'happy-dom', root: './shared_tests', environment: 'happy-dom', setupFiles: ['./setup.happy-dom.ts'] } },
-      { test: { name: 'node', root: './shared_tests', environment: 'node', setupFiles: ['./setup.node.ts'] } }
-    ]
-  }
-})
-</code></pre>
-<h1 class="md-github"><a class="md-github__anchor" name="dependency-optimization" href="#dependency-optimization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dependency Optimization</h1>
-<pre class="md-github"><code class="md-github language-ts">export default defineConfig({
-  test: {
-    deps: {
-      external: [/\/node_modules\//],
-      inline: [],
-      moduleDirectories: ['node_modules'],
-      optimizer: {
-        web: { enabled: false, include: [], exclude: [], transformAssets: true, transformCss: true },
-        ssr: { enabled: false, include: [], exclude: [] }
-      }
-    }
-  }
-})
-</code></pre>
-<h1 class="md-github"><a class="md-github__anchor" name="environments" href="#environments"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Environments</h1>
-<p class="md-github">Builtin: node, jsdom, happy-dom, edge-runtime
-Custom:</p>
-<pre class="md-github"><code class="md-github language-ts">import type { Environment } from 'vitest'
-export default &lt;Environment&gt;{
-  name: 'custom',
-  transformMode: 'ssr',
-  setup() {
-    return { teardown() {} }
-  }
+<h2 class="md-github"><a class="md-github__anchor" name="example-vitestconfigts" href="#example-vitestconfigts"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example vitest.config.ts</h2>
+<p class="md-github">import { defineConfig } from 'vitest/config'</p>
+<p class="md-github">export default defineConfig({
+test: {
+include: [&quot;**/*.test.ts&quot;],
+exclude: [&quot;node_modules&quot;,
+&quot;dist&quot;],
+environment: 'jsdom',
+globals: true,
+root: './',
+dir: './src'
 }
-</code></pre>
-<p class="md-github">Docblock: /** @vitest-environment jsdom */</p>
-<h1 class="md-github"><a class="md-github__anchor" name="runner-pools" href="#runner-pools"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Runner Pools</h1>
-<p class="md-github">Default: forks
-Options: threads (worker_threads), forks (child_process), vmThreads (VM+threads), vmForks (VM+forks)</p>
+})</p>
+<h2 class="md-github"><a class="md-github__anchor" name="merging-vite-and-vitest-configs" href="#merging-vite-and-vitest-configs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Merging Vite and Vitest Configs</h2>
+<p class="md-github">import { defineConfig, mergeConfig } from 'vitest/config'
+import viteConfig from './vite.config'</p>
+<p class="md-github">export default mergeConfig(
+viteConfig,
+defineConfig({ test: { exclude: ['packages/template/*'] } })
+)</p>
+<h1 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h1>
+<ol class="md-github">
+<li class="md-github">Project Setup</li>
+<li class="md-github">Test File Patterns</li>
+<li class="md-github">CLI Options</li>
+<li class="md-github">Configuration File</li>
+<li class="md-github">Config Options Reference</li>
+<li class="md-github">Workspaces</li>
+<li class="md-github">Environment</li>
+<li class="md-github">Dependency Handling</li>
+<li class="md-github">Pools</li>
+<li class="md-github">Reporting</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<h1 class="md-github"><a class="md-github__anchor" name="normalised-extract-1" href="#normalised-extract-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="1-project-setup" href="#1-project-setup"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Project Setup</h2>
+<p class="md-github">Install Vitest: npm install -D vitest
+Add scripts: test: vitest, coverage: vitest run --coverage</p>
+<h2 class="md-github"><a class="md-github__anchor" name="2-test-file-patterns" href="#2-test-file-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Test File Patterns</h2>
+<p class="md-github">include default: ['<strong class="md-github">/*.{test,spec}.?(c|m)[jt]s?(x)']
+exclude default: ['</strong>/node_modules/<strong class="md-github">','</strong>/dist/<strong class="md-github">','</strong>/.{idea,git,cache,output,temp}/<strong class="md-github">',
+'</strong>/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*']
+includeSource default: [] (runs files with import.meta.vitest)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="3-cli-options" href="#3-cli-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. CLI Options</h2>
+<p class="md-github">--config <path>  use specific config
+--run           alias for run once
+run: vitest run [--coverage]
+--watch, -w     default true in interactive
+--update, -u    update snapshots
+--port <n>      port for web UI
+--https         enable HTTPS</p>
+<h2 class="md-github"><a class="md-github__anchor" name="4-configuration-file" href="#4-configuration-file"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Configuration File</h2>
+<p class="md-github">Supported extensions: js, mjs, cjs, ts, cts, mts
+vitest.config.ts higher priority than vite.config.ts
+enable type references: /// <reference types="vitest/config" /></p>
+<h2 class="md-github"><a class="md-github__anchor" name="5-config-options-reference" href="#5-config-options-reference"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Config Options Reference</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="testinclude-string" href="#testinclude-string"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.include: string[]</h3>
+<p class="md-github">default ['**/*.{test,spec}.?(c|m)[jt]s?(x)']</p>
+<h3 class="md-github"><a class="md-github__anchor" name="testexclude-string" href="#testexclude-string"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.exclude: string[]</h3>
+<p class="md-github">default ['<strong class="md-github">/node_modules/</strong>','<strong class="md-github">/dist/</strong>',...]</p>
+<h3 class="md-github"><a class="md-github__anchor" name="testincludesource-string" href="#testincludesource-string"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.includeSource: string[]</h3>
+<p class="md-github">default []</p>
+<h3 class="md-github"><a class="md-github__anchor" name="testname-string" href="#testname-string"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.name: string</h3>
+<p class="md-github">default undefined (visible in CLI and API)</p>
+<h3 class="md-github"><a class="md-github__anchor" name="testroot-string" href="#testroot-string"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.root: string</h3>
+<p class="md-github">default project root
+test.dir: string default same as root</p>
+<h3 class="md-github"><a class="md-github__anchor" name="testglobals-boolean" href="#testglobals-boolean"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.globals: boolean</h3>
+<p class="md-github">default false CLI --globals</p>
+<h3 class="md-github"><a class="md-github__anchor" name="testenvironment-nodejsdomhappy-domedge-runtimecustom" href="#testenvironment-nodejsdomhappy-domedge-runtimecustom"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.environment: 'node'|'jsdom'|'happy-dom'|'edge-runtime'|custom</h3>
+<p class="md-github">default 'node' CLI --environment=<env></p>
+<h3 class="md-github"><a class="md-github__anchor" name="testworkspace-arrayglobobject" href="#testworkspace-arrayglobobject"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.workspace: Array&lt;glob|object&gt;</h3>
+<p class="md-github">defines multiple sub-projects</p>
+<h3 class="md-github"><a class="md-github__anchor" name="testalias-recordstringstringarrayfindreplacementcustomresolver" href="#testalias-recordstringstringarrayfindreplacementcustomresolver"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.alias: Record&lt;string,string&gt;|Array&lt;{find,replacement,customResolver?}&gt;</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testserversourcemap-inlineboolean-default-inline" href="#testserversourcemap-inlineboolean-default-inline"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.server.sourcemap: 'inline'|boolean default 'inline'</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testserverdepsexternal-arraystringregexp-default-node_modules" href="#testserverdepsexternal-arraystringregexp-default-node_modules"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.server.deps.external: Array&lt;string|RegExp&gt; default [//node_modules//]</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testserverdepsinline-arraystringregexptrue-default-" href="#testserverdepsinline-arraystringregexptrue-default-"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.server.deps.inline: Array&lt;string|RegExp&gt;|true default []</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testserverdepsfallbackcjs-boolean-default-false" href="#testserverdepsfallbackcjs-boolean-default-false"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.server.deps.fallbackCJS: boolean default false</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testserverdepscachedir-string-default-node_modulesvite" href="#testserverdepscachedir-string-default-node_modulesvite"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.server.deps.cacheDir: string default 'node_modules/.vite'</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testdepsoptimizerssrwebenabled-boolean-default-false" href="#testdepsoptimizerssrwebenabled-boolean-default-false"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.deps.optimizer.ssr/web.enabled: boolean default false</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testdepsoptimizermodeincludeexclude-string" href="#testdepsoptimizermodeincludeexclude-string"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.deps.optimizer.[mode].include/exclude: string[]</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testdepswebtransformassets-boolean-default-true" href="#testdepswebtransformassets-boolean-default-true"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.deps.web.transformAssets: boolean default true</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testdepswebtransformcss-boolean-default-true" href="#testdepswebtransformcss-boolean-default-true"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.deps.web.transformCss: boolean default true</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testdepsinteropdefault-boolean-default-true" href="#testdepsinteropdefault-boolean-default-true"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.deps.interopDefault: boolean default true</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testdepsmoduledirectories-string-default-node_modules" href="#testdepsmoduledirectories-string-default-node_modules"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.deps.moduleDirectories: string[] default ['node_modules']</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testrunner-stringvitestrunnerconstructor-default-node-or-benchmark" href="#testrunner-stringvitestrunnerconstructor-default-node-or-benchmark"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.runner: string|VitestRunnerConstructor default 'node' or 'benchmark'</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testbenchmarkincludeexcludeincludesource-string-defaults" href="#testbenchmarkincludeexcludeincludesource-string-defaults"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.benchmark.include/exclude/includeSource: string[] defaults</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testbenchmarkreporters-arrayablestringreporter-default-default" href="#testbenchmarkreporters-arrayablestringreporter-default-default"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.benchmark.reporters: Arrayable&lt;string|Reporter&gt; default 'default'</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testbenchmarkoutputjson-stringundefined-default-undefined" href="#testbenchmarkoutputjson-stringundefined-default-undefined"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.benchmark.outputJson: string|undefined default undefined</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testbenchmarkcompare-stringundefined-default-undefined" href="#testbenchmarkcompare-stringundefined-default-undefined"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.benchmark.compare: string|undefined default undefined</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testreporters-stringstringreporter-default-default" href="#testreporters-stringstringreporter-default-default"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.reporters: string|string[]|Reporter[] default 'default'</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testoutputfile-stringrecordstringstring" href="#testoutputfile-stringrecordstringstring"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.outputFile: string|Record&lt;string,string&gt;</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testpool-threadsforksvmthreadsvmforks-default-forks" href="#testpool-threadsforksvmthreadsvmforks-default-forks"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.pool: 'threads'|'forks'|'vmThreads'|'vmForks' default 'forks'</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testwatch-boolean-default-processenvci--processstdinistty" href="#testwatch-boolean-default-processenvci--processstdinistty"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.watch: boolean default !process.env.CI &amp;&amp; process.stdin.isTTY</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="testupdate-boolean-default-false" href="#testupdate-boolean-default-false"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>test.update: boolean default false</h3>
+<h2 class="md-github"><a class="md-github__anchor" name="6-workspaces" href="#6-workspaces"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Workspaces</h2>
+<p class="md-github">Define multiple configs:</p>
+<p class="md-github">workspace: [
+'packages/*',
+{ test: { name:'node', environment:'node', setupFiles:['./setup.node.ts'] } }
+]</p>
+<h2 class="md-github"><a class="md-github__anchor" name="7-environment" href="#7-environment"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Environment</h2>
+<p class="md-github">Built-ins: node, jsdom, happy-dom, edge-runtime
+define custom environment:</p>
+<p class="md-github">interface Environment {
+name: string
+transformMode: 'ssr'|'web'
+setup(): { teardown(): void }
+}</p>
+<p class="md-github">Register name via @vitest-environment docblock or CLI --environment</p>
+<h2 class="md-github"><a class="md-github__anchor" name="8-dependency-handling" href="#8-dependency-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8. Dependency Handling</h2>
+<p class="md-github">Externalize by default: [/node_modules/]
+Inline specific deps: test.server.deps.inline</p>
+<p class="md-github">Opt-in optimizer: test.deps.optimizer.ssr/web.enabled</p>
+<h2 class="md-github"><a class="md-github__anchor" name="9-pools" href="#9-pools"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>9. Pools</h2>
+<p class="md-github">threads (worker_threads), forks (child_process), vmThreads, vmForks
+Default: forks
+enable via test.pool or CLI --pool</p>
+<h2 class="md-github"><a class="md-github__anchor" name="10-reporting" href="#10-reporting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>10. Reporting</h2>
+<p class="md-github">reporters: specify built-ins or custom via path
+outputFile writes JSON/HTML/JUNIT</p>
+<h2 class="md-github"><a class="md-github__anchor" name="11-troubleshooting" href="#11-troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>11. Troubleshooting</h2>
+<p class="md-github">Disable prompts: set VITEST_SKIP_INSTALL_CHECKS=1
+enforce config: --config
+update snapshots: --update</p>
+<h1 class="md-github"><a class="md-github__anchor" name="documentnamestobedeleted" href="#documentnamestobedeleted"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>documentNamesToBeDeleted</h1>
+<p class="md-github">none</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: Vitest Documentation</li>
 <li class="md-github">URL: https://vitest.dev/</li>
 <li class="md-github">License: License: MIT</li>
-<li class="md-github">Crawl Date: 2025-05-03T22:27:29.229Z</li>
-<li class="md-github">Data Size: 38084111 bytes</li>
-<li class="md-github">Links Found: 25804</li>
+<li class="md-github">Crawl Date: 2025-05-06T09:30:04.536Z</li>
+<li class="md-github">Data Size: 35791628 bytes</li>
+<li class="md-github">Links Found: 25405</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-05-03</p>
+<p class="md-github">2025-05-06</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-05-03T23:23:01.458Z</p>
+    <p>Generated on 2025-05-06T10:40:55.017Z</p>
   </footer>
 </body>
 </html>
