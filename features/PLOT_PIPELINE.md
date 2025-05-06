@@ -1,31 +1,21 @@
 # Overview
-Implement the previously stubbed renderPlot function using ChartJSNodeCanvas to produce SVG and PNG outputs and integrate it fully into the CLI. Ensure that users can generate image files or write directly to stdout for both formats, with configurable dimensions and axis labels.
 
-# Source File Updates
-1. In renderPlot(data, options) replace the stub with a real implementation:
-   - Destructure width (default 800), height (default 600), format ('svg' or 'png'), and labels (default { x: 'x', y: 'y' }) from options.
-   - Instantiate ChartJSNodeCanvas with { width, height, chartCallback }.
-   - Build a Chart.js configuration with type 'line', datasets containing the data series, and axis labels from options.labels.
-   - If format is 'svg', call chartCanvas.renderToBuffer({ width, height, format: 'svg' }) and convert the Buffer to UTF-8 string before returning.
-   - If format is 'png', call chartCanvas.renderToBuffer({ width, height, format: 'png' }) and return the Buffer.
-   - Throw an error for unsupported format values.
-2. In the main CLI entrypoint:
-   - Detect the --plot-format flag and await renderPlot(data, { format: plotFormat, width: argv.width, height: argv.height, labels: { x: argv['label-x'], y: argv['label-y'] } }).
-   - If --output is provided, write the returned Buffer or string to the given filename with fs.writeFileSync or fs.writeFileSync with utf-8 for SVG.
-   - If no --output, write binary Buffers to process.stdout.write or console.log the SVG string.
-   - Add CLI options --width, --height, --label-x, --label-y with appropriate types and defaults.
+Add unit and integration tests for renderPlot function covering SVG and PNG output and update documentation with rendering examples.
 
 # Tests
-1. Unit tests for renderPlot:
-   - Stub ChartJSNodeCanvas.prototype.renderToBuffer to return a Buffer for 'png' and a Buffer containing an SVG string for 'svg'.
-   - Verify renderPlot returns a Buffer for PNG and a string starting with '<svg' for SVG.
-   - Verify error is thrown for an unsupported format.
-2. Integration tests for the CLI:
-   - Mock fs.writeFileSync and process.stdout.write to capture outputs when using --plot-format png and --plot-format svg with and without --output.
-   - Verify that a PNG buffer is written with the correct PNG magic number and that an SVG string containing axis labels appears in the output.
+
+1. Unit tests for renderPlot
+   - Stub ChartJSNodeCanvas.prototype.renderToBuffer to return a Buffer for png format and a Buffer containing an SVG string for svg format.
+   - Assert renderPlot returns a string starting with <svg for svg and a Buffer whose first bytes match the PNG magic number for png.
+   - Verify that calling renderPlot with an unsupported format throws an error.
+
+2. Integration tests for CLI plot output
+   - Mock fs.writeFileSync and process.stdout.write to capture outputs.
+   - Run main with --plot-format svg and without --output and assert that process.stdout.write is called with the SVG string.
+   - Run main with --plot-format png and --output file.png and assert that fs.writeFileSync is called with a Buffer starting with the PNG magic number.
 
 # Documentation
-1. Update USAGE.md:
-   - Add examples showing --plot-format png and --plot-format svg with --width, --height, --label-x, --label-y and either --output or piping to stdout.
-   - Show sample SVG snippet and note PNG magic number verification.
-2. Update README.md under Features and CLI Usage to include new options --width, --height, --label-x, --label-y, and illustrate programmatic use of renderPlot returning PNG buffer or SVG string.
+
+1. Update USAGE.md with examples for generating plot.svg and plot.png using --plot-format, --width, --height, --label-x, and --label-y options. Include a snippet of the SVG and note the PNG magic number.
+
+2. Update README.md under Features and CLI Usage to include the new plot examples and a programmatic example calling renderPlot for both svg and png formats.
