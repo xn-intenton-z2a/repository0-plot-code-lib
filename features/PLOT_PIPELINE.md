@@ -1,51 +1,45 @@
 # Overview
-
-Fully implement the plot rendering pipeline so that users can generate SVG and PNG images from time series data using ChartJSNodeCanvas. Remove the stub and provide a working implementation accessible via both the CLI and programmatic API.
+Fully implement the plot rendering pipeline so that users can generate SVG and PNG images from time series data using ChartJSNodeCanvas. Remove the stub and provide a working implementation accessible via both the CLI and the programmatic API. Ensure seamless handling of output to stdout or file targets and clear errors for unsupported formats.
 
 # Source File Updates
-
 In src/lib/main.js
 
-1. Update renderPlot to perform actual rendering:
-   - Create a ChartJSNodeCanvas instance with options { width: options.width || 800, height: options.height || 600, backgroundColour: 'transparent' }.
-   - Build a Chart.js configuration object:
-     - type: 'line'
-     - data: { labels: data.map(p => p.x), datasets: [{ label: options.labels?.y || 'Series', data: data.map(p => p.y), fill: false, borderColor: 'blue' }] }
-     - options: { scales: { x: { title: { display: Boolean(options.labels?.x), text: options.labels?.x } }, y: { title: { display: Boolean(options.labels?.y), text: options.labels?.y } } } }
-   - Determine mimeType based on options.format ('image/svg+xml' or 'image/png'), throw an error if format is unsupported.
-   - Call renderToBuffer(config, mimeType) and return the resulting Buffer or string (buffer.toString('utf-8') for SVG).
+1  Implement renderPlot function
+   - Instantiate ChartJSNodeCanvas with options width, height, backgroundColour transparent
+   - Build a Chart configuration object with type line, labels from data x values, dataset of y values, borderColor blue, no fill
+   - Configure scale titles when options.labels.x or options.labels.y are provided
+   - Determine mimeType based on options.format svg maps to image svg+xml, png maps to image png, throw error if format unsupported
+   - Call renderToBuffer with config and mimeType
+   - If format svg return buffer converted to utf8 string, if png return Buffer
 
-2. In main, replace the stubbed error for plot-format:
-   - After generateTimeSeries, if argv['plot-format'] is set:
-     • Call renderPlot(data, { format: argv['plot-format'], width: argv.width, height: argv.height, labels: { x: argv['labels']?.x, y: argv['labels']?.y } }).
-     • Capture the result:
-       - If format is svg and output path provided, write string to fs.writeFileSync with 'utf-8'; if no output, console.log the SVG string.
-       - If format is png and output path provided, write buffer to fs.writeFileSync; if no output, process.stdout.write the buffer.
-     • Return exit code zero on success and non-zero for errors thrown by renderPlot.
+2  Extend CLI main implementation
+   - In yargs setup add options --width number, --height number, --label-x string, --label-y string
+   - After generateTimeSeries, when argv plot-format is set call renderPlot with data and options object
+   - Capture result promise, await renderPlot
+   - For svg result as string write to fs.writeFileSync when output provided or console.log when no output
+   - For png result as Buffer write to fs.writeFileSync when output provided or process.stdout.write when no output
+   - Catch errors thrown by renderPlot, print error message to stderr and return non-zero exit code
+   - Return exit code zero on successful write
 
-3. Extend yargs to parse optional width, height, labels.x, labels.y for plot rendering:
-   - Add options: --width (number), --height (number), --label-x (string), --label-y (string).
+3  Remove the existing stub error in renderPlot and the placeholder in CLI that prints unimplemented
 
 # Tests
-
 In tests/unit/plot-generation.test.js
 
-- Add unit tests for renderPlot:
-  • Stub ChartJSNodeCanvas.renderToBuffer to return a Buffer containing an SVG string and assert that renderPlot returns a string starting with '<svg'.
-  • Stub renderToBuffer to return a Buffer whose first bytes match the PNG signature and assert renderPlot returns a Buffer.
-  • Test that renderPlot throws an error for unsupported format values.
+- Add unit tests for renderPlot implementation
+  - Stub ChartJSNodeCanvas.renderToBuffer to return a Buffer containing an SVG string and assert that renderPlot returns a string starting with <svg
+  - Stub ChartJSNodeCanvas.renderToBuffer to return a Buffer starting with PNG header and assert that renderPlot returns a Buffer
+  - Test renderPlot throws an error for unsupported format values
 
-- Add CLI integration tests for plot-format:
-  • Mock renderPlot to return a predefined SVG string, stub fs.writeFileSync and console.log to verify CLI writes or logs correctly when --plot-format svg is used.
-  • Mock renderPlot to return a PNG buffer, stub fs.writeFileSync and process.stdout.write to verify CLI writes correctly when --plot-format png is used.
-  • Test that providing an invalid --plot-format yields exit code non-zero and prints an error to stderr.
+- Add CLI integration tests
+  - Mock renderPlot to return predefined SVG string and stub fs.writeFileSync and console.log to verify correct output for --plot-format svg with and without --output
+  - Mock renderPlot to return PNG buffer and stub fs.writeFileSync and process.stdout.write to verify correct output for --plot-format png with and without --output
+  - Test that invalid --plot-format yields non-zero exit code and prints an error to stderr
 
 # Documentation
-
 Update README.md and USAGE.md
 
-- Document --plot-format flag and its valid values svg and png, plus new options --width, --height, --label-x, --label-y.
-- Provide CLI examples:
-  • Generating an SVG with axis labels and custom dimensions to a file and to stdout.
-  • Generating a PNG image with custom dimensions.
-- Extend programmatic API section with an example showing how to call renderPlot with format, width, height, and labels, and how to handle the returned SVG string or PNG buffer.
+- Document --plot-format flag valid values svg and png
+- Document new options --width, --height, --label-x, --label-y with descriptions and default behaviors
+- Provide CLI examples for generating SVG and PNG to file and to stdout with custom dimensions and labels
+- Extend programmatic API section to illustrate calling renderPlot and handling returned SVG string or PNG buffer
