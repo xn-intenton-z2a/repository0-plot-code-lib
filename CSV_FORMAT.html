@@ -24,303 +24,258 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="csv_format" href="#csv_format"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV_FORMAT</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Record delimitation: lines end with CRLF; last line may omit CRLF. Optional header with same field count indicated by header parameter. Fields separated by comma; spaces retained. Fields with commas, CRLF or quotes must be quoted. Quoted fields start/end with double-quote; internal quotes escaped by doubling. ABNF grammar defines file, header, record, field structures. MIME registration: text/csv; parameters charset (US-ASCII default, any IANA text charset) and header (present, absent); CRLF line breaks; file extension .csv.</p>
+<p class="md-github">Each CSV record is a CRLF-delimited line. Optional header line indicated via header parameter. Fields separated by comma; spaces significant. Quoting rules: quote fields containing CRLF, commas, quotes; escape internal quotes by doubling. ABNF grammar defines file, header, record, field, escaped and non-escaped forms. MIME type text/csv registered with optional charset and header parameters. File extension .CSV.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
 <li class="md-github">
-<p class="md-github">Record Structure</p>
+<p class="md-github">Record Delimiter</p>
 </li>
 <li class="md-github">
-<p class="md-github">Header Line Parameter</p>
+<p class="md-github">Header Line</p>
 </li>
 <li class="md-github">
-<p class="md-github">Field Delimiting</p>
+<p class="md-github">Field Separator</p>
 </li>
 <li class="md-github">
-<p class="md-github">Quoting and Escaping</p>
+<p class="md-github">Quoting Rules</p>
+</li>
+<li class="md-github">
+<p class="md-github">Escaping Double Quotes</p>
 </li>
 <li class="md-github">
 <p class="md-github">ABNF Grammar</p>
 </li>
 <li class="md-github">
-<p class="md-github">MIME Registration Parameters</p>
+<p class="md-github">MIME Parameters and File Extension</p>
 </li>
 <li class="md-github">
-<p class="md-github">Record Structure
-Definition: record = field *(COMMA field)
-Terminator: CRLF or EOF</p>
+<p class="md-github">Record Delimiter
+Each record ends with CRLF (\r\n). Last record may omit trailing CRLF.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Header Line Parameter
-header = name *(COMMA name)
-Parameter: header=present | header=absent
-Behavior: when present, first record is header; when absent, first record is data.</p>
+<p class="md-github">Header Line
+Optional first line matching record format; header parameter = present|absent.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Field Delimiting
-Separator: COMMA (0x2C)
-No trailing comma after final field.
-Spaces preserved within fields.</p>
+<p class="md-github">Field Separator
+Comma (%x2C). No trailing comma after last field. Spaces are part of field content.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Quoting and Escaping
-Unescaped field: TEXTDATA = %x20-21 / %x23-2B / %x2D-7E
-Escaped field: DQUOTE text DQUOTE
-text: TEXTDATA / COMMA / CR / LF / 2DQUOTE
-Internal DQUOTE: represented as two DQUOTE (&quot;&quot;&quot;)</p>
+<p class="md-github">Quoting Rules
+Fields may be enclosed in DQUOTE (%x22). Mandatory quoting when field includes comma, CR, LF, or quote.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Escaping Double Quotes
+Within quoted field, represent a single quote by two sequential DQUOTE characters.</p>
 </li>
 <li class="md-github">
 <p class="md-github">ABNF Grammar
 file = [header CRLF] record *(CRLF record) [CRLF]
-CRLF = 0x0D 0x0A</p>
+header = name *(COMMA name)
+record = field *(COMMA field)
+field = escaped / non-escaped
+escaped = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
+non-escaped = *TEXTDATA</p>
 </li>
 <li class="md-github">
-<p class="md-github">MIME Registration Parameters
-media-type: text/csv
-charset (optional): US-ASCII default, others allowed
-header (optional): present | absent</p>
+<p class="md-github">MIME Parameters and File Extension
+MIME type: text/csv
+Parameters:
+charset = IANA text charsets (default US-ASCII)
+header = present | absent
+File extension: CSV</p>
 </li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Parameter Values:
-• charset=US-ASCII (default), or any IANA text charset (e.g., UTF-8).
-• header=present or header=absent (no default; implementations choose if omitted).</p>
+<p class="md-github">Parameters and Defaults:</p>
+<ul class="md-github">
+<li class="md-github">charset: US-ASCII (other IANA text charsets allowed)</li>
+<li class="md-github">header: present | absent (default implementor choice if omitted)</li>
+<li class="md-github">delimiter: comma</li>
+<li class="md-github">lineBreak: CRLF</li>
+</ul>
 <p class="md-github">Implementation Steps:</p>
 <ol class="md-github">
-<li class="md-github">Open file in binary or text mode respecting CRLF sequences.</li>
-<li class="md-github">Read until CRLF or EOF to obtain each record line.</li>
-<li class="md-github">If header=present, parse first record as field names.</li>
-<li class="md-github">For each record, split on commas, but only at positions not within quoted segments.</li>
-<li class="md-github">For each field:
-a. If surrounded by DQUOTE, remove leading/trailing DQUOTE and replace &quot;&quot;&quot; with DQUOTE.
-b. Otherwise, take raw TEXTDATA.</li>
-<li class="md-github">Validate field count matches header or first record count.</li>
+<li class="md-github">Read input as bytes, convert to string using specified charset.</li>
+<li class="md-github">Split input on CRLF boundary, preserving empty final line.</li>
+<li class="md-github">If header=present, parse first line as array of names by splitting per rules.</li>
+<li class="md-github">For each line, parse fields:
+a. If starts with DQUOTE, read until matching unescaped DQUOTE, handling doubled DQUOTE as single quote.
+b. If unquoted, read until next COMMA or line end.</li>
+<li class="md-github">Return array of records (arrays of strings).</li>
 </ol>
-<p class="md-github">Character Handling:
-• Accept CRLF, LF, or CR alone when reading lines.
-• Internally normalize to LF or native line endings.</p>
-<p class="md-github">Edge Cases:
-• Lines ending in CRLF or LF only.
-• Unescaped quotes raise parsing errors.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">ABNF Grammar:
-file = [header CRLF] record *(CRLF record) [CRLF]
-header = name *(COMMA name)
-record = field *(COMMA field)
-name = field
-field = escaped / non-escaped
-escaped = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
-non-escaped = *TEXTDATA
-COMMA = %x2C
-CR = %x0D
-LF = %x0A
-CRLF = CR LF
-DQUOTE = %x22
-TEXTDATA = %x20-21 / %x23-2B / %x2D-7E</p>
-<p class="md-github">MIME Registration Table:</p>
-<table class="md-github">
-<thead class="md-github">
-<tr class="md-github">
-<th class="md-github">Parameter</th>
-<th class="md-github">Values</th>
-<th class="md-github">Default</th>
-<th class="md-github">Effect</th>
-</tr>
-</thead>
-<tbody class="md-github">
-<tr class="md-github">
-<td class="md-github">charset</td>
-<td class="md-github">US-ASCII, UTF-8,...</td>
-<td class="md-github">US-ASCII</td>
-<td class="md-github">character encoding of data</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">header</td>
-<td class="md-github">present, absent</td>
-<td class="md-github">none</td>
-<td class="md-github">indicates header line usage</td>
-</tr>
-</tbody>
-</table>
-<p class="md-github">Best Practice Code (JavaScript):
-function parseCsv(buffer, options){
-const charset = options.charset||'utf8'
-const headerFlag = options.header==='present'
-const text = Buffer.isBuffer(buffer)?buffer.toString(charset):buffer
-const lines = text.split(/\r?\n/)  // normalize CRLF, LF
-if(lines.length===0) return []
-let keys=[], start=0
-if(headerFlag){ keys = splitLine(lines[0]); start=1 }
-const result = []
-for(let i=start;i&lt;lines.length;i++){
-if(!lines[i]) continue
-const fields = splitLine(lines[i])
-if(keys.length&amp;&amp;fields.length!==keys.length) throw new Error('Field count mismatch on line '+(i+1))
-result.push(keys.length?Object.fromEntries(keys.map((k,j)=&gt;[k,fields[j]])):fields)
-}
-return result
-}</p>
-<p class="md-github">function splitLine(line){
-const fields=[]
-let field='', inQuotes=false
-for(let i=0;i&lt;line.length;i++){
-const ch=line[i]
-if(ch==='&quot;'){
-if(inQuotes &amp;&amp; line[i+1]==='&quot;'){ field+='&quot;'; i++ }
-else inQuotes=!inQuotes
-} else if(ch===',' &amp;&amp; !inQuotes){ fields.push(field); field='' }
-else field+=ch
-}
-fields.push(field)
-return fields
-}</p>
-<p class="md-github">// Usage:
-// const data = fs.readFileSync('file.csv');
-// const records = parseCsv(data,{charset:'utf8',header:'present'});</p>
-<p class="md-github">Troubleshooting:</p>
-<ol class="md-github">
-<li class="md-github">Unbalanced quotes =&gt; Error: Field count mismatch on line X. Solution: verify quotes and escapes.</li>
-<li class="md-github">Mixed line endings =&gt; use dos2unix and unix2dos to normalize:
-dos2unix file.csv =&gt; converts CRLF to LF
-unix2dos file.csv =&gt; converts LF to CRLF</li>
-<li class="md-github">Unexpected encoding =&gt; verify charset parameter against BOM or external metadata.</li>
-</ol>
+<p class="md-github">API: parseCSV(input: string|Buffer, options?: {charset?: string; header?: 'present'|'absent'; delimiter?: string;}): {headers?: string[]; rows: string[][]}</p>
+<p class="md-github">Parameters:</p>
+<ul class="md-github">
+<li class="md-github">input: UTF-8 string or Buffer</li>
+<li class="md-github">options.charset: IANA text charset (default 'utf-8')</li>
+<li class="md-github">options.header: 'present' | 'absent' (default 'absent')</li>
+<li class="md-github">options.delimiter: string (default ',')</li>
+</ul>
+<p class="md-github">Returns:</p>
+<ul class="md-github">
+<li class="md-github">headers: string[] if header=present</li>
+<li class="md-github">rows: array of records</li>
+</ul>
+<p class="md-github">Code Example (Node.js):
+const fs = require('fs');
+const { parseCSV } = require('csv-parser');</p>
+<p class="md-github">const raw = fs.readFileSync('data.csv', {encoding: 'utf-8'});
+const {headers, rows} = parseCSV(raw, {header: 'present', charset: 'utf-8'});
+console.log(headers);
+console.table(rows);</p>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Normalize line breaks to CRLF before parsing.</li>
+<li class="md-github">Trim BOM if present.</li>
+<li class="md-github">Validate uniform field count per record; raise error if mismatch.</li>
+</ul>
+<p class="md-github">Troubleshooting:
+Command: head -n1 data.csv | od -c
+Expected: '\r\n' at end-of-line; presence of '\n' only may indicate improper line-break.
+Command: node test-parser.js
+Expected: no exceptions; rows.length &gt; 0.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">Record=fields separated by COMMA, terminated by CRLF or EOF; Last record CRLF optional; Optional header line indicated via header parameter (present|absent); Field: unquoted TEXTDATA(%x20-21/%x23-2B/%x2D-7E) or quoted DQUOTE(text)DQUOTE; text includes TEXTDATA, COMMA, CR, LF, or 2DQUOTE; Internal DQUOTE escaped as two DQUOTE; ABNF defines file/header/record/field grammar; MIME=text/csv; charset=US-ASCII default, others allowed; header parameter configures header usage; Line breaks CRLF but tolerant of LF; Implementation: split lines on /\r?\n/, parse fields with state machine handling quotes, validate field counts; Best practice: conservative parsing, liberal acceptance; Troubleshoot unbalanced quotes and line ending inconsistencies.</p>
+<p class="md-github">Record Delimiter=CRLF; Last record may omit. Header optional (header=present|absent). Delimiter=COMMA. Spaces significant. Fields requiring quoting: containing comma, CR, LF, quote. Quoted fields start/end with DQUOTE; internal DQUOTE escaped as two DQUOTE. ABNF: file=[headerCRLF]record*(CRLFrecord)[CRLF]; field=escaped/non-escaped; escaped=DQUOTE*(TEXTDATA/COMMA/CR/LF/2DQUOTE)DQUOTE; non-escaped=*TEXTDATA. MIME=text/csv; params: charset (IANA text; default US-ASCII), header (present|absent). Extension=CSV.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
 <li class="md-github">
-<p class="md-github">Record Structure</p>
+<p class="md-github">Record Delimiter</p>
 </li>
 <li class="md-github">
-<p class="md-github">Header Line Parameter</p>
+<p class="md-github">Header Line</p>
 </li>
 <li class="md-github">
-<p class="md-github">Field Delimiting</p>
+<p class="md-github">Field Separator</p>
 </li>
 <li class="md-github">
-<p class="md-github">Quoting and Escaping</p>
+<p class="md-github">Quoting Rules</p>
+</li>
+<li class="md-github">
+<p class="md-github">Escaping Double Quotes</p>
 </li>
 <li class="md-github">
 <p class="md-github">ABNF Grammar</p>
 </li>
 <li class="md-github">
-<p class="md-github">MIME Registration Parameters</p>
+<p class="md-github">MIME Parameters and File Extension</p>
 </li>
 <li class="md-github">
-<p class="md-github">Record Structure
-Definition: record = field *(COMMA field)
-Terminator: CRLF or EOF</p>
+<p class="md-github">Record Delimiter
+Each record ends with CRLF ('r'n). Last record may omit trailing CRLF.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Header Line Parameter
-header = name *(COMMA name)
-Parameter: header=present | header=absent
-Behavior: when present, first record is header; when absent, first record is data.</p>
+<p class="md-github">Header Line
+Optional first line matching record format; header parameter = present|absent.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Field Delimiting
-Separator: COMMA (0x2C)
-No trailing comma after final field.
-Spaces preserved within fields.</p>
+<p class="md-github">Field Separator
+Comma (%x2C). No trailing comma after last field. Spaces are part of field content.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Quoting and Escaping
-Unescaped field: TEXTDATA = %x20-21 / %x23-2B / %x2D-7E
-Escaped field: DQUOTE text DQUOTE
-text: TEXTDATA / COMMA / CR / LF / 2DQUOTE
-Internal DQUOTE: represented as two DQUOTE (''')</p>
+<p class="md-github">Quoting Rules
+Fields may be enclosed in DQUOTE (%x22). Mandatory quoting when field includes comma, CR, LF, or quote.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Escaping Double Quotes
+Within quoted field, represent a single quote by two sequential DQUOTE characters.</p>
 </li>
 <li class="md-github">
 <p class="md-github">ABNF Grammar
 file = [header CRLF] record *(CRLF record) [CRLF]
-CRLF = 0x0D 0x0A</p>
+header = name *(COMMA name)
+record = field *(COMMA field)
+field = escaped / non-escaped
+escaped = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
+non-escaped = *TEXTDATA</p>
 </li>
 <li class="md-github">
-<p class="md-github">MIME Registration Parameters
-media-type: text/csv
-charset (optional): US-ASCII default, others allowed
-header (optional): present | absent</p>
+<p class="md-github">MIME Parameters and File Extension
+MIME type: text/csv
+Parameters:
+charset = IANA text charsets (default US-ASCII)
+header = present | absent
+File extension: CSV</p>
 </li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
 <p class="md-github">CSV (RFC 4180) Specification
 https://datatracker.ietf.org/doc/html/rfc4180</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-csv_format" href="#digest-of-csv_format"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of CSV_FORMAT</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="csv-format-and-mime-type-rfc4180" href="#csv-format-and-mime-type-rfc4180"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Format and MIME Type (RFC4180)</h1>
+<p class="md-github"><em class="md-github">Originally retrieved on 2023-10-05</em></p>
 <h1 class="md-github"><a class="md-github__anchor" name="definition-of-the-csv-format" href="#definition-of-the-csv-format"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definition of the CSV Format</h1>
-<p class="md-github">Date Retrieved: 2024-06-10
-Data Size: 4025809 bytes, Links Found: 8227</p>
 <ol class="md-github">
 <li class="md-github">
-<p class="md-github">Each record: one line terminated by CRLF (0x0D 0x0A).
-Examples:
-aaa,bbb,ccc CRLF
-zzz,yyy,xxx CRLF</p>
+<p class="md-github">Each record is on its own line, delimited by CRLF (\r\n).
+Example:
+aaa,bbb,ccc\r\n
+zzz,yyy,xxx\r\n</p>
 </li>
 <li class="md-github">
-<p class="md-github">Last record may omit terminal CRLF:
-aaa,bbb,ccc CRLF
+<p class="md-github">Final record may omit trailing CRLF:
+aaa,bbb,ccc\r\n
 zzz,yyy,xxx</p>
 </li>
 <li class="md-github">
-<p class="md-github">Optional header line as first line; same field count as subsequent records; indicated via header parameter.
+<p class="md-github">Optional header line, same field count as data records. Indicated by MIME parameter header=present or header=absent.
 Example:
-field_name,field_name,field_name CRLF
-aaa,bbb,ccc CRLF
-zzz,yyy,xxx CRLF</p>
+field1,field2,field3\r\n
+aaa,bbb,ccc\r\n</p>
 </li>
 <li class="md-github">
-<p class="md-github">Fields separated by COMMA (0x2C); spaces are data; no trailing comma on last field.
+<p class="md-github">Fields separated by comma. Spaces are significant. No trailing comma after last field.
 Example: aaa,bbb,ccc</p>
 </li>
 <li class="md-github">
-<p class="md-github">Field quoting rules:
-• Unquoted fields: TEXTDATA only, no quotes allowed.
-• Quoted fields: begin and end with DQUOTE (0x22).
-• Fields with CRLF, comma or DQUOTE must be quoted.
-• Inside quoted fields, a DQUOTE is represented by two DQUOTE.
-Examples:
-&quot;aaa&quot;,&quot;b CRLF
-bb&quot;,&quot;ccc&quot; CRLF
-&quot;aaa&quot;,&quot;b&quot;&quot;bb&quot;,&quot;ccc&quot;</p>
+<p class="md-github">Fields may be enclosed in double quotes (&quot;). If not quoted, embedded quotes are disallowed.
+Example: &quot;aaa&quot;,&quot;bbb&quot;,&quot;ccc&quot;\r\n</p>
+</li>
+<li class="md-github">
+<p class="md-github">Fields with CRLF, comma, or quote must be quoted.
+Example:
+&quot;aaa&quot;,&quot;b\r\nbb&quot;,&quot;ccc&quot;\r\n</p>
+</li>
+<li class="md-github">
+<p class="md-github">To include a double quote inside a quoted field, escape by doubling it:
+Example: &quot;aaa&quot;,&quot;b&quot;&quot;bb&quot;,&quot;ccc&quot;</p>
 </li>
 </ol>
-<h1 class="md-github"><a class="md-github__anchor" name="abnf-grammar-rfc2234-section-61" href="#abnf-grammar-rfc2234-section-61"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ABNF Grammar (RFC2234 Section 6.1)</h1>
-<p class="md-github">file = [header CRLF] record *(CRLF record) [CRLF]
-header = name *(COMMA name)
-record = field *(COMMA field)
-name = field
-field = escaped / non-escaped
-escaped = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
-non-escaped = *TEXTDATA
-COMMA = %x2C
-CR = %x0D
-LF = %x0A
-CRLF = CR LF
-DQUOTE = %x22
+<h1 class="md-github"><a class="md-github__anchor" name="abnf-grammar" href="#abnf-grammar"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ABNF Grammar</h1>
+<p class="md-github">file     = [header CRLF] record *(CRLF record) [CRLF]
+header   = name *(COMMA name)
+record   = field *(COMMA field)
+field    = escaped / non-escaped
+escaped  = DQUOTE *(TEXTDATA / COMMA / CR / LF / 2DQUOTE) DQUOTE
+non-esc. = *TEXTDATA
+COMMA    = %x2C
+CR       = %x0D
+LF       = %x0A
+CRLF     = CR LF
+DQUOTE   = %x22
 TEXTDATA = %x20-21 / %x23-2B / %x2D-7E</p>
-<h1 class="md-github"><a class="md-github__anchor" name="mime-type-registration-of-textcsv" href="#mime-type-registration-of-textcsv"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MIME Type Registration of text/csv</h1>
-<p class="md-github">Media Type: text/csv
-Required parameters: none
-Optional parameters:
-• charset: default US-ASCII; any IANA-registered text charset.
-• header: present | absent; indicates presence of header line.</p>
-<p class="md-github">Encoding: CRLF for line breaks; implementations may tolerate other newline sequences.</p>
-<p class="md-github">Security: passive text; buffer-overflow risk if binary inserted; treat data conservatively.</p>
-<p class="md-github">Interoperability: be conservative in output, liberal in input; header parameter optional; implementations decide header presence if header absent.</p>
-<p class="md-github">Additional info:
-• File extension: .csv
-• Magic number: none
-• Macintosh type code: TEXT</p>
-<p class="md-github">Contact: Yakov Shafranovich <a href="mailto:ietf@shaftek.org" class="md-github">ietf@shaftek.org</a></p>
+<h1 class="md-github"><a class="md-github__anchor" name="mime-type-registration-textcsv" href="#mime-type-registration-textcsv"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MIME Type Registration (text/csv)</h1>
+<ul class="md-github">
+<li class="md-github">Type: text</li>
+<li class="md-github">Subtype: csv</li>
+<li class="md-github">Optional parameters:
+<ul class="md-github">
+<li class="md-github">charset (default US-ASCII)</li>
+<li class="md-github">header = present | absent</li>
+</ul>
+</li>
+<li class="md-github">Encoding: CRLF line breaks</li>
+<li class="md-github">File extension: .CSV</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: CSV (RFC 4180) Specification</li>
 <li class="md-github">URL: https://datatracker.ietf.org/doc/html/rfc4180</li>
 <li class="md-github">License: License: IETF (public domain)</li>
-<li class="md-github">Crawl Date: 2025-05-06T16:30:33.423Z</li>
+<li class="md-github">Crawl Date: 2025-05-06T18:31:03.253Z</li>
 <li class="md-github">Data Size: 4025809 bytes</li>
 <li class="md-github">Links Found: 8227</li>
 </ul>
@@ -329,7 +284,7 @@ Optional parameters:
 
   </section>
   <footer>
-    <p>Generated on 2025-05-06T16:39:40.140Z</p>
+    <p>Generated on 2025-05-06T20:36:55.714Z</p>
   </footer>
 </body>
 </html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="jsonstream" href="#jsonstream"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSONSTREAM</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">install npm install JSONStream; parse(path,map) returns Transform emitting header/data/footer; path supports string patterns such as 'rows.*.doc', recursive '..', array patterns using string, true, RegExp, function, {recurse:true}, {emitKey:true}, {emitPath:true}; stringify(open,sep,close) returns Writable with defaults open='[\n', sep='\n,\n', close='\n]\n'; stringify(false) uses newline separator only; stringifyObject similar with '{\n','\n,\n','\n}\n', accepts write([key,data]); numbers &lt;=MAX_SAFE_INTEGER as Number, larger as String</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Installation
+2 JSONStream.parse(path[,map])
+3 Event API
+4 JSONStream.stringify(open,sep,close)
+5 JSONStream.stringifyObject(open,sep,close)
+6 Recursive Patterns
+7 Key and Path Emission
+8 Number Handling</p>
+<p class="md-github">1 Installation
+npm install JSONStream</p>
+<p class="md-github">2 JSONStream.parse(path[,map])
+path: string or array pattern
+string examples: 'rows.<em class="md-github">', 'rows.</em>.doc', 'docs..value'
+'..': recursive descent
+array pattern elements:
+string: key name
+true: wildcard any key
+RegExp: match key
+function(value): custom test
+{recurse:true}: recursive descent
+{emitKey:true}: emit key/value pairs
+{emitPath:true}: emit match path/value
+map: function(nodeValue) =&gt; return non-nullish to emit
+returns: Transform stream emitting 'header','data','footer'</p>
+<p class="md-github">3 Event API
+'on header': raw JSON before matches
+'on data': each matched value or mapped result
+'on footer': raw JSON after matches</p>
+<p class="md-github">4 JSONStream.stringify(open,sep,close)
+returns Writable stream
+defaults: open='[\n', sep='\n,\n', close='\n]\n'
+write(value): serializes into JSON array
+stringify(false): disables wrappers, uses '\n' separator</p>
+<p class="md-github">5 JSONStream.stringifyObject(open,sep,close)
+returns Writable stream
+defaults: open='{\n', sep='\n,\n', close='\n}\n'
+write([key,value]): serializes into object entries</p>
+<p class="md-github">6 Recursive Patterns
+use '..' in strings or {recurse:true} in arrays
+example: JSONStream.parse('docs..value')</p>
+<p class="md-github">7 Key and Path Emission
+{emitKey:true}: emit {key,value}
+{emitPath:true}: emit {path,value}
+string pattern 'obj.$*': emit keys for wildcard</p>
+<p class="md-github">8 Number Handling
+numbers within JS safe integer range =&gt; Number
+numbers outside range =&gt; string</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Defaults:
+JSONStream.stringify: open='[\n', sep='\n,\n', close='\n]\n'
+JSONStream.stringify(false): sep='\n', no open/close
+JSONStream.stringifyObject: open='{\n', sep='\n,\n', close='\n}\n'
+Path patterns:
+string: dot-separated keys, '<em class="md-github">' wildcard, '..' recursion, prefix '$' to '</em>' to emit key
+array: mix of string, true, RegExp, function(value), {recurse:true}, {emitKey:true}, {emitPath:true}
+map callback: invoked per matched node value, return non-nullish to emit
+Stream type: Transform extends Node.js stream.Transform
+Writable type: inherits stream.Writable
+Node.js versions: &gt;=0.8
+Dependencies: creationix/jsonparse &gt;=1.2.0
+License: MIT OR Apache-2.0</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ol class="md-github">
+<li class="md-github">JSONStream.parse(path, map) -&gt; Transform</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">path: string | Array&lt;string|true|RegExp|Function|Object&gt;</li>
+<li class="md-github">map: (nodeValue:any) =&gt; any | null | undefined
+Events:
+'header': listener(headerObject:Object)
+'data': listener(data:any)
+'footer': listener(footerObject:Object)
+Usage:
+var stream = JSONStream.parse(['rows', true, 'doc', {emitKey:true}]);
+stream.on('header', function(obj){ console.log(obj) });
+stream.on('data', function(node){ console.log(node.key, node.value) });
+stream.on('footer', function(obj){ console.log(obj) });</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">JSONStream.stringify(open?, sep?, close?) -&gt; Writable</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">open: string, default='[\n'</li>
+<li class="md-github">sep: string, default='\n,\n'</li>
+<li class="md-github">close: string, default='\n]\n'
+Methods:
+write(value:any)
+end()
+Example:
+var out = JSONStream.stringify('[', ',', ']');
+out.write({a:1});
+out.write({b:2});
+out.end();</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">JSONStream.stringifyObject(open?, sep?, close?) -&gt; Writable</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">open: string, default='{\n'</li>
+<li class="md-github">sep: string, default='\n,\n'</li>
+<li class="md-github">close: string, default='\n}\n'
+Methods:
+write([key:string, value:any])
+end()
+Example:
+var objOut = JSONStream.stringifyObject();
+objOut.write(['id', 123]);
+objOut.write(['name', 'abc']);
+objOut.end();</li>
+</ul>
+<p class="md-github">Concrete Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Pipe HTTP responses: request(url).pipe(JSONStream.parse('rows.*.doc')).pipe(process.stdout)</li>
+<li class="md-github">Combine with event-stream mapSync for transformations</li>
+<li class="md-github">Use map parameter to filter or transform matched nodes</li>
+<li class="md-github">Use recursive patterns for nested JSON structures</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">If no 'data' events: verify pattern syntax and JSON structure</li>
+<li class="md-github">Log 'header' to inspect pre-match content</li>
+<li class="md-github">Use map function with console.log to debug matching values</li>
+<li class="md-github">Ensure stream pipeline includes stream.resume() if paused</li>
+</ul>
+<p class="md-github">CLI Example:
+curl https://registry.npmjs.org/browserify | JSONStream 'versions.*.dependencies'</p>
+<p class="md-github">Configuration Options Effects:</p>
+<ul class="md-github">
+<li class="md-github">stringify(false): newline-delimited JSON for streaming log lines</li>
+<li class="md-github">pattern array with RegExp: exact key matching without escape issues</li>
+</ul>
+<p class="md-github">Error Conditions:</p>
+<ul class="md-github">
+<li class="md-github">Passing null or undefined path =&gt; no 'data' events</li>
+<li class="md-github">Invalid RegExp in array =&gt; thrown at stream creation</li>
+<li class="md-github">Exceeding memory when not using streaming: avoid JSON.parse on large payloads</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">npm install JSONStream;parse(path,map)-&gt;Transform;path:string('a.<em class="md-github">.b','docs..value')|'array'[string,true,RegExp,Function,{recurse:true},{emitKey:true},{emitPath:true}];map filters/mapping;events:'header'(Object),'data'(value),'footer'(Object);stringify(open='[\n',sep='\n,\n',close='\n]\n')-&gt;Writable writes values as JSON array;stringify(false)-&gt;newline-delimited;stringifyObject(open='{\n',sep='\n,\n',close='\n}\n')-&gt;Writable.write([key,value]);numeric tokens&lt;=2^53-1 Number,&gt;String;use map to exclude nodes;prefix '$' to '</em>' for key emission</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Installation
+2 JSONStream.parse(path[,map])
+3 Event API
+4 JSONStream.stringify(open,sep,close)
+5 JSONStream.stringifyObject(open,sep,close)
+6 Recursive Patterns
+7 Key and Path Emission
+8 Number Handling</p>
+<p class="md-github">1 Installation
+npm install JSONStream</p>
+<p class="md-github">2 JSONStream.parse(path[,map])
+path: string or array pattern
+string examples: 'rows.<em class="md-github">', 'rows.</em>.doc', 'docs..value'
+'..': recursive descent
+array pattern elements:
+string: key name
+true: wildcard any key
+RegExp: match key
+function(value): custom test
+{recurse:true}: recursive descent
+{emitKey:true}: emit key/value pairs
+{emitPath:true}: emit match path/value
+map: function(nodeValue) =&gt; return non-nullish to emit
+returns: Transform stream emitting 'header','data','footer'</p>
+<p class="md-github">3 Event API
+'on header': raw JSON before matches
+'on data': each matched value or mapped result
+'on footer': raw JSON after matches</p>
+<p class="md-github">4 JSONStream.stringify(open,sep,close)
+returns Writable stream
+defaults: open='['n', sep=''n,'n', close=''n]'n'
+write(value): serializes into JSON array
+stringify(false): disables wrappers, uses ''n' separator</p>
+<p class="md-github">5 JSONStream.stringifyObject(open,sep,close)
+returns Writable stream
+defaults: open='{'n', sep=''n,'n', close=''n}'n'
+write([key,value]): serializes into object entries</p>
+<p class="md-github">6 Recursive Patterns
+use '..' in strings or {recurse:true} in arrays
+example: JSONStream.parse('docs..value')</p>
+<p class="md-github">7 Key and Path Emission
+{emitKey:true}: emit {key,value}
+{emitPath:true}: emit {path,value}
+string pattern 'obj.$*': emit keys for wildcard</p>
+<p class="md-github">8 Number Handling
+numbers within JS safe integer range =&gt; Number
+numbers outside range =&gt; string</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">JSONStream Library
+https://github.com/dominictarr/JSONStream#readme</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-jsonstream" href="#digest-of-jsonstream"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of JSONSTREAM</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="jsonstreamparse" href="#jsonstreamparse"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSONStream.parse</h1>
+<p class="md-github">Signature: JSONStream.parse(path[, map]) -&gt; Transform</p>
+<p class="md-github">Parameters:
+path: string or array specifying JSONPath-like pattern. String patterns use dot notation with '*' wildcard and '..' recursive descent. Array patterns can include:
+- string: exact key name
+- true: wildcard matching any key
+- RegExp: key matches regex
+- function(value): custom filter function
+- {recurse:true}: recursive descent same as '..'
+- {emitKey:true}: emit key and value object
+- {emitPath:true}: emit path and value object
+map (optional): function(nodeValue) returning non-nullish to emit, nullish to skip</p>
+<p class="md-github">Returns: Transform stream emitting 'header', 'data', 'footer' events.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="events" href="#events"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Events</h1>
+<p class="md-github">'header': raw JSON chunk before first match
+'data': emitted for each matching node or mapped value
+'footer': raw JSON chunk after last match</p>
+<h1 class="md-github"><a class="md-github__anchor" name="jsonstreamstringify" href="#jsonstreamstringify"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSONStream.stringify</h1>
+<p class="md-github">Signature: JSONStream.stringify([open, sep, close]) -&gt; Writable</p>
+<p class="md-github">Parameters:
+open: string written before first element. Default '[\n'
+sep: string between elements. Default '\n,\n'
+close: string after last element. Default '\n]\n'</p>
+<p class="md-github">Behavior:</p>
+<ul class="md-github">
+<li class="md-github">Calling stringify(false) disables open/close wrapper and uses '\n' as separator only</li>
+<li class="md-github">Writing values serializes into a JSON array or newline-delimited JSON sequence</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="jsonstreamstringifyobject" href="#jsonstreamstringifyobject"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSONStream.stringifyObject</h1>
+<p class="md-github">Signature: JSONStream.stringifyObject([open, sep, close]) -&gt; Writable</p>
+<p class="md-github">Parameters:
+open: default '{\n'
+sep: default '\n,\n'
+close: default '\n}\n'</p>
+<p class="md-github">Behavior:</p>
+<ul class="md-github">
+<li class="md-github">Write entries using write([key, data]) to serialize object properties</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="recursive-patterns" href="#recursive-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Recursive Patterns</h1>
+<p class="md-github">Use '..' in string patterns or {recurse:true} in array patterns for recursive descent. Example:
+JSONStream.parse('docs..value')
+JSONStream.parse(['docs', {recurse:true}, 'value'])
+Emits every 'value' property at any depth under 'docs'.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="key-and-path-emission" href="#key-and-path-emission"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Key and Path Emission</h1>
+<p class="md-github">Pattern element {emitKey:true}: emits objects {key, value}
+Pattern element {emitPath:true}: emits objects {path, value}
+Prefix '$' to '<em class="md-github">' in string pattern: 'obj.$</em>' to enable key emission</p>
+<h1 class="md-github"><a class="md-github__anchor" name="numbers" href="#numbers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Numbers</h1>
+<p class="md-github">Numeric tokens within JavaScript safe range emitted as Number. Tokens exceeding MAX_SAFE_INTEGER emitted as string to preserve precision.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="defaults-and-dependencies" href="#defaults-and-dependencies"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Defaults and Dependencies</h1>
+<p class="md-github">Module depends on creationix/jsonparse. Dual MIT or Apache 2.0 license. Archived read-only.</p>
+<p class="md-github">Retrieval Date: 2023-10-01</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: JSONStream Library</li>
+<li class="md-github">URL: https://github.com/dominictarr/JSONStream#readme</li>
+<li class="md-github">License: License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-06T20:30:18.494Z</li>
+<li class="md-github">Data Size: 800262 bytes</li>
+<li class="md-github">Links Found: 5270</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-06</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-06T20:36:55.995Z</p>
+  </footer>
+</body>
+</html>
