@@ -1,39 +1,40 @@
 # Overview
 
-Fully implement plot rendering pipeline to generate svg and png images from time series data via cli and programmatic api.
+Fully implement plot rendering pipeline to generate SVG and PNG images from time series data via the CLI and programmatic API.
 
 # Source File Updates
 
-In src lib main js
+In src/lib/main.js
 
-1. implement renderPlot
-  - instantiate ChartJSNodeCanvas using width and height or defaults 800 and 600
-  - build chart configuration of type line using data x as labels and data y as dataset
-  - apply axis labels from options labels x and options labels y if provided
-  - if options format equals svg call renderToBuffer with mimeType image slash svg plus xml return buffer to string utf8
-  - if options format equals png call renderToBuffer with mimeType image slash png return buffer
-  - throw error if format is unsupported
+1. Implement renderPlot
+   - Instantiate ChartJSNodeCanvas with width and height from options or defaults of 800 by 600
+   - Build a line chart configuration using data points: data.x as labels and data.y as a single dataset
+   - Apply axis labels when options.labels.x or options.labels.y are provided
+   - If options.format is svg call renderToBuffer with mimeType image/svg+xml, convert buffer to utf8 string and return
+   - If options.format is png call renderToBuffer with mimeType image/png and return the buffer
+   - Throw an error for unsupported formats
 
-2. update main to handle plot format
-  - after data generation detect plot format
-  - call await renderPlot with data and options object
-  - determine write target if output provided use file system write file sync for svg with utf8 encoding and for png write buffer
-  - if no output write svg to stdout using console log and png to standard output write method
-  - return exit code zero on success and non zero on error
+2. Update main to handle plot-format
+   - Add --plot-format option with choices svg and png
+   - After generating data, if plot-format is provided call renderPlot with data and options including width height and labels
+   - If output file path is provided write svg string using fs.writeFileSync with utf8 encoding or write png buffer
+   - If no output call console.log for svg or process.stdout.write for png
+   - Return exit code zero on success or non-zero on error
 
 # Tests
 
-In tests unit plot generation test js
+In tests/unit/plot-generation.test.js
 
-- add unit test stub ChartJSNodeCanvas renderToBuffer return buffer starting with svg assert renderPlot returns string starting with svg
-- stub renderToBuffer return buffer with png signature assert renderPlot returns buffer with correct content
-- add cli integration tests for plot format svg and png stub renderPlot return known string or buffer spy on file system write file sync and process dot stdout write verify correct content and encoding
-- add test for unsupported plot format invoke main with invalid format assert exit code non zero and error message printed to standard error
+- Stub ChartJSNodeCanvas.renderToBuffer to return an svg buffer and assert renderPlot returns a string starting with <svg
+- Stub renderToBuffer to return a png buffer and assert renderPlot returns a buffer with png signature
+- Add CLI integration tests for plot-format svg and png by mocking renderPlot, spying on fs.writeFileSync and process.stdout.write to verify correct content and encoding
+- Test unsupported plot-format yields exit code non-zero and prints error to stderr
 
 # Documentation
 
-Update README md and USAGE md
+Update README.md and USAGE.md
 
-- document plot format flag valid values svg and png describe width height and labels options
-- provide cli examples generating svg and png images to file and to stdout
-- extend programmatic api section with example of calling renderPlot directly and handling returned svg string or png buffer
+- Document --plot-format flag with valid values svg and png
+- Describe width height and labels options
+- Provide CLI examples for generating svg and png images to file and to stdout
+- Extend programmatic API section with an example of calling renderPlot directly and handling svg string or png buffer
