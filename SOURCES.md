@@ -1,6 +1,6 @@
 # Node.js File System (fs) Documentation
 ## https://nodejs.org/api/fs.html
-The official Node.js File System API reference details synchronous and asynchronous file operations, streaming interfaces, and error handling strategies. It explains directory traversal, file descriptor management, and performance tuning techniques—such as buffer pooling and highWaterMark configuration—crucial for reading ranges, writing CSV/JSON, and persisting SVG/PNG outputs. Covers the latest Node.js v20 features including `fs/promises` and `AbortSignal` for cancellable I/O operations. Published 2023; authoritative as the core runtime documentation.
+The official Node.js File System API reference details synchronous and asynchronous file operations, streaming interfaces, and error handling strategies. It explains directory traversal, file descriptor management, and performance tuning techniques—such as buffer pooling and `highWaterMark` configuration—crucial for reading ranges, writing CSV/JSON, and persisting SVG/PNG outputs. Covers the latest Node.js v20 features including `fs/promises` and `AbortSignal` for cancellable I/O operations. Published 2023; authoritative as the core runtime documentation.
 ## License: Node.js (MIT-like terms)
 
 # Node.js Streams Documentation
@@ -40,12 +40,12 @@ D3 Shape and Scale modules documentation outlines methods for generating SVG pat
 
 # SVG Technical Documentation (MDN & W3C)
 ## https://developer.mozilla.org/en-US/docs/Web/SVG and https://www.w3.org/TR/SVG2/
-This combined reference merges MDN’s practical SVG tutorials (shapes, paths, transforms, styling) with the authoritative W3C SVG2 specification. It covers `<polyline>`, `<path>` data syntax, coordinate systems, viewBox behavior, and XML serialization. Essential for understanding SVG chart rendering, element attributes, and interoperability across browsers and rendering engines. Reviewed 2024 (MDN) and 2021 (W3C); CC-BY-SA and W3C Software and Document License.
+This combined reference merges MDN’s practical SVG tutorials (shapes, paths, transforms, styling) with the authoritative W3C SVG2 specification. It covers `<polyline>`, `<path>` data syntax, coordinate systems, viewBox behavior, and XML serialization. Essential for understanding SVG chart rendering, element attributes, and interoperability across browsers and rendering engines. MDN reviewed 2024; W3C spec published 2021; CC-BY-SA / W3C Software and Document License.
 ## License: CC-BY-SA / W3C Software and Document License
 
 # Sharp Image Processing Library Documentation
 ## https://sharp.pixelplumbing.com/api-constructor
-Sharp’s API docs describe image resizing, cropping, compositing, and format conversion techniques. Includes performance guidelines, memory usage considerations, and stream-based pipelines crucial for converting SVG outputs into optimized PNG files. Demonstrates usage of `.png()`, `.toBuffer()` and `.clone()` for efficient image generation. Last updated 2023; Apache-2.0.
+Sharp’s API docs describe image resizing, cropping, compositing, and format conversion techniques. Includes performance guidelines, memory usage considerations, and stream-based pipelines crucial for converting SVG outputs into optimized PNG files. Demonstrates usage of `.png()`, `.toBuffer()`, and `.clone()` for efficient image generation. Last updated 2023; Apache-2.0.
 ## License: Apache-2.0
 
 # Commander.js Guide
@@ -56,4 +56,24 @@ Commander.js README details building sophisticated CLI applications in Node.js, 
 # Vitest Documentation
 ## https://vitest.dev/
 Vitest’s official documentation provides actionable guidance on setting up unit tests, mocking, snapshot testing, and performance tuning for modern JavaScript projects. It covers configuration options, test lifecycle hooks, and code coverage analysis, enabling comprehensive testing of CLI parsing, sampling logic, and file I/O. Latest release: 2023; maintained by Vitest team.
+## License: MIT
+
+# Vega-Lite Specification
+## https://vega.github.io/vega-lite/
+Vega-Lite’s high-level grammar for interactive graphics defines concise JSON schemas for data transformation, encoding, and interaction. It includes detailed sections on mark types, scales, axes, and layer composition—critical for designing a declarative plot specification engine that can map expression-driven time series to visual encodings. Updated 2023; widely adopted in data visualization research and industry.
+## License: BSD-3-Clause
+
+# Plotly.js Reference
+## https://plotly.com/javascript/reference/
+Plotly.js reference documentation provides a comprehensive schema for all chart types—scatter, line, bar, heatmap, and more—with granular attribute definitions for traces, layout configuration, and styling. It highlights runtime performance tuning, responsive behavior, and exporting options, informing advanced feature support and backward compatibility considerations. Continuously updated; MIT license.
+## License: MIT
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js documentation covers the core configuration object structure including datasets, scales, plugins, and lifecycle hooks. It describes built-in chart types, responsive resizing, and animation options, as well as extension points for custom chart controllers. Valuable for understanding lightweight canvas-based rendering and plugin-driven architecture. Updated 2023; MIT.
+## License: MIT
+
+# Express Routing and Middleware
+## https://expressjs.com/en/guide/routing.html
+Express guide to routing and middleware patterns outlines request handling chains, route parameters, and streaming response objects. It provides best practices for error handling, configuration of HTTP headers, and integration of custom middleware—essential for exposing NDJSON streams and SVG/PNG endpoints over HTTP. Maintained 2024; MIT.
 ## License: MIT
