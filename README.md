@@ -11,10 +11,10 @@
 - Parse and validate single-variable mathematical expressions.
 - Generate time series data over numeric ranges with customizable step sizes.
 - Output results as pretty-printed JSON or newline-delimited JSON (NDJSON) for streaming large datasets.
+- Plot rendering (SVG/PNG) via `--plot-format` flag: generate charts in SVG or PNG format.
 - CLI interface for quick data generation and file output.
 - Programmatic API for integration into other JavaScript projects.
-- Placeholder no-arguments behavior: running the CLI without any flags prints a placeholder message.
-- Plot rendering (SVG/PNG) via `--plot-format` flag is stubbed and currently returns an error.
+- Placeholder behavior: running the CLI without any flags prints a placeholder message.
 
 ## Installation
 
@@ -108,26 +108,29 @@ const { variableName, start, end, step } = parseRange('x=0:10:2');
 const data = generateTimeSeries(exprAst, variableName, start, end, step);
 console.log('Time series data:', data);
 
-// 4. (Optional) Render a plot (stubbed, will throw)
+// 4. Render a plot
 (async () => {
   try {
-    const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600 });
+    const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600, labels: { x: 'X', y: 'Y' } });
     console.log('Received PNG buffer with length', pngBuffer.length);
   } catch (err) {
-    console.error('Plot rendering not implemented:', err.message);
+    console.error('Plot rendering failed:', err.message);
   }
 })();
 
 // 5. Run the CLI programmatically
-const exitCode = cliMain(['--expression', 'x+1', '--range', 'x=0:5:1']);
-console.log(`CLI exited with code ${exitCode}`);
+(async () => {
+  const exitCode = await cliMain(['--expression', 'x+1', '--range', 'x=0:5:1', '--plot-format', 'svg']);
+  console.log(`CLI exited with code ${exitCode}`);
+})();
 ```
 
 ## Roadmap
 
-- Full SVG/PNG plot rendering via `--plot-format` flag and `renderPlot` API (in progress).
-- Support expression and range streaming for very large datasets (NDJSON output).
-- Additional features and performance optimizations.
+- Add JSON-stream and CSV output formats with backpressure control and header options.
+- Add benchmarking options to measure performance.
+- Implement HTTP API mode for on-demand data and plot serving over HTTP.
+- Performance improvements and additional features.
 
 ## Contributing
 
