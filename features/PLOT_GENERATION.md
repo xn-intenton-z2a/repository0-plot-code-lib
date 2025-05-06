@@ -1,36 +1,30 @@
 # Overview
 
-Implement the core time series data generation pipeline from a mathematical expression and numeric range. This will parse an arithmetic expression, sample the specified variable(s) over the provided interval, and emit structured data for downstream plotting or export.
+Implement the core pipeline for parsing a mathematical expression and numeric range, generating a time series, and exporting the data as JSON or writing it to a file. This feature enables users to transform a simple single-variable formula into a structured array of data points via the CLI.
 
 # Expression and Range Parsing
 
-Use a parsing library to interpret a single–variable expression syntax (for example sin(x) or x^2 + 3*x). Support a single variable name and numeric operations. Validate and convert a range string of the form x=start:end:step into numeric bounds and step size. Provide clear error messages for invalid syntax or ranges.
+Define parseExpression(expressionString) and parseRange(rangeString) functions in src/lib/main.js. Use a lightweight parsing library such as expr-eval or a custom parser for arithmetic expressions with one variable. Validate expression syntax and range format of the form x=start:end:step. Use zod to enforce that start, end, and step are valid numbers and that step is nonzero.
 
 # Time Series Generation
 
-Sample the expression over the specified range. For each value in the interval, compute the expression result and record an object with keys "x" and "y". Return an array of these data points.
+Implement generateTimeSeries(expressionAst, variableName, start, end, step) that iterates from start to end exclusive or inclusive based on rounding, computes y for each x, and returns an array of objects with keys x and y. Handle floating point accumulation safely.
 
-# Output Formats
+# CLI Integration in main.js
 
-Support at least JSON output by default. Emit the generated time series as a JSON array on stdout or write to a file when a --output flag is provided. Plan for CSV or YAML export in a later iteration.
+Extend the main function to accept flags --expression, --range, and optional --output. Parse process.argv using minimist or yargs, invoke parsing and generation functions, and by default write JSON to stdout. If --output is provided, write JSON to the specified file path using fs. Exit with code 0 on success, nonzero on validation or I/O errors.
 
-# CLI Integration
+# README Updates
 
-Extend the main CLI to accept flags:
-
---expression    the mathematical expression to evaluate
---range         the sampling range in the form x=start:end:step
---output        optional file path to write the output
-
-Parse flags from process.argv, invoke the parser and generator, and handle stdout or file writing. Exit with nonzero on errors.
+Update README.md to document the new CLI flags, usage examples, and output behavior. Include example commands and expected JSON output structure.
 
 # Tests
 
-Add unit tests for:
+Add unit tests in tests/unit/plot-generation.test.js for:
 
-Parsing valid and invalid expressions
-Range string parsing and validation
-Time series data generation correctness for known functions
-CLI invocation for basic JSON output and file writing
+- Valid and invalid expression strings
+- Valid and invalid range strings including zero or negative steps
+- Correct time series data for known expressions like x^2 or sin(x)
+- CLI integration tests invoking main with stubbed process.argv and mocking fs writes
 
-Ensure coverage of edge cases, such as zero or negative step sizes and out-of-range values.
+Ensure coverage of edge cases and proper exit codes.
