@@ -50,11 +50,11 @@ Combines MDN’s practical guide to SVG shapes, paths, transforms, styling, and 
 Sharp’s API documentation covers image resizing, cropping, compositing, format conversion, and streaming pipelines for SVG-to-PNG conversion. Details performance and memory tips, lazy pipelines, and concurrency controls—key to high-throughput plot exports. Last updated 2023; Apache-2.0.
 ## License: Apache-2.0
 
-# Server-Side Chart.js Rendering
+# Server-Side Chart.js Rendering and Extension
 ## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
 ## https://www.chartjs.org/docs/latest/
 ## https://github.com/Automattic/node-canvas#readme
-Unifies the ChartjsNodeCanvas module for generating chart buffers in Node.js with the official Chart.js configuration reference and the underlying node-canvas drawing API. Includes guidance on initializing CanvasRenderingContext2D, handling device pixel ratios, asynchronous rendering, and optimizing chart rendering performance in headless environments. Updated 2024; MIT.
+Unifies the ChartjsNodeCanvas module for generating chart buffers in Node.js with the official Chart.js configuration reference and the underlying node-canvas drawing API. Covers initializing CanvasRenderingContext2D, handling device pixel ratios, asynchronous rendering, and optimizing performance in headless environments. Details Chart.js plugin architecture lifecycle hooks (beforeInit, afterUpdate, etc.) for custom enhancements and demonstrates custom TrueType/OpenType font registration via registerFont for consistent text rendering. Updated 2024; MIT.
 ## License: MIT
 
 # Vitest Documentation
@@ -67,17 +67,17 @@ Official Vitest docs covering configuration, test suites, mocking, snapshot test
 Comprehensive documentation of D3 modules including selection, scale, axis, shape, path, and force simulations. Covers data binding patterns, DOM manipulation strategies, and SVG generation techniques—ideal for custom chart creation via D3 in Node.js (with jsdom) or browser environments. Updated 2024; BSD-3-Clause.
 ## License: BSD-3-Clause
 
-# Chart.js Plugin Developer Guide
-## https://www.chartjs.org/docs/latest/developers/plugins.html
-Details the Chart.js plugin architecture, including lifecycle hooks (beforeInit, afterUpdate), drawing extensions, event-driven rendering logic, and plugin registration patterns. Provides examples for custom tooltip enhancements, annotation overlays, and export plugins—enabling advanced chart customizations within the NodeCanvas pipeline. Updated 2024; MIT.
-## License: MIT
-
-# Node-canvas Font Registration Guide
-## https://github.com/Automattic/node-canvas#registerfont
-Describes how to load and register custom TrueType and OpenType fonts in node-canvas for use within Chart.js and manual Canvas drawings. Covers file path resolution, font family naming, style options, and best practices for cross-platform font loading—critical for ensuring consistent text rendering in SVG and PNG outputs. Updated 2024; MIT.
-## License: MIT
-
 # CSV (RFC 4180) Specification
 ## https://datatracker.ietf.org/doc/html/rfc4180
 The IETF standard defining the Common Format and MIME Type for Comma-Separated Values (CSV) files, including guidelines for header rows, record separators, field delimiters, quoting rules, and escaping mechanisms. Provides essential rules for implementing robust CSV output with proper quoting of special characters, newline handling, and interoperability across tools. Published October 2005; IETF standard, public domain.
 ## License: IETF (public domain)
+
+# Node.js Stream Promises API
+## https://nodejs.org/api/stream.html#stream_promises
+Details the experimental and stable Promise-based APIs in the Node.js stream module, including pipeline(), finished(), and async iteration over streams. Illustrates idiomatic patterns for composing backpressure-aware pipelines with async/await and error propagation—critical for implementing the serializeDataStream function and --buffer-size optimizations. Updated 2023; Core runtime docs, authoritative.
+## License: Node.js (MIT-like terms)
+
+# Node.js Performance Hooks API
+## https://nodejs.org/api/perf_hooks.html
+Comprehensive guide to measuring performance in Node.js via the Performance Hooks API, including PerformanceObserver, mark(), measure(), and performance event loop timings. Explains how to accurately benchmark code using process.hrtime and PerformanceTimers, capturing high-resolution metrics for throughput calculation in the --benchmark feature. Updated 2023; Core runtime docs, authoritative.
+## License: Node.js (MIT-like terms)
