@@ -1,46 +1,31 @@
 # Overview
-Enhance the plot rendering pipeline by adding comprehensive unit and integration tests for SVG and PNG outputs and update documentation with real-world rendering examples.
+Implement the previously stubbed renderPlot function using ChartJSNodeCanvas to produce SVG and PNG outputs and integrate it fully into the CLI. Ensure that users can generate image files or write directly to stdout for both formats, with configurable dimensions and axis labels.
 
 # Source File Updates
-No changes to the existing renderPlot stub or CLI entrypoint. Tests will mock and stub ChartJSNodeCanvas to simulate rendering behavior.
+1. In renderPlot(data, options) replace the stub with a real implementation:
+   - Destructure width (default 800), height (default 600), format ('svg' or 'png'), and labels (default { x: 'x', y: 'y' }) from options.
+   - Instantiate ChartJSNodeCanvas with { width, height, chartCallback }.
+   - Build a Chart.js configuration with type 'line', datasets containing the data series, and axis labels from options.labels.
+   - If format is 'svg', call chartCanvas.renderToBuffer({ width, height, format: 'svg' }) and convert the Buffer to UTF-8 string before returning.
+   - If format is 'png', call chartCanvas.renderToBuffer({ width, height, format: 'png' }) and return the Buffer.
+   - Throw an error for unsupported format values.
+2. In the main CLI entrypoint:
+   - Detect the --plot-format flag and await renderPlot(data, { format: plotFormat, width: argv.width, height: argv.height, labels: { x: argv['label-x'], y: argv['label-y'] } }).
+   - If --output is provided, write the returned Buffer or string to the given filename with fs.writeFileSync or fs.writeFileSync with utf-8 for SVG.
+   - If no --output, write binary Buffers to process.stdout.write or console.log the SVG string.
+   - Add CLI options --width, --height, --label-x, --label-y with appropriate types and defaults.
 
 # Tests
+1. Unit tests for renderPlot:
+   - Stub ChartJSNodeCanvas.prototype.renderToBuffer to return a Buffer for 'png' and a Buffer containing an SVG string for 'svg'.
+   - Verify renderPlot returns a Buffer for PNG and a string starting with '<svg' for SVG.
+   - Verify error is thrown for an unsupported format.
+2. Integration tests for the CLI:
+   - Mock fs.writeFileSync and process.stdout.write to capture outputs when using --plot-format png and --plot-format svg with and without --output.
+   - Verify that a PNG buffer is written with the correct PNG magic number and that an SVG string containing axis labels appears in the output.
 
-## Unit Tests (tests/unit/plot-render.test.js)
-
-- Stub ChartJSNodeCanvas.prototype.renderToBuffer using vitest's vi.spyOn and mockImplementation to return a Buffer for PNG and a UTF-8 SVG string for SVG.
-- Test renderPlot by calling it directly:
-  - For options.format = 'png' and width, height, labels provided, verify the return value is a Buffer and matches the mocked buffer.
-  - For options.format = 'svg', verify the return value is a string starting with `<svg` and contains axis label elements from options.labels.
-  - Test that renderPlot throws an error when an unsupported format is passed.
-
-## Integration Tests (tests/unit/plot-integration.test.js)
-
-- CLI invocation with `--plot-format svg`:
-  - Mock fs.writeFileSync and console.log to capture output.
-  - Run main with args including expression, range, `--plot-format svg`, and `--output out.svg`.
-  - Assert that fs.writeFileSync was called with filename out.svg and a string beginning with `<svg`.
-  - Assert that axis labels from CLI options appear in the output.
-
-- CLI invocation with `--plot-format png`:
-  - Mock fs.writeFileSync and process.stdout.write to capture Buffer writes.
-  - Run main with args including expression, range, `--plot-format png`, without --output to use stdout.
-  - Assert that process.stdout.write was called with a Buffer whose first bytes equal the PNG magic number (`0x89 50 4E 47`).
-  - Assert exit code 0 on success.
-
-# Documentation Updates
-
-## USAGE.md
-
-- Add real CLI examples for SVG and PNG generation with truncated output samples:
-  - Command: `repository0-plot-code-lib --expression "x^2" --range "x=0:10:1" --plot-format svg --output plot.svg`
-  - Display first lines of an example SVG file showing `<svg` and axis labels.
-  - Command: `repository0-plot-code-lib --expression "x+1" --range "x=0:5:1" --plot-format png > plot.png`
-  - Describe PNG magic number verification.
-
-## README.md
-
-- Under Programmatic API, add usage example showing:
-  - Calling renderPlot to obtain an SVG string and writing it to a file.
-  - Calling renderPlot to obtain a PNG Buffer and writing via fs.writeFileSync or stdout.
-- Under Features, update bullet: Plot rendering (SVG/PNG) now fully tested with unit and integration coverage and documented examples.
+# Documentation
+1. Update USAGE.md:
+   - Add examples showing --plot-format png and --plot-format svg with --width, --height, --label-x, --label-y and either --output or piping to stdout.
+   - Show sample SVG snippet and note PNG magic number verification.
+2. Update README.md under Features and CLI Usage to include new options --width, --height, --label-x, --label-y, and illustrate programmatic use of renderPlot returning PNG buffer or SVG string.
