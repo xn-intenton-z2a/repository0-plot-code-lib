@@ -104,14 +104,14 @@ describe('CLI integration', () => {
 
   describe('NDJSON output', () => {
     test('streams NDJSON to stdout', () => {
-      const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const writeSpy = vi.spyOn(process.stdout, 'write').mockImplementation(() => {});
       process.argv = ['node', 'src/lib/main.js', '--expression', 'x+1', '--range', 'x=0:2:1', '--format', 'ndjson'];
       main();
-      expect(logSpy).toHaveBeenCalledTimes(3);
-      expect(logSpy).toHaveBeenNthCalledWith(1, JSON.stringify({ x: 0, y: 1 }));
-      expect(logSpy).toHaveBeenNthCalledWith(2, JSON.stringify({ x: 1, y: 2 }));
-      expect(logSpy).toHaveBeenNthCalledWith(3, JSON.stringify({ x: 2, y: 3 }));
-      logSpy.mockRestore();
+      expect(writeSpy).toHaveBeenCalledTimes(3);
+      expect(writeSpy).toHaveBeenNthCalledWith(1, JSON.stringify({ x: 0, y: 1 }) + '\n');
+      expect(writeSpy).toHaveBeenNthCalledWith(2, JSON.stringify({ x: 1, y: 2 }) + '\n');
+      expect(writeSpy).toHaveBeenNthCalledWith(3, JSON.stringify({ x: 2, y: 3 }) + '\n');
+      writeSpy.mockRestore();
     });
 
     test('writes NDJSON to file when --output provided', () => {

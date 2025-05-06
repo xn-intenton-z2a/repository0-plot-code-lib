@@ -115,7 +115,9 @@ export function main(args = process.argv.slice(2)) {
         }
         stream.end();
       } else {
-        data.forEach((point) => console.log(JSON.stringify(point)));
+        for (const point of data) {
+          process.stdout.write(JSON.stringify(point) + '\n');
+        }
       }
       return 0;
     }
