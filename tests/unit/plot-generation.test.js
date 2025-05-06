@@ -1,6 +1,7 @@
-import { describe, test, expect, vi } from 'vitest';
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import fs from 'fs';
-import { parseExpression, parseRange, generateTimeSeries, main } from '@src/lib/main.js';
+import { parseExpression, parseRange, generateTimeSeries, main, renderPlot } from '@src/lib/main.js';
+import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
 
 describe('parseExpression', () => {
   test('valid expression returns AST', () => {
@@ -52,6 +53,39 @@ describe('generateTimeSeries', () => {
       { x: 1, y: 1 },
       { x: 0, y: 0 },
     ]);
+  });
+});
+
+describe('renderPlot', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test('returns PNG buffer with magic number', async () => {
+    const fakeBuffer = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 1, 2, 3]);
+    const renderStub = vi.spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer').mockResolvedValue(fakeBuffer);
+    const data = [{ x: 0, y: 0 }];
+    const result = await renderPlot(data, { format: 'png', width: 100, height: 100 });
+    expect(result).toBeInstanceOf(Buffer);
+    expect(result.slice(0, 8)).toEqual(fakeBuffer.slice(0, 8));
+    expect(renderStub).toHaveBeenCalled();
+  });
+
+  test('returns SVG string starting with <svg and includes labels', async () => {
+    const svgContent = '<svg><text>X Label</text><text>Y Label</text></svg>';
+    const fakeBuffer = Buffer.from(svgContent, 'utf-8');
+    const renderStub = vi.spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer').mockResolvedValue(fakeBuffer);
+    const data = [{ x: 0, y: 0 }];
+    const result = await renderPlot(data, { format: 'svg', width: 100, height: 100, labels: { x: 'X Label', y: 'Y Label' } });
+    expect(typeof result).toBe('string');
+    expect(result.startsWith('<svg')).toBe(true);
+    expect(result).toContain('X Label');
+    expect(result).toContain('Y Label');
+    expect(renderStub).toHaveBeenCalled();
+  });
+
+  test('throws error on unsupported format', async () => {
+    await expect(renderPlot([], { format: 'jpg', width: 100, height: 100 })).rejects.toThrow(/unsupported format/);
   });
 });
 
@@ -136,5 +170,27 @@ describe('CLI integration', () => {
       expect(fakeStream.end).toHaveBeenCalled();
       createSpy.mockRestore();
     });
+  });
+
+  test('CLI: writes SVG to stdout', async () => {
+    const fakeSVG = '<svg>test</svg>';
+    const fakeBuffer = Buffer.from(fakeSVG, 'utf-8');
+    vi.spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer').mockResolvedValue(fakeBuffer);
+    const writeSpy = vi.spyOn(process.stdout, 'write').mockImplementation(() => {});
+    process.argv = ['node', 'src/lib/main.js', '--expression', 'x', '--range', 'x=0:1:1', '--plot-format', 'svg'];
+    await main();
+    expect(writeSpy).toHaveBeenCalledWith(expect.stringContaining('<svg'));
+    writeSpy.mockRestore();
+  });
+
+  test('CLI: writes PNG to file when --output provided', async () => {
+    const fakeBuffer = Buffer.from([0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A]);
+    vi.spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer').mockResolvedValue(fakeBuffer);
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    process.argv = ['node', 'src/lib/main.js', '--expression', 'x', '--range', 'x=0:1:1', '--plot-format', 'png', '--output', 'out.png'];
+    const code = await main();
+    expect(writeSpy).toHaveBeenCalledWith('out.png', fakeBuffer);
+    expect(code).toBe(0);
+    writeSpy.mockRestore();
   });
 });
