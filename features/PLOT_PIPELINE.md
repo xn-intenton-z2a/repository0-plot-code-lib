@@ -1,47 +1,42 @@
 # Overview
 
-Implement a unified plot pipeline that handles expression parsing, time series generation, exporting data in JSON or NDJSON, and rendering visual plots in SVG or PNG formats, all accessible via the CLI.
+Enhance the existing plot pipeline to fully implement rendering of time series data as SVG and PNG images and expose this via the CLI using the plot format flag. Ensure seamless integration of rendering into the data generation flow and robust error handling.
 
-# Expression and Range Parsing
+# Dependencies
 
-Define parseExpression(expressionString) and parseRange(rangeString) in src/lib/main.js. Use zod to validate syntax and enforce that expressions use a single variable and ranges follow the format x=start:end:step. Ensure numeric start, end, nonzero step, and clear error messages on invalid input.
+Add the following to the dependencies in the project manifest
 
-# Time Series Generation
+• chartjs-node-canvas for headless chart rendering
+• canvas peer dependency required by chartjs-node-canvas
 
-Implement generateTimeSeries(expressionAst, variableName, start, end, step) that safely iterates from start to end according to step rules, computes y for each x, and yields objects with properties x and y. Handle floating-point accumulation to avoid drift.
+# Source File Updates
 
-# Data Export Formats
+In src/lib/main js
 
-Support two output modes:
-
-1. JSON: Collect all data points into an array and serialize as a single JSON document.
-2. NDJSON: Stream each data point as an individual JSON record separated by newline, with no empty lines, following the NDJSON specification.
-
-Expose a CLI flag --format with values json (default) or ndjson. Use fs.createWriteStream for ndjson with backpressure handling.
-
-# Plot Rendering
-
-Implement renderPlot(data, options) that accepts an array of {x,y}, dimensions (width, height), axis labels, and an output format svg or png. Use chartjs-node-canvas or a D3-based canvas renderer to draw axes, grid lines, and the data line. Return SVG as a string or PNG as a Buffer.
-
-# CLI Integration
-
-Extend main(args) to accept flags:
-
---expression   the formula to evaluate
---range        the numeric range in x=start:end:step
---output       optional file path (default stdout or default image filename)
---format       json or ndjson (default json)
---plot-format  svg or png (optional)
-
-In data-only mode (--format), write data to stdout or file. When --plot-format is provided, generate the time series first, then call renderPlot and write the result to --output, using process.exit codes: 0 on success, nonzero on validation or I/O errors.
+1. Import ChartJSNodeCanvas from chartjs-node-canvas
+2. Implement renderPlot function that accepts data array and options object with width height axis labels and format
+   • Instantiate ChartJSNodeCanvas with provided dimensions
+   • Configure a line chart with x and y axes grid lines and labels and single dataset mapping x to y
+   • For svg format use renderToBuffer with mimeType image svg xml and convert buffer to string
+   • For png format use renderToBuffer with mimeType image png and return buffer
+3. In main function handle plot format flag
+   • After generating time series data invoke renderPlot with data output format and dimensions defaulting to 800x600
+   • Write svg string or png buffer to output path or stdout in binary mode
+   • Use exit code zero on success and nonzero on errors
 
 # Tests
 
-Add or update unit tests in tests/unit:
+Update tests in tests/unit
 
-- Parsing: valid and invalid expressions and ranges
-- Generation: correct point arrays for known expressions
-- JSON output: full array serialization
-- NDJSON streaming: newline-delimited records, no trailing newline
-- Rendering: SVG output contains an svg element, PNG output is a Buffer starting with PNG signature
-- CLI integration: stub process.argv and mock fs and chart renderer, cover both data- and render-only modes, exit codes, and file creation
+• Rendering should produce valid svg output containing svg element and xmlns attribute
+• Rendering should produce a png buffer starting with PNG file signature bytes
+• CLI integration tests for plot mode stub fs and ChartJSNodeCanvas to simulate render and file write
+• Validate exit codes and error messages when rendering fails or unsupported format is specified
+
+# Documentation
+
+Update README md and USAGE md
+
+• Document installation of chartjs-node-canvas and canvas
+• Provide examples for generating plots in svg and png formats using plot format flag
+• Show CLI invocation writing output file or piping to stdout
