@@ -50,10 +50,11 @@ Combines MDN’s practical guide to SVG shapes, paths, transforms, styling, and 
 Sharp’s API documentation covers image resizing, cropping, compositing, format conversion, and streaming pipelines for SVG-to-PNG conversion. Details performance and memory tips, lazy pipelines, and concurrency controls—key to high-throughput plot exports. Last updated 2023; Apache-2.0.
 ## License: Apache-2.0
 
-# Canvas and Chart.js Node Canvas
-## https://github.com/Automattic/node-canvas#readme
+# Server-Side Chart.js Rendering
 ## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
-Node-canvas README documents the CanvasRenderingContext2D API in Node.js, including drawing primitives, paths, text, and image compositing with performance and retina-scaling tips. ChartjsNodeCanvas README shows server-side Chart.js chart rendering, configuration of dimensions, device pixel ratio, and output to SVG/PNG buffers. Updated 2024; MIT.
+## https://www.chartjs.org/docs/latest/
+## https://github.com/Automattic/node-canvas#readme
+Unifies the ChartjsNodeCanvas module for generating chart buffers in Node.js with the official Chart.js configuration reference and the underlying node-canvas drawing API. Includes guidance on initializing CanvasRenderingContext2D, handling device pixel ratios, asynchronous rendering, and optimizing chart rendering performance in headless environments. Updated 2024; MIT.
 ## License: MIT
 
 # Vitest Documentation
@@ -61,22 +62,17 @@ Node-canvas README documents the CanvasRenderingContext2D API in Node.js, includ
 Official Vitest docs covering configuration, test suites, mocking, snapshot testing, coverage analysis, and plugin extensions. Includes lifecycle hooks and performance tuning for rapid unit tests of CLI logic, parser functions, and file I/O. Latest release: 2023; MIT.
 ## License: MIT
 
-# Chart.js Official Documentation
-## https://www.chartjs.org/docs/latest/
-Comprehensive Chart.js v4 user guide covering chart types, configuration options, scales, axes, plugins, animations, and responsive design. Includes actionable configuration snippets and performance best practices to adapt Chart.js configurations for programmatic instantiation in Node.js environments. Updated 2024; MIT.
-## License: MIT
-
-# Plotly.js JavaScript Graphing Library
-## https://plotly.com/javascript/
-The Plotly.js documentation provides an extensive reference to interactive plots, layout configuration, trace types, styling options, dynamic updates, and static image export. Useful patterns for declarative chart specification and export semantics applicable to CLI-driven workflows. Updated 2024; MIT.
-## License: MIT
-
 # D3.js Official Documentation
 ## https://github.com/d3/d3
 Comprehensive documentation of D3 modules including selection, scale, axis, shape, path, and force simulations. Covers data binding patterns, DOM manipulation strategies, and SVG generation techniques—ideal for custom chart creation via D3 in Node.js (with jsdom) or browser environments. Updated 2024; BSD-3-Clause.
 ## License: BSD-3-Clause
 
-# JSONStream Library Documentation
-## https://github.com/dominictarr/JSONStream
-Detailed reference for streaming JSON parsing and stringifying, filter patterns using JSONPath-like expressions, backpressure-aware pipelines, and error-handling strategies. Useful for extending the CLI to parse, transform, and stream JSON/NDJSON workflows efficiently. Updated 2018; MIT.
+# Chart.js Plugin Developer Guide
+## https://www.chartjs.org/docs/latest/developers/plugins.html
+Details the Chart.js plugin architecture, including lifecycle hooks (beforeInit, afterUpdate), drawing extensions, event-driven rendering logic, and plugin registration patterns. Provides examples for custom tooltip enhancements, annotation overlays, and export plugins—enabling advanced chart customizations within the NodeCanvas pipeline. Updated 2024; MIT.
+## License: MIT
+
+# Node-canvas Font Registration Guide
+## https://github.com/Automattic/node-canvas#registerfont
+Describes how to load and register custom TrueType and OpenType fonts in node-canvas for use within Chart.js and manual Canvas drawings. Covers file path resolution, font family naming, style options, and best practices for cross-platform font loading—critical for ensuring consistent text rendering in SVG and PNG outputs. Updated 2024; MIT.
 ## License: MIT
