@@ -13,7 +13,7 @@ paths:
   libraryDocumentsPath:
     path: 'library/'
     permissions: [ 'write' ]
-    limit: 1
+    limit: 32
   featuresPath:
     path: 'features/'
     permissions: [ 'write' ]
