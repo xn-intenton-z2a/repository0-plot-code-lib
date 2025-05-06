@@ -6,6 +6,7 @@ import { Parser } from 'expr-eval';
 import fs from 'fs';
 import yargs from 'yargs';
 import { z } from 'zod';
+import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
 
 export function parseExpression(exprString) {
   try {
@@ -63,6 +64,17 @@ export function generateTimeSeries(exprAst, variableName, start, end, step) {
 }
 
 /**
+ * Render a plot from time series data.
+ * @param {Array<{x:number,y:number}>} data
+ * @param {{width?:number,height?:number,format:string,labels?:{x:string,y:string}}} options
+ * @returns {Promise<string|Buffer>}
+ */
+export async function renderPlot(data, options) {
+  // Stubbed: actual implementation pending full pipeline
+  throw new Error('Plot rendering not yet implemented');
+}
+
+/**
  * Main CLI entrypoint. Returns exit code rather than calling process.exit directly.
  * @param {string[]} args - command-line arguments (excluding node and script path)
  * @returns {number} exit code
@@ -76,8 +88,9 @@ export function main(args = process.argv.slice(2)) {
   const argv = yargs(args)
     .option('expression', { type: 'string', demandOption: true, describe: 'Mathematical expression to evaluate' })
     .option('range', { type: 'string', demandOption: true, describe: 'Range in format var=start:end:step' })
-    .option('output', { type: 'string', describe: 'File path to write JSON output' })
-    .option('plot-format', { type: 'string', choices: ['svg', 'png'], describe: 'Plot output format (not yet implemented)' })
+    .option('output', { type: 'string', describe: 'File path to write output' })
+    .option('format', { type: 'string', choices: ['json', 'ndjson'], default: 'json', describe: 'Output format (json or ndjson)' })
+    .option('plot-format', { type: 'string', choices: ['svg', 'png'], describe: 'Plot output format (svg or png)' })
     .strict()
     .help()
     .parseSync();
@@ -86,6 +99,28 @@ export function main(args = process.argv.slice(2)) {
     const exprAst = parseExpression(argv.expression);
     const { variableName, start, end, step } = parseRange(argv.range);
     const data = generateTimeSeries(exprAst, variableName, start, end, step);
+
+    // Handle plot output
+    if (argv['plot-format']) {
+      console.error('Plot rendering not yet implemented');
+      return 1;
+    }
+
+    // Handle NDJSON streaming
+    if (argv.format === 'ndjson') {
+      if (argv.output) {
+        const stream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
+        for (const point of data) {
+          stream.write(JSON.stringify(point) + '\n');
+        }
+        stream.end();
+      } else {
+        data.forEach((point) => console.log(JSON.stringify(point)));
+      }
+      return 0;
+    }
+
+    // Default JSON array output
     const json = JSON.stringify(data, null, 2);
     if (argv.output) {
       fs.writeFileSync(argv.output, json, 'utf-8');
