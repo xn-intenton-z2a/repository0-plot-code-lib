@@ -1,37 +1,34 @@
 # Overview
-Enhance the renderPlot functionality by providing a complete implementation for SVG and PNG output, adding comprehensive unit and integration tests, and updating user documentation with concrete rendering examples.
+Enhance the renderPlot functionality by providing a complete implementation for SVG and PNG output, adding comprehensive unit and integration tests, updating user documentation with concrete rendering examples, and optimizing plot rendering performance for large datasets via data decimation.
 
 # Source File Updates
 1. Implement renderPlot in src/lib/main.js:
-   - Accept data array and options object (format, width, height, labels).
-   - Instantiate ChartJSNodeCanvas with provided width and height.
-   - Build a line chart configuration using time series data, mapping x and y values and applying axis labels.
-   - For format png, call renderToBuffer and return the resulting Buffer.
-   - For format svg, call renderToBuffer with type svg or use renderToStream to obtain a string starting with <svg and return the string.
+   - Accept data array and options object including format, width, height, labels, and decimation settings.
+   - Register chartjs plugin for data decimation when options.decimation.enabled is true.
+   - Provide new decimation options with fields enabled, algorithm (min-max or lttb), and threshold for maximum points before decimation.
+   - Configure chart options.plugins.decimation to apply downsampling when data length exceeds threshold.
+   - For format png, call renderToBuffer and return the resulting buffer.
+   - For format svg, call renderToBuffer with image svg mime type and return the resulting utf8 string.
    - Throw an error for unsupported formats.
-2. Update the CLI entrypoint (main function):
-   - When --plot-format is provided, call renderPlot with parsed data and options.
-   - If --output is specified, write the Buffer or string to the given file path using fs.writeFileSync.
-   - If no --output, write svg string to process.stdout.write or pipe png Buffer to stdout and return exit code 0.
-   - Catch errors from renderPlot, write error.message to stderr, and return exit code 1.
+2. Update CLI entrypoint in main function:
+   - Add flags decimation (boolean, default false), decimation-algorithm (min-max or lttb, default min-max), decimation-threshold (number, default 5000).
+   - Pass decimation settings into renderPlot when plot-format is provided.
+   - Maintain existing logic for writing output to file or writing to stdout and exit codes for success and error.
+
+# Performance Optimization
+Large data arrays are downsampled before rendering to reduce memory and CPU usage. Data decimation uses chartjs plugin strategies and prevents rendering slowdowns with thousands of points.
 
 # Tests
-1. Unit tests for renderPlot (tests/unit/plot-render.test.js):
-   - Mock ChartJSNodeCanvas.prototype.renderToBuffer to return a Buffer beginning with PNG magic bytes when format png is requested.
-   - Mock ChartJSNodeCanvas.prototype.renderToBuffer or stream output to return a string containing an <svg tag when format svg is requested.
-   - Test that renderPlot resolves with a Buffer for png and a string for svg.
-   - Test that renderPlot rejects with an error when requesting an unsupported format.
-2. Integration tests in tests/unit/plot-generation.test.js (extend existing file):
-   - Spy on process.stdout.write and fs.writeFileSync.
-   - Run main with --plot-format svg without --output: assert stdout.write is called once with the svg string and exit code 0.
-   - Run main with --plot-format png and --output plot.png: assert fs.writeFileSync is called with plot.png and a Buffer whose first bytes match the PNG magic number and exit code 0.
-   - Simulate renderPlot throwing an error: verify main returns exit code 1 and writes the error message to stderr.
+1. Unit tests in tests/unit/plot-render.test.js:
+   - Spy on ChartJSNodeCanvas prototype to verify plugin registration when data length is above threshold and decimation enabled.
+   - Test renderPlot returns buffer for png and string for svg with decimation settings enabled and disabled.
+2. Integration tests in tests/unit/plot-generation.test.js:
+   - Run main with plot-format svg and decimation flags to assert that ChartJSNodeCanvas is instantiated with plugin settings matching CLI flags.
+   - Run main on small datasets with decimation disabled to assert no decimation plugin applied.
 
 # Documentation
-1. USAGE.md:
-   - Add CLI example for svg rendering showing invocation with --plot-format svg and sample svg snippet beginning with <svg.
-   - Add CLI example for png rendering showing redirection of binary output (> plot.png) and note that the file contains PNG data.
-2. README.md:
-   - Under Features, add an entry describing SVG and PNG plot rendering via --plot-format with example commands.
-   - In Programmatic API, provide example code calling renderPlot with format svg and format png and handling the returned string or Buffer.
-   - Link to the renderPlot API reference in the documentation section.
+1. Update USAGE.md:
+   - Document new flags decimation, decimation-algorithm, decimation-threshold with example command for large data rendering.
+2. Update README.md:
+   - Under features, note performance optimization via data decimation.
+   - In programmatic API examples, show calling renderPlot with decimation settings and handling the returned buffer or string.
