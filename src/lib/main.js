@@ -134,7 +134,6 @@ export function serializeDataStream(dataIterable, options) {
           }
           this.push(cols.map(key => escapeCsvField(record[key])).join(',') + '\r\n');
         } else {
-          // unsupported format
           this.destroy(new Error(`Unsupported format: ${format}`));
         }
       } catch (err) {
@@ -235,7 +234,7 @@ export async function main(args = process.argv.slice(2)) {
       return 0;
     }
 
-    // Handle JSON and streaming output
+    // Handle JSON output
     if (argv.format === 'json') {
       const json = JSON.stringify(data, null, 2);
       if (argv.output) {
@@ -246,18 +245,56 @@ export async function main(args = process.argv.slice(2)) {
       return 0;
     }
 
-    // Streaming formats: json-stream, ndjson, csv
-    const stream = serializeDataStream(data, {
-      format: argv.format,
-      bufferSize: argv['buffer-size'],
-      csvHeader: argv['csv-header'],
-    });
-    if (argv.output) {
-      const outStream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
-      await pipeline(stream, outStream);
-    } else {
-      await pipeline(stream, process.stdout);
+    // Handle JSON stream output
+    if (argv.format === 'json-stream') {
+      const stream = serializeDataStream(data, {
+        format: 'json-stream',
+        bufferSize: argv['buffer-size'],
+        csvHeader: argv['csv-header'],
+      });
+      if (argv.output) {
+        const outStream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
+        await pipeline(stream, outStream);
+      } else {
+        await pipeline(stream, process.stdout);
+      }
+      return 0;
     }
+
+    // Handle NDJSON output
+    if (argv.format === 'ndjson') {
+      if (argv.output) {
+        const outStream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
+        for (const record of data) {
+          outStream.write(JSON.stringify(record) + '\n');
+        }
+        outStream.end();
+      } else {
+        for (const record of data) {
+          process.stdout.write(JSON.stringify(record) + '\n');
+        }
+      }
+      return 0;
+    }
+
+    // Handle CSV output
+    if (argv.format === 'csv') {
+      const stream = serializeDataStream(data, {
+        format: 'csv',
+        bufferSize: argv['buffer-size'],
+        csvHeader: argv['csv-header'],
+      });
+      if (argv.output) {
+        const outStream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
+        await pipeline(stream, outStream);
+      } else {
+        for await (const chunk of stream) {
+          process.stdout.write(chunk);
+        }
+      }
+      return 0;
+    }
+
     return 0;
   } catch (err) {
     console.error(err.message);
