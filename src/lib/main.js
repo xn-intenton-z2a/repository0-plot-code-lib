@@ -33,17 +33,17 @@ export function parseRange(rangeString) {
   const [startStr, endStr, stepStr] = parts;
   const RangeSchema = z.object({
     start: z.preprocess((val) => {
-      const n = parseFloat(val as string);
+      const n = parseFloat(String(val));
       if (Number.isNaN(n)) throw new Error('start is not a number');
       return n;
     }, z.number()),
     end: z.preprocess((val) => {
-      const n = parseFloat(val as string);
+      const n = parseFloat(String(val));
       if (Number.isNaN(n)) throw new Error('end is not a number');
       return n;
     }, z.number()),
     step: z.preprocess((val) => {
-      const n = parseFloat(val as string);
+      const n = parseFloat(String(val));
       if (Number.isNaN(n)) throw new Error('step is not a number');
       return n;
     }, z.number().refine((n) => n !== 0, { message: 'step must be non-zero' })),
@@ -62,11 +62,17 @@ export function generateTimeSeries(exprAst, variableName, start, end, step) {
   return data;
 }
 
+/**
+ * Main CLI entrypoint. Returns exit code rather than calling process.exit directly.
+ * @param {string[]} args - command-line arguments (excluding node and script path)
+ * @returns {number} exit code
+ */
 export function main(args = process.argv.slice(2)) {
   if (!args || args.length === 0) {
     console.log(`Run with: ${JSON.stringify(args)}`);
-    return;
+    return 0;
   }
+
   const argv = yargs(args)
     .option('expression', { type: 'string', demandOption: true, describe: 'Mathematical expression to evaluate' })
     .option('range', { type: 'string', demandOption: true, describe: 'Range in format var=start:end:step' })
@@ -75,6 +81,7 @@ export function main(args = process.argv.slice(2)) {
     .strict()
     .help()
     .parseSync();
+
   try {
     const exprAst = parseExpression(argv.expression);
     const { variableName, start, end, step } = parseRange(argv.range);
@@ -85,13 +92,15 @@ export function main(args = process.argv.slice(2)) {
     } else {
       console.log(json);
     }
-    process.exit(0);
+    return 0;
   } catch (err) {
     console.error(err.message);
-    process.exit(1);
+    return 1;
   }
 }
 
+// If run directly from CLI, exit with appropriate code
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main();
+  const exitCode = main();
+  process.exit(exitCode);
 }
