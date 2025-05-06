@@ -7,6 +7,8 @@ import fs from 'fs';
 import yargs from 'yargs';
 import { z } from 'zod';
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+import { Readable } from 'stream';
+import { pipeline } from 'stream/promises';
 
 export function parseExpression(exprString) {
   try {
@@ -64,6 +66,84 @@ export function generateTimeSeries(exprAst, variableName, start, end, step) {
 }
 
 /**
+ * Escape a field value for CSV according to RFC4180
+ */
+function escapeCsvField(value) {
+  const str = String(value);
+  if (/[",\r\n]/.test(str)) {
+    return '"' + str.replace(/"/g, '""') + '"';
+  }
+  return str;
+}
+
+/**
+ * Serialize an iterable of records into a Readable stream in various formats.
+ * @param {Iterable<object>} dataIterable
+ * @param {{format:string,bufferSize:number,csvHeader:boolean}} options
+ * @returns {Readable}
+ */
+export function serializeDataStream(dataIterable, options) {
+  const { format, bufferSize = 16384, csvHeader = false } = options;
+  const iterator = dataIterable[Symbol.iterator]();
+  let recordCount = 0;
+  let headerDone = false;
+  const columns = [];
+  return new Readable({
+    highWaterMark: bufferSize,
+    encoding: 'utf-8',
+    read() {
+      try {
+        // Handle CSV header if requested
+        if (format === 'csv' && csvHeader && !headerDone) {
+          const peek = iterator.next();
+          if (peek.done) {
+            this.push(null);
+            return;
+          }
+          const first = peek.value;
+          const cols = Object.keys(first);
+          columns.push(...cols);
+          this.push(cols.map(escapeCsvField).join(',') + '\r\n');
+          this.push(cols.map(key => escapeCsvField(first[key])).join(',') + '\r\n');
+          recordCount++;
+          headerDone = true;
+          return;
+        }
+        const next = iterator.next();
+        if (next.done) {
+          if (format === 'json-stream') {
+            this.push(']');
+          }
+          this.push(null);
+          return;
+        }
+        const record = next.value;
+        if (format === 'json-stream') {
+          if (recordCount === 0) {
+            this.push('[' + JSON.stringify(record));
+          } else {
+            this.push(',' + JSON.stringify(record));
+          }
+          recordCount++;
+        } else if (format === 'ndjson') {
+          this.push(JSON.stringify(record) + '\n');
+        } else if (format === 'csv') {
+          const cols = columns.length > 0 ? columns : Object.keys(record);
+          if (!csvHeader && columns.length === 0) {
+            columns.push(...cols);
+          }
+          this.push(cols.map(key => escapeCsvField(record[key])).join(',') + '\r\n');
+        } else {
+          this.destroy(new Error(`Unsupported format: ${format}`));
+        }
+      } catch (err) {
+        this.destroy(err);
+      }
+    }
+  });
+}
+
+/**
  * Render a plot from time series data.
  * @param {Array<{x:number,y:number}>} data
  * @param {{width?:number,height?:number,format:string,labels?:{x:string,y:string}}} options
@@ -117,7 +197,9 @@ export async function main(args = process.argv.slice(2)) {
     .option('expression', { type: 'string', demandOption: true, describe: 'Mathematical expression to evaluate' })
     .option('range', { type: 'string', demandOption: true, describe: 'Range in format var=start:end:step' })
     .option('output', { type: 'string', describe: 'File path to write output' })
-    .option('format', { type: 'string', choices: ['json', 'ndjson'], default: 'json', describe: 'Output format (json or ndjson)' })
+    .option('format', { type: 'string', choices: ['json', 'json-stream', 'ndjson', 'csv'], default: 'json', describe: 'Output format (json, json-stream, ndjson, csv)' })
+    .option('buffer-size', { type: 'number', default: 16384, describe: 'Buffer size for streaming output' })
+    .option('csv-header', { type: 'boolean', default: false, describe: 'Include header row for CSV output' })
     .option('plot-format', { type: 'string', choices: ['svg', 'png'], describe: 'Plot output format (svg or png)' })
     .option('width', { type: 'number', default: 800, describe: 'Plot width in pixels' })
     .option('height', { type: 'number', default: 600, describe: 'Plot height in pixels' })
@@ -152,29 +234,67 @@ export async function main(args = process.argv.slice(2)) {
       return 0;
     }
 
-    // Handle NDJSON streaming
+    // Handle JSON output
+    if (argv.format === 'json') {
+      const json = JSON.stringify(data, null, 2);
+      if (argv.output) {
+        fs.writeFileSync(argv.output, json, 'utf-8');
+      } else {
+        console.log(json);
+      }
+      return 0;
+    }
+
+    // Handle JSON stream output
+    if (argv.format === 'json-stream') {
+      const stream = serializeDataStream(data, {
+        format: 'json-stream',
+        bufferSize: argv['buffer-size'],
+        csvHeader: argv['csv-header'],
+      });
+      if (argv.output) {
+        const outStream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
+        await pipeline(stream, outStream);
+      } else {
+        await pipeline(stream, process.stdout);
+      }
+      return 0;
+    }
+
+    // Handle NDJSON output
     if (argv.format === 'ndjson') {
       if (argv.output) {
-        const stream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
-        for (const point of data) {
-          stream.write(JSON.stringify(point) + '\n');
+        const outStream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
+        for (const record of data) {
+          outStream.write(JSON.stringify(record) + '\n');
         }
-        stream.end();
+        outStream.end();
       } else {
-        for (const point of data) {
-          process.stdout.write(JSON.stringify(point) + '\n');
+        for (const record of data) {
+          process.stdout.write(JSON.stringify(record) + '\n');
         }
       }
       return 0;
     }
 
-    // Default JSON array output
-    const json = JSON.stringify(data, null, 2);
-    if (argv.output) {
-      fs.writeFileSync(argv.output, json, 'utf-8');
-    } else {
-      console.log(json);
+    // Handle CSV output
+    if (argv.format === 'csv') {
+      const stream = serializeDataStream(data, {
+        format: 'csv',
+        bufferSize: argv['buffer-size'],
+        csvHeader: argv['csv-header'],
+      });
+      if (argv.output) {
+        const outStream = fs.createWriteStream(argv.output, { encoding: 'utf8' });
+        await pipeline(stream, outStream);
+      } else {
+        for await (const chunk of stream) {
+          process.stdout.write(chunk);
+        }
+      }
+      return 0;
     }
+
     return 0;
   } catch (err) {
     console.error(err.message);

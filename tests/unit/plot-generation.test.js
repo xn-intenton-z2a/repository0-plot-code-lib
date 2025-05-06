@@ -1,7 +1,10 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import fs from 'fs';
-import { parseExpression, parseRange, generateTimeSeries, main, renderPlot } from '@src/lib/main.js';
+import { parseExpression, parseRange, generateTimeSeries, main, renderPlot, serializeDataStream } from '@src/lib/main.js';
 import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+import { PassThrough } from 'stream';
+
+// existing tests
 
 describe('parseExpression', () => {
   test('valid expression returns AST', () => {
@@ -88,6 +91,144 @@ describe('renderPlot', () => {
     await expect(renderPlot([], { format: 'jpg', width: 100, height: 100 })).rejects.toThrow(/unsupported format/);
   });
 });
+
+// New tests for serializeDataStream
+
+describe('serializeDataStream', () => {
+  test('json-stream output wraps array and uses commas without trailing comma', async () => {
+    const data = [{ a: 1 }, { a: 2 }, { a: 3 }];
+    const stream = serializeDataStream(data, { format: 'json-stream', bufferSize: 16, csvHeader: false });
+    let out = '';
+    for await (const chunk of stream) {
+      out += chunk;
+    }
+    expect(out).toBe('[' +
+      JSON.stringify({ a: 1 }) + ',' +
+      JSON.stringify({ a: 2 }) + ',' +
+      JSON.stringify({ a: 3 }) +
+    ']');
+  });
+
+  test('ndjson output has one JSON object per line', async () => {
+    const data = [{ b: 'x' }, { b: 'y' }];
+    const stream = serializeDataStream(data, { format: 'ndjson', bufferSize: 16, csvHeader: false });
+    let lines = '';
+    for await (const chunk of stream) {
+      lines += chunk;
+    }
+    expect(lines).toBe(JSON.stringify({ b: 'x' }) + '\n' + JSON.stringify({ b: 'y' }) + '\n');
+  });
+
+  test('csv output escapes fields and omits header when csvHeader=false', async () => {
+    const data = [
+      { foo: 'one,two', bar: 'plain' },
+      { foo: 'quote"test', bar: 'line\nbreak' }
+    ];
+    const stream = serializeDataStream(data, { format: 'csv', bufferSize: 16, csvHeader: false });
+    let csv = '';
+    for await (const chunk of stream) {
+      csv += chunk;
+    }
+    const expectedLines = [];
+    // header omitted, columns from first record
+    expectedLines.push('"one,two",plain');
+    expectedLines.push('"quote""test","line\nbreak"');
+    expect(csv).toBe(expectedLines.join('\r\n') + '\r\n');
+  });
+
+  test('csv output includes header when csvHeader=true', async () => {
+    const data = [
+      { x: 1, y: 2 },
+      { x: 3, y: 4 }
+    ];
+    const stream = serializeDataStream(data, { format: 'csv', bufferSize: 16, csvHeader: true });
+    let csv = '';
+    for await (const chunk of stream) {
+      csv += chunk;
+    }
+    const expected = 'x,y\r\n' + '1,2\r\n' + '3,4\r\n';
+    expect(csv).toBe(expected);
+  });
+
+  test('backpressure handling with small stream', async () => {
+    const data = Array.from({ length: 10 }, (_, i) => ({ i }));
+    const stream = serializeDataStream(data, { format: 'ndjson', bufferSize: 1, csvHeader: false });
+    const pass = new PassThrough({ highWaterMark: 1 });
+    let collected = '';
+    await new Promise((resolve, reject) => {
+      stream.pipe(pass);
+      pass.on('data', (chunk) => { collected += chunk.toString(); });
+      pass.on('end', resolve);
+      pass.on('error', reject);
+    });
+    const lines = collected.split('\n').filter(Boolean);
+    expect(lines).toHaveLength(10);
+    expect(lines[0]).toBe(JSON.stringify({ i: 0 }));
+    expect(lines[9]).toBe(JSON.stringify({ i: 9 }));
+  });
+});
+
+describe('CLI integration for new formats', () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test('streams json-stream to stdout', async () => {
+    const writeSpy = vi.spyOn(process.stdout, 'write').mockImplementation(() => {});
+    process.argv = [
+      'node', 'src/lib/main.js',
+      '--expression', 'x+1',
+      '--range', 'x=0:2:1',
+      '--format', 'json-stream'
+    ];
+    await main();
+    // Collect written chunks
+    const calls = writeSpy.mock.calls.flat();
+    const output = calls.join('');
+    const expected = '[' +
+      JSON.stringify({ x: 0, y: 1 }) + ',' +
+      JSON.stringify({ x: 1, y: 2 }) + ',' +
+      JSON.stringify({ x: 2, y: 3 }) +
+    ']';
+    expect(output).toBe(expected);
+    writeSpy.mockRestore();
+  });
+
+  test('streams csv to stdout without header', async () => {
+    const writeSpy = vi.spyOn(process.stdout, 'write').mockImplementation(() => {});
+    process.argv = [
+      'node', 'src/lib/main.js',
+      '--expression', 'x',
+      '--range', 'x=0:2:1',
+      '--format', 'csv'
+    ];
+    await main();
+    const calls = writeSpy.mock.calls.flat();
+    const output = calls.join('');
+    const expectedLines = ['0,0', '1,1', '2,2'];
+    expect(output).toBe(expectedLines.join('\r\n') + '\r\n');
+    writeSpy.mockRestore();
+  });
+
+  test('streams csv to stdout with header', async () => {
+    const writeSpy = vi.spyOn(process.stdout, 'write').mockImplementation(() => {});
+    process.argv = [
+      'node', 'src/lib/main.js',
+      '--expression', 'x',
+      '--range', 'x=0:1:1',
+      '--format', 'csv',
+      '--csv-header'
+    ];
+    await main();
+    const calls = writeSpy.mock.calls.flat();
+    const output = calls.join('');
+    const expected = 'x,y\r\n0,0\r\n1,1\r\n';
+    expect(output).toBe(expected);
+    writeSpy.mockRestore();
+  });
+});
+
+// existing CLI tests for JSON and NDJSON and plotting
 
 describe('CLI integration', () => {
   test('outputs JSON to stdout', () => {
