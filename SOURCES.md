@@ -13,16 +13,6 @@ Comprehensive guide to Node.js stream abstractions—readable, writable, duplex,
 Defines import/export syntax, conditional exports, dynamic imports, and loader hooks, plus interop with CommonJS modules. Emphasizes `package.json` configuration, top-level await, and tree-shaking considerations—key to maintaining a modern ESM codebase for both library and CLI. Node.js v20; updated 2023.
 ## License: Node.js (MIT-like terms)
 
-# Node.js HTTP Module Documentation
-## https://nodejs.org/api/http.html
-Detailed reference for creating HTTP servers and clients, covering request/response objects, streaming response bodies via chunked transfer, Server-Sent Events (SSE), keep-alive strategies, and performance tuning. Essential for building HTTP endpoints that serve NDJSON streams and dynamically generate SVG/PNG assets. Includes Node.js v20 updates with `AbortSignal` support in requests. Updated 2023; core runtime documentation, authoritative.
-## License: Node.js (MIT-like terms)
-
-# Express Routing and Middleware
-## https://expressjs.com/en/guide/routing.html
-Express.js guide to defining routes, middleware chains, URL parameters, and response streaming. Illustrates best practices for error handling, header configuration, and integration of custom middleware—foundation for exposing NDJSON data and SVG/PNG outputs over HTTP. Maintained 2024; MIT.
-## License: MIT
-
 # Zod Official Documentation
 ## https://zod.dev
 In-depth reference on schema creation, parsing pipelines, type inference, and custom refinements in Zod. Demonstrates composing nested object schemas, coercion strategies, asynchronous validations, and custom error formatting—vital for robust CLI argument validation of expression, range, file, and format flags. Updated 2023; authoritative source.
@@ -65,7 +55,7 @@ Outlines methods for generating SVG path data—lines, areas, curves—and const
 
 # SVG Technical Documentation (MDN & W3C)
 ## https://developer.mozilla.org/en-US/docs/Web/SVG and https://www.w3.org/TR/SVG2/
-Combines MDN’s practical SVG tutorials on shapes, paths, transforms, and styling with the authoritative W3C SVG2 specification. Covers `<polyline>`, `<path>` syntax, viewBox behavior, and XML serialization—essential for cross-browser SVG chart rendering and serialization. MDN reviewed 2024; W3C spec published 2021; CC-BY-SA / W3C Software and Document License.
+Combines MDN’s practical SVG tutorials on shapes, paths, transforms, and styling with the authoritative W3C SVG2 specification. Covers `<polyline>`, `<path>` syntax, viewBox behavior, and XML serialization—essential for cross-browser SVG chart rendering and serialization. MDN reviewed 2024; W3C spec published 2021.
 ## License: CC-BY-SA / W3C Software and Document License
 
 # Sharp Image Processing Library Documentation
@@ -76,4 +66,14 @@ Sharp’s API docs describe image resizing, cropping, compositing, and format co
 # Vitest Documentation
 ## https://vitest.dev/
 Vitest’s official documentation provides guidance on configuring unit tests, mocks, snapshot testing, and performance tuning. Covers lifecycle hooks, coverage analysis, and plugin integrations—enabling robust testing of CLI parsing, sampling logic, and file I/O. Latest release: 2023; maintained by the Vitest team.
+## License: MIT
+
+# Chart.js Node Canvas
+## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
+Chart.js Node Canvas README demonstrates how to render Chart.js charts server-side using a Canvas implementation. It covers creating chart configuration, initializing the renderer with dimensions and device pixel ratio settings, exporting to PNG or SVG, and streaming outputs for high-performance pipelines. It also discusses caching strategies and memory management for bulk image generation. Updated 2024; MIT.
+## License: MIT
+
+# js-yaml Official Documentation
+## https://github.com/nodeca/js-yaml#readme
+The js-yaml README details YAML parsing and dumping APIs, including `safeLoad`, `load`, `dump`, and schema customization. It explains options for indentation, line width, and JSON compatibility, as well as security considerations with custom types. Essential for implementing future YAML export for time series data. Updated 2023; MIT.
 ## License: MIT
