@@ -10,18 +10,21 @@ repository0-plot-code-lib is a JavaScript library and CLI tool that parses mathe
 
 - Parse and validate single-variable mathematical expressions.
 - Generate time series data over numeric ranges with customizable step sizes.
-- Output results as pretty-printed JSON or newline-delimited JSON (NDJSON).
+- Output results as pretty-printed JSON or newline-delimited JSON (NDJSON) for streaming large datasets.
 - CLI interface for quick data generation and file output.
 - Programmatic API for integration into other JavaScript projects.
-- Plot rendering (SVG/PNG) is planned and not yet implemented.
+- Plot rendering (SVG/PNG) via `--plot-format` flag is stubbed and in development.
 
 ## Installation
 
 Install globally from npm:
+
 ```bash
 npm install -g @xn-intenton-z2a/repository0-plot-code-lib
 ```
+
 Or add it to your project dependencies:
+
 ```bash
 npm install @xn-intenton-z2a/repository0-plot-code-lib
 ```
@@ -39,7 +42,8 @@ import {
   parseExpression,
   parseRange,
   generateTimeSeries,
-  main as cliMain
+  renderPlot,
+  main as cliMain,
 } from '@xn-intenton-z2a/repository0-plot-code-lib';
 
 // Parse an expression AST
@@ -52,15 +56,31 @@ const { variableName, start, end, step } = parseRange('x=0:2:1');
 const data = generateTimeSeries(exprAst, variableName, start, end, step);
 console.log(data);
 
+// Render a plot (stubbed, may throw an error)
+(async () => {
+  try {
+    const svg = await renderPlot(data, {
+      format: 'svg',
+      width: 800,
+      height: 600,
+      labels: { x: 'X Axis', y: 'Y Axis' },
+    });
+    console.log(svg);
+  } catch (err) {
+    console.error('Plot rendering not implemented:', err.message);
+  }
+})();
+
 // Run the CLI programmatically (returns exit code)
-const exitCode = cliMain([ '--expression', 'x+1', '--range', 'x=0:5:1' ]);
+const exitCode = cliMain(['--expression', 'x+1', '--range', 'x=0:5:1', '--format', 'ndjson']);
 console.log(`CLI exited with code ${exitCode}`);
 ```
 
 ## Roadmap
 
-- Render plots in SVG and PNG formats via `--plot-format` (in progress).
-- Support expression and range streaming for very large datasets.
+- Full SVG/PNG plot rendering via `--plot-format` flag and `renderPlot` API (in progress).
+- Support expression and range streaming for very large datasets (NDJSON output).
+- Additional features and performance optimizations.
 
 ## Contributing
 
