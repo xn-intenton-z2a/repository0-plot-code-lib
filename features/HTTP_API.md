@@ -1,49 +1,64 @@
 # Overview
 
-Provide a RESTful HTTP interface to existing time series generation and plot rendering logic. This feature adds endpoints to serve plots in SVG or PNG format over HTTP, leveraging streaming to handle large payloads efficiently and ensuring proper validation and error handling.
+Provide a RESTful HTTP interface to existing time series generation and plot rendering logic. This feature enables users to start an Express server that accepts requests to generate data and render SVG or PNG plots directly over HTTP with proper validation and streaming.
 
 # API Endpoints
 
-## GET /plot and POST /plot
+## GET /plot
 
-- Accept inputs via query parameters or JSON body:
-  • expression (string, required): A formula in terms of x (e.g., y=sin(x))
-  • range (string, required): Domain as start:end with numeric start < end
-  • points (integer, optional): Number of samples ≥ 2 (default 100)
-  • format (string, optional): One of svg or png (default svg)
-  • width (integer, optional): SVG viewport width in pixels (default 800)
-  • height (integer, optional): SVG viewport height in pixels (default 600)
-  • margin (integer, optional): Plot margin in pixels (default 40)
+- Accept query parameters:
+  • expression: string (required), e.g., y=sin(x)
+  • range: string (required), start:end with numeric values and start < end
+  • points: integer (optional), ≥ 2, defaults to 100
+  • format: string (optional), svg or png, defaults to svg
+  • width: integer (optional), defaults to 800
+  • height: integer (optional), defaults to 600
+  • margin: integer (optional), defaults to 40
 
-- Response behavior:
-  • Validate inputs using Zod schemas, returning 400 on validation errors.
-  • Generate data using existing generation logic.
-  • For SVG: stream the output of renderPlotStream(data, options) as text/event-stream or chunked response with Content-Type image/svg+xml.
-  • For PNG: pipe the SVG stream into sharp().png() and stream resulting binary with Content-Type image/png.
-  • Support HTTP backpressure to avoid buffering entire responses in memory.
+- Validate inputs using Zod schemas. On validation error, respond with 400 and JSON { error: message }.
+- On success, generate data and:
+  • If format is svg: stream the SVG output via renderPlotStream and send with Content-Type image/svg+xml.
+  • If format is png: pipe the SVG stream into sharp().png() and stream with Content-Type image/png.
+
+## POST /plot
+
+- Accept JSON body with the same fields as GET.
+- Behavior identical to GET /plot.
 
 # Implementation
 
-1. Extend parseArgs to support flags --serve, --host, --port (default 0.0.0.0:3000).
-2. When --serve is provided, initialize an Express server:
-   - Define Zod schemas for /plot input parameters.
-   - Register GET and POST /plot routes.
-   - In each handler, parse and validate inputs, then call common data and plot functions.
-   - For SVG, call renderPlotStream and pipe to res without full buffering.
-   - For PNG, pipe renderPlotStream into sharp().png() and then to res.
-   - Set appropriate Content-Type and handle errors via middleware returning JSON error responses with HTTP status codes.
-3. On server start, log listening address. Handle SIGINT and SIGTERM to gracefully close the server.
+1. In parseArgs, add flags:
+   • --serve: start HTTP server mode
+   • --host: host address (default 0.0.0.0)
+   • --port: port number (default 3000)
+2. When --serve is provided, initialize an Express app:
+   • Import express and zod.
+   • Define a Zod schema for request parameters.
+   • Register GET and POST /plot routes with request parsing, validation, and error handling middleware.
+   • In handlers, call existing data generation code and use renderPlotStream to produce SVG chunks.
+   • For PNG responses, pipe SVG stream into sharp().png().
+   • Handle backpressure and send appropriate Content-Type headers.
+3. Log server start: "HTTP server listening on http://host:port".
+4. Gracefully handle SIGINT and SIGTERM to close the server.
 
 # Tests
 
-- Create tests/unit/http-api-plot.test.js using Vitest and Supertest:
-  • GET /plot?expression=y=x&range=0:2&format=svg: expect 200, header Content-Type image/svg+xml, body starts with <svg.
-  • GET /plot?expression=y=x&range=0:2&format=png: expect 200, header Content-Type image/png, body begins with PNG signature bytes.
-  • POST /plot with JSON body for svg and png with same assertions.
-  • Test invalid requests (missing expression or bad range): expect 400 with JSON { error: <message> }.
-  • Simulate large points count to verify response streaming and status 200 without high memory usage.
+Create tests/unit/http-api-plot.test.js using Vitest and Supertest:
+
+• Valid requests:
+  - GET /plot?expression=y=x&range=0:2&format=svg: expect status 200, Content-Type image/svg+xml, body starts with <svg.
+  - GET /plot?expression=y=x&range=0:2&format=png: expect status 200, Content-Type image/png, body begins with PNG signature bytes.
+  - POST /plot with JSON body for svg and png: same assertions.
+
+• Invalid requests:
+  - Missing expression or range: expect 400 and JSON { error: <message> }.
+  - Bad range format: expect 400 with validation error.
 
 # Documentation Updates
 
-- In USAGE.md, add a "Running HTTP Server" section showing flags --serve, --host, --port and example curl commands for /plot.
-- In README.md under "HTTP API", add subsections for /plot with example requests (curl or HTTPie) and expected response headers and body previews.
+- USAGE.md:
+  • Add section "Running HTTP Server" describing --serve, --host, --port flags.
+  • Provide example curl commands for GET and POST /plot and notes on response headers.
+
+- README.md:
+  • Under "HTTP API", add subsections showing curl examples for SVG and PNG endpoints and expected status codes and headers.
