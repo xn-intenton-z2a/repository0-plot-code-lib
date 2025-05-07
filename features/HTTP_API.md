@@ -1,66 +1,45 @@
 # Overview
 
-Extend the CLI tool to offer a persistent HTTP service that receives formula parameters and returns time series data or rendered plots. This brings an HTTP API to the existing library, enabling integration with web clients, scripts, and other services without invoking the CLI directly.
+Extend the CLI to provide a persistent HTTP service for formula evaluation and plot rendering. Leverage Express for routing and Zod for input validation to enable programmatic access to data and image outputs without invoking the CLI directly.
 
-# CLI Interface
+# Source File Updates
 
---serve       Launch the HTTP server instead of one-off CLI mode
---port        Port number to listen on (default: 3000)
---host        Hostname or IP address to bind (default: 0.0.0.0)
-
-# Server Initialization
-
-1. In parseArgs, add support for --serve, --port, and --host flags.
-2. When opts.serve is true, initialize an Express application:
-   • Use express.json() and express.urlencoded middleware
-   • Configure CORS if needed for browser clients
-   • Attach graceful shutdown handlers on SIGINT and SIGTERM to close the server
-   • Listen on opts.host and opts.port
-
-# HTTP Endpoints
-
-GET /data
-  • Query parameters: expression (required), range (start:end), points (optional ≥2), format (json|ndjson)
-  • Default response format: application/json with a JSON array of points
-  • When format=ndjson, stream newline-delimited JSON, one point per line
-
-POST /data
-  • Accept JSON body: { expression, range, points?, format? }
-  • Same response behavior as GET /data
-
-GET /plot
-  • Query parameters: expression, range, points?, format (svg|png), width?, height?, margin?
-  • For svg: respond with Content-Type image/svg+xml and send the SVG document
-  • For png: pipe the SVG through sharp and stream Content-Type image/png
-
-POST /plot
-  • Accept JSON body: { expression, range, points?, format?, width?, height?, margin? }
-  • Same response behavior as GET /plot
-
-# Request Validation and Error Handling
-
-1. Use Zod to define schemas for expression, range, points, format, width, height, and margin.
-2. On schema validation failure, respond with 400 Bad Request and JSON { error: message }.
-3. On evaluation or rendering errors, catch exceptions and respond with 500 Internal Server Error and JSON { error: "Internal server error" }.
-4. Ensure proper backpressure when streaming NDJSON or PNG data.
+- In src/lib/main.js modify parseArgs to support flags --serve, --port, and --host with defaults port 3000 and host 0.0.0.0.
+- When opts.serve is true, initialize an Express application:
+  • Import express and zod modules at the top of the file.
+  • Use express.json() middleware for JSON bodies.
+  • Define Zod schemas for query and body parameters: expression, range, points, format, width, height, margin.
+  • Implement endpoints:
+    – GET /data and POST /data: validate inputs, generate time series, respond with application/json or text/plain for ndjson streamed per line.
+    – GET /plot and POST /plot: validate inputs, generate data and SVG via renderPlot, for png pipe through sharp; respond with image/svg+xml or image/png streams.
+  • Add graceful shutdown handlers for SIGINT and SIGTERM to close the HTTP server.
 
 # Tests
 
-Unit Tests (tests/unit/http-api-data.test.js, tests/unit/http-api-plot.test.js):
-  • Use Supertest against the Express app instance imported from main.
-  • Verify 200 responses and correct Content-Type headers for valid /data and /plot requests.
-  • For ndjson: assert multiple lines and valid JSON per line.
-  • For svg: assert response body starts with <svg.
-  • For png: capture the stream buffer and assert the PNG signature bytes.
+- Unit Tests in tests/unit/http-api-data.test.js:
+  • Use Supertest to send GET /data and POST /data with valid parameters and assert status 200 and correct JSON array or newline-delimited JSON responses.
+  • Test validation errors by sending missing or invalid parameters and assert 400 status with JSON error messages.
 
-Integration Tests (tests/integration/http-server-data.test.js, tests/integration/http-server-plot.test.js):
-  • Start the server on an ephemeral port via spawn or direct import and listen.
-  • Send real HTTP requests with curl or fetch and verify streaming behavior, headers, and content.
-  • Clean up server process after tests.
+- Unit Tests in tests/unit/http-api-plot.test.js:
+  • Use Supertest to send GET /plot and POST /plot for svg and png formats. Verify Content-Type headers (image/svg+xml or image/png) and that response bodies start with <svg or PNG signature bytes.
+  • Test invalid formats or range and verify 400 responses.
+
+- Integration Tests in tests/integration/http-server.test.js:
+  • Start the server programmatically on an ephemeral port.
+  • Send real HTTP requests using fetch or axios and verify streaming behavior, headers, and body signatures for ndjson, svg, and png.
+  • Ensure server is closed after tests.
 
 # Documentation Updates
 
-- USAGE.md: Add a section "Running the HTTP Service" with example curl commands for GET and POST /data and /plot, showing JSON, NDJSON, SVG, and PNG responses.
-- README.md: Under Examples, add snippets demonstrating how to start the server and call each endpoint, including sample outputs.
-- CONTRIBUTING.md: Document guidelines for adding new HTTP routes and updating both tests and documentation when expanding the API.
-- package.json: Ensure express and zod are listed under dependencies (they already are), and add a script "serve" to run node src/lib/main.js --serve.
+- In USAGE.md add a section "Running the HTTP Service":
+  • Example command: node src/lib/main.js --serve --port 4000
+  • Curl examples for GET /data, POST /data, GET /plot, POST /plot demonstrating JSON, NDJSON, SVG, and PNG responses.
+
+- In README.md under Examples, include:
+  • Starting the server.
+  • Sample curl commands with expected outputs.
+
+# Dependencies Updates
+
+- In package.json add a new npm script "serve": "node src/lib/main.js --serve".
+- Ensure express and zod are listed under dependencies.
