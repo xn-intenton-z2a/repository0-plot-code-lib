@@ -1,64 +1,75 @@
 # Overview
 
-Enhance the CLI library to expose an HTTP server that mirrors the existing generate and plot commands. Users can start a long-running HTTP service to request time series data or rendered plots over RESTful endpoints, reusing the same core logic for data generation and rendering.
+Extend the library and CLI to provide a long‐running Express HTTP service exposing formula‐driven data generation and plot rendering endpoints. Users can GET or POST requests to receive JSON time series or SVG/PNG plots without using the CLI.
 
 # HTTP Interface
 
-GET /generate
-  Query parameters: expression required as y=..., range required as start:end, points optional integer ≥ 2
-  Returns: JSON array of { x, y } points with content type application/json
-
 GET /plot
-  Query parameters: expression, range, points as above; format optional svg or png (default svg)
-  Returns: image/svg+xml or image/png bytes for the rendered plot
-
-POST /generate
-  Request body JSON: { expression, range, points }
-  Returns: same JSON array as GET /generate
+  Query parameters:
+    expression  required as y=...  
+    range       required as start:end
+    points      optional integer ≥ 2  
+    format      optional svg or png (default svg)
+  Returns:
+    Content-Type image/svg+xml or image/png
+    Response body: SVG markup or PNG image bytes
 
 POST /plot
-  Request body JSON: { expression, range, points, format }
-  Returns: same image response as GET /plot
+  Request body JSON:
+    { expression: string, range: string, points?: number, format?: "svg"|"png" }
+  Returns:
+    Same image response as GET /plot
 
 # Implementation
 
-1. In src/lib/main.js, import express and express.json. Extend parseArgs to accept --serve and --port flags.
-2. When --serve is present, after parsing, invoke startServer(opts) instead of exiting. startServer will:
-   • Create an express app
-   • Use express.json() to parse POST bodies
-   • Mount GET and POST routes for /generate and /plot
-   • For each route, validate inputs, compute data with existing logic, and send JSON or image response
-   • Listen on provided port (default 3000) and log a startup message
-3. Reuse the existing data generation and renderPlot functions without duplication.
+1. In src/lib/main.js, import express and express.json.  
+2. Add new flags --serve and --port in parseArgs.  
+3. If opts.serve is true, call startServer(opts) instead of CLI exit.  
+4. Implement startServer(opts):
+   • Create express app and use express.json() middleware
+   • Mount GET and POST routes for /plot
+   • In each handler:
+     - Validate inputs using shared zod schema for expression, range, points, format
+     - Use existing logic to compute data array
+     - Call renderPlot on data to produce SVG
+     - If format is png, convert with sharp to a buffer
+     - Set appropriate Content-Type header and send response body
+   • Listen on opts.port (default 3000) and log a startup message
 
 # Request Validation
 
-Use zod to define a shared schema for expression (nonempty string), range (pattern start:end with numeric start < end), points (optional integer ≥ 2), and format (enum svg or png). Apply validation on both query and JSON body inputs. On failure respond with status 400 and JSON { error: message }.
+Use zod to define schema:
+  expression: nonempty string
+  range: pattern start:end with numeric start < end
+  points: optional integer ≥ 2
+  format: enum ["svg","png"]
+
+On validation failure respond 400 with JSON { error: string }
+On internal errors respond 500 with JSON { error: "Internal server error" }
 
 # Behavior
 
-• Valid requests return status 200 and correct payload.  
-• Invalid inputs yield status 400 with an error JSON.  
-• Internal errors yield status 500 with JSON { error: "Internal server error" }.  
-• The server does not exit on errors and logs them for diagnostics.
+• Valid requests return 200 with correct payload type
+• Invalid parameters yield 400 and descriptive error
+• Server continues running on errors
 
 # Tests
 
 Unit Tests:
-  • Create tests/unit/http-api-server.test.js.  
-  • Mock server instance to test each endpoint handler with valid and invalid inputs.  
-  • Use supertest to simulate HTTP requests and assert responses and status codes.
-
+  - tests/unit/http-plot.test.js
+    • Test GET /plot with valid svg and png requests via supertest
+    • Test POST /plot with valid body payloads
+    • Test missing or invalid params return 400 and error JSON
 Integration Tests:
-  • Add tests/integration/http-server-endpoints.test.js.  
-  • Start the server on a random port before tests and stop it after.  
-  • Perform GET and POST on /generate and /plot, assert JSON length and response signatures for svg and png.
+  - tests/integration/http-server-plot.test.js
+    • Start server on random port and perform real HTTP requests
+    • Assert returned image signature bytes for png and <svg> start for svg
+    • Shutdown server after tests
 
 # Documentation Updates
 
-USAGE.md: add section "Running as HTTP Service" with example commands to start the server and curl requests for each endpoint.  
-README.md: under Examples, show how to launch the HTTP API and sample HTTP requests with expected outputs.
-
-# Dependencies
-
-Ensure express is in dependencies (already present). No new dependencies required beyond zod for validation and sharp for PNG conversion.
+USAGE.md:
+  - Add section "Running the HTTP Plot Service" with example curl commands for GET and POST /plot
+README.md:
+  - Under Examples, show how to start the service with --serve and --port
+  - Provide sample HTTP requests and expected responses
