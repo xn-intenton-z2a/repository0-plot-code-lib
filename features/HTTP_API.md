@@ -1,47 +1,68 @@
 # Overview
 
-Extend the CLI tool into a long running HTTP server providing programmatic access to time series data generation and plot rendering.
+Extend the existing CLI into a long-running HTTP server to expose data generation and plot rendering functionality via RESTful endpoints.  This allows programmatic access without invoking the binary per request and supports streaming large responses with proper backpressure.
 
 # API Endpoints
 
 ### GET /data
 
-Accept query parameters expression, range, points, dataFormat. Validate inputs using Zod schemas. Generate the time series and respond according to dataFormat:
+Accepts query parameters:
+  • expression (required): formula in terms of x (e.g., y=sin(x))
+  • range (required): start:end
+  • points (optional): integer ≥2, default 100
+  • dataFormat (optional): json, ndjson, csv; default json
 
-• If dataFormat=json, respond with application/json and send the full array.
-• If dataFormat=ndjson, respond with application/x-ndjson and stream one JSON object per line using Node streams.
+Validates inputs using Zod.  Generates time series and responds:
+  • json: application/json with full array
+  • ndjson: application/x-ndjson streaming one JSON object per line
+  • csv: text/csv streaming header and rows
 
 ### POST /data
 
-Accept a JSON body with expression, range, points, dataFormat. Apply the same validation and response behavior as GET /data, supporting full JSON or streaming NDJSON.
+Accepts JSON body with same fields as GET.  Responds identically to GET /data.
 
 ### GET /plot
 
-Accept query parameters expression, range, points, format, width, height, margin. Validate inputs. Generate the series and:
+Accepts query parameters:
+  • expression, range, points (same as /data)
+  • format (svg or png; default svg)
+  • width, height, margin (optional numeric layout overrides)
 
-• If format=svg, stream an SVG response with content-type image/svg+xml using response.write or stream.pipeline.
-• If format=png, produce an SVG then pipe through sharp to generate a PNG stream with content-type image/png.
+Streams response with appropriate content-type:
+  • svg: image/svg+xml streaming SVG via res.write
+  • png: image/png streaming PNG by piping an SVG through sharp with stream.pipeline
 
 ### POST /plot
 
-Accept a JSON body with expression, range, points, format, width, height, margin. Validate and stream responses exactly as in GET /plot.
+Accepts JSON body with same fields as GET /plot.  Streams responses identically.
 
 # CLI Interface
 
-–serve       Start the HTTP server instead of one-off data or plot generation.
-–host        Hostname to bind, default localhost.
-–port        Port to listen on, default 3000.
+Add flags to start the HTTP server:
 
-When serve mode is enabled, skip existing CLI logic and initialize an Express application hosting the four endpoints.
+--serve         Launch HTTP server instead of one-off CLI mode
+--host          Hostname to bind; default localhost
+--port          Port number; default 3000
+
+When --serve is present, skip data or plot one-off logic and boot an Express application exposing the endpoints above.
 
 # Server Implementation
 
-Use Express for routing and the built-in JSON body parser. Define and enforce request schemas with Zod. Reuse existing generate data and renderPlot functions for core logic. Employ Node stream.pipeline or res.write to stream large payloads with backpressure. Handle errors by returning HTTP 400 for validation failures and HTTP 500 for unexpected errors. Log incoming requests and errors at info level. Gracefully handle SIGINT and SIGTERM to shut down the server.
+Use Express for routing and built-in JSON parser.  Define request schemas with Zod for all endpoints.  Reuse existing parseArgs, data generation, and renderPlot functions where possible.  Employ Node stream.pipeline for SVG→PNG conversion to respect backpressure.  Handle validation errors with HTTP 400 and unexpected failures with HTTP 500.  Log requests and errors at info level.  Gracefully handle SIGINT and SIGTERM to shut down the HTTP server.
 
 # Tests
 
-Create unit tests with Supertest for each endpoint. Verify status codes, content types, response payloads including JSON arrays, streamed NDJSON, SVG responses, and PNG signature in binary responses. Add integration tests that launch the server on an ephemeral port to validate end-to-end behavior.
+Create unit and integration tests using Supertest and Vitest:
+  • Unit tests for each endpoint validating status codes, headers, and payloads for json, ndjson, csv, svg, and png responses
+  • Integration tests that launch the server on an ephemeral port and exercise GET and POST for /data and /plot, asserting streaming behavior and PNG magic bytes
+  • Mock error conditions (invalid parameters) returning HTTP 400
 
 # Documentation Updates
 
-In USAGE.md add a section "Running HTTP Server" showing npm run start -- --serve and curl examples for GET and POST on /data and /plot with expected content types. In README.md under Examples include HTTP service usage with sample curl commands and brief note on response formats.
+USAGE.md:
+  • Add “Running HTTP Server” section showing npm run start -- --serve flags
+  • Provide curl examples for GET and POST /data and /plot, highlighting JSON, NDJSON, SVG, and PNG outputs and content types
+
+README.md:
+  • Under Examples, add a subsection “HTTP API” with curl commands and brief notes on response formats
+  • Document --serve, --host, and --port flags in CLI Usage section
