@@ -17,6 +17,10 @@ function parseArgs(args) {
       case "--points":
         opts.points = args[++i];
         break;
+      case "--help":
+      case "-h":
+        opts.help = true;
+        break;
       default:
         // ignore unknown flags
         break;
@@ -26,15 +30,36 @@ function parseArgs(args) {
 }
 
 export function main(args = process.argv.slice(2)) {
+  const argsProvidedCount = arguments.length;
   const opts = parseArgs(args);
-  const { expression, range, points } = opts;
+  const { expression, range, points, help } = opts;
 
+  const helpText = `
+Usage:
+  node src/lib/main.js --expression <expr> --range <start:end> [--points <n>]
+
+Options:
+  --expression   A mathematical expression in terms of x (e.g., y=sin(x)). Required.
+  --range        A numeric range as start:end, with start < end. Required.
+  --points       Number of samples to generate (integer 5 2). Defaults to 100.
+  --help, -h     Display this help message.
+`;
+
+  // Handle help or default invocation
+  if (help) {
+    console.log(helpText.trim());
+    return [];
+  }
   if (!expression || !range) {
+    if (argsProvidedCount === 0) {
+      console.log(helpText.trim());
+      return [];
+    }
     console.error('Error: --expression and --range parameters are required.');
     process.exit(1);
   }
 
-  const [startStr, endStr] = range.split(':');
+  const [startStr, endStr] = range.split(":");
   const start = parseFloat(startStr);
   const end = parseFloat(endStr);
   if (isNaN(start) || isNaN(end) || start >= end) {
@@ -50,7 +75,7 @@ export function main(args = process.argv.slice(2)) {
 
   const math = create(all);
   let exprStr = expression;
-  if (exprStr.startsWith('y=')) {
+  if (exprStr.startsWith("y=")) {
     exprStr = exprStr.slice(2);
   }
 
