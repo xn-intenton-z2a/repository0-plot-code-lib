@@ -23,112 +23,15 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github"><a href="https://www.npmjs.com/package/@xn-intenton-z2a/repository0-plot-code-lib" class="md-github"><img src="https://img.shields.io/npm/v/@xn-intenton-z2a/repository0-plot-code-lib" alt="npm version" class="md-github"></a></p>
-<p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
-<p class="md-github"><code class="md-github">repository0-plot-code-lib</code> is a JavaScript library and CLI tool that parses mathematical expressions, generates time series data, and exports it in JSON or NDJSON format. It provides a straightforward interface for both command-line and programmatic use.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
-<ul class="md-github">
-<li class="md-github">Parse and validate single-variable mathematical expressions.</li>
-<li class="md-github">Generate time series data over numeric ranges with customizable step sizes.</li>
-<li class="md-github">Output results as pretty-printed JSON or newline-delimited JSON (NDJSON) for streaming large datasets.</li>
-<li class="md-github">Plot rendering (SVG/PNG) via <code class="md-github">--plot-format</code> flag: generate charts in SVG or PNG format.</li>
-<li class="md-github">CLI interface for quick data generation and file output.</li>
-<li class="md-github">Programmatic API for integration into other JavaScript projects.</li>
-<li class="md-github">Placeholder behavior: running the CLI without any flags prints a placeholder message.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p class="md-github">Install globally from npm:</p>
-<pre class="md-github"><code class="md-github language-bash">npm install -g @xn-intenton-z2a/repository0-plot-code-lib
-</code></pre>
-<p class="md-github">Or add it to your project dependencies:</p>
-<pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="cli-usage" href="#cli-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="no-arguments" href="#no-arguments"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>No arguments</h3>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib
-</code></pre>
-<p class="md-github">Outputs:</p>
-<pre class="md-github"><code class="md-github">Run with: []
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="default-json-output-to-stdout" href="#default-json-output-to-stdout"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default JSON output (to stdout)</h3>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;x^2&quot; --range &quot;x=0:2:1&quot;
-</code></pre>
-<p class="md-github">Outputs:</p>
-<pre class="md-github"><code class="md-github language-json">[
-  { &quot;x&quot;: 0, &quot;y&quot;: 0 },
-  { &quot;x&quot;: 1, &quot;y&quot;: 1 },
-  { &quot;x&quot;: 2, &quot;y&quot;: 4 }
-]
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="ndjson-output-to-stdout" href="#ndjson-output-to-stdout"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NDJSON output (to stdout)</h3>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;x+1&quot; --range &quot;x=0:2:1&quot; --format ndjson
-</code></pre>
-<p class="md-github">Outputs:</p>
-<pre class="md-github"><code class="md-github">{&quot;x&quot;:0,&quot;y&quot;:1}
-{&quot;x&quot;:1,&quot;y&quot;:2}
-{&quot;x&quot;:2,&quot;y&quot;:3}
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="write-pretty-json-to-a-file" href="#write-pretty-json-to-a-file"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Write pretty JSON to a file</h3>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib \
-  --expression &quot;sin(x)&quot; \
-  --range &quot;x=0:3.14:0.78&quot; \
-  --output &quot;data.json&quot;
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="write-ndjson-to-a-file" href="#write-ndjson-to-a-file"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Write NDJSON to a file</h3>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;x+1&quot; --range &quot;x=0:2:1&quot; --format ndjson --output data.ndjson
-</code></pre>
-<p class="md-github">See <a href="USAGE.md" class="md-github">USAGE.md</a> for more detailed examples and options.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="programmatic-api" href="#programmatic-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Programmatic API</h2>
-<p class="md-github">You can use the library directly in your code:</p>
-<pre class="md-github"><code class="md-github language-js">import {
-  parseExpression,
-  parseRange,
-  generateTimeSeries,
-  renderPlot,
-  main as cliMain,
-} from '@xn-intenton-z2a/repository0-plot-code-lib';
-
-// 1. Parse an expression AST
-const exprAst = parseExpression('x^3 + 2');
-
-// 2. Parse a range string
-const { variableName, start, end, step } = parseRange('x=0:10:2');
-
-// 3. Generate the time series data
-const data = generateTimeSeries(exprAst, variableName, start, end, step);
-console.log('Time series data:', data);
-
-// 4. Render a plot
-(async () =&gt; {
-  try {
-    const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600, labels: { x: 'X', y: 'Y' } });
-    console.log('Received PNG buffer with length', pngBuffer.length);
-  } catch (err) {
-    console.error('Plot rendering failed:', err.message);
-  }
-})();
-
-// 5. Run the CLI programmatically
-(async () =&gt; {
-  const exitCode = await cliMain(['--expression', 'x+1', '--range', 'x=0:5:1', '--plot-format', 'svg']);
-  console.log(`CLI exited with code ${exitCode}`);
-})();
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="roadmap" href="#roadmap"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Roadmap</h2>
-<ul class="md-github">
-<li class="md-github">Add JSON-stream and CSV output formats with backpressure control and header options.</li>
-<li class="md-github">Add benchmarking options to measure performance.</li>
-<li class="md-github">Implement HTTP API mode for on-demand data and plot serving over HTTP.</li>
-<li class="md-github">Performance improvements and additional features.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p class="md-github">Contributions are welcome! Please read <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for guidelines on reporting issues, submitting pull requests, and running tests.</p>
+<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
+<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-05-07T00:49:33.937Z</p>
+    <p>Generated on 2025-05-07T04:38:52.315Z</p>
   </footer>
 </body>
 </html>
