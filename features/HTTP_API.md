@@ -1,75 +1,67 @@
 # Overview
 
-Extend the library and CLI to provide a long‐running Express HTTP service exposing formula‐driven data generation and plot rendering endpoints. Users can GET or POST requests to receive JSON time series or SVG/PNG plots without using the CLI.
+Extend the CLI and library to provide a long-running Express HTTP service exposing endpoints for raw time series data and plot rendering. Support JSON, NDJSON, SVG, and PNG outputs over HTTP.
 
-# HTTP Interface
+# HTTP Endpoints
+
+GET /data
+  Query parameters:
+    expression  required as y=...  
+    range       required as start:end  
+    points      optional integer ≥ 2  
+  Returns:
+    Content-Type application/json
+    Response body: JSON array of data points
+
+GET /data?format=ndjson
+  Same parameters as /data
+  Returns:
+    Content-Type application/x-ndjson
+    Response body: streaming NDJSON, one point per line
 
 GET /plot
   Query parameters:
     expression  required as y=...  
-    range       required as start:end
+    range       required as start:end  
     points      optional integer ≥ 2  
-    format      optional svg or png (default svg)
+    format      optional svg or png (default svg)  
   Returns:
     Content-Type image/svg+xml or image/png
     Response body: SVG markup or PNG image bytes
 
+POST /data
+  Request body JSON:
+    { expression: string, range: string, points?: number }
+  Returns same as GET /data with application/json or NDJSON if format=ndjson
+
 POST /plot
   Request body JSON:
     { expression: string, range: string, points?: number, format?: "svg"|"png" }
-  Returns:
-    Same image response as GET /plot
-
-# Implementation
-
-1. In src/lib/main.js, import express and express.json.  
-2. Add new flags --serve and --port in parseArgs.  
-3. If opts.serve is true, call startServer(opts) instead of CLI exit.  
-4. Implement startServer(opts):
-   • Create express app and use express.json() middleware
-   • Mount GET and POST routes for /plot
-   • In each handler:
-     - Validate inputs using shared zod schema for expression, range, points, format
-     - Use existing logic to compute data array
-     - Call renderPlot on data to produce SVG
-     - If format is png, convert with sharp to a buffer
-     - Set appropriate Content-Type header and send response body
-   • Listen on opts.port (default 3000) and log a startup message
+  Returns same as GET /plot
 
 # Request Validation
 
-Use zod to define schema:
-  expression: nonempty string
-  range: pattern start:end with numeric start < end
-  points: optional integer ≥ 2
-  format: enum ["svg","png"]
+Use a shared zod schema for expression, range, points, and format. Reject invalid input with 400 and JSON { error: string }. On internal errors respond 500 with JSON { error: "Internal server error" }.
 
-On validation failure respond 400 with JSON { error: string }
-On internal errors respond 500 with JSON { error: "Internal server error" }
+# Streaming Behavior
 
-# Behavior
-
-• Valid requests return 200 with correct payload type
-• Invalid parameters yield 400 and descriptive error
-• Server continues running on errors
+Implement /data with format=ndjson by piping each data point through res.write in a loop, ending with res.end(). Handle backpressure and streaming performance for large datasets.
 
 # Tests
 
-Unit Tests:
-  - tests/unit/http-plot.test.js
-    • Test GET /plot with valid svg and png requests via supertest
-    • Test POST /plot with valid body payloads
-    • Test missing or invalid params return 400 and error JSON
-Integration Tests:
-  - tests/integration/http-server-plot.test.js
-    • Start server on random port and perform real HTTP requests
-    • Assert returned image signature bytes for png and <svg> start for svg
-    • Shutdown server after tests
+Unit Tests (tests/unit/http-data.test.js and tests/unit/http-plot.test.js):
+  • Use supertest to verify status codes, headers, response bodies for valid and invalid requests
+  • Test JSON and NDJSON endpoints for correct content type and data format
+  • Test /plot endpoint for SVG starting with <svg and PNG signature bytes
+Integration Tests (tests/integration/http-server-data.test.js and tests/integration/http-server-plot.test.js):
+  • Start the server on a random port
+  • Perform real HTTP requests and assert streaming behavior and response contents
+  • Shutdown server after tests
 
 # Documentation Updates
 
 USAGE.md:
-  - Add section "Running the HTTP Plot Service" with example curl commands for GET and POST /plot
+  Add section "Running the HTTP Service" with example curl commands for /data (JSON and NDJSON) and /plot (SVG and PNG).
+
 README.md:
-  - Under Examples, show how to start the service with --serve and --port
-  - Provide sample HTTP requests and expected responses
+  Under Examples, show how to start with --serve and --port, then sample HTTP requests and expected response types and snippets.
