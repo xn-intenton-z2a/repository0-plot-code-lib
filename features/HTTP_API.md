@@ -1,63 +1,66 @@
 # Overview
 
-Extend the CLI tool to launch a persistent HTTP service that exposes endpoints for generating raw time series data and rendering plots in SVG or PNG. Users can start the server with a flag, send HTTP GET or POST requests with expression and range parameters, and receive streamed responses for data or image files.
+Extend the CLI tool to offer a persistent HTTP service that receives formula parameters and returns time series data or rendered plots. This brings an HTTP API to the existing library, enabling integration with web clients, scripts, and other services without invoking the CLI directly.
 
 # CLI Interface
 
 --serve       Launch the HTTP server instead of one-off CLI mode
 --port        Port number to listen on (default: 3000)
 --host        Hostname or IP address to bind (default: 0.0.0.0)
---help, -h    Display usage help and exit
 
 # Server Initialization
 
-1. Parse --serve, --port, --host flags in parseArgs
-2. When opts.serve is true, initialize an Express app with JSON and URL-encoded middleware
-3. Add graceful shutdown handlers on SIGINT and SIGTERM
-4. Listen on the configured host and port
+1. In parseArgs, add support for --serve, --port, and --host flags.
+2. When opts.serve is true, initialize an Express application:
+   • Use express.json() and express.urlencoded middleware
+   • Configure CORS if needed for browser clients
+   • Attach graceful shutdown handlers on SIGINT and SIGTERM to close the server
+   • Listen on opts.host and opts.port
 
 # HTTP Endpoints
 
 GET /data
-  • Query: expression (required), range (start:end), points (optional ≥2), format (json|ndjson)
-  • Default: application/json. When format=ndjson, stream each point line-by-line
+  • Query parameters: expression (required), range (start:end), points (optional ≥2), format (json|ndjson)
+  • Default response format: application/json with a JSON array of points
+  • When format=ndjson, stream newline-delimited JSON, one point per line
 
 POST /data
-  • Body JSON: { expression, range, points?, format? }
-  • Same behavior as GET /data
+  • Accept JSON body: { expression, range, points?, format? }
+  • Same response behavior as GET /data
 
 GET /plot
-  • Query: expression, range, points?, format (svg|png), width?, height?, margin?
-  • For svg: respond with Content-Type image/svg+xml and a complete SVG document
-  • For png: generate PNG via sharp stream and respond with Content-Type image/png, piping stream
+  • Query parameters: expression, range, points?, format (svg|png), width?, height?, margin?
+  • For svg: respond with Content-Type image/svg+xml and send the SVG document
+  • For png: pipe the SVG through sharp and stream Content-Type image/png
 
 POST /plot
-  • Body JSON: { expression, range, points?, format?, width?, height?, margin? }
-  • Same behavior as GET /plot
+  • Accept JSON body: { expression, range, points?, format?, width?, height?, margin? }
+  • Same response behavior as GET /plot
 
 # Request Validation and Error Handling
 
-Use Zod to define shared schemas for expression, range, points, format, width, height, margin
-• On validation errors: respond 400 Bad Request with JSON { error: <message> }
-• On evaluation or rendering errors: respond 500 Internal Server Error with JSON { error: "Internal server error" }
-• Ensure proper backpressure handling when streaming JSON or image data
+1. Use Zod to define schemas for expression, range, points, format, width, height, and margin.
+2. On schema validation failure, respond with 400 Bad Request and JSON { error: message }.
+3. On evaluation or rendering errors, catch exceptions and respond with 500 Internal Server Error and JSON { error: "Internal server error" }.
+4. Ensure proper backpressure when streaming NDJSON or PNG data.
 
 # Tests
 
-Unit tests (tests/unit/http-data.test.js, tests/unit/http-plot.test.js)
-  • Use Supertest against the Express app instance
-  • Verify status codes, Content-Type, response formats for valid and invalid requests
-  • For ndjson: assert multiple lines each as valid JSON objects
-  • For SVG: assert response begins with <svg
-  • For PNG: assert first eight bytes match the PNG signature
+Unit Tests (tests/unit/http-api-data.test.js, tests/unit/http-api-plot.test.js):
+  • Use Supertest against the Express app instance imported from main.
+  • Verify 200 responses and correct Content-Type headers for valid /data and /plot requests.
+  • For ndjson: assert multiple lines and valid JSON per line.
+  • For svg: assert response body starts with <svg.
+  • For png: capture the stream buffer and assert the PNG signature bytes.
 
-Integration tests (tests/integration/http-server-data.test.js, tests/integration/http-server-plot.test.js)
-  • Start server on ephemeral port, run real HTTP requests
-  • Assert streaming behavior, correct headers, and response content
-  • Clean up server after tests
+Integration Tests (tests/integration/http-server-data.test.js, tests/integration/http-server-plot.test.js):
+  • Start the server on an ephemeral port via spawn or direct import and listen.
+  • Send real HTTP requests with curl or fetch and verify streaming behavior, headers, and content.
+  • Clean up server process after tests.
 
 # Documentation Updates
 
-- USAGE.md: Add section "Running the HTTP Service" with example curl commands for /data and /plot
-- README.md: Add examples showing how to start the server and invoke endpoints, include snippets of JSON, NDJSON, SVG, and PNG responses
-- CONTRIBUTING.md: Document that adding new HTTP routes requires updating both tests and documentation
+- USAGE.md: Add a section "Running the HTTP Service" with example curl commands for GET and POST /data and /plot, showing JSON, NDJSON, SVG, and PNG responses.
+- README.md: Under Examples, add snippets demonstrating how to start the server and call each endpoint, including sample outputs.
+- CONTRIBUTING.md: Document guidelines for adding new HTTP routes and updating both tests and documentation when expanding the API.
+- package.json: Ensure express and zod are listed under dependencies (they already are), and add a script "serve" to run node src/lib/main.js --serve.
