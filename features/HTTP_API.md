@@ -1,71 +1,33 @@
 # Overview
-
-Extend the CLI into a long-running HTTP server built on Express to expose both data generation and plot rendering functionality via RESTful endpoints. Ensure robust input validation with Zod, support streaming responses for large payloads, and integrate backpressure-aware pipelines for SVG→PNG conversion.
+Extend the CLI tool into a long-running HTTP server using Express to expose data generation and plot rendering as RESTful endpoints. Validate inputs with Zod, support streaming large responses with backpressure, and reuse existing data and rendering logic.
 
 # API Endpoints
 
-### GET /data
+## GET /data and POST /data
+Accept parameters expression (required), range (required), points (optional), dataFormat (optional: json, ndjson, csv). Validate with Zod and respond with appropriate content type. Stream application/json, application/x-ndjson, or text/csv.
 
-Accepts query parameters:
-  • expression (required): formula in terms of x, e.g., y=sin(x)
-  • range (required): start:end
-  • points (optional): integer ≥ 2, default 100
-  • dataFormat (optional): json, ndjson, csv; default json
-
-Validates inputs with Zod. Generates time series and responds:
-  • application/json: full array
-  • application/x-ndjson: streams one JSON object per line
-  • text/csv: streams header and CSV rows
-
-### POST /data
-
-Accepts JSON body with same fields as GET. Behaves identically to GET /data.
-
-### GET /plot
-
-Accepts query parameters:
-  • expression (required), range (required), points (optional)
-  • format (optional): svg or png; default svg
-  • width, height, margin (optional numeric layout overrides)
-
-Streams response with appropriate Content-Type:
-  • image/svg+xml: uses res.write to send complete SVG string
-  • image/png: pipes an SVG stream through sharp via pipeline for backpressure, then pipes PNG to res
-
-### POST /plot
-
-Accepts JSON body matching GET /plot. Streams responses identically.
+## GET /plot and POST /plot
+Accept parameters expression (required), range (required), points (optional), format (optional: svg, png), width, height, margin. Validate with Zod and respond streaming image data. For SVG responses, use res.write. For PNG, pipe an SVG stream through sharp via pipeline to res with backpressure support.
 
 # Server Implementation
 
-1. Add CLI flags --serve, --host, --port to parseArgs.
-2. When --serve is present, skip one-off logic and initialize an Express app.
-3. Define request schemas using Zod for /data and /plot endpoints.
-4. Reuse existing data generation and renderPlot functions; create renderPlotStream for incremental SVG streaming.
-5. For PNG responses, use Node stream.pipeline to pipe SVG stream into sharp().png() and then to res.
-6. Handle validation failures with HTTP 400 and internal errors with HTTP 500.
-7. Log requests and errors at info level.
-8. Gracefully handle SIGINT and SIGTERM to close the HTTP server.
-
-# CLI Interface
-
---serve       Launch HTTP server instead of CLI mode
---host        Host to bind (default localhost)
---port        Port number (default 3000)
+1. Add CLI flags --serve, --host, --port in parseArgs.
+2. When --serve is provided, initialize an Express app and register routes.
+3. Define Zod schemas for /data and /plot request parameters and bodies.
+4. For each route, parse and validate inputs, generate time series data with existing logic, and stream or write responses.
+5. Implement renderPlotStream to emit incremental SVG chunks and pipe for PNG conversion.
+6. Handle validation errors with HTTP 400 and internal errors with HTTP 500.
+7. Log requests and errors to the console at info level.
+8. Gracefully close the server on SIGINT and SIGTERM.
 
 # Tests
 
-- Unit tests with Supertest and Vitest:
-  • Test GET and POST /data with json, ndjson, csv; assert status 200, headers, streamed payload shape.
-  • Test GET and POST /plot with format=svg; assert status 200, Content-Type image/svg+xml, body starts with <svg.
-  • Test GET and POST /plot with format=png; assert Content-Type image/png and first eight bytes match PNG signature.
-  • Test invalid parameters return 400 with appropriate error messages.
-
-- Integration tests:
-  • Launch server on ephemeral port; exercise endpoints for large points count to verify streaming and backpressure.
+- Use Supertest and Vitest to test GET and POST /data for json, ndjson, and csv, asserting status, headers, and streamed payload.
+- Test GET and POST /plot with format svg and png, asserting Content-Type and response body starts with <svg or PNG signature.
+- Test invalid input returns HTTP 400 with descriptive errors.
+- Integration test to start the server on an ephemeral port and verify streaming and backpressure behavior for large points counts.
 
 # Documentation Updates
 
-- In USAGE.md, add “Running HTTP Server” section with npm run start -- --serve flags, --host, and --port.
-- Provide curl examples for GET and POST /data and /plot covering json, ndjson, csv, svg, and png responses.
-- In README.md, under Examples, add “HTTP API” subsection documenting endpoints, flags, and response formats.
+- In USAGE.md, add a "Running HTTP Server" section describing --serve, --host, --port flags, and curl examples for /data and /plot endpoints.
+- In README.md, under Examples, add an "HTTP API" subsection with sample queries and expected response types.
