@@ -1,33 +1,70 @@
 # Overview
 
-Add an HTTP API layer to the CLI tool using Express. Users can start a server to generate time series data and plots via REST endpoints, enabling integration into web services and workflows.
+Enhance the HTTP API layer to provide robust request validation, structured error responses, and flexible JSON and image endpoints. Use Zod to define and enforce schemas for query and body parameters, ensuring invalid inputs are caught early and users receive clear error messages.
 
 # HTTP Interface
 
-- GET /generate  Query parameters: expression, range, points (optional). Returns JSON array of {x, y} data points.
-- GET /plot      Query parameters: expression, range, points (optional), format (svg or png). Returns an image response with appropriate Content-Type (image/svg+xml or image/png).
-- Server port   Can be specified via --port flag or PORT environment variable. Defaults to 3000.
+- GET /generate
+  Query parameters:
+    expression  required, string in the form y=...  
+    range       required, string in the form start:end  
+    points      optional, integer ≥ 2  
+  Returns a JSON array of { x, y } points with content-type application/json.
+
+- GET /plot
+  Query parameters:
+    expression  required, as above  
+    range       required, as above  
+    points      optional, as above  
+    format      optional, one of svg or png (default svg)  
+  Returns image/svg+xml or image/png response with raw bytes.
+
+- POST /generate
+  Request body (application/json): { expression, range, points }
+  Same behavior as GET /generate.
+
+- POST /plot
+  Request body (application/json): { expression, range, points, format }
+  Same behavior as GET /plot.
+
+# Request Validation
+
+1. Define Zod schemas for common parameters: expression (nonempty string), range (pattern start:end with numeric check and start < end), points (optional integer ≥ 2), format (enum svg or png).  
+2. For GET endpoints, parse req.query and validate against schema.  
+3. For POST endpoints, parse req.body and validate against schema.  
+4. On validation error, respond with status 400 and JSON { error: <detailed message> }.
 
 # Behavior
 
-1. When the CLI is invoked with --serve (and optionally --port), ignore standard output behavior and start an Express server on the specified port.
-2. For GET /generate, validate expression and range parameters, compute the time series as in the generation feature, and respond with JSON.
-3. For GET /plot, validate parameters, generate data, invoke renderPlot, convert to PNG if requested, and stream image bytes with correct headers.
-4. On invalid input return status 400 with an error message. On internal errors return status 500.
-5. Gracefully handle shutdown on SIGINT and SIGTERM.
+1. When the server receives a valid request, extract parameters and compute the time series data as in TIME_SERIES_GENERATION.  
+2. For /generate, return JSON array of points.  
+3. For /plot, call renderPlot to obtain SVG. If format is png, convert using sharp.  
+4. Set appropriate Content-Type header and stream the response.  
+5. On internal errors during expression evaluation or rendering, respond with status 500 and JSON { error: "Internal server error" }.
 
 # Unit Tests
 
-- Create tests/unit/http-api.test.js.
-- Use Node’s built-in fetch to request /generate with a known expression and range, then assert response JSON matches expected coordinates length and structure.
-- Request /plot?expression=y=sin(x)&range=0:6.28&format=svg and assert body starts with <svg.
-- Request /plot?expression=y=cos(x)&range=0:6.28&format=png and assert the first eight bytes match PNG signature.
+- tests/unit/http-api-validation.test.js
+  • Mock express request and response to test validation failures for missing or malformed parameters.  
+  • Verify that valid requests produce correct JSON or image data.  
+
+# Integration Tests
+
+- tests/integration/http-api-endpoints.test.js
+  • Start server on random port.  
+  • GET /generate with valid query returns JSON array of expected length.  
+  • GET /plot?format=svg returns response body starting with <svg.  
+  • GET /plot?format=png returns buffer with correct PNG signature.  
+  • POST endpoints behave identically to GET.  
+  • Invalid requests return 400 with JSON error and do not crash the server.
 
 # Documentation Updates
 
-- In USAGE.md, add an HTTP API section showing how to start the server and example curl requests for both endpoints.
-- In README.md under Examples, add HTTP usage examples demonstrating integration and expected responses.
+- USAGE.md: Add a section "HTTP API Reference" showing curl examples for both GET and POST usage and sample responses.  
+- README.md under Examples: include HTTP usage with request bodies and expected outputs.  
 
 # Dependencies
 
-Add express to dependencies to run the HTTP server. No additional middleware beyond JSON parsing is required.
+- zod for input validation  
+- express for HTTP server  
+- Already present: mathjs, sharp, fs
