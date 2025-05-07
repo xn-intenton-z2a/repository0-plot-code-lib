@@ -1,33 +1,44 @@
 # Overview
-Extend the CLI tool into a long-running HTTP server using Express to expose data generation and plot rendering as RESTful endpoints. Validate inputs with Zod, support streaming large responses with backpressure, and reuse existing data and rendering logic.
+Extend the CLI into a long‐running HTTP server exposing data generation and plot rendering via RESTful endpoints. Inputs are validated with Zod schemas, responses are streamed with backpressure, and existing logic for series computation and rendering is reused.
 
 # API Endpoints
 
 ## GET /data and POST /data
-Accept parameters expression (required), range (required), points (optional), dataFormat (optional: json, ndjson, csv). Validate with Zod and respond with appropriate content type. Stream application/json, application/x-ndjson, or text/csv.
+Accept parameters expression, range, points, and dataFormat (json, ndjson, csv). Validate inputs and respond with:
+- application/json: pretty‐printed JSON array
+- application/x-ndjson: one JSON object per line
+- text/csv: header x,y then CSV rows
+Stream each format to clients with appropriate Content-Type headers.
 
 ## GET /plot and POST /plot
-Accept parameters expression (required), range (required), points (optional), format (optional: svg, png), width, height, margin. Validate with Zod and respond streaming image data. For SVG responses, use res.write. For PNG, pipe an SVG stream through sharp via pipeline to res with backpressure support.
+Accept parameters expression, range, points, format (svg, png), width, height, and margin. Validate inputs and respond with:
+- image/svg+xml: stream incremental SVG chunks via renderPlotStream
+- image/png: pipe the SVG stream through sharp().png() and stream the result
+Ensure backpressure is respected on both formats.
 
-# Server Implementation
+# Implementation
 
-1. Add CLI flags --serve, --host, --port in parseArgs.
-2. When --serve is provided, initialize an Express app and register routes.
-3. Define Zod schemas for /data and /plot request parameters and bodies.
-4. For each route, parse and validate inputs, generate time series data with existing logic, and stream or write responses.
-5. Implement renderPlotStream to emit incremental SVG chunks and pipe for PNG conversion.
-6. Handle validation errors with HTTP 400 and internal errors with HTTP 500.
-7. Log requests and errors to the console at info level.
-8. Gracefully close the server on SIGINT and SIGTERM.
+1. Extend parseArgs to support --serve, --host, and --port flags.
+2. When --serve is provided, initialize an Express app:
+   • Define Zod schemas for query and JSON bodies of /data and /plot.
+   • Register GET and POST routes for /data and /plot.
+   • On each request, parse and validate inputs via Zod.
+   • Generate time series data using existing logic.
+   • For /data, set Content-Type and stream data format.
+   • For /plot, use renderPlotStream for SVG and pipe through sharp for PNG.
+3. Implement error handling middleware to return HTTP 400 with descriptive JSON on validation errors and HTTP 500 on internal failures.
+4. Log requests and errors at info level to console.
+5. On SIGINT and SIGTERM, gracefully close the HTTP server.
 
 # Tests
 
-- Use Supertest and Vitest to test GET and POST /data for json, ndjson, and csv, asserting status, headers, and streamed payload.
-- Test GET and POST /plot with format svg and png, asserting Content-Type and response body starts with <svg or PNG signature.
-- Test invalid input returns HTTP 400 with descriptive errors.
-- Integration test to start the server on an ephemeral port and verify streaming and backpressure behavior for large points counts.
+- Use Vitest with Supertest to cover:
+  • Successful GET and POST /data for json, ndjson, and csv with correct status, headers, and streamed payload.
+  • Successful GET and POST /plot for svg and png with correct Content-Type and payload signatures.
+  • Invalid inputs return HTTP 400 with structured error messages.
+  • Large points counts stream without memory exhaustion, verifying backpressure.
 
 # Documentation Updates
 
-- In USAGE.md, add a "Running HTTP Server" section describing --serve, --host, --port flags, and curl examples for /data and /plot endpoints.
-- In README.md, under Examples, add an "HTTP API" subsection with sample queries and expected response types.
+- USAGE.md: add a "Running HTTP Server" section describing --serve, --host, and --port, with example curl commands for /data and /plot.
+- README.md: add an "HTTP API" subsection with sample requests and expected response types.
