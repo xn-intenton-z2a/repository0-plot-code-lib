@@ -47,3 +47,17 @@ Options:
   --points       Number of samples to generate (integer ≥ 2). Defaults to 100.
   --help, -h     Display this help message.
 ```
+
+## Generating Plots
+
+Use the `--format` and `--output` flags to render plots as SVG or PNG files:
+
+```
+node src/lib/main.js --expression "y=sin(x)" --range 0:6.28 --format svg --output plot.svg
+```
+
+```
+node src/lib/main.js --expression "y=cos(x)" --range 0:6.28 --format png --output plot.png
+```
+
+If `--output` is omitted, the plot is written to standard output.

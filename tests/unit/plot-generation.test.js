@@ -1,16 +1,17 @@
 import { describe, test, expect, vi } from "vitest";
-import { main } from "@src/lib/main.js";
+import { main, renderPlot } from "@src/lib/main.js";
+import sharp from "sharp";
 
 describe("Time Series Generation", () => {
-  test("generates linear series with default points", () => {
-    const data = main(["--expression", "y=x", "--range", "0:10"]);
+  test("generates linear series with default points", async () => {
+    const data = await main(["--expression", "y=x", "--range", "0:10"]);
     expect(data.length).toBe(100);
     expect(data[0]).toEqual({ x: 0, y: 0 });
     expect(data[99]).toEqual({ x: 10, y: 10 });
   });
 
-  test("generates custom points count", () => {
-    const data = main([
+  test("generates custom points count", async () => {
+    const data = await main([
       "--expression",
       "y=x^2",
       "--range",
@@ -25,12 +26,12 @@ describe("Time Series Generation", () => {
     ]);
   });
 
-  test("errors on missing required args", () => {
+  test("errors on missing required args", async () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error("exit");
     });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => main([])).toThrow("exit");
+    await expect(main([])).rejects.toThrow("exit");
     expect(errorSpy).toHaveBeenCalledWith(
       'Error: --expression and --range parameters are required.'
     );
@@ -38,12 +39,12 @@ describe("Time Series Generation", () => {
     errorSpy.mockRestore();
   });
 
-  test("errors on invalid range", () => {
+  test("errors on invalid range", async () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {
       throw new Error("exit");
     });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => main(["--expression", "y=x", "--range", "5:1"])).toThrow(
+    await expect(main(["--expression", "y=x", "--range", "5:1"])).rejects.toThrow(
       "exit"
     );
     expect(errorSpy).toHaveBeenCalledWith(
@@ -51,5 +52,30 @@ describe("Time Series Generation", () => {
     );
     exitSpy.mockRestore();
     errorSpy.mockRestore();
+  });
+});
+
+describe("Plot Rendering", () => {
+  test("renderPlot returns SVG string", () => {
+    const data = [
+      { x: 0, y: 0 },
+      { x: 1, y: 1 },
+    ];
+    const svg = renderPlot(data);
+    expect(svg.startsWith("<svg")).toBe(true);
+    expect(svg.includes("<path")).toBe(true);
+  });
+
+  test("generates PNG buffer with correct signature", async () => {
+    const data = [
+      { x: 0, y: 0 },
+      { x: 1, y: 1 },
+    ];
+    const svg = renderPlot(data);
+    const buffer = await sharp(Buffer.from(svg)).png().toBuffer();
+    const signature = buffer.slice(0, 8);
+    expect(Array.from(signature)).toEqual([
+      0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a,
+    ]);
   });
 });
