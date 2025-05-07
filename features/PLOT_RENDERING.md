@@ -1,59 +1,23 @@
 # Overview
-
-Finalize and validate renderPlot functionality and CLI plot commands to ensure consistent and correct SVG output and seamless PNG conversion via sharp. Add comprehensive unit tests for the plot rendering logic and integration tests for CLI usage. Update USAGE.md and README.md with examples covering both file-based and stdout-based rendering for SVG and PNG.
+Enhance unit and integration test coverage for renderPlot SVG and PNG output. Ensure tests validate output correctness and CLI behavior.
 
 # Unit Tests
+Create tests/unit/render-plot-svg.test.js:
+ • Call renderPlot with a simple two point data set and assert the returned string starts with <svg, includes width and viewBox attributes, and contains a path element with valid d attribute.
 
-Create tests/unit/plot-rendering.test.js:
+Create tests/unit/render-plot-custom-options.test.js:
+ • Call renderPlot with custom width 400, height 300, margin 20 and assert SVG header reflects width 400, height 300, viewBox 0 0 400 300, and path coordinates scaled accordingly.
 
-• Test that renderPlot returns a valid SVG string:
-  Provide a small data array and call renderPlot with default options. Assert the returned string starts with <svg, includes width and viewBox attributes matching defaults, and contains a <path element with a properly formatted d attribute.
-
-• Test renderPlot with custom width, height, and margin:
-  Call renderPlot with options width 400, height 300, margin 20. Assert the SVG header reflects width and height 400 and 300, viewBox updated to "0 0 400 300", and path commands scaled within those bounds.
-
-• Test PNG conversion via sharp:
-  Use renderPlot to produce an SVG string, convert it to a PNG buffer using sharp. Assert the first eight bytes of the buffer match the PNG signature [137,80,78,71,13,10,26,10].
+Create tests/unit/render-plot-png.test.js:
+ • Use renderPlot to produce an SVG string, convert to a PNG buffer via sharp, and assert the first eight bytes of the buffer match the PNG signature [137,80,78,71,13,10,26,10].
 
 # Integration Tests
-
 Create tests/unit/cli-plot-integration.test.js:
-
-• generates SVG file via CLI
-  - Spawn the CLI with arguments --expression y=x --range 0:1 --format svg --output temp.svg
-  - Assert exit code is 0
-  - Assert fs.existsSync(temp.svg) is true
-  - Read the file and assert it begins with <svg
-  - Clean up temp.svg
-
-• writes SVG to stdout
-  - Spawn the CLI with --expression y=x --range 0:1 --format svg and no --output
-  - Capture stdout and assert it starts with <svg
-
-• generates PNG file via CLI
-  - Spawn with --expression y=x --range 0:1 --format png --output temp.png
-  - Assert exit code is 0
-  - Assert fs.existsSync(temp.png) is true
-  - Read the first eight bytes and assert PNG signature
-  - Clean up temp.png
-
-• writes PNG to stdout
-  - Spawn with --expression y=x --range 0:1 --format png and no --output
-  - Capture stdout as Buffer and assert first eight bytes match PNG signature
+ • Spawn the CLI with --expression y=x --range 0:1 --format svg --output temp.svg and assert exit code 0, that temp.svg exists, and its content starts with <svg.
+ • Spawn CLI with --expression y=x --range 0:1 --format png --output temp.png and assert exit code 0, that temp.png exists, and its first eight bytes match PNG signature.
+ • Run CLI for SVG without --output, capture stdout and assert it starts with <svg.
+ • Run CLI for PNG without --output, capture stdout as a buffer and assert first eight bytes match the PNG signature.
 
 # Documentation Updates
-
-In USAGE.md under "Generating Plots":
-
-- Add examples showing CLI rendering to a file for SVG and PNG
-- Add examples showing CLI rendering to stdout when --output is omitted
-
-In README.md under "Examples":
-
-### CLI Rendering Examples
-
-Show commands for SVG and PNG to file and notes on verifying output
-
-### Programmatic Rendering Examples
-
-Demonstrate import of renderPlot, generating SVG with custom options, and converting to PNG via sharp, including code snippets.
+In USAGE.md under Generating Plots add examples for SVG and PNG rendering to file and to stdout.
+In README.md under Examples add a subsection CLI Rendering Examples showing commands and verification steps, and a Programmatic Rendering Examples snippet demonstrating import of renderPlot and PNG conversion via sharp.
