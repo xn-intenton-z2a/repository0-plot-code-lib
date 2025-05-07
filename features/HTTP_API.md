@@ -1,44 +1,64 @@
 # Overview
-Extend the CLI into a long‐running HTTP server exposing data generation and plot rendering via RESTful endpoints. Inputs are validated with Zod schemas, responses are streamed with backpressure, and existing logic for series computation and rendering is reused.
+
+Extend the CLI tool into a long‐running HTTP server exposing existing data generation and plot rendering logic via RESTful endpoints.  The server will reuse parseArgs, data generation, renderPlot, and streaming capabilities, handling backpressure and validation to serve clients efficiently.
 
 # API Endpoints
 
 ## GET /data and POST /data
-Accept parameters expression, range, points, and dataFormat (json, ndjson, csv). Validate inputs and respond with:
-- application/json: pretty‐printed JSON array
-- application/x-ndjson: one JSON object per line
-- text/csv: header x,y then CSV rows
-Stream each format to clients with appropriate Content-Type headers.
+
+- Accept query parameters or JSON body with:
+  expression  Required string, mathematical formula in terms of x (e.g., y=sin(x))
+  range       Required string, in form start:end
+  points      Optional integer ≥2, default 100
+  dataFormat  Optional string, one of json, ndjson, csv, default json
+
+- Validate inputs with Zod schemas.
+- Generate time series data using existing main/data-only mode logic.
+- Stream responses:
+  application/json: pretty-printed JSON array
+  application/x-ndjson: newline-delimited JSON objects
+  text/csv: header x,y then CSV rows
 
 ## GET /plot and POST /plot
-Accept parameters expression, range, points, format (svg, png), width, height, and margin. Validate inputs and respond with:
-- image/svg+xml: stream incremental SVG chunks via renderPlotStream
-- image/png: pipe the SVG stream through sharp().png() and stream the result
-Ensure backpressure is respected on both formats.
+
+- Accept query parameters or JSON body with:
+  expression  Required
+  range       Required
+  points      Optional
+  format      Optional string, svg or png, default svg
+  width       Optional integer, default 800
+  height      Optional integer, default 600
+  margin      Optional integer, default 40
+
+- Validate inputs with Zod.
+- Generate data as for /data.
+- For SVG: use renderPlotStream to produce a Readable stream of SVG chunks.
+- For PNG: pipe the SVG stream through sharp().png()
+- Set appropriate Content-Type headers and stream with backpressure.
 
 # Implementation
 
-1. Extend parseArgs to support --serve, --host, and --port flags.
-2. When --serve is provided, initialize an Express app:
-   • Define Zod schemas for query and JSON bodies of /data and /plot.
+1. Add parseArgs support for --serve, --host, --port flags with defaults (host=0.0.0.0, port=3000).
+2. When --serve is provided, initialize an Express application:
+   • Define Zod schemas for /data and /plot inputs.
    • Register GET and POST routes for /data and /plot.
-   • On each request, parse and validate inputs via Zod.
-   • Generate time series data using existing logic.
-   • For /data, set Content-Type and stream data format.
-   • For /plot, use renderPlotStream for SVG and pipe through sharp for PNG.
-3. Implement error handling middleware to return HTTP 400 with descriptive JSON on validation errors and HTTP 500 on internal failures.
-4. Log requests and errors at info level to console.
-5. On SIGINT and SIGTERM, gracefully close the HTTP server.
+   • On each request, parse inputs from req.query or req.body, validate, then call common data or plot logic.
+   • Stream the response according to the requested format, handling errors with middleware.
+3. Implement error handling middleware returning HTTP 400 for validation errors and HTTP 500 for runtime failures with JSON error responses.
+4. On SIGINT/SIGTERM, gracefully shut down the HTTP server.
+5. Refactor main() to branch on --serve, leaving CLI behavior unchanged when not serving.
 
 # Tests
 
-- Use Vitest with Supertest to cover:
-  • Successful GET and POST /data for json, ndjson, and csv with correct status, headers, and streamed payload.
-  • Successful GET and POST /plot for svg and png with correct Content-Type and payload signatures.
-  • Invalid inputs return HTTP 400 with structured error messages.
-  • Large points counts stream without memory exhaustion, verifying backpressure.
+- Use Vitest with Supertest in tests/unit/http-api.test.js:
+  • GET /data?expression=y=x&range=0:2 for json, ndjson, and csv, asserting status 200, correct Content-Type, and body format.
+  • POST /data with JSON body, same assertions.
+  • GET /plot?expression=y=x&range=0:2&format=svg, assert status 200, Content-Type image/svg+xml, response starts with <svg.
+  • GET /plot?expression=y=x&range=0:2&format=png, assert image/png and PNG signature.
+  • Invalid inputs (missing expression, bad range) return 400 with descriptive JSON.
+  • Large points count streams without buffering entire payload to memory.
 
 # Documentation Updates
 
-- USAGE.md: add a "Running HTTP Server" section describing --serve, --host, and --port, with example curl commands for /data and /plot.
-- README.md: add an "HTTP API" subsection with sample requests and expected response types.
+- USAGE.md: add a "Running HTTP Server" section showing --serve, --host, and --port flags and example curl commands for /data and /plot.
+- README.md: under "HTTP API", add subsections for /data and /plot with example requests and expected response types.
