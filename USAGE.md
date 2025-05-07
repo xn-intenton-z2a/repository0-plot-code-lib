@@ -64,14 +64,9 @@ Outputs:
 repository0-plot-code-lib --expression "x" --range "x=0:2:1" --format csv
 ```
 
-Outputs (CRLF line endings):
+Outputs (CRLF line endings, no header):
 ```
-0,0
-
-1,1
-
-2,2
-
+0,0\r\n1,1\r\n2,2\r\n
 ```
 
 ### Generate time series data as CSV with header row
@@ -82,14 +77,7 @@ repository0-plot-code-lib --expression "x" --range "x=0:2:1" --format csv --csv-
 
 Outputs (CRLF line endings):
 ```
-x,y
-
-0,0
-
-1,1
-
-2,2
-
+x,y\r\n0,0\r\n1,1\r\n2,2\r\n
 ```
 
 ### Customize buffer size for streaming output
@@ -199,3 +187,5 @@ console.log('Time series data:', data);
 ## Next Steps
 
 - Additional performance and format options for large data streaming.
+
+<!-- End of Usage -->
