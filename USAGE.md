@@ -7,6 +7,7 @@
 ```bash
 repository0-plot-code-lib
 ```
+
 Outputs:
 ```
 Run with: []
@@ -17,6 +18,7 @@ Run with: []
 ```bash
 repository0-plot-code-lib --help
 ```
+
 Outputs the CLI usage information with available options.
 
 ### Generate time series data to stdout (JSON)
@@ -67,11 +69,8 @@ repository0-plot-code-lib --expression "x" --range "x=0:2:1" --format csv
 Outputs (CRLF line endings):
 ```
 0,0
-
 1,1
-
 2,2
-
 ```
 
 ### Generate time series data as CSV with header row
@@ -83,13 +82,9 @@ repository0-plot-code-lib --expression "x" --range "x=0:2:1" --format csv --csv-
 Outputs (CRLF line endings):
 ```
 x,y
-
 0,0
-
 1,1
-
 2,2
-
 ```
 
 ### Customize buffer size for streaming output
@@ -118,21 +113,25 @@ repository0-plot-code-lib \
 ### Plot rendering (SVG/PNG)
 
 Generate an SVG file:
+
 ```bash
 repository0-plot-code-lib \
   --expression "x^2" \
   --range "x=0:10:1" \
   --plot-format svg --output plot.svg
 ```
+
 This writes an SVG file starting with `<svg` to `plot.svg`.
 
 Generate a PNG file:
+
 ```bash
 repository0-plot-code-lib \
   --expression "sin(x)" \
   --range "x=0:6.28:0.1" \
   --plot-format png > plot.png
 ```
+
 This writes binary PNG data (starting with the PNG magic number) to stdout.
 
 ## Options
@@ -159,8 +158,8 @@ import {
   parseExpression,
   parseRange,
   generateTimeSeries,
-  renderPlot,
   serializeDataStream,
+  renderPlot,
   main as cliMain,
 } from '@xn-intenton-z2a/repository0-plot-code-lib';
 
@@ -176,7 +175,7 @@ console.log('Time series data:', data);
 
 // 4. Serialize data as a JSON stream
 (async () => {
-  const jsonStream = serializeDataStream(data, { format: 'json-stream', bufferSize: 1024, csvHeader: false });
+  const jsonStream = serializeDataStream(data, { format: 'json-stream', bufferSize: 1024 });
   for await (const chunk of jsonStream) {
     process.stdout.write(chunk);
   }
@@ -195,6 +194,7 @@ console.log('Time series data:', data);
   const exitCode = await cliMain(['--expression', 'x+1', '--range', 'x=0:5:1', '--plot-format', 'svg']);
   console.log(`CLI exited with code ${exitCode}`);
 })();
+```
 
 ## Next Steps
 

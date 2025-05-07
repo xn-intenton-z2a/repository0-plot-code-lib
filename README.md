@@ -4,17 +4,21 @@
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
-`repository0-plot-code-lib` is a JavaScript library and CLI tool that parses mathematical expressions, generates time series data, and exports it in JSON or NDJSON format. It provides a straightforward interface for both command-line and programmatic use.
+`repository0-plot-code-lib` is a JavaScript library and CLI tool that parses mathematical expressions, generates time series data, and exports it in various formats with streaming support and plot rendering.
 
 ## Features
 
 - Parse and validate single-variable mathematical expressions.
 - Generate time series data over numeric ranges with customizable step sizes.
-- Output results as pretty-printed JSON or newline-delimited JSON (NDJSON) for streaming large datasets.
-- Plot rendering (SVG/PNG) via `--plot-format` flag: generate charts in SVG or PNG format.
-- CLI interface for quick data generation and file output.
+- Serialize and export data in multiple formats:
+  - Pretty JSON array (`--format json`)
+  - Streaming JSON array (`--format json-stream`, supports large datasets)
+  - Newline-delimited JSON (NDJSON) stream (`--format ndjson`)
+  - CSV output with optional header row (`--format csv`, `--csv-header`) and custom buffer size (`--buffer-size`)
+- Plot rendering (SVG/PNG) via the `--plot-format` flag, with configurable dimensions and axis labels.
+- CLI interface for quick data generation to stdout or file.
 - Programmatic API for integration into other JavaScript projects.
-- Placeholder behavior: running the CLI without any flags prints a placeholder message.
+- Placeholder behavior: running the CLI without any flags prints the invocation summary.
 
 ## Installation
 
@@ -32,58 +36,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ## CLI Usage
 
-### No arguments
-
-```bash
-repository0-plot-code-lib
-```
-Outputs:
-```
-Run with: []
-```
-
-### Default JSON output (to stdout)
-
-```bash
-repository0-plot-code-lib --expression "x^2" --range "x=0:2:1"
-```
-Outputs:
-```json
-[
-  { "x": 0, "y": 0 },
-  { "x": 1, "y": 1 },
-  { "x": 2, "y": 4 }
-]
-```
-
-### NDJSON output (to stdout)
-
-```bash
-repository0-plot-code-lib --expression "x+1" --range "x=0:2:1" --format ndjson
-```
-Outputs:
-```
-{"x":0,"y":1}
-{"x":1,"y":2}
-{"x":2,"y":3}
-```
-
-### Write pretty JSON to a file
-
-```bash
-repository0-plot-code-lib \
-  --expression "sin(x)" \
-  --range "x=0:3.14:0.78" \
-  --output "data.json"
-```
-
-### Write NDJSON to a file
-
-```bash
-repository0-plot-code-lib --expression "x+1" --range "x=0:2:1" --format ndjson --output data.ndjson
-```
-
-See [USAGE.md](USAGE.md) for more detailed examples and options.
+Refer to [USAGE.md](USAGE.md) for detailed examples and options.
 
 ## Programmatic API
 
@@ -94,32 +47,35 @@ import {
   parseExpression,
   parseRange,
   generateTimeSeries,
+  serializeDataStream,
   renderPlot,
   main as cliMain,
 } from '@xn-intenton-z2a/repository0-plot-code-lib';
 
-// 1. Parse an expression AST
-const exprAst = parseExpression('x^3 + 2');
-
-// 2. Parse a range string
-const { variableName, start, end, step } = parseRange('x=0:10:2');
-
-// 3. Generate the time series data
-const data = generateTimeSeries(exprAst, variableName, start, end, step);
-console.log('Time series data:', data);
-
-// 4. Render a plot
 (async () => {
-  try {
-    const pngBuffer = await renderPlot(data, { format: 'png', width: 800, height: 600, labels: { x: 'X', y: 'Y' } });
-    console.log('Received PNG buffer with length', pngBuffer.length);
-  } catch (err) {
-    console.error('Plot rendering failed:', err.message);
+  // Parse expression and range
+  const exprAst = parseExpression('x^3 + 2');
+  const { variableName, start, end, step } = parseRange('x=0:10:2');
+
+  // Generate data
+  const data = generateTimeSeries(exprAst, variableName, start, end, step);
+
+  // Stream JSON data
+  const jsonStream = serializeDataStream(data, { format: 'json-stream', bufferSize: 1024 });
+  for await (const chunk of jsonStream) {
+    process.stdout.write(chunk);
   }
-})();
 
-// 5. Run the CLI programmatically
-(async () => {
+  // Render and save a plot
+  const pngBuffer = await renderPlot(data, {
+    format: 'png',
+    width: 800,
+    height: 600,
+    labels: { x: 'Time', y: 'Value' },
+  });
+  console.log('Received PNG buffer of length', pngBuffer.length);
+
+  // Run the CLI programmatically
   const exitCode = await cliMain(['--expression', 'x+1', '--range', 'x=0:5:1', '--plot-format', 'svg']);
   console.log(`CLI exited with code ${exitCode}`);
 })();
@@ -127,10 +83,9 @@ console.log('Time series data:', data);
 
 ## Roadmap
 
-- Add JSON-stream and CSV output formats with backpressure control and header options.
-- Add benchmarking options to measure performance.
-- Implement HTTP API mode for on-demand data and plot serving over HTTP.
-- Performance improvements and additional features.
+- Add benchmarking mode to measure performance with `--benchmark`, `--warmup`, and `--iterations` (planned).
+- Implement HTTP API mode for on-demand data and plot serving over HTTP endpoints (planned).
+- Continued performance improvements and new features based on user feedback.
 
 ## Contributing
 
