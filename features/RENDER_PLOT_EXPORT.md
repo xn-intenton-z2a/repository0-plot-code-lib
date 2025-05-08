@@ -1,7 +1,7 @@
 # RENDER_PLOT_EXPORT
 
 ## Purpose
-Enable full SVG and PNG export capabilities for renderPlot using ChartJSNodeCanvas with streaming support for large datasets. Update the CLI to leverage the new renderPlot function, augment tests to cover SVG and PNG outputs, and refresh documentation to guide users through both programmatic and CLI-based plot exports.
+Enable full SVG and PNG export capabilities and optimize rendering performance for large datasets in renderPlot, ensuring efficient memory usage and streaming support.
 
 ## Specification
 
@@ -11,49 +11,43 @@ Enable full SVG and PNG export capabilities for renderPlot using ChartJSNodeCanv
    - chartjs-node-canvas
 2. In src/lib/main.js:
    - Import ChartJSNodeCanvas from chartjs-node-canvas and Chart from chart.js.
-   - Implement and export function renderPlot(seriesData, options):
-     - seriesData: Object containing timestamps (array of numbers) and series (array of objects with expression and values).
-     - options:
-       - width: Chart width in pixels (default 800).
-       - height: Chart height in pixels (default 600).
-       - format: Output format, either svg or png (default svg).
-     - Construct a Chart configuration with line datasets for each series, x-axis using timestamps.
-     - Use ChartJSNodeCanvas to:
-       - For svg: call renderToStream with mimeType 'image/svg+xml'.
-       - For png: call renderToBuffer with type 'image/png' and return buffer.
-   - Update main function behavior:
-     - After computing timestamps and series when --flow-sync is used, call renderPlot with parsed data and options.format from CLI.
-     - Pipe SVG stream or write PNG buffer to stdout instead of JSON.
-     - Retain JSON output when --format=json is explicitly requested for backward compatibility.
+   - Extend function renderPlot(seriesData, options) to accept:
+     - batchSize: maximum number of data points per batch (default 5000)
+     - maxPoints: threshold to trigger batch rendering (default 5000)
+   - If total data points in any series exceed maxPoints:
+     - Divide seriesData into batches of batchSize points.
+     - For each batch, update Chart configuration and render incrementally using streaming API to conserve memory.
+   - Maintain existing behavior for smaller datasets without batching.
+   - Preserve options: width, height, format (svg or png).
+3. Update CLI in main():
+   - Add new flags --batch-size and --max-points to minimist.
+   - Pass batchSize and maxPoints from CLI to renderPlot.
+   - Default to legacy JSON output when --format=json.
 
 ### Test Changes
 1. In tests/unit/plot-generation.test.js:
-   - Add unit tests for renderPlot:
-     - Invoke renderPlot with small seriesData and options.format svg; consume returned stream and assert the output string contains an opening <svg tag and closing </svg>.
-     - Invoke renderPlot with options.format png; assert returned buffer begins with the PNG header bytes (89 50 4E 47).
-   - Add CLI tests:
-     - Execute main with --flow-sync, sample expression, and --format svg; capture mock console.log or stream and assert it starts with <svg.
-     - Execute main with --flow-sync and --format png; capture stdout buffer and assert it starts with PNG signature bytes.
-2. Ensure existing main.test.js remains unchanged.
+   - Add unit tests for batch rendering path:
+     - Generate seriesData with points exceeding maxPoints; spy on ChartJSNodeCanvas to verify multiple render calls.
+     - Verify output stream combines batches without errors and produces valid SVG or PNG.
+   - Retain existing tests for small dataset rendering and CLI usage.
+2. In tests/unit/main.test.js:
+   - Add CLI tests for new flags: --batch-size and --max-points.
 
 ### Documentation Changes
 1. USAGE.md:
-   - Document new --format flag values: svg, png, json (for JSON series output) and default behavior.
-   - Add CLI examples:
-     node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format svg > plot.svg
-     node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format png > plot.png
-     node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format json
+   - Document new CLI flags:
+     - --batch-size <number>
+     - --max-points <number>
+   - Show example for large dataset rendering:
+     node src/lib/main.js --flow-sync --start 0 --end 10000 --step 1 x --format svg --batch-size 2000
 2. README.md:
-   - Add “Rendering Plots” section:
-     - Show code snippet using renderPlot programmatically.
-     - Show CLI invocation examples with sample output snippets.
+   - Update “Rendering Plots” section to highlight performance optimization for large datasets.
 
 ### Dependencies
-- Add chart.js ^4.x and chartjs-node-canvas ^4.x to dependencies.
+- Add chart.js ^4.x and chartjs-node-canvas ^4.x if not present.
 
 ### Backward Compatibility
-- Preserve default output as SVG when --format is omitted.
-- Support --format=json to retain existing JSON output for users relying on series data.
+- Preserve default behavior and flags (--format=json for data only).
 
 ## Alignment with Mission
-Expands the library’s core plotting capabilities, delivering first-class visual exports directly from CLI and programmatic API, reinforcing our goal to be the go-to tool for formula visualization workflows.
+Optimizes core plotting performance for very large formula datasets, reinforcing the library as the go-to tool for formula visualization workflows.
