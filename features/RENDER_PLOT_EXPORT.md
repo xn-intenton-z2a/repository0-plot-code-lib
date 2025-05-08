@@ -1,41 +1,38 @@
 # RENDER_PLOT_EXPORT
 
 ## Purpose
-Streamline plot rendering for large datasets by integrating ChartJSNodeCanvas with a streaming approach, while retaining existing SVG and PNG export capabilities. This enhancement ensures efficient memory usage and faster render times on large data series.
+Streamline plot rendering for large datasets by integrating ChartJSNodeCanvas with a streaming approach, while retaining existing SVG and PNG export capabilities. Add comprehensive unit and integration tests and update documentation to illustrate render output.
 
 ## Specification
 
 ### Source Changes
-- Add new dependencies: chartjs-node-canvas and stream-transform.
-- In main.js extend renderPlot(seriesData, options):
-  - When options.streaming is true, create a readable stream from seriesData in configurable chunk sizes.
-  - Instantiate ChartJSNodeCanvas with width, height, and chart configuration based on seriesData.
-  - Pipe data chunks into ChartJSNodeCanvas update call to progressively build the chart without loading entire dataset in memory.
-  - Expose new CLI flag --streaming (boolean) and --chunk-size (number) to control streaming behavior.
-  - Retain existing logic for SVG and PNG generation when --streaming is omitted.
+- No additional source code changes required; existing renderPlot function and CLI flags remain unchanged.
 
 ### Test Changes
 - In tests/unit/plot-generation.test.js:
-  - Add unit tests for streaming path:
-    - Mock a large seriesData array, enable options.streaming, set chunk-size small, and validate that transform stream is invoked expected number of times.
-    - Mock ChartJSNodeCanvas renderToBuffer to confirm it's called once after stream completion and returns a valid PNG buffer signature.
-  - Add performance integration test:
-    - Generate a large synthetic dataset, run CLI with --flow-sync, --streaming, and verify CLI completes within an acceptable time threshold (e.g., under 200ms for 10000 points).
-    - Assert the output buffer begins with PNG header bytes.
+  - Add unit test for renderPlot function:
+    - Import renderPlot from main.js.
+    - Invoke renderPlot with a small seriesData array and options.format set to svg and png.
+    - For svg, assert returned string contains opening <svg tag.
+    - For png, assert returned Buffer begins with PNG header bytes (0x89 50 4E 47).
+  - Add CLI integration tests:
+    - Run CLI main with --flow-sync --start 0 --end 2 --step 1 x --format svg and capture console.log output. Assert output starts with <svg.
+    - Run CLI main with --flow-sync --start 0 --end 2 --step 1 x --format png and capture output buffer. Assert it begins with PNG signature bytes.
 
 ### Documentation Changes
 - Update USAGE.md:
-  - Document --streaming flag and --chunk-size option with default 1000.
-  - Provide CLI example using streaming:
-    node src/lib/main.js --flow-sync --start 0 --end 10000 --step 1 x --format png --streaming --chunk-size 5000
-
-- Update README.md to include description of streaming performance mode.
+  - Document new --format flag with options svg and png and default format behavior.
+  - Provide CLI examples:
+    node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format svg
+    node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format png
+- Update README.md:
+  - Add rendering examples section showing SVG and PNG output snippets.
 
 ### Dependencies
-- Add chartjs-node-canvas and stream-transform to dependencies.
+- No new dependencies required for testing or documentation.
 
 ### Backward Compatibility
-- Default behavior remains unchanged when --streaming is not provided; existing SVG/PNG export continues to work via d3-node and node-canvas.
+- Default behavior and existing flags remain unchanged when --format is omitted; preserve SVG as default format.
 
 ## Alignment with Mission
-Enhances the library’s goal of being the go-to CLI for formula visualization by ensuring high-performance render capabilities for large-scale data without external tooling.
+Enhances library reliability through comprehensive tests and clarifies user workflows, furthering our mission to be the go-to CLI for formula visualizations.
