@@ -1,38 +1,59 @@
 # RENDER_PLOT_EXPORT
 
 ## Purpose
-Streamline plot rendering for large datasets by integrating ChartJSNodeCanvas with a streaming approach, while retaining existing SVG and PNG export capabilities. Add comprehensive unit and integration tests and update documentation to illustrate render output.
+Enable full SVG and PNG export capabilities for renderPlot using ChartJSNodeCanvas with streaming support for large datasets. Update the CLI to leverage the new renderPlot function, augment tests to cover SVG and PNG outputs, and refresh documentation to guide users through both programmatic and CLI-based plot exports.
 
 ## Specification
 
 ### Source Changes
-- No additional source code changes required; existing renderPlot function and CLI flags remain unchanged.
+1. Add new dependencies in package.json:
+   - chart.js
+   - chartjs-node-canvas
+2. In src/lib/main.js:
+   - Import ChartJSNodeCanvas from chartjs-node-canvas and Chart from chart.js.
+   - Implement and export function renderPlot(seriesData, options):
+     - seriesData: Object containing timestamps (array of numbers) and series (array of objects with expression and values).
+     - options:
+       - width: Chart width in pixels (default 800).
+       - height: Chart height in pixels (default 600).
+       - format: Output format, either svg or png (default svg).
+     - Construct a Chart configuration with line datasets for each series, x-axis using timestamps.
+     - Use ChartJSNodeCanvas to:
+       - For svg: call renderToStream with mimeType 'image/svg+xml'.
+       - For png: call renderToBuffer with type 'image/png' and return buffer.
+   - Update main function behavior:
+     - After computing timestamps and series when --flow-sync is used, call renderPlot with parsed data and options.format from CLI.
+     - Pipe SVG stream or write PNG buffer to stdout instead of JSON.
+     - Retain JSON output when --format=json is explicitly requested for backward compatibility.
 
 ### Test Changes
-- In tests/unit/plot-generation.test.js:
-  - Add unit test for renderPlot function:
-    - Import renderPlot from main.js.
-    - Invoke renderPlot with a small seriesData array and options.format set to svg and png.
-    - For svg, assert returned string contains opening <svg tag.
-    - For png, assert returned Buffer begins with PNG header bytes (0x89 50 4E 47).
-  - Add CLI integration tests:
-    - Run CLI main with --flow-sync --start 0 --end 2 --step 1 x --format svg and capture console.log output. Assert output starts with <svg.
-    - Run CLI main with --flow-sync --start 0 --end 2 --step 1 x --format png and capture output buffer. Assert it begins with PNG signature bytes.
+1. In tests/unit/plot-generation.test.js:
+   - Add unit tests for renderPlot:
+     - Invoke renderPlot with small seriesData and options.format svg; consume returned stream and assert the output string contains an opening <svg tag and closing </svg>.
+     - Invoke renderPlot with options.format png; assert returned buffer begins with the PNG header bytes (89 50 4E 47).
+   - Add CLI tests:
+     - Execute main with --flow-sync, sample expression, and --format svg; capture mock console.log or stream and assert it starts with <svg.
+     - Execute main with --flow-sync and --format png; capture stdout buffer and assert it starts with PNG signature bytes.
+2. Ensure existing main.test.js remains unchanged.
 
 ### Documentation Changes
-- Update USAGE.md:
-  - Document new --format flag with options svg and png and default format behavior.
-  - Provide CLI examples:
-    node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format svg
-    node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format png
-- Update README.md:
-  - Add rendering examples section showing SVG and PNG output snippets.
+1. USAGE.md:
+   - Document new --format flag values: svg, png, json (for JSON series output) and default behavior.
+   - Add CLI examples:
+     node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format svg > plot.svg
+     node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format png > plot.png
+     node src/lib/main.js --flow-sync --start 0 --end 4 --step 1 x --format json
+2. README.md:
+   - Add “Rendering Plots” section:
+     - Show code snippet using renderPlot programmatically.
+     - Show CLI invocation examples with sample output snippets.
 
 ### Dependencies
-- No new dependencies required for testing or documentation.
+- Add chart.js ^4.x and chartjs-node-canvas ^4.x to dependencies.
 
 ### Backward Compatibility
-- Default behavior and existing flags remain unchanged when --format is omitted; preserve SVG as default format.
+- Preserve default output as SVG when --format is omitted.
+- Support --format=json to retain existing JSON output for users relying on series data.
 
 ## Alignment with Mission
-Enhances library reliability through comprehensive tests and clarifies user workflows, furthering our mission to be the go-to CLI for formula visualizations.
+Expands the library’s core plotting capabilities, delivering first-class visual exports directly from CLI and programmatic API, reinforcing our goal to be the go-to tool for formula visualization workflows.
