@@ -20,6 +20,11 @@ Behavior:
 - On success, displays a table of configuration entries (key, path, permissions, limit).
 - On error, prints a descriptive error message.
 
+Exit Codes:
+
+- `0` on success
+- `1` on error (file not found, parse error, or validation failure)
+
 Examples:
 ```
 $ repository0-plot-code-lib sync-config

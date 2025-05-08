@@ -16,8 +16,10 @@
     "linting-fix": "eslint --fix .",
     "update-to-minor": "npx npm-check-updates --upgrade --enginesNode --target minor --verbose --install always",
     "update-to-greatest": "npx npm-check-updates --upgrade --enginesNode --target greatest --verbose --install always --reject 'alpha'",
-    "test": "vitest tests/unit/*.test.js",
+    "test": "vitest tests/unit/*.test.js tests/integration/*.test.js tests/feature/*.test.js",
     "test:unit": "vitest --coverage tests/unit/*.test.js",
+    "test:integration": "vitest tests/integration/*.test.js",
+    "test:feature": "vitest tests/feature/*.test.js",
     "start": "node src/lib/main.js"
   },
   "keywords": [],
@@ -25,10 +27,10 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.5.0",
-    "openai": "^4.95.1",
     "ejs": "^3.1.10",
     "js-yaml": "^4.1.0",
     "minimatch": "^10.0.1",
+    "openai": "^4.95.1",
     "zod": "^3.24.3"
   },
   "devDependencies": {
@@ -45,8 +47,8 @@
     "eslint-plugin-sonarjs": "^3.0.2",
     "express": "^4.21.2",
     "js-yaml": "^4.1.0",
-    "markdown-it-github": "^0.5.0",
     "markdown-it": "^14.1.0",
+    "markdown-it-github": "^0.5.0",
     "npm-check-updates": "^17.1.18",
     "prettier": "^3.5.3",
     "vitest": "^3.1.2"
@@ -54,7 +56,9 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "files": ["src/"],
+  "files": [
+    "src/"
+  ],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
