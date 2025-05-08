@@ -2,12 +2,79 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
+import fs from "fs";
+import yaml from "js-yaml";
+import { z } from "zod";
 
-export function main(args) {
+export function main(cliArgs) {
+  const args = Array.isArray(cliArgs) ? cliArgs : process.argv.slice(2);
+  if (args[0] === "sync-config") {
+    // Determine config file path
+    const configIndex = args.findIndex((a) => a === "--config");
+    const configPath =
+      configIndex >= 0 && args[configIndex + 1]
+        ? args[configIndex + 1]
+        : "agent-config.yaml";
+
+    // Read file
+    let content;
+    try {
+      content = fs.readFileSync(configPath, "utf-8");
+    } catch (err) {
+      throw new Error(
+        `Error reading config file at ${configPath}: ${err.message}`
+      );
+    }
+
+    // Parse YAML
+    let parsed;
+    try {
+      parsed = yaml.load(content);
+    } catch (err) {
+      throw new Error(`Error parsing YAML: ${err.message}`);
+    }
+
+    // Validate with Zod
+    const configSchema = z.object({
+      schedule: z.string().nonempty(),
+      paths: z.record(
+        z.object({
+          path: z.string(),
+          permissions: z.array(z.string()).optional(),
+          limit: z.number().optional(),
+        })
+      ),
+    });
+    const result = configSchema.safeParse(parsed);
+    if (!result.success) {
+      const errors = result.error.errors
+        .map((e) => `${e.path.join('.')}: ${e.message}`)
+        .join('\n');
+      throw new Error(`Config validation errors:\n${errors}`);
+    }
+
+    // Summarize and print table
+    const cfg = result.data;
+    const entries = Object.entries(cfg.paths).map(([key, val]) => ({
+      key,
+      path: val.path,
+      permissions: val.permissions?.join(', ') ?? '',
+      limit: val.limit ?? '',
+    }));
+    console.table(entries);
+    return;
+  }
+
+  // Default behavior
   console.log(`Run with: ${JSON.stringify(args)}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  try {
+    main(args);
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
 }
