@@ -16,14 +16,17 @@ export async function main(args = []) {
         ? args[configIndex + 1]
         : "agent-config.yaml";
 
-    // Load and parse config
+    // Load and parse config only if user specified --config or -c
     let configContent;
-    try {
-      configContent = await fs.readFile(configPath, "utf-8");
-    } catch (err) {
-      console.error(`Error processing ${configPath}: ${err.message}`);
-      process.exit(1);
+    if (configIndex !== -1) {
+      try {
+        configContent = await fs.readFile(configPath, "utf-8");
+      } catch (err) {
+        console.error(`Error processing ${configPath}: ${err.message}`);
+        process.exit(1);
+      }
     }
+
     let config;
     try {
       config = yaml.load(configContent);
