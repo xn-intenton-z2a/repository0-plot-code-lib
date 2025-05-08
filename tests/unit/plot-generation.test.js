@@ -1,16 +1,85 @@
-import { describe, test, expect } from "vitest";
-import * as mainModule from "@src/lib/main.js";
+import { describe, test, expect, vi } from "vitest";
+import fs from "fs";
+import yaml from "js-yaml";
 import { main } from "@src/lib/main.js";
 
+// Ensure the main module and default behavior
 describe("Main Module Import", () => {
   test("should be non-null", () => {
-    expect(mainModule).not.toBeNull();
+    expect(main).not.toBeNull();
   });
 });
 
 describe("Default main", () => {
   test("should terminate without error", () => {
-    process.argv = ["node", "src/lib/main.js"];
-    main();
+    // No args means fallback behavior
+    expect(() => main()).not.toThrow();
+  });
+});
+
+// Unit tests for the sync-config command behavior
+describe("sync-config command", () => {
+  let consoleTableSpy;
+
+  beforeEach(() => {
+    consoleTableSpy = vi.spyOn(console, "table").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("should display table on valid config", () => {
+    const mockContent = `
+schedule: my-schedule
+paths:
+  key1:
+    path: 'p1'
+    permissions: ['read']
+    limit: 10
+`;
+    vi.spyOn(fs, "readFileSync").mockReturnValue(mockContent);
+    vi.spyOn(yaml, "load").mockReturnValue({
+      schedule: "my-schedule",
+      paths: {
+        key1: { path: "p1", permissions: ["read"], limit: 10 },
+      },
+    });
+
+    const result = main(["sync-config"]);
+    expect(result).toBeUndefined();
+    expect(consoleTableSpy).toHaveBeenCalledWith([
+      {
+        key: "key1",
+        path: "p1",
+        permissions: "read",
+        limit: 10,
+      },
+    ]);
+  });
+
+  test("should throw error on read failure", () => {
+    vi.spyOn(fs, "readFileSync").mockImplementation(() => {
+      throw new Error("fail read");
+    });
+    expect(() => main(["sync-config"]))
+      .toThrowError(/Error reading config file/);
+  });
+
+  test("should throw error on parse failure", () => {
+    vi.spyOn(fs, "readFileSync").mockReturnValue("bad yaml");
+    vi.spyOn(yaml, "load").mockImplementation(() => {
+      throw new Error("bad yaml");
+    });
+    expect(() => main(["sync-config"]))
+      .toThrowError(/Error parsing YAML/);
+  });
+
+  test("should throw error on validation failure", () => {
+    vi.spyOn(fs, "readFileSync").mockReturnValue("");
+    // Missing 'schedule' property to trigger Zod validation error
+    vi.spyOn(yaml, "load").mockReturnValue({ paths: {} });
+    expect(() => main(["sync-config"]))
+      .toThrowError(/Config validation errors:/);
   });
 });
