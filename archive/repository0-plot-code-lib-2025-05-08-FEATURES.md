@@ -1,110 +1,78 @@
 features/AGENT_CONFIG_SYNC.md
 # features/AGENT_CONFIG_SYNC.md
-# Agent Configuration Sync
+# Agent Config Synchronization
 
-## Overview
-Extend the existing sync-config subcommand to include comprehensive integration tests and update documentation in README and USAGE files. Ensure end-to-end validation of CLI behavior and clear guidance for users.
+Enable the CLI to read, validate, and apply settings from the agentic-lib workflow configuration file.  This feature adds a `sync-config` command that synchronizes the repository’s internal behavior with the definitions in the `agent-config.yaml` file.
 
-## Behavior
-When the CLI is invoked with sync-config [--config <path>]:
+# Command-Line Interface
 
-- Reads YAML configuration from the specified path or defaults to agent-config.yaml
-- Parses schedule as nonempty string and paths as a mapping of keys to objects with path, optional permissions array, and optional limit number
-- On successful validation prints a table of entries showing key, path, permissions, and limit then exits with code 0
-- On missing file, YAML syntax error, or schema validation failure prints descriptive error to stderr and exits with code 1
+- `repository0-plot-code-lib sync-config [--config <path>]`
+  - Reads the workflow configuration file (defaults to `agent-config.yaml` in the project root).
+  - Parses the YAML using `js-yaml`.
+  - Validates required keys: `schedule`, `paths` mapping.
+  - Outputs a summary of loaded schedule and accessible paths.
+  - Exits with code 0 on success, non-zero on validation errors.
 
-## Implementation
+# Implementation Details
 
-1. Integration Tests
-   - Create or extend test file under tests/unit/sync-config.integration.test.js
-   - Use child_process.spawnSync to invoke repository0-plot-code-lib sync-config and sync-config --config custom-config.yaml
-   - Prepare fixture files for valid and invalid configurations under tests/fixtures
-   - Assert stdout contains expected table rows and exit code 0 for valid cases
-   - Assert stderr contains descriptive messages and exit code 1 for error cases
+- In `src/lib/main.js`:
+  - Parse arguments to detect the `sync-config` subcommand.
+  - Load filesystem via `fs.promises.readFile`.
+  - Parse YAML with `js-yaml`.
+  - Validate presence of top-level keys: `schedule` and `paths`.
+  - Print a formatted summary of `schedule` and list of path mappings.
+  - Handle errors with descriptive messages.
 
-2. Unit Tests
-   - Augment tests/unit/main.test.js to mock fs.readFileSync and yaml.load for parsing and validation error paths
-   - Cover missing file, invalid YAML, and schema violation scenarios
+- In `package.json`:
+  - Ensure `js-yaml` dependency is listed.
 
-3. Source Updates
-   - Ensure main function throws errors for file read failures, YAML parse errors, and Zod validation failures
-   - Confirm console.table usage for summary output remains correct
+# Testing
 
-## Documentation
+- Add unit tests in `tests/unit/plot-generation.test.js`:
+  - Mock filesystem to supply a sample `agent-config.yaml`.
+  - Verify that `main(['sync-config'])` reads and parses the YAML correctly.
+  - Test error handling when required keys are missing.
 
-### README.md and USAGE.md Updates
+# Documentation Updates
 
-Under a new section CLI Commands add:
+- Update `README.md` to document the new `sync-config` command under Usage.
+- Provide an example invocation and sample output.
+features/RELEASE_PULL_REQUEST.md
+# features/RELEASE_PULL_REQUEST.md
+# Release Pull Request Automation
 
-### sync-config
+Enable the CLI to automate creation of a release pull request for a specified version. This feature adds a release-pr command that updates the version in package.json, updates CHANGELOG.md, commits changes, pushes a release branch, and opens a GitHub pull request with the changelog entry.
 
-Reads, validates, and summarizes the agent configuration YAML file.
+# Command-Line Interface
 
-Usage
+- `repository0-plot-code-lib release-pr --version <semver>`
+  - Reads package.json and updates the version field to `<semver>`.
+  - Updates CHANGELOG.md by prepending a new section for `<semver>` with the current date and placeholder notes.
+  - Creates and checks out a git branch named `release/v<semver>`.
+  - Commits the updated package.json and CHANGELOG.md with message `chore: release v<semver>`.
+  - Pushes the branch to the origin remote.
+  - Opens a pull request via the GitHub CLI (`gh`) using the new changelog entry as the PR title and body.
 
-  repository0-plot-code-lib sync-config [--config <path>]
+# Implementation Details
 
-Options
+- In `src/lib/main.js`:
+  - Parse arguments to detect `release-pr` subcommand and `--version` option.
+  - Use `fs.promises` to read and write `package.json` and `CHANGELOG.md`.
+  - Use `child_process.exec` to run git commands (`git checkout -b`, `git add`, `git commit`, `git push`) and GitHub CLI (`gh pr create`).
+  - Require `GITHUB_TOKEN` environment variable for authentication with GitHub.
+  - Handle missing or invalid semver argument with a descriptive error and exit code 1.
 
-  --config <path>  Path to the YAML configuration file. Defaults to agent-config.yaml
+# Testing
 
-Examples
+- Extend tests in `tests/unit/main.test.js`:
+  - Mock `fs.promises` to simulate reading and writing of `package.json` and `CHANGELOG.md`.
+  - Mock `child_process.exec` to assert correct git and `gh` commands are invoked for a given version.
+  - Verify error handling when `--version` is missing or semver is invalid.
 
-  $ repository0-plot-code-lib sync-config
-  ┌─────────┬───────────────────────────┬───────────────┬──────────────┬───────┐
-  │ (index) │           key             │     path      │ permissions  │ limit │
-  ├─────────┼───────────────────────────┼───────────────┼──────────────┼───────┤
-  │    0    │ missionFilepath           │ MISSION.md    │              │       │
-  │    1    │ librarySourcesFilepath    │ SOURCES.md    │ write        │ 16    │
-  └─────────┴───────────────────────────┴───────────────┴──────────────┴───────┘
+# Documentation Updates
 
-  $ repository0-plot-code-lib sync-config --config custom-config.yaml
-
-Exit Codes
-
-  0 on success
-  1 on error (file not found, parse error, or validation failure)features/PATCH_RELEASE.md
-# features/PATCH_RELEASE.md
-# Overview
-Implement an automated patch release command to bump the package version, update the changelog section in the README, and prepare for publishing.
-
-# Behavior
-When the CLI is invoked with release patch:
-
-- Reads package.json and increments the patch version component (semver).
-- Updates the version field in package.json to the new patch version.
-- Locates or creates a Changelog section in README.md and prepends a new entry for the new version with date and a placeholder for release notes.
-- Prints summary of changes applied (new version and changelog update).
-- Returns exit code 0 on success, or 1 on any file read/write error.
-
-# Implementation
-1. Source Updates (src/lib/main.js)
-   - Add a new command branch: if args[0] equals "release" and args[1] equals "patch".
-   - Read package.json, parse JSON, bump patch version (using semver from dependencies or manual split).
-   - Write updated package.json back to disk with proper formatting.
-   - Read README.md, search for a "## Changelog" heading. If missing, insert heading at end of file.
-   - Prepend under "## Changelog" a new subsection with the new version number, current date in ISO format, and a placeholder for notes "- Add release notes here".
-   - Write updated README.md back to disk.
-   - Console.log the new version and confirm changelog updated.
-   - Handle and throw descriptive errors for read/write JSON or file operations.
-
-2. Tests
-   - Add unit tests in tests/unit/release.test.js.
-   - Mock fs.readFileSync and fs.writeFileSync to simulate package.json and README.md content.
-   - Validate that invoking main(["release","patch"]) updates JSON version and README content correctly.
-   - Test error handling when package.json or README.md cannot be read or written.
-
-# Documentation
-- Update README.md to include usage for the new release command:
-
-## release patch
-Bumps the patch version, updates README Changelog, and prepares a patch release.
-
-Usage:
-
-  repository0-plot-code-lib release patch
-
-Exit Codes:
-
-  0 on success
-  1 on error (file read/write failure)
+- Update `README.md`:
+  - Add a `release-pr` section under Usage.
+  - Show example invocation:
+    repository0-plot-code-lib release-pr --version 1.2.0
+  - Include expected console output and sample pull request title and body.
