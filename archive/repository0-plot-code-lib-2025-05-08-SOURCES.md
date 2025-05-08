@@ -21,11 +21,6 @@ In-depth reference on schema creation, parsing pipelines, type inference, asynch
 Comprehensive CLI toolkit reference covering declarative command modules, positional arguments, type coercion, middleware hooks, localized help generation, and async command handlers. Provides best practices for orchestrating complex CLI workflows and extending argument parsing. Updated 2024; MIT.
 ## License: MIT
 
-# expr-eval Parser Library
-## https://github.com/silentmatt/expr-eval#readme
-Defines a lightweight JavaScript expression parser and evaluator, detailing supported grammar (operators, functions), AST manipulation, custom function injection, and secure evaluation contexts. Directly informs expression parsing, variable binding, and performance considerations in time series generation. Last updated 2023; MIT.
-## License: MIT
-
 # Newline Delimited JSON (NDJSON) Specification
 ## http://ndjson.org/
 Defines the line-delimited JSON format (MIME type application/x-ndjson), record separation rules, streaming payload guidelines, and interoperability requirements. Provides actionable details for implementing CLI NDJSON output, streaming consumers, and memory-efficient pipelines. Published 2020; CC0.
@@ -33,7 +28,7 @@ Defines the line-delimited JSON format (MIME type application/x-ndjson), record 
 
 # Vega-Lite Specification
 ## https://vega.github.io/vega-lite/
-High-level JSON grammar for interactive visualizations, covering data transformations, encoding channels, mark types, scales, axes, and layer compositions. Offers concrete schema examples for mapping time series data to declarative chart definitions. Updated 2023; BSD-3-Clause.
+High-level JSON grammar for interactive visualizations, covering data transformations, encoding channels, mark types, scales, axes, and layer compositions. Offers concrete schema examples for mapping time series data to declarative chart definitions and customizing aggregate functions. Updated 2023; BSD-3-Clause.
 ## License: BSD-3-Clause
 
 # SVG Technical Documentation (MDN & W3C)
@@ -69,17 +64,22 @@ The IETF standard defining the Common Format and MIME Type for Comma-Separated V
 Streaming JSON parser and stringifier for Node.js, covering JSONStream.parse, JSONStream.stringify, and filter/query patterns. Demonstrates efficient backpressure-aware JSON generation and parsing pipelines, as well as integration examples with fs.createReadStream and Transform streams. Last updated 2023; MIT.
 ## License: MIT
 
-# Fast-CSV Library
-## https://c2fo.github.io/fast-csv/docs/introduction
-Fast, feature-rich CSV parser and formatter for Node.js that supports streaming, custom delimiters, quoting, header handling, and transforming rows. Provides performance benchmarks and best practices for high-throughput CSV generation and parsing with backpressure support. Updated 2024; MIT.
-## License: MIT
-
 # Express Official Documentation
 ## https://expressjs.com/
 Detailed guide to setting up middleware, routing, error handling, request/response streaming, content negotiation, and configuration of Express.js applications. Provides practical examples for building RESTful APIs, handling JSON and URL-encoded payloads, streaming large payloads with res.write(), and best practices for error handling and security middleware—critical for implementing the HTTP API serve mode. Updated 2024; MIT.
 ## License: MIT
 
-# Supertest HTTP Assertions Library
-## https://github.com/visionmedia/supertest#readme
-API reference for Supertest, a high-level abstraction for testing HTTP servers in Node.js. Covers methods for constructing requests, chaining assertions on status codes, headers, body content, streaming responses, and handling asynchronous tests with Promises and callback interfaces. Essential for writing integration tests for Express-based /api/data and /api/plot endpoints. Last updated 2024; MIT.
+# Stream-Transform Library
+## https://github.com/adaltas/node-stream-transform#readme
+Stream-Transform is a Node.js module for creating transform streams with configurable concurrency, parallel processing, and backpressure support. It details usage patterns for mapping, filtering, and reducing data chunks within streaming pipelines, including examples for handling async callbacks, error propagation, and batch-size tuning. Critical for implementing chunked seriesData ingestion in --streaming mode with controlled memory footprint and throughput. Updated 2023; community-maintained.
+## License: MIT
+
+# Commander.js CLI Framework
+## https://github.com/tj/commander.js/#readme
+Commander.js provides a comprehensive API for defining CLI commands, options, aliases, and subcommands with built-in help generation, argument validation, and version management. It includes support for default values, required options, hooks, and custom option parsing—valuable for structuring complex flag sets like --streaming and --chunk-size with clear documentation and extensibility. Updated 2024; MIT.
+## License: MIT
+
+# D3-Node Library
+## https://github.com/d3-node/d3-node#readme
+D3-Node enables server-side rendering of D3-based charts by simulating the DOM in Node.js and integrating with d3 v7 modules. It describes creating virtual document containers, injecting data, generating SVG output, and serializing charts without a browser. Offers templating examples and performance notes for large datasets—useful for extending SVG export capabilities in the CLI. Updated 2023; MIT.
 ## License: MIT

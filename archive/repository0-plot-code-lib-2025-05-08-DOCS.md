@@ -2,65 +2,50 @@ USAGE.md
 # USAGE.md
 # Usage
 
-## Generating Time Series Data
+## CLI Flags
 
-Use the CLI to generate a JSON array of time series data points.
+- `--flow-sync`  
+  Boolean flag to synchronize timestamps across multiple formulas.
 
+- `--start <number>`  
+  Start time (default `0`), required with `--flow-sync`.
+
+- `--end <number>`  
+  End time (required with `--flow-sync`).
+
+- `--step <number>`  
+  Time step increment (required with `--flow-sync`).
+
+## Modes
+
+### Flow-Sync Mode
+
+When `--flow-sync` is provided, generates JSON with synchronized timestamps and series values:
+
+```bash
+node src/lib/main.js --flow-sync --start 0 --end 4 --step 2 x '2*x'
 ```
-repository0-plot-code-lib --expression "y=sin(x)" --range 0:6.283 --points 50
-```
 
-This outputs something like:
-
+Output:
 ```json
-[
-  { "x": 0, "y": 0 },
-  { "x": 0.1279, "y": 0.1277 },
-  ...
-  { "x": 6.283, "y": 0 }
-]
+{
+  "timestamps": [0, 2, 4],
+  "series": [
+    { "expression": "x", "values": [0, 2, 4] },
+    { "expression": "2*x", "values": [0, 4, 8] }
+  ]
+}
 ```
 
-Parameters:
+### Default Mode
 
-- `--expression` (required): A mathematical expression in terms of `x`, e.g., `y=sin(x)`.
-- `--range` (required): A numeric range as `start:end`, with `start < end`.
-- `--points` (optional): Number of samples to generate (integer ≥ 2). Defaults to 100.
+Without `--flow-sync`, the CLI simply echoes the invocation:
 
-## Help and Default Invocation
-
-Display usage information and exit with code 0:
-
-```
-repository0-plot-code-lib
-repository0-plot-code-lib --help
+```bash
+node src/lib/main.js
 ```
 
-Outputs:
-
+Output:
 ```
-Usage:
-  node src/lib/main.js --expression <expr> --range <start:end> [--points <n>] [--format <svg|png>] [--output <file>]
-
-Options:
-  --expression   A mathematical expression in terms of x (e.g., y=sin(x)). Required for data generation.
-  --range        A numeric range as start:end, with start < end. Required for data generation.
-  --points       Number of samples to generate (integer ≥ 2). Defaults to 100.
-  --format       Output format: svg or png. Defaults to svg.
-  --output       Output file path. If omitted, writes to stdout.
-  --help, -h     Display this help message.
+Run with: []
 ```
-
-## Generating Plots
-
-Use the `--format` and `--output` flags to render plots:
-
-```
-repository0-plot-code-lib --expression "y=sin(x)" --range 0:6.28 --format svg --output plot.svg
-```
-
-```
-repository0-plot-code-lib --expression "y=cos(x)" --range 0:6.28 --format png --output plot.png
-```
-
-If `--output` is omitted, the plot is written to standard output.
