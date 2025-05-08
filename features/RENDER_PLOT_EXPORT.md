@@ -1,58 +1,59 @@
 # RENDER_PLOT_EXPORT
 
 ## Purpose
-Enable exporting charts to SVG and PNG formats via CLI and library, turning JSON data streams into visual outputs.
+Enable exporting charts to SVG and PNG formats via CLI and library, turning JSON data streams into visual outputs, and ensure reliable output through comprehensive unit and integration tests with usage examples in documentation.
 
-## Source Changes
+## Specification
+
+### Source Changes
 1. In src/lib/main.js:
-   - Import ChartJSNodeCanvas from 'chartjs-node-canvas' and Chart and registerables from 'chart.js'.
-   - Register Chart.register(...registerables).
-   - Implement async function renderPlot(seriesData, options):
-     - seriesData: { timestamps: number[], series: { expression: string, values: number[] }[] }.
-     - options: { format: 'svg' | 'png', width: number, height: number, backgroundColor?: string }.
-     - Instantiate ChartJSNodeCanvas with width, height, backgroundColor.
-     - Build a line chart configuration combining timestamps and series values.
-     - Render to SVG string or PNG buffer and return.
-   - Extend CLI flags parsed by minimist:
-     - --format <svg|png> (default none)
-     - --width <number> (default 800)
-     - --height <number> (default 600)
-     - --background <string> (default 'white')
-   - In main():
-     - When --format is provided, read JSON from stdin if flow-sync not set, parse seriesData, call renderPlot, write SVG string or PNG buffer to stdout, and exit.
+   - Ensure renderPlot(seriesData, options) supports:
+     • format: 'svg' | 'png'
+     • width, height, backgroundColor
+   - Maintain logic to instantiate ChartJSNodeCanvas and render into SVG string or PNG buffer.
+2. No additional source code changes required for rendering behavior beyond existing implementation.
 
-## Test Changes
+### Test Changes
 1. In tests/unit/plot-generation.test.js:
-   - Add unit tests for renderPlot:
-     - Call renderPlot with small synthetic seriesData and format 'svg'; assert result is a string starting with '<svg'.
-     - Call renderPlot with same data and format 'png'; assert result is a Buffer starting with PNG signature bytes (0x89, 0x50, 0x4E, 0x47).
-     - Spy on ChartJSNodeCanvas constructor to verify width, height, and backgroundColor are passed correctly.
+   - Add unit tests for renderPlot output:
+     a. Call renderPlot with small synthetic seriesData and format 'svg'; assert result is a string starting with `<svg`.
+     b. Call renderPlot with same data and format 'png'; assert result is a Buffer starting with PNG signature bytes (0x89, 0x50, 0x4E, 0x47).
+     c. Spy on ChartJSNodeCanvas constructor to verify width, height, and backgroundColor options are passed correctly.
 2. In tests/unit/main.test.js:
    - Add integration tests for CLI rendering:
-     - Prepare a temporary JSON file with sample seriesData.
-     - Spawn main with --format svg --width 100 --height 50, piping the JSON to stdin; capture stdout and assert it begins with '<svg'.
-     - Repeat with format 'png' and assert the output buffer starts with PNG signature.
+     a. Prepare a temporary JSON input representing seriesData.
+     b. Spawn main() with arguments `--format svg --width 100 --height 50`, piping JSON to stdin; capture stdout and assert it begins with `<svg`.
+     c. Repeat with `--format png --width 64 --height 48`; capture stdout buffer and assert it starts with PNG signature bytes.
+     d. Ensure CLI exits with code 0 after successful rendering.
 
-## Documentation Changes
+### Documentation Changes
 1. In USAGE.md:
    - Document new flags:
      --format <svg|png>    Select output format (svg or png)
      --width <number>      Canvas width in pixels (default 800)
      --height <number>     Canvas height in pixels (default 600)
      --background <color>  Canvas background color (default 'white')
-   - Provide CLI examples showing both SVG and PNG outputs.
+   - Add CLI examples:
+     ```bash
+     cat data.json | node src/lib/main.js --format svg --width 300 --height 200 > chart.svg
+     cat data.json | node src/lib/main.js --format png --width 300 --height 200 > chart.png
+     ```
 2. In README.md:
-   - Add section "Rendering Charts":
-     - Explain programmatic renderPlot usage with code snippet.
-     - Provide CLI examples for exporting plots to SVG and PNG.
+   - Add section "Rendering Charts to SVG and PNG":
+     • Show programmatic example using renderPlot:
+       ```js
+       import { renderPlot } from "@xn-intenton-z2a/repository0-plot-code-lib";
+       const data = { timestamps: [0,1,2], series: [{ expression: "x", values: [0,1,2] }] };
+       const svg = await renderPlot(data, { format: "svg", width: 400, height: 300 });
+       console.log(svg);
+       ```
+     • Show CLI usage examples mirroring USAGE.md.
 
-## Dependencies
-- Add or verify dependencies in package.json:
-  "chart.js": "^4.x",
-  "chartjs-node-canvas": "^4.x"
+### Dependencies
+No new dependencies beyond chart.js and chartjs-node-canvas already in package.json.
 
-## Backward Compatibility
-Default behavior remains unchanged when --format is not provided; JSON flow-sync output is preserved.
+### Backward Compatibility
+When --format is not provided, default JSON flow-sync behavior remains unchanged.
 
 ## Alignment with Mission
-Completes the core visualization pipeline by enabling direct export of high-quality formula-driven charts, reinforcing the tool as the go-to CLI library for formula visualizations.
+Delivers robust rendering pipelines with reliable outputs and clear documentation, reinforcing the library’s goal as the go-to CLI tool for formula visualizations.
