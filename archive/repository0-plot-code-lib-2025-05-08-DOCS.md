@@ -1,3 +1,5 @@
+USAGE.md
+# USAGE.md
 # Usage
 
 ## Generating Time Series Data
