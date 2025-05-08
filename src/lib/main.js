@@ -5,7 +5,11 @@ import { fileURLToPath } from "url";
 import minimist from "minimist";
 
 export function main(inputArgs = []) {
-  const argv = minimist(inputArgs, {
+  // If no explicit args provided, use CLI args from process.argv
+  const cliArgs = process.argv.slice(2);
+  const args = inputArgs.length === 0 && cliArgs.length > 0 ? cliArgs : inputArgs;
+
+  const argv = minimist(args, {
     boolean: ["flow-sync"],
     default: { start: 0 },
   });
@@ -33,10 +37,10 @@ export function main(inputArgs = []) {
     });
     console.log(JSON.stringify({ timestamps, series }));
   } else {
-    console.log(`Run with: ${JSON.stringify(inputArgs)}`);
+    console.log(`Run with: ${JSON.stringify(args)}`);
   }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main(process.argv.slice(2));
+  main();
 }
