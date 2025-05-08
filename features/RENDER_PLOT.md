@@ -1,38 +1,44 @@
 # Overview
 
-Add a renderPlot function to the library that accepts data and options and produces SVG or PNG output. Merge agentic-lib-issue-2907 enhancements to support both formats, allow CLI invocation, and update documentation to show usage.
+Enhance renderPlot to leverage ChartJSNodeCanvas for reliable, high-fidelity SVG and PNG chart rendering. Maintain existing API semantics and CLI integration while replacing the custom EJS-based SVG builder and sharp conversion with ChartJSNodeCanvas for consistency and performance.
 
 # Implementation Details
 
-1. Source File Changes in src/lib/main.js
-   - Export a new async function renderPlot(data, options) that:
-     - Uses EJS templates or a small in-memory SVG builder to draw axes, series, and labels.
-     - Accepts options.format as "svg" or "png" and options.size as width and height in pixels.
-     - For PNG format, convert the SVG string to PNG buffer using a lightweight library such as sharp.
-     - Return or write the result to stdout or to a file path when options.output is provided.
-   - Extend main CLI to detect a "plot" command:
-     - repository0-plot-code-lib plot --input <jsonFile> [--format svg|png] [--size WxH] [--output <path>]
-     - Read JSON data file, call renderPlot, then write to stdout or to output file.
+1. Dependencies
+   - Add chart.js and chartjs-node-canvas to dependencies in package.json.
+
+2. Library Changes in src/lib/main.js
+   - Import ChartJSNodeCanvas from chartjs-node-canvas and Chart from chart.js.
+   - Define an async function renderPlot(data, options) that:
+     - Accepts a Chart.js configuration object or constructs one from data.series, data.labels, and options.type.
+     - Reads options.format (svg or png), options.size.width, options.size.height, and backgroundColor.
+     - Instantiates ChartJSNodeCanvas with width, height, and background colour:
+       const canvas = new ChartJSNodeCanvas({ width, height, backgroundColour });
+     - For SVG output, call canvas.renderToBuffer(configuration, 'svg') to obtain a Buffer containing SVG content.
+       Convert buffer to UTF-8 string before returning or writing to file.
+     - For PNG output, call canvas.renderToBuffer(configuration) to obtain a PNG Buffer.
+     - If options.output is provided, write the result to the specified file path using fs.promises.writeFile; otherwise return the result (string for SVG, Buffer for PNG).
+
+3. CLI Integration
+   - Extend main(args) to detect "plot" command:
+       repository0-plot-code-lib plot --input <jsonFile> --format svg|png --type line|bar --size WxH --output <path>
+   - Parse flags for input path, format, chart type, size, and output.
+   - Load JSON data, call renderPlot, and write to stdout or file as specified.
+   - Provide clear error messages for invalid arguments or rendering failures, exiting with non-zero code.
+
+4. Documentation Updates in README.md
+   - Document the renderPlot API signature and options.
+   - Add CLI usage examples for generating plot.svg and plot.png.
+   - Note dependencies on chart.js and chartjs-node-canvas.
 
 # Testing
 
 - tests/unit/plot-rendering.test.js
-  - Provide minimal data sets (e.g., one series with two points) and options for SVG and PNG.
-  - Verify that renderPlot returns a string starting with "<svg" for SVG format and a Buffer for PNG format whose PNG signature matches 89 50 4E 47.
-  - Mock sharp conversion to isolate behavior.
-  - Integration test via CLI invocation in main.js that writes to a temporary file and reads back contents.
+  - Mock ChartJSNodeCanvas to verify correct instantiation parameters (width, height, backgroundColour).
+  - Test renderPlot returns a string starting with '<svg' when format is svg.
+  - Test renderPlot returns a Buffer whose first bytes match PNG signature when format is png.
+  - Simulate writeFile errors to confirm CLI error reporting and exit codes.
 
-# Documentation
-
-- Update README.md to document the renderPlot API:
-  - Code example showing import of renderPlot, calling with data and writing to a file.
-  - CLI usage examples for generating plot.svg and plot.png.
-  - Note dependency on sharp for PNG support and add to dependencies in package.json.
-
-# Dependencies
-
-- Add sharp to dependencies to enable SVG to PNG conversion.
-
-# Backwards Compatibility
-
-- Ensure existing reseed command remains unchanged.
+- tests/unit/plot-cli.test.js (new)
+  - Execute main(["plot", "--input", <data>, "--format", "png", "--size", "400x300", "--output", <path>])
+  - Verify output file is created with expected content via fs.promises.readFile.
