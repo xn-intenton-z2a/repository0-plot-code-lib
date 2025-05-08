@@ -4,45 +4,79 @@ src/lib/main.js
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
-import minimist from "minimist";
+import fs from "fs";
+import yaml from "js-yaml";
+import { z } from "zod";
 
-export function main(inputArgs = []) {
-  // If no explicit args provided, use CLI args from process.argv
-  const cliArgs = process.argv.slice(2);
-  const args = inputArgs.length === 0 && cliArgs.length > 0 ? cliArgs : inputArgs;
+export function main(cliArgs) {
+  const args = Array.isArray(cliArgs) ? cliArgs : process.argv.slice(2);
+  if (args[0] === "sync-config") {
+    // Determine config file path
+    const configIndex = args.findIndex((a) => a === "--config");
+    const configPath =
+      configIndex >= 0 && args[configIndex + 1]
+        ? args[configIndex + 1]
+        : "agent-config.yaml";
 
-  const argv = minimist(args, {
-    boolean: ["flow-sync"],
-    default: { start: 0 },
-  });
-  const { "flow-sync": flowSync, start, end, step, _: exprs } = argv;
-
-  if (flowSync) {
-    if (end === undefined || step === undefined) {
-      console.error(
-        "Error: --end and --step are required when using --flow-sync"
+    // Read file
+    let content;
+    try {
+      content = fs.readFileSync(configPath, "utf-8");
+    } catch (err) {
+      throw new Error(
+        `Error reading config file at ${configPath}: ${err.message}`
       );
-      process.exit(1);
     }
-    const s = Number(start);
-    const e = Number(end);
-    const st = Number(step);
-    const timestamps = [];
-    for (let t = s; t <= e; t += st) {
-      timestamps.push(t);
+
+    // Parse YAML
+    let parsed;
+    try {
+      parsed = yaml.load(content);
+    } catch (err) {
+      throw new Error(`Error parsing YAML: ${err.message}`);
     }
-    const series = exprs.map((expr) => {
-      // eslint-disable-next-line no-new-func
-      const fn = new Function("x", `with (Math) { return ${expr}; }`);
-      const values = timestamps.map((t) => fn(t));
-      return { expression: expr, values };
+
+    // Validate with Zod
+    const configSchema = z.object({
+      schedule: z.string().nonempty(),
+      paths: z.record(
+        z.object({
+          path: z.string(),
+          permissions: z.array(z.string()).optional(),
+          limit: z.number().optional(),
+        })
+      ),
     });
-    console.log(JSON.stringify({ timestamps, series }));
-  } else {
-    console.log(`Run with: ${JSON.stringify(args)}`);
+    const result = configSchema.safeParse(parsed);
+    if (!result.success) {
+      const errors = result.error.errors
+        .map((e) => `${e.path.join('.')}: ${e.message}`)
+        .join('\n');
+      throw new Error(`Config validation errors:\n${errors}`);
+    }
+
+    // Summarize and print table
+    const cfg = result.data;
+    const entries = Object.entries(cfg.paths).map(([key, val]) => ({
+      key,
+      path: val.path,
+      permissions: val.permissions?.join(', ') ?? '',
+      limit: val.limit ?? '',
+    }));
+    console.table(entries);
+    return;
   }
+
+  // Default behavior
+  console.log(`Run with: ${JSON.stringify(args)}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main();
+  const args = process.argv.slice(2);
+  try {
+    main(args);
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
 }

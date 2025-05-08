@@ -1,51 +1,41 @@
 USAGE.md
 # USAGE.md
-# Usage
+# repository0-plot-code-lib CLI Usage
 
-## CLI Flags
+The `repository0-plot-code-lib` CLI supports the following commands:
 
-- `--flow-sync`  
-  Boolean flag to synchronize timestamps across multiple formulas.
+## sync-config
 
-- `--start <number>`  
-  Start time (default `0`), required with `--flow-sync`.
+Reads, validates, and summarizes the agent configuration YAML file.
 
-- `--end <number>`  
-  End time (required with `--flow-sync`).
-
-- `--step <number>`  
-  Time step increment (required with `--flow-sync`).
-
-## Modes
-
-### Flow-Sync Mode
-
-When `--flow-sync` is provided, generates JSON with synchronized timestamps and series values:
-
-```bash
-node src/lib/main.js --flow-sync --start 0 --end 4 --step 2 x '2*x'
+Usage:
+```
+repository0-plot-code-lib sync-config [--config <path>]
 ```
 
-Output:
-```json
-{
-  "timestamps": [0, 2, 4],
-  "series": [
-    { "expression": "x", "values": [0, 2, 4] },
-    { "expression": "2*x", "values": [0, 4, 8] }
-  ]
-}
+Options:
+
+- `--config <path>`: Path to the YAML configuration file. Defaults to `agent-config.yaml`.
+
+Behavior:
+
+- On success, displays a table of configuration entries (key, path, permissions, limit).
+- On error, prints a descriptive error message.
+
+Exit Codes:
+
+- `0` on success
+- `1` on error (file not found, parse error, or validation failure)
+
+Examples:
 ```
+$ repository0-plot-code-lib sync-config
+┌─────────┬───────────────────────────┬───────────────┬──────────────┬───────┐
+│ (index) │           key             │     path      │ permissions  │ limit │
+├─────────┼───────────────────────────┼───────────────┼──────────────┼───────┤
+│    0    │ missionFilepath           │ MISSION.md    │              │       │
+│    1    │ librarySourcesFilepath    │ SOURCES.md    │ write        │ 16    │
+└─────────┴───────────────────────────┴───────────────┴──────────────┴───────┘
 
-### Default Mode
-
-Without `--flow-sync`, the CLI simply echoes the invocation:
-
-```bash
-node src/lib/main.js
-```
-
-Output:
-```
-Run with: []
+$ repository0-plot-code-lib sync-config --config custom-config.yaml
 ```
