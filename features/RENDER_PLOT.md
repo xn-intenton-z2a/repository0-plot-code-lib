@@ -1,14 +1,48 @@
 # Overview
-Review and finalize the renderPlot implementation to produce high fidelity SVG and PNG charts using ChartJSNodeCanvas. Maintain backward compatible API semantics for library use and extend the CLI with a plot subcommand that reads JSON input, applies configuration options, and writes image output to files or streams.
+Enhance the existing render-plot implementation to provide a dedicated render-plot CLI subcommand that accepts JSON data and produces high-quality SVG or PNG charts. Maintain backward-compatible library API and ensure users can generate charts programmatically or via the CLI with flexible options for format, dimensions, type, background, and output path.
+
+# CLI Usage
+repository0-plot-code-lib render-plot --input data.json --format png --type line --width 800 --height 600 --background white --output chart.png
+
+Options:
+--input, -i      Path to a JSON file containing chart data and configuration.
+--format, -f     Output image format: svg (default) or png.
+--type, -t       Chart type: line, bar, pie, radar, etc. (default: line).
+--width          Width of the chart canvas in pixels (default: 800).
+--height         Height of the chart canvas in pixels (default: 600).
+--background, -b Background color for the chart canvas (default: transparent).
+--output, -o     File path to write the rendered image. If omitted, write to stdout (SVG as string, PNG as Base64).
 
 # Dependencies
-Add chart.js and chartjs-node-canvas to dependencies. Ensure peer compatibility with existing ESM standards.
+Add the following to dependencies:
+chart.js for chart definitions
+chartjs-node-canvas for headless rendering to SVG and PNG buffers
 
 # Implementation Details
-Import ChartJSNodeCanvas and Chart from their modules. Implement an async function renderPlot that accepts a data object and options for format, size, chart type, background colour, and output path. Instantiate ChartJSNodeCanvas with width, height and background. Use renderToBuffer for png and renderToBuffer with string conversion for svg. If an output path is provided, write the result to a file; otherwise return the image result to the caller. Extend the main CLI entry point to detect a plot command. Parse flags for input path, format, type, size, background and output. Load the JSON input, invoke renderPlot and handle success or error exit codes.
+1. CLI Parsing
+   - Use yargs to register a "render-plot" command with options for input, format, type, width, height, background, and output.
+2. Data Loading
+   - Read the JSON file via fs.promises.readFile and parse it to obtain the data object and optional chart options.
+3. Rendering Function
+   - Export an async function renderPlot(data, options) that:
+     - Instantiates ChartJSNodeCanvas with provided width, height, and background.
+     - Calls renderToBuffer for png or renderToBuffer returning a string for svg output.
+     - Returns the buffer or string result.
+4. CLI Handler
+   - Load JSON, merge CLI flags into options, call renderPlot, and handle the result:
+     - If output path is provided, write buffer/string to file.
+     - Otherwise, write SVG string to stdout or print PNG as Base64 via console.log.
+   - Use exit codes: 0 on success, 1 on invalid input or render errors.
 
 # Testing
-Add unit tests under tests/unit to mock the ChartJSNodeCanvas constructor and renderToBuffer method. Verify that renderPlot returns a string beginning with an svg tag when format is svg and a buffer starting with the PNG file signature when format is png. Add CLI tests that invoke the plot subcommand with a temporary JSON data file. Confirm that output files are created and inspect the first bytes or string prefixes to assert correct format. Include integration tests that launch the CLI in a controlled environment, run two invocations for svg and png, and assert files exist and content signatures match expected image headers.
+1. Unit Tests
+   - In tests/unit/render-plot.test.js, mock ChartJSNodeCanvas constructor and renderToBuffer to return sample SVG string and PNG buffer. Verify renderPlot returns correct type and content signature.
+2. CLI Tests
+   - Add tests in tests/unit/cli-render-plot.test.js that invoke main(["render-plot", "--input", tmpJson, "--format", "svg", "--output", tmpFile]) and assert file content begins with <svg and proper output for png.
+3. Integration Tests
+   - Run CLI in a temp directory with a sample JSON data file, generate both svg and png and assert files exist and content matches expected headers.
 
 # Documentation Updates
-Update README.md to describe the plot subcommand, list available flags and show example commands for generating svg and png charts. Update USAGE.md to include a section on plot usage with flag descriptions and example invocations. Document the renderPlot function signature in README and USAGE, listing parameter fields and return types for library consumers.
+- Update README.md to include a new section for the render-plot command with usage examples.
+- Update USAGE.md to document render-plot options and examples under a "render-plot" section.
+- Document the renderPlot function signature and return types for library consumers.
