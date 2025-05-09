@@ -1,81 +1,76 @@
-# RELEASE_PATCH
+# Overview
+Automate the creation and publication of a patch release (vX.Y.Z) and the corresponding update to CHANGELOG.md in a single command. The feature reads the current version from package.json, handles prerelease suffixes or explicit version overrides, updates package.json and CHANGELOG.md, commits and tags changes in Git, publishes to npm, and creates a GitHub release.
 
-## Overview
-Automate the creation and publication of a patch release (vX.Y.Z) and the corresponding update to CHANGELOG.md. This command reads the current version from package.json, supports dropping prerelease suffixes without incrementing, optionally increments the patch segment, updates package.json, prepends a new changelog entry with commit history, and handles version control and package publication steps.
+# CLI Usage
 
-## CLI Usage
-
-- Create and publish a patch release with default auto behavior:
+- Create and publish a patch release with default behavior:
   repository0-plot-code-lib release-patch [--token <token>] [--registry <url>] [--dry-run]
 
 - Strip prerelease suffix without bumping patch:
   repository0-plot-code-lib release-patch --no-bump [--token <token>] [--registry <url>]
 
-- Force an explicit semver version:
+- Specify an explicit semver version:
   repository0-plot-code-lib release-patch --version <version> [--token <token>] [--dry-run]
 
 Options:
-- `--version`, `-v`: Explicit semver version for the release (skips auto bump or strip behavior)
-- `--no-bump`: When current package.json version has a prerelease suffix, strip the suffix and use the base version without incrementing the patch component
-- `--token`, `-t`: GitHub token or GITHUB_TOKEN environment variable (required for GitHub operations)
-- `--registry`, `-r`: npm registry URL (default: npmjs)
-- `--dry-run`, `-d`: Print planned steps without performing file writes, git, npm, or GitHub operations
-- `--no-git-push`: Skip pushing commits and tags to the remote repository
-- `--no-npm-publish`: Skip publishing the package to npm
+- --version, -v: Explicit semver version for the release, skipping auto bump or strip behavior
+- --no-bump: Remove any prerelease suffix from current version without incrementing the patch segment
+- --token, -t: GitHub token or GITHUB_TOKEN environment variable (required for GitHub operations)
+- --registry, -r: npm registry URL (default: npmjs)
+- --dry-run, -d: Log planned steps without writing files, running git, npm, or API calls
+- --no-git-push: Skip pushing commits and tags to remote
+- --no-npm-publish: Skip publishing the package to npm
 
-## Implementation Details
+# Implementation Details
 
 1. Argument Parsing
-   - Use yargs to define the release-patch command with flags: version, no-bump, token, registry, dry-run, no-git-push, no-npm-publish.
+   - Use yargs to define the release-patch command with all flags and aliases
+   - Validate mutual exclusivity and required environment variables
 
 2. Version Resolution
-   - Read the current version from package.json.
-   - If `--version` is provided, validate with semver.valid and use that version.
-   - Else if the current version includes a prerelease suffix and `--no-bump` is set (or by default strip prerelease): remove any prerelease identifiers and use the base version.
-   - Else if no prerelease suffix or if explicit bump is desired, increment the patch component via semver.inc.
+   - Read current version from package.json
+   - If --version is provided, validate with semver.valid and use it
+   - Else if current version has a prerelease suffix and --no-bump is set (or by default), strip suffix and use base version
+   - Else increment patch component via semver.inc
 
 3. Update package.json
-   - Set the version field to the resolved version and overwrite package.json with formatted JSON.
+   - Overwrite the version field with resolved version and write formatted JSON
 
 4. Update CHANGELOG.md
-   - Read or validate existence of CHANGELOG.md; exit code 1 if missing.
-   - Determine the previous tag via `git describe --tags --abbrev=0` and collect commits via `git log prevTag..HEAD --pretty=format:"- %s"`.
-   - Prepend a new section heading `## v<version> – YYYY-MM-DD` with the commit list and blank line before existing content.
-   - Write the updated content back to CHANGELOG.md.
+   - Ensure CHANGELOG.md exists, else exit with code 1
+   - Determine previous tag via git describe --tags --abbrev=0
+   - Collect commit messages since previous tag via git log
+   - Prepend a new section heading ## v<version> – YYYY-MM-DD followed by commit list and blank line before existing content
 
 5. Git Operations
-   - Stage package.json and CHANGELOG.md, commit with message `chore(release): v<version>`, and tag with `v<version>`.
-   - Push commits and tags unless `--no-git-push` is specified.
+   - Stage package.json and CHANGELOG.md, commit with message chore(release): v<version>, and tag v<version>
+   - Push commits and tags unless --no-git-push is specified
 
-6. npm Publish
-   - Execute `npm publish --registry <url>` unless `--no-npm-publish` is specified.
+6. npm Publish and GitHub Release
+   - Run npm publish with --registry unless --no-npm-publish is set
+   - Use Octokit to create a GitHub release for the new tag, using the changelog section as the release body
 
-7. GitHub Release
-   - Use Octokit to create a GitHub release for the new tag with the changelog section as the release body.
+7. Dry Run
+   - When --dry-run is used, log each intended action instead of executing side effects
 
-8. Dry Run
-   - When `--dry-run` is used, log each action instead of performing side effects.
+8. Exit Codes
+   - 0 on complete success, 1 on validation errors or GitHub failures, 2 on unexpected errors
 
-9. Exit Codes
-   - `0` on full success
-   - `1` on argument validation errors, missing files, semver errors, or GitHub failures
-   - `2` reserved for unexpected failures
-
-## Testing
+# Testing
 
 - Unit Tests:
-  - Mock fs.readFile/writeFile, execSync, semver.valid/inc, Octokit, and child_process exec for git and npm.
-  - Test default behavior when current version includes a prerelease suffix: strip suffix without bump.
-  - Test default bump for stable versions and explicit `--version` paths.
-  - Validate CHANGELOG update logic, including missing CHANGELOG.md.
-  - Test `--no-bump` and `--dry-run` behaviors.
+  - Create tests in tests/unit/release-patch.test.js mocking fs.readFile/writeFile, execSync, semver.valid/inc, Octokit methods, and child_process calls
+  - Verify version resolution paths: prerelease strip, patch bump, explicit version
+  - Test CHANGELOG.md update logic, including missing file scenario
+  - Simulate --dry-run to assert no side effects and correct logs
+  - Confirm exit codes for each error and success scenario
 
 - Integration Tests:
-  - In a temporary git repository with sample commits and package.json version `1.2.0-0`, run the subcommand to confirm release v1.2.0 is created and tagged.
-  - Run without prerelease suffix to confirm version increments to next patch.
-  - Test with `--version 1.2.5` and `--dry-run` to verify no side effects and correct logs.
+  - In a temporary git repo with sample commits and package.json version 1.2.0-0, run release-patch to confirm version becomes 1.2.0, CHANGELOG.md is updated, commit and tag are created, and GitHub release is invoked (mocked)
+  - Test explicit --version and --no-bump flags
 
-## Documentation Updates
+# Documentation Updates
 
-- Update README.md and USAGE.md to describe the release-patch command, flags `--no-bump` and examples for stripping prerelease suffix, default bump and explicit version usage.
-- Document new version resolution logic under a "Version Resolution" section in USAGE.md.
+- Update README.md to include release-patch command, flags, and examples for stripping prerelease suffix, bumping patch, and dry-run mode
+- Update USAGE.md to reflect new options and usage patterns under a "release-patch" section
+- Document behavior of version resolution and changelog update in USAGE.md
