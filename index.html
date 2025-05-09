@@ -23,15 +23,66 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
-<hr class="md-github">
+<p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
+<p class="md-github">A lightweight command-line tool to reseed repository files and automate GitHub pull requests for releases.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p class="md-github">Install globally via npm:</p>
+<pre class="md-github"><code class="md-github language-bash">npm install -g @xn-intenton-z2a/repository0-plot-code-lib
+</code></pre>
+<p class="md-github">Or add to your project:</p>
+<pre class="md-github"><code class="md-github language-bash">npm install --save @xn-intenton-z2a/repository0-plot-code-lib
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
+<p class="md-github">Once installed, the <code class="md-github">repository0-plot-code-lib</code> command provides the following subcommands:</p>
+<h3 class="md-github"><a class="md-github__anchor" name="reseed" href="#reseed"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>reseed</h3>
+<p class="md-github">Overwrite repository files from a YAML seed configuration. By default, it reads <code class="md-github">agent-config.yaml</code> in the project root.</p>
+<p class="md-github"><strong class="md-github">Usage</strong>:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib reseed [--config &lt;path&gt;]
+</code></pre>
+<p class="md-github"><strong class="md-github">Options</strong>:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">--config</code>, <code class="md-github">-c</code>  Specify a custom path to the agent config YAML (default: <code class="md-github">agent-config.yaml</code>).</li>
+</ul>
+<p class="md-github"><strong class="md-github">Example</strong>:</p>
+<pre class="md-github"><code class="md-github language-bash"># Use default config at project root
+repository0-plot-code-lib reseed
+
+# Use a custom configuration file
+repository0-plot-code-lib reseed --config custom-agent-config.yaml
+</code></pre>
+<p class="md-github">On success, the tool prints a list of files it overwrote:</p>
+<pre class="md-github"><code class="md-github">Overwrote: &lt;comma-separated list of target file paths&gt;
+</code></pre>
+<p class="md-github">On error, it logs a message to stderr and exits with code <code class="md-github">1</code>.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="open-release-pr" href="#open-release-pr"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>open-release-pr</h3>
+<p class="md-github">Automate a patch release pull request by bumping <code class="md-github">package.json</code>, updating a changelog, and opening a GitHub PR.</p>
+<p class="md-github"><strong class="md-github">Usage</strong>:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib open-release-pr --token &lt;token&gt; --base &lt;branch&gt; --release-version &lt;version&gt; --changelog &lt;path&gt;
+</code></pre>
+<p class="md-github"><strong class="md-github">Options</strong>:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">--token</code>, <code class="md-github">-t</code>           GitHub personal access token (or set <code class="md-github">GITHUB_TOKEN</code> environment variable)</li>
+<li class="md-github"><code class="md-github">--base</code>, <code class="md-github">-b</code>            Base branch for the new release (required)</li>
+<li class="md-github"><code class="md-github">--release-version</code>, <code class="md-github">-r</code> Semver version string for the new release (required)</li>
+<li class="md-github"><code class="md-github">--changelog</code>, <code class="md-github">-c</code>       Path to the changelog file to update (required)</li>
+</ul>
+<p class="md-github"><strong class="md-github">Example</strong>:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib open-release-pr \
+  --token $GITHUB_TOKEN \
+  --base main \
+  --release-version 1.2.3 \
+  --changelog CHANGELOG.md
+</code></pre>
+<p class="md-github">On success, it prints the URL of the created pull request and exits with code <code class="md-github">0</code>.
+On error, it logs a message and exits with code <code class="md-github">1</code>.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="development--contributing" href="#development--contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Development &amp; Contributing</h2>
+<p class="md-github">Contributions are welcome! Please see <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for details on setting up, testing, and submitting changes.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
-<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-05-09T08:39:42.709Z</p>
+    <p>Generated on 2025-05-09T12:46:33.095Z</p>
   </footer>
 </body>
 </html>
