@@ -1,56 +1,38 @@
 # RELEASE_PATCH
 
-## Overview
+# Overview
 
-Add a new `release-patch` subcommand that automates the complete patch release workflow. It will read and bump the patch component in package.json, prepend a new section in CHANGELOG.md with commits since the last tag, commit the changes, create a Git tag, push commits and tags, optionally publish to npm, and open a GitHub release.
+Add a new `release-patch` subcommand to automate the patch release workflow. Default behavior reads package.json version, increments the patch segment, updates CHANGELOG.md, commits changes, tags the release, pushes to remote, publishes to npm, and opens a GitHub release. Support explicit version override with `--version` flag.
 
-## CLI Usage
+# CLI Usage
 
-- repository0-plot-code-lib release-patch --token <token> --registry <url> [--dry-run] [--no-git-push] [--no-npm-publish]
+repository0-plot-code-lib release-patch [--version <version>] [--token <token>] [--registry <url>] [--dry-run] [--no-git-push] [--no-npm-publish]
 
 Options:
 
-- `--token`, `-t`: GitHub personal access token or read from GITHUB_TOKEN for tagging and release creation
-- `--registry`, `-r`: npm registry URL for publishing (default: npmjs)
-- `--dry-run`, `-d`: Print each action without performing file writes, git operations, or publish
-- `--no-git-push`: Skip pushing commits and tags to remote
-- `--no-npm-publish`: Skip publishing package to npm registry
+- `--version`, `-v`: explicit semver version string to release
+- `--token`, `-t`: GitHub token or GITHUB_TOKEN environment variable
+- `--registry`, `-r`: npm registry url (default npmjs)
+- `--dry-run`, `-d`: print steps without executing file writes or git operations
+- `--no-git-push`: skip pushing commits and tags to remote
+- `--no-npm-publish`: skip publishing package to npm
 
-## Implementation Details
+# Implementation Details
 
-1. Argument Parsing
-   - Use yargs to define the `release-patch` command and validate options
-   - Enforce that `--token` is provided or available in environment when Git operations run
-2. Version Bump
-   - Read package.json, parse JSON, strip any prerelease identifiers
-   - Increment the patch segment, update the version field, and write back with formatting
-3. Changelog Update
-   - Read CHANGELOG.md and retrieve the previous tag via `git describe --tags --abbrev=0`
-   - Collect commit messages since that tag with `git log` and format them as bullet points
-   - Prepend a new heading `## v<newVersion> - <YYYY-MM-DD>` followed by commit list and existing content
-   - Write updated CHANGELOG.md
-4. Git Operations
-   - Stage package.json and CHANGELOG.md, commit with message `chore(release): v<newVersion>`
-   - Create a lightweight tag `v<newVersion>`
-   - Unless `--no-git-push`, push commits and tags to origin
-5. npm Publish
-   - Unless `--no-npm-publish`, execute `npm publish --registry <url>`
-6. GitHub Release
-   - Use Octokit to create a release for `v<newVersion>` with changelog entry as body
-7. Dry Run
-   - When `--dry-run` is set, log each step instead of executing
+1. Argument parsing with yargs; enforce valid flags and require token unless running dry run
+2. Version resolution: if `--version` is provided, validate semver format and set newVersion; otherwise read version from package.json, strip any prerelease identifiers, increment patch segment
+3. Update package.json: set version field to newVersion and write back with JSON formatting
+4. Changelog update: read existing CHANGELOG.md; retrieve last git tag via git describe; collect commit messages since last tag; prepend new section heading `## v<newVersion> 20YYYY-MM-DD` followed by commit list and existing content
+5. Git operations: stage package.json and CHANGELOG.md; commit with message chore(release): v<newVersion>; create lightweight tag v<newVersion>; push commits and tags unless `--no-git-push` is specified
+6. npm publish: execute npm publish --registry <url> unless skipped by `--no-npm-publish`
+7. GitHub release: use Octokit to create a release for v<newVersion> with changelog entry as the release body
+8. Dry run: when `--dry-run` is passed, log each step instead of performing side effects
 
-## Testing
+# Testing
 
-- Unit Tests:
-  - Mock `fs.promises.readFile`/`writeFile`, `execSync`, and child_process `spawn` for `npm publish`
-  - Simulate version bump, changelog rewrite, git commands, and publish operations
-  - Verify that flags `--no-git-push`, `--no-npm-publish`, and `--dry-run` alter behavior correctly
-- Integration Tests:
-  - In a temporary git repository, run `release-patch` end-to-end
-  - Validate that package.json and CHANGELOG.md are updated, git tag is created, and npm publish command is invoked or skipped depending on flags
+- Unit tests: mock fs.readFile and writeFile, execSync, and Octokit calls; test default auto bump and explicit `--version`; test invalid version input errors; verify behavior of dry run, no-git-push, and no-npm-publish flags
+- Integration tests: in a temporary git repository, run release-patch end to end; validate that package.json and CHANGELOG.md are updated correctly, git tag created, npm publish called or skipped, and GitHub release created
 
-## Documentation Updates
+# Documentation Updates
 
-- Update USAGE.md and README.md with CLI examples and description of `release-patch` command
-- Add note about required environment variables and default behaviors
+Update USAGE.md and README.md to document the new `--version` flag and include CLI examples for both default auto bump and explicit version override
