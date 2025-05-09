@@ -158,3 +158,32 @@ describe("reseed command", () => {
     expect(exitSpy).toHaveBeenCalledWith(1);
   });
 });
+
+// tests for open-release-pr command
+
+describe("open-release-pr command", () => {
+  let consoleErrorSpy;
+  let exitSpy;
+
+  beforeEach(() => {
+    consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error(`exit:${code}`);
+    });
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("missing required options", async () => {
+    try {
+      await main(["open-release-pr"]);
+    } catch (e) {
+      expect(consoleErrorSpy).toHaveBeenCalledWith(
+        "Error: Missing required options --token, --base, --release-version, and --changelog"
+      );
+      expect(exitSpy).toHaveBeenCalledWith(1);
+    }
+  });
+});
