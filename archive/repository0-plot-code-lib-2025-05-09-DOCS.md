@@ -1,3 +1,5 @@
+USAGE.md
+# USAGE.md
 # Usage
 
 This document describes the available CLI subcommands for `repository0-plot-code-lib`.
