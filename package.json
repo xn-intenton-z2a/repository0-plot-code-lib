@@ -18,8 +18,7 @@
     "update-to-greatest": "npx npm-check-updates --upgrade --enginesNode --target greatest --verbose --install always --reject 'alpha'",
     "test": "vitest tests/unit/*.test.js",
     "test:unit": "vitest --coverage tests/unit/*.test.js",
-    "start": "node src/lib/main.js",
-    "reseeding": "node src/lib/main.js reseed"
+    "start": "node src/lib/main.js"
   },
   "keywords": [],
   "author": "",
@@ -55,9 +54,7 @@
   "engines": {
     "node": ">=20.0.0"
   },
-  "files": [
-    "src/"
-  ],
+  "files": ["src/"],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
