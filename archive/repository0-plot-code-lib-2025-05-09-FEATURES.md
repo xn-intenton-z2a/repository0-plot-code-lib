@@ -1,107 +1,90 @@
-features/RESEED_SUBCOMMAND.md
-# features/RESEED_SUBCOMMAND.md
+features/SEED_WORKFLOW.md
+# features/SEED_WORKFLOW.md
 # Overview
 
-Add a new reseed subcommand to the CLI that restores source, test, documentation, and dependency files to their original seed state as defined in agent configuration. This enables maintainers and automation workflows to consistently reset the repository to a known baseline.
+Implement a seed workflow subcommand in the CLI that reads the seeding configuration from package.json and copies predefined seed files into their respective target locations. This enables maintainers to quickly reset or reseed repository-critical files based on the workflow changes defined in seeding settings.
 
-# CLI Commands
+# Configuration
 
-- `repository0-plot-code-lib reseed`
-  - Restores all tracked files (source, tests, README, USAGE.md, package.json) to the seed versions specified in the agent configuration.
-- `repository0-plot-code-lib reseed --dry-run`
-  - Prints a list of files that would be replaced without making any changes.
-- `repository0-plot-code-lib reseed --verbose`
-  - Logs each file copy operation and its source and destination paths.
+Read the `seeding` section under the root of package.json. It contains mappings for seed source files and target destinations:
 
-# Implementation
+  "seeding": {
+    "repositoryReseed": "true",
+    "missionFilepath": "seeds/zero-MISSION.md",
+    "sourcePath": "seeds/zero-main.js",
+    "testsPath": "seeds/zero-tests.js",
+    "dependenciesFilepath": "seeds/zero-package.json",
+    "readmeFilepath": "seeds/zero-README.md"
+  }
 
-- Update `src/lib/main.js` to:
-  - Parse the first CLI argument as a subcommand and recognize "reseed".
-  - Accept `--dry-run` and `--verbose` flags, validated with zod.
-  - Load the agent configuration file (AGENT_CONFIG_FILE) to read the mapping of seed file paths.
-  - For each mapping entry, copy the seed file over the target file using Node fs/promises.
-  - If `--dry-run` is set, skip file writes and log the planned actions.
-  - Exit with code 0 on success and non-zero on error.
-- Add any necessary dependencies (e.g., zod for validation, fs-extra or use built-in fs/promises).
+When the seed subcommand runs, for each key ending in Filepath or Path, copy the file from the specified source under the repository root into the matching path in the repository. Overwrite existing files.
+
+# CLI Usage
+
+Add a new subcommand `seed` alongside the default invocation. Examples:
+
+  repository0-plot-code-lib seed
+
+This will:
+
+ 1. Load package.json
+ 2. Parse the `seeding` mapping
+ 3. For each mapping entry copy source→destination
+ 4. Log the list of files copied
+ 5. Exit with status 0
+
+# Behavior
+
+1. Exit early if `repositoryReseed` is not set to `true` in package.json.
+2. Validate existence of each seed source; if missing, print a warning and continue.
+3. Use native `fs/promises` and `path` modules; no extra dependencies.
+4. Ensure permissions and file modes are preserved.
 
 # Testing
 
-- Extend `tests/unit/main.test.js` or create a new `tests/unit/reseed.test.js` to verify:
-  - Running `main(["reseed", "--dry-run"])` returns successfully without modifying the filesystem.
-  - Running `main(["reseed"])` in a temporary directory copies seed files into place.
-  - `--verbose` emits detailed logs.
-  - Invalid flags or missing configuration produce clear error messages and non-zero exit codes.
+Add unit tests under `tests/unit/seed-workflow.test.js` to:
 
-# Documentation
-
-- Update `USAGE.md` and `README.md` with:
-  - A new "Reseed" section describing the command and its flags.
-  - Example invocations demonstrating reset, dry-run, and verbose modes.
-  - Clarify which files are managed by reseed based on agent configuration mapping.features/PLOT_RENDERING.md
-# features/PLOT_RENDERING.md
+1. Mock `fs/promises` to capture copy operations.
+2. Provide a fake package.json in a temporary directory.
+3. Invoke `main(["seed"])` and verify correct file copy calls and exit behavior.
+4. Test behavior when `repositoryReseed` is false to ensure no copies occur.features/PLOT_COMMAND.md
+# features/PLOT_COMMAND.md
 # Overview
 
-Add the ability to render time series data as SVG or PNG images using ChartJSNodeCanvas. Introduce a renderPlot function and corresponding CLI flags to output charts in the desired format directly from the library.
+Add a new plot subcommand to the CLI that accepts a mathematical formula and generates a simple line plot as an SVG image. This enables users to quickly visualize functions without leaving the terminal.
+
+# CLI Usage
+
+repository0-plot-code-lib plot "<formula>" [options]
+
+Options:
+  --output <file>       Path to output SVG file, default plot.svg
+  --width <pixels>      Width of the SVG canvas, default 800
+  --height <pixels>     Height of the SVG canvas, default 600
+  --range <min:max>     Domain for x axis, default -10:10
+
+Examples:
+  repository0-plot-code-lib plot "sin(x)" --output sin.svg
+  repository0-plot-code-lib plot "x^2 - 3*x + 2" --range -5:5 --width 500 --height 500
 
 # Implementation
 
-- Update package.json dependencies to include chart.js and chartjs-node-canvas.
-- In src/lib/main.js:
-  - Import ChartJSNodeCanvas from chartjs-node-canvas.
-  - Implement an async function renderPlot(dataPoints, options) that:
-    - Creates a ChartJSNodeCanvas instance with options.width and options.height.
-    - Builds a Chart.js configuration object using dataPoints as labels and dataset.
-    - Calls renderToBuffer on the ChartJSNodeCanvas instance to get an image buffer.
-    - Writes the buffer to the file specified by options.outputFile.
-  - Extend argument parsing in main() with zod to support:
-    - --output-file PATH (required)
-    - --format svg or png (default svg)
-    - --width NUMBER (default 800)
-    - --height NUMBER (default 600)
-  - After generating or receiving time series data, invoke renderPlot with the parsed options.
+1. Detect when the first argument is "plot" in src/lib/main.js.  If so, route to a new plotCommand handler.
+2. Parse the formula string and options manually or via a minimal flag parser.  Validate presence of a formula.
+3. Add mathjs as a dependency and use it to compile and evaluate the formula over a set of sample points.
+4. Generate an SVG polyline path: compute N points evenly spaced across the specified range and join them into an SVG path element.
+5. Assemble a complete SVG document with axes and the computed path, respecting width and height.
+6. Write the SVG output to the specified file using fs/promises.
+7. Exit with status 0 on success or nonzero on parsing or file errors, printing descriptive messages.
 
 # Testing
 
-- Create tests/unit/plot-rendering.test.js:
-  - Generate a small sample dataset.
-  - Call renderPlot with format svg and png, writing to temporary files.
-  - Assert that output files exist and that the first bytes of each file match the expected SVG signature or PNG header.
-  - Clean up temporary files after each test.
+1. Create tests in tests/unit/plot-command.test.js.  Mock fs/promises to capture write calls.
+2. Test correct exit when missing formula or invalid range.
+3. Provide a simple formula, invoke main(['plot','x+1','--output','out.svg']), and verify mathjs is called and fs.writeFile is called with an SVG string containing a <polyline>.
+4. Test default values: no flags yields plot.svg with default dimensions and range.
+5. Ensure errors in evaluation produce nonzero exit and descriptive error output.
 
 # Documentation
 
-- Update USAGE.md:
-  - Add a new section "Rendering Plots" with example invocations:
-    repository0-plot-code-lib --expression "y=2*x+1" --range x=0:10 --output-file chart.svg --format svg
-    repository0-plot-code-lib --expression "y=sin(x)" --range x=0:6.28 --output-file chart.png --format png --width 1024 --height 768
-- Update README.md:
-  - Document the renderPlot API export and CLI flags for output-file, format, width, and height.
-features/TIME_SERIES_GENERATION.md
-# features/TIME_SERIES_GENERATION.md
-# Overview
-Add CLI support to generate time series data from a mathematical expression over a specified range.
-
-# CLI Options
-- --expression EXPR    A mathematical expression where y is defined as a function of x.
-- --range x=START:END  Range of x values to sample, expressed as start:end.
-- --points N           Number of samples in the range (default: 100).
-- --output FORMAT      Output format, json or csv (default: json).
-
-# Implementation
-Update src/lib/main.js to:
-- Parse CLI flags using a lightweight parser and validate them with zod.
-- Add expr-eval as a dependency and use it to compile and evaluate the expression.
-- Generate an array of N evenly spaced x values between START and END.
-- Evaluate y for each x and collect an array of data points { x, y }.
-- Serialize the array in the requested format and print to stdout.
-
-# Testing
-- Extend tests/unit/plot-generation.test.js to cover:
-  - Default behavior for a simple expression like y=x or y=2*x+1.
-  - Custom points count and output formats.
-  - Invalid expression or range inputs produce clear error messages.
-
-# Documentation
-- Update USAGE.md and README.md with examples and API reference.
-- Example invocation:
-  node repository0-plot-code-lib --expression y=sin(x) --range x=0:6.28 --points 50 --output json
+Update README.md to include the new plot subcommand in the Usage section and provide examples.  Document plotCommand as part of the public API.
