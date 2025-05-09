@@ -1,24 +1,39 @@
-features/RESEED_REPOSITORY.md
-# features/RESEED_REPOSITORY.md
-# Reseed Repository
+features/RESEED_CLI.md
+# features/RESEED_CLI.md
+# Summary
 
-Add a reseed subcommand to the CLI that reads the agent configuration and restores the repository from seed files in the seeds directory.
+Add a new CLI subcommand `reseed` to drive repository reseeding from the agentic-lib configuration file. This subcommand will read the agent configuration, locate seed files, and overwrite key project files (mission, source, tests, dependencies, readme) with the latest templates.
 
-# Usage
+# Specification
 
-Add reseed as a new command to the CLI. When invoked it examines the agent_config.yml schedule and seeding settings and copies the seed files over current source, test, README and package.json.
+1. CLI Integration
+   - Extend `src/lib/main.js` to recognize a first argument `reseed`.
+   - If `reseed` is passed, invoke a new async function `reseed()` instead of the default behavior.
 
-repository0-plot-code-lib reseed
+2. Reseed Functionality
+   - Read the agent configuration file `agent-config.yaml` at the project root.
+   - Parse YAML to extract `seeding.repositoryReseed`, `seeding.missionFilepath`, `seeding.sourcePath`, `seeding.testsPath`, `seeding.dependenciesFilepath`, `seeding.readmeFilepath`.
+   - For each seeding path, copy from the corresponding file in the `seeds/` directory to the target path in the project root, overwriting existing content.
+   - Use Node's built-in `fs/promises` API for file operations; validate the `repositoryReseed` flag before proceeding.
+   - Log each copied file and provide a summary on completion.
 
-# Behavior
+3. Testing
+   - In `tests/unit/plot-generation.test.js`, add a test suite for the `reseed` command.
+   - Mock `fs/promises` and `yaml` parsing to simulate a sample agent-config.yaml, and verify that `fs.copyFile` is called with the expected source and destination paths.
+   - Ensure error handling is tested when the agent config file is missing or the `repositoryReseed` flag is false.
 
-1. Load agent_config.yml from project root
-2. Verify repositoryReseed is true
-3. Locate each seed file path for sourcePath, testsPath, dependenciesFilepath, readmeFilepath
-4. Copy seed files into their target locations, overwriting existing content
-5. Print a summary of files replaced and success status
-6. Exit with status code 0 on success and nonzero on error
+4. Documentation and Usage
+   - Update `README.md` to document the new `reseed` CLI command with example invocation:
+     
+       repository0-plot-code-lib reseed
+   
+   - Describe prerequisites: ensure a valid `agent-config.yaml` and a `seeds/` directory at project root.
 
-# Implementation Details
+5. Dependencies
+   - No new dependencies required; rely on built-in `fs/promises` and existing `js-yaml` for parsing YAML.
 
-Use built-in filesystem and path modules to read and write files. Parse agent_config.yml with js-yaml. Add new tests to simulate reseeding with temporary files and assert that files have been overwritten correctly. Update README to document the reseed command. Update package.json scripts to include a reseed alias under start or bin configuration.
+# CLI Usage
+
+To reseed the repository with the latest agentic-lib configuration:
+
+  repository0-plot-code-lib reseed
