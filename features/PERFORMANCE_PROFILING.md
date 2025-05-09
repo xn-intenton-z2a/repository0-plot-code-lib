@@ -1,42 +1,60 @@
 # PERFORMANCE_PROFILING
 
 ## Overview
-
-Add a `profile` subcommand to the CLI that measures and reports performance metrics when reading and parsing large YAML configuration files. This feature helps users identify bottlenecks in configuration loading by reporting duration and memory usage, with options to output results as human-readable text or structured JSON for automation and monitoring.
+Extend the existing profile subcommand to support batch processing of multiple configuration files, customizable performance thresholds for alerts, and CSV export of metrics. This enhancement focuses on profiling large YAML or JSON configuration files in bulk, providing structured outputs, and enabling users to enforce performance SLOs in automation and CI workflows.
 
 ## CLI Usage
 
-- `repository0-plot-code-lib profile --config <path> --format text|json --output <path>`
-- `repository0-plot-code-lib profile -c <path> -f json -o metrics.json`
+- Profile a single file (default behavior):
+  repository0-plot-code-lib profile --config <path> [--format text|json|csv] [--max-duration <ms>] [--max-memory <bytes>] [--output <path>]
+- Profile multiple files in batch mode:
+  repository0-plot-code-lib profile --config <file1> --config <file2> [--batch] [--format csv] [--output metrics.csv]
+- Directory batch profiling:
+  repository0-plot-code-lib profile --batch-dir <directory> [--format csv] [--max-duration <ms>] [--output <path>]
 
-When invoked, the tool reads the specified YAML configuration file (default: `agent-config.yaml`), measures the time taken to read and parse it, captures memory usage before and after parsing, and outputs a report. If `--output` is provided, writes the report to the given file; otherwise prints to stdout.
+Options:
+- `--config`, `-c`: Path(s) to one or more YAML or JSON configuration files.
+- `--batch`, `-b`: Enable batch processing; requires multiple `--config` or `--batch-dir`.
+- `--batch-dir`: Directory containing configuration files to profile.
+- `--format`, `-f`: Output format: `text` (default), `json`, or `csv`.
+- `--max-duration`: Threshold in milliseconds; exit with code 2 and report if parse or read time exceeds.
+- `--max-memory`: Threshold in bytes; exit with code 2 and report if memory delta exceeds.
+- `--output`, `-o`: File path to write the report; defaults to stdout.
 
 ## Implementation Details
-
-1. Extend `main` in `src/lib/main.js` to detect the `profile` command alongside existing commands.
-2. Parse options:
-   - `--config` or `-c` for file path (default: `agent-config.yaml`).
-   - `--format` or `-f` to choose output format: `text` or `json` (default: `text`).
-   - `--output` or `-o` for optional output file path.
-3. Instrumentation:
-   - Record start high-resolution time using `performance.now()` or `process.hrtime.bigint()`.
-   - Read file asynchronously via `fs.promises.readFile`.
-   - Record time after read, parse content with `yaml.load`, record time after parse.
-   - Capture `process.memoryUsage()` snapshots before and after parse.
-   - Compute durations for read and parse and memory usage deltas.
+1. CLI Parsing:
+   - Extend argument parser to accept multiple `--config` flags, `--batch-dir`, and threshold flags.
+   - Validate that either a single config or batch mode (multiple configs or `--batch-dir`) is provided.
+2. File Discovery:
+   - If `--batch-dir` is set, read directory entries and filter `*.yaml`, `*.yml`, or `*.json`.
+   - Aggregate file paths into a list for processing.
+3. Profiling Logic:
+   - For each file:
+     - Capture start time (process.hrtime.bigint()), memoryUsage before load.
+     - Async read file; record read completion time.
+     - Detect format by extension and parse with `yaml.load` or `JSON.parse`; record parse completion time.
+     - Capture memoryUsage after parse.
+     - Compute durations and memory deltas.
+     - Check against thresholds; if exceeded, mark entry as alert.
 4. Reporting:
-   - For `text` format produce a human-readable summary:
-     - Total read time, parse time, peak RSS delta, heap delta.
-   - For `json` format output an object with fields:
-     - `readDurationMs`, `parseDurationMs`, `memoryUsageBefore`, `memoryUsageAfter`, `memoryDelta`, `timestamp`.
-   - If `--output` is set, write the string or JSON to the file via `fs.promises.writeFile`; otherwise console.log the report.
-5. Error Handling:
-   - On missing file or parse error, print error to stderr and exit with code 1.
+   - For `text`: print per-file summary with durations, memory usage, and alerts.
+   - For `json`: output an array of metric objects with fields: file, readDurationMs, parseDurationMs, memoryDelta, alert (boolean).
+   - For `csv`: generate header line and one row per file with columns: file, readDurationMs, parseDurationMs, memoryDelta, alert.
+   - Write output to `--output` or stdout.
+5. Exit Codes:
+   - `0` on success with no threshold violations.
+   - `2` if any file exceeded thresholds.
+   - `1` on missing file, parse error, or invalid arguments.
 
 ## Testing
-
-- Mock `fs.promises.readFile` and `yaml.load` to simulate file operations. Use fake timers or spies for performance measurements.
-- Verify that invoking `main(["profile", "--config", "large.yaml", "--format", "text"])` logs a string containing read and parse durations.
-- Verify JSON output structure when `--format json` is used, including numeric fields and keys.
-- Test that `--output` flag writes the report to the specified file.
-- Simulate errors in file read and parsing to ensure proper stderr messages and non-zero exit codes.
+1. Unit Tests:
+   - Mock `fs.promises.readFile`, `yaml.load`, and `JSON.parse` to simulate various file types and sizes.
+   - Fake `process.hrtime.bigint()` and `process.memoryUsage()` to control timing and memory values.
+   - Verify single-file and batch profiling produce correct metrics and formats.
+   - Test threshold flags trigger exit code 2 when limits are exceeded.
+   - Test CSV output format and header correctness.
+   - Simulate missing files and parse errors to ensure `stderr` messages and exit code 1.
+2. Integration Tests:
+   - Create temporary files of various sizes and run the CLI end-to-end.
+   - Ensure `--batch-dir` processes all valid files.
+   - Validate output written to files via `--output` flag.
