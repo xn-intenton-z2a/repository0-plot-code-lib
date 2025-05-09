@@ -1,34 +1,67 @@
-features/PLOT_GENERATION.md
-# features/PLOT_GENERATION.md
-# Overview
+features/PLOT_RENDERING.md
+# features/PLOT_RENDERING.md
+# PLOT RENDERING
 
-Implement core plot generation capability in the CLI tool to transform a mathematical expression and a numeric range into a visual plot image.
+Generate SVG and PNG plots from generated time series data.
 
-# CLI Options
+# CLI USAGE
 
-* **--expression**: A mathematical expression in terms of x (for example, y=sin(x))
-* **--range**: Numeric range for x values in the format start:end:step (for example, -1:1:0.1)
-* **--output**: Path to the output file (for example, output.svg or output.png)
-* **--format**: Output format, either svg or png (default is svg)
+The command-line interface will support the following options:
 
-# Processing Steps
+- --expression <expr>    Defines the formula for y in terms of x, e.g. "sin(x) + 2*x".
+- --range <start>:<step>:<end>    Specifies the x values from start to end, inclusive, with the given step. Step defaults to 1 if omitted.
+- --plot [format]    Optional. Defines plot format: svg or png.
+- --file <path>    Required when --plot is set. Defines the output file path for the rendered plot.
+- --data-output [format]    Optional. Outputs the raw time series data in json or csv before plotting.
 
-1. Parse and validate all CLI options
-2. Use a formula parser to evaluate the expression over the specified range of x values and produce a series of (x,y) data points
-3. Render the data points into an SVG plot with labeled axes
-4. If PNG output is requested, convert the generated SVG into a PNG image
-5. Save the resulting file to the given output path
+# IMPLEMENTATION DETAILS
 
-# Dependencies
+1. Add chartjs-node-canvas as a dependency to render charts in Node environment.
+2. Update main.js to parse --plot, --file, and --data-output options and adjust behavior accordingly.
+3. Reuse the existing time series generation logic to produce x and y arrays.
+4. Construct a Chart.js configuration object with x values as labels and y values as data points.
+5. Initialize ChartJSNodeCanvas with defined width and height settings.
+6. Render the chart to a buffer in the requested svg or png format.
+7. Write the buffer to the specified file path.
+8. If --data-output is provided, write the raw data to stdout or to a file before rendering the plot.
+9. Validate that --file is provided when --plot is used and that --plot format is either svg or png.
 
-Add or update dependencies to include:
-* mathjs for expression parsing
-* sharp or a similar library for converting SVG to PNG when needed
+# TESTING
 
-# Tests
+- Add unit tests in tests/unit/plot-rendering.test.js to verify:
+  - Correct parsing of --plot, --file, and --data-output options.
+  - Rendering an SVG buffer and detecting the <svg> tag within the output.
+  - Rendering a PNG buffer and detecting the PNG signature bytes at the start.
+  - Error thrown when --file is missing while --plot is specified.
 
-Provide unit tests to cover:
-* Correct parsing of CLI arguments
-* Generation of expected data points for a known expression
-* Successful creation of an SVG file at the specified path
-* Conversion to PNG output when --format png is requested
+Ensure that existing tests remain passing and that new tests cover all core plot rendering paths.features/TIME_SERIES_GENERATION.md
+# features/TIME_SERIES_GENERATION.md
+# TIME SERIES GENERATION
+
+Generate numerical time series data from a mathematical expression over a specified range of values.
+
+# CLI USAGE
+
+The command-line interface will support the following options:
+
+- --expression <expr>  Defines the formula for y in terms of x, e.g. "sin(x) + 2*x".
+- --range <start>:<step>:<end>  Specifies the x values from start to end, inclusive, with the given step. Step defaults to 1 if omitted.
+- --output [format]  Optional. Defines output format: json (default) or csv.
+
+# IMPLEMENTATION DETAILS
+
+1. Add mathjs as a dependency to parse and evaluate mathematical expressions safely.
+2. In main.js, parse process.argv for expression, range, and output options.
+3. Parse the range string into numeric start, step, and end values.
+4. Generate an array of x values and compute y for each x using mathjs.
+5. Format the results as JSON or CSV and print to stdout.
+6. Validate inputs and report clear error messages for invalid expressions or ranges.
+
+# TESTING
+
+- Add unit tests in tests/unit/plot-generation.test.js to verify:
+  - Correct parsing of various range strings, including omitted step.
+  - Accurate computation of y values for known expressions and ranges.
+  - Proper formatting in JSON and CSV formats.
+
+Ensure that existing import and execution tests remain passing and that new tests cover the core time series generation logic.
