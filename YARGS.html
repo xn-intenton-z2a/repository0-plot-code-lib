@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="yargs" href="#yargs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>YARGS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Stable: npm i yargs; Bleeding edge: npm i yargs@next; hideBin helper: remove node and script args; yargs(argv?): returns Argv; Argv.parse(): returns parsed Arguments object; .command(cmd,desc,builder,handler): define commands; .positional(name,{describe,default}); .option(key,{alias,type,description,default}); .parse(): execute parsing and handlers; .strictCommands(): fail on unknown commands; .demandCommand(1): require one command; TypeScript support via @types/yargs; Deno usage via remote import</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Installation
+2 hideBin helper
+3 Initialization and parse
+4 Command API
+5 Option API
+6 Parse method
+7 TypeScript support
+8 Deno support</p>
+<p class="md-github">1 Installation
+command: npm i yargs or npm i yargs@next</p>
+<p class="md-github">2 hideBin helper
+signature: hideBin(argv: string[]): string[]
+input: process.argv; output: args array without first two entries</p>
+<p class="md-github">3 Initialization and parse
+signature: yargs(args?: string[]): Argv
+Argv.parse(args?: string[], cb?): Arguments | void</p>
+<p class="md-github">4 Command API
+signature: .command(cmd: string, description: string, builder: (yargs: Argv) =&gt; Argv, handler: (argv: Arguments) =&gt; void): Argv
+cmd supports positional syntax <req> [opt] ...
+builder: define .positional(name, PositionalDefinition)
+handler: receives parsed argv</p>
+<p class="md-github">5 Option API
+signature: .option(key: string, opt: OptionDefinition): Argv
+OptionDefinition: { alias?: string|string[], type?: 'string'|'number'|'boolean'|'array', description?: string, default?: any, choices?: any[], demandOption?: boolean|string, coerce?: (arg: any) =&gt; any }</p>
+<p class="md-github">6 Parse method
+signature: .parse(args?: string[], context?: any, cb?: (err?: Error, argv?: Arguments, output?: string) =&gt; void): Arguments | void</p>
+<p class="md-github">7 TypeScript support
+install: npm i @types/yargs --save-dev
+definitions at @types/yargs</p>
+<p class="md-github">8 Deno support
+import yargs from 'https://deno.land/x/yargs@<version>-deno/deno.ts'
+import { Arguments } from 'https://deno.land/x/yargs@<version>-deno/deno-types.ts'
+usage: yargs(Deno.args).strictCommands().demandCommand(1).parse()</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Installation and Setup:</p>
+<ol class="md-github">
+<li class="md-github">npm i yargs</li>
+<li class="md-github">For TypeScript, npm i @types/yargs --save-dev</li>
+</ol>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">import yargs and hideBin</li>
+<li class="md-github">initialize parser: const parser = yargs(hideBin(process.argv))</li>
+<li class="md-github">define commands via .command()</li>
+<li class="md-github">define global options via .option()</li>
+<li class="md-github">call .parse() at the end to execute parsing and invoke handlers</li>
+</ol>
+<p class="md-github">Command Builder:</p>
+<ul class="md-github">
+<li class="md-github">return yargs instance from builder</li>
+<li class="md-github">define positional args: .positional(name, { describe: string, default?: any, type?: 'string'|'number'|'boolean' })</li>
+</ul>
+<p class="md-github">Core Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">alias: string or string[]</li>
+<li class="md-github">type: 'string'|'number'|'boolean'|'array'</li>
+<li class="md-github">description: string</li>
+<li class="md-github">default: any</li>
+<li class="md-github">choices: any[]</li>
+<li class="md-github">demandOption: boolean|string</li>
+<li class="md-github">coerce: (arg: any) =&gt; any</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always return builder instance</li>
+<li class="md-github">Call .parse() only once at the end</li>
+<li class="md-github">Use .strictCommands() and .demandCommand() for strict command enforcement</li>
+</ul>
+<p class="md-github">Error Handling and Debug:</p>
+<ul class="md-github">
+<li class="md-github">Unknown command: enable .strictCommands() to throw an error and display help</li>
+<li class="md-github">Missing required command: .demandCommand(1) to enforce at least one command</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<p class="md-github">hideBin(argv: string[]): string[]
+input: full process.argv array
+output: argument array without first two entries</p>
+<p class="md-github">function yargs(args?: string[] | { _: any[]; $0: string }): Argv
+returns a new Argv instance</p>
+<p class="md-github">interface Argv&lt;T = any&gt; {
+command(cmd: string,
+description: string,
+builder: (yargs: Argv) =&gt; Argv,
+handler: (args: Arguments<T>) =&gt; void): Argv<T></p>
+<p class="md-github">option(key: string,
+opt: { alias?: string|string[]; type?: 'string'|'number'|'boolean'|'array'; description?: string; default?: any; choices?: any[]; demandOption?: boolean|string; coerce?: (arg: any) =&gt; any }): Argv<T></p>
+<p class="md-github">positional(name: string,
+spec: { describe: string; default?: any; type?: 'string'|'number'|'boolean'|'array'; choices?: any[] }): Argv<T></p>
+<p class="md-github">strictCommands(): Argv<T></p>
+<p class="md-github">demandCommand(min: number, max?: number, minMsg?: string, maxMsg?: string): Argv<T></p>
+<p class="md-github">parse(args?: string[],
+context?: any,
+cb?: (err?: Error, argv?: Arguments<T>, output?: string) =&gt; void): Arguments<T> | void</p>
+<p class="md-github">help(opt?: { alias?: string|string[]; description?: string; global?: boolean }): Argv<T></p>
+<p class="md-github">version(opt?: { version?: string; alias?: string|string[]; description?: string; global?: boolean }): Argv<T>
+}</p>
+<p class="md-github">Example: Simple CLI</p>
+<pre class="md-github"><code class="md-github">#!/usr/bin/env node
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+
+yargs(hideBin(process.argv))
+  .option('ships', { alias: 's', type: 'number', demandOption: true, description: 'number of ships' })
+  .option('distance', { type: 'number', demandOption: true, description: 'distance to travel' })
+  .parse()
+</code></pre>
+<p class="md-github">Example: Server Command</p>
+<pre class="md-github"><code class="md-github">#!/usr/bin/env node
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+
+yargs(hideBin(process.argv))
+  .command('serve [port]', 'start the server', (y) =&gt;
+    y.positional('port', { describe: 'port to bind on', default: 5000 })
+  , (argv) =&gt; {
+    if (argv.verbose) console.info(`listening on :${argv.port}`)
+    serve(argv.port)
+  })
+  .option('verbose', { alias: 'v', type: 'boolean', default: false, description: 'verbose output' })
+  .strictCommands()
+  .demandCommand(1,1)
+  .parse()
+</code></pre>
+<p class="md-github">Troubleshooting:</p>
+<ol class="md-github">
+<li class="md-github">Unknown command
+Command: node app.js foo
+Behavior: with .strictCommands() outputs 'Unknown command: foo' and exit code 1</li>
+<li class="md-github">Missing required command
+Use .demandCommand(1) to enforce at least one command; missing yields error and help</li>
+<li class="md-github">No parse invoked
+Issue: handlers not executed; ensure .parse() is called at end</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">npm i yargs | npm i yargs@next; import yargs from 'yargs', hideBin from 'yargs/helpers';
+yargs(hideBin(process.argv)) returns Argv; Argv.parse(): Arguments;
+.command(cmd: string,desc:string,builder:(Argv)=&gt;Argv,handler:(Arguments)=&gt;void);
+.option(key, { alias, type, description, default, choices, demandOption, coerce });
+.positional(name, { describe, default, type, choices });
+.strictCommands(); .demandCommand(1); .help(); .version(); .parse();
+TypeScript: npm i @types/yargs; Deno: import from 'deno.land/x/yargs@vX-deno';
+Example patterns: simple CLI, server command; Troubleshoot with strictCommands and demandCommand enforcement.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1 Installation
+2 hideBin helper
+3 Initialization and parse
+4 Command API
+5 Option API
+6 Parse method
+7 TypeScript support
+8 Deno support</p>
+<p class="md-github">1 Installation
+command: npm i yargs or npm i yargs@next</p>
+<p class="md-github">2 hideBin helper
+signature: hideBin(argv: string[]): string[]
+input: process.argv; output: args array without first two entries</p>
+<p class="md-github">3 Initialization and parse
+signature: yargs(args?: string[]): Argv
+Argv.parse(args?: string[], cb?): Arguments | void</p>
+<p class="md-github">4 Command API
+signature: .command(cmd: string, description: string, builder: (yargs: Argv) =&gt; Argv, handler: (argv: Arguments) =&gt; void): Argv
+cmd supports positional syntax <req> [opt] ...
+builder: define .positional(name, PositionalDefinition)
+handler: receives parsed argv</p>
+<p class="md-github">5 Option API
+signature: .option(key: string, opt: OptionDefinition): Argv
+OptionDefinition: { alias?: string|string[], type?: 'string'|'number'|'boolean'|'array', description?: string, default?: any, choices?: any[], demandOption?: boolean|string, coerce?: (arg: any) =&gt; any }</p>
+<p class="md-github">6 Parse method
+signature: .parse(args?: string[], context?: any, cb?: (err?: Error, argv?: Arguments, output?: string) =&gt; void): Arguments | void</p>
+<p class="md-github">7 TypeScript support
+install: npm i @types/yargs --save-dev
+definitions at @types/yargs</p>
+<p class="md-github">8 Deno support
+import yargs from 'https://deno.land/x/yargs@<version>-deno/deno.ts'
+import { Arguments } from 'https://deno.land/x/yargs@<version>-deno/deno-types.ts'
+usage: yargs(Deno.args).strictCommands().demandCommand(1).parse()</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Yargs Command-Line Parser Guide
+https://github.com/yargs/yargs#readme</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-yargs" href="#digest-of-yargs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of YARGS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="yargs-command-line-parser-digest" href="#yargs-command-line-parser-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Yargs Command-Line Parser Digest</h1>
+<p class="md-github">Retrieved: 2024-06-19
+Data Size: 581535 bytes</p>
+<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
+<p class="md-github">Stable version:
+npm i yargs
+Bleeding edge version:
+npm i yargs@next</p>
+<h1 class="md-github"><a class="md-github__anchor" name="simple-usage-example" href="#simple-usage-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Simple Usage Example</h1>
+<p class="md-github">#!/usr/bin/env node
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+const argv = yargs(hideBin(process.argv)).parse()
+if (argv.ships &gt; 3 &amp;&amp; argv.distance &lt; 53.5) {
+console.log('Plunder more riffiwobbles!')
+} else {
+console.log('Retreat from the xupptumblers!')
+}</p>
+<h1 class="md-github"><a class="md-github__anchor" name="complex-usage-example" href="#complex-usage-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complex Usage Example</h1>
+<p class="md-github">#!/usr/bin/env node
+import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+yargs(hideBin(process.argv))
+.command('serve [port]', 'start the server', (yargs) =&gt; {
+return yargs.positional('port', { describe: 'port to bind on', default: 5000 })
+}, (argv) =&gt; {
+if (argv.verbose) console.info(<code class="md-github">start server on :${argv.port}</code>)
+serve(argv.port)
+})
+.option('verbose', { alias: 'v', type: 'boolean', description: 'Run with verbose logging' })
+.parse()</p>
+<h1 class="md-github"><a class="md-github__anchor" name="supported-platforms" href="#supported-platforms"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supported Platforms</h1>
+<p class="md-github">TypeScript: npm i @types/yargs --save-dev
+Deno (v16+): import yargs from 'https://deno.land/x/yargs@v17.7.2-deno/deno.ts'
+import { Arguments } from 'https://deno.land/x/yargs@v17.7.2-deno/deno-types.ts'
+Browser: see documentation at yargs.js.org</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Yargs Command-Line Parser Guide</li>
+<li class="md-github">URL: https://github.com/yargs/yargs#readme</li>
+<li class="md-github">License: License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-09T03:35:53.574Z</li>
+<li class="md-github">Data Size: 581535 bytes</li>
+<li class="md-github">Links Found: 5026</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-09</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-09T04:38:56.956Z</p>
+  </footer>
+</body>
+</html>
