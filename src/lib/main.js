@@ -18,6 +18,8 @@ export function main(args) {
     runPlot(rest);
   } else if (cmd === "reseed") {
     runReseed(rest);
+  } else if (cmd === "stats") {
+    runStats(rest);
   } else if (cmd === "serve") {
     runServer(rest);
   } else {
@@ -31,6 +33,7 @@ function printHelp() {
   console.log(`Usage: repository0-plot-code-lib <command> [options]
 Available commands:
   plot      Generate plots from data files or mathematical expressions
+  stats     Compute descriptive statistics for datasets
   reseed    Reset repository files to seed state (dry-run available)
   serve     Start HTTP API server for plot and stats endpoints
 
@@ -91,6 +94,56 @@ function parsePlotOptions(args) {
   return opts;
 }
 
+function parseStatsOptions(args) {
+  const opts = {
+    expression: null,
+    data: null,
+    xmin: -10,
+    xmax: 10,
+    samples: 100,
+    precision: 4,
+    format: "table",
+    output: null,
+  };
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    switch (arg) {
+      case "--expression":
+        opts.expression = args[++i];
+        break;
+      case "--data":
+        opts.data = args[++i];
+        break;
+      case "--xmin":
+        opts.xmin = parseFloat(args[++i]);
+        break;
+      case "--xmax":
+        opts.xmax = parseFloat(args[++i]);
+        break;
+      case "--samples":
+        opts.samples = parseInt(args[++i], 10);
+        break;
+      case "--precision":
+        opts.precision = parseInt(args[++i], 10);
+        break;
+      case "--format":
+        opts.format = args[++i];
+        break;
+      case "--output":
+        opts.output = args[++i];
+        break;
+      case "--help":
+        printHelp();
+        process.exit(0);
+      default:
+        console.error(`Unknown option: ${arg}`);
+        printHelp();
+        process.exit(1);
+    }
+  }
+  return opts;
+}
+
 function generateExpressionData(expr, xmin, xmax, samples) {
   const data = [];
   if (samples < 2) {
@@ -117,7 +170,6 @@ function loadDataFromFile(filePath) {
   } else if (ext === ".yaml" || ext === ".yml") {
     data = yaml.load(content);
   } else {
-    // CSV parsing
     const lines = content.trim().split(/\r?\n/);
     let start = 0;
     const first = lines[0].split(",");
@@ -209,6 +261,69 @@ function runReseed(args) {
     });
   } else {
     console.log("Reseed command: no mode specified. Use --dry-run or --force");
+  }
+}
+
+function runStats(args) {
+  const opts = parseStatsOptions(args);
+  if (opts.expression && opts.data) {
+    console.error("Warning: --expression provided, ignoring --data");
+  }
+  if (!opts.expression && !opts.data) {
+    console.error("Error: must provide --expression or --data");
+    process.exit(1);
+  }
+  if (opts.samples < 2) {
+    console.error("Error: samples must be >= 2");
+    process.exit(1);
+  }
+  let dataPoints;
+  if (opts.expression) {
+    try {
+      dataPoints = generateExpressionData(
+        opts.expression,
+        opts.xmin,
+        opts.xmax,
+        opts.samples,
+      );
+    } catch (err) {
+      console.error(`Error evaluating expression: ${err.message}`);
+      process.exit(1);
+    }
+  } else {
+    try {
+      dataPoints = loadDataFromFile(opts.data);
+    } catch (err) {
+      console.error(err.message);
+      process.exit(1);
+    }
+  }
+  const stats = computeStatistics(dataPoints);
+  let output;
+  switch (opts.format) {
+    case "table":
+      output = formatTable(stats, opts.precision);
+      break;
+    case "json":
+      output = JSON.stringify(stats, null, 2);
+      break;
+    case "csv":
+      output = formatCsv(stats);
+      break;
+    default:
+      console.error(`Error: unknown format "${opts.format}"`);
+      process.exit(1);
+  }
+  if (opts.output) {
+    try {
+      fs.writeFileSync(opts.output, output, "utf8");
+      console.log(`Wrote stats to ${opts.output}`);
+    } catch (err) {
+      console.error(`Error writing file: ${err.message}`);
+      process.exit(1);
+    }
+  } else {
+    console.log(output);
   }
 }
 
@@ -356,6 +471,32 @@ function computeStatistics(data) {
     y_median: parseFloat(median(ys).toFixed(4)),
     y_stddev: parseFloat(stddev(ys, yMean).toFixed(4)),
   };
+}
+
+function formatTable(stats, precision) {
+  const entries = Object.entries(stats);
+  const nameWidth = Math.max(
+    ...entries.map((e) => e[0].length),
+    "Statistic".length,
+  );
+  const valWidth = Math.max(
+    ...entries.map((e) => String(e[1]).length),
+    "Value".length,
+  );
+  const pad = (s, w) => s + " ".repeat(w - s.length);
+  const header = pad("Statistic", nameWidth) + "  " + pad("Value", valWidth);
+  const sep = "-".repeat(nameWidth) + "  " + "-".repeat(valWidth);
+  const rows = entries.map(
+    ([k, v]) => pad(k, nameWidth) + "  " + pad(String(v), valWidth),
+  );
+  return [header, sep, ...rows].join("\n");
+}
+
+function formatCsv(stats) {
+  const keys = Object.keys(stats);
+  const header = keys.join(",");
+  const row = keys.map((k) => stats[k]).join(",");
+  return header + "\n" + row;
 }
 
 // If run as script

@@ -48,7 +48,8 @@ describe("Expression Plot Data Generation", () => {
   });
 
   test("invalid expression", () => {
-    expect(() => main(["plot", "--expression", "sin("])).toThrow("process.exit");
+    expect(() => main(["plot", "--expression", "sin("]))
+      .toThrow("process.exit");
     expect(errSpy).toHaveBeenCalledWith(
       expect.stringContaining('Error evaluating expression "sin("')
     );
@@ -196,5 +197,90 @@ describe("Data File Plotting", () => {
     );
     expect(logSpy).toHaveBeenCalledWith("Wrote ASCII chart to chart.txt");
     writeSpy.mockRestore();
+  });
+});
+
+// Tests for stats subcommand
+
+describe("Stats Command", () => {
+  let logSpy;
+  let errSpy;
+  let exitSpy;
+  let writeSpy;
+
+  beforeEach(() => {
+    logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    exitSpy = vi
+      .spyOn(process, "exit")
+      .mockImplementation((code) => { throw new Error("process.exit"); });
+    writeSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test("table format default expression", () => {
+    expect(() => main(["stats","--expression","x","--xmin","0","--xmax","2","--samples","3"]))
+      .not.toThrow();
+    // Last log is the table
+    const table = logSpy.mock.calls[logSpy.mock.calls.length - 1][0];
+    expect(table).toMatch(/Statistic\s+Value/);
+    expect(table).toMatch(/x_min\s+0/);
+    expect(table).toMatch(/y_max\s+2/);
+  });
+
+  test("json format", () => {
+    expect(() => main(["stats","--expression","x","--xmin","0","--xmax","2","--samples","3","--format","json"]))
+      .not.toThrow();
+    const output = logSpy.mock.calls[logSpy.mock.calls.length - 1][0];
+    const stats = JSON.parse(output);
+    expect(stats).toEqual({
+      x_min: 0,
+      x_max: 2,
+      x_mean: 1,
+      x_median: 1,
+      x_stddev: parseFloat(Math.sqrt(2/3).toFixed(4)),
+      y_min: 0,
+      y_max: 2,
+      y_mean: 1,
+      y_median: 1,
+      y_stddev: parseFloat(Math.sqrt(2/3).toFixed(4)),
+    });
+  });
+
+  test("csv format", () => {
+    expect(() => main(["stats","--expression","x","--xmin","0","--xmax","2","--samples","3","--format","csv"]))
+      .not.toThrow();
+    const csv = logSpy.mock.calls[logSpy.mock.calls.length - 1][0];
+    const lines = csv.split("\n");
+    expect(lines[0]).toMatch(/x_min,x_max,x_mean/);
+    expect(lines[1]).toMatch(/0,2,1/);
+  });
+
+  test("file export writes and confirms", () => {
+    expect(() => main(["stats","--expression","x","--xmin","0","--xmax","2","--samples","3","--output","out.txt"]))
+      .not.toThrow();
+    expect(writeSpy).toHaveBeenCalledWith(
+      "out.txt",
+      expect.any(String),
+      "utf8"
+    );
+    expect(logSpy).toHaveBeenCalledWith("Wrote stats to out.txt");
+  });
+
+  test("missing source error", () => {
+    expect(() => main(["stats"]))
+      .toThrow("process.exit");
+    expect(errSpy).toHaveBeenCalledWith("Error: must provide --expression or --data");
+    expect(exitSpy).toHaveBeenCalledWith(1);
+  });
+
+  test("samples <2 error", () => {
+    expect(() => main(["stats","--expression","x","--samples","1"]))
+      .toThrow("process.exit");
+    expect(errSpy).toHaveBeenCalledWith("Error: samples must be >= 2");
+    expect(exitSpy).toHaveBeenCalledWith(1);
   });
 });
