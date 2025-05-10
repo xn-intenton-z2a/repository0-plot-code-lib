@@ -35,7 +35,7 @@ Lightweight library for plotting data in the terminal using ASCII. Covers chart 
 
 # SuperTest HTTP Assertions
 ## https://github.com/visionmedia/supertest
-Documentation for SuperTest, a high-level abstraction for testing HTTP servers. Illustrates how to write expressive tests for GET and POST endpoints, chain assertions on status, headers, and bodies, and integrate with Vitest or Jest. Directly informs tests for `/plot` and `/stats`. Last commit May 2024; 15k stars.  
+Documentation for SuperTest, a high-level abstraction for testing HTTP servers. Illustrates how to write expressive tests for GET and POST endpoints, chain assertions on status, headers, and bodies, and integrate with Vitest or Jest. Directly informs tests for `/plot` and `/stats`. Last commit May 2024; 15k stars.
 ## MIT
 
 # Vitest Testing Guide
@@ -66,3 +66,14 @@ Reference for filename pattern matching using glob syntax in Node.js, often used
 # Fastify Performance-Focused HTTP Framework
 ## https://www.fastify.io/docs/latest/
 High-performance alternative to Express with built-in schema support and JSON validation. Shows plugin architecture, route definitions, and high-throughput benchmarks—informative for future optimizations or replacement of the Express-based server. Last updated March 2024; MIT license and 25k stars.
+## MIT
+
+# Chart.js CDN Installation and Usage
+## https://www.chartjs.org/docs/latest/getting-started/installation.html#cdn
+Official Chart.js documentation detailing installation via CDN, script tag integration, and basic usage for line, bar, and scatter charts. Covers constructing a Chart instance, configuring datasets, customizing options, and responsive behaviors—critical for implementing the interactive HTML export feature. Last updated 2024; authoritative source for Chart.js usage.
+## MIT
+
+# Node.js File System Promises API
+## https://nodejs.org/api/fs.html#fs_fspromises_api
+Official Node.js documentation for the File System Promises API, including methods such as `readFile`, `writeFile`, `stat`, and `readdir` that return Promises. Explains encoding, options, and error handling patterns, providing essential guidance for asynchronous config loading, data parsing, and output writing in CLI commands. Last updated 2024; authoritative Node.js reference.
+## MIT
