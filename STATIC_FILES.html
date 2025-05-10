@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="static_files" href="#static_files"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>STATIC_FILES</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">express.static middleware signature, parameters: root, options; usage patterns: single directory, multiple directories resolution order; virtual path mounting; absolute path resolution; reverse proxy recommendation for performance</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">express.static Signature and Parameters</p>
+</li>
+<li class="md-github">
+<p class="md-github">Single Directory Serving</p>
+</li>
+<li class="md-github">
+<p class="md-github">Multiple Directory Serving and Precedence</p>
+</li>
+<li class="md-github">
+<p class="md-github">Virtual Path Prefix Mounting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Absolute Path Resolution</p>
+</li>
+<li class="md-github">
+<p class="md-github">Performance Best Practice</p>
+</li>
+<li class="md-github">
+<p class="md-github">express.static Signature and Parameters
+express.static(root, [options])
+root: path to directory serving assets
+options: serve-static configuration object</p>
+</li>
+<li class="md-github">
+<p class="md-github">Single Directory Serving
+Use express.static with app.use to serve files from a single folder
+Example:
+app.use(express.static('public'))
+URLs map directly to public/<file></p>
+</li>
+<li class="md-github">
+<p class="md-github">Multiple Directory Serving and Precedence
+Call express.static multiple times
+app.use(express.static('public'))
+app.use(express.static('files'))
+Resolution order: public first, then files</p>
+</li>
+<li class="md-github">
+<p class="md-github">Virtual Path Prefix Mounting
+Prefix URLs without altering directory structure
+app.use('/static', express.static('public'))
+URLs: /static/<file> maps to public/<file></p>
+</li>
+<li class="md-github">
+<p class="md-github">Absolute Path Resolution
+Prevent relative path issues when running from different cwd
+Example:
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))</p>
+</li>
+<li class="md-github">
+<p class="md-github">Performance Best Practice
+Deploy reverse proxy cache (nginx, Varnish) in front of Express to cache and serve static assets</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">serve-static options object properties:</p>
+<ul class="md-github">
+<li class="md-github">dotfiles: 'allow' | 'deny' | 'ignore'. Default: 'ignore'.</li>
+<li class="md-github">etag: boolean. Enable ETag header. Default: true.</li>
+<li class="md-github">extensions: string array. Fallback file extensions. Default: undefined.</li>
+<li class="md-github">index: boolean or string or string array. Default: 'index.html'.</li>
+<li class="md-github">lastModified: boolean. Enable Last-Modified header. Default: true.</li>
+<li class="md-github">maxAge: number or string. Sets Cache-Control max-age in ms. Default: 0.</li>
+<li class="md-github">redirect: boolean. Redirect to trailing slash. Default: true.</li>
+<li class="md-github">setHeaders: function(res, path, stat). Custom headers per file.</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">require express and path modules.</li>
+<li class="md-github">Create app instance.</li>
+<li class="md-github">Configure static middleware using absolute paths.</li>
+<li class="md-github">Chain calls for multiple folders.</li>
+<li class="md-github">Mount on virtual path if needed.</li>
+<li class="md-github">Configure serve-static options for caching.</li>
+<li class="md-github">Deploy behind reverse proxy.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">// express.static API specification
+express.static(root: string, options?: {
+dotfiles?: 'allow' | 'deny' | 'ignore',
+etag?: boolean,
+extensions?: string[],
+index?: boolean | string | string[],
+lastModified?: boolean,
+maxAge?: number | string,
+redirect?: boolean,
+setHeaders?: (res: import('express').Response, filePath: string, stat: import('fs').Stats) =&gt; void
+}): import('express').RequestHandler</p>
+<p class="md-github">// Example code
+const express = require('express')
+const path = require('path')
+const app = express()</p>
+<p class="md-github">// Serve public with caching
+app.use(
+express.static(
+path.join(__dirname, 'public'),
+{
+dotfiles: 'ignore',
+etag: true,
+lastModified: true,
+maxAge: '1d',
+setHeaders: (res, filePath) =&gt; {
+if (filePath.endsWith('.html')) {
+res.setHeader('Cache-Control', 'public, max-age=0')
+}
+}
+}
+)
+)</p>
+<p class="md-github">// Multiple dirs
+app.use(express.static(path.join(__dirname, 'assets')))
+app.use(express.static(path.join(__dirname, 'files')))</p>
+<p class="md-github">// Virtual prefix
+app.use('/static', express.static(path.join(__dirname, 'public')))</p>
+<p class="md-github">// Start server
+app.listen(3000, () =&gt; console.log('Server on port 3000'))</p>
+<p class="md-github">// Troubleshooting Procedures
+// 1. 404 errors: verify file exists under root and URL path matches
+//    $ curl -I http://localhost:3000/js/app.js
+//    Expected: HTTP/1.1 200 OK; Content-Type: application/javascript
+// 2. Check headers for caching
+//    $ curl -I http://localhost:3000/css/style.css
+//    Expect: Cache-Control, ETag, Last-Modified
+// 3. Debug logging
+//    $ DEBUG=express:static node app.js
+//    Observe static middleware logs</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">express.static(root:string,options?):RequestHandler; options:dotfiles('allow'|'deny'|'ignore'),etag(bool),lastModified(bool),maxAge(ms|string),index(bool|string|string[]),extensions(string[]),redirect(bool),setHeaders(fn). Usage: app.use(express.static('public')); multi-dir precedence: order of app.use calls; virtual mount: app.use('/static',express.static(...)); use path.join(__dirname,'dir') for absolute; serve-static headers: Cache-Control:max-age, ETag, Last-Modified; best practice: reverse proxy cache; troubleshooting: curl -I for 200, headers; DEBUG=express:static for logs.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">express.static Signature and Parameters</p>
+</li>
+<li class="md-github">
+<p class="md-github">Single Directory Serving</p>
+</li>
+<li class="md-github">
+<p class="md-github">Multiple Directory Serving and Precedence</p>
+</li>
+<li class="md-github">
+<p class="md-github">Virtual Path Prefix Mounting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Absolute Path Resolution</p>
+</li>
+<li class="md-github">
+<p class="md-github">Performance Best Practice</p>
+</li>
+<li class="md-github">
+<p class="md-github">express.static Signature and Parameters
+express.static(root, [options])
+root: path to directory serving assets
+options: serve-static configuration object</p>
+</li>
+<li class="md-github">
+<p class="md-github">Single Directory Serving
+Use express.static with app.use to serve files from a single folder
+Example:
+app.use(express.static('public'))
+URLs map directly to public/<file></p>
+</li>
+<li class="md-github">
+<p class="md-github">Multiple Directory Serving and Precedence
+Call express.static multiple times
+app.use(express.static('public'))
+app.use(express.static('files'))
+Resolution order: public first, then files</p>
+</li>
+<li class="md-github">
+<p class="md-github">Virtual Path Prefix Mounting
+Prefix URLs without altering directory structure
+app.use('/static', express.static('public'))
+URLs: /static/<file> maps to public/<file></p>
+</li>
+<li class="md-github">
+<p class="md-github">Absolute Path Resolution
+Prevent relative path issues when running from different cwd
+Example:
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))</p>
+</li>
+<li class="md-github">
+<p class="md-github">Performance Best Practice
+Deploy reverse proxy cache (nginx, Varnish) in front of Express to cache and serve static assets</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Express Official Documentation
+https://expressjs.com/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-static_files" href="#digest-of-static_files"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of STATIC_FILES</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="serving-static-files-in-express" href="#serving-static-files-in-express"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Serving Static Files in Express</h1>
+<p class="md-github">Express built-in middleware express.static serves static assets.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="signature" href="#signature"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Signature</h2>
+<pre class="md-github"><code class="md-github language-javascript">express.static(root, [options])
+</code></pre>
+<ul class="md-github">
+<li class="md-github">root: string. Root directory for static files.</li>
+<li class="md-github">options: object. Configuration for serve-static.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="basic-usage" href="#basic-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Usage</h2>
+<pre class="md-github"><code class="md-github language-javascript">const express = require('express')
+const app = express()
+
+// Serve from public directory
+app.use(express.static('public'))
+
+// Serve multiple directories in order
+two
+app.use(express.static('public'))
+app.use(express.static('files'))
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="virtual-path-prefix" href="#virtual-path-prefix"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Virtual Path Prefix</h2>
+<pre class="md-github"><code class="md-github language-javascript">app.use('/static', express.static('public'))
+</code></pre>
+<p class="md-github">Access assets under /static path.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="absolute-path-resolution" href="#absolute-path-resolution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Absolute Path Resolution</h2>
+<pre class="md-github"><code class="md-github language-javascript">const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="best-practice" href="#best-practice"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practice</h2>
+<ul class="md-github">
+<li class="md-github">Use a reverse proxy cache (e.g., nginx) for improved performance of static assets.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">Date: 2024-07-07
+Data Size: 1250266 bytes
+Links Found: 8230</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Express Official Documentation</li>
+<li class="md-github">URL: https://expressjs.com/</li>
+<li class="md-github">License: License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-10T06:02:24.460Z</li>
+<li class="md-github">Data Size: 1250266 bytes</li>
+<li class="md-github">Links Found: 8230</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved-1" href="#retrieved-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-10</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-10T08:37:48.590Z</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="npm_publish" href="#npm_publish"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NPM_PUBLISH</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Usage: npm publish [<pkg-spec>] [--tag <tag>=latest] [--access &lt;public|restricted&gt;=public] [--dry-run=false] [--otp <code>] [--workspace <pattern>] [--workspaces] [--include-workspace-root=false] [--provenance=false] [--provenance-file <path>]
+Publishes folder|tarball|url|name@version|name@tag|git-url. Fails if version exists. Sends sha1 and sha512 sums. Defaults: access=public (scoped=restricted), tag=latest.  dry-run reports only. Ignored files: .npmignore/.gitignore, never-include patterns, symlinks. Workspaces options filter projects.  provenance links CI/CD. provenance-file uses existing bundle. OTP required for 2FA registries.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Command Usage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Publish Targets</p>
+</li>
+<li class="md-github">
+<p class="md-github">Integrity Submission</p>
+</li>
+<li class="md-github">
+<p class="md-github">File Inclusion Rules</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspace Behavior</p>
+</li>
+<li class="md-github">
+<p class="md-github">Provenance Controls</p>
+</li>
+<li class="md-github">
+<p class="md-github">Error Codes &amp; Remedies</p>
+</li>
+<li class="md-github">
+<p class="md-github">Command Usage
+npm publish [<folder>|&lt;.tgz&gt;|<url>|<name>@<version>|<name>@<tag>|<git-url>] [--tag <tag>] [--access &lt;public|restricted&gt;] [--dry-run] [--otp <code>] [--workspace <pattern>] [--workspaces] [--include-workspace-root] [--provenance] [--provenance-file <path>]</p>
+</li>
+<li class="md-github">
+<p class="md-github">Publish Targets</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Folder: must contain package.json</li>
+<li class="md-github">Tarball: gzipped .tgz</li>
+<li class="md-github">URL: points to tarball</li>
+<li class="md-github">name@version: exact published version</li>
+<li class="md-github">name@tag: resolves tag to version</li>
+<li class="md-github">git-url: clone and publish</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Integrity Submission</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">sha1sum and integrity (sha512) fields sent in HTTP PUT</li>
+<li class="md-github">Registry expects both; install uses highest algorithm</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">File Inclusion Rules</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Default include all except ignored by .npmignore</li>
+<li class="md-github">Files list in package.json overrides default</li>
+<li class="md-github">.npmignore &gt; .gitignore</li>
+<li class="md-github">Never-include patterns: *.log, .*rc, test/, coverage/, .travis.yml</li>
+<li class="md-github">Symlinks excluded</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">
+<p class="md-github">Configuration Options
+tag: String=latest
+access: public|restricted|null=public
+dry-run: Boolean=false
+otp: String|null
+workspace: String[]
+workspaces: Boolean|null
+include-workspace-root: Boolean=false
+provenance: Boolean=false
+provenance-file: Path|null</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspace Behavior</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">--workspace=NAME filters to matching workspaces</li>
+<li class="md-github">--workspaces=true runs on all configured workspaces</li>
+<li class="md-github">include-workspace-root adds root to workspace commands</li>
+<li class="md-github">none of these export env to child processes</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">Provenance Controls</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">--provenance attaches CI build link</li>
+<li class="md-github">--provenance-file uploads existing SBOM bundle</li>
+<li class="md-github">cannot combine --provenance and --provenance-file</li>
+</ul>
+<ol start="8" class="md-github">
+<li class="md-github">Error Codes &amp; Remedies
+EPUTALREADYEXISTS: version exists; bump version
+E403 OTP_REQUIRED: supply --otp <code>
+EISDIR: invalid target, supply tarball or folder
+EPERM ignored file: review .npmignore</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Bump version in package.json</li>
+<li class="md-github">Run npm pack --dry-run to verify included files</li>
+<li class="md-github">Verify .npmignore or files list for exclusions</li>
+<li class="md-github">Run npm publish --tag beta --access restricted --otp=123456</li>
+<li class="md-github">Verify remote dist-tag with npm dist-tag ls</li>
+</ol>
+<p class="md-github">Checksum Fields:</p>
+<ul class="md-github">
+<li class="md-github">sha1: Content-SHA1 header</li>
+<li class="md-github">integrity: sha512 in request body metadata</li>
+</ul>
+<p class="md-github">Mutual Exclusion:
+--provenance vs --provenance-file: tool validates arguments before tarball upload</p>
+<p class="md-github">Workspace Sequence:</p>
+<ul class="md-github">
+<li class="md-github">npm config set workspace=name OR --workspace=name</li>
+<li class="md-github">npx lerna publish (optional) to manage multi-package releases</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Full Command Signature:
+npm publish [<target>] [--tag <string>] [--access <string>] [--dry-run] [--otp <string>] [--workspace <string>] [--workspaces] [--include-workspace-root] [--provenance] [--provenance-file <path>]</p>
+<p class="md-github">Parameters:
+<target>: String|URL|Path|Specifier
+--tag: String; defaults to 'latest'
+--access: 'public'|'restricted'|null
+--dry-run: Boolean
+--otp: 6-digit TOTP string
+--workspace: workspace name or path; can repeat
+--workspaces: Boolean
+--include-workspace-root: Boolean
+--provenance: Boolean
+--provenance-file: filesystem path</p>
+<p class="md-github">Returns:
+HTTP 201 Created on success; prints uploaded package URL and tag details
+Exits with code !=0 on error</p>
+<p class="md-github">Examples:</p>
+<pre class="md-github"><code class="md-github"># Publish with custom tag
+npm publish --tag next
+
+# Dry run to preview
+npm publish --dry-run
+
+# Publish scoped package privately
+npm publish --access restricted
+
+# Publish specific folder
+npm publish ./dist/my-lib
+
+# Publish with 2FA code
+npm publish --otp 123456
+</code></pre>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Use npm version [major|minor|patch] to bump version and tag commit</li>
+<li class="md-github">Validate package contents with npm pack</li>
+<li class="md-github">Automate publish in CI: npm ci &amp;&amp; npm test &amp;&amp; npm publish --access public --tag $CI_COMMIT_REF_SLUG</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<h1 class="md-github"><a class="md-github__anchor" name="otp-challenge" href="#otp-challenge"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OTP challenge</h1>
+<blockquote class="md-github">
+<p class="md-github">npm publish
+npm ERR! code EOTP
+npm ERR! Need to provide one-time password via --otp</p>
+</blockquote>
+<h1 class="md-github"><a class="md-github__anchor" name="file-missing" href="#file-missing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File missing</h1>
+<blockquote class="md-github">
+<p class="md-github">npm publish
+npm ERR! manifest has no field for 'main'; add 'main' to package.json</p>
+</blockquote>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">npm publish [target] options
+Options: tag=latest(String), access=public|restricted|null, dry-run=false(Boolean), otp(String), workspace:Array<String>, workspaces(null|Boolean), include-workspace-root=false(Boolean), provenance=false(Boolean), provenance-file=Path|null
+Targets: folder|.tgz|url|name@version|name@tag|git-url
+Files: include all except .npmignore patterns, never-include defaults; override via package.json 'files'
+Checksums: send sha1sum and sha512 integrity; registry verifies
+Error codes: EPUTALREADYEXISTS, EOTP, EPERM
+Examples: npm publish --tag beta --access restricted --otp=123456
+CI Pattern: npm ci &amp;&amp; npm test &amp;&amp; npm publish --access public --tag $CI_BRANCH</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Command Usage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Publish Targets</p>
+</li>
+<li class="md-github">
+<p class="md-github">Integrity Submission</p>
+</li>
+<li class="md-github">
+<p class="md-github">File Inclusion Rules</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspace Behavior</p>
+</li>
+<li class="md-github">
+<p class="md-github">Provenance Controls</p>
+</li>
+<li class="md-github">
+<p class="md-github">Error Codes &amp; Remedies</p>
+</li>
+<li class="md-github">
+<p class="md-github">Command Usage
+npm publish [<folder>|&lt;.tgz&gt;|<url>|<name>@<version>|<name>@<tag>|<git-url>] [--tag <tag>] [--access &lt;public|restricted&gt;] [--dry-run] [--otp <code>] [--workspace <pattern>] [--workspaces] [--include-workspace-root] [--provenance] [--provenance-file <path>]</p>
+</li>
+<li class="md-github">
+<p class="md-github">Publish Targets</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Folder: must contain package.json</li>
+<li class="md-github">Tarball: gzipped .tgz</li>
+<li class="md-github">URL: points to tarball</li>
+<li class="md-github">name@version: exact published version</li>
+<li class="md-github">name@tag: resolves tag to version</li>
+<li class="md-github">git-url: clone and publish</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Integrity Submission</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">sha1sum and integrity (sha512) fields sent in HTTP PUT</li>
+<li class="md-github">Registry expects both; install uses highest algorithm</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">File Inclusion Rules</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Default include all except ignored by .npmignore</li>
+<li class="md-github">Files list in package.json overrides default</li>
+<li class="md-github">.npmignore &gt; .gitignore</li>
+<li class="md-github">Never-include patterns: *.log, .*rc, test/, coverage/, .travis.yml</li>
+<li class="md-github">Symlinks excluded</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">
+<p class="md-github">Configuration Options
+tag: String=latest
+access: public|restricted|null=public
+dry-run: Boolean=false
+otp: String|null
+workspace: String[]
+workspaces: Boolean|null
+include-workspace-root: Boolean=false
+provenance: Boolean=false
+provenance-file: Path|null</p>
+</li>
+<li class="md-github">
+<p class="md-github">Workspace Behavior</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">--workspace=NAME filters to matching workspaces</li>
+<li class="md-github">--workspaces=true runs on all configured workspaces</li>
+<li class="md-github">include-workspace-root adds root to workspace commands</li>
+<li class="md-github">none of these export env to child processes</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">Provenance Controls</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">--provenance attaches CI build link</li>
+<li class="md-github">--provenance-file uploads existing SBOM bundle</li>
+<li class="md-github">cannot combine --provenance and --provenance-file</li>
+</ul>
+<ol start="8" class="md-github">
+<li class="md-github">Error Codes &amp; Remedies
+EPUTALREADYEXISTS: version exists; bump version
+E403 OTP_REQUIRED: supply --otp <code>
+EISDIR: invalid target, supply tarball or folder
+EPERM ignored file: review .npmignore</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">CI/CD and Release Automation Tools
+https://docs.npmjs.com/cli/v10/commands/npm-publish</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-npm_publish" href="#digest-of-npm_publish"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of NPM_PUBLISH</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="npm-publish" href="#npm-publish"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>npm publish</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="synopsis" href="#synopsis"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Synopsis</h2>
+<pre class="md-github"><code class="md-github">npm publish [&lt;package-spec&gt;] [--tag &lt;tag&gt;] [--access &lt;public|restricted&gt;] [--dry-run] [--otp &lt;one-time-password&gt;] [--workspace &lt;pattern&gt;] [--workspaces] [--include-workspace-root] [--provenance] [--provenance-file &lt;path&gt;]
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="description" href="#description"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Description</h2>
+<p class="md-github">Publishes a package to the registry so it can be installed by name.  Accepts:</p>
+<ul class="md-github">
+<li class="md-github">Folder with package.json</li>
+<li class="md-github">.tgz tarball</li>
+<li class="md-github">URL to tarball</li>
+<li class="md-github">name@version</li>
+<li class="md-github">name@tag</li>
+<li class="md-github">git remote URL</li>
+</ul>
+<p class="md-github">Fails if name@version exists or was previously published.  Submits sha1 and sha512 integrity checksums.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="files-included" href="#files-included"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Files included</h2>
+<p class="md-github">Run <code class="md-github">npm pack --dry-run</code> to list included files.  Defaults include all except:</p>
+<ul class="md-github">
+<li class="md-github">Ignored by .npmignore / .gitignore</li>
+<li class="md-github">Files matching never-include patterns ( e.g. *.log, *.ts ) unless whitelisted</li>
+<li class="md-github">Symbolic links are excluded</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration options</h2>
+<table class="md-github">
+<thead class="md-github">
+<tr class="md-github">
+<th class="md-github">Option</th>
+<th class="md-github">Default</th>
+<th class="md-github">Type</th>
+<th class="md-github">Description</th>
+</tr>
+</thead>
+<tbody class="md-github">
+<tr class="md-github">
+<td class="md-github">tag</td>
+<td class="md-github">latest</td>
+<td class="md-github">String</td>
+<td class="md-github">Dist-tag to apply</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">access</td>
+<td class="md-github">public</td>
+<td class="md-github">public, restricted, null</td>
+<td class="md-github">Package visibility</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">dry-run</td>
+<td class="md-github">false</td>
+<td class="md-github">Boolean</td>
+<td class="md-github">Show actions without publishing</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">otp</td>
+<td class="md-github">null</td>
+<td class="md-github">String</td>
+<td class="md-github">Two-factor one-time password</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">workspace</td>
+<td class="md-github">-</td>
+<td class="md-github">String[]</td>
+<td class="md-github">Filter and run command in specified workspaces</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">workspaces</td>
+<td class="md-github">null</td>
+<td class="md-github">Boolean</td>
+<td class="md-github">Run in all workspaces</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">include-workspace-root</td>
+<td class="md-github">false</td>
+<td class="md-github">Boolean</td>
+<td class="md-github">Include root project when using workspaces</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">provenance</td>
+<td class="md-github">false</td>
+<td class="md-github">Boolean</td>
+<td class="md-github">Link published package to CI/CD provenance</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">provenance-file</td>
+<td class="md-github">null</td>
+<td class="md-github">Path</td>
+<td class="md-github">Use existing provenance bundle</td>
+</tr>
+</tbody>
+</table>
+<h2 class="md-github"><a class="md-github__anchor" name="defaults--effects" href="#defaults--effects"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Defaults &amp; Effects</h2>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">--access=restricted</code> only valid for scoped packages</li>
+<li class="md-github"><code class="md-github">--dry-run</code> does not affect remote commands like <code class="md-github">dist-tag</code></li>
+<li class="md-github"><code class="md-github">--workspace</code> and <code class="md-github">--workspaces</code> not exported to child processes</li>
+<li class="md-github"><code class="md-github">--provenance</code> and <code class="md-github">--provenance-file</code> are mutually exclusive</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="integrity" href="#integrity"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integrity</h2>
+<p class="md-github">On publish npm@&gt;=5 sends both sha1sum and sha512 integrity to registry.  Installs verify downloads using strongest algorithm.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting---common-errors" href="#troubleshooting---common-errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting - Common Errors</h2>
+<ul class="md-github">
+<li class="md-github">E403 whet OTP missing: <code class="md-github">npm publish --otp=123456</code></li>
+<li class="md-github">EPUTALREADYEXISTS if name@version exists</li>
+<li class="md-github">EPERM file ignored: check .npmignore patterns</li>
+</ul>
+<p class="md-github"><em class="md-github">Retrieved: 2024-08-13</em><br>
+<em class="md-github">Data Size: 197470 bytes</em><br>
+<em class="md-github">Attribution: npm CLI documentation</em></p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: CI/CD and Release Automation Tools</li>
+<li class="md-github">URL: https://docs.npmjs.com/cli/v10/commands/npm-publish</li>
+<li class="md-github">License: License: MIT / CC0</li>
+<li class="md-github">Crawl Date: 2025-05-10T07:02:17.617Z</li>
+<li class="md-github">Data Size: 197470 bytes</li>
+<li class="md-github">Links Found: 12375</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-10</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-10T08:37:48.683Z</p>
+  </footer>
+</body>
+</html>
