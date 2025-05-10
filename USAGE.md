@@ -5,6 +5,7 @@ repository0-plot-code-lib <command> [options]
 Commands:
   plot      Generate plots from data files or mathematical expressions
   reseed    Reset repository files to seed state (dry-run available)
+  serve     Start HTTP API server for plot and stats endpoints
 
 Options for plot:
   --expression <formula>   Mathematical expression in x to plot
@@ -28,3 +29,14 @@ Plot parabola to file:
 
 Reseed dry run:
   repository0-plot-code-lib reseed --dry-run
+
+Serve HTTP API:
+  repository0-plot-code-lib serve --port 3000
+
+Endpoints:
+  GET /plot?expression=<expr>&xmin=<num>&xmax=<num>&samples=<int>
+    - Returns JSON array of { x, y } points.
+  GET /plot?expression=<expr>&samples=<int>&outputFormat=ascii
+    - Returns ASCII art chart as text/plain.
+  GET /stats?expression=<expr>&xmin=<num>&xmax=<num>&samples=<int>
+    - Returns descriptive statistics JSON: x_min, x_max, x_mean, x_median, x_stddev, y_min, y_max, y_mean, y_median, y_stddev
