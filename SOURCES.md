@@ -1,9 +1,11 @@
-# Node.js Core APIs, Streams, and Concurrency
+# Node.js Core APIs, Streams, Concurrency, Path, and OS Modules
 ## https://nodejs.org/api/fs.html
 ## https://nodejs.org/api/worker_threads.html
 ## https://nodejs.org/api/child_process.html
 ## https://nodejs.org/api/perf_hooks.html
-Comprehensive reference covering filesystem operations, low-level and high-level stream APIs (Readable, Writable, Transform), backpressure management, object mode streams, promise-based utilities (`fs/promises`, `pipeline`, `finished`, async iteration), Performance Hooks API (`PerformanceObserver`, `mark/measure`), and concurrency primitives via Worker Threads and child processes. Essential for implementing non-blocking CLI commands, high-throughput batch plotting, file-backed caching, precision benchmarking, and isolating CPU-intensive tasks. Last updated June 2024; authoritative as official Node.js documentation.
+## https://nodejs.org/api/path.html
+## https://nodejs.org/api/os.html
+Comprehensive reference covering filesystem operations, low-level and high-level stream APIs (Readable, Writable, Transform), backpressure management, object mode streams, promise-based utilities (`fs/promises`, `pipeline`, `finished`, async iteration), path manipulation (`path` module), system information and environment interfaces (`os` module), Performance Hooks API (`PerformanceObserver`, `mark/measure`), and concurrency primitives via Worker Threads and child processes. Essential for implementing non-blocking CLI commands, high-throughput batch plotting, file-backed caching, environment-aware config resolution, precision benchmarking, and isolating CPU-intensive tasks. Last updated June 2024; authoritative as official Node.js documentation.
 ## License: Node.js (MIT-like terms)
 
 # Node.js ECMAScript Modules (ESM) Guide
