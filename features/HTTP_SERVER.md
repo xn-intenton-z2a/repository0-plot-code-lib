@@ -1,53 +1,41 @@
 # Summary
 
-Add a new serve subcommand that starts an HTTP server exposing plot data via an HTTP API using Express.
+Enhance the HTTP server subcommand by adding comprehensive integration tests for all endpoints and updating README with usage examples for the serve command.
 
 # Behavior
 
-When the first argument is "serve" the CLI:
-- Parses a --port flag or uses default port 3000.
-- Starts an Express server listening on the configured port.
-- Exposes a GET /plot endpoint:
-  - Required query parameter: expression. If missing, respond 400 with an error message.
-  - Optional query parameters: xmin (default -10), xmax (default 10), samples (default 100).
-  - Parse and validate numeric parameters; on validation error respond 400.
-  - Call generateExpressionData(expression, xmin, xmax, samples) to produce an array of { x, y } points.
-  - Respond 200 and return application/json with the data array.
-- Logs a startup message indicating the server URL.
-
-# CLI Flags
-
---port <number>    Port for the HTTP server (default 3000)
---help             Show help for the serve command and exit
-
-# Implementation Details
-
-- In src/lib/main.js update main() to recognize the "serve" command and call runServer(args).
-- Implement parseServerOptions(args) to extract --port and --help flags.
-- In runServer(opts):
-  - Import express from dependencies and create an app.
-  - Use express.json() middleware if needed.
-  - Define app.get('/plot', async (req, res) => { ... }):
-    - Extract req.query.expression, xmin, xmax, samples.
-    - Validate expression is provided; respond res.status(400).json({ error: 'expression query parameter is required' }).
-    - Convert xmin, xmax, samples to numbers; validate samples >= 2.
-    - Wrap generateExpressionData call in try/catch; on error respond 400 with error message.
-    - On success send res.json(dataPoints).
-  - Start app.listen on opts.port; log console.log(`HTTP server listening at http://localhost:${opts.port}`).
+- The existing serve subcommand remains unchanged: it parses --port, starts the Express server, and exposes /plot and /stats endpoints with JSON and ASCII output options.
 
 # Testing
 
-- Create tests/unit/http-api.test.js using vitest and supertest:
-  - Test GET /plot?expression=x&xmin=0&xmax=2&samples=3 returns 200 and JSON array of length 3 with correct x, y values.
-  - Test GET /plot without expression returns 400 and JSON error payload.
-  - Test invalid numeric query (samples < 2 or non-numeric) returns 400 with descriptive error.
-  - Mock generateExpressionData using vi to simulate and verify error paths.
+Add integration tests in tests/unit/http-api.test.js using vitest and supertest:
+
+- Import createServer from src/lib/main.js and wrap it in supertest without opening a real network port.
+- Test GET /plot?expression=x&xmin=0&xmax=2&samples=3 returns 200 and JSON array of 3 points with correct x and y values.
+- Test GET /plot without expression returns 400 with JSON error payload.
+- Test GET /plot with outputFormat=ascii returns 200 and text/plain ASCII chart containing markers and line breaks.
+- Test GET /plot with invalid samples (samples<2 or non-numeric) returns 400 with descriptive error.
+- Test GET /stats?expression=x^2&xmin=0&xmax=5&samples=6 returns 200 and JSON with statistics keys x_min, x_max, x_mean, x_median, x_stddev, y_min, y_max, y_mean, y_median, y_stddev.
+- Test GET /stats without expression returns 400 with JSON error.
+- Test GET /stats with invalid samples returns 400 with descriptive error.
 
 # Documentation
 
-- Update README.md under a new "HTTP Server Subcommand" section:
-  - Show how to start the server: `repository0-plot-code-lib serve --port 3000`.
-  - Include curl examples:
-    curl "http://localhost:3000/plot?expression=x^2&xmin=0&xmax=2&samples=5"
-  - Describe query parameters and response format.
-- Update USAGE.md to list the serve command and its options with brief examples.
+Update README.md under a new HTTP Server Subcommand section:
+
+- Show how to start the server:
+
+  repository0-plot-code-lib serve --port 3000
+
+- Provide curl examples:
+
+  curl "http://localhost:3000/plot?expression=x^2&xmin=0&xmax=2&samples=5"
+  # Returns JSON array of { x, y } points.
+
+  curl "http://localhost:3000/plot?expression=x&samples=10&outputFormat=ascii"
+  # Returns ASCII art chart as text/plain.
+
+  curl "http://localhost:3000/stats?expression=x^2&xmin=0&xmax=5&samples=6"
+  # Returns JSON statistics with keys x_min, x_max, x_mean, x_median, x_stddev, y_min, y_max, y_mean, y_median, y_stddev.
+
+Ensure examples match actual server behavior and include expected HTTP status codes.
