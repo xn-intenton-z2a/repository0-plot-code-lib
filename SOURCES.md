@@ -3,7 +3,7 @@
 ## https://nodejs.org/api/stream.html
 ## https://nodejs.org/api/stream.html#stream_promises
 ## https://nodejs.org/api/perf_hooks.html
-Comprehensive reference covering filesystem operations (fs, fs/promises with AbortSignal support), low-level and high-level stream APIs (Readable, Writable, Transform, backpressure, object mode), the Promise-based stream utilities (pipeline, finished, async iteration), and the Performance Hooks API (PerformanceObserver, mark/measure, event loop timings). Enhanced with practical examples on backpressure-aware JSON handling, integrating JSONStream patterns (parse, stringify, filter) directly into Node.js streams, and tuning pipeline concurrency. Essential for implementing serializeDataStream, NDJSON record streaming, file-backed caches, and precise benchmarking in the --benchmark feature.
+Comprehensive reference covering filesystem operations (fs, fs/promises with AbortSignal support), low-level and high-level stream APIs (Readable, Writable, Transform, backpressure, object mode), the Promise-based stream utilities (pipeline, finished, async iteration), and the Performance Hooks API (PerformanceObserver, mark/measure, event loop timings). Enhanced with practical examples on backpressure-aware JSON handling, integrating JSONStream patterns directly into Node.js streams, and tuning pipeline concurrency. Essential for implementing serializeDataStream, NDJSON record streaming, file-backed caches, and precise benchmarking in the --benchmark feature.
 ## License: Node.js (MIT-like terms)
 
 # Node.js ECMAScript Modules (ESM) Guide
@@ -21,15 +21,11 @@ In-depth reference on schema creation, parsing pipelines, type inference, asynch
 Comprehensive CLI toolkit reference covering declarative command modules, positional arguments, type coercion, middleware hooks, localized help generation, and async command handlers. Provides best practices for orchestrating complex CLI workflows, subcommands, and extending argument parsing with plugins.
 ## License: MIT
 
-# Newline Delimited JSON (NDJSON) Specification
-## http://ndjson.org/
-Defines the line-delimited JSON format (MIME type application/x-ndjson), record separation rules, streaming payload guidelines, and interoperability requirements. Provides actionable details for implementing CLI NDJSON output, streaming consumers, and memory-efficient pipelines handling large datasets.
-## License: CC0
-
-# JSON (RFC 8259) Specification
+# JSON & NDJSON Specifications
 ## https://www.rfc-editor.org/rfc/rfc8259
-The authoritative IETF standard defining the JSON data interchange format, including syntax, data types, Unicode handling, and parsing requirements. Essential for ensuring compliance with JSON parsers, handling edge cases in streaming/NDJSON contexts, and validating output against strict JSON rules.
-## License: IETF (public domain)
+## http://ndjson.org/
+Combined authoritative specifications for JSON (syntax, data types, Unicode handling, parsing requirements) and NDJSON (MIME type application/x-ndjson, record separation rules, streaming payload guidelines). Essential for ensuring strict compliance, interoperability, and memory-efficient record streaming in CLI modes.
+## License: IETF (public domain) / CC0
 
 # SVG Technical Documentation (MDN & W3C)
 ## https://developer.mozilla.org/docs/Web/SVG
@@ -73,14 +69,8 @@ Comprehensive reference on the Math.js library’s expression parser, evaluator,
 ## https://github.com/motdotla/dotenv#readme
 ## https://yaml.org/spec/1.2/spec.html
 ## https://github.com/nodeca/js-yaml#readme
-Covers environment variable management with dotenv including safe mode enforcement and custom path loading. Augmented with the OASIS YAML 1.2 specification detailing syntax, data types, anchors, tags, and schema rules; and js-yaml documentation outlining API usage for parsing, dumping, custom schema definitions, and error handling. Vital for environment-based configuration and robust CLI config-loader implementation using agent-config.yml.
+Covers environment variable management with dotenv including safe mode enforcement and custom path loading. Augmented with the OASIS YAML 1.2 specification detailing syntax, data types, anchors, tags, and schema rules; and js-yaml documentation outlining API usage for parsing, dumping, custom schema definitions, and error handling. Vital for environment-based configuration and robust CLI config-loader implementation.
 ## License: MIT / OASIS (public domain)
-
-# Streaming Transformation and Parsing Libraries (merged)
-## https://github.com/adaltas/node-stream-transform#readme
-## https://github.com/dominictarr/JSONStream#readme
-Stream-Transform provides a configurable API for mapping, filtering, and reducing data chunks within streaming pipelines with concurrency control and backpressure support. JSONStream offers pattern-based streaming JSON parsing/stringifying for memory-efficient handling of large datasets. Combined, these libraries deliver practical strategies for building high-throughput, chunked data ingestion and processing pipelines essential for --streaming mode and NDJSON workflows.
-## License: MIT
 
 # Node.js Concurrency and Parallelism
 ## https://nodejs.org/api/worker_threads.html
@@ -88,3 +78,13 @@ Stream-Transform provides a configurable API for mapping, filtering, and reducin
 ## https://nodejs.org/api/os.html
 Covers Node.js concurrency APIs including worker_threads (Worker, MessageChannel, SharedArrayBuffer), child_process (spawn, fork, exec, IPC patterns), and the os module for CPU detection and resource management. Includes best practices for inter-process communication, error handling, and dynamic thread-pool sizing. Vital for orchestrating high-throughput batch plotting tasks in parallel or isolated processes.
 ## License: Node.js (MIT-like terms)
+
+# EJS Templating Engine Documentation
+## https://ejs.co/#docs
+Official EJS documentation detailing template syntax, API usage, custom delimiters, partials/includes, caching strategies, and performance considerations. Provides actionable guidance for building and integrating EJS-based templates, including default and custom report layouts in the --report feature.
+## License: MIT
+
+# markdown-it Markdown Parser Documentation
+## https://markdown-it.github.io/
+Comprehensive guide to the markdown-it library API, parsing options, plugin ecosystem (including markdown-it-github), and performance tuning. Covers secure mode for HTML sanitization, custom renderer rules, and integrating Markdown-to-HTML conversion in Node.js pipelines—essential for implementing narrative sections in report generation.
+## License: MIT
