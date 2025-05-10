@@ -7,7 +7,7 @@ import { evaluate } from "mathjs";
 export function main(args) {
   if (!args || args.length === 0) {
     printHelp();
-    process.exit(0);
+    return;
   }
   const [cmd, ...rest] = args;
   if (cmd === "plot") {
