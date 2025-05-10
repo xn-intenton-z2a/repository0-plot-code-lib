@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="express_core" href="#express_core"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESS_CORE</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Node requirements: Express 4.x requires Node&gt;=0.10; 5.x requires Node&gt;=18. Install: npm install express --save (--no-save). Application creation: express() returns app instance. Listen: app.listen(port, callback). Routing: app.METHOD(path, handler), METHODS=get,post,put,delete,all; multiple handlers supported. Static files: express.static(root,[options]); app.use(express.static('public')); mount with prefix and multiple directories. Error handling: 404 middleware uses signature (req,res,next); error middleware uses (err,req,res,next). Router: express.Router({mergeParams:boolean}); define router.use, router.METHOD; mount with app.use('/path',router). Response methods include res.send,res.json,res.jsonp,res.redirect,res.render,res.sendFile,res.download,res.end,res.sendStatus.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Installation Requirements
+2 Hello World Setup
+3 Routing Methods
+4 Static File Serving
+5 Error Handling
+6 Router Module</p>
+<p class="md-github">1 Installation Requirements</p>
+<ul class="md-github">
+<li class="md-github">Express v4 requires Node&gt;=0.10</li>
+<li class="md-github">Express v5 requires Node&gt;=18</li>
+<li class="md-github">Commands:
+mkdir myapp; cd myapp
+npm init (entry point: app.js)
+npm install express --save  (--no-save for temp)</li>
+</ul>
+<p class="md-github">2 Hello World Setup
+In app.js:
+const express = require('express')
+const app = express()
+const port = 3000</p>
+<p class="md-github">app.get('/', (req, res) =&gt; { res.send('Hello World!') })
+app.listen(port, () =&gt; { console.log('Example app listening on port', port) })</p>
+<p class="md-github">Run server:
+node app.js</p>
+<p class="md-github">3 Routing Methods
+Signature: app.METHOD(path, ...handlers)
+Supported METHODS: get, post, put, delete, all
+Multiple handlers: app.get(path, fn1, fn2)</p>
+<p class="md-github">4 Static File Serving
+Signature: express.static(root, [options])
+Serve 'public' directory:
+app.use(express.static('public'))
+Multiple dirs order:
+app.use(express.static('public'))
+app.use(express.static('files'))
+Virtual prefix:
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))</p>
+<p class="md-github">5 Error Handling
+404 handler (no err param):
+app.use((req, res) =&gt; { res.status(404).send('Not Found') })
+Error middleware (4 params):
+app.use((err, req, res, next) =&gt; { res.status(500).send('Error') })</p>
+<p class="md-github">6 Router Module
+Create router:
+const router = express.Router({ mergeParams: true })
+Load middleware: router.use(fn)
+Define routes: router.get('/', handler)
+Mount: app.use('/prefix', router)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Project setup:
+1 mkdir myapp; cd myapp
+2 npm init (set entry point to app.js)
+3 npm install express --save</p>
+<p class="md-github">Express Generator (Node&gt;=8.2):
+npx express-generator [options]
+Options:
+-h --help        show help
+--version        show version
+-e --ejs         add ejs engine
+--hbs            add handlebars
+--pug            add pug
+-v --view <eng>  view engine (ejs|hbs|hjs|jade|pug|twig|vash)
+-c --css <eng>   css engine (less|stylus|compass|sass)
+--git            add .gitignore
+-f --force       force on non-empty dir
+--no-view        skip view engine
+Example: npx express-generator --view=pug myapp
+cd myapp; npm install
+Start app:
+Mac/Linux: DEBUG=myapp:* npm start
+Windows CMD: set DEBUG=myapp:* &amp; npm start
+PowerShell: $env:DEBUG='myapp:*'; npm start</p>
+<p class="md-github">Static serving: use absolute paths with path.join(__dirname,'public')
+Performance: use reverse proxy cache</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications</p>
+<p class="md-github">express(): Application instance</p>
+<p class="md-github">express.static(root: string, options?: { dotfiles?: string, etag?: boolean, extensions?: string[], index?: boolean|string|string[], lastModified?: boolean, maxAge?: number|string, redirect?: boolean, setHeaders?: (res, path, stat) =&gt; void }): HandlerFunction</p>
+<p class="md-github">express.Router(options?: { mergeParams?: boolean }): Router</p>
+<p class="md-github">app.get(path: string|RegExp, ...handlers: RequestHandler[]): Application
+app.post(path: string|RegExp, ...handlers: RequestHandler[]): Application
+app.put(path: string|RegExp, ...handlers: RequestHandler[]): Application
+app.delete(path: string|RegExp, ...handlers: RequestHandler[]): Application
+app.all(path: string|RegExp, ...handlers: RequestHandler[]): Application
+app.use(path?: string|Router|RequestHandler, ...handlers: RequestHandler[]): Application
+app.listen(port: number|string, hostname?: string, backlog?: number, callback?: () =&gt; void): Server</p>
+<p class="md-github">Response methods:
+res.send(body: string|object|Buffer): void
+res.json(body: any): void
+res.jsonp(body: any): void
+res.redirect(status: number, path: string): void
+res.redirect(path: string): void
+res.render(view: string, locals?: object, callback?: (err: Error, html: string) =&gt; void): void
+res.sendFile(path: string, options?: object, callback?: (err: Error) =&gt; void): void
+res.download(path: string, filename?: string, options?: object, callback?: (err: Error) =&gt; void): void
+res.end(data?: any, encoding?: string): void
+res.sendStatus(statusCode: number): void</p>
+<p class="md-github">Code Examples included above</p>
+<p class="md-github">Best Practices</p>
+<ul class="md-github">
+<li class="md-github">Use absolute paths for static dirs</li>
+<li class="md-github">Order middleware declarations explicitly</li>
+<li class="md-github">Place 404 handler after all routes</li>
+<li class="md-github">Use error-handling middleware with 4 args</li>
+</ul>
+<p class="md-github">Troubleshooting</p>
+<ul class="md-github">
+<li class="md-github">Node version mismatch: node -v (should be&gt;=18 for Express5)</li>
+<li class="md-github">Port in use: lsof -i :3000; kill <pid></li>
+<li class="md-github">Reset deps: rm -rf node_modules package-lock.json; npm install</li>
+<li class="md-github">Syntax check: node --check app.js</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Node&gt;=0.10 (Express4), Node&gt;=18 (Express5); npm install express --save; express(): Application; app.METHOD(path,...handlers): get,post,put,delete,all; app.all, app.use; express.static(root,[options]) returns Handler; options={dotfiles,etag,extensions,index,lastModified,maxAge,redirect,setHeaders}; Router({mergeParams}) returns Router; response methods: send, json, jsonp, redirect, render, sendFile, download, end, sendStatus; HelloWorld, routing, static, error, router patterns; express-generator CLI options; start via DEBUG=name:* npm start; troubleshooting commands node -v, lsof, kill, reinstall modules</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1 Installation Requirements
+2 Hello World Setup
+3 Routing Methods
+4 Static File Serving
+5 Error Handling
+6 Router Module</p>
+<p class="md-github">1 Installation Requirements</p>
+<ul class="md-github">
+<li class="md-github">Express v4 requires Node&gt;=0.10</li>
+<li class="md-github">Express v5 requires Node&gt;=18</li>
+<li class="md-github">Commands:
+mkdir myapp; cd myapp
+npm init (entry point: app.js)
+npm install express --save  (--no-save for temp)</li>
+</ul>
+<p class="md-github">2 Hello World Setup
+In app.js:
+const express = require('express')
+const app = express()
+const port = 3000</p>
+<p class="md-github">app.get('/', (req, res) =&gt; { res.send('Hello World!') })
+app.listen(port, () =&gt; { console.log('Example app listening on port', port) })</p>
+<p class="md-github">Run server:
+node app.js</p>
+<p class="md-github">3 Routing Methods
+Signature: app.METHOD(path, ...handlers)
+Supported METHODS: get, post, put, delete, all
+Multiple handlers: app.get(path, fn1, fn2)</p>
+<p class="md-github">4 Static File Serving
+Signature: express.static(root, [options])
+Serve 'public' directory:
+app.use(express.static('public'))
+Multiple dirs order:
+app.use(express.static('public'))
+app.use(express.static('files'))
+Virtual prefix:
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))</p>
+<p class="md-github">5 Error Handling
+404 handler (no err param):
+app.use((req, res) =&gt; { res.status(404).send('Not Found') })
+Error middleware (4 params):
+app.use((err, req, res, next) =&gt; { res.status(500).send('Error') })</p>
+<p class="md-github">6 Router Module
+Create router:
+const router = express.Router({ mergeParams: true })
+Load middleware: router.use(fn)
+Define routes: router.get('/', handler)
+Mount: app.use('/prefix', router)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Express Official Documentation
+https://expressjs.com/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-express_core" href="#digest-of-express_core"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPRESS_CORE</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
+<p class="md-github">Express 4.x requires Node.js 0.10 or higher
+Express 5.x requires Node.js 18 or higher</p>
+<p class="md-github">Install Express and save in dependencies:
+$ npm install express --save
+Temporary install (no save):
+$ npm install express --no-save</p>
+<h1 class="md-github"><a class="md-github__anchor" name="hello-world-example" href="#hello-world-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hello World Example</h1>
+<p class="md-github">const express = require('express')
+const app = express()
+const port = 3000</p>
+<p class="md-github">app.get('/', (req, res) =&gt; {
+res.send('Hello World!')
+})</p>
+<p class="md-github">app.listen(port, () =&gt; {
+console.log('Example app listening on port', port)
+})</p>
+<h1 class="md-github"><a class="md-github__anchor" name="basic-routing" href="#basic-routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Routing</h1>
+<p class="md-github">Route definition: app.METHOD(PATH, HANDLER)
+Supported METHODS: get, post, put, delete, all</p>
+<p class="md-github">Examples:
+app.get('/', (req, res) =&gt; { res.send('Hello World!') })
+app.post('/', (req, res) =&gt; { res.send('Got a POST request') })
+app.put('/user', (req, res) =&gt; { res.send('Got a PUT request at /user') })
+app.delete('/user', (req, res) =&gt; { res.send('Got a DELETE request at /user') })
+app.all('/secret', (req, res, next) =&gt; { next() })</p>
+<h1 class="md-github"><a class="md-github__anchor" name="serving-static-files" href="#serving-static-files"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Serving Static Files</h1>
+<p class="md-github">Function signature: express.static(root, [options])
+root: directory path to serve static assets</p>
+<p class="md-github">Basic usage:
+app.use(express.static('public'))</p>
+<p class="md-github">Multiple directories:
+app.use(express.static('public'))
+app.use(express.static('files'))</p>
+<p class="md-github">Virtual path prefix:
+const path = require('path')
+app.use('/static', express.static(path.join(__dirname, 'public')))</p>
+<h1 class="md-github"><a class="md-github__anchor" name="error-handling" href="#error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error Handling</h1>
+<p class="md-github">404 response handler (no error object):
+app.use((req, res, next) =&gt; {
+res.status(404).send('Sorry cant find that!')
+})</p>
+<p class="md-github">Error-handling middleware signature (with four args):
+app.use((err, req, res, next) =&gt; {
+console.error(err.stack)
+res.status(500).send('Something broke!')
+})</p>
+<h1 class="md-github"><a class="md-github__anchor" name="router-module" href="#router-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Router Module</h1>
+<p class="md-github">Create router with optional mergeParams:
+const express = require('express')
+const router = express.Router({ mergeParams: true })</p>
+<p class="md-github">Load router-specific middleware:
+router.use((req, res, next) =&gt; { /* ... */ next() })</p>
+<p class="md-github">Define routes:
+router.get('/', (req, res) =&gt; { res.send('Home') })
+router.get('/about', (req, res) =&gt; { res.send('About') })</p>
+<p class="md-github">Mount router in main app:
+const birds = require('./birds')
+app.use('/birds', birds)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Express Official Documentation</li>
+<li class="md-github">URL: https://expressjs.com/</li>
+<li class="md-github">License: License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-10T11:03:05.682Z</li>
+<li class="md-github">Data Size: 6952885 bytes</li>
+<li class="md-github">Links Found: 16342</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-10</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-10T12:46:02.574Z</p>
+  </footer>
+</body>
+</html>

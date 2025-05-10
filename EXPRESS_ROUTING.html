@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="express_routing" href="#express_routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESS_ROUTING</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Application methods app.METHOD(path, ...handlers) signature returns Application. Supported methods: get, post, put, delete, patch, options, head, all, use. Route path can be string, array, RegExp, array. Named parameters :name with optional (regex). Handler signature (req, res, next). express.Router(options) options: caseSensitive false, mergeParams false, strict false. app.route(path) chainable methods. Response methods and signatures as listed.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Route Definition
+2 Route Methods
+3 Route Paths
+4 Route Parameters
+5 Route Handlers
+6 Response Methods
+7 app.route
+8 express.Router</p>
+<p class="md-github">1 Route Definition
+app.METHOD(path, ...handlers)    METHOD from get, post, put, delete, patch, options, head, all, use    returns Application instance</p>
+<p class="md-github">2 Route Methods
+Signature
+Application.METHOD(path: string|string[]|RegExp|RegExp[], ...handlers: RequestHandler[]): Application</p>
+<p class="md-github">3 Route Paths
+Types
+string exact match
+string pattern (?, +, *, parentheses)
+RegExp literal
+Examples
+app.get('/about', handler)
+app.get('/ab?cd', handler)
+app.get(/.*fly$/, handler)</p>
+<p class="md-github">4 Route Parameters
+Syntax
+:/paramName
+With regex constraint
+:(\w+)(regex)
+Example
+app.get('/users/:userId(\d+)', (req, res) =&gt; res.send(req.params))
+Access req.params.userId</p>
+<p class="md-github">5 Route Handlers
+Signature
+RequestHandler = (req: Request, res: Response, next: NextFunction) =&gt; void
+Forms
+single function
+array of functions
+combination of functions and arrays
+Examples
+app.get('/example/a', handlerA)
+app.get('/example/b', preflight, handlerB)
+app.get('/example/c', [cb0, cb1, cb2])</p>
+<p class="md-github">6 Response Methods
+res.download(path[, filename][, options][, fn])
+res.end([data][, encoding])
+res.json(body)
+res.jsonp(body)
+res.redirect([status,] path)
+res.render(view[, locals][, callback])
+res.send(body)
+res.sendFile(path[, options][, fn])
+res.sendStatus(statusCode)</p>
+<p class="md-github">7 app.route
+Chainable handlers on a single path
+app.route('/book')
+.get(getHandler)
+.post(postHandler)
+.put(putHandler)</p>
+<p class="md-github">8 express.Router
+Signature
+express.Router([options]) -&gt; Router
+Options
+type RouterOptions = {
+caseSensitive?: boolean  default false
+mergeParams?: boolean    default false
+strict?: boolean         default false
+}
+Example
+const router = express.Router({ mergeParams: true })
+router.use(timeLog)
+router.get('/', homeHandler)
+router.get('/about', aboutHandler)
+module.exports = router
+app.use('/birds', router)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">RouterOptions default values: caseSensitive false, mergeParams false, strict false. When nesting routers under paths with parameters, set mergeParams true to preserve req.params from parent. Mounting order: app.use(middleware) before routes. Multiple static directories: app.use(express.static('public')); app.use(express.static('files')). Virtual path prefix: app.use('/static', express.static(path.join(__dirname, 'public'))).
+Use reverse proxy cache for static assets performance.
+Error-handling middleware signature: (err, req, res, next) with four arguments.
+404 handler placement: app.use((req, res) =&gt; res.status(404).send(&quot;Not found&quot;)) at bottom.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Application Methods
+app.get(path, ...handlers)
+app.post(path, ...handlers)
+app.put(path, ...handlers)
+app.delete(path, ...handlers)
+app.patch(path, ...handlers)
+app.options(path, ...handlers)
+app.head(path, ...handlers)
+app.all(path, ...handlers)
+app.use([path], ...handlers)
+Signature
+(path: string|string[]|RegExp|RegExp[], ...handlers: RequestHandler[]) =&gt; Application</p>
+<p class="md-github">RequestHandler and NextFunction
+type RequestHandler = (req: Request, res: Response, next: NextFunction) =&gt; void
+type NextFunction = (err?: any) =&gt; void</p>
+<p class="md-github">Response methods
+res.download(path: string, filename?: string, options?: object, callback?: (err: any) =&gt; void): void
+res.end(data?: any, encoding?: string): void
+res.json(body: any): void
+res.jsonp(body: any): void
+res.redirect(statusOrPath: number|string, path?: string): void
+res.render(view: string, locals?: object, callback?: (err: any, html: string) =&gt; void): void
+res.send(body: any): void
+res.sendFile(path: string, options?: { root?: string; headers?: object; dotfiles?: string; maxAge?: number|string }, callback?: (err: any) =&gt; void): void
+res.sendStatus(statusCode: number): void</p>
+<p class="md-github">express.Router
+Signature
+express.Router(options?: { caseSensitive?: boolean; mergeParams?: boolean; strict?: boolean }): Router
+Router.METHOD same as app.METHOD on Router instance</p>
+<p class="md-github">Example Implementation Pattern
+1 mkdir myapp &amp;&amp; cd myapp
+2 npm init -y
+3 npm install express
+4 Create app.js with:
+const express = require('express')
+const app = express()
+app.use(express.json())
+const birdsRouter = require('./birds')
+app.use('/birds', birdsRouter)
+app.listen(3000)
+5 Create birds.js:
+const express = require('express')
+const router = express.Router({ mergeParams: true })
+router.use((req, res, next) =&gt; { console.log(Date.now()); next() })
+router.get('/', (req, res) =&gt; res.send('Home'))
+router.get('/:id', (req, res) =&gt; res.json({ id: req.params.id }))
+module.exports = router</p>
+<p class="md-github">Best Practices
+Place error-handling middleware after all routes. Use caseSensitive and strict routing when exact matching required. Use express.json() before routes for JSON parsing. Use next('route') to skip to next matching route.</p>
+<p class="md-github">Troubleshooting
+Problem: Route not matched
+Command: curl -i http://localhost:3000/unknown
+Expected: HTTP/1.1 404 Not Found
+Actual: hangs
+Check: 404 handler placement, missing next()</p>
+<p class="md-github">Problem: req.params empty
+Check mergeParams option if nested router under params path.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">app.METHOD(path: string|string[]|RegExp|RegExp[], ...handlers: RequestHandler[]) =&gt; Application Supported METHODS get post put delete patch options head all use. RequestHandler(req: Request,res: Response,next: NextFunction). Route path types string exact, string pattern (?,+,*,()), RegExp. Params :name or :name(regex). Access req.params.name. express.Router(options:{caseSensitive?:boolean,mergeParams?:boolean,strict?:boolean}) returns Router. Response methods download(path,filename?,options?,cb?),end(data?,enc?),json(body),jsonp(body),redirect(statusOrPath,path?),render(view,locals?,cb?),send(body),sendFile(path,options?,cb?),sendStatus(statusCode). app.route(path).get(...).post(...).put(...). Error handler signature(err,req,res,next). 404 handler: placement at bottom. Best practices: mergeParams for nested, express.json() before routes, next('route') skip handlers. Troubleshooting: verify handler order and path matching.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1 Route Definition
+2 Route Methods
+3 Route Paths
+4 Route Parameters
+5 Route Handlers
+6 Response Methods
+7 app.route
+8 express.Router</p>
+<p class="md-github">1 Route Definition
+app.METHOD(path, ...handlers)    METHOD from get, post, put, delete, patch, options, head, all, use    returns Application instance</p>
+<p class="md-github">2 Route Methods
+Signature
+Application.METHOD(path: string|string[]|RegExp|RegExp[], ...handlers: RequestHandler[]): Application</p>
+<p class="md-github">3 Route Paths
+Types
+string exact match
+string pattern (?, +, *, parentheses)
+RegExp literal
+Examples
+app.get('/about', handler)
+app.get('/ab?cd', handler)
+app.get(/.*fly$/, handler)</p>
+<p class="md-github">4 Route Parameters
+Syntax
+:/paramName
+With regex constraint
+:('w+)(regex)
+Example
+app.get('/users/:userId('d+)', (req, res) =&gt; res.send(req.params))
+Access req.params.userId</p>
+<p class="md-github">5 Route Handlers
+Signature
+RequestHandler = (req: Request, res: Response, next: NextFunction) =&gt; void
+Forms
+single function
+array of functions
+combination of functions and arrays
+Examples
+app.get('/example/a', handlerA)
+app.get('/example/b', preflight, handlerB)
+app.get('/example/c', [cb0, cb1, cb2])</p>
+<p class="md-github">6 Response Methods
+res.download(path[, filename][, options][, fn])
+res.end([data][, encoding])
+res.json(body)
+res.jsonp(body)
+res.redirect([status,] path)
+res.render(view[, locals][, callback])
+res.send(body)
+res.sendFile(path[, options][, fn])
+res.sendStatus(statusCode)</p>
+<p class="md-github">7 app.route
+Chainable handlers on a single path
+app.route('/book')
+.get(getHandler)
+.post(postHandler)
+.put(putHandler)</p>
+<p class="md-github">8 express.Router
+Signature
+express.Router([options]) -&gt; Router
+Options
+type RouterOptions = {
+caseSensitive?: boolean  default false
+mergeParams?: boolean    default false
+strict?: boolean         default false
+}
+Example
+const router = express.Router({ mergeParams: true })
+router.use(timeLog)
+router.get('/', homeHandler)
+router.get('/about', aboutHandler)
+module.exports = router
+app.use('/birds', router)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Express Official Documentation
+https://expressjs.com/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-express_routing" href="#digest-of-express_routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPRESS_ROUTING</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="routing" href="#routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Routing</h1>
+<p class="md-github">Content retrieved on 2024-06-20
+Source: https://expressjs.com/
+Data Size: 7337000 bytes, Links Found: 17570</p>
+<p class="md-github">Define application endpoints and HTTP methods with express Application methods.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="route-methods" href="#route-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route Methods</h2>
+<p class="md-github">Signature:</p>
+<p class="md-github">Application.METHOD(path, ...handlers) -&gt; Application</p>
+<p class="md-github">Supported METHODS: get, post, put, delete, patch, options, head, all, use</p>
+<h2 class="md-github"><a class="md-github__anchor" name="route-paths" href="#route-paths"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route Paths</h2>
+<p class="md-github">Accepts string, array of strings, RegExp, array of RegExp.</p>
+<p class="md-github">Examples:</p>
+<p class="md-github">app.get('/about', handler)
+app.get('/ab?cd', handler)
+app.get(/.*fly$/, handler)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="route-parameters" href="#route-parameters"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route Parameters</h2>
+<p class="md-github">Syntax: named segments :paramName, optional regex constraint in parentheses.</p>
+<p class="md-github">Example:</p>
+<p class="md-github">app.get('/users/:userId(\d+)', handler)
+Values accessed via req.params.userId</p>
+<h2 class="md-github"><a class="md-github__anchor" name="route-handlers" href="#route-handlers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route Handlers</h2>
+<p class="md-github">Signature of each handler:</p>
+<p class="md-github">(req: Request, res: Response, next: NextFunction) =&gt; void</p>
+<p class="md-github">Accepts single function, array of functions, or combination.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="response-methods" href="#response-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Response Methods</h2>
+<p class="md-github">res.download(path[, filename][, options][, callback])
+res.end([data][, encoding])
+res.json(body)
+res.jsonp(body)
+res.redirect([status,] path)
+res.render(view[, locals][, callback])
+res.send(body)
+res.sendFile(path[, options][, callback])
+res.sendStatus(statusCode)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="approute" href="#approute"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.route()</h2>
+<p class="md-github">Chainable route handlers for a single path:</p>
+<p class="md-github">app.route('/book')
+.get(getHandler)
+.post(postHandler)
+.put(putHandler)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="expressrouter" href="#expressrouter"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.Router</h2>
+<p class="md-github">Signature:</p>
+<p class="md-github">express.Router([options]) -&gt; Router instance</p>
+<p class="md-github">Options:
+caseSensitive: boolean (default false)
+mergeParams: boolean (default false)
+strict: boolean (default false)</p>
+<p class="md-github">Usage:</p>
+<p class="md-github">const router = express.Router({ mergeParams: true })
+router.use(middleware)
+router.get('/', handler)
+module.exports = router</p>
+<p class="md-github">app.use('/path', router)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Express Official Documentation</li>
+<li class="md-github">URL: https://expressjs.com/</li>
+<li class="md-github">License: License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-10T12:01:30.750Z</li>
+<li class="md-github">Data Size: 7337000 bytes</li>
+<li class="md-github">Links Found: 17570</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-10</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-10T12:46:02.660Z</p>
+  </footer>
+</body>
+</html>
