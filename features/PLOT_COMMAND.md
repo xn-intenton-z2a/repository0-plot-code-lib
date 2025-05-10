@@ -1,61 +1,63 @@
 # Summary
-Extend the plot subcommand to support reading data from JSON, YAML, or CSV files and rendering simple ASCII charts in the console or writing rendered output to a file.
+
+Provide a unified plot subcommand that supports both file-based data input and mathematical expression evaluation. Users can render line, bar, or scatter charts as ASCII art in the console or write rendered output to a file, choosing data from JSON, YAML, CSV, or a custom formula.
 
 # Behavior
-When the first argument is plot:
 
-- Parse flags:
-  - `--type <chartType>` Chart type: line, bar, scatter; default line.
-  - `--width <pixels>` Width of the plot in pixels; default 640.
-  - `--height <pixels>` Height of the plot in pixels; default 480.
-  - `--data <filePath>` Optional path to a JSON, YAML, or CSV data file containing either:
-    - An array of numeric values,
-    - An array of objects with x and y fields,
-    - A CSV table with two columns (x and y) or a single column of numeric values.
-  - `--output <file>` Optional path to write rendered output. If omitted, render chart as ASCII art in the console.
+When the first argument is "plot" is provided:
 
-- If `--data` is omitted, use a built-in sample data set.
-- Detect file type by extension: .json, .yaml/.yml, .csv. Use js-yaml to parse YAML and a CSV parser to parse CSV.
-- On JSON, YAML, or CSV parse errors, display a descriptive message and exit with code 1.
-- After loading data, normalize into an array of points with x and y values (for single-value arrays, treat index as x).
-- Generate the specified chart type. For console output, render a simple ASCII chart scaled to width and height. For file output, write the ASCII rendering or raw data summary to the target file.
+- If the --expression flag is present:
+  - Evaluate the mathematical expression in x over a domain (xmin to xmax) sampled at a specified number of points.
+  - Handle syntax or evaluation errors by printing a descriptive error and exiting with code 1.
+- Otherwise, if the --data flag is present:
+  - Load and parse data from JSON, YAML, or CSV files; normalize into an array of { x, y } points.
+  - On parse or file errors, display a descriptive message and exit with code 1.
+- If neither expression nor data is provided, use a built-in default data set.
+- After obtaining data points, scale and render the specified chart type in ASCII or write to the given output file.
+- On success, print a summary message or output file path and exit with code 0.
 
 # CLI Flags
 
-Usage: repository0-plot-code-lib plot [flags]
+- --type <chartType>    Chart type: line, bar, scatter (default line)
+- --width <number>      Horizontal resolution for ASCII scaling (default 640)
+- --height <number>     Vertical resolution for ASCII scaling (default 480)
+- --data <filePath>     Path to JSON, YAML, or CSV data file
+- --expression <expr>   JavaScript expression in x to generate y values
+- --xmin <number>       Minimum x value for expression domain (default -10)
+- --xmax <number>       Maximum x value for expression domain (default 10)
+- --samples <integer>   Number of sample points when using expression (default 100)
+- --output <file>       Path to write rendered output; omit to render to console
 
-Flags:
+# Implementation Details
 
-- `--type <chartType>` Chart type (line, bar, scatter)
-- `--width <pixels>` Width of the plot in pixels
-- `--height <pixels>` Height of the plot in pixels
-- `--data <filePath>` Path to JSON, YAML, or CSV data file
-- `--output <file>` Output file path for the rendered chart or summary
+- Enhance src/lib/main.js to inspect args[0] and route to the plot handler.
+- Use zod to validate flags and produce clear errors for missing or malformed inputs.
+- For expressions, compile safely via Function constructor or a minimal parser; sample over [xmin, xmax].
+- For file input, detect format by extension (.json, .yaml/.yml, .csv), parse with js-yaml or a CSV parser, normalize to { x, y }.
+- Reuse existing ASCII chart rendering logic to plot points scaled to width and height.
+- Preserve ESM module style and existing shebang invocation.
 
 # Examples
 
-repository0-plot-code-lib plot --type bar --width 400 --height 300 --data data.json
-Reads numeric array from data.json and renders a bar chart 400x300 as ASCII art in the console.
+repository0-plot-code-lib plot --expression "sin(x)"
+Generate a sine wave sampled from -10 to 10 and render a line chart as ASCII art in the console.
 
-repository0-plot-code-lib plot --data chart.yaml --output chart.txt
-Parses x/y points from chart.yaml and writes ASCII scatter chart to chart.txt.
+repository0-plot-code-lib plot --expression "x*x" --xmin 0 --xmax 5 --samples 50 --output parabola.txt
+Generate 50 samples of x squared between 0 and 5 and write ASCII chart to parabola.txt.
 
-repository0-plot-code-lib plot --data points.csv
-Reads two-column CSV (x,y) from points.csv and renders a scatter chart 640x480 in the console.
-
-repository0-plot-code-lib plot --data values.csv --type line
-Reads single-column CSV of numeric values, treats row index as x, and renders a line chart.
-
-repository0-plot-code-lib plot
-Uses built-in sample data and renders a line chart 640x480 in the console.
+repository0-plot-code-lib plot --data data.csv --type scatter --width 400 --height 200
+Read two-column CSV of x,y and render a scatter chart scaled to 400x200 in the console.
 
 # Testing
 
-- Add tests in tests/unit/plot-generation.test.js to cover:
-  - Reading valid CSV data and rendering ASCII output.
-  - Reading valid JSON and YAML data as before.
-  - Defaults when `--data` is not provided.
-  - Error cases for invalid file path or parse errors in JSON, YAML, CSV (mock fs.readFile and csv parser to throw).
-  - Writing output to a file when `--output` is specified (mock fs.writeFile).
-- Mock console.log, fs.readFile, csv-parse or custom CSV parser to capture and assert rendering behavior.
-- Ensure each chart type (line, bar, scatter) renders correctly with CSV input and matches snapshot of ASCII output.
+- Update tests/unit/plot-generation.test.js to cover:
+  - Valid expression evaluation: sample count, domain bounds, and correct y values at known points.
+  - Error case for invalid expressions with exit code 1.
+  - File parsing for JSON, YAML, and CSV: mock fs.readFile and parsers to provide data and capture render output.
+  - Chart rendering for each type and output mode: mock console.log or fs.writeFile.
+  - Defaults when neither expression nor data is provided.
+
+# Documentation
+
+- Update README.md under "Plot Command Examples" to include expression scenarios and file input examples.
+- Ensure examples match actual CLI output by running commands and copying rendered charts.
