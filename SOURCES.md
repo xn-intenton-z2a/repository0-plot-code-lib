@@ -79,12 +79,18 @@ Official guide for the OpenAI Node.js client covering installation, authenticati
 The official OpenAPI 3.1.0 specification defining RESTful API contract structure including paths, components, schemas, parameters, and security schemes. Supplies formal JSON/YAML schemas suitable for validation and code generation—directly applicable to designing and documenting the /plot HTTP endpoint. Published February 2021.
 ## License: OpenAPI Specification License
 
-# Asciichart Library
+# Asciichart & D3.js Advanced Charting Libraries
 ## https://github.com/kroitor/asciichart
-Asciichart provides a lightweight API for rendering high-resolution ASCII line charts in terminals. Features include customizable offsets, padding, smoothing options, color support, and multiple series plotting. Serves as a reference for efficient terminal-based plotting algorithms and formatting techniques. Last released 2021; widely adopted under MIT license.
-## License: MIT
-
-# D3.js Data-Driven Documents
 ## https://d3js.org/
-The D3.js homepage links to modular API docs for data-driven SVG generation including scales, axes, shape generators, path utilities, and data binding patterns. Offers extensive examples and best practices for coordinate transforms, dynamic updates, and DOM-less SVG creation. Valuable for advanced custom SVG chart implementations and scale computations. Last updated 2023.
+Asciichart provides a lightweight API for rendering high-resolution ASCII line charts in terminals, featuring customizable offsets, padding, smoothing options, color support, and multiple series plotting. D3.js offers a modular API for data-driven SVG generation including scales, axes, shape generators, path utilities, and data binding patterns. Together, they illustrate efficient terminal-based and DOM-less chart algorithms, advanced coordinate transforms, and dynamic update techniques. Last updated D3.js 2023; Asciichart 2021.
+## License: MIT / BSD-3-Clause
+
+# RFC 3339 Date-Time Format Specification
+## https://tools.ietf.org/html/rfc3339
+Authoritative IETF specification for Internet date and time format including date, time, time offsets, and fractional seconds (a profile of ISO8601). Critical for consistent parsing of ISO8601 ranges and timestamp handling in time-series mode across CLI and HTTP API. Published July 2002; IETF public domain.
+## License: IETF (public domain)
+
+# Vega-Lite JSON Grammar Specification
+## https://vega.github.io/vega-lite/docs/specification.html
+Comprehensive JSON grammar for declarative statistical graphics including encoding channels, mark types, scales, axes, legends, projections, and layered/faceted composition. Provides actionable schema definitions and examples for generating and customizing charts programmatically, enabling advanced visualization pipelines. Last updated 4.17.0 (January 2024); authoritative from the Vega-Lite project.
 ## License: BSD-3-Clause
