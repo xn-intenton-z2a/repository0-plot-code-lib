@@ -1,46 +1,40 @@
 # Purpose
 
-Add command-line functionality to parse mathematical formulas and generate data points for plot visualizations in ASCII, JSON, SVG, or CSV formats.
+Add core plot generation support including expression parsing, range processing, and time-series data output in multiple formats.
 
 # Behavior
 
-When invoked as repository0-plot-code-lib plot "<formula>" [--output <file>] [--format ascii|json|svg|csv] [--width <n>] [--height <n>] [--range "<min>,<max>"] the CLI will:
-
-- Parse the formula and sample default 50 points over the specified range.
-- Support four output formats:
-  - ascii: render an ASCII chart with axes and data points.
-  - json: output a JSON array of objects {x, y}.
-  - svg: generate an SVG polyline graph with optional axes and labels.
-  - csv: produce comma-separated values with a header line `x,y` and one line per data point.
-- Write results to stdout by default or to the file specified by --output.
-- Exit with a non-zero status and a clear error message for invalid formulas or option values.
+- Recognize numeric mode by default.  Enable time series mode when the time-format option is provided.
+- Accept a mathematical formula string for evaluation and an optional range parameter with two comma separated values for minimum and maximum.
+- Support an optional points parameter to control the number of sample points, defaulting to 50.
+- In numeric mode, sample equidistant numeric x values within the given range.  In time-series mode, parse range boundaries as ISO8601 timestamps, sample equidistant timestamps, and convert them to milliseconds for formula evaluation.
+- Compute y equal to the formula evaluated at each sample.
+- Support four output formats: ascii, json, svg, and csv.  Each format adapts labels and headers to numeric or time-series mode.
 
 # Implementation
 
-- In src/lib/main.js:
-  - Import mathjs to parse and evaluate the formula for each x sample.
-  - Use zod to validate and coerce CLI options, extending the format schema to include csv.
-  - Generate N equidistant x values over the requested range, evaluate y = f(x).
-  - Branch on format:
-    - ascii: reuse existing ASCII chart logic.
-    - json: JSON.stringify the array of {x, y}.
-    - svg: produce an SVG polyline wrapped in an <svg> element.
-    - csv: build a string starting with "x,y" header and one line per point, escaping values per RFC 4180.
-  - Determine output destination: write to stdout or to the file path from --output.
+- Extend the CLI option schema using zod to include format, width, height, range, points, and time-format options.
+- In src/lib/main.js, detect time-series mode when the time-format option is present.
+- Parse the range value as numeric for numeric mode or as ISO strings to Date objects in time-series mode.
+- Generate an array of sample points: numeric values or Date objects converted to milliseconds.
+- Use mathjs to evaluate the formula at each sample value.
+- Branch on the format option:
+  - ascii: render a chart with axes, markers, and time labels for time-series mode.
+  - json: output an array of objects with keys x and y in numeric mode or time and value in time-series mode.
+  - svg: produce an SVG polyline graph with axis ticks and labels appropriate to the mode and set content type to image/svg+xml.
+  - csv: build a string starting with a header line using x,y or time,value and escape values per RFC4180.
+- Determine the output destination: write to stdout or to a file path supplied via the output option.
 
 # Testing
 
-- In tests/unit/plot-generation.test.js:
-  - Add tests for format=csv:
-    - Mock mathjs to return predictable values and verify the CSV header and data lines.
-    - Confirm that specifying --output writes a .csv file with correct contents.
-  - Ensure tests for ascii, json, and svg still pass unchanged.
-  - Test error handling for unsupported formats and invalid formulas.
+- Extend tests in tests/unit/plot-generation.test.js for time-series mode:
+  - Mock mathjs evaluate and Date parsing to return predictable values.
+  - Verify the JSON output array has the correct time or x keys and matching values.
+  - Verify the CSV output has the correct header and data lines.
+- Ensure existing tests for ascii, json, svg, and csv formats pass unchanged.
+- Test error handling for invalid range formats, malformed timestamps, and unsupported formats.
 
 # Documentation
 
-- Update README.md:
-  - Under the "Plot Command" section, note the csv format alongside ascii, json, and svg.
-  - Show example invocation for csv and sample output.
-- Update USAGE.md:
-  - Document the --format csv option, including default behavior and how to use --output for a .csv file.
+- Update README.md under the plot command section to describe time-series mode, how to specify the time-format option, and how to supply ISO8601 range boundaries.
+- Update USAGE.md to document the new options points and time-format, including sample invocation lines and sample outputs in each format.
