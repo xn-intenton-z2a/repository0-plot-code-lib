@@ -26,10 +26,10 @@ Comprehensive CLI toolkit reference covering declarative command modules, positi
 Defines the line-delimited JSON format (MIME type application/x-ndjson), record separation rules, streaming payload guidelines, and interoperability requirements. Provides actionable details for implementing CLI NDJSON output, streaming consumers, and memory-efficient pipelines handling large datasets.
 ## License: CC0
 
-# Vega-Lite Specification
-## https://vega.github.io/vega-lite/
-High-level JSON grammar for interactive visualizations, covering data transformations, encoding channels, mark types, scales, axes, and layer compositions. Offers concrete schema examples for mapping time series data to declarative chart definitions, customizing aggregate functions, and embedding in web or server-rendered contexts.
-## License: BSD-3-Clause
+# JSON (RFC 8259) Specification
+## https://www.rfc-editor.org/rfc/rfc8259
+The authoritative IETF standard defining the JSON data interchange format, including syntax, data types, Unicode handling, and parsing requirements. Essential for ensuring compliance with JSON parsers, handling edge cases in streaming/NDJSON contexts, and validating output against strict JSON rules.
+## License: IETF (public domain)
 
 # SVG Technical Documentation (MDN & W3C)
 ## https://developer.mozilla.org/docs/Web/SVG
@@ -81,3 +81,10 @@ Covers environment variable management with dotenv including safe mode enforceme
 ## https://github.com/dominictarr/JSONStream#readme
 Stream-Transform provides a configurable API for mapping, filtering, and reducing data chunks within streaming pipelines with concurrency control and backpressure support. JSONStream offers pattern-based streaming JSON parsing/stringifying for memory-efficient handling of large datasets. Combined, these libraries deliver practical strategies for building high-throughput, chunked data ingestion and processing pipelines essential for --streaming mode and NDJSON workflows.
 ## License: MIT
+
+# Node.js Concurrency and Parallelism
+## https://nodejs.org/api/worker_threads.html
+## https://nodejs.org/api/child_process.html
+## https://nodejs.org/api/os.html
+Covers Node.js concurrency APIs including worker_threads (Worker, MessageChannel, SharedArrayBuffer), child_process (spawn, fork, exec, IPC patterns), and the os module for CPU detection and resource management. Includes best practices for inter-process communication, error handling, and dynamic thread-pool sizing. Vital for orchestrating high-throughput batch plotting tasks in parallel or isolated processes.
+## License: Node.js (MIT-like terms)
