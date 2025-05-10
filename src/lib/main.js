@@ -107,13 +107,17 @@ function generateExpressionData(expr, xmin, xmax, samples) {
 
 function loadDataFromFile(filePath) {
   const ext = path.extname(filePath).toLowerCase();
+  if (![".json", ".yaml", ".yml", ".csv"].includes(ext)) {
+    throw new Error(`Unsupported file extension: ${ext}`);
+  }
   const content = fs.readFileSync(filePath, "utf8");
   let data;
   if (ext === ".json") {
     data = JSON.parse(content);
   } else if (ext === ".yaml" || ext === ".yml") {
     data = yaml.load(content);
-  } else if (ext === ".csv") {
+  } else {
+    // CSV parsing
     const lines = content.trim().split(/\r?\n/);
     let start = 0;
     const first = lines[0].split(",");
@@ -125,8 +129,6 @@ function loadDataFromFile(filePath) {
       const [a, b] = line.split(",").map((v) => parseFloat(v));
       return { x: a, y: b };
     });
-  } else {
-    throw new Error(`Unsupported file extension: ${ext}`);
   }
   if (!Array.isArray(data)) {
     throw new Error("Invalid data format: expected an array of { x, y } objects");
@@ -159,7 +161,10 @@ function runPlot(args) {
       );
       process.exit(1);
     }
-  } else if (opts.data) {
+    console.log(JSON.stringify(dataPoints));
+    return;
+  }
+  if (opts.data) {
     try {
       dataPoints = loadDataFromFile(opts.data);
     } catch (err) {
@@ -209,9 +214,6 @@ function runReseed(args) {
 
 // --- Server Subcommand Implementation ---
 
-/**
- * Parse options for the serve command.
- */
 function parseServerOptions(args) {
   const opts = { port: 3000, help: false };
   for (let i = 0; i < args.length; i++) {
@@ -232,13 +234,9 @@ function parseServerOptions(args) {
   return opts;
 }
 
-/**
- * Create and configure the Express server.
- */
 export function createServer(opts) {
   const app = express();
 
-  // /plot endpoint
   app.get("/plot", (req, res) => {
     const expr = req.query.expression;
     const rawSamples = req.query.samples;
@@ -273,7 +271,6 @@ export function createServer(opts) {
     }
   });
 
-  // /stats endpoint
   app.get("/stats", (req, res) => {
     const expr = req.query.expression;
     const rawSamples = req.query.samples;
@@ -302,9 +299,6 @@ export function createServer(opts) {
   return app;
 }
 
-/**
- * Run the HTTP server.
- */
 function runServer(args) {
   const opts = parseServerOptions(args);
   if (opts.help) {
@@ -318,9 +312,6 @@ function runServer(args) {
   });
 }
 
-/**
- * Render ASCII chart from data points.
- */
 function renderAsciiChart(data, { type, width, height }) {
   const xs = data.map((p) => p.x);
   const ys = data.map((p) => p.y);
@@ -343,9 +334,6 @@ function renderAsciiChart(data, { type, width, height }) {
   return grid.map((row) => row.join('')).join('\n');
 }
 
-/**
- * Compute descriptive statistics for data points.
- */
 function computeStatistics(data) {
   const xs = data.map((p) => p.x).sort((a, b) => a - b);
   const ys = data.map((p) => p.y).sort((a, b) => a - b);
