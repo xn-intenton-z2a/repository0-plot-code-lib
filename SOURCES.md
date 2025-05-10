@@ -27,14 +27,19 @@ This collection offers best practices for declarative command and subcommand par
 Authoritative IETF specifications for JSON, NDJSON, CSV, and RFC3339 date-time formatting detailing syntax, data types, Unicode handling, streaming record separation, delimiters, quoting conventions, timestamp formats, offsets, and fractional seconds. Highlights rules for incremental parsing, streaming output generation, and consistent time-series timestamp handling across CLI and HTTP API modes. Published RFC8259 (January 2018), RFC4180 (October 2005), RFC3339 (July 2002); public domain.
 ## License: IETF (public domain) / CC0
 
-# Chart Rendering & SVG Technical Documentation
+# Unified JavaScript Charting Libraries
 ## https://www.chartjs.org/docs/latest/
 ## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
 ## https://github.com/Automattic/node-canvas#readme
 ## https://quickchart.io/documentation/
 ## https://developer.mozilla.org/docs/Web/SVG
-This curated set synthesizes Chart.js v4 configuration and plugin APIs, headless rendering via ChartjsNodeCanvas and node-canvas, QuickChart HTTP API usage, and the W3C SVG2 vector graphics standard. Emphasizes DPI scaling, polyline and axis configuration, SVG serialization, and off-DOM rendering optimizations—essential for high-fidelity chart exports in CLI, batch, and server contexts. Last updated 2024.
-## License: MIT / Public API terms / CC-BY-SA / W3C License
+## https://github.com/kroitor/asciichart
+## https://d3js.org/
+## https://vega.github.io/vega-lite/docs/specification.html
+## https://plotly.com/javascript/
+## https://echarts.apache.org/en/api.html
+This consolidated section synthesizes official JavaScript plotting and SVG APIs across traditional and headless environments, including Chart.js v4 for flexible chart configurations, ChartjsNodeCanvas and node-canvas for server-side rendering, QuickChart HTTP API for on-demand charts, raw SVG2 standards for vector graphics consistency, Asciichart for terminal-friendly ASCII plots, D3.js for low-level data-driven document manipulation, Vega-Lite for declarative JSON grammar, Plotly.js for feature-rich interactive and static exports, and Apache ECharts for scalable, themeable visualizations. Emphasizes DPI scaling, streaming pipelines, off-DOM rendering, schema-driven composition, performance optimization strategies, and export options (SVG, PNG, ASCII). Last updated 2024; authoritative across respective projects.
+## License: MIT / Apache-2.0 / BSD-3-Clause / CC-BY-SA / W3C License (per project)
 
 # Sharp Image Processing Library
 ## https://sharp.pixelplumbing.com/api-constructor
@@ -74,23 +79,12 @@ Official documentation for the OpenAI Node.js client covering installation, auth
 The official OpenAPI 3.1.0 specification defining RESTful API contract structure, including paths, components, schemas, parameters, and security schemes. Supplies formal JSON/YAML schemas for validation and code generation—directly applicable to designing and documenting the `/plot` HTTP endpoint. Published February 2021; authoritative as the OpenAPI Specification.
 ## License: OpenAPI Specification License
 
-# Asciichart & D3.js Advanced Charting Libraries
-## https://github.com/kroitor/asciichart
-## https://d3js.org/
-Asciichart offers a lightweight API for rendering high-resolution ASCII line charts in terminals with customizable offsets, padding, smoothing, color support, and multi-series plotting. D3.js provides a modular API for data-driven SVG generation, including scales, axes, shape generators, and data binding patterns. Together they illustrate efficient terminal-based and DOM-less chart algorithms, advanced coordinate transformations, and dynamic update techniques. Last updated D3.js 2023; Asciichart 2021.
-## License: MIT / BSD-3-Clause
+# Minimatch Pattern Matching Library
+## https://github.com/isaacs/minimatch#readme
+Minimatch implements glob-based pattern matching for filenames and strings, following common UNIX wildcard semantics (`*`, `?`, `**`, character classes, extglobs) and options for dotfiles, case sensitivity, and path separators. Essential for implementing file selection and filtering logic (e.g., reseed target enumeration) with consistent cross-platform behavior. Last stable release April 2023; authoritative as the de facto glob matcher in the npm ecosystem.
+## License: ISC
 
-# Vega-Lite JSON Grammar Specification
-## https://vega.github.io/vega-lite/docs/specification.html
-Comprehensive JSON grammar for declarative statistical graphics, covering encoding channels, mark types, scales, axes, legends, projections, and composition patterns. Provides actionable schema definitions and examples for programmatic chart generation and customization, enabling advanced visualization pipelines. Last updated 4.17.0 (January 2024); authoritative as the Vega-Lite project.
-## License: BSD-3-Clause
-
-# Plotly.js Official Documentation
-## https://plotly.com/javascript/
-Official Plotly.js documentation covering chart types, configuration options, and advanced features such as animations, subplots, and dynamic interactions. Includes examples for static image export via Node.js using Kaleido and client-side integrations—providing a robust alternative for high-quality, interactive chart generation in headless environments. Last updated 2024.
+# EJS Template Engine Documentation
+## https://github.com/ejs/ejs#readme
+EJS (Embedded JavaScript) provides a simple yet powerful templating system for generating HTML or text outputs by embedding JavaScript code within templates. Covers syntax for tags (`<%= %>`, `<% %>`), includes, layout support, custom delimiters, async rendering, and escape strategies. Useful for generating custom report templates or console output formats in CLI workflows. Last updated August 2023; authoritative as the official EJS project.
 ## License: MIT
-
-# Apache ECharts Official API Documentation
-## https://echarts.apache.org/en/api.html
-The official API reference for Apache ECharts, detailing chart option schemas, series types, data transformations, and rendering configurations. Covers tips for performance optimization, multi-axis layouts, and theme customization—essential for building scalable, interactive charting CLI tools. Last updated 2024; authoritative as the Apache project.
-## License: Apache-2.0
