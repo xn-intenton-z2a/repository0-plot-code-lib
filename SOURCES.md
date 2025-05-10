@@ -3,7 +3,7 @@
 ## https://nodejs.org/api/worker_threads.html
 ## https://nodejs.org/api/child_process.html
 ## https://nodejs.org/api/perf_hooks.html
-Comprehensive reference covering filesystem operations, low-level and high-level stream APIs (Readable, Writable, Transform), backpressure management, object mode streams, promise-based utilities (`fs/promises`, `pipeline`, `finished`, async iteration), Performance Hooks API (`PerformanceObserver`, mark/measure), and concurrency primitives via Worker Threads and child processes. Essential for implementing non-blocking CLI commands, high-throughput batch plotting, file-backed caching, precision benchmarking, and isolating CPU-intensive tasks. Last updated June 2024; authoritative as official Node.js documentation.
+Comprehensive reference covering filesystem operations, low-level and high-level stream APIs (Readable, Writable, Transform), backpressure management, object mode streams, promise-based utilities (`fs/promises`, `pipeline`, `finished`, async iteration), Performance Hooks API (`PerformanceObserver`, mark/measure`), and concurrency primitives via Worker Threads and child processes. Essential for implementing non-blocking CLI commands, high-throughput batch plotting, file-backed caching, precision benchmarking, and isolating CPU-intensive tasks. Last updated June 2024; authoritative as official Node.js documentation.
 ## License: Node.js (MIT-like terms)
 
 # Node.js ECMAScript Modules (ESM) Guide
@@ -87,4 +87,14 @@ Minimatch implements glob-based pattern matching for filenames and strings, foll
 # EJS Template Engine Documentation
 ## https://github.com/ejs/ejs#readme
 EJS (Embedded JavaScript) provides a simple yet powerful templating system for generating HTML or text outputs by embedding JavaScript code within templates. Covers syntax for tags (`<%= %>`, `<% %>`), includes, layout support, custom delimiters, async rendering, and escape strategies. Useful for generating custom report templates or console output formats in CLI workflows. Last updated August 2023; authoritative as the official EJS project.
+## License: MIT
+
+# Node.js VM Module
+## https://nodejs.org/api/vm.html
+Detailed guide to Node.js VM module for creating isolated JavaScript environments, including `VM.Script`, `VM.Context`, and sandbox options. Covers synchronous and asynchronous code execution, contextified global objects, timeout controls, and memory management constraints—crucial for safely evaluating user-provided expressions and preventing untrusted code from affecting the host process. Last updated June 2024; authoritative as official Node.js documentation.
+## License: Node.js (MIT-like terms)
+
+# CSV-Parse Library
+## https://csv.js.org/parse/
+The official documentation for the csv-parse library, covering synchronous and asynchronous parsing APIs, streaming parser, options for delimiters, record separator, trimming, custom casting, and error handling. Illustrates integration with Node.js streams for large file datasets and backpressure control—key for robust CSV data ingestion in CLI workflows. Last updated 2024; authoritative as the official parser for CSV in the Node.js ecosystem.
 ## License: MIT
