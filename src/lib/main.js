@@ -4,6 +4,9 @@
 import { fileURLToPath } from "url";
 import { evaluate } from "mathjs";
 import express from "express";
+import fs from "fs";
+import path from "path";
+import yaml from "js-yaml";
 
 export function main(args) {
   if (!args || args.length === 0) {
@@ -32,23 +35,6 @@ Available commands:
   serve     Start HTTP API server for plot and stats endpoints
 
 Use "repository0-plot-code-lib <command> --help" for command-specific options.`);
-}
-
-function runPlot(args) {
-  const opts = parsePlotOptions(args);
-  let dataPoints;
-  if (opts.expression) {
-    try {
-      dataPoints = generateExpressionData(opts.expression, opts.xmin, opts.xmax, opts.samples);
-    } catch (err) {
-      console.error(`Error evaluating expression "${opts.expression}": ${err.message}`);
-      process.exit(1);
-    }
-  } else {
-    console.log("Data file plotting not implemented");
-    return;
-  }
-  console.log(JSON.stringify(dataPoints));
 }
 
 function parsePlotOptions(args) {
@@ -117,6 +103,89 @@ function generateExpressionData(expr, xmin, xmax, samples) {
     data.push({ x, y });
   }
   return data;
+}
+
+function loadDataFromFile(filePath) {
+  const ext = path.extname(filePath).toLowerCase();
+  const content = fs.readFileSync(filePath, "utf8");
+  let data;
+  if (ext === ".json") {
+    data = JSON.parse(content);
+  } else if (ext === ".yaml" || ext === ".yml") {
+    data = yaml.load(content);
+  } else if (ext === ".csv") {
+    const lines = content.trim().split(/\r?\n/);
+    let start = 0;
+    const first = lines[0].split(",");
+    const header = first.map((h) => h.trim().toLowerCase());
+    if (header.includes("x") && header.includes("y")) {
+      start = 1;
+    }
+    data = lines.slice(start).map((line) => {
+      const [a, b] = line.split(",").map((v) => parseFloat(v));
+      return { x: a, y: b };
+    });
+  } else {
+    throw new Error(`Unsupported file extension: ${ext}`);
+  }
+  if (!Array.isArray(data)) {
+    throw new Error("Invalid data format: expected an array of { x, y } objects");
+  }
+  return data.map((item) => {
+    if (typeof item.x !== "number" || typeof item.y !== "number") {
+      throw new Error("Invalid data format: x and y must be numbers");
+    }
+    return { x: item.x, y: item.y };
+  });
+}
+
+function runPlot(args) {
+  const opts = parsePlotOptions(args);
+  if (opts.expression && opts.data) {
+    console.error("Warning: --expression provided, ignoring --data");
+  }
+  let dataPoints;
+  if (opts.expression) {
+    try {
+      dataPoints = generateExpressionData(
+        opts.expression,
+        opts.xmin,
+        opts.xmax,
+        opts.samples,
+      );
+    } catch (err) {
+      console.error(
+        `Error evaluating expression "${opts.expression}": ${err.message}`,
+      );
+      process.exit(1);
+    }
+  } else if (opts.data) {
+    try {
+      dataPoints = loadDataFromFile(opts.data);
+    } catch (err) {
+      console.error(err.message);
+      process.exit(1);
+    }
+  } else {
+    console.log("Data file plotting not implemented");
+    return;
+  }
+  const chart = renderAsciiChart(dataPoints, {
+    type: opts.type,
+    width: opts.width,
+    height: opts.height,
+  });
+  if (opts.output) {
+    try {
+      fs.writeFileSync(opts.output, chart, "utf8");
+      console.log(`Wrote ASCII chart to ${opts.output}`);
+    } catch (err) {
+      console.error(`Error writing file: ${err.message}`);
+      process.exit(1);
+    }
+  } else {
+    console.log(chart);
+  }
 }
 
 function runReseed(args) {

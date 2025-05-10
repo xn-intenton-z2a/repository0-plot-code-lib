@@ -15,7 +15,7 @@ Options for plot:
   --type <chartType>       Chart type: line, bar, scatter (default: line)
   --width <pixels>         Width of the plot in pixels (default: 640)
   --height <pixels>        Number of characters vertically in the chart (default: 480)
-  --data <filePath>        Path to JSON or YAML data file
+  --data <filePath>        Path to JSON, YAML, or CSV data file
   --output <file>          Output file path for the rendered chart
   --help                   Show help for commands
 
@@ -26,6 +26,15 @@ Plot sine wave:
 
 Plot parabola to file:
   repository0-plot-code-lib plot --expression "x^2" --xmin 0 --xmax 5 --samples 50 --output parabola.txt
+
+Plot data from JSON file:
+  repository0-plot-code-lib plot --data data.json --width 80 --height 20
+
+Plot data from CSV and write to file:
+  repository0-plot-code-lib plot --data measurements.csv --type scatter --output chart.txt
+
+Plot data from YAML file:
+  repository0-plot-code-lib plot --data config.yaml
 
 Reseed dry run:
   repository0-plot-code-lib reseed --dry-run
