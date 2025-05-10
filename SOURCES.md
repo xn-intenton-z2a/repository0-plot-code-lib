@@ -1,10 +1,6 @@
 # Node.js Core I/O, Streams, Stream Promises, and Performance Hooks Documentation
 ## https://nodejs.org/api/fs.html
-## https://nodejs.org/api/stream.html
-## https://nodejs.org/api/stream.html#stream_promises
-## https://nodejs.org/api/perf_hooks.html
-Comprehensive reference covering filesystem operations (fs, fs/promises with AbortSignal support), low-level and high-level stream APIs (Readable, Writable, Transform, backpressure, object mode), the Promise-based stream utilities (pipeline, finished, async iteration), and the Performance Hooks API (PerformanceObserver, mark/measure, event loop timings). Enhanced with practical examples on backpressure-aware JSON handling, integrating JSONStream patterns directly into Node.js streams, and tuning pipeline concurrency. Essential for implementing serializeDataStream, NDJSON record streaming, file-backed caches, and precise benchmarking in the --benchmark feature.
-Includes last known update as of June 2024; authoritative official Node.js documentation under MIT-like terms.
+Comprehensive reference covering filesystem operations (fs, fs/promises with AbortSignal support), low-level and high-level stream APIs (Readable, Writable, Transform, backpressure, object mode), the Promise-based stream utilities (pipeline, finished, async iteration), and the Performance Hooks API (PerformanceObserver, mark/measure, event loop timings). Enhanced with practical examples on backpressure-aware JSON handling, integrating JSONStream patterns directly into Node.js streams, and tuning pipeline concurrency. Essential for implementing serializeDataStream, NDJSON record streaming, file-backed caches, and precise benchmarking in the --benchmark feature. Includes last known update as of June 2024; authoritative official Node.js documentation under MIT-like terms.
 ## License: Node.js (MIT-like terms)
 
 # Node.js ECMAScript Modules (ESM) Guide
@@ -15,16 +11,14 @@ Detailed coverage of import/export syntax, conditional exports, dynamic imports,
 # CLI Tools & Validation: Zod and Yargs
 ## https://zod.dev
 ## https://github.com/yargs/yargs#readme
-Integrated guide for schema-based validation (Zod) and advanced CLI parsing (Yargs). Zod covers schema creation, parsing pipelines, type inference, asynchronous refinements, custom error formatting, and complex nested validations—critical for robust CLI flag validation and config parsing. Yargs provides declarative command modules, positional arguments, type coercion, middleware hooks, localized help generation, and async command handlers—key for orchestrating subcommands and extensible argument parsing.
-Both projects are actively maintained (Zod v3.x, Yargs v20.x) and licensed under MIT.
+Integrated guide for schema-based validation (Zod) and advanced CLI parsing (Yargs). Zod covers schema creation, parsing pipelines, type inference, asynchronous refinements, custom error formatting, and complex nested validations—critical for robust CLI flag validation and config parsing. Yargs provides declarative command modules, positional arguments, type coercion, middleware hooks, localized help generation, and async command handlers—key for orchestrating subcommands and extensible argument parsing. Both projects are actively maintained (Zod v3.x, Yargs v20.x).
 ## License: MIT
 
 # Data Serialization Formats (JSON, NDJSON, CSV)
 ## https://tools.ietf.org/html/rfc8259
 ## http://ndjson.org/
 ## https://datatracker.ietf.org/doc/html/rfc4180
-Consolidated authoritative specifications for JSON (syntax, data types, Unicode handling), NDJSON (application/x-ndjson streaming, record separation), and CSV (RFC4180 delimiters, quoting, record rules). Provides guidelines for strict parsing, streaming record handling, and interoperable output generation—essential for import/export commands and data-driven chart inputs.
-Public domain / CC0 specifications as maintained by IETF.
+Consolidated authoritative specifications for JSON (syntax, data types, Unicode handling), NDJSON (application/x-ndjson streaming, record separation), and CSV (RFC4180 delimiters, quoting, record rules). Provides guidelines for strict parsing, streaming record handling, and interoperable output generation—essential for import/export commands and data-driven chart inputs. Public domain / CC0 specifications as maintained by IETF.
 ## License: IETF (public domain) / CC0
 
 # SVG Technical Documentation (MDN & W3C)
@@ -88,12 +82,13 @@ Integrated guidance for EJS templating (partials, includes, caching, sanitizatio
 Official docs for conventional-changelog CLI tools, presets (angular), and configuration. Covers generating and updating CHANGELOG.md in standard formats, integration with CI, and plugin ecosystems—central to automating the --release workflow. Licensed MIT; active maintenance as of 2024.
 ## License: MIT
 
-# GitHub CLI Manual
-## https://cli.github.com/manual/
-Authoritative guide for GitHub CLI (gh) including authentication, issue and PR management, workflow automation, and scripting. Describes commands for pr create, pr merge, and release management—underpins our automated GitHub PRs in --release mode. Licensed MIT; latest manual (2024).
-## License: MIT
+# OpenAI Node.js Library Documentation
+## https://platform.openai.com/docs/libraries/node-js-overview
+Official OpenAI Node.js client library guide covering installation, environment setup, authentication, and API reference for completions, chat, embeddings, and streaming responses. Provides code examples for streaming GPT responses, token usage best practices, and error handling patterns—essential for integrating agent-driven workflows and chat/completion features. Last updated January 2024; governed by OpenAI Terms of Use.
+## License: OpenAI Terms of Use
 
-# NPM Publish CLI Reference
+# CI/CD and Release Automation Tools
+## https://cli.github.com/manual/
 ## https://docs.npmjs.com/cli/v10/commands/npm-publish
-Official npm documentation on publish workflows, tagging, access controls, and registry configuration. Details versioning strategies, dry-run options, and package scopes—key for reliable npm publishing in --release automation. Documentation published under CC0 terms.
-## License: CC0
+Authoritative guides for release automation: GitHub CLI manual detailing commands for authentication, PR and release management, workflow scripting, and automation hooks; and npm-publish CLI reference covering publish workflows, tagging strategies, access controls, dry-run modes, and registry configuration. Together, they underpin reliable --release processes and continuous delivery pipelines. Last updated 2024.
+## License: MIT / CC0
