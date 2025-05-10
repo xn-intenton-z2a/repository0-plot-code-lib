@@ -1,66 +1,65 @@
 # Summary
 
-Enhance the CLI with a stats subcommand that computes and displays descriptive statistics (min, max, mean, median, standard deviation) for datasets or mathematical expressions without rendering charts. This feature provides users quick numerical insights into their data.
+Add a new stats subcommand to the CLI that provides quick descriptive statistics for data sets or mathematical expressions without rendering plots. Users receive min, max, mean, median, and standard deviation for both x and y values in a clear, tabular format.
 
 # Behavior
 
 When the first argument is "stats" is provided:
-- Route to a new runStats handler after parsing subcommand-specific flags.
+- Parse subcommand-specific flags via parseStatsOptions.
 - If --expression is supplied:
-  - Generate data points by sampling the mathematical expression over a domain using the existing generateExpressionData function.
-- If --data is supplied and --expression is absent:
-  - Load and normalize data points from JSON, YAML, or CSV using a new loadDataFromFile helper.
+  - Sample the expression over the domain using generateExpressionData.
+- Else if --data is supplied:
+  - Load and normalize points from JSON, YAML, or CSV using loadDataFromFile.
 - If neither --expression nor --data is provided:
-  - Print an error message indicating one of those flags is required and exit with code 1.
-- Compute descriptive statistics on x and y arrays:
-  - Minimum, maximum, mean, median, standard deviation.
-- Display results in a formatted console table with aligned columns and four decimal places.
-- Exit with code 0 on success, or code 1 on error.
+  - Print an error indicating one flag is required and exit with code 1.
+- Compute descriptive statistics on x and y arrays using computeStatistics:
+  - Metrics: minimum, maximum, mean, median, standard deviation.
+- Display results in a console table with aligned columns and configurable decimal precision.
+- Exit with code 0 on success or code 1 on error.
 
 # CLI Flags
 
-- --expression <formula>   Mathematical expression in x to sample (over --xmin, --xmax, --samples).
-- --data <filePath>        Path to JSON, YAML, or CSV data file.
-- --xmin <number>          Minimum x value for sampling expressions (default -10).
-- --xmax <number>          Maximum x value for sampling expressions (default 10).
-- --samples <integer>      Number of sample points (default 100).
-- --help                   Show help for stats command and exit.
+--expression <formula>   Mathematical expression in x to sample (requires --xmin, --xmax, --samples defaults).
+--data <filePath>        Path to JSON, YAML, or CSV file of { x, y } points.
+--xmin <number>          Minimum x value for sampling expressions (default -10).
+--xmax <number>          Maximum x value for sampling expressions (default 10).
+--samples <integer>      Number of sample points for expressions (default 100).
+--precision <integer>    Decimal places to display (default 4).
+--help                   Show help for stats command and exit.
 
 # Implementation Details
 
-- In src/lib/main.js:
-  - Extend main() to recognize "stats" and dispatch to runStats(args).
-  - Add a parseStatsOptions(args) function similar to parsePlotOptions, extracting only stats-related flags.
-  - Implement runStats(opts):
-    - Validate that opts.expression or opts.data is present, otherwise console.error and process.exit(1).
-    - If opts.expression, call generateExpressionData. If opts.data, call loadDataFromFile(filePath).
-    - Invoke computeStatistics(dataPoints):
-      - Extract arrays of x and y values.
-      - Calculate min, max using Math.min/Math.max, mean by sum/length.
-      - Sort for median; compute standard deviation via sqrt of average squared deviations.
-    - Format output into columns with headings: Metric, X Value, Y Value; align decimals to four places.
-    - Use console.log for each line.
-
-- In src/lib/main.js or a new helper module:
-  - Implement loadDataFromFile(filePath) for JSON, YAML, CSV detection and normalization to [{x,y}] array.
-  - Implement computeStatistics(dataPoints) returning an object with x_min, x_max, x_mean, x_median, x_stddev, y_min, y_max, y_mean, y_median, y_stddev.
+In src/lib/main.js:
+- Extend main() to dispatch when cmd === "stats" and call runStats(rest).
+- Implement parseStatsOptions(args) analogous to parsePlotOptions, extracting stats flags and setting defaults.
+- Implement loadDataFromFile(filePath) if not already defined, reusing logic from plot data loader:
+  - Detect format by extension (.json, .yaml, .yml, .csv), parse and normalize to array of { x, y }.
+  - Validate presence of numeric x and y values.
+- Implement computeStatistics(data) or reuse existing function:
+  - Sort x and y arrays, calculate min, max, mean, median, and standard deviation.
+  - Return an object with keys x_min, x_max, x_mean, x_median, x_stddev, y_min, y_max, y_mean, y_median, y_stddev.
+- In runStats(opts):
+  - Validate flag presence and numeric ranges; on error console.error and process.exit(1).
+  - Generate or load data, call computeStatistics.
+  - Format a table header and rows, aligning column widths, and apply opts.precision to toFixed values.
+  - Print each line via console.log.
 
 # Testing
 
-- In tests/unit/plot-generation.test.js or a dedicated tests/unit/stats.test.js:
-  - Mock console.log and console.error to capture output.
-  - Test expression case: main(["stats","--expression","x","--xmin","0","--xmax","2","--samples","3"]) prints correct statistics (0.0000, 2.0000, 1.0000, etc.) and exits normally.
-  - Test data file case: mock loadDataFromFile to return a fixed data set and verify printed statistics match expected values.
-  - Test missing flags: main(["stats"]) prints error and exit code 1.
-  - Test invalid data file or parsing error: mock loadDataFromFile to throw, verify error is printed and process.exit(1) is called.
+In tests/unit/stats.test.js:
+- Mock console.log, console.error, and process.exit.
+- Test expression path: main(["stats","--expression","x^2","--xmin","0","--xmax","4","--samples","5"])
+  - Verify printed table contains correct numeric values and headers.
+- Test data file path: mock loadDataFromFile to return sample points, verify compute output and table.
+- Test missing flags: main(["stats"]) prints error and exits with code 1.
+- Test invalid input: mock loadDataFromFile throwing or invalid expression, expect error path.
 
 # Documentation
 
-- Update README.md:
-  - Add a "Stats Subcommand" section under Available Commands with a brief description.
-  - Show usage examples:
-    - repository0-plot-code-lib stats --expression "x^2" --xmin 0 --xmax 5 --samples 6
-    - repository0-plot-code-lib stats --data measurements.csv
+- Update README.md under Available Commands:
+  - Add "stats" with brief description of metrics.
+  - Provide two examples:
+    repository0-plot-code-lib stats --expression "x^2" --xmin 0 --xmax 5 --samples 6 --precision 3
+    repository0-plot-code-lib stats --data measurements.csv --precision 2
   - Include sample console output table snippet.
-
-- Update USAGE.md similarly with flag descriptions and examples.
+- Update USAGE.md in the Stats section with flag descriptions and examples.
