@@ -3,6 +3,7 @@
 
 import { fileURLToPath } from "url";
 import { evaluate } from "mathjs";
+import express from "express";
 
 export function main(args) {
   if (!args || args.length === 0) {
@@ -14,6 +15,8 @@ export function main(args) {
     runPlot(rest);
   } else if (cmd === "reseed") {
     runReseed(rest);
+  } else if (cmd === "serve") {
+    runServer(rest);
   } else {
     console.error(`Unknown command: ${cmd}`);
     printHelp();
@@ -26,6 +29,7 @@ function printHelp() {
 Available commands:
   plot      Generate plots from data files or mathematical expressions
   reseed    Reset repository files to seed state (dry-run available)
+  serve     Start HTTP API server for plot and stats endpoints
 
 Use "repository0-plot-code-lib <command> --help" for command-specific options.`);
 }
@@ -134,6 +138,164 @@ function runReseed(args) {
   }
 }
 
+// --- Server Subcommand Implementation ---
+
+/**
+ * Parse options for the serve command.
+ */
+function parseServerOptions(args) {
+  const opts = { port: 3000, help: false };
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    switch (arg) {
+      case "--port":
+        opts.port = parseInt(args[++i], 10);
+        break;
+      case "--help":
+        opts.help = true;
+        break;
+      default:
+        console.error(`Unknown option: ${arg}`);
+        opts.help = true;
+        break;
+    }
+  }
+  return opts;
+}
+
+/**
+ * Create and configure the Express server.
+ */
+export function createServer(opts) {
+  const app = express();
+
+  // /plot endpoint
+  app.get("/plot", (req, res) => {
+    const expr = req.query.expression;
+    if (!expr) {
+      return res.status(400).json({ error: "Expression parameter is required" });
+    }
+    const xmin = parseFloat(req.query.xmin ?? -10);
+    const xmax = parseFloat(req.query.xmax ?? 10);
+    const samples = parseInt(req.query.samples ?? 100, 10);
+    if (Number.isNaN(samples) || samples < 2) {
+      return res.status(400).json({ error: "samples must be >= 2" });
+    }
+    let data;
+    try {
+      data = generateExpressionData(expr, xmin, xmax, samples);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+
+    const format = req.query.outputFormat === "ascii" ? "ascii" : "json";
+    if (format === "ascii") {
+      const chart = renderAsciiChart(data, {
+        type: req.query.type || "line",
+        width: parseInt(req.query.width ?? 80, 10),
+        height: parseInt(req.query.height ?? 24, 10),
+      });
+      res.type("text/plain").status(200).send(chart);
+    } else {
+      res.type("application/json").status(200).json(data);
+    }
+  });
+
+  // /stats endpoint
+  app.get("/stats", (req, res) => {
+    const expr = req.query.expression;
+    if (!expr) {
+      return res.status(400).json({ error: "Expression parameter is required" });
+    }
+    const xmin = parseFloat(req.query.xmin ?? -10);
+    const xmax = parseFloat(req.query.xmax ?? 10);
+    const samples = parseInt(req.query.samples ?? 100, 10);
+    if (Number.isNaN(samples) || samples < 2) {
+      return res.status(400).json({ error: "samples must be >= 2" });
+    }
+    let data;
+    try {
+      data = generateExpressionData(expr, xmin, xmax, samples);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    const stats = computeStatistics(data);
+    res.type("application/json").status(200).json(stats);
+  });
+
+  return app;
+}
+
+/**
+ * Run the HTTP server.
+ */
+function runServer(args) {
+  const opts = parseServerOptions(args);
+  if (opts.help) {
+    console.log("Usage: repository0-plot-code-lib serve [--port <number>] [--help]");
+    process.exit(0);
+  }
+  const app = createServer(opts);
+  const port = opts.port;
+  app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+  });
+}
+
+/**
+ * Render ASCII chart from data points.
+ */
+function renderAsciiChart(data, { type, width, height }) {
+  const xs = data.map((p) => p.x);
+  const ys = data.map((p) => p.y);
+  const xmin = Math.min(...xs);
+  const xmax = Math.max(...xs);
+  const ymin = Math.min(...ys);
+  const ymax = Math.max(...ys);
+  const xScale = (xmax - xmin) / (width - 1) || 1;
+  const yScale = (ymax - ymin) / (height - 1) || 1;
+  const grid = Array.from({ length: height }, () => Array(width).fill(' '));
+  data.forEach(({ x, y }) => {
+    const ix = Math.round((x - xmin) / xScale);
+    const iy = Math.round((y - ymin) / yScale);
+    const row = height - 1 - iy;
+    const col = ix;
+    if (row >= 0 && row < height && col >= 0 && col < width) {
+      grid[row][col] = '*';
+    }
+  });
+  return grid.map((row) => row.join('')).join('\n');
+}
+
+/**
+ * Compute descriptive statistics for data points.
+ */
+function computeStatistics(data) {
+  const xs = data.map((p) => p.x).sort((a, b) => a - b);
+  const ys = data.map((p) => p.y).sort((a, b) => a - b);
+  const len = data.length;
+  const mean = (arr) => arr.reduce((a, b) => a + b, 0) / len;
+  const stddev = (arr, m) => Math.sqrt(arr.reduce((sum, v) => sum + (v - m) ** 2, 0) / len);
+  const median = (arr) => (len % 2 === 1
+    ? arr[(len - 1) / 2]
+    : (arr[len / 2 - 1] + arr[len / 2]) / 2);
+  const xMean = mean(xs);
+  const yMean = mean(ys);
+  return {
+    x_min: xs[0],
+    x_max: xs[len - 1],
+    x_mean: parseFloat(xMean.toFixed(4)),
+    x_median: parseFloat(median(xs).toFixed(4)),
+    x_stddev: parseFloat(stddev(xs, xMean).toFixed(4)),
+    y_min: ys[0],
+    y_max: ys[len - 1],
+    y_mean: parseFloat(yMean.toFixed(4)),
+    y_median: parseFloat(median(ys).toFixed(4)),
+    y_stddev: parseFloat(stddev(ys, yMean).toFixed(4)),
+  };
+}
+
+// If run as script
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   main(args);
