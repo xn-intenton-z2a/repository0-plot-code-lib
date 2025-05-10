@@ -1,74 +1,63 @@
 # Summary
 
-Introduce a new "regression" subcommand in the CLI that performs least-squares linear regression on a set of data points, either generated from a mathematical expression or loaded from an external file. Outputs slope, intercept, r-squared and can overlay the regression line on an ASCII chart. Supports table, JSON, or CSV output formats and file export.
+Merge the regression subcommand branch into the main CLI to perform least-squares linear regression on data points derived from expressions or files, and add comprehensive tests and documentation updates.
 
 # Behavior
 
-When the user runs:
-
-    repository0-plot-code-lib regression [flags]
-
-- If both --expression and --data are provided, the tool logs a warning that expression takes precedence and ignores data.
-- If --expression is provided:
-  - Sample the provided JavaScript expression in x over [xmin, xmax] with the given number of samples.
-- Otherwise if --data is provided:
-  - Read an array of { x, y } points from JSON, YAML, or CSV.
-- On missing source or invalid inputs, print a descriptive error and exit code 1.
-- Compute regression parameters by least squares:
-  • slope (m)
-  • intercept (b)
-  • coefficient of determination (r_squared)
-- Format results according to --format: table (aligned text), JSON, or CSV.
-- If --plot-line is set, render an ASCII chart of the data with the regression line overlaid.
-- If --output <file> is given, write the chosen output or ASCII chart to that file; otherwise print to console.
+When the user runs repository0-plot-code-lib regression [flags]:
+• If both --expression and --data are provided, log a warning and only use the expression source.
+• If --expression is given, sample y values by evaluating the JavaScript expression over [xmin, xmax] with the specified number of samples.
+• Otherwise if --data is given, load an array of x,y points from JSON, YAML or CSV file.
+• On missing source or invalid input values, print a descriptive error and exit code 1.
+• Compute slope, intercept and coefficient of determination (r_squared) using a least-squares algorithm.
+• Round numeric results to the configured precision.
+• Format output according to --format: table (aligned text), json or csv.
+• If --plot-line is set, render an ASCII chart with the regression line overlaid using the existing chart renderer.
+• If --output <file> is provided, write the formatted results or chart to a file, otherwise print to console.
 
 # CLI Flags
 
-  --expression <string>   JavaScript expression in x to generate y values.
-  --data <filePath>       Path to JSON, YAML, or CSV file with x,y data.
-  --xmin <number>         Minimum x value when sampling expressions (default: -10).
-  --xmax <number>         Maximum x value when sampling expressions (default: 10).
-  --samples <integer>     Number of sample points (default: 100, must be >=2).
-  --precision <integer>   Decimal places for numeric output (default: 4).
-  --format <table|json|csv>  Output format (default: table).
-  --plot-line             Overlay the regression line on an ASCII chart.
-  --output <file>         File path to write output or chart; omit to print to console.
-  --help                  Show help for regression command and exit.
+--expression <string>    JavaScript expression in x to generate y values
+--data <filePath>        Path to JSON, YAML, or CSV data file
+--xmin <number>          Minimum x value when sampling expressions (default: -10)
+--xmax <number>          Maximum x value when sampling expressions (default: 10)
+--samples <integer>      Number of sample points (default: 100, must be >=2)
+--precision <integer>    Decimal places for numeric output (default: 4)
+--format <table|json|csv>  Output format for regression parameters (default: table)
+--plot-line              Overlay the regression line on an ASCII chart
+--output <file>          File path to write output or chart; omit to print to console
+--help                   Show help for regression command and exit
 
 # Implementation Details
 
-1. Update src/lib/main.js:
-   - In main(), add: else if (cmd === "regression") runRegression(rest);
-2. Create parseRegressionOptions(args) mirroring other parsers to extract and validate flags.
+1. In src/lib/main.js update main() to route cmd === "regression" to a new function runRegression.
+2. Add parseRegressionOptions(args) mirroring other parsers to extract and validate flags, ensuring samples>=2 and required options.
 3. Implement runRegression(opts) in src/lib/main.js:
-   - Determine dataPoints via generateExpressionData or loadDataFromFile.
-   - Validate samples >=2 and input errors with console.error and process.exit(1).
-   - Compute means, variances, covariance to derive slope, intercept, and r_squared.
-   - Round numeric results to opts.precision.
-   - If opts.plotLine:
-     • Use renderAsciiChart to draw data points.
-     • Generate regression line points and overlay on the same grid.
-     • Append chart string after regression parameters.
-   - Choose formatter based on opts.format; build output string.
-   - Write to opts.output via fs.writeFileSync or console.log.
-4. Reuse existing helpers generateExpressionData, loadDataFromFile, renderAsciiChart, formatTable, formatCsv.
-5. No new dependencies are required.
+   • Determine data points via generateExpressionData or loadDataFromFile.
+   • Validate inputs and on errors use console.error and process.exit(1).
+   • Compute means, variances and covariance to derive slope, intercept and r_squared.
+   • Round results to opts.precision.
+   • If opts.plotLine is true, call renderAsciiChart on data points and on computed line points, merging outputs.
+   • Select formatter based on opts.format: use formatTable, JSON.stringify or formatCsv helper.
+   • If opts.output is set, write output via fs.writeFileSync and console.log confirmation; otherwise console.log output.
+4. Reuse existing helpers: generateExpressionData, loadDataFromFile, renderAsciiChart, formatTable, formatCsv.
+5. No additional dependencies required.
 
 # Testing
 
-- Add tests in tests/unit/regression.test.js:
-  • Expression mode: verify slope, intercept, r_squared for simple linear expressions.
-  • JSON, CSV formats: mock inputs and compare outputs.
-  • File input mode: mock fs.readFileSync to supply known data points.
-  • --plot-line: spy on console.log to capture ASCII chart and verify both markers and line characters.
-  • --output file export: mock fs.writeFileSync and confirm written content and confirmation log.
-  • Error conditions: missing source, samples<2, unsupported extension, unknown format.
+Add a new file tests/unit/regression.test.js with Vitest covering:
+• Expression mode: verify slope, intercept and r_squared for known linear expressions.
+• File mode: mock fs.readFileSync for JSON, YAML and CSV and assert formatted output in table, json and csv modes.
+• --plot-line: spy on console.log to capture ASCII chart and verify both data markers and regression line.
+• --output file export: mock fs.writeFileSync and confirm file content and confirmation log.
+• Invalid conditions: missing expression and data, samples<2, unsupported extension, unknown format flag, and assert descriptive error messages and exit code 1.
 
 # Documentation
 
-- In README.md and USAGE.md under Available Commands, add regression subcommand:
-
-      repository0-plot-code-lib regression --expression "2*x+1" --samples 10 --format json
-      repository0-plot-code-lib regression --data data.csv --plot-line --output trend.txt
-
-- Show sample outputs for table, JSON, CSV, and ASCII chart overlay.
+Update README.md and USAGE.md:
+• Under Available Commands add regression with a brief summary.
+• In Plot and Stats sections cross-link regression feature.
+• Add a Regression section listing flags and sample invocations for table, json, csv and ASCII chart modes.
+• Provide example commands such as:
+  repository0-plot-code-lib regression --expression "2*x+1" --samples 10 --format json
+  repository0-plot-code-lib regression --data data.csv --plot-line --output trend.txt
