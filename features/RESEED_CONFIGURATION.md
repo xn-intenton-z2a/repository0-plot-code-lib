@@ -1,19 +1,19 @@
 # Purpose
 
-This feature adds a new CLI flag reseed that triggers reseeding of the repository with the latest agentic lib driven configuration from AGENT_CONFIG_FILE
+This feature enhances documentation and testing for the --reseed CLI flag in the project.
 
 # Behavior
 
-When invoked as repository0-plot-code-lib --reseed the CLI will parse the agent config yaml and for each seeding mapping copy contents from seed files to corresponding target paths writing source main js tests package json and readme
+When run as repository0-plot-code-lib --reseed, the CLI will trigger the reseeding process using the configuration defined in AGENT_CONFIG_FILE, overwriting target files with seed content and reporting progress.
 
 # Implementation
 
-In src/lib/main js import fs promises and js yaml to read the config file Detect the --reseed flag in args For each key under config seeding section read seed filepath and target filepath then overwrite the target with seed content preserving file permissions and logging progress
+Update README.md and USAGE.md to include a new section under CLI Usage that describes the --reseed flag, its purpose, and an example invocation. Ensure the example shows expected output or behavior.
 
 # Testing
 
-Extend tests in tests unit plot generation test js to mock fs and yaml read operations Verify reseed logic writes files for all configured paths and handles missing seed files gracefully reporting errors
+In tests/unit/main.test.js add unit tests for main invoked with the --reseed flag. Mock fs and js-yaml modules to simulate reading and writing seed files. Verify that main calls the reseeding logic and handles missing seed files gracefully.
 
 # Documentation
 
-Update USAGE md and README md to document the --reseed flag usage with example invocation and effect
+Add a section in README under Usage with heading 'Reseed Flag' that explains how to use --reseed. Update USAGE.md similarly with flag description and example usage.
