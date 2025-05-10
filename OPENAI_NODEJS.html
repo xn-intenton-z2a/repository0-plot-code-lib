@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="openai_nodejs" href="#openai_nodejs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>OPENAI_NODEJS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Instantiate client with apiKey, baseURL, timeout. Supported methods: createCompletion, createChatCompletion, createEmbedding with Promise returns. Enable streaming via stream: true and process async iterator. Errors thrown as OpenAIError with status and code. TypeScript types defined for request and response objects.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Initialization
+2 Authentication
+3 Configuration
+4 API Methods
+5 Streaming Responses
+6 Error Handling
+7 TypeScript Types</p>
+<p class="md-github">1 Initialization
+Import and create instance
+import OpenAI from &quot;openai&quot;
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: &quot;https://api.openai.com/v1&quot;, timeout: 30000 })</p>
+<p class="md-github">2 Authentication
+Pass apiKey or set env var OPENAI_API_KEY. Optionally set organization.</p>
+<p class="md-github">3 Configuration
+Options: apiKey (required), baseURL (default https://api.openai.com/v1), timeout (ms)</p>
+<p class="md-github">4 API Methods
+createCompletion(options, signal?) =&gt; Promise<CreateCompletionResponse>
+createChatCompletion(options, signal?) =&gt; Promise<CreateChatCompletionResponse>
+createEmbedding(options, signal?) =&gt; Promise<CreateEmbeddingResponse></p>
+<p class="md-github">5 Streaming Responses
+Set options.stream=true. Use for await on response.body async iterator. Parse each chunk.</p>
+<p class="md-github">6 Error Handling
+Library throws OpenAIError with name, message, status, code. Use try/catch to inspect error.status and error.code.</p>
+<p class="md-github">7 TypeScript Types
+CreateCompletionRequest { model: string ; prompt?: string|string[]; max_tokens?: number; temperature?: number; ... }
+CreateCompletionResponse { id: string; object: string; created: number; model: string; choices: [{ text; index; logprobs; finish_reason }]; usage: { prompt_tokens; completion_tokens; total_tokens } }</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Environment Variables
+OPENAI_API_KEY=your_api_key_here
+OPENAI_ORGANIZATION=your_org_id</p>
+<p class="md-github">Client Configuration
+baseURL: default &quot;https://api.openai.com/v1&quot;
+timeout: default 30000 ms</p>
+<p class="md-github">Axios Internals
+Client uses axios with the following defaults:
+headers: { &quot;Authorization&quot;: &quot;Bearer <apiKey>&quot;, &quot;Content-Type&quot;: &quot;application/json&quot; }
+responseType: &quot;stream&quot; when stream=true else &quot;json&quot;</p>
+<p class="md-github">AbortSignal Support
+Pass an AbortSignal as second argument to methods to cancel requests:
+const controller = new AbortController()
+openai.createCompletion(req, controller.signal)
+controller.abort()</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Constructor Signature
+new OpenAI(options: {
+apiKey: string;
+baseURL?: string;
+timeout?: number;
+organization?: string;
+}): OpenAI</p>
+<p class="md-github">createCompletion(options: {
+model: string;
+prompt?: string|string[];
+suffix?: string;
+max_tokens?: number;
+temperature?: number;
+top_p?: number;
+n?: number;
+stream?: boolean;
+logprobs?: number;
+echo?: boolean;
+stop?: string|string[];
+presence_penalty?: number;
+frequency_penalty?: number;
+best_of?: number;
+user?: string;
+}, signal?: AbortSignal): Promise&lt;{
+id: string;
+object: string;
+created: number;
+model: string;
+choices: Array&lt;{ text: string; index: number; logprobs: any; finish_reason: string }&gt;;
+usage: { prompt_tokens: number; completion_tokens: number; total_tokens: number };
+}&gt;</p>
+<p class="md-github">createChatCompletion(options: {
+model: string;
+messages: Array&lt;{ role: &quot;system&quot;|&quot;user&quot;|&quot;assistant&quot;; content: string }&gt;;
+temperature?: number;
+top_p?: number;
+n?: number;
+stream?: boolean;
+stop?: string|string[];
+max_tokens?: number;
+presence_penalty?: number;
+frequency_penalty?: number;
+user?: string;
+}, signal?: AbortSignal): Promise&lt;{
+id: string;
+object: string;
+created: number;
+model: string;
+choices: Array&lt;{ index: number; finish_reason: string; message: { role: string; content: string } }&gt;;
+usage: { prompt_tokens: number; completion_tokens: number; total_tokens: number };
+}&gt;</p>
+<p class="md-github">createEmbedding(options: {
+model: string;
+input: string|string[];
+user?: string;
+}, signal?: AbortSignal): Promise&lt;{
+data: Array&lt;{ embedding: number[]; index: number }&gt;
+usage: { prompt_tokens: number; total_tokens: number }
+}&gt;</p>
+<p class="md-github">Code Example
+import OpenAI from &quot;openai&quot;
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+async function run() {
+try {
+const resp = await openai.createChatCompletion({
+model: &quot;gpt-4&quot;,
+messages: [ { role: &quot;user&quot;, content: &quot;Hello!&quot; } ],
+stream: true
+})
+for await (const part of resp.body) {
+process.stdout.write(part.choices[0].delta.content)
+}
+} catch (e) {
+console.error(e.status, e.code, e.message)
+}
+}</p>
+<p class="md-github">Best Practices
+Implement exponential backoff on 429 and 500 errors:
+let retry=0
+while (retry&lt;5) {
+try { await call() ; break } catch (e) {
+if ([429,502,503,504].includes(e.status)) {
+await new Promise(r=&gt;setTimeout(r,2**retry*100))
+retry++
+} else throw e
+}
+}</p>
+<p class="md-github">Troubleshooting
+Command: curl -X GET https://api.openai.com/v1/models -H &quot;Authorization: Bearer $OPENAI_API_KEY&quot;
+Expected: 200 OK with list of models
+On 401 check API key
+On 429 check rate limits and backoff</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">import OpenAI; new OpenAI({apiKey,baseURL,timeout,organization}); methods: createCompletion(req,signal)-&gt;Promise completion, createChatCompletion(req,signal)-&gt;Promise chatCompletion, createEmbedding(req,signal)-&gt;Promise embedding; req types: specify model,string inputs, optional parameters; for streaming set stream=true and for await response.body; errors: throws OpenAIError{name,message,status,code}; default baseURL=https://api.openai.com/v1 timeout=30000; retries on 429/5xx with exponential backoff; use AbortController to cancel; example code above.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1 Initialization
+2 Authentication
+3 Configuration
+4 API Methods
+5 Streaming Responses
+6 Error Handling
+7 TypeScript Types</p>
+<p class="md-github">1 Initialization
+Import and create instance
+import OpenAI from 'openai'
+const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY, baseURL: 'https://api.openai.com/v1', timeout: 30000 })</p>
+<p class="md-github">2 Authentication
+Pass apiKey or set env var OPENAI_API_KEY. Optionally set organization.</p>
+<p class="md-github">3 Configuration
+Options: apiKey (required), baseURL (default https://api.openai.com/v1), timeout (ms)</p>
+<p class="md-github">4 API Methods
+createCompletion(options, signal?) =&gt; Promise<CreateCompletionResponse>
+createChatCompletion(options, signal?) =&gt; Promise<CreateChatCompletionResponse>
+createEmbedding(options, signal?) =&gt; Promise<CreateEmbeddingResponse></p>
+<p class="md-github">5 Streaming Responses
+Set options.stream=true. Use for await on response.body async iterator. Parse each chunk.</p>
+<p class="md-github">6 Error Handling
+Library throws OpenAIError with name, message, status, code. Use try/catch to inspect error.status and error.code.</p>
+<p class="md-github">7 TypeScript Types
+CreateCompletionRequest { model: string ; prompt?: string|string[]; max_tokens?: number; temperature?: number; ... }
+CreateCompletionResponse { id: string; object: string; created: number; model: string; choices: [{ text; index; logprobs; finish_reason }]; usage: { prompt_tokens; completion_tokens; total_tokens } }</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">OpenAI Node.js Library Documentation
+https://platform.openai.com/docs/libraries/node-js-overview</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-openai_nodejs" href="#digest-of-openai_nodejs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of OPENAI_NODEJS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="initialization" href="#initialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Initialization</h1>
+<p class="md-github">Import module and instantiate client:</p>
+<pre class="md-github"><code class="md-github">import OpenAI from &quot;openai&quot;
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: &quot;https://api.openai.com/v1&quot;,
+  timeout: 30000
+})
+</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="authentication" href="#authentication"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Authentication</h1>
+<p class="md-github">Clients read API key from the &quot;apiKey&quot; constructor option or the environment variable OPENAI_API_KEY. An optional &quot;organization&quot; field can be passed for enterprise accounts.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="api-methods" href="#api-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Methods</h1>
+<p class="md-github">createCompletion(options: CreateCompletionRequest, signal?: AbortSignal): Promise<CreateCompletionResponse>
+createChatCompletion(options: CreateChatCompletionRequest, signal?: AbortSignal): Promise<CreateChatCompletionResponse>
+createEmbedding(options: CreateEmbeddingRequest, signal?: AbortSignal): Promise<CreateEmbeddingResponse></p>
+<h1 class="md-github"><a class="md-github__anchor" name="streaming" href="#streaming"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Streaming</h1>
+<p class="md-github">To receive partial responses, set stream: true in request options. Handle response.body as an async iterator:</p>
+<pre class="md-github"><code class="md-github">for await (const chunk of response.body) {
+  const payload = JSON.parse(chunk.toString())
+  // process payload.choices[0]
+}
+</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="error-handling" href="#error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error Handling</h1>
+<p class="md-github">The library throws OpenAIError with properties:</p>
+<pre class="md-github"><code class="md-github">name: &quot;OpenAIError&quot;
+message: string
+status: number
+code?: string
+</code></pre>
+<p class="md-github">Catch errors using try/catch and inspect status and code.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="typescript-types" href="#typescript-types"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TypeScript Types</h1>
+<p class="md-github">CreateCompletionRequest:
+model: string
+prompt?: string|string[]
+suffix?: string
+max_tokens?: number
+temperature?: number
+top_p?: number
+n?: number
+stream?: boolean
+logprobs?: number
+echo?: boolean
+stop?: string|string[]
+presence_penalty?: number
+frequency_penalty?: number
+best_of?: number
+user?: string</p>
+<p class="md-github">CreateCompletionResponse:
+id: string
+object: string
+created: number
+model: string
+choices: Array&lt;{ text: string; index: number; logprobs: any; finish_reason: string }&gt;
+usage: { prompt_tokens: number; completion_tokens: number; total_tokens: number }</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: OpenAI Node.js Library Documentation</li>
+<li class="md-github">URL: https://platform.openai.com/docs/libraries/node-js-overview</li>
+<li class="md-github">License: License: OpenAI Terms of Use</li>
+<li class="md-github">Crawl Date: 2025-05-10T13:08:28.142Z</li>
+<li class="md-github">Data Size: 0 bytes</li>
+<li class="md-github">Links Found: 0</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-10</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-10T16:39:09.102Z</p>
+  </footer>
+</body>
+</html>

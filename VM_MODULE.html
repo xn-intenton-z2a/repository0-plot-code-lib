@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="vm_module" href="#vm_module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>VM_MODULE</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">node:vm allows compiling and executing JS in isolated V8 contexts. Use vm.createContext(obj, options) to contextify an object; vm.Script(code, options) to compile code; script.runInContext/useNewContext/useThisContext with options: displayErrors, timeout, breakOnSigint, microtaskMode; vm.compileFunction(code, params, options) to compile into callable Function; vm.constants for loader flags; vm.measureMemory(options) returns Promise of memory stats; experimental modules: vm.SourceTextModule and vm.SyntheticModule with link(), evaluate(), setExport().</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Context Creation
+2 Script Compilation
+3 Script Execution Methods
+4 Function Compilation
+5 Memory Measurement</p>
+<p class="md-github">1 Context Creation
+Signature: vm.createContext(contextObject[, options]) → contextified Object
+Parameters:
+contextObject: Object | vm.constants.DONT_CONTEXTIFY | undefined
+options:
+name: string (default 'VM Context i')
+origin: string (default '')
+codeGeneration:
+strings: boolean (default true)
+wasm: boolean (default true)
+microtaskMode: 'afterEvaluate'
+importModuleDynamically: Function | vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER
+Returns:
+The contextified global object for vm.runInContext and modules.</p>
+<p class="md-github">2 Script Compilation
+Signature: new vm.Script(code[, options]) → vm.Script
+Parameters:
+code: string source
+options:
+filename: string (default 'evalmachine.<anonymous>')
+lineOffset: number (default 0)
+columnOffset: number (default 0)
+cachedData: Buffer|TypedArray|DataView
+produceCachedData: boolean (default false, deprecated)
+importModuleDynamically: Function|vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER
+Methods:
+script.createCachedData() → Buffer
+script.cachedDataRejected: boolean|undefined
+script.sourceMapURL: string|undefined</p>
+<p class="md-github">3 Script Execution Methods
+3.1 runInContext
+Signature: script.runInContext(contextifiedObject[, options]) → any
+Options:
+displayErrors: boolean (default true)
+timeout: positive integer (ms)
+breakOnSigint: boolean (default false)
+3.2 runInNewContext
+Signature: script.runInNewContext([contextObject[, options]]) → any
+ContextObject: Object|vm.constants.DONT_CONTEXTIFY|undefined
+Options:
+displayErrors, timeout, breakOnSigint, contextName: string, contextOrigin: string, contextCodeGeneration:{strings:boolean,wasm:boolean}, microtaskMode:'afterEvaluate'
+3.3 runInThisContext
+Signature: script.runInThisContext([options]) → any
+Options: displayErrors, timeout, breakOnSigint</p>
+<p class="md-github">4 Function Compilation
+Signature: vm.compileFunction(code[, params[, options]]) → Function
+Parameters:
+code: string body
+params: string[] parameter names
+options:
+filename: string (default '')
+lineOffset: number (default 0)
+columnOffset: number (default 0)
+cachedData: Buffer|TypedArray|DataView
+produceCachedData: boolean (default false)
+parsingContext: Object
+contextExtensions: Object[]
+importModuleDynamically: Function|vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER</p>
+<p class="md-github">5 Memory Measurement
+Signature: vm.measureMemory([options]) → Promise&lt;{…}&gt;
+Options:
+mode: 'summary'|'detailed' (default 'summary')
+execution: 'default'|'eager' (default 'default')
+Returns:
+Promise resolving to { total: { jsMemoryEstimate: number, jsMemoryRange: [number, number] }, current?, other? }</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">vm.constants:
+DONT_CONTEXTIFY: special token for createContext and runInNewContext to skip context quirks.
+USE_MAIN_CONTEXT_DEFAULT_LOADER: use main ESM loader for dynamic import in createContext, Script, compileFunction.</p>
+<p class="md-github">Default Option Values:
+vm.Script: filename='evalmachine.<anonymous>', lineOffset=0, columnOffset=0, produceCachedData=false, displayErrors=true
+runInContext: displayErrors=true, timeout=undefined, breakOnSigint=false
+runInNewContext: contextName='VM Context i', contextOrigin='', contextCodeGeneration.{strings:true,wasm:true}, microtaskMode undefined
+vm.compileFunction: filename='', lineOffset=0, columnOffset=0, produceCachedData=false, contextExtensions=[]
+vm.createContext: name='VM Context i', origin='', codeGeneration.{strings:true,wasm:true}, microtaskMode undefined</p>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">const ctx = vm.createContext({});</li>
+<li class="md-github">const script = new vm.Script(code, options);</li>
+<li class="md-github">let result = script.runInContext(ctx, { timeout:1000 });</li>
+<li class="md-github">const fn = vm.compileFunction('return a+b;', ['a','b'], { filename:'add.js' });</li>
+<li class="md-github">fn(1,2);</li>
+<li class="md-github">vm.measureMemory({ mode:'detailed', execution:'eager' }).then(stats =&gt; ...);</li>
+</ol>
+<p class="md-github">Module Steps (with --experimental-vm-modules):</p>
+<ol class="md-github">
+<li class="md-github">const m = new vm.SourceTextModule(code, { context: ctx, initializeImportMeta, importModuleDynamically });</li>
+<li class="md-github">await m.link(linker);</li>
+<li class="md-github">await m.evaluate({ timeout, breakOnSigint });</li>
+<li class="md-github">m.namespace to access exports.</li>
+<li class="md-github">For synthetic: const sm = new vm.SyntheticModule(['x'], ()=&gt; sm.setExport('x',value), { context:ctx }); await sm.link(()=&gt;sm); await sm.evaluate();</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">vm.createContext(contextObject, options)
+contextObject: Object|DONT_CONTEXTIFY|undefined<br>
+options: { name:string, origin:string, codeGeneration:{ strings:boolean, wasm:boolean }, microtaskMode:string, importModuleDynamically:Function|USE_MAIN_CONTEXT_DEFAULT_LOADER }
+Returns contextified Object.</p>
+<p class="md-github">vm.isContext(object) → boolean</p>
+<p class="md-github">new vm.Script(code, options)
+code: string<br>
+options: { filename?:string, lineOffset?:number, columnOffset?:number, cachedData?:Buffer|TypedArray|DataView, produceCachedData?:boolean, importModuleDynamically?:Function|USE_MAIN_CONTEXT_DEFAULT_LOADER }
+Returns vm.Script</p>
+<p class="md-github">script.createCachedData() → Buffer
+script.cachedDataRejected: boolean|undefined
+script.sourceMapURL: string|undefined</p>
+<p class="md-github">script.runInContext(contextifiedObject, options) → any
+script.runInNewContext(contextObject, options) → any
+script.runInThisContext(options) → any
+options: { displayErrors?:boolean, timeout?:integer, breakOnSigint?:boolean, contextName?:string, contextOrigin?:string, contextCodeGeneration?:{strings:boolean, wasm:boolean}, microtaskMode?:string, importModuleDynamically?:Function|USE_MAIN_CONTEXT_DEFAULT_LOADER, filename?:string, lineOffset?:number, columnOffset?:number }</p>
+<p class="md-github">vm.compileFunction(code, params, options) → Function
+code: string, params: string[], options: { filename?:string, lineOffset?:number, columnOffset?:number, cachedData?:Buffer|TypedArray|DataView, produceCachedData?:boolean, parsingContext?:Object, contextExtensions?:Object[], importModuleDynamically?:Function|USE_MAIN_CONTEXT_DEFAULT_LOADER }</p>
+<p class="md-github">vm.constants: { USE_MAIN_CONTEXT_DEFAULT_LOADER, DONT_CONTEXTIFY }</p>
+<p class="md-github">vm.measureMemory(options) → Promise<Object>
+options: { mode?:'summary'|'detailed', execution?:'default'|'eager' }
+Resolves to memory stats object.</p>
+<p class="md-github">// Example: Running HTTP server in VM
+const vm = require('node:vm');
+const http = require('http');
+const ctx = { require, console };
+vm.createContext(ctx, { name:'server', origin:'http://localhost' });
+const script = new vm.Script(<code class="md-github">  const server = require('http').createServer((req,res)=&gt;res.end('ok'));   server.listen(0, ()=&gt; console.log('listening'));</code>);
+script.runInContext(ctx);</p>
+<p class="md-github">// Troubleshooting:
+// If script hangs, set timeout: script.runInContext(ctx, { timeout:100 });
+// On SIGINT break: script.runInContext(ctx, { breakOnSigint:true });</p>
+<p class="md-github">// Best Practices:
+// Reuse vm.Script instances to avoid recompilation.
+// Use cachedData for large scripts to speed up startup.
+// For secure globals, use DONT_CONTEXTIFY and freeze objects in host code.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">vm.createContext(ctx[, {name,origin,codeGeneration:{strings,wasm},microtaskMode,importModuleDynamically}])→ctx; vm.isContext(obj); new vm.Script(code[,{filename,lineOffset,columnOffset,cachedData,produceCachedData,importModuleDynamically}])→script; script.factory: createCachedData()-&gt;Buffer; cachedDataRejected:boolean; sourceMapURL:string; script.runInContext(ctx[,{displayErrors,timeout,breakOnSigint,importModuleDynamically}])→any; script.runInNewContext([ctx][,options])→any; script.runInThisContext([options])→any; vm.compileFunction(code,params[,{filename,lineOffset,columnOffset,cachedData,produceCachedData,parsingContext,contextExtensions,importModuleDynamically}])→Function; vm.constants.{USE_MAIN_CONTEXT_DEFAULT_LOADER,DONT_CONTEXTIFY}; vm.measureMemory([{mode:'summary'|'detailed',execution:'default'|'eager'}])→Promise&lt;{total, current?, other?}&gt;; Experimental: SourceTextModule(code,[{identifier,cachedData,context,lineOffset,columnOffset,initializeImportMeta,importModuleDynamically}])→mod; mod.link(linker)-&gt;Promise; mod.evaluate([options])-&gt;Promise; dependencySpecifiers:string[]; error:any; status:string; namespace:Object; SyntheticModule(exportNames,evalCallback,[{identifier,context}])-&gt;syn; syn.setExport(name,value).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1 Context Creation
+2 Script Compilation
+3 Script Execution Methods
+4 Function Compilation
+5 Memory Measurement</p>
+<p class="md-github">1 Context Creation
+Signature: vm.createContext(contextObject[, options])  contextified Object
+Parameters:
+contextObject: Object | vm.constants.DONT_CONTEXTIFY | undefined
+options:
+name: string (default 'VM Context i')
+origin: string (default '')
+codeGeneration:
+strings: boolean (default true)
+wasm: boolean (default true)
+microtaskMode: 'afterEvaluate'
+importModuleDynamically: Function | vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER
+Returns:
+The contextified global object for vm.runInContext and modules.</p>
+<p class="md-github">2 Script Compilation
+Signature: new vm.Script(code[, options])  vm.Script
+Parameters:
+code: string source
+options:
+filename: string (default 'evalmachine.<anonymous>')
+lineOffset: number (default 0)
+columnOffset: number (default 0)
+cachedData: Buffer|TypedArray|DataView
+produceCachedData: boolean (default false, deprecated)
+importModuleDynamically: Function|vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER
+Methods:
+script.createCachedData()  Buffer
+script.cachedDataRejected: boolean|undefined
+script.sourceMapURL: string|undefined</p>
+<p class="md-github">3 Script Execution Methods
+3.1 runInContext
+Signature: script.runInContext(contextifiedObject[, options])  any
+Options:
+displayErrors: boolean (default true)
+timeout: positive integer (ms)
+breakOnSigint: boolean (default false)
+3.2 runInNewContext
+Signature: script.runInNewContext([contextObject[, options]])  any
+ContextObject: Object|vm.constants.DONT_CONTEXTIFY|undefined
+Options:
+displayErrors, timeout, breakOnSigint, contextName: string, contextOrigin: string, contextCodeGeneration:{strings:boolean,wasm:boolean}, microtaskMode:'afterEvaluate'
+3.3 runInThisContext
+Signature: script.runInThisContext([options])  any
+Options: displayErrors, timeout, breakOnSigint</p>
+<p class="md-github">4 Function Compilation
+Signature: vm.compileFunction(code[, params[, options]])  Function
+Parameters:
+code: string body
+params: string[] parameter names
+options:
+filename: string (default '')
+lineOffset: number (default 0)
+columnOffset: number (default 0)
+cachedData: Buffer|TypedArray|DataView
+produceCachedData: boolean (default false)
+parsingContext: Object
+contextExtensions: Object[]
+importModuleDynamically: Function|vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER</p>
+<p class="md-github">5 Memory Measurement
+Signature: vm.measureMemory([options])  Promise&lt;{}&gt;
+Options:
+mode: 'summary'|'detailed' (default 'summary')
+execution: 'default'|'eager' (default 'default')
+Returns:
+Promise resolving to { total: { jsMemoryEstimate: number, jsMemoryRange: [number, number] }, current?, other? }</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js VM Module
+https://nodejs.org/api/vm.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-vm_module" href="#digest-of-vm_module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of VM_MODULE</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="vm-module" href="#vm-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>VM Module</h1>
+<p class="md-github">Stability: 2 – Stable
+Source: lib/vm.js
+Retrieved: 2024-06-10
+Data Size: 3 502 189 bytes</p>
+<p class="md-github">The node:vm module enables compiling and running JavaScript within V8 contexts. It is not a security sandbox.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="1-creating-and-inspecting-contexts" href="#1-creating-and-inspecting-contexts"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Creating and Inspecting Contexts</h1>
+<p class="md-github">vm.createContext(contextObject[, options]) → Object
+• contextObject: Object | vm.constants.DONT_CONTEXTIFY | undefined<br>
+• options: { name: string, origin: string, codeGeneration: { strings: boolean, wasm: boolean }, microtaskMode: 'afterEvaluate', importModuleDynamically: Function|vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER }<br>
+• Returns a contextified global object.<br>
+• Defaults: name='VM Context i', origin='', codeGeneration.strings=true, codeGeneration.wasm=true.</p>
+<p class="md-github">vm.isContext(object) → boolean
+vm.constants.DONT_CONTEXTIFY<br>
+vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER</p>
+<h1 class="md-github"><a class="md-github__anchor" name="2-compiling-code-vmscript" href="#2-compiling-code-vmscript"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Compiling Code: vm.Script</h1>
+<p class="md-github">new vm.Script(code[, options]) → vm.Script instance
+• code: string<br>
+• options: { filename: string, lineOffset: number, columnOffset: number, cachedData: Buffer|TypedArray|DataView, produceCachedData: boolean (deprecated), importModuleDynamically: Function|vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER }<br>
+• Defaults: filename='evalmachine.<anonymous>', lineOffset=0, columnOffset=0, produceCachedData=false.</p>
+<p class="md-github">Properties and Methods:
+• script.cachedDataRejected: boolean|undefined<br>
+• script.createCachedData() → Buffer<br>
+• script.sourceMapURL: string|undefined</p>
+<h1 class="md-github"><a class="md-github__anchor" name="3-running-compiled-code" href="#3-running-compiled-code"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Running Compiled Code</h1>
+<p class="md-github">script.runInContext(contextifiedObject[, options]) → any
+script.runInNewContext([contextObject[, options]]) → any
+script.runInThisContext([options]) → any</p>
+<p class="md-github">Options for each:
+• displayErrors: boolean (default: true)<br>
+• timeout: positive integer ms<br>
+• breakOnSigint: boolean (default: false)<br>
+• contextName, contextOrigin, contextCodeGeneration, microtaskMode (runInNewContext only)</p>
+<h1 class="md-github"><a class="md-github__anchor" name="4-compiling-functions" href="#4-compiling-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Compiling Functions</h1>
+<p class="md-github">vm.compileFunction(code[, params[, options]]) → Function
+• code: string<br>
+• params: string[]<br>
+• options: { filename: string, lineOffset: number, columnOffset: number, cachedData: Buffer|TypedArray|DataView, produceCachedData: boolean, parsingContext: Object, contextExtensions: Object[], importModuleDynamically: Function|vm.constants.USE_MAIN_CONTEXT_DEFAULT_LOADER }</p>
+<h1 class="md-github"><a class="md-github__anchor" name="5-measuring-memory" href="#5-measuring-memory"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Measuring Memory</h1>
+<p class="md-github">vm.measureMemory([options]) → Promise<Object>
+• options: { mode: 'summary'|'detailed', execution: 'default'|'eager' }<br>
+• Default: { mode:'summary', execution:'default' }<br>
+• Resolves with engine-specific memory usage object.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="6-modules-experimental" href="#6-modules-experimental"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Modules (Experimental)</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="vmsourcetextmodule" href="#vmsourcetextmodule"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>vm.SourceTextModule</h2>
+<p class="md-github">new vm.SourceTextModule(code[, options]) → vm.SourceTextModule
+options: { identifier: string, cachedData: Buffer|TypedArray|DataView, context: Object, lineOffset: number, columnOffset: number, initializeImportMeta: Function, importModuleDynamically: Function }</p>
+<p class="md-github">Methods:<br>
+• module.link(linker) → Promise&lt;vm.Module&gt;<br>
+• module.evaluate([options]) → Promise<void><br>
+• module.dependencySpecifiers: string[]<br>
+• module.error: any<br>
+• module.namespace: Object<br>
+• module.status: 'unlinked'|'linking'|'linked'|'evaluating'|'evaluated'|'errored'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="vmsyntheticmodule" href="#vmsyntheticmodule"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>vm.SyntheticModule</h2>
+<p class="md-github">new vm.SyntheticModule(exportNames, evaluateCallback[, options]) → vm.SyntheticModule
+• exportNames: string[]<br>
+• evaluateCallback: Function<br>
+• options: { identifier: string, context: Object }</p>
+<p class="md-github">Methods:
+• syntheticModule.setExport(name: string, value: any)</p>
+<h1 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h1>
+<p class="md-github">Contextify and run:
+const vm = require('node:vm');
+const ctx = { x: 2 };
+vm.createContext(ctx);
+const script = new vm.Script('x += 40; var y = 17;');
+script.runInContext(ctx, { timeout: 100 });
+// ctx.x===42, ctx.y===17</p>
+<p class="md-github">Compile function:
+const fn = vm.compileFunction('return a + b;', ['a','b'], { filename:'adder.js' });
+fn(1,2) // 3</p>
+<p class="md-github">Measure memory:
+vm.measureMemory({ mode:'detailed', execution:'eager' }).then(console.log);</p>
+<p class="md-github">Module example omitted for brevity.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Node.js VM Module</li>
+<li class="md-github">URL: https://nodejs.org/api/vm.html</li>
+<li class="md-github">License: License: Node.js (MIT-like terms)</li>
+<li class="md-github">Crawl Date: 2025-05-10T14:01:28.819Z</li>
+<li class="md-github">Data Size: 3502189 bytes</li>
+<li class="md-github">Links Found: 1388</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-10</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-10T16:39:09.199Z</p>
+  </footer>
+</body>
+</html>
