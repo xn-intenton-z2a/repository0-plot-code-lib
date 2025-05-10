@@ -1,19 +1,46 @@
 # Purpose
 
-This feature adds command-line functionality to parse mathematical formulas and generate data points for plot visualizations in ASCII, JSON, or SVG formats.
+Add command-line functionality to parse mathematical formulas and generate data points for plot visualizations in ASCII, JSON, SVG, or CSV formats.
 
 # Behavior
 
-When invoked as repository0-plot-code-lib plot "<formula>" [--output <file>] [--format ascii|json|svg] [--width <n>] [--height <n>] [--range "<min>,<max>"] the CLI will parse the formula, sample default 50 points over the specified range, and output the plotted data or ASCII chart. If --output is provided, write the result to the specified file, otherwise print to stdout.
+When invoked as repository0-plot-code-lib plot "<formula>" [--output <file>] [--format ascii|json|svg|csv] [--width <n>] [--height <n>] [--range "<min>,<max>"] the CLI will:
+
+- Parse the formula and sample default 50 points over the specified range.
+- Support four output formats:
+  - ascii: render an ASCII chart with axes and data points.
+  - json: output a JSON array of objects {x, y}.
+  - svg: generate an SVG polyline graph with optional axes and labels.
+  - csv: produce comma-separated values with a header line `x,y` and one line per data point.
+- Write results to stdout by default or to the file specified by --output.
+- Exit with a non-zero status and a clear error message for invalid formulas or option values.
 
 # Implementation
 
-In src/lib/main.js import mathjs to parse formulas and compute sample values. Use zod or similar to validate CLI options. Define default range of [-10,10], default width and height of 80x20, and default format of ascii. Generate N equidistant x values, evaluate y for each. Format output according to format: ascii chart with axis and data points, JSON array of objects {x,y}, or basic SVG polyline with optional axes and labels. Handle invalid formulas by printing an error and exiting non-zero.
+- In src/lib/main.js:
+  - Import mathjs to parse and evaluate the formula for each x sample.
+  - Use zod to validate and coerce CLI options, extending the format schema to include csv.
+  - Generate N equidistant x values over the requested range, evaluate y = f(x).
+  - Branch on format:
+    - ascii: reuse existing ASCII chart logic.
+    - json: JSON.stringify the array of {x, y}.
+    - svg: produce an SVG polyline wrapped in an <svg> element.
+    - csv: build a string starting with "x,y" header and one line per point, escaping values per RFC 4180.
+  - Determine output destination: write to stdout or to the file path from --output.
 
 # Testing
 
-Extend tests in tests/unit/plot-generation.test.js to cover commands with different formats and options. Mock mathjs evaluate function to return predictable values. Verify JSON output structure, check that ASCII output includes axis markers and data points, and that SVG output contains polyline elements. Test error handling for invalid formula syntax and invalid option values.
+- In tests/unit/plot-generation.test.js:
+  - Add tests for format=csv:
+    - Mock mathjs to return predictable values and verify the CSV header and data lines.
+    - Confirm that specifying --output writes a .csv file with correct contents.
+  - Ensure tests for ascii, json, and svg still pass unchanged.
+  - Test error handling for unsupported formats and invalid formulas.
 
 # Documentation
 
-Update README.md to include a section for the plot command with inline usage examples for each format. Show sample invocation and output for ascii, json, and svg formats.
+- Update README.md:
+  - Under the "Plot Command" section, note the csv format alongside ascii, json, and svg.
+  - Show example invocation for csv and sample output.
+- Update USAGE.md:
+  - Document the --format csv option, including default behavior and how to use --output for a .csv file.
