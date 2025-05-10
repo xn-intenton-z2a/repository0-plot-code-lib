@@ -1,18 +1,19 @@
 # Summary
 
-Add a serve subcommand that starts an HTTP server exposing plotting and statistics functionality via HTTP endpoints. This allows remote workflows to generate data and charts or compute statistics without invoking the CLI directly.
+Add a new serve subcommand that starts an HTTP server exposing plot data via an HTTP API using Express.
 
 # Behavior
 
-When the first argument is "serve" the tool starts an Express HTTP server. It listens on a configurable port. The server exposes two GET endpoints:
-
-- /plot
-  - Accepts query parameters: expression, xmin, xmax, samples, data, type, width, height, outputFormat. expression and data follow the same semantics as the CLI.
-  - If outputFormat is "json" (default) returns application/json with an array of { x, y } points. If outputFormat is "ascii" returns text/plain with an ASCII art chart.
-
-- /stats
-  - Accepts query parameters: expression, xmin, xmax, samples, data.
-  - Returns application/json with descriptive statistics: min, max, mean, median, standard deviation for x and y.
+When the first argument is "serve" the CLI:
+- Parses a --port flag or uses default port 3000.
+- Starts an Express server listening on the configured port.
+- Exposes a GET /plot endpoint:
+  - Required query parameter: expression. If missing, respond 400 with an error message.
+  - Optional query parameters: xmin (default -10), xmax (default 10), samples (default 100).
+  - Parse and validate numeric parameters; on validation error respond 400.
+  - Call generateExpressionData(expression, xmin, xmax, samples) to produce an array of { x, y } points.
+  - Respond 200 and return application/json with the data array.
+- Logs a startup message indicating the server URL.
 
 # CLI Flags
 
@@ -21,26 +22,32 @@ When the first argument is "serve" the tool starts an Express HTTP server. It li
 
 # Implementation Details
 
-- In src/lib/main.js update main() to recognize "serve" and dispatch to runServer(args).
+- In src/lib/main.js update main() to recognize the "serve" command and call runServer(args).
 - Implement parseServerOptions(args) to extract --port and --help flags.
-- Use express from dependencies to create an application.
-- Define GET /plot and GET /stats handlers that parse req.query, reuse generateExpressionData and loadDataFromFile (or generateExpressionData exclusively for expression mode), call computeStatistics for stats, and send responses with appropriate content type and status codes.
-- Support aborting requests on invalid parameters by sending status 400 with an error message.
-- Listen on opts.port and log a startup message including the URL.
+- In runServer(opts):
+  - Import express from dependencies and create an app.
+  - Use express.json() middleware if needed.
+  - Define app.get('/plot', async (req, res) => { ... }):
+    - Extract req.query.expression, xmin, xmax, samples.
+    - Validate expression is provided; respond res.status(400).json({ error: 'expression query parameter is required' }).
+    - Convert xmin, xmax, samples to numbers; validate samples >= 2.
+    - Wrap generateExpressionData call in try/catch; on error respond 400 with error message.
+    - On success send res.json(dataPoints).
+  - Start app.listen on opts.port; log console.log(`HTTP server listening at http://localhost:${opts.port}`).
 
 # Testing
 
-- Add a new test file tests/unit/http-api.test.js using vitest and supertest.
-- Test that GET /plot?expression=x&samples=3 returns JSON array of length 3 with expected x and y values.
-- Test GET /plot with outputFormat=ascii returns text containing ASCII markers.
-- Test GET /stats?expression=x^2 returns JSON with correct statistics.
-- Test error cases: missing required parameters yields 400 response.
+- Create tests/unit/http-api.test.js using vitest and supertest:
+  - Test GET /plot?expression=x&xmin=0&xmax=2&samples=3 returns 200 and JSON array of length 3 with correct x, y values.
+  - Test GET /plot without expression returns 400 and JSON error payload.
+  - Test invalid numeric query (samples < 2 or non-numeric) returns 400 with descriptive error.
+  - Mock generateExpressionData using vi to simulate and verify error paths.
 
 # Documentation
 
-- Update README.md by adding a "HTTP Server Subcommand" section under Available Commands.
-- Include examples:
-  repository0-plot-code-lib serve --port 3000
-  curl "http://localhost:3000/plot?expression=x^2&xmin=0&xmax=2&samples=3"
-  curl "http://localhost:3000/stats?expression=x"
-- Describe query parameters and response formats.
+- Update README.md under a new "HTTP Server Subcommand" section:
+  - Show how to start the server: `repository0-plot-code-lib serve --port 3000`.
+  - Include curl examples:
+    curl "http://localhost:3000/plot?expression=x^2&xmin=0&xmax=2&samples=5"
+  - Describe query parameters and response format.
+- Update USAGE.md to list the serve command and its options with brief examples.
