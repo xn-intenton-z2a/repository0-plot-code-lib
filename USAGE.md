@@ -4,6 +4,7 @@ repository0-plot-code-lib <command> [options]
 
 Commands:
   plot      Generate plots from data files or mathematical expressions
+  stats     Compute descriptive statistics for datasets
   reseed    Reset repository files to seed state (dry-run available)
   serve     Start HTTP API server for plot and stats endpoints
 
@@ -18,6 +19,16 @@ Options for plot:
   --data <filePath>        Path to JSON, YAML, or CSV data file
   --output <file>          Output file path for the rendered chart
   --help                   Show help for commands
+
+Options for stats:
+  --expression <formula>   Mathematical expression in x to sample
+  --data <filePath>        Path to JSON, YAML, or CSV data file
+  --xmin <number>          Minimum x value (default: -10)
+  --xmax <number>          Maximum x value (default: 10)
+  --samples <integer>      Number of samples (default: 100)
+  --precision <integer>    Decimal places in numeric output (default: 4)
+  --format <table|json|csv> Output format (default: table)
+  --output <file>          File to write statistics; omit to print
 
 Examples:
 
@@ -41,6 +52,10 @@ Reseed dry run:
 
 Serve HTTP API:
   repository0-plot-code-lib serve --port 3000
+
+Stats command examples:
+  repository0-plot-code-lib stats --expression "x^2" --samples 5
+  repository0-plot-code-lib stats --data data.csv --format json --output summary.json
 
 Endpoints:
   GET /plot?expression=<expr>&xmin=<num>&xmax=<num>&samples=<int>
