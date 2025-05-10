@@ -1,64 +1,73 @@
 # Overview
-Add an HTTP API mode for dynamic chart generation via REST endpoints. Users can start a local web server that accepts plot requests over HTTP for integration with dashboards and automation workflows.
+Add an HTTP API server mode for dynamic on-demand plot generation. Users can launch a local web service and send plot requests over REST to integrate with dashboards, automation pipelines, or other systems.
 
 # CLI Interface
-Introduce new flags for server mode:
+Introduce two new flags to the CLI:
 
-  --serve
-    Launch the HTTP server instead of running a single plot command or batch mode.
+--serve
+  Start the HTTP server instead of executing a one-off plot or batch command.
 
-  --port <number>
-    Specify the listening port. Can also be set via the PORT environment variable. Default is 3000.
+--port <number>
+  Specify the listening port. Default 3000. Can also be set via PORT environment variable.
 
 Examples:
-  repository0-plot-code-lib --serve
-  PORT=4000 repository0-plot-code-lib --serve --port 5000
+repository0-plot-code-lib --serve
+PORT=4000 repository0-plot-code-lib --serve --port 5000
 
 # API Endpoints
 
 POST /plot
   Request Body (application/json):
-    expression or dataFile    A formula string (e.g. y=sin(x)) or an absolute path to a JSON or CSV file on the server
-    format                   svg or png (default svg)
-    width                    Optional canvas width (default 600)
-    height                   Optional canvas height (default 400)
-    title                    Optional plot title
-    xLabel                   Optional X axis label
-    yLabel                   Optional Y axis label
+    expression   A formula string such as y=sin(x) (mutually exclusive with dataFile)
+    dataFile     Absolute path to a server-accessible JSON or CSV data file
+    format       svg or png (default svg)
+    width        Optional canvas width in pixels (default 600)
+    height       Optional canvas height in pixels (default 400)
+    title        Optional plot title
+    xLabel       Optional X axis label
+    yLabel       Optional Y axis label
   Response:
-    200 OK with image payload
-      Content-Type: image/svg+xml or image/png
-      Body: Raw image data
-    400 Bad Request for validation errors with JSON { error: string }
-    500 Internal Server Error for processing failures with JSON { error: string }
+    200 OK
+      Content-Type: image/svg+xml for svg or image/png for png
+      Body: Raw image data (SVG text or binary PNG)
+    400 Bad Request
+      Content-Type: application/json
+      Body: { error: string }
+    500 Internal Server Error
+      Content-Type: application/json
+      Body: { error: string }
 
 GET /health
   Response:
-    200 OK application/json
-      { status: 'ok', uptime: number }
+    200 OK
+      Content-Type: application/json
+      Body: { status: 'ok', uptime: number }
 
 # Implementation
 
-- Detect the --serve flag in src/lib/main.js and invoke an Express application instead of CLI logic.
-- Use express.json() middleware to parse JSON request bodies. Reject unsupported content types with 415.
-- Validate request payloads using Zod schemas matching existing plot task definitions, extended to include width and height.
-- For each valid /plot request, call the programmatic renderPlot function from PLOT_RENDERER to generate a Buffer or SVG string.
-- Stream the result back with the correct Content-Type header and auto-detect response encoding for binary (png) or utf-8 (svg).
-- Implement /health to return server status and process uptime.
-- Handle file I/O and rendering errors by sending structured JSON errors with appropriate HTTP status codes.
+- Detect --serve flag in src/lib/main.js and initialize an Express application in place of CLI logic.
+- Use express.json() to parse JSON bodies and reject other content types with 415.
+- Define a Zod schema for plot requests matching existing plotTask definitions (expressionOrDataFile union, format, width, height, title, xLabel, yLabel).
+- In the /plot handler:
+  - Validate the request payload with Zod. On validation failure return 400 with error details.
+  - Invoke the programmatic API renderPlot or generatePlot function imported from the same module, passing the validated inputs.
+  - On success, set the appropriate Content-Type header and send the raw image data (string for SVG, Buffer for PNG).
+  - On errors during rendering or file I/O, catch and return 500 with error message in JSON.
+- In the /health handler, return JSON with status 'ok' and process.uptime().
+- Ensure the server listens on the configured port and logs a startup message.
 
 # Testing
 
-- Add unit tests in tests/unit/server.test.js using supertest:
-  - Verify GET /health returns 200 with JSON status and uptime fields.
-  - POST /plot with valid formula returns an SVG buffer and Content-Type image/svg+xml.
-  - POST /plot with valid CSV or JSON dataFile returns a buffer with expected PNG signature when format=png.
-  - Invalid payloads (missing expression and dataFile, unsupported format) return 400 with descriptive error JSON.
-  - Simulate internal render errors and verify 500 responses.
-- Mock fs.promises and renderPlot to isolate HTTP logic.
+- Add a test file tests/unit/server.test.js using supertest:
+  - Verify GET /health returns status 200 with JSON containing status 'ok' and a numeric uptime.
+  - Test POST /plot with a valid expression and default options returns an SVG response and Content-Type image/svg+xml.
+  - Test POST /plot with format=png returns a binary response with PNG signature and Content-Type image/png.
+  - Test POST /plot with a valid JSON or CSV dataFile path returns the expected image buffer.
+  - Test invalid payloads (missing both expression and dataFile, unsupported format) return 400 with descriptive error JSON.
+  - Simulate internal errors by mocking renderPlot or fs.promises and verify 500 responses.
 
 # Documentation Updates
 
-- Update README.md to add a new “HTTP API Server” section describing --serve and --port flags.
-- Document /plot and /health endpoints with request and response examples.
-- Update USAGE.md to reference HTTP server mode under CLI usage and link to examples in README.
+- Update README.md to add a new "HTTP API Server" section detailing --serve and --port flags and example invocations.
+- Update USAGE.md to include the server mode under CLI usage and document the /plot and /health endpoints with sample curl commands.
+- Where the source stands up an HTTP endpoint, document it in the README as part of the public API.
