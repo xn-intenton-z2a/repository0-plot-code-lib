@@ -1,63 +1,68 @@
 # Summary
 
-Integrate the existing computeStatistics utility into a new CLI stats subcommand so users can compute descriptive statistics from expression-generated or file-based data, choose output formats, and optionally export results to a file.
+Add a new "stats" subcommand to the CLI that computes descriptive statistics over expression-generated or file-based data sets and outputs results in table, JSON, or CSV formats. Support writing output to a file or printing to the console.
 
 # Behavior
 
-When the first argument is "stats" is provided:
-- Parse input flags to identify a data source: either --data <filePath> or --expression <expr> with --xmin, --xmax, and --samples.
-- Compute statistics (min, max, mean, median, standard deviation) for x and y using computeStatistics.
-- Format results according to --format:
-  • table: aligned console table
-  • json: structured JSON object
-  • csv: comma-separated values with a header row
-- If --output <file> is provided:
-  • Write the formatted string to the specified file via fs.promises.writeFile
-  • Console.log a confirmation message including the output path
-- If --output is omitted:
-  • Print results to standard output
-- On missing or invalid options, print descriptive error messages and exit with non-zero code.
+When users invoke the CLI with the first argument "stats":
+
+- Parse flags to determine data source:
+  - If --expression is provided, sample a mathematical expression over a numeric domain.
+  - Otherwise if --data is provided, load an array of { x, y } points from JSON, YAML, or CSV.
+- Validate that at least one source is present; on missing or invalid input, print a descriptive error and exit with code 1.
+- Compute statistics (min, max, mean, median, standard deviation) separately for x and y values using the existing computeStatistics helper.
+- Format the resulting statistics object according to the --format flag:
+  • table: aligned columns printed to console
+  • json: structured JSON string
+  • csv: header row and comma-separated values
+- If --output <file> is provided, write the formatted output to that file and print a confirmation message.
+- If --output is omitted, print results to standard output.
 
 # CLI Flags
 
---data <filePath>      Load points from JSON, YAML, or CSV data file
---expression <expr>     Generate points by sampling a mathematical expression
---xmin <number>        Minimum x value (default -10)
---xmax <number>        Maximum x value (default 10)
---samples <integer>    Number of sample points (default 100)
---precision <integer>  Decimal places for numeric output (default 4)
---format <table|json|csv>  Output format (default table)
---output <file>        File path to write output; omit to print to console
---help                 Show help for stats command and exit
+--data <filePath>        Load points from a JSON, YAML, or CSV file
+--expression <expr>       Generate points by sampling a JavaScript expression in x
+--xmin <number>          Minimum x value for sampling (default -10)
+--xmax <number>          Maximum x value for sampling (default 10)
+--samples <integer>      Number of sample points (default 100)
+--precision <integer>    Number of decimal places for numeric output (default 4)
+--format <table|json|csv> Output format (default table)
+--output <file>          File path to write results; omit to print to console
+--help                   Show help for stats command and exit
 
 # Implementation Details
 
-1. In main(), add a branch for cmd === "stats" that invokes runStats(rest).
-2. Implement parseStatsOptions(args) mirroring parsePlotOptions but including --precision, --format, and --output.
-3. Add runStats(opts) in src/lib/main.js:
-   - Load or generate dataPoints (use existing generateExpressionData or loadDataFromFile).
-   - Call computeStatistics(dataPoints) to obtain a stats object.
-   - Choose formatter:
-       • formatTable(stats, opts.precision)
-       • JSON.stringify(stats, null, 2)
-       • formatCsv(stats)
-   - If opts.output is set, write to file and console.log confirmation; else console.log formatted output.
-   - Use process.exit(1) on errors.
-4. Ensure exit codes and console.error messages follow existing conventions.
+1. Update src/lib/main.js:
+   - Extend the command router in main() to handle cmd === "stats" and invoke runStats(rest).
+   - Add a parseStatsOptions(args) function mirroring parsePlotOptions that extracts flags above and handles validation of mutually exclusive or required flags.
+   - Implement runStats(opts):
+     • Load or generate dataPoints: call generateExpressionData when opts.expression is set, otherwise call loadDataFromFile(opts.data).
+     • On load or evaluation errors, console.error the message and exit with process.exit(1).
+     • Call computeStatistics(dataPoints) to obtain a stats object.
+     • Select a formatter based on opts.format:
+         - formatTable(stats, opts.precision)
+         - JSON.stringify(stats, null, 2)
+         - formatCsv(stats)
+     • If opts.output is set, use fs.promises.writeFile to write the formatted string, then console.log a confirmation. Otherwise console.log the formatted output.
+     • Ensure exit codes and error messages follow existing conventions.
+
+2. Add helper formatters in src/lib/main.js or a new helper module:
+   - formatTable(stats, precision): produce an aligned text table with headers and values.
+   - formatCsv(stats): output a header row of statistic names and a single data row.
 
 # Testing
 
-- Create tests in tests/unit/stats.test.js or extend plot-generation.test.js:
-  • Mock console.log and fs.promises.writeFile.
-  • Test default table output for expression mode.
-  • Test JSON and CSV formats, verifying content and precision.
-  • Test --output writes correct content and logs confirmation.
-  • Test error cases: missing data and expression, invalid format, file write failures result in process.exit and descriptive errors.
+- Create tests/unit/stats.test.js using Vitest:
+  • Test default table output for expression mode: invoke main(["stats","--expression","x^2","--samples","5"]) and assert console.log prints a table with correct numeric values.
+  • Test JSON and CSV formats: run main with --format json and --format csv and parse the output or split lines to assert expected fields and precision.
+  • Test file export: mock fs.promises.writeFile, invoke main with --output stats.txt, and confirm writeFile receives correct content and console.log confirms path.
+  • Test error conditions: missing both --data and --expression, invalid format value, file load failures; assert console.error is called with descriptive message and process.exit(1) occurs.
 
 # Documentation
 
-- Update README.md under Available Commands to list the stats subcommand and its purpose.
-- In README.md and USAGE.md, add detailed flag descriptions and examples:
+- Update README.md under Available Commands to list stats with a brief summary.
+- In README.md and USAGE.md, add a new section for the stats subcommand:
     repository0-plot-code-lib stats --expression "x^2" --samples 5 --format json
-    repository0-plot-code-lib stats --data data.csv --format csv --output stats.csv
-- Include sample console outputs and confirmation messages in the examples.
+    repository0-plot-code-lib stats --data data.csv --format csv --output summary.csv
+  Include sample output for table, JSON, and CSV modes.
+- Document each flag in the Usage section and note default values and precedence.
