@@ -1,36 +1,26 @@
 # Overview
+Add a new release mode to automate version bumping, changelog updates, pull request creation, and npm publishing for v1.2.0.
 
-Automate the patch release process for version 1.2.0 by updating the project version, maintaining a structured changelog, and providing a reproducible npm script to generate, commit, and tag the patch release.
+# CLI Interface
+Add a --release flag to the CLI. Support an optional --dry-run flag to preview steps without execution.
+
+Examples:
+repository0-plot-code-lib --release
+repository0-plot-code-lib --release --dry-run
 
 # Implementation
-
-1. Update package.json
-   - Change the version field in package.json from 1.2.0-0 to 1.2.0.
-   - Add a new npm script "release:patch" under scripts:
-     - "release:patch": "npx conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md package.json && git commit -m 'chore(release): 1.2.0 [skip ci]' && git tag v1.2.0"
-2. Maintain CHANGELOG.md
-   - Create or update a top-level CHANGELOG.md file.
-   - Add a new section:
-     ## [1.2.0] - YYYY-MM-DD
-     ### Bug Fixes
-       - Describe each bug or issue fixed in this patch release.
-     ### Maintenance
-       - List any internal cleanup, dependency upgrades or documentation updates.
-3. Ensure idempotency
-   - The release:patch script should be safe to run multiple times without duplicating entries or failing if the tag already exists.
+- Detect --release and --dry-run flags in src/lib/main.js using manual parsing of process.argv.
+- Read package.json via fs.promises and update version from 1.2.0-0 to 1.2.0.
+- Use npx conventional-changelog -p angular -i CHANGELOG.md -s to update CHANGELOG.md.
+- Commit changes and tag v1.2.0 using child_process.spawn for git add, git commit, and git tag.
+- Create a GitHub pull request using gh CLI: gh pr create --title 'chore(release): v1.2.0' --body file:CHANGELOG.md.
+- After PR merge, publish to npm using npm publish.
+- Log descriptive messages at each step and handle errors with non-zero exit codes.
 
 # Testing
-
-- Add a unit test in tests/unit/release-patch.test.js:
-  - Mock fs.promises to simulate an existing CHANGELOG.md and package.json.
-  - Invoke the npm script command via child_process.spawnSync.
-  - Verify that:
-    - package.json version field updates to 1.2.0.
-    - CHANGELOG.md contains a section for 1.2.0.
-    - git commit and git tag calls are executed with correct messages (using a mock or spy).
+- Add tests in tests/unit/release-pr.test.js mocking fs.promises and child_process.spawn to simulate version bump, changelog update, git, gh, and npm commands.
+- Verify that --release triggers the correct sequence and that --dry-run outputs planned steps without executing commands.
 
 # Documentation Updates
-
-- Update README.md:
-  - Add a "Changelog & Release" section describing the release:patch script and linking to CHANGELOG.md.
-  - Provide an example of running npm run release:patch and inspecting the changelog and tag.
+- Update README.md with a "Release Workflow" section describing the --release flag and usage examples.
+- Update USAGE.md to reference release mode and flags.
