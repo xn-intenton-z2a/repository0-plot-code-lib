@@ -24,432 +24,695 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="sharp_constructor" href="#sharp_constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SHARP_CONSTRUCTOR</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Signature: new Sharp([input], [options]) -&gt; Sharp
-Input: Buffer|ArrayBuffer|TypedArray|string path; supports JPEG, PNG, WebP, GIF, AVIF, SVG, TIFF, raw pixel data.
-Options:
-failOn: 'none'|'truncated'|'error'|'warning' (default 'warning')
-limitInputPixels: number|boolean (default 268402689)
+<p class="md-github">Signature: new Sharp([input], [options]). Implements stream.Duplex; emits info and warning events. Throws Error on invalid parameters. input accepts Buffer/ArrayBuffer/TypedArray/String or array; options object with 50+ fields: failOn, limitInputPixels, unlimited, autoOrient, sequentialRead, density, ignoreIcc, pages, page, subifd, level, pdfBackground, animated, raw (width,height,channels,premultiplied), create (width,height,channels,background,noise.type,noise.mean,noise.sigma), text (text,font,fontfile,width,height,align,justify,dpi,rgba,spacing,wrap), join (across,animated,shim,background,halign,valign). Examples: resize toFile, stream pipeline, create blank image, clone pipelines.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Constructor Signature and Behavior
+2 Input Parameter Types
+3 Options Object Fields
+4 Events and Errors
+5 Usage Patterns with Examples</p>
+<p class="md-github">1 Constructor Signature and Behavior
+new Sharp([input], [options])<br>
+Implements stream.Duplex<br>
+Emits: info, warning<br>
+Animated input frames stacked vertically (height = pageHeight × pages)<br>
+Throws: Error Invalid parameters</p>
+<p class="md-github">2 Input Parameter Types
+input: Buffer | ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | Uint16Array | Int16Array | Uint32Array | Int32Array | Float32Array | Float64Array | string | Array<any><br>
+Accepts image data buffers, raw pixel arrays, file paths, array of inputs, or omitted for stream input.</p>
+<p class="md-github">3 Options Object Fields
+failOn: 'none' | 'truncated' | 'error' | 'warning' (default 'warning')
+limitInputPixels: number | boolean (default 268402689)<br>
 unlimited: boolean (default false)
 autoOrient: boolean (default false)
 sequentialRead: boolean (default true)
-density: number (1-100000, default 72)
+density: number (1–100000, default 72)
 ignoreIcc: boolean (default false)
-pages: number (default 1), page: number (default 0)
-subifd: number (default -1), level: number (default 0)
-pdfBackground: string|Object, animated: boolean (default false)
-raw: { width, height, channels, premultiplied }
-create: { width, height, channels, background, noise:{ type:'gaussian', mean, sigma }}
-text: { text, font, fontfile, width, height, align, justify, dpi, rgba, spacing, wrap }
-join: { across, animated, shim, background, halign, valign }
-Examples: chaining, stream transform, blank image, animated conversion, raw pixel input, noise generation, text rendering, join grid.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<p class="md-github">Table of Contents:</p>
-<ol class="md-github">
-<li class="md-github">
-<p class="md-github">Constructor Signature</p>
-</li>
-<li class="md-github">
-<p class="md-github">Input Types</p>
-</li>
-<li class="md-github">
-<p class="md-github">Option Parameters</p>
-</li>
-<li class="md-github">
-<p class="md-github">Create Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Text Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Join Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Raw Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Examples</p>
-</li>
-<li class="md-github">
-<p class="md-github">Constructor Signature:
-new Sharp(input?, options?) =&gt; Sharp instance
-Implements stream.Duplex; emits 'info','warning'; throws Error on invalid parameters</p>
-</li>
-<li class="md-github">
-<p class="md-github">Input Types:
-Buffer | ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | Uint16Array | Int16Array | Uint32Array | Int32Array | Float32Array | Float64Array | string file path | Array of inputs
-Supported formats: JPEG, PNG, WebP, AVIF, GIF, SVG, TIFF, raw pixel data</p>
-</li>
-<li class="md-github">
-<p class="md-github">Option Parameters:
-failOn (string): 'none'|'truncated'|'error'|'warning' default 'warning'
-limitInputPixels (number|boolean): pixel limit default 268402689; false/0 disable; true use default
-unlimited (boolean): default false; disable memory safeguards
-autoOrient (boolean): default false; apply EXIF orientation
-sequentialRead (boolean): default true; false for random access
-density (number): 1-100000 default 72
-ignoreIcc (boolean): default false; ignore ICC profile
-pages (number): default 1; -1 all pages
-page (number): default 0; start page index
-subifd (number): default -1; OME-TIFF subIFD index
-level (number): default 0; multi-level input level
-pdfBackground (string|Object): PDF transparency background
-animated (boolean): default false; read all frames</p>
-</li>
-<li class="md-github">
-<p class="md-github">Create Option:
-create.width (number)
-create.height (number)
-create.channels (3|4)
-create.background (string|Object)
-create.noise.type ('gaussian')
-create.noise.mean (number)
-create.noise.sigma (number)</p>
-</li>
-<li class="md-github">
-<p class="md-github">Text Option:
-text.text (string)
-text.font (string)
-text.fontfile (string)
-text.width (number)
-text.height (number)
-text.align ('left','centre','center','right')
-text.justify (boolean)
-text.dpi (number)
-text.rgba (boolean)
-text.spacing (number)
-text.wrap ('word','char','word-char','none')</p>
-</li>
-<li class="md-github">
-<p class="md-github">Join Option:
-join.across (number)
-join.animated (boolean)
-join.shim (number)
-join.background (string|Object)
-join.halign ('left','centre','center','right')
-join.valign ('top','centre','center','bottom')</p>
-</li>
-<li class="md-github">
-<p class="md-github">Raw Option:
-raw.width (number)
-raw.height (number)
-raw.channels (number)
-raw.premultiplied (boolean)</p>
-</li>
-<li class="md-github">
-<p class="md-github">Examples:
-sharp('in.jpg').resize(w,h).toFile(path)
-sharp().resize(w).on('info',cb).pipe()
-sharp({ create:{...}}).png().toBuffer()
-await sharp('in.gif',{animated:true}).toFile('out.webp')
-await sharp(input,{ raw:{ width,height,channels }}).toFile()
-await sharp({ text:{...}}).toFile()
-await sharp([img1,img2],{ join:{ across,shim }}).toFile()</p>
-</li>
-</ol>
+pages: number (default 1, -1 for all)
+page: number (default 0)
+subifd: number (default -1)
+level: number (default 0)
+pdfBackground: string | Object
+animated: boolean (default false)
+raw.width: number
+raw.height: number
+raw.channels: number
+raw.premultiplied: boolean (default false)
+create.width: number
+create.height: number
+create.channels: number
+create.background: string | Object
+create.noise.type: 'gaussian'
+create.noise.mean: number
+create.noise.sigma: number
+text.text: string
+text.font: string
+text.fontfile: string
+text.width: number (default 0)
+text.height: number (default 0)
+text.align: 'left' | 'centre' | 'center' | 'right' (default 'left')
+text.justify: boolean (default false)
+text.dpi: number (default 72)
+text.rgba: boolean (default false)
+text.spacing: number (default 0)
+text.wrap: 'word' | 'char' | 'word-char' | 'none' (default 'word')
+join.across: number (default 1)
+join.animated: boolean (default false)
+join.shim: number (default 0)
+join.background: string | Object
+join.halign: 'left' | 'centre' | 'center' | 'right' (default 'left')
+join.valign: 'top' | 'centre' | 'center' | 'bottom' (default 'top')</p>
+<p class="md-github">4 Events and Errors
+info: Emitted on derived attribute availability in stream output
+warning: Emitted on non-critical processing issues
+Throws Error Invalid parameters on invalid input or options</p>
+<p class="md-github">5 Usage Patterns with Examples
+• Single pipeline: sharp('in.jpg').resize(300,200).toFile('out.jpg')
+• Stream pipeline: fetch → Readable.fromWeb → sharp().resize(…) → pipe w/ on('info')
+• Blank image: sharp({create:{width, height, channels, background}}).png().toBuffer()
+• Clone for parallel outputs: pipeline.clone().resize().toFile(), pipeline.clone().extract().toBuffer()</p>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Essential specifications:</p>
-<ul class="md-github">
-<li class="md-github">Default pixel limit 268402689 (0x3FFF x 0x3FFF); set limitInputPixels to 0 to disable; true uses default.</li>
-<li class="md-github">failOn levels: 'none' ignores invalid pixels; 'truncated' aborts on partial data; 'error' aborts on errors; 'warning' logs and continues.</li>
-<li class="md-github">unlimited:true disables safety checks; risk memory exhaustion.</li>
-<li class="md-github">To auto-rotate EXIF: autoOrient:true.</li>
-<li class="md-github">For random access decoding: sequentialRead:false.</li>
-<li class="md-github">DPI for vector input: density:72-100000.</li>
-<li class="md-github">Extract all pages: pages:-1; start at page index: page.</li>
-<li class="md-github">OME-TIFF subIFD selection: subifd index.</li>
-<li class="md-github">Multi-level inputs (OpenSlide): level index.</li>
-<li class="md-github">PDF rendering requires libvips with support; set pdfBackground as CSS color or object {r,g,b,alpha}.</li>
-<li class="md-github">Raw pixel input requires width,height,channels, optional premultiplied flag.</li>
-<li class="md-github">Create blank image: specify create.width,height,channels,background components; add noise with gaussian type, mean, sigma.</li>
-<li class="md-github">Text generation uses Pango; text.font or fontfile; rgba:true for alpha.</li>
-<li class="md-github">Join arrays: across count, shim pixels, halign, valign, animated for output format.</li>
-</ul>
-<p class="md-github">Implementation steps:</p>
-<ol class="md-github">
-<li class="md-github">require('sharp')</li>
-<li class="md-github">const image = sharp(input, options)</li>
-<li class="md-github">chain operations (resize, rotate, extract)</li>
-<li class="md-github">output via toFile, toBuffer, pipe</li>
-<li class="md-github">listen to 'info' for metadata</li>
-<li class="md-github">handle warnings via 'warning' event</li>
-</ol>
-<p class="md-github">Memory allocator best practice: on glibc Linux, use jemalloc via LD_PRELOAD or alternative allocator to avoid fragmentation.</p>
+<p class="md-github">• Error and Warning Handling: Use options.failOn to control abort sensitivity; listen to 'warning' events for recoverable issues.<br>
+• Memory Safety: limitInputPixels default prevents &gt;268402689 pixels. Set unlimited=true to disable.<br>
+• EXIF Orientation: autoOrient enables rotation/flip in constructor.<br>
+• Raw Input: supply raw.width, raw.height, raw.channels; premultiplied option avoids double premultiplication.<br>
+• PDF Support: pdfBackground requires globally installed libvips with PDFium or Poppler.<br>
+• Animated Input: animated=true or pages=-1 to read all frames.<br>
+• Composite Inputs: array input joined via join object; join.across and join.shim control layout.<br>
+• Multi-output Pipelines: use clone() to create independent transformations from same input stream.<br>
+• Performance: constructor implements Duplex; supports streaming conversion without full buffer decode.<br>
+• Multi-page Images: options.page and options.pages control extraction range for GIF, WebP, TIFF.<br>
+• Node-API Environments: compatible with Node.js ≥18.17.0, Deno, Bun via Node-API v9.<br>
+• Troubleshooting: ensure libvips version ≥ config.libvips in package.json; use SHARP_IGNORE_GLOBAL_LIBVIPS or SHARP_FORCE_GLOBAL_LIBVIPS to override detection.<br>
+• PDF and SVG Rendering: require external libvips support; errors on missing dependencies.<br>
+• Font Rendering: PANGOCAIRO_BACKEND=fontconfig on Homebrew macOS; FONTCONFIG_PATH for custom fonts in serverless.<br>
+• Known Conflicts: Canvas + Sharp on Windows may produce 'specified procedure could not be found'.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">API Specification:</p>
-<p class="md-github">constructor Sharp(input?: Buffer|ArrayBuffer|TypedArray|string|Array, options?: {
-failOn?: 'none'|'truncated'|'error'|'warning',
-limitInputPixels?: number|boolean,
-unlimited?: boolean,
-autoOrient?: boolean,
-sequentialRead?: boolean,
-density?: number,
-ignoreIcc?: boolean,
-pages?: number,
-page?: number,
-subifd?: number,
-level?: number,
-pdfBackground?: string|{ r:number,g:number,b:number,alpha:number },
-animated?: boolean,
-raw?: { width:number,height:number,channels:number,premultiplied?:boolean },
-create?: { width:number,height:number,channels:3|4,background:string|{r:number,g:number,b:number,alpha:number},noise?:{ type:'gaussian',mean:number,sigma:number } },
-text?: { text:string,font?:string,fontfile?:string,width?:number,height?:number,align?:'left'|'centre'|'center'|'right',justify?:boolean,dpi?:number,rgba?:boolean,spacing?:number,wrap?:'word'|'char'|'word-char'|'none' },
-join?: { across?:number,animated?:boolean,shim?:number,background?:string|{r:number,g:number,b:number,alpha:number},halign?:'left'|'centre'|'center'|'right',valign?:'top'|'centre'|'center'|'bottom' }
-}): Sharp</p>
-<p class="md-github">Events: 'info' with metadata object; 'warning' with warning details.</p>
-<p class="md-github">Sharp methods inherit input pipeline; use clone() to snapshot.</p>
-<p class="md-github">Code Examples:</p>
-<p class="md-github">// Multiple pipelines from one input
-const pipeline = sharp({ failOn:'none' });
-pipeline.clone().jpeg({ quality:100 }).toFile('orig.jpg');
-pipeline.clone().resize({ width:500 }).jpeg({ quality:80 }).toFile('opt-500.jpg');
-pipeline.clone().resize({ width:500 }).webp({ quality:80 }).toFile('opt-500.webp');
-got.stream('https://...').pipe(pipeline);</p>
-<p class="md-github">// Memory allocator workaround on Linux
-yarn add jemalloc; LD_PRELOAD=libjemalloc.so node app.js</p>
-<p class="md-github">// AWS Lambda bundling
-npm install --cpu=x64 --os=linux sharp
-Ensure node_modules includes linux-x64 binaries. Increase function memory to 1536MB.</p>
-<p class="md-github">// Bundler exclusion
-esbuild app.js --bundle --platform=node --external:sharp
-webpack.config.js externals: { sharp:'commonjs sharp' }</p>
-<p class="md-github">Troubleshooting:</p>
+<h3 class="md-github"><a class="md-github__anchor" name="constructor-api" href="#constructor-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor API</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="new-sharpinput-options--sharp" href="#new-sharpinput-options--sharp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>new Sharp([input], [options]) ⇒ Sharp</h4>
+<p class="md-github">Parameters:</p>
 <ul class="md-github">
-<li class="md-github">Invalid pixel data abort: adjust failOn</li>
-<li class="md-github">Out-of-memory: set unlimited:true or use alternative allocator</li>
-<li class="md-github">Missing fonts on Linux: set FONTCONFIG_PATH to directory with fontconfig files</li>
-<li class="md-github">PDF rendering errors: install libvips with PDF support</li>
+<li class="md-github">input: Buffer|ArrayBuffer|Uint8Array|Uint8ClampedArray|Int8Array|Uint16Array|Int16Array|Uint32Array|Int32Array|Float32Array|Float64Array|string|Array<input>: image data or file path or array of inputs or omitted for streaming.</li>
+<li class="md-github">options: Object with fields:
+• failOn: 'none'|'truncated'|'error'|'warning' (default 'warning')
+• limitInputPixels: number|boolean (default 268402689)
+• unlimited: boolean (default false)
+• autoOrient: boolean (default false)
+• sequentialRead: boolean (default true)
+• density: number (default 72)
+• ignoreIcc: boolean (default false)
+• pages: number (default 1)
+• page: number (default 0)
+• subifd: number (default -1)
+• level: number (default 0)
+• pdfBackground: string|Object
+• animated: boolean (default false)
+• raw: { width: number, height: number, channels: number, premultiplied: boolean }
+• create: { width: number, height: number, channels: number, background: string|Object, noise: { type: 'gaussian', mean: number, sigma: number } }
+• text: { text: string, font?: string, fontfile?: string, width: number, height: number, align: 'left'|'centre'|'center'|'right', justify: boolean, dpi: number, rgba: boolean, spacing: number, wrap: 'word'|'char'|'word-char'|'none' }
+• join: { across: number, animated: boolean, shim: number, background: string|Object, halign: 'left'|'centre'|'center'|'right', valign: 'top'|'centre'|'center'|'bottom' }</li>
 </ul>
-<p class="md-github">Detailed Steps:</p>
+<p class="md-github">Returns: Sharp instance
+Throws: Error on invalid parameters</p>
+<h3 class="md-github"><a class="md-github__anchor" name="methods" href="#methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="clone--sharp" href="#clone--sharp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>clone() ⇒ Sharp</h4>
+<p class="md-github">Clone pipeline for branching transformations. Retains same input. Use for parallel outputs.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="code-examples" href="#code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Examples</h3>
 <ol class="md-github">
-<li class="md-github">Install sharp: npm install sharp</li>
-<li class="md-github">require and invoke constructor with desired options</li>
-<li class="md-github">Chain transform methods</li>
-<li class="md-github">Choose output: .toFile(path, callback) or .toBuffer().then()</li>
-<li class="md-github">Use .metadata() before operations for dimensions</li>
-<li class="md-github">Handle events: .on('info',cb) and .on('warning',cb)</li>
+<li class="md-github">Basic resize and file output:</li>
 </ol>
+<pre class="md-github"><code class="md-github language-js">sharp('input.jpg')
+  .resize(300, 200)
+  .toFile('output.jpg', (err, info) =&gt; {
+    if (err) throw err;
+    console.log(info);
+  });
+</code></pre>
+<ol start="2" class="md-github">
+<li class="md-github">Stream pipeline with info event:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">import fetch from 'node-fetch';
+const response = await fetch('https://example.com/image.jpg');
+const transformer = sharp({ failOn: 'none' })
+  .resize({ width: 300 })
+  .on('info', info =&gt; console.log(info));
+
+Readable.fromWeb(response.body)
+  .pipe(transformer)
+  .pipe(fs.createWriteStream('resized.jpg'));
+</code></pre>
+<ol start="3" class="md-github">
+<li class="md-github">Create and save blank PNG:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">await sharp({
+  create: {
+    width: 300,
+    height: 200,
+    channels: 4,
+    background: { r: 255, g: 0, b: 0, alpha: 0.5 }
+  }
+})
+.png()
+.toFile('blank.png');
+</code></pre>
+<ol start="4" class="md-github">
+<li class="md-github">Animated GIF → WebP:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">await sharp('in.gif', { animated: true })
+  .webp({ quality: 80 })
+  .toFile('out.webp');
+</code></pre>
+<ol start="5" class="md-github">
+<li class="md-github">Raw pixel input:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">const pixels = Uint8Array.from([255,255,255, 0,0,0]);
+const img = sharp(pixels, { raw: { width: 2, height: 1, channels: 3 } });
+await img.png().toFile('two-pixels.png');
+</code></pre>
+<ol start="6" class="md-github">
+<li class="md-github">Pipeline cloning for multi-format outputs:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">const base = sharp('input.jpg', { failOn: 'none' });
+const tasks = [
+  base.clone().jpeg({ quality: 100 }).toFile('orig.jpg'),
+  base.clone().resize({ width: 500 }).jpeg({ quality: 80 }).toFile('small.jpg'),
+  base.clone().resize({ width: 500 }).webp({ quality: 80 }).toFile('small.webp')
+];
+await Promise.all(tasks);
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="best-practices" href="#best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices</h3>
+<ul class="md-github">
+<li class="md-github">Use clone() to branch pipelines without re-reading input stream.</li>
+<li class="md-github">Control memory via limitInputPixels and unlimited settings.</li>
+<li class="md-github">Enable autoOrient for correct EXIF alignment.</li>
+<li class="md-github">For PDF/SVG, ensure libvips compiled with required dependencies.</li>
+<li class="md-github">Listen to 'info' and 'warning' events for runtime insights.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h3>
+<ol class="md-github">
+<li class="md-github">Missing global libvips: set SHARP_FORCE_GLOBAL_LIBVIPS=1 or SHARP_IGNORE_GLOBAL_LIBVIPS=1.</li>
+<li class="md-github">PDF background errors: install libvips with poppler or pdfium and rebuild.</li>
+<li class="md-github">Fontconfig errors: set FONTCONFIG_PATH to a valid fontconfig directory, or on macOS Homebrew set PANGOCAIRO_BACKEND=fontconfig.</li>
+<li class="md-github">Windows canvas conflict: avoid using canvas and sharp in same process; isolate modules.</li>
+</ol>
+<h3 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Environment variables:
+• SHARP_IGNORE_GLOBAL_LIBVIPS: never use global libvips
+• SHARP_FORCE_GLOBAL_LIBVIPS: always use global libvips
+• PANGOCAIRO_BACKEND: fontconfig on macOS Homebrew
+• FONTCONFIG_PATH: custom fonts directory</p>
+</li>
+<li class="md-github">
+<p class="md-github">Cross-platform binaries via npm flags: --platform, --arch, --libc</p>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="deployment-notes" href="#deployment-notes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deployment Notes</h3>
+<ul class="md-github">
+<li class="md-github">AWS Lambda: include linux-x64 or linux-arm64 binaries in node_modules; avoid symlinks; allocate ≥1536MB memory.</li>
+<li class="md-github">Bundlers: exclude sharp via externals in webpack, esbuild, vite, electron-builder.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="return-types" href="#return-types"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Return Types</h3>
+<ul class="md-github">
+<li class="md-github">toFile(): Promise resolving to { format, size, width, height, channels }</li>
+<li class="md-github">toBuffer(): Promise<Buffer></li>
+<li class="md-github">clone(): Sharp</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="events" href="#events"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Events</h3>
+<ul class="md-github">
+<li class="md-github">'info': callback(info: { format, size, width, height, channels, ... })</li>
+<li class="md-github">'warning': callback(message: string)</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="exceptions" href="#exceptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exceptions</h3>
+<ul class="md-github">
+<li class="md-github">Error: Invalid parameters</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">new Sharp(input?,options?)=&gt;Sharp stream.Duplex; input: Buffer|TypedArray|string path|Array; options: {
-failOn:'none'|'truncated'|'error'|'warning' (warning);
-limitInputPixels:number|boolean (268402689);
-unlimited:boolean (false);
-autoOrient:boolean (false);
-sequentialRead:boolean (true);
-density:number (1-100000,72);
-ignoreIcc:boolean (false);
-pages:number (1|-1);
-page:number (0);
-subifd:number (-1);
-level:number (0);
-pdfBackground:string|{r,g,b,alpha};
-animated:boolean (false);
-raw:{width,height,channels,premultiplied?};
-create:{width,height,channels(3|4),background,noise:{type:'gaussian',mean,sigma}};
-text:{text,font,fontfile?,width?,height?,align,justify?,dpi?,rgba?,spacing?,wrap?};
-join:{across,animated?,shim,background,halign,valign};
-}
-Examples: .resize(w,h).toFile(); .on('info',cb); .clone(); .toBuffer(); await .metadata(); Troubleshooting: failOn adjust; unlimited or jemalloc for memory; FONTCONFIG_PATH for fonts; ensure PDF libvips; bundler externals; AWS Lambda binaries.</p>
+<p class="md-github">new Sharp([input], [options]) ⇒ Sharp; stream.Duplex; emits info, warning; throws Error on invalid parameters. input: Buffer|ArrayBuffer|TypedArray|string|Array; options:{failOn:'none'|'truncated'|'error'|'warning',limitInputPixels:number|boolean,unlimited:boolean,autoOrient:boolean,sequentialRead:boolean,density:number,ignoreIcc:boolean,pages:number,page:number,subifd:number,level:number,pdfBackground:string|Object,animated:boolean,raw:{width:number,height:number,channels:number,premultiplied:boolean},create:{width:number,height:number,channels:number,background:string|Object,noise:{type:'gaussian',mean:number,sigma:number}},text:{text:string,font?:string,fontfile?:string,width:number,height:number,align:'left'|'centre'|'center'|'right',justify:boolean,dpi:number,rgba:boolean,spacing:number,wrap:'word'|'char'|'word-char'|'none'},join:{across:number,animated:boolean,shim:number,background:string|Object,halign:'left'|'centre'|'center'|'right',valign:'top'|'centre'|'center'|'bottom'}}. Methods: clone()⇒Sharp. Examples: .resize().toFile(), stream pipeline with on('info'), create blank via create, animated GIF→WebP, raw pixel import, branch pipelines via clone. Best practices: use clone for parallel outputs, control memory via limitInputPixels/unlimited, autoOrient for EXIF. Env: SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS, PANGOCAIRO_BACKEND, FONTCONFIG_PATH. Troubleshoot: rebuild libvips PDF support, fontconfig path, avoid canvas conflict. Return types: toFile→Promise&lt;{format,size,width,height,channels,...}&gt;, toBuffer→Promise<Buffer>.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
-<p class="md-github">Table of Contents:</p>
-<ol class="md-github">
-<li class="md-github">
-<p class="md-github">Constructor Signature</p>
-</li>
-<li class="md-github">
-<p class="md-github">Input Types</p>
-</li>
-<li class="md-github">
-<p class="md-github">Option Parameters</p>
-</li>
-<li class="md-github">
-<p class="md-github">Create Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Text Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Join Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Raw Option</p>
-</li>
-<li class="md-github">
-<p class="md-github">Examples</p>
-</li>
-<li class="md-github">
-<p class="md-github">Constructor Signature:
-new Sharp(input?, options?) =&gt; Sharp instance
-Implements stream.Duplex; emits 'info','warning'; throws Error on invalid parameters</p>
-</li>
-<li class="md-github">
-<p class="md-github">Input Types:
-Buffer | ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | Uint16Array | Int16Array | Uint32Array | Int32Array | Float32Array | Float64Array | string file path | Array of inputs
-Supported formats: JPEG, PNG, WebP, AVIF, GIF, SVG, TIFF, raw pixel data</p>
-</li>
-<li class="md-github">
-<p class="md-github">Option Parameters:
-failOn (string): 'none'|'truncated'|'error'|'warning' default 'warning'
-limitInputPixels (number|boolean): pixel limit default 268402689; false/0 disable; true use default
-unlimited (boolean): default false; disable memory safeguards
-autoOrient (boolean): default false; apply EXIF orientation
-sequentialRead (boolean): default true; false for random access
-density (number): 1-100000 default 72
-ignoreIcc (boolean): default false; ignore ICC profile
-pages (number): default 1; -1 all pages
-page (number): default 0; start page index
-subifd (number): default -1; OME-TIFF subIFD index
-level (number): default 0; multi-level input level
-pdfBackground (string|Object): PDF transparency background
-animated (boolean): default false; read all frames</p>
-</li>
-<li class="md-github">
-<p class="md-github">Create Option:
-create.width (number)
-create.height (number)
-create.channels (3|4)
-create.background (string|Object)
-create.noise.type ('gaussian')
-create.noise.mean (number)
-create.noise.sigma (number)</p>
-</li>
-<li class="md-github">
-<p class="md-github">Text Option:
-text.text (string)
-text.font (string)
-text.fontfile (string)
-text.width (number)
-text.height (number)
-text.align ('left','centre','center','right')
-text.justify (boolean)
-text.dpi (number)
-text.rgba (boolean)
-text.spacing (number)
-text.wrap ('word','char','word-char','none')</p>
-</li>
-<li class="md-github">
-<p class="md-github">Join Option:
-join.across (number)
-join.animated (boolean)
-join.shim (number)
-join.background (string|Object)
-join.halign ('left','centre','center','right')
-join.valign ('top','centre','center','bottom')</p>
-</li>
-<li class="md-github">
-<p class="md-github">Raw Option:
-raw.width (number)
-raw.height (number)
-raw.channels (number)
-raw.premultiplied (boolean)</p>
-</li>
-<li class="md-github">
-<p class="md-github">Examples:
-sharp('in.jpg').resize(w,h).toFile(path)
-sharp().resize(w).on('info',cb).pipe()
-sharp({ create:{...}}).png().toBuffer()
-await sharp('in.gif',{animated:true}).toFile('out.webp')
-await sharp(input,{ raw:{ width,height,channels }}).toFile()
-await sharp({ text:{...}}).toFile()
-await sharp([img1,img2],{ join:{ across,shim }}).toFile()</p>
-</li>
-</ol>
+<p class="md-github">Table of Contents
+1 Constructor Signature and Behavior
+2 Input Parameter Types
+3 Options Object Fields
+4 Events and Errors
+5 Usage Patterns with Examples</p>
+<p class="md-github">1 Constructor Signature and Behavior
+new Sharp([input], [options])<br>
+Implements stream.Duplex<br>
+Emits: info, warning<br>
+Animated input frames stacked vertically (height = pageHeight  pages)<br>
+Throws: Error Invalid parameters</p>
+<p class="md-github">2 Input Parameter Types
+input: Buffer | ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | Uint16Array | Int16Array | Uint32Array | Int32Array | Float32Array | Float64Array | string | Array<any><br>
+Accepts image data buffers, raw pixel arrays, file paths, array of inputs, or omitted for stream input.</p>
+<p class="md-github">3 Options Object Fields
+failOn: 'none' | 'truncated' | 'error' | 'warning' (default 'warning')
+limitInputPixels: number | boolean (default 268402689)<br>
+unlimited: boolean (default false)
+autoOrient: boolean (default false)
+sequentialRead: boolean (default true)
+density: number (1100000, default 72)
+ignoreIcc: boolean (default false)
+pages: number (default 1, -1 for all)
+page: number (default 0)
+subifd: number (default -1)
+level: number (default 0)
+pdfBackground: string | Object
+animated: boolean (default false)
+raw.width: number
+raw.height: number
+raw.channels: number
+raw.premultiplied: boolean (default false)
+create.width: number
+create.height: number
+create.channels: number
+create.background: string | Object
+create.noise.type: 'gaussian'
+create.noise.mean: number
+create.noise.sigma: number
+text.text: string
+text.font: string
+text.fontfile: string
+text.width: number (default 0)
+text.height: number (default 0)
+text.align: 'left' | 'centre' | 'center' | 'right' (default 'left')
+text.justify: boolean (default false)
+text.dpi: number (default 72)
+text.rgba: boolean (default false)
+text.spacing: number (default 0)
+text.wrap: 'word' | 'char' | 'word-char' | 'none' (default 'word')
+join.across: number (default 1)
+join.animated: boolean (default false)
+join.shim: number (default 0)
+join.background: string | Object
+join.halign: 'left' | 'centre' | 'center' | 'right' (default 'left')
+join.valign: 'top' | 'centre' | 'center' | 'bottom' (default 'top')</p>
+<p class="md-github">4 Events and Errors
+info: Emitted on derived attribute availability in stream output
+warning: Emitted on non-critical processing issues
+Throws Error Invalid parameters on invalid input or options</p>
+<p class="md-github">5 Usage Patterns with Examples
+Single pipeline: sharp('in.jpg').resize(300,200).toFile('out.jpg')
+Stream pipeline: fetch  Readable.fromWeb  sharp().resize()  pipe w/ on('info')
+Blank image: sharp({create:{width, height, channels, background}}).png().toBuffer()
+Clone for parallel outputs: pipeline.clone().resize().toFile(), pipeline.clone().extract().toBuffer()</p>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
 <p class="md-github">Sharp Image Processing Library
 https://sharp.pixelplumbing.com/api-constructor</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-sharp_constructor" href="#digest-of-sharp_constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SHARP_CONSTRUCTOR</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="constructor-sharp" href="#constructor-sharp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor Sharp</h1>
-<p class="md-github">new Sharp([input], [options])</p>
-<p class="md-github">Constructor factory to create an instance of sharp, to which further methods are chained. Emits 'info' and 'warning' events. Implements stream.Duplex. Throws Error on invalid parameters.</p>
-<p class="md-github">Parameters:</p>
-<p class="md-github">[input] Buffer | ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | Uint16Array | Int16Array | Uint32Array | Int32Array | Float32Array | Float64Array | string | Array
-If present, may be a Buffer/ArrayBuffer/Uint8Array/Uint8ClampedArray containing JPEG, PNG, WebP, AVIF, GIF, SVG or TIFF image data; a TypedArray of raw pixel data; or a String path to an image file. Can be an array of such inputs to join.</p>
-<p class="md-github">[options] Object (optional) with attributes:</p>
-<p class="md-github">failOn         string   default 'warning'
-one of 'none','truncated','error','warning' to abort processing of invalid pixel data. Invalid metadata always aborts.
-limitInputPixels number|boolean  default 268402689
-maximum pixels (width x height) allowed. false or 0 to disable; true to use default limit.
-unlimited      boolean  default false
-disable safety features to prevent memory exhaustion.
-autoOrient     boolean  default false
-rotate/flip image based on EXIF Orientation.
-sequentialRead boolean  default true
-false to use random access rather than sequential read.
-density        number   default 72
-DPI for vector images (1 to 100000).
-ignoreIcc      boolean  default false
-ignore embedded ICC profile.
-pages          number   default 1
-number of pages/frames to extract (-1 for all).
-page           number   default 0
-zero-based start page for multi-page input.
-subifd         number   default -1
-subIFD index for OME-TIFF, defaults to main image.
-level          number   default 0
-multi-level input level for OpenSlide.
-pdfBackground  string|Object
-background colour for PDF rendering.
-animated       boolean  default false
-read all frames/pages (equivalent pages=-1).
-raw            Object describes raw pixel input:
-width        number
-height       number
-channels     number (1 to 4)
-premultiplied boolean (default false)
-create         Object describes new image creation:
-width        number
-height       number
-channels     number (3 or 4)
-background   string|Object
-noise        Object:
-type      'gaussian'
-mean      number
-sigma     number
-text           Object describes new text image:
-text         string UTF-8 with optional Pango markup
-font         string
-fontfile     string path
-width        number
-height       number
-align        'left','centre','center','right'
-justify      boolean
-dpi          number default 72
-rgba         boolean
-spacing      number
-wrap         'word','char','word-char','none'
-join           Object describes joining array of inputs:
-across       number
-animated     boolean
-shim         number
-background   string|Object
-halign       'left','centre','center','right'
-valign       'top','centre','center','bottom'</p>
-<p class="md-github">Examples:</p>
-<p class="md-github">sharp('input.jpg')  .resize(300, 200)  .toFile('output.jpg', function(err) { /* callback */ });</p>
-<p class="md-github">const { body } = fetch('https://...');
-const transformer = sharp().resize(300).on('info', ({ height }) =&gt; console.log(height));
-Readable.fromWeb(body).pipe(transformer).pipe(writableStream);</p>
-<p class="md-github">sharp({ create: { width:300, height:200, channels:4, background:{ r:255, g:0, b:0, alpha:0.5 }}}).png().toBuffer();</p>
-<p class="md-github">await sharp('in.gif', { animated:true }).toFile('out.webp');</p>
-<p class="md-github">const input = Uint8Array.from([255,255,255,0,0,0]);
-await sharp(input, { raw:{ width:2, height:1, channels:3 }}).toFile('two.png');</p>
-<p class="md-github">await sharp({ create:{ width:300, height:200, channels:3, noise:{ type:'gaussian', mean:128, sigma:30 }}}).toFile('noise.png');</p>
-<p class="md-github">await sharp({ text:{ text:'Hello', width:400, height:300 } }).toFile('text.png');</p>
-<p class="md-github">await sharp([img1, img2, img3, img4], { join:{ across:2, shim:4 }}).toFile('grid.png');</p>
+<h1 class="md-github"><a class="md-github__anchor" name="constructor" href="#constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="signature" href="#signature"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Signature</h2>
+<pre class="md-github"><code class="md-github">new Sharp([input], [options])
+</code></pre>
+<p class="md-github">Emits: <code class="md-github">info</code>, <code class="md-github">warning</code><br>
+Implements: <code class="md-github">stream.Duplex</code></p>
+<h2 class="md-github"><a class="md-github__anchor" name="behavior" href="#behavior"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Behavior</h2>
+<p class="md-github">• Streams JPEG, PNG, WebP, GIF, AVIF or TIFF image data.<br>
+• Derived attributes emitted via <code class="md-github">info</code> event on stream-based output.<br>
+• Non-critical problems emitted via <code class="md-github">warning</code> events.<br>
+• Multi-page/frame animated input combined as vertically-stacked image (height = pageHeight × pages).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="throws" href="#throws"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Throws</h2>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">Error</code> Invalid parameters</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="parameters" href="#parameters"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parameters</h2>
+<table class="md-github">
+<thead class="md-github">
+<tr class="md-github">
+<th class="md-github">Name</th>
+<th class="md-github">Type</th>
+<th class="md-github">Default</th>
+<th class="md-github">Description</th>
+</tr>
+</thead>
+<tbody class="md-github">
+<tr class="md-github">
+<td class="md-github">input</td>
+<td class="md-github">Buffer  ArrayBuffer  Uint8Array  Uint8ClampedArray  Int8Array  Uint16Array  Int16Array  Uint32Array  Int32Array  Float32Array  Float64Array  string  Array<any></td>
+<td class="md-github">—</td>
+<td class="md-github">Buffer/ArrayBuffer/TypedArray containing JPEG, PNG, WebP, AVIF, GIF, SVG, TIFF data or raw pixel data; string path to image file; array of inputs joined together; or stream when omitted.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">options</td>
+<td class="md-github">Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Configuration object. See options fields below.</td>
+</tr>
+</tbody>
+</table>
+<h3 class="md-github"><a class="md-github__anchor" name="options-fields" href="#options-fields"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options Fields</h3>
+<table class="md-github">
+<thead class="md-github">
+<tr class="md-github">
+<th class="md-github">Field</th>
+<th class="md-github">Type</th>
+<th class="md-github">Default</th>
+<th class="md-github">Description</th>
+</tr>
+</thead>
+<tbody class="md-github">
+<tr class="md-github">
+<td class="md-github">failOn</td>
+<td class="md-github">'none','truncated','error','warning'</td>
+<td class="md-github">'warning'</td>
+<td class="md-github">Abort on invalid pixel data at specified sensitivity; invalid metadata always aborts.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">limitInputPixels</td>
+<td class="md-github">number  boolean</td>
+<td class="md-github">268402689</td>
+<td class="md-github">Maximum pixel count (width × height); 0 or false to disable; true uses default.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">unlimited</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Remove safety limits preventing memory exhaustion.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">autoOrient</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Rotate/flip according to EXIF Orientation.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">sequentialRead</td>
+<td class="md-github">boolean</td>
+<td class="md-github">true</td>
+<td class="md-github">Use sequential rather than random access.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">density</td>
+<td class="md-github">number</td>
+<td class="md-github">72</td>
+<td class="md-github">DPI for vector images (1–100000).</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">ignoreIcc</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Ignore embedded ICC profile.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">pages</td>
+<td class="md-github">number</td>
+<td class="md-github">1</td>
+<td class="md-github">Number of pages to extract for multi-page input; -1 for all.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">page</td>
+<td class="md-github">number</td>
+<td class="md-github">0</td>
+<td class="md-github">Start page index for multi-page input.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">subifd</td>
+<td class="md-github">number</td>
+<td class="md-github">-1</td>
+<td class="md-github">SubIFD index for OME-TIFF; defaults to main image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">level</td>
+<td class="md-github">number</td>
+<td class="md-github">0</td>
+<td class="md-github">Level index for multi-level input (OpenSlide).</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">pdfBackground</td>
+<td class="md-github">string  Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Background color for PDF transparency; accepts color module formats; requires libvips PDF support.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">animated</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Read all frames/pages of animated image. Equivalent to pages = -1.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">raw</td>
+<td class="md-github">Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Describe raw pixel data. See raw() documentation.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">raw.width</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Pixel width for raw input.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">raw.height</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Pixel height for raw input.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">raw.channels</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Channel count (1–4) for raw input.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">raw.premultiplied</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Input already premultiplied; skip premultiplication.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create</td>
+<td class="md-github">Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Create blank image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.width</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Width for new image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.height</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Height for new image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.channels</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Channel count (3 or 4) for new image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.background</td>
+<td class="md-github">string  Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Background color for new image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.noise</td>
+<td class="md-github">Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Generate noise.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.noise.type</td>
+<td class="md-github">'gaussian'</td>
+<td class="md-github">—</td>
+<td class="md-github">Noise type.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.noise.mean</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Mean pixel value for noise.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">create.noise.sigma</td>
+<td class="md-github">number</td>
+<td class="md-github">—</td>
+<td class="md-github">Standard deviation for noise.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text</td>
+<td class="md-github">Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Render text as image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.text</td>
+<td class="md-github">string</td>
+<td class="md-github">—</td>
+<td class="md-github">UTF-8 string or Pango markup.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.font</td>
+<td class="md-github">string</td>
+<td class="md-github">—</td>
+<td class="md-github">Font name.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.fontfile</td>
+<td class="md-github">string</td>
+<td class="md-github">—</td>
+<td class="md-github">Absolute path to font file.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.width</td>
+<td class="md-github">number</td>
+<td class="md-github">0</td>
+<td class="md-github">Word-wrap width.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.height</td>
+<td class="md-github">number</td>
+<td class="md-github">0</td>
+<td class="md-github">Max pixel height; ignores dpi.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.align</td>
+<td class="md-github">'left','centre','center','right'</td>
+<td class="md-github">'left'</td>
+<td class="md-github">Text alignment.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.justify</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Justify text.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.dpi</td>
+<td class="md-github">number</td>
+<td class="md-github">72</td>
+<td class="md-github">Render resolution; ignored if height specified.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.rgba</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Enable RGBA output.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.spacing</td>
+<td class="md-github">number</td>
+<td class="md-github">0</td>
+<td class="md-github">Line height in points.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">text.wrap</td>
+<td class="md-github">'word','char','word-char','none'</td>
+<td class="md-github">'word'</td>
+<td class="md-github">Word wrap style when width set.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">join</td>
+<td class="md-github">Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Join array of inputs.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">join.across</td>
+<td class="md-github">number</td>
+<td class="md-github">1</td>
+<td class="md-github">Images per row.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">join.animated</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Output as animated image.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">join.shim</td>
+<td class="md-github">number</td>
+<td class="md-github">0</td>
+<td class="md-github">Pixels between images.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">join.background</td>
+<td class="md-github">string  Object</td>
+<td class="md-github">—</td>
+<td class="md-github">Background for shim.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">join.halign</td>
+<td class="md-github">'left','centre','center','right'</td>
+<td class="md-github">'left'</td>
+<td class="md-github">Horizontal alignment.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">join.valign</td>
+<td class="md-github">'top','centre','center','bottom'</td>
+<td class="md-github">'top'</td>
+<td class="md-github">Vertical alignment.</td>
+</tr>
+</tbody>
+</table>
+<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<ol class="md-github">
+<li class="md-github">Resize input.jpg to 300×200 and write to output.jpg:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">sharp('input.jpg')
+  .resize(300, 200)
+  .toFile('output.jpg', function(err) {
+    if (err) throw err;
+  });
+</code></pre>
+<ol start="2" class="md-github">
+<li class="md-github">Stream remote image resize and get info event:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">const { body } = fetch('https://...');
+const transformer = sharp()
+  .resize(300)
+  .on('info', ({height, width, channels}) =&gt; {
+    console.log(height, width, channels);
+  });
+Readable.fromWeb(body)
+  .pipe(transformer)
+  .pipe(process.stdout);
+</code></pre>
+<ol start="3" class="md-github">
+<li class="md-github">Create blank semi-transparent red PNG:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">sharp({ create: {
+  width: 300,
+  height: 200,
+  channels: 4,
+  background: { r: 255, g: 0, b: 0, alpha: 0.5 }
+}})
+.png()
+.toBuffer()
+.then(buffer =&gt; { /* use buffer */ });
+</code></pre>
+<ol start="4" class="md-github">
+<li class="md-github">Clone pipeline for multiple outputs:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-js">const pipeline = sharp('input.jpg').rotate();
+pipeline.clone().resize(800,600).toFile('large.jpg');
+pipeline.clone().extract({left:20,top:20,width:100,height:100}).toFile('crop.jpg');
+</code></pre>
+<hr class="md-github">
+<p class="md-github">Retrieved: 2024-07-14<br>
+Data Size: 7780560 bytes<br>
+Attribution: Sharp API Documentation</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: Sharp Image Processing Library</li>
 <li class="md-github">URL: https://sharp.pixelplumbing.com/api-constructor</li>
 <li class="md-github">License: License: Apache-2.0</li>
-<li class="md-github">Crawl Date: 2025-05-06T14:30:11.578Z</li>
-<li class="md-github">Data Size: 6407230 bytes</li>
-<li class="md-github">Links Found: 18125</li>
+<li class="md-github">Crawl Date: 2025-05-10T01:30:09.191Z</li>
+<li class="md-github">Data Size: 7780560 bytes</li>
+<li class="md-github">Links Found: 19029</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-05-06</p>
+<p class="md-github">2025-05-10</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-05-07T00:49:33.162Z</p>
+    <p>Generated on 2025-05-10T04:38:38.814Z</p>
   </footer>
 </body>
 </html>

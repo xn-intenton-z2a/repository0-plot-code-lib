@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="svg_paths" href="#svg_paths"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG_PATHS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">path element: <path> tag with required d attribute (path-data string) and optional numeric pathLength (default 0) for explicit length normalization. Path data syntax: commands [M,m,L,l,H,h,V,v,C,c,S,s,Q,q,T,t,A,a,Z,z] with precise parameter counts. Number grammar: optional sign, integer, optional fraction, optional exponent. EBNF grammar defines sequence structure. Elliptical arcs: rx, ry clamped to positive, skip zero-length. Smooth commands infer control points. Zero-length segments ignored. Invalid commands skip segment. pathLength normalization factor = pathLength/computedLength if &gt;0, else 1. SVGPathElement interface: getTotalLength(), getPointAtLength(), isPointInFill(), isPointInStroke(); attribute pathLength.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Path Element
+2 Path Data Syntax and Commands
+3 Number Grammar
+4 Path Data Grammar
+5 Implementation Notes
+6 Distance Along Path
+7 DOM Interfaces</p>
+<p class="md-github">1 Path Element
+Tag: path
+Attributes:
+d: string (path-data, mandatory)
+pathLength: number (optional, default 0)</p>
+<p class="md-github">2 Path Data Syntax and Commands
+Commands and parameter counts:
+M x y        moveto absolute
+m dx dy      moveto relative
+L x y        lineto absolute
+l dx dy      lineto relative
+H x          horizontal lineto absolute
+h dx         horizontal lineto relative
+V y          vertical lineto absolute
+v dy         vertical lineto relative
+C x1 y1 x2 y2 x y  cubic Bézier absolute
+c dx1 dy1 dx2 dy2 dx dy  cubic Bézier relative
+S x2 y2 x y  smooth cubic Bézier absolute
+s dx2 dy2 dx dy  smooth cubic Bézier relative
+Q x1 y1 x y  quadratic Bézier absolute
+q dx1 dy1 dx dy  quadratic Bézier relative
+T x y        smooth quadratic Bézier absolute
+t dx dy      smooth quadratic Bézier relative
+A rx ry x-axis-rotation large-arc-flag sweep-flag x y  arc absolute
+a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy  arc relative
+Z or z       closepath</p>
+<p class="md-github">3 Number Grammar
+sign?: '+' or '-'
+integer: digit-sequence
+fraction?: '.' digit-sequence
+exponent?: ('e'|'E') sign? digit-sequence</p>
+<p class="md-github">4 Path Data Grammar
+EBNF:
+path ::= wsp* moveto-drawto-groups wsp*
+moveto-drawto-groups ::= moveto drawto-commands?
+drawto-commands ::= drawto-command drawto-commands?
+drawto-command ::= one of the path commands in section 2</p>
+<p class="md-github">5 Implementation Notes</p>
+<ul class="md-github">
+<li class="md-github">Elliptical arcs: if rx or ry ≤0, clamp or skip</li>
+<li class="md-github">Smooth commands: control point inferred by reflection</li>
+<li class="md-github">Zero-length segments ignored</li>
+<li class="md-github">Parse errors skip invalid segments</li>
+</ul>
+<p class="md-github">6 Distance Along Path
+pathLength attribute (SVGAnimatedNumber)
+ComputedLength = sum of segment lengths
+scale factor = pathLength&gt;0 ? pathLength/ComputedLength : 1
+API distances use scale factor</p>
+<p class="md-github">7 DOM Interfaces
+Interface SVGPathElement:
+Attributes:
+readonly pathLength: float
+Methods:
+getTotalLength(): float
+getPointAtLength(distance: float): DOMPoint
+isPointInFill(point: DOMPoint): boolean
+isPointInStroke(point: DOMPoint): boolean</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">• Default attribute values: pathLength default is 0 ⇒ no normalization
+• Number parsing: accept leading decimal (&quot;.5&quot;), exponent (&quot;1e-3&quot;), sign
+• Serialization: d attribute string must adhere to grammar exactly; use commas or whitespace
+• Step-by-step: 1. parse d into command sequence 2. compute each segment length (line, cubic, quadratic, arc) 3. sum lengths 4. if pathLength&gt;0, compute scale factor 5. apply scale factor to distances passed to APIs or CSS properties (stroke-dasharray)
+• Path length computation formulas: line = √((x2-x1)^2+(y2-y1)^2); cubic and quadratic use recursive subdivision or analytical length approx; arc uses elliptical integrals per SVG2 §8.13
+• Animations along path: use getPointAtLength(distance) inside requestAnimationFrame loop or <animateMotion> element with path attribute</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github"><path> attributes:
+d: DOMString — path data string
+pathLength: SVGAnimatedNumber — normalization factor (default 0)</p>
+<p class="md-github">Interface SVGPathElement : SVGGraphicsElement {
+readonly attribute float pathLength;
+float getTotalLength();
+DOMPoint getPointAtLength(float distance);
+boolean isPointInFill(DOMPoint point);
+boolean isPointInStroke(DOMPoint point);
+}</p>
+<p class="md-github">Usage example:
+const svgNS = 'http://www.w3.org/2000/svg';
+const path = document.createElementNS(svgNS,'path');
+path.setAttribute('d','M0 0 L100 0 L100 100 Z');
+path.setAttribute('stroke','black');
+document.querySelector('svg').appendChild(path);
+const len = path.getTotalLength(); // float
+const p = path.getPointAtLength(len*0.5); // DOMPoint { x:50, y:0 }</p>
+<p class="md-github">Configuration options and effects:
+pathLength=200 ⇒ all distances from getPointAtLength(distance) scaled by factor=200/ComputedLength
+stroke-dasharray: numbers interpreted in user units; combine with pathLength for normalized dash animations</p>
+<p class="md-github">Best practices:
+• Specify pathLength when animating dashes or motion to standardize across paths of different shapes
+• Use absolute commands (uppercase) for clarity and fewer relative errors
+• Combine <defs> and <use> to reuse complex path definitions</p>
+<p class="md-github">Troubleshooting procedures:
+• Error: getPointAtLength returns (NaN,NaN) ⇒ check distance parameter range [0,getTotalLength()]
+• Arc not rendered ⇒ verify rx, ry &gt;0 and large-arc-flag/sweep-flag values (0 or 1)
+• Unexpected parse breakpoints ⇒ validate d string against EBNF; run console.assert(/^M[ ,\d]/.test(d))
+• CSS dasharray not applying ⇒ ensure stroke-dasharray attribute present and pathLength set if needed</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">path: tag=path, attrs=d(string, mandatory), pathLength(number, default 0); commands: M/m(2), L/l(2), H/h(1), V/v(1), C/c(6), S/s(4), Q/q(4), T/t(2), A/a(7), Z/z(0); numbers: [+-]?\d+(.\d+)?([eE][+-]?\d+)?; grammar per EBNF; arcs: rx,ry&gt;0; clamp or skip zero/neg; smooth cmds reflect previous control pt; zero-length segments ignored; parse errors skip; computedLength=sum(segment lengths); scale=pathLength&gt;0?pathLength/computedLength:1; DOM: SVGPathElement pathLength:float; getTotalLength():float; getPointAtLength(float):DOMPoint; isPointInFill(DOMPoint):boolean; isPointInStroke(DOMPoint):boolean; example: len=path.getTotalLength(); pt=path.getPointAtLength(len*0.5); use pathLength for normalization; dasharray animations normalized by scale; troubleshoot NaN from getPointAtLength(distance) out-of-range; validate d syntax.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Path Element
+2 Path Data Syntax and Commands
+3 Number Grammar
+4 Path Data Grammar
+5 Implementation Notes
+6 Distance Along Path
+7 DOM Interfaces</p>
+<p class="md-github">1 Path Element
+Tag: path
+Attributes:
+d: string (path-data, mandatory)
+pathLength: number (optional, default 0)</p>
+<p class="md-github">2 Path Data Syntax and Commands
+Commands and parameter counts:
+M x y        moveto absolute
+m dx dy      moveto relative
+L x y        lineto absolute
+l dx dy      lineto relative
+H x          horizontal lineto absolute
+h dx         horizontal lineto relative
+V y          vertical lineto absolute
+v dy         vertical lineto relative
+C x1 y1 x2 y2 x y  cubic Bzier absolute
+c dx1 dy1 dx2 dy2 dx dy  cubic Bzier relative
+S x2 y2 x y  smooth cubic Bzier absolute
+s dx2 dy2 dx dy  smooth cubic Bzier relative
+Q x1 y1 x y  quadratic Bzier absolute
+q dx1 dy1 dx dy  quadratic Bzier relative
+T x y        smooth quadratic Bzier absolute
+t dx dy      smooth quadratic Bzier relative
+A rx ry x-axis-rotation large-arc-flag sweep-flag x y  arc absolute
+a rx ry x-axis-rotation large-arc-flag sweep-flag dx dy  arc relative
+Z or z       closepath</p>
+<p class="md-github">3 Number Grammar
+sign?: '+' or '-'
+integer: digit-sequence
+fraction?: '.' digit-sequence
+exponent?: ('e'|'E') sign? digit-sequence</p>
+<p class="md-github">4 Path Data Grammar
+EBNF:
+path ::= wsp* moveto-drawto-groups wsp*
+moveto-drawto-groups ::= moveto drawto-commands?
+drawto-commands ::= drawto-command drawto-commands?
+drawto-command ::= one of the path commands in section 2</p>
+<p class="md-github">5 Implementation Notes</p>
+<ul class="md-github">
+<li class="md-github">Elliptical arcs: if rx or ry 0, clamp or skip</li>
+<li class="md-github">Smooth commands: control point inferred by reflection</li>
+<li class="md-github">Zero-length segments ignored</li>
+<li class="md-github">Parse errors skip invalid segments</li>
+</ul>
+<p class="md-github">6 Distance Along Path
+pathLength attribute (SVGAnimatedNumber)
+ComputedLength = sum of segment lengths
+scale factor = pathLength&gt;0 ? pathLength/ComputedLength : 1
+API distances use scale factor</p>
+<p class="md-github">7 DOM Interfaces
+Interface SVGPathElement:
+Attributes:
+readonly pathLength: float
+Methods:
+getTotalLength(): float
+getPointAtLength(distance: float): DOMPoint
+isPointInFill(point: DOMPoint): boolean
+isPointInStroke(point: DOMPoint): boolean</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">SVG Technical Documentation (MDN &amp; W3C)
+https://www.w3.org/TR/SVG2/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-svg_paths" href="#digest-of-svg_paths"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SVG_PATHS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="paths-section-9-retrieved-2024-06-17" href="#paths-section-9-retrieved-2024-06-17"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Paths (Section 9, Retrieved 2024-06-17)</h1>
+<p class="md-github">Data Size: 7040132 bytes</p>
+<h1 class="md-github"><a class="md-github__anchor" name="path-element" href="#path-element"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Path Element</h1>
+<p class="md-github">Element: <path>
+Attributes:
+• d: path-data (string, mandatory)
+• pathLength: number (normalization factor, default 0)</p>
+<h1 class="md-github"><a class="md-github__anchor" name="path-data" href="#path-data"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Path Data</h1>
+<p class="md-github">Syntax: sequence of commands and parameters separated by whitespace or comma</p>
+<h2 class="md-github"><a class="md-github__anchor" name="commands-and-parameter-lists" href="#commands-and-parameter-lists"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Commands and Parameter Lists</h2>
+<p class="md-github">M    x y              moveto (absolute)
+m    dx dy            moveto (relative)
+L    x y              lineto (absolute)
+l    dx dy            lineto (relative)
+H    x                horizontal lineto (absolute)
+h    dx               horizontal lineto (relative)
+V    y                vertical lineto (absolute)
+v    dy               vertical lineto (relative)
+C    x1 y1 x2 y2 x y  cubic Bézier curveto (absolute)
+c    dx1 dy1 dx2 dy2 dx dy  cubic Bézier curveto (relative)
+S    x2 y2 x y        smooth cubic Bézier curveto (absolute)
+s    dx2 dy2 dx dy    smooth cubic Bézier curveto (relative)
+Q    x1 y1 x y        quadratic Bézier curveto (absolute)
+q    dx1 dy1 dx dy    quadratic Bézier curveto (relative)
+T    x y              smooth quadratic Bézier curveto (absolute)
+t    dx dy            smooth quadratic Bézier curveto (relative)
+A    rx ry x-axis-rotation large-arc-flag sweep-flag x y  arc (absolute)
+a    rx ry x-axis-rotation large-arc-flag sweep-flag dx dy arc (relative)
+Z or z                closepath (no parameters)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="number-grammar" href="#number-grammar"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Number Grammar</h2>
+<p class="md-github">number ::= sign? integer fraction? exponent?
+sign   ::= '+' | '-'
+integer ::= digit-sequence
+fraction ::= '.' digit-sequence
+exponent ::= ('e'|'E') sign? digit-sequence</p>
+<h1 class="md-github"><a class="md-github__anchor" name="path-data-grammar-ebnf" href="#path-data-grammar-ebnf"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Path Data Grammar (EBNF)</h1>
+<p class="md-github">path                            ::= wsp* moveto-drawto-command-groups wsp*
+drawto-command                  ::= moveto | lineto | horizontal-lineto | vertical-lineto | curveto | smooth-curveto | quadratic-curveto | smooth-quadratic-curveto | arc | closepath
+moveto-drawto-command-groups   ::= moveto drawto-commands?
+drawto-commands                 ::= drawto-command drawto-commands?</p>
+<h1 class="md-github"><a class="md-github__anchor" name="implementation-notes" href="#implementation-notes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Implementation Notes</h1>
+<p class="md-github">• Elliptical arc parameters rx, ry ≤ 0 ⇒ clamp to abs(rx), abs(ry); if zero, skip arc segment
+• Smooth commands (S, s, T, t): first control point inferred by reflecting previous control point
+• Zero-length segments: silently ignored
+• Parse errors: invalid commands or wrong parameter count ⇒ skip that segment and continue</p>
+<h1 class="md-github"><a class="md-github__anchor" name="distance-along-a-path" href="#distance-along-a-path"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Distance Along a Path</h1>
+<p class="md-github">Attribute: pathLength (SVGAnimatedNumber)
+ComputedLength = sum(segment lengths)
+Normalization factor = pathLength&gt;0 ? (pathLength / ComputedLength) : 1
+Distance for APIs = rawDistance × normalization factor</p>
+<h1 class="md-github"><a class="md-github__anchor" name="dom-interfaces" href="#dom-interfaces"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>DOM Interfaces</h1>
+<p class="md-github">Interface SVGPathElement extends SVGGraphicsElement
+Attributes:
+readonly pathLength: float  (animatable)
+Methods:
+getTotalLength(): float
+getPointAtLength(distance: float): DOMPoint
+isPointInFill(point: DOMPoint): boolean
+isPointInStroke(point: DOMPoint): boolean</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: SVG Technical Documentation (MDN &amp; W3C)</li>
+<li class="md-github">URL: https://www.w3.org/TR/SVG2/</li>
+<li class="md-github">License: License: CC-BY-SA / W3C Software and Document License</li>
+<li class="md-github">Crawl Date: 2025-05-10T03:24:39.226Z</li>
+<li class="md-github">Data Size: 7040132 bytes</li>
+<li class="md-github">Links Found: 48616</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-10</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-10T04:38:39.122Z</p>
+  </footer>
+</body>
+</html>
