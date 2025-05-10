@@ -172,14 +172,18 @@ export function createServer(opts) {
   // /plot endpoint
   app.get("/plot", (req, res) => {
     const expr = req.query.expression;
+    const rawSamples = req.query.samples;
+    const samples = parseInt(rawSamples ?? 100, 10);
     if (!expr) {
       return res.status(400).json({ error: "Expression parameter is required" });
     }
-    const xmin = parseFloat(req.query.xmin ?? -10);
-    const xmax = parseFloat(req.query.xmax ?? 10);
-    const samples = parseInt(req.query.samples ?? 100, 10);
     if (Number.isNaN(samples) || samples < 2) {
       return res.status(400).json({ error: "samples must be >= 2" });
+    }
+    const xmin = req.query.xmin !== undefined ? parseFloat(req.query.xmin) : 0;
+    const xmax = req.query.xmax !== undefined ? parseFloat(req.query.xmax) : samples - 1;
+    if (Number.isNaN(xmin) || Number.isNaN(xmax)) {
+      return res.status(400).json({ error: "xmin and xmax must be numbers" });
     }
     let data;
     try {
@@ -187,7 +191,6 @@ export function createServer(opts) {
     } catch (err) {
       return res.status(400).json({ error: err.message });
     }
-
     const format = req.query.outputFormat === "ascii" ? "ascii" : "json";
     if (format === "ascii") {
       const chart = renderAsciiChart(data, {
@@ -204,14 +207,18 @@ export function createServer(opts) {
   // /stats endpoint
   app.get("/stats", (req, res) => {
     const expr = req.query.expression;
+    const rawSamples = req.query.samples;
+    const samples = parseInt(rawSamples ?? 100, 10);
     if (!expr) {
       return res.status(400).json({ error: "Expression parameter is required" });
     }
-    const xmin = parseFloat(req.query.xmin ?? -10);
-    const xmax = parseFloat(req.query.xmax ?? 10);
-    const samples = parseInt(req.query.samples ?? 100, 10);
     if (Number.isNaN(samples) || samples < 2) {
       return res.status(400).json({ error: "samples must be >= 2" });
+    }
+    const xmin = req.query.xmin !== undefined ? parseFloat(req.query.xmin) : 0;
+    const xmax = req.query.xmax !== undefined ? parseFloat(req.query.xmax) : samples - 1;
+    if (Number.isNaN(xmin) || Number.isNaN(xmax)) {
+      return res.status(400).json({ error: "xmin and xmax must be numbers" });
     }
     let data;
     try {
@@ -276,9 +283,8 @@ function computeStatistics(data) {
   const len = data.length;
   const mean = (arr) => arr.reduce((a, b) => a + b, 0) / len;
   const stddev = (arr, m) => Math.sqrt(arr.reduce((sum, v) => sum + (v - m) ** 2, 0) / len);
-  const median = (arr) => (len % 2 === 1
-    ? arr[(len - 1) / 2]
-    : (arr[len / 2 - 1] + arr[len / 2]) / 2);
+  const median = (arr) =>
+    len % 2 === 1 ? arr[(len - 1) / 2] : (arr[len / 2 - 1] + arr[len / 2]) / 2;
   const xMean = mean(xs);
   const yMean = mean(ys);
   return {
