@@ -1,37 +1,50 @@
 # Overview
-Integrate full SVG and PNG plot rendering capabilities into the CLI, merging the implementation from agentic-lib-issue-2907. Users can input formulae or JSON data sets and generate visualizations directly from the command line. Integration tests will verify end-to-end behavior, and documentation in README.md and USAGE.md will be updated with usage examples.
+Finalize and merge the PLOT_RENDERER feature by implementing the renderPlot function and completing end-to-end SVG and PNG plot generation via the CLI and programmatic API. Ensure integration tests validate actual rendering and update documentation to guide users through CLI, API, and example workflows.
 
 # CLI Interface
-The CLI supports a new --plot command with the following options
+Add and document a new --plot command that accepts:
 
 --plot <expression|dataFile>
-  Provide a mathematical expression as a string (e.g. y=sin(x)) or a path to a JSON file containing x, y arrays.
+  Provide a mathematical expression (e.g. y=sin(x)) or a path to a JSON/CSV file with x and y arrays.
 
 --format <svg|png>
-  Specify output format. Default is svg.
+  Output format, default svg.
 
 --output <filePath>
-  Path to write the generated plot. Extension should match the format, e.g. plot.svg or plot.png.
+  Path for the generated plot file. Extension must match format.
 
 Examples:
 repository0-plot-code-lib --plot "y=sin(x)" --format=png --output=plot.png
-repository0-plot-code-lib --plot data.json --output=data.svg
+repository0-plot-code-lib --plot data.json --output=chart.svg
+
+# Programmatic API
+Export a new async function renderPlot(input, options):
+- input: expression string or file path to JSON/CSV data.
+- options: { format: "svg"|"png", width?: number, height?: number, title?: string, xLabel?: string, yLabel?: string }
+- Returns: Promise<Buffer> for png or string for svg.
+- Validate parameters with Zod, read files with fs.promises, and invoke chartjs-node-canvas for rendering.
 
 # Implementation
-- Merge the rendering module from agentic-lib-issue-2907 into src/lib/main.js.
-- Add chartjs-node-canvas dependency at version ^4.1.0.
-- Parse input: detect if argument is a formula string or JSON file path, load and validate accordingly.
-- Use ChartJS with Node canvas to generate chart configuration, render to SVG or PNG based on --format.
-- Ensure error handling for parse failures, file I/O errors, and unsupported formats.
-- Update package.json dependencies and scripts if needed.
+- Merge pending patch from agentic-lib-issue-2907 into src/lib/main.js.
+- Refactor plot logic into a helper function renderPlot in the same file or a new module under src/lib.
+- Add chartjs-node-canvas dependency at version ^4.1.0 if not present.
+- Detect CLI args for --plot, parse input, pass into renderPlot, and write output file. Exit with non-zero code on errors.
+- Ensure robust error handling for invalid formulas, missing files, and unsupported formats.
 
-# Testing
-- Enhance tests/unit/plot-generation.test.js to include integration tests.
-  - Spawn the CLI via child_process with sample formula and sample data JSON.
-  - Verify that output file is created and begins with appropriate SVG or PNG header bytes.
-  - Clean up generated files after each test.
-- Retain existing unit tests for main module import and exit behavior.
+# Integration Tests
+Add a new test file tests/integration/plot-renderer.test.js:
+- Use real chartjs-node-canvas to generate actual SVG and PNG outputs in a temporary directory.
+- Spawn the CLI with sample expression and sample JSON data. Verify files are created and inspect header bytes:
+  - SVG: output starts with '<svg'.
+  - PNG: output buffer begins with PNG signature (0x89,0x50,0x4E,0x47).
+- Import renderPlot directly and invoke with valid inputs. Assert returned data matches expected type and contains chart elements.
+- Clean up generated files after tests.
+- Test error scenarios: invalid formula syntax, missing data file, and expect process exit code or Promise rejection with descriptive messages.
 
 # Documentation Updates
-- Add a "Plot Generation" section to README.md under Usage, including examples for both SVG and PNG.
-- Update USAGE.md with full reference for the --plot command, its flags, and example invocations.
+- Update README.md:
+  - Add a "Plot Generation" section showing CLI and API usage examples with code snippets.
+- Update USAGE.md:
+  - Provide reference for --plot flags, expected inputs, and sample invocations.
+  - Include guidance on installing chartjs-node-canvas if needed.
+- Ensure CHANGELOG.md notes the merge of PLOT_RENDERER and inclusion of integration tests.
