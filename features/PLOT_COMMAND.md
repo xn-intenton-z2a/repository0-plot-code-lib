@@ -1,63 +1,70 @@
 # Summary
-Extend the plot subcommand to fully support loading data files in JSON, YAML, and CSV formats, normalizing their contents into an array of { x, y } points, and rendering charts as ASCII art or writing to a file.
+
+Extend the plot subcommand to implement data file plotting support for JSON, YAML, and CSV inputs, normalizing file contents into an array of { x, y } points and feeding them into the existing ASCII art rendering or file output pipeline.
 
 # Behavior
-When the first argument is "plot" is provided:
-- If the --data flag is present and no --expression flag:
-  - Call loadDataFromFile with the specified path.
-  - On success, receive a normalized array of { x, y } points.
-  - Pass dataPoints into the existing ASCII rendering pipeline according to --type, --width, --height, and --output.
-  - If parsing or validation fails, print a descriptive error via console.error and exit with code 1.
-- If both --expression and --data are provided, emit a warning that expression takes precedence and continue with expression behavior.
-- If only --expression is provided, retain existing expression evaluation behavior.
-- If neither flag is present, fall back to built-in default data set and render accordingly.
+
+When users invoke the plot command with the --data flag and no --expression flag:
+- Determine file format by extension: .json, .yaml/.yml, or .csv.
+- Read file contents asynchronously and parse:
+  - JSON: JSON.parse
+  - YAML: js-yaml.load
+  - CSV: split lines, handle optional header row, parse numeric x and y columns or positional pairs
+- Validate that parsed data yields a non-empty array of numeric { x, y } objects. On parse or validation failure, console.error a descriptive message and exit process with code 1.
+- Pass the array of data points into renderAsciiChart and follow existing --type, --width, --height, and --output behavior:
+  - If --output is omitted, print ASCII chart to console
+  - If --output is provided, write ASCII text to the specified file path and console.log confirmation message
+
+If both --expression and --data are provided, warn that --expression takes precedence and proceed with expression mode as before. If neither flag is present, default to the built-in sample data.
 
 # CLI Flags
---data <filePath>     Path to JSON, YAML, or CSV data file. Overrides built-in defaults when present.
---expression <expr>   JavaScript expression in x to generate y values.
---type <chartType>    Chart type: line, bar, scatter (default line).
---width <number>      Horizontal resolution for ASCII scaling (default 640).
---height <number>     Vertical resolution for ASCII scaling (default 480).
---xmin <number>       Minimum x value for sampling expressions (default -10).
---xmax <number>       Maximum x value for sampling expressions (default 10).
---samples <integer>   Number of sample points for expression mode (default 100).
+
+--data <filePath>     Path to a JSON, YAML, or CSV file containing data points.
+--expression <expr>   JavaScript expression in x to generate y values (expression mode overrides data mode).
+--type <chartType>    Chart style: line, bar, scatter (default: line).
+--width <number>      Horizontal resolution for ASCII scaling (default: 640).
+--height <number>     Vertical resolution for ASCII scaling (default: 480).
 --output <file>       Path to write rendered ASCII chart; omit to render to console.
---help                Show help for plot command and exit.
+
+All other plot flags (--xmin, --xmax, --samples) are applied only in expression mode.
 
 # Implementation Details
-- In src/lib/main.js:
-  - Import fs from "fs/promises", path from "path", and js-yaml for YAML parsing.
-  - Implement loadDataFromFile(filePath):
-    - Determine extension with path.extname.
-    - Read file content with fs.readFile.
-    - If .json, parse with JSON.parse.
-    - If .yaml or .yml, parse with js-yaml.load.
-    - If .csv, split content by lines and commas, handle optional header row, normalize rows into numeric x and y values.
-    - Validate parsed result: if array of numbers, treat index as x and value as y; if array of objects, require numeric x and y properties.
-    - Return array of { x, y } or throw an error on unsupported format or invalid shape.
-  - In runPlot, replace the placeholder console.log for data support with:
-    if (opts.data && !opts.expression) {
-      try { dataPoints = await loadDataFromFile(opts.data); } catch (err) { console.error(err.message); process.exit(1); }
-    } else if (opts.expression) {
-      // existing behavior
-    } else {
-      // fallback data
+
+In src/lib/main.js:
+- Add a helper loadDataFromFile(filePath) that:
+  - Inspects extension with path.extname
+  - Reads content via fs.promises.readFile
+  - For JSON, calls JSON.parse; for YAML, calls js-yaml.load; for CSV, splits lines and commas to build { x, y } objects
+  - Validates numeric values and throws on unsupported formats or invalid shapes
+- In runPlot(), replace the "Data file plotting not implemented" placeholder:
+  if (opts.data && !opts.expression) {
+    try {
+      dataPoints = await loadDataFromFile(opts.data)
+    } catch (err) {
+      console.error(err.message)
+      process.exit(1)
     }
-  - Pass dataPoints to renderAsciiChart and handle output or file write.
+  } else if (opts.expression) {
+    // existing behavior
+  } else {
+    // fallback built-in sample data
+  }
+- Pass dataPoints to renderAsciiChart and handle file writes or console output using fs.promises.writeFile when opts.output is set
 
 # Testing
-- In tests/unit/plot-generation.test.js:
-  - Add tests mocking fs.promises.readFile and js-yaml.load to simulate JSON and YAML inputs.
-  - Test CSV parsing: provide CSV string with header and without header, verify loadDataFromFile returns correct x,y arrays.
-  - For each format, spy on renderAsciiChart or console.log to assert chart output contains expected markers.
-  - Test error paths: invalid JSON/YAML/CSV content triggers console.error and process.exit(1).
-- Retain existing expression tests to ensure no regressions.
+
+In tests/unit/plot-generation.test.js:
+- Mock fs.promises.readFile and js-yaml.load to simulate valid JSON and YAML inputs, verify loadDataFromFile returns correct arrays
+- Test CSV parsing with header row and without, verifying numeric x, y extraction
+- Spy on console.error and process.exit to confirm error handling for malformed file contents and unsupported extensions
+- For valid inputs, spy on console.log or fs.writeFile to assert that ASCII output contains expected markers and that file writes occur when --output is provided
+- Ensure existing expression mode tests still pass unchanged
 
 # Documentation
-- Update README.md and USAGE.md under Plot Subcommand:
-  - Add examples:
+
+Update README.md and USAGE.md under Plot Subcommand:
+- Describe --data flag and supported file formats with examples
+- Add usage examples:
     repository0-plot-code-lib plot --data data.json --type scatter --width 80 --height 20
-    # Reads JSON data, renders an ASCII scatter chart to console.
     repository0-plot-code-lib plot --data measurements.csv --output chart.txt
-    # Reads CSV data, renders a line chart, and writes to chart.txt.
-  - Describe supported formats and normalization rules.
+- Document the precedence of --expression over --data and error messages on invalid input
