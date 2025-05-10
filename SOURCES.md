@@ -3,7 +3,7 @@
 ## https://nodejs.org/api/worker_threads.html
 ## https://nodejs.org/api/child_process.html
 ## https://nodejs.org/api/perf_hooks.html
-Comprehensive reference covering filesystem operations, low-level and high-level stream APIs (Readable, Writable, Transform), backpressure management, object mode streams, promise-based utilities (`fs/promises`, `pipeline`, `finished`, async iteration), Performance Hooks API (`PerformanceObserver`, mark/measure`), and concurrency primitives via Worker Threads and child processes. Essential for implementing non-blocking CLI commands, high-throughput batch plotting, file-backed caching, precision benchmarking, and isolating CPU-intensive tasks. Last updated June 2024; authoritative as official Node.js documentation.
+Comprehensive reference covering filesystem operations, low-level and high-level stream APIs (Readable, Writable, Transform), backpressure management, object mode streams, promise-based utilities (`fs/promises`, `pipeline`, `finished`, async iteration), Performance Hooks API (`PerformanceObserver`, `mark/measure`), and concurrency primitives via Worker Threads and child processes. Essential for implementing non-blocking CLI commands, high-throughput batch plotting, file-backed caching, precision benchmarking, and isolating CPU-intensive tasks. Last updated June 2024; authoritative as official Node.js documentation.
 ## License: Node.js (MIT-like terms)
 
 # Node.js ECMAScript Modules (ESM) Guide
@@ -62,13 +62,6 @@ Comprehensive guide to middleware, routing, error handling, body parsing (JSON, 
 In-depth reference on expression parsing, evaluator APIs, symbolic computation, custom function definitions, unit handling, and matrix operations. Demonstrates AST manipulation, safe evaluation patterns, and performance considerations—essential for transforming formulas into time-series data for plotting tasks. Last updated April 2024.
 ## License: Apache-2.0
 
-# Release Management & CI/CD Tools
-## https://github.com/conventional-changelog/conventional-changelog
-## https://cli.github.com/manual/
-## https://docs.npmjs.com/cli/v10/commands/npm-publish
-This combined resource covers conventional-changelog configuration for automated `CHANGELOG.md` generation, GitHub CLI for PR and release workflows, and npm-publish strategies (tagging, dry-run, registry configuration). Provides actionable examples for integrating release automation into CI/CD pipelines and ensuring consistent versioning. Last updated 2024.
-## License: MIT / CC0
-
 # OpenAI Node.js Library Documentation
 ## https://platform.openai.com/docs/libraries/node-js-overview
 Official documentation for the OpenAI Node.js client covering installation, authentication, environment configuration, and API reference for completions, chat, embeddings, and streaming. Includes best practices for token management, chunked response handling, and error recovery—critical for building agent-driven plotting workflows. Last updated January 2024.
@@ -78,11 +71,6 @@ Official documentation for the OpenAI Node.js client covering installation, auth
 ## https://spec.openapis.org/oas/v3.1.0.html
 The official OpenAPI 3.1.0 specification defining RESTful API contract structure, including paths, components, schemas, parameters, and security schemes. Supplies formal JSON/YAML schemas for validation and code generation—directly applicable to designing and documenting the `/plot` HTTP endpoint. Published February 2021; authoritative as the OpenAPI Specification.
 ## License: OpenAPI Specification License
-
-# Minimatch Pattern Matching Library
-## https://github.com/isaacs/minimatch#readme
-Minimatch implements glob-based pattern matching for filenames and strings, following common UNIX wildcard semantics (`*`, `?`, `**`, character classes, extglobs) and options for dotfiles, case sensitivity, and path separators. Essential for implementing file selection and filtering logic (e.g., reseed target enumeration) with consistent cross-platform behavior. Last stable release April 2023; authoritative as the de facto glob matcher in the npm ecosystem.
-## License: ISC
 
 # EJS Template Engine Documentation
 ## https://github.com/ejs/ejs#readme
@@ -97,4 +85,14 @@ Detailed guide to Node.js VM module for creating isolated JavaScript environment
 # CSV-Parse Library
 ## https://csv.js.org/parse/
 The official documentation for the csv-parse library, covering synchronous and asynchronous parsing APIs, streaming parser, options for delimiters, record separator, trimming, custom casting, and error handling. Illustrates integration with Node.js streams for large file datasets and backpressure control—key for robust CSV data ingestion in CLI workflows. Last updated 2024; authoritative as the official parser for CSV in the Node.js ecosystem.
+## License: MIT
+
+# Cosmiconfig Documentation
+## https://github.com/davidtheclark/cosmiconfig#readme
+Comprehensive tool for discovering and loading configuration files in multiple formats (JSON, YAML, JS, package.json). Supports searching up directory tree, caching, custom loaders, and schema validation integration. Essential for robust CLI config file support (`.plotrc.json`/`.plotrc.yaml`), merging defaults, and environment-specific overrides. Last updated June 2024; widely adopted in the JavaScript ecosystem.
+## License: MIT
+
+# Chalk: Terminal String Styling
+## https://github.com/chalk/chalk#readme
+Popular library for styling terminal string output with colors, background colors, and text styles. Includes support for nested styles, template literals, and automatic color level detection. Valuable for enhancing CLI readability, error highlighting, and ASCII chart axis labels. Last updated July 2024; authoritative as the de facto standard for terminal styling in Node.js.
 ## License: MIT
