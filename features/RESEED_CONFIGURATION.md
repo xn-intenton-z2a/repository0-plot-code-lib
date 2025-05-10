@@ -1,19 +1,36 @@
 # Purpose
 
-This feature enhances documentation and testing for the --reseed CLI flag in the project.
+Enhance the existing --reseed CLI flag documentation and maintain a clear change history by updating the project changelog.
 
 # Behavior
 
-When run as repository0-plot-code-lib --reseed, the CLI will trigger the reseeding process using the configuration defined in AGENT_CONFIG_FILE, overwriting target files with seed content and reporting progress.
+When users invoke the CLI help or consult the README, they will see a dedicated section describing the --reseed flag, its purpose, and an example. In addition, the repository CHANGELOG.md will include a new entry under an Unreleased heading that summarizes the documentation update.
 
 # Implementation
 
-Update README.md and USAGE.md to include a new section under CLI Usage that describes the --reseed flag, its purpose, and an example invocation. Ensure the example shows expected output or behavior.
+- In README.md:
+  - Add a "Reseed Flag" subsection under the "CLI Usage" heading.
+  - Document the syntax: `repository0-plot-code-lib --reseed`.
+  - Explain that this flag triggers the reseeding process using the configuration file defined by the AGENT_CONFIG_FILE environment or default path.
+  - Provide an example invocation and expected console output snippet.
+
+- In USAGE.md:
+  - Mirror the updated documentation for the --reseed flag under the CLI Usage section.
+  - Ensure that examples and descriptions match the README content.
+
+- In CHANGELOG.md:
+  - Under the topmost Unreleased section (or create it if missing), add:
+    "Added documentation for the --reseed CLI flag in README and USAGE, and updated changelog."
+  - Follow the existing changelog formatting conventions.
 
 # Testing
 
-In tests/unit/main.test.js add unit tests for main invoked with the --reseed flag. Mock fs and js-yaml modules to simulate reading and writing seed files. Verify that main calls the reseeding logic and handles missing seed files gracefully.
+- In tests/unit/main.test.js:
+  - Add a unit test that invokes the CLI with `--reseed` and verifies that the main function routes into the reseeding logic path (mocking fs and js-yaml).  
+  - Confirm that missing seed file errors are handled gracefully.
 
 # Documentation
 
-Add a section in README under Usage with heading 'Reseed Flag' that explains how to use --reseed. Update USAGE.md similarly with flag description and example usage.
+- Ensure README.md now contains a fully detailed "Reseed Flag" section with usage, description, and example output.  
+- Confirm USAGE.md is updated similarly.  
+- Verify CHANGELOG.md accurately reflects the new documentation changes under Unreleased.
