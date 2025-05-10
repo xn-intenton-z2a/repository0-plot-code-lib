@@ -1,36 +1,53 @@
 # Summary
-
-Add support for the stats subcommand in the CLI to parse data files or mathematical expressions and output descriptive statistics in a tabular format. Users can supply either a data file (--data) in JSON, YAML, or CSV format or an expression (--expression) with sampling domain flags to compute min, max, mean, median, and standard deviation for x and y values.
+Enhance the existing stats subcommand to support multiple output formats and optional file export. Users can choose to receive results as a formatted console table (default), as structured JSON, or as comma-separated values (CSV). They may also direct output to a file instead of standard output.
 
 # Behavior
+When users invoke the stats command:
+- Parse input flags: data file or expression with domain options, precision, format, and output file.
+- Load or generate points as before.
+- Compute statistics: min, max, mean, median, standard deviation for x and y.
+- Format results based on --format:
+  - table: aligned columns with headers and rows printed or written.
+  - json: a JSON object mapping statistic keys to values.
+  - csv: a single header row of keys and a single data row of values separated by commas.
+- If --output is provided:
+  - Write formatted text or JSON/CSV string into the specified file.
+  - Print a confirmation message including the file path.
+- If --output is omitted:
+  - Print the result to standard output using console.log.
 
-When the first argument is "stats" is provided:
-- Parse subcommand flags via parseStatsOptions:
-  - --data <filePath> to load points from JSON, YAML, or CSV file
-  - --expression <formula> to sample an expression over a numeric domain
-  - --xmin, --xmax, --samples for expression sampling defaults
-  - --precision to control decimal places in output
-  - --help to display usage
-- If both --data and --expression are provided, prioritize --data and warn that expression is ignored
-- If --data is supplied:
-  - Call loadDataFromFile(filePath) to read and normalize to array of { x, y } points
-  - On parse or validation failure, console.error and exit with code 1
-- Else if --expression is supplied:
-  - Generate data via generateExpressionData with provided domain and sample count
-- Else print error requiring one of the flags and exit with code 1
-- Compute statistics using computeStatistics on the chosen data array
-- Format results into aligned console table lines with column headers and rows; apply precision to numeric values
-- Print each table line with console.log and exit with code 0 on success
+# CLI Flags
+--data <filePath>      Load data points from JSON, YAML, or CSV file.
+--expression <expr>     Generate data by sampling an expression over a domain.
+--xmin <number>         Minimum x value (default: -10).
+--xmax <number>         Maximum x value (default: 10).
+--samples <integer>     Number of sample points (default: 100).
+--precision <integer>   Decimal places for numeric output (default: 4).
+--format <table|json|csv>  Output format: table (default), json, or csv.
+--output <file>         Path to write output; omit to print to console.
+--help                  Show help and exit.
 
 # Implementation Details
+Extend parseStatsOptions to recognize --format and --output flags and merge with existing options. In runStats:
+- After computing stats object, choose formatter:
+  • formatTable(stats, precision)
+  • JSON.stringify(stats, null, 2)
+  • formatCsv(stats)
+- If opts.output is set, use fs.promises.writeFile to write the formatted string, then console.log confirmation. Otherwise, console.log each line or the full string.
+- Ensure exit code 0 on success and non-zero on errors.
 
-- In src/lib/main.js add or update runStats(args) to implement the above behavior
-- Define parseStatsOptions(args) to populate options object including data, expression, xmin, xmax, samples, precision, and help flag
-- Implement loadDataFromFile(filePath) similar to plot mode:
-  - Inspect file extension, read file contents asynchronously
-  - JSON: JSON.parse, YAML: js-yaml.load, CSV: split lines and parse numeric columns
-  - Validate numeric x and y fields and non-empty array
-- Reuse computeStatistics and format table logic or extract into a helper
-- Update main() dispatching to include stats exactly as other subcommands
-- Add or update tests in tests/unit/plot-generation.test.js or create tests/unit/stats.test.js to cover CLI invocation main(["stats","...args"])
-- Update README.md and USAGE.md under Available Commands to document stats usage, flags, and examples
+# Testing
+- In tests/unit/stats.test.js, mock console.log and fs.promises.writeFile:
+  • Verify table output lines for default mode.
+  • Verify JSON output contains keys and numeric values with correct precision.
+  • Verify CSV header and values line formatting.
+  • Test --output writes the correct content and logs confirmation.
+  • Test error conditions: missing data or expression, invalid precision or format, write failures.
+
+# Documentation
+Update README.md and USAGE.md under Available Commands:
+- Document --format and --output flags with examples for each format.
+- Show example invocations:
+    repository0-plot-code-lib stats --expression "x^2" --samples 5 --format json
+    repository0-plot-code-lib stats --data data.csv --format csv --output stats.csv
+- Include snippets of each output style and file write confirmation.
