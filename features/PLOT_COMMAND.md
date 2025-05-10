@@ -1,13 +1,18 @@
 # Summary
-Add a plot subcommand to the CLI that accepts flags to configure chart type, dimensions, and output, and update README with usage examples.
+Enhance the plot subcommand to support reading data from JSON or YAML files and rendering simple ASCII charts in the console or writing rendered output to a file.
 
-# Behaviour
+# Behavior
+
 When the first argument is plot:
-- Parse flags: `--type` for chart type with values line, bar, scatter; default line
-- `--width` for width in pixels; default 640
-- `--height` for height in pixels; default 480
-- `--output` for optional file path to write the plot
-- If `--output` is omitted, print a summary of the plot parameters
+- Parse flags:
+  - `--type <chartType>` Chart type: line, bar, scatter; default line.
+  - `--width <pixels>` Width of the plot in pixels; default 640.
+  - `--height <pixels>` Height of the plot in pixels; default 480.
+  - `--data <filePath>` Optional path to a JSON or YAML data file containing an array of numeric values or objects with x and y fields.
+  - `--output <file>` Optional file path to write rendered output. If omitted, render chart as ASCII art in the console.
+- If `--data` is omitted, use a built-in sample data set.
+- On JSON or YAML parse errors, display a descriptive error and exit with code 1.
+- After loading data, generate the specified chart type. For console output, render a simple ASCII chart scaled to width and height. For file output, write the ASCII rendering or raw data summary to the target file.
 
 # CLI Overview
 Usage: repository0-plot-code-lib plot [flags]
@@ -16,20 +21,27 @@ Flags:
 - `--type <chartType>` Chart type (line, bar, scatter)
 - `--width <pixels>` Width of the plot in pixels
 - `--height <pixels>` Height of the plot in pixels
-- `--output <file>` Output file path for the plot
+- `--data <filePath>` Path to JSON or YAML data file
+- `--output <file>` Output file path for the rendered chart or summary
 
 # Examples
-repository0-plot-code-lib plot --type bar --width 400 --height 300
-Generates a bar plot 400x300 in the console output
 
-repository0-plot-code-lib plot --type scatter --output data.png
-Generates a scatter plot 640x480 and writes it to data.png
+repository0-plot-code-lib plot --type bar --width 400 --height 300 --data data.json
+Reads numeric array from data.json and renders a bar chart 400x300 as ASCII art in the console.
+
+repository0-plot-code-lib plot --data chart.yaml --output chart.txt
+Parses x/y points from chart.yaml and writes ASCII scatter chart to chart.txt.
+
+repository0-plot-code-lib plot
+Uses built-in sample data and renders a line chart 640x480 in the console.
 
 # Testing
-- Add tests in tests/unit/plot-generation.test.js covering:
-  - All flags provided with valid values
-  - Defaults when flags are not specified
-  - Error case when flag values are invalid or missing
-- Mock console.log and file system writes to capture output
-- Ensure coverage tests include each branch and flag combination
-- Update README.md with usage and examples for the plot command
+
+- Add tests in tests/unit/plot-generation.test.js to cover:
+  - Reading valid JSON data file and rendering ASCII output.
+  - Reading valid YAML data file and rendering ASCII output.
+  - Defaults when `--data` is not provided.
+  - Error cases for missing file or invalid JSON/YAML syntax.
+  - Writing output to a file when `--output` is specified (mock fs.writeFile).
+- Mock console.log and fs.readFile/fs.writeFile to capture and assert rendering behavior.
+- Ensure each chart type (line, bar, scatter) renders without errors and matches snapshot of ASCII output.
