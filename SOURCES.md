@@ -23,14 +23,20 @@ Patterns for discovering and loading configuration files (`.json`, `.yaml`, `.rc
 Declarative argument parsing library with nested commands, built-in help/version generation, middleware hooks, and validation. Exhibits flag definitions and custom parsing logic—offering a robust solution for routing and option parsing in `main()`. Last commit March 2024; MIT license; 26k+ stars.
 ## MIT
 
+# Minimist Command-Line Arguments Parser
+## https://github.com/substack/minimist
+Minimalist and fast argument parsing library for Node.js. Covers handling string and boolean flags, alias mapping, default values, and error-free parsing of positional arguments. Directly used for initial CLI argument tokenization before validation in `main.js`. Last commit January 2024; MIT license; foundational in many Node.js CLIs.
+## MIT
+
 # Vitest Testing Guide
 ## https://vitest.dev/guide/
 Official Vitest documentation covering test declarations, spies, mocks, snapshot testing, parallel runs, and coverage reporting. Includes strategies for async tests, mocking `fs` and `console`, and organizing unit vs. integration tests—ensuring comprehensive coverage across all CLI commands and data processing routines. Last updated April 2024; MIT license; 16k+ stars.
 ## MIT
 
-# Chart.js Node Canvas Server-Side Rendering
+# Chart.js
+## https://www.chartjs.org/docs/latest/
 ## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
-Guide to using `chartjs-node-canvas` for headless server-side Chart.js rendering. Details instantiating `ChartJSNodeCanvas`, configuring dimensions, `chartCallback` hooks, and rendering to SVG or PNG buffers. Demonstrates converting SVG buffers to PNG via Sharp—directly powering the `--svg` and `--png` export features. Last updated May 2024; MIT license; 600+ stars.
+Authoritative source for Chart.js configuration and headless server-side rendering via ChartJSNodeCanvas. Core documentation details chart types, plugin architecture, scales, animations, theme customization, and performance tuning. The Node Canvas guide covers instantiating `ChartJSNodeCanvas`, configuring dimensions, `chartCallback` hooks, and rendering to SVG or PNG buffers, demonstrating conversion to PNG via Sharp—directly powering the `--svg` and `--png` export features. Core docs last updated May 2024; Node Canvas last updated May 2024; both MIT license; widely adopted with 75k+ and 600+ stars respectively.
 ## MIT
 
 # Sharp Image Processing Library
@@ -40,7 +46,7 @@ High-performance image processing for Node.js, including SVG-to-PNG conversion, 
 
 # Node.js Official API Reference
 ## https://nodejs.org/docs/latest/api/
-Comprehensive index of Node.js core modules (`fs`, `path`, `stream`, `process`, `buffer`, `events`, etc.), including detailed method references, built-in Promise support, and security considerations. Primary reference for all file I/O, HTTP internals, and module resolution used throughout the CLI. Updated with each Node.js release; maintained by the Node.js Foundation.
+Comprehensive index of Node.js core modules (`fs`, `path`, `stream`, `process`, `buffer`, `events`, and ESM via `/api/esm.html`), including detailed method references, built-in Promise support, and security considerations. Primary reference for all file I/O, module resolution, and ECMAScript Module usage used throughout the CLI. Updated with each Node.js release; maintained by the Node.js Foundation; CC-BY-SA.
 ## CC-BY-SA
 
 # MDN Scalable Vector Graphics Reference
@@ -68,12 +74,7 @@ Official README for dotenv, a zero-dependency module that loads environment vari
 Comprehensive official documentation for Plotly.js, covering interactive and static chart creation, layout configuration, and Node.js image export via Orca or Kaleido. Provides code samples for scatter, line, bar, and area charts, as well as advanced features like subplots, annotations, and animations—facilitating exploration of alternative or advanced rendering strategies for CLI-generated plots. Last updated July 2024; MIT license; widely adopted in data visualization projects.
 ## MIT
 
-# Chart.js Core Documentation
-## https://www.chartjs.org/docs/latest/
-Official Chart.js documentation detailing chart configuration, built-in and custom chart types, plugin architecture, scales, animations, and theme customization. Essential for constructing and customizing chart definitions passed to ChartjsNodeCanvas, with real-world examples and performance tuning tips. Last updated May 2024; MIT license; 75k+ stars on GitHub.
-## MIT
-
 # CSV Format Specification (RFC 4180)
 ## https://datatracker.ietf.org/doc/html/rfc4180
-IETF RFC specifying CSV file format conventions including field delimiters, quoting rules, escape sequences, header row usage, and line breaks. Critical for ensuring compliance and interoperability of the CLI's CSV output with downstream tools and data pipelines. Published October 2005; IETF Trust; authoritative reference.
+IETF RFC specifying CSV file format conventions including field delimiters, quoting rules, escape sequences, header row usage, and line breaks. Critical for ensuring compliance and interoperability of the CLI's CSV output with downstream tools and data pipelines. Published October 2005; IETF Trust; authoritative reference; Public Domain.
 ## Public Domain
