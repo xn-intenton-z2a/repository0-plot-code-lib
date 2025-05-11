@@ -1,41 +1,44 @@
-# Time Series Generation
+# Overview
+Provide core functionality for parsing a mathematical expression and generating time series data points over a specified range. This establishes the foundation for downstream plotting, format conversion, and persistence capabilities.
 
-## Overview
-Provide core functionality for parsing a mathematical expression and generating time series data points over a specified range. This lays the foundation for later plotting and format conversion features.
+# Function API
+Add generateTimeSeries(expression, rangeSpec) to src/lib/main.js
+- Accept expression as a string in terms of x, for example y = sin(x) or x^2 + 3*x + 2
+- Accept rangeSpec in the form x=start:end:step or x=start:end (step defaults to 1)
+- Return an array of objects shaped as { x: number, y: number } covering the specified domain
 
-## Function API
-Add a new function generateTimeSeries(expression, rangeSpec) to src/lib/main.js that:
-- Parses a simple mathematical expression in terms of x (e.g., y = sin(x), x^2 + 3*x + 2).
-- Interprets rangeSpec in the form "x=start:end:step" or "x=start:end" (default step of 1).
-- Returns an array of objects with shape { x: number, y: number } covering the specified domain.
+# CLI Interface
+Extend the existing CLI entrypoint in src/lib/main.js
+- Add flags --expression <expression> and --range <rangeSpec>
+- On invocation with both flags, parse inputs, run generateTimeSeries, and print JSON array to stdout
+- Support a help flag that shows usage of --expression and --range
 
-## CLI Interface
-Extend the existing CLI to accept two new flags:
---expression <string>  The mathematical expression to evaluate.
---range <string>       The range specification for x values.
+# Input Validation
+Use Zod to validate inputs
+- expression must be non-empty string
+- rangeSpec must match the pattern x\u003dstart:end or x\u003dstart:end:step and numeric segments
+- Provide clear error messages for invalid inputs
 
-Behavior:
-1. Validate inputs.
-2. Generate the time series with generateTimeSeries.
-3. Print the resulting array as JSON to stdout.
+# Implementation Details
+- Import mathjs to parse and evaluate the expression safely
+- Implement expression compilation once per invocation for performance
+- Iterate x from start to end by step, compute y, and collect results
+- Handle floating point precision gracefully
 
-## Input Validation
-Use Zod to define and enforce:
-- expression is a non-empty string.
-- range follows the allowed pattern and numeric segments.
-Provide clear error messages for invalid inputs.
+# Testing
+Update tests/unit/plot-generation.test.js and tests/unit/main.test.js
+- Cover linear expressions over simple ranges
+- Cover trigonometric expressions with default and explicit step
+- Cover invalid expression and malformed range error cases
+- Ensure CLI invocation writes valid JSON and exits with code 0 on success
 
-## Testing
-- Add unit tests covering:
-  - Linear expressions over a simple range.
-  - Trigonometric functions with default step.
-  - Error cases for malformed range or expression.
-- Tests should live in tests/unit/plot-generation.test.js.
+# Documentation
+Update README.md and USAGE.md
+- Show API usage example for generateTimeSeries with a simple expression and range
+- Show CLI invocation examples:
+  repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1"
+- Document return shape and error cases
 
-## Dependencies
-- Introduce a lightweight math parser library (e.g., mathjs) to handle expression parsing and evaluation.
-
-## Documentation
-Update README.md and USAGE.md with examples:
-- CLI invocation: repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1"
-- Direct API usage of generateTimeSeries.
+# Dependencies
+- Add mathjs to dependencies for expression parsing and evaluation
+- Add zod if not present for input validation
