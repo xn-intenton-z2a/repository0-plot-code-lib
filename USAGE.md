@@ -107,3 +107,20 @@ x,y
 0.5,1
 1,2
 ```
+
+## Programmatic API
+
+Beyond the CLI, you can also use the core functionality programmatically in your Node.js projects:
+
+```js
+import { generateSeries, serializeJson, serializeCsv } from "@xn-intenton-z2a/repository0-plot-code-lib";
+
+// Generate a simple series
+const series = generateSeries("y=x*2", { x: [0, 1] }, 3);
+
+// Output as JSON
+console.log(serializeJson(series));
+
+// Output as CSV
+console.log(serializeCsv(series));
+```

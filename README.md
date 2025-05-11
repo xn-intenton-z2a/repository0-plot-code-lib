@@ -50,7 +50,25 @@ repository0-plot-code-lib --expression "y=cos(x)" --range "x=0:6.28" --points 50
 
 - **Argument Parsing**: Robust CLI parsing and validation ([Usage Guide](USAGE.md), [Argument Parsing Feature](features/ARGUMENT_PARSING.md))
 - **Range Validation**: Enforces axis range syntax and value checks.
-- **Time Series Generation**: Produces arrays of data points from mathematical expressions ([Time Series Generation Feature](features/TIME_SERIES_GENERATION.md))
+- **Time Series Generation**: Produces arrays of data points from mathematical expressions ([Time Series Generation Feature](features/TIME_SERIES_GENERATION.md)).
+- **Programmatic API**: Import core functions (`generateSeries`, `serializeJson`, `serializeCsv`) for direct use in JavaScript code.
+
+## Programmatic Usage
+
+You can use this library in your JavaScript projects by importing the core functions:
+
+```js
+import { generateSeries, serializeJson, serializeCsv } from "repository0-plot-code-lib";
+
+// Generate a small series of three points for y = x * 2 over [0,1]
+const series = generateSeries("y=x*2", { x: [0, 1] }, 3);
+
+// Output JSON
+console.log(serializeJson(series));
+
+// Or output CSV
+console.log(serializeCsv(series));
+```
 
 ## License
 
