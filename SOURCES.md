@@ -1,11 +1,6 @@
-# Math.js Expression Evaluation
-## https://mathjs.org/docs/expressions/parsing.html
-Official guide to parsing and evaluating mathematical expressions with Math.js. Documents evaluate(), custom function creation, security sandboxing, and performance tuning for large input sets—directly applicable for safe, formula-based data generation in plot, stats, regression, and transform commands. Includes detailed examples for custom operators and scoping to avoid injection. Last published March 2024; Apache-2.0 license; used in computational tools worldwide.
-## Apache-2.0
-
 # Zod Schema Validation
 ## https://github.com/colinhacks/zod
-TypeScript-first runtime schema validation library. Demonstrates defining, composing, and refining schemas for CLI flags, HTTP request bodies, and config objects. Covers default merging, union types, transformations, and detailed custom error reporting. Essential for enforcing input correctness across all CLI commands, HTTP endpoints, and config loading. Last commit April 2024; MIT license; 27k+ stars on GitHub.
+TypeScript-first runtime schema validation library. Demonstrates defining, composing, and refining schemas for CLI flags, HTTP request bodies, and config objects. Covers default merging, union types, transformations, and detailed custom error reporting—essential for enforcing input correctness across all CLI commands, HTTP endpoints, and config loading. Last commit April 2024; MIT license; 27k+ stars on GitHub.
 ## MIT
 
 # Command-Line Argument Parsing
@@ -79,3 +74,8 @@ Official Express 4.x API documentation detailing routing, middleware, request/re
 ## https://vega.github.io/vega-lite/docs/
 Comprehensive reference for Vega-Lite’s declarative JSON grammar for interactive and static visualizations. Covers encoding channels, data transforms, scales, faceting, and compiling to Vega for rendering. Provides actionable examples for generating charts programmatically that could inspire advanced CLI-driven plot exporters. Last updated June 2024; BSD-3-Clause license; widely used in data visualization tooling.
 ## BSD-3-Clause
+
+# D3 Scale Module
+## https://github.com/d3/d3-scale#api-reference
+Detailed API for D3's scale functions including linear and logarithmic scales, domain- and range-mapping, interpolation, and tick generation. Provides patterns for generating evenly spaced or log-distributed values and configuring clamping, nice rounding, and inversion—core to implementing the CLI's axis scaling feature. Last commit May 2024; MIT license; widely adopted with 11k+ stars.
+## MIT
