@@ -23,64 +23,15 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">A CLI-driven plot and reseed tool for formula visualisations and repository state management.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<pre class="md-github"><code class="md-github language-bash">npm install -g @xn-intenton-z2a/repository0-plot-code-lib
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
-<p class="md-github">General syntax:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib &lt;command&gt; [flags]
-</code></pre>
-<p class="md-github">Available Commands:</p>
-<ul class="md-github">
-<li class="md-github">plot      Generate plots from data files or mathematical expressions</li>
-<li class="md-github">reseed    Reset repository files to seed state (dry-run available)</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="plot-subcommand" href="#plot-subcommand"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plot Subcommand</h2>
-<p class="md-github">Supported Flags:</p>
-<ul class="md-github">
-<li class="md-github">--type <chartType>    Chart type: line, bar, scatter (default: line)</li>
-<li class="md-github">--width <number>      Number of characters horizontally (default: 640)</li>
-<li class="md-github">--height <number>     Number of characters vertically (default: 480)</li>
-<li class="md-github">--data <filePath>     Path to JSON, YAML, or CSV data file</li>
-<li class="md-github">--expression <expr>   Mathematical expression in x to plot</li>
-<li class="md-github">--xmin <number>       Minimum x value for expression domain (default: -10)</li>
-<li class="md-github">--xmax <number>       Maximum x value for expression domain (default: 10)</li>
-<li class="md-github">--samples <integer>   Number of sample points (default: 100)</li>
-<li class="md-github">--output <file>       Output file path for the rendered chart; omit to render to console</li>
-<li class="md-github">--help                Show help for plot command</li>
-</ul>
-<p class="md-github">Examples:</p>
-<p class="md-github">Plot a bar chart 400x300 to the console:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib plot --type bar --width 400 --height 300
-# Generates a bar chart 400x300 and prints a data summary to the console.
-</code></pre>
-<p class="md-github">Read CSV data and write a line chart to a file:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib plot --data values.csv --type line --output chart.txt
-# Reads CSV data, renders a line chart, and writes ASCII art to chart.txt.
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="reseed-subcommand" href="#reseed-subcommand"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reseed Subcommand</h2>
-<p class="md-github">The reseed command resets core repository files to their initial seed state.</p>
-<p class="md-github">Flags:</p>
-<ul class="md-github">
-<li class="md-github">--dry-run    Show the list of files that would be reset without performing writes</li>
-<li class="md-github">--force      (Planned) Overwrite each target file with its initial seed version</li>
-</ul>
-<p class="md-github">Example:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib reseed --dry-run
-# Would reset README.md
-# Would reset MISSION.md
-# Would reset src/lib/main.js
-# Would reset tests/unit/main.test.js
-# Would reset tests/unit/plot-generation.test.js
-# Would reset package.json
-</code></pre>
+<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
+<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-05-10T16:39:09.646Z</p>
+    <p>Generated on 2025-05-11T00:49:38.568Z</p>
   </footer>
 </body>
 </html>
