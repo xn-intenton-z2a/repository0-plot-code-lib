@@ -9,7 +9,7 @@ import { z } from "zod";
 import { Parser } from "expr-eval";
 
 // Define a regex to validate individual axis ranges
-the rangePattern = /^([a-zA-Z]+)=(-?\d+(?:\.\d+)?):(\-?\d+(?:\.\d+)?)$/;
+const rangePattern = /^([a-zA-Z]+)=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)$/;
 
 // Zod schema for validated options
 const optionsSchema = z.object({
