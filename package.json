@@ -25,11 +25,10 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.5.0",
+    "openai": "^4.95.1",
     "ejs": "^3.1.10",
     "js-yaml": "^4.1.0",
     "minimatch": "^10.0.1",
-    "openai": "^4.95.1",
-    "mathjs": "^11.8.0",
     "zod": "^3.24.3"
   },
   "devDependencies": {
@@ -50,15 +49,12 @@
     "markdown-it": "^14.1.0",
     "npm-check-updates": "^17.1.18",
     "prettier": "^3.5.3",
-    "vitest": "^3.1.2",
-    "dotenv": "^16.5.0"
+    "vitest": "^3.1.2"
   },
   "engines": {
     "node": ">=20.0.0"
   },
-  "files": [
-    "src/"
-  ],
+  "files": ["src/"],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
