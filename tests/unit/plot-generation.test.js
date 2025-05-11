@@ -84,3 +84,28 @@ describe('main function', () => {
     expect(writeSpy).toHaveBeenCalledWith('out.png', Buffer.from('pngdata'));
   });
 });
+
+describe('CLI discovery flags', () => {
+  beforeEach(() => {
+    vi.spyOn(console, 'log').mockImplementation(() => {});
+    vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Exit:${code}`); });
+  });
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  test('--help outputs usage and exits with code 0', async () => {
+    await expect(main(['--help'])).rejects.toThrow('Exit:0');
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining('# Usage'));
+  });
+
+  test('--version outputs version and exits with code 0', async () => {
+    await expect(main(['--version'])).rejects.toThrow('Exit:0');
+    expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/^\d+\.\d+\.\S+/));
+  });
+
+  test('--mission outputs mission and exits with code 0', async () => {
+    await expect(main(['--mission'])).rejects.toThrow('Exit:0');
+    expect(console.log).toHaveBeenCalledWith(expect.stringContaining('# Mission Statement'));
+  });
+});

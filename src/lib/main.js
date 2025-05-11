@@ -2,12 +2,14 @@
 // src/lib/main.js
 
 import fs from 'fs';
+import path from 'path';
 import { create, all } from 'mathjs';
 import sharp from 'sharp';
 import { z } from 'zod';
 import { fileURLToPath } from 'url';
 
 const math = create(all);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /**
  * Parse command-line arguments into a key-value object.
@@ -88,6 +90,30 @@ export function generateSVG(points, width = 500, height = 500) {
  */
 export async function main(inputArgs) {
   const args = inputArgs || process.argv.slice(2);
+
+  // Standard discovery flags
+  if (args.length === 1) {
+    const flag = args[0];
+    if (flag === '--help') {
+      const usagePath = path.resolve(__dirname, '../../USAGE.md');
+      const usageText = fs.readFileSync(usagePath, 'utf-8');
+      console.log(usageText);
+      process.exit(0);
+    }
+    if (flag === '--version') {
+      const pkgPath = path.resolve(__dirname, '../../package.json');
+      const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'));
+      console.log(pkg.version);
+      process.exit(0);
+    }
+    if (flag === '--mission') {
+      const missionPath = path.resolve(__dirname, '../../MISSION.md');
+      const missionText = fs.readFileSync(missionPath, 'utf-8');
+      console.log(missionText);
+      process.exit(0);
+    }
+  }
+
   if (args.length === 0) {
     console.log(`Run with: ${JSON.stringify(args)}`);
     return;
