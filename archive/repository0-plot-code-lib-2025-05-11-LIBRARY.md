@@ -1,252 +1,275 @@
-library/DATA_SOURCES.md
-# library/DATA_SOURCES.md
-# DATA_SOURCES
+library/SHARP_IMAGE_PROCESSING.md
+# library/SHARP_IMAGE_PROCESSING.md
+# SHARP_IMAGE_PROCESSING
 
 ## Crawl Summary
-data property accepts url, values, format, transform. format.type: json|csv|tsv|topojson (default json). format.parse: auto|string|number|boolean|date|{field:type} (default auto). format.property for nested JSON, format.feature for topojson. Sequence generator via transform.sequence with start, stop, step.
+Installation commands for npm, pnpm, yarn, bun, deno; prebuilt binaries for major platforms; supported input/output formats; constructor signature and options; core input options with defaults and types; primary output methods toFile and toBuffer with parameters and return info; per-format methods (jpeg, png, webp, gif, tiff) with full option sets; memory and concurrency handled by libvips; custom libvips and build-from-source flags; bundler exclusion patterns; environment variables for fontconfig and global libvips; AWS Lambda packaging notes
 
 ## Normalised Extract
-Table of Contents
-1 Data Source Definition
-2 Inline Data Values
-3 URL Data Source
-4 Data Format Parsing
-5 Data Generators
+Table of Contents:
+ 1 Installation Commands
+ 2 Prebuilt Binaries and Supported Formats
+ 3 Constructor and Input Options
+ 4 Output Methods
+ 5 Format-specific Methods
+ 6 Bundler Exclusions and Environment Variables
 
-Data Source Definition
-name: string, optional identifies dataset
-url: string, HTTP(S) or file path, required if values absent
-values: object array for inline data
-format:
-  type: json|csv|tsv|topojson, default json
-  parse: auto|string|number|boolean|date or {field:type}, default auto
-  property: nested JSON key, no default
-  feature: topojson feature key, default features
-transform:
-  sequence: {start:number; stop:number; step?:number}
+1 Installation Commands
+   npm install sharp
+   pnpm add sharp (add to ignoredBuiltDependencies)
+   yarn add sharp
+   bun add sharp
+   deno run --allow-ffi …
 
-Inline Data Values
-values: array of objects, define data inline in spec
+2 Prebuilt Binaries and Supported Formats
+   Platforms: macOS x64/arm64, Linux x64/arm/arm64/ppc64/s390x, Windows x64/x86
+   Read: JPEG, PNG, WebP, GIF, AVIF, TIFF, SVG
+   Write: JPEG, PNG, WebP, GIF, AVIF, TIFF, raw pixels
 
-URL Data Source
-url: path or remote URL string; supports caching per browser
+3 Constructor and Input Options
+   Signature: new Sharp([input], [options])
+   input types: Buffer|TypedArray|string|Array
+   options.failOn: none,truncated,error,warning(default warning)
+   options.limitInputPixels: number|false|true(default268402689)
+   options.unlimited: boolean(default false)
+   options.autoOrient: boolean(default false)
+   options.sequentialRead: boolean(default true)
+   options.density: number-range1–100000(default72)
+   options.ignoreIcc: boolean(default false)
+   options.pages: number(default1)
+   options.animated: boolean(defaultfalse)
+   options.raw: width,height,channels,premultiplied
+   options.create: width,height,channels,background,noise
+   options.text: text,font,fontfile,width,height,align,justify,dpi,rgba,spacing,wrap
+   options.join: across,animated,shim,background,halign,valign
 
-Data Format Parsing
-parse: auto infers types; explicit mapping overrides; use parse for dates/numbers
-property: dot-separated path to nested arrays
-feature: key for topojson features array
+4 Output Methods
+   .toFile(path,[cb]) → Promise(info)
+     info: format,size,width,height,channels,premultiplied, pageHeight,pages,…
+   .toBuffer([opts],[cb]) → Promise<Buffer> or {data,info}
+     opts.resolveWithObject: boolean
 
-data.example: {url:'data.csv',format:{type:'csv',parse:{date:'date',value:'number'}}}
+5 Format-specific Methods
+   .jpeg(opts) quality1–100(def80),progressive,chrom aSubsampling,optimizeCoding,mozjpeg,trellisQuantisation,overshootDeringing,optimizeScans,quantisationTable0–8,force
+   .png(opts) progressive,compressionLevel0–9,adaptiveFiltering,palette,quality1–100,effort1–10,colours2–256,dither0–1,force
+   .webp(opts) quality1–100,alphaQuality0–100,lossless,nearLossless,smartSubsample,smartDeblock,preset,effort0–6,loop,delay,minSize,mixed,force
+   .gif(opts) reuse,progressive,colours2–256,effort1–10,dither0–1,interFrameMaxError0–32,interPaletteMaxError0–256,loop,delay,force
+   .tiff(opts) quality1–100,compression,predictor,pyramid,tile,tileWidth,tileHeight,xres,yres,resolutionUnit,bitdepth,mini swhite,force
 
-Data Generators
-sequence: {start:1,stop:100,step:10} produces values 1,11,...,91
+6 Bundler Exclusions and Environment Variables
+   webpack externals: {'sharp':'commonjs sharp'}
+   esbuild --external:sharp
+   electron asarUnpack/unpack patterns
+   VITE build.rollupOptions.external:['sharp']
+   SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS
+   FONTCONFIG_PATH for custom fontconfig
+
 
 ## Supplementary Details
-Default parse for csv/tsv is auto, infers numeric and date fields; explicit parse mapping improves performance. Use format.property to extract nested arrays: specify 'property':'records.items'. For topojson, set type:'topojson' and feature:'<featureName>'. Implementation steps: 1) Define spec.data with url or values. 2) (Optional) Add spec.data.format with type, parse, property, feature. 3) Add spec.transform.sequence if synthetic data required. 4) Call vegaEmbed(container, spec, {renderer:'canvas'|'svg'}).
-
-Example:
-format: {type:'csv', parse:{timestamp:'date', score:'number'}}
-
-Best Practices:
-- Predefine parse mapping for large datasets to avoid type-guess overhead.
-- Use sequence transform for testing and prototyping without external files.
-- Reference datasets by name for reuse in multi-view specs.
-
-Performance Tips:
-- Leverage browser HTTP caching for remote data via proper headers.
-- Filter or aggregate data in transform to minimize payload.
-
+Prebuilt binary selection at install based on OS, CPU, libc flags (--os, --cpu, --libc). Cross-platform npm install examples: npm install --cpu=x64 --os=darwin sharp; --libc=musl for Alpine. Use supportedArchitectures in yarn v3 and pnpm v8. Custom libvips requires pkg-config --modversion vips-cpp≥config.libvips version. Build-from-source flags: SHARP_IGNORE_GLOBAL_LIBVIPS=true, SHARP_FORCE_GLOBAL_LIBVIPS=true or npm install --build-from-source. Requires C++17 compiler, node-addon-api>=7, node-gyp>=9. For glibc allocator fragmentation, use jemalloc. For AWS Lambda, include linux-x64 or linux-arm64 binaries, avoid symlinks. Bundler externals: webpack externals{'sharp':'commonjs sharp'}, esbuild external sharp. Electron asarUnpack patterns in package.json or forge packagerConfig. Vite rollupOptions external: ['sharp']. TypeScript definitions included since v0.32.0, include @types/node. Font rendering: PANGOCAIRO_BACKEND=fontconfig on macOS Homebrew. In serverless, set FONTCONFIG_PATH. Known conflict: canvas with sharp on Windows can throw "The specified procedure could not be found."
 
 ## Reference Details
-TypeScript Interfaces:
-interface Data {
-  name?: string;
-  url?: string;
-  values?: any[];
-  format?: DataFormat;
-  transform?: Transform[];
-}
-interface DataFormat {
-  type?: 'json' | 'csv' | 'tsv' | 'topojson';
-  parse?: 'auto' | 'string' | 'number' | 'boolean' | 'date' | { [field: string]: 'string' | 'number' | 'boolean' | 'date' };
-  property?: string;
-  feature?: string;
-}
-interface SequenceParams {
-  start: number;
-  stop: number;
-  step?: number;
-}
+Constructor
+  new Sharp([input], [options]) → Sharp
+    input: Buffer|ArrayBuffer|Uint8Array|...|string|Array
+    options.failOn: 'none'|'truncated'|'error'|'warning' (default 'warning')
+    options.limitInputPixels: number|boolean (default 268402689)
+    options.unlimited: boolean (default false)
+    options.autoOrient: boolean (default false)
+    options.sequentialRead: boolean (default true)
+    options.density: number (1–100000, default 72)
+    options.ignoreIcc: boolean (default false)
+    options.pages: number (default 1, -1 for all)
+    options.page: number (default 0)
+    options.animated: boolean (default false)
+    options.raw: {width:number,height:number,channels:number,premultiplied:boolean}
+    options.create: {width:number,height:number,channels:3|4,background:{r,g,b,alpha}|string,noise:{type:'gaussian',mean:number,sigma:number}}
+    options.text: {text:string,font:string,fontfile:string,width:number,height:number,align:'left'|'centre'|'center'|'right',justify:boolean,dpi:number,rgba:boolean,spacing:number,wrap:'word'|'char'|'word-char'|'none'}
+    options.join: {across:number,animated:boolean,shim:number,background:{r,g,b,alpha}|string,halign:'left'|'centre'|'center'|'right',valign:'top'|'centre'|'center'|'bottom'}
+    Throws: Error
 
-Full SDK Example:
-<html>
-<head>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
-</head>
-<body>
-  <div id="view"></div>
-  <script>
-    const spec = {
-      data: {
-        url: 'data/data.csv',
-        format: {
-          type: 'csv',
-          parse: { date: 'date', value: 'number' }
-        }
-      },
-      mark: 'line',
-      encoding: {
-        x: { field: 'date', type: 'temporal' },
-        y: { field: 'value', type: 'quantitative' }
-      }
-    };
-    vegaEmbed('#view', spec, { renderer: 'svg', logLevel: 1 })
-      .then(result => {
-        console.log('Vega View:', result.view);
-      })
-      .catch(error => {
-        console.error('Embedding error:', error);
-      });
-  </script>
-</body>
-</html>
+Core Methods
+  .clone() → Sharp
+  .metadata(callback?) → Promise<Object>|Sharp; info:{format,size,width,height,space,channels,depth,density,...,orientation,exif,icc,iptc,xmp,...}
+  .stats(callback?) → Promise<Object>; stats:{channels:[{min,max,sum,squaresSum,mean,stdev,minX,minY,maxX,maxY}],isOpaque,entropy,sharpness,dominant:{r,g,b}}
+  .toFile(fileOut, callback?) → Promise<Object>; info:{format,size,width,height,channels,premultiplied,cropOffsetLeft,cropOffsetTop,attentionX,attentionY,pageHeight,pages,textAutofitDpi}
+  .toBuffer(options?, callback?) → Promise<Buffer>|Promise<{data,info}>; options.resolveWithObject:boolean
 
-Implementation Pattern:
-1. Import Vega, Vega-Lite, Vega-Embed scripts.
-2. Create HTML container.
-3. Define Vega-Lite spec with data, mark, encoding.
-4. Optionally define spec.data.format and spec.transform.
-5. Call vegaEmbed(container, spec, options).
-6. Handle promise for runtime view or errors.
+Format Methods
+  .jpeg(options?) → Sharp; options:{quality:1–100,progressive:boolean,chrom aSubsampling:'4:2:0'|'4:4:4',optimizeCoding:boolean,mozjpeg:boolean,trellisQuantisation:boolean,overshootDeringing:boolean,optimiseScans:boolean,quantizationTable:0–8,force:boolean}
+  .png(options?) → Sharp; options:{progressive:boolean,compressionLevel:0–9,adaptiveFiltering:boolean,palette:boolean,quality:1–100,effort:1–10,colours:2–256,dither:0–1,force:boolean}
+  .webp(options?) → Sharp; options:{quality:1–100,alphaQuality:0–100,lossless:boolean,nearLossless:boolean,smartSubsample:boolean,smartDeblock:boolean,preset:'default'|'photo'|'picture'|'drawing'|'icon'|'text',effort:0–6,loop:number,delay:number|Array<number>,minSize:boolean,mixed:boolean,force:boolean}
+  .gif(options?) → Sharp; options:{reuse:boolean,progressive:boolean,colours:2–256,effort:1–10,dither:0–1,interFrameMaxError:0–32,interPaletteMaxError:0–256,loop:number,delay:number|Array<number>,force:boolean}
+  .tiff(options?) → Sharp; options:{quality:1–100,force:boolean,compression:'none'|'jpeg'|'deflate'|'packbits'|'ccittfax4'|'lzw'|'webp'|'zstd'|'jp2k',predictor:'none'|'horizontal'|'float',pyramid:boolean,tile:boolean,tileWidth:number,tileHeight:number,xres:number,yres:number,resolutionUnit:'inch'|'cm',bitdepth:1|2|4|8,mini swhite:boolean}
 
-Configuration Options:
-renderer: 'canvas' | 'svg' (default 'canvas')
-logLevel: 0 (silent) to 4 (debug) (default 0)
+Code Examples
+  const pipeline = sharp().rotate();
+  pipeline.clone().resize(800,600).pipe(writeStream);
+  pipeline.clone().extract({left:20,top:20,width:100,height:100}).pipe(otherStream);
+  files:
+    await sharp('in.gif',{animated:true}).webp({effort:6}).toBuffer();
+    await sharp(Buffer,data).png({palette:true,quality:90}).toFile('out.png');
 
-Troubleshooting:
-Command: npx vega-lite --validate spec.json
-Expected: Outputs compiled Vega spec or no errors
-Error: "Invalid field type" -> Add or correct format.parse mapping for the field
-Browser Console: "TypeError: spec.data.values is undefined" -> Ensure values is an array
+Best Practices
+  Use sequentialRead=false for random-access operations
+  Use mozjpeg:true for reduced JPEG size (slower)
+  Disable PNG filtering for diagrams
+  Use adaptiveFiltering for photos
+  For glibc, preload jemalloc to avoid memory fragmentation
+  Unpack sharp from ASAR in Electron
+  Exclude sharp from bundlers via externals
 
-Concrete Best Practices:
-- Always specify format.parse for date fields to avoid string parsing errors.
-- For nested JSON, use format.property to point to the array.
-- Name datasets when reusing them with multiple views.
-- Use sequence transform for quick prototyping without external dependencies.
+Troubleshooting
+  npm install errors: run npm install --build-from-source or set SHARP_IGNORE_GLOBAL_LIBVIPS
+  FreeBSD: install pkgconf and vips before npm install
+  AWS Lambda: include correct platform binaries, avoid symlinks, set function memory ≥1536MB
+  Fontconfig error: set FONTCONFIG_PATH to valid fontconfig directory
+  Windows canvas conflict: use separate processes or remove one module
 
 ## Information Dense Extract
-Data{name?,url?,values?,format?,transform?}; format{type? json|csv|tsv|topojson;parse?auto|string|number|boolean|date|{[f]:type};property?string;feature?string}; sequence{start,stop,step?}. Default parse auto infers types; explicit parse overrides. Use vegaEmbed(target,spec,{renderer,logLevel})→Promise<{view,runtime}>. Validate via CLI: npx vega-lite --validate spec.json. Common fixes: type mismatches→specify parse, undefined values→provide array in values. Optimize: predefine parse mapping, filter in transform, reuse named datasets.
+sharp([input]:Buffer|TypedArray|string|Array,options:Object)→Sharp  options.failOn:'none'|'truncated'|'error'|'warning'(default'warning')  limitInputPixels:number|false|true(default268402689)  unlimited:boolean(defaultfalse)  autoOrient:boolean(defaultfalse)  sequentialRead:boolean(defaulttrue)  density:number(1–100000,default72)  ignoreIcc:boolean(defaultfalse)  pages:number(default1,-1∀all)  page:number(default0)  animated:boolean(defaultfalse)  raw:{width,height,channels,premultiplied}  create:{width,height,channels,background,noise:{type:'gaussian',mean,sigma}}  text:{text,font,fontfile,width,height,align,justify,dpi,rgba,spacing,wrap}  join:{across,animated,shim,background,halign,valign}  .clone()→Sharp  .metadata()→Promise<{format,size,width,height,space,channels,depth,density,chromaSubsampling,isProgressive,isPalette,bitsPerSample,pages,pageHeight,loop,delay,pagePrimary,levels,subifds,background,compression,resolutionUnit,hasProfile,hasAlpha,orientation,exif,icc,iptc,xmp,tifftagPhotoshop,formatMagick,comments}>  .stats()→Promise<{channels:[{min,max,sum,squaresSum,mean,stdev,minX,minY,maxX,maxY}],isOpaque,entropy,sharpness,dominant:{r,g,b}}>  .toFile(path,[cb])→Promise<{format,size,width,height,channels,premultiplied,cropOffsetLeft,cropOffsetTop,attentionX,attentionY,pageHeight,pages,textAutofitDpi}>  .toBuffer({resolveWithObject},[cb])→Promise<Buffer>|Promise<{data,info}>  .jpeg({quality:1–100,progressive,chrom aSubsampling:'4:2:0'|'4:4:4',optimizeCoding,mozjpeg,trellisQuantisation,overshootDeringing,optimiseScans,quantisationTable:0–8,force})→Sharp  .png({progressive,compressionLevel:0–9,adaptiveFiltering,palette,quality:1–100,effort:1–10,colours:2–256,dither:0–1,force})→Sharp  .webp({quality:1–100,alphaQuality:0–100,lossless,nearLossless,smartSubsample,smartDeblock,preset,effort:0–6,loop,delay,minSize,mixed,force})→Sharp  .gif({reuse,progressive,colours:2–256,effort:1–10,dither:0–1,interFrameMaxError:0–32,interPaletteMaxError:0–256,loop,delay,force})→Sharp  .tiff({quality:1–100,compression,predictor,pyramid,tile,tileWidth,tileHeight,xres,yres,resolutionUnit: 'inch'|'cm',bitdepth:1|2|4|8,mini swhite,force})→Sharp  Env: SHARP_IGNORE_GLOBAL_LIBVIPS,SHARP_FORCE_GLOBAL_LIBVIPS,PANGOCAIRO_BACKEND=fontconfig,FONTCONFIG_PATH; Bundlers: webpack externals{'sharp':'commonjs sharp'},esbuild--external sharp; Electron asarUnpack; Vite external:['sharp']; AWS Lambda: include linux-x64/arm64 binaries, memory≥1536MB; glibc allocator→use jemalloc; FreeBSD→pkg install vips; build deps C++17,node-addon-api≥7,node-gyp≥9
 
 ## Sanitised Extract
-Table of Contents
-1 Data Source Definition
-2 Inline Data Values
-3 URL Data Source
-4 Data Format Parsing
-5 Data Generators
+Table of Contents:
+ 1 Installation Commands
+ 2 Prebuilt Binaries and Supported Formats
+ 3 Constructor and Input Options
+ 4 Output Methods
+ 5 Format-specific Methods
+ 6 Bundler Exclusions and Environment Variables
 
-Data Source Definition
-name: string, optional identifies dataset
-url: string, HTTP(S) or file path, required if values absent
-values: object array for inline data
-format:
-  type: json|csv|tsv|topojson, default json
-  parse: auto|string|number|boolean|date or {field:type}, default auto
-  property: nested JSON key, no default
-  feature: topojson feature key, default features
-transform:
-  sequence: {start:number; stop:number; step?:number}
+1 Installation Commands
+   npm install sharp
+   pnpm add sharp (add to ignoredBuiltDependencies)
+   yarn add sharp
+   bun add sharp
+   deno run --allow-ffi 
 
-Inline Data Values
-values: array of objects, define data inline in spec
+2 Prebuilt Binaries and Supported Formats
+   Platforms: macOS x64/arm64, Linux x64/arm/arm64/ppc64/s390x, Windows x64/x86
+   Read: JPEG, PNG, WebP, GIF, AVIF, TIFF, SVG
+   Write: JPEG, PNG, WebP, GIF, AVIF, TIFF, raw pixels
 
-URL Data Source
-url: path or remote URL string; supports caching per browser
+3 Constructor and Input Options
+   Signature: new Sharp([input], [options])
+   input types: Buffer|TypedArray|string|Array
+   options.failOn: none,truncated,error,warning(default warning)
+   options.limitInputPixels: number|false|true(default268402689)
+   options.unlimited: boolean(default false)
+   options.autoOrient: boolean(default false)
+   options.sequentialRead: boolean(default true)
+   options.density: number-range1100000(default72)
+   options.ignoreIcc: boolean(default false)
+   options.pages: number(default1)
+   options.animated: boolean(defaultfalse)
+   options.raw: width,height,channels,premultiplied
+   options.create: width,height,channels,background,noise
+   options.text: text,font,fontfile,width,height,align,justify,dpi,rgba,spacing,wrap
+   options.join: across,animated,shim,background,halign,valign
 
-Data Format Parsing
-parse: auto infers types; explicit mapping overrides; use parse for dates/numbers
-property: dot-separated path to nested arrays
-feature: key for topojson features array
+4 Output Methods
+   .toFile(path,[cb])  Promise(info)
+     info: format,size,width,height,channels,premultiplied, pageHeight,pages,
+   .toBuffer([opts],[cb])  Promise<Buffer> or {data,info}
+     opts.resolveWithObject: boolean
 
-data.example: {url:'data.csv',format:{type:'csv',parse:{date:'date',value:'number'}}}
+5 Format-specific Methods
+   .jpeg(opts) quality1100(def80),progressive,chrom aSubsampling,optimizeCoding,mozjpeg,trellisQuantisation,overshootDeringing,optimizeScans,quantisationTable08,force
+   .png(opts) progressive,compressionLevel09,adaptiveFiltering,palette,quality1100,effort110,colours2256,dither01,force
+   .webp(opts) quality1100,alphaQuality0100,lossless,nearLossless,smartSubsample,smartDeblock,preset,effort06,loop,delay,minSize,mixed,force
+   .gif(opts) reuse,progressive,colours2256,effort110,dither01,interFrameMaxError032,interPaletteMaxError0256,loop,delay,force
+   .tiff(opts) quality1100,compression,predictor,pyramid,tile,tileWidth,tileHeight,xres,yres,resolutionUnit,bitdepth,mini swhite,force
 
-Data Generators
-sequence: {start:1,stop:100,step:10} produces values 1,11,...,91
+6 Bundler Exclusions and Environment Variables
+   webpack externals: {'sharp':'commonjs sharp'}
+   esbuild --external:sharp
+   electron asarUnpack/unpack patterns
+   VITE build.rollupOptions.external:['sharp']
+   SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS
+   FONTCONFIG_PATH for custom fontconfig
 
 ## Original Source
-Vega-Lite Documentation
-https://vega.github.io/vega-lite/docs/
+Sharp Image Processing Library
+https://sharp.pixelplumbing.com/
 
-## Digest of DATA_SOURCES
+## Digest of SHARP_IMAGE_PROCESSING
 
-# Data Source Definition
+# Installation
+Supported package managers and commands:
+- npm: npm install sharp
+- pnpm: pnpm add sharp (may require adding sharp to ignoredBuiltDependencies)
+- yarn: yarn add sharp
+- bun: bun add sharp
+- deno: deno run --allow-ffi ...
 
-Interface Data {
-  name?: string;
-  url?: string;
-  values?: any[];
-  format?: DataFormat;
-  transform?: Transform[];
-}
+# Prebuilt Binaries
+Platforms with provided binaries:
+• macOS x64 (>= 10.15), macOS ARM64
+• Linux x64, ARM, ARM64, ppc64, s390x
+• Windows x64, x86
+Supported input formats: JPEG, PNG, WebP, GIF, AVIF, TIFF, SVG
+Supported output formats: JPEG, PNG, WebP, GIF, AVIF, TIFF, raw pixel data
 
-# Inline Data Values
+# Constructor
+new Sharp([input], [options])
+Parameters
+• input: Buffer|ArrayBuffer|TypedArray|string (file path)|Array of inputs
+• options: Object with attributes
+Throws: Error on invalid parameters
 
-Use "values": array of objects for inline data. Example:
+# Input Options
+• failOn: 'none'|'truncated'|'error'|'warning' (default 'warning')
+• limitInputPixels: number|boolean (default 268402689)
+• unlimited: boolean (default false)
+• autoOrient: boolean (default false)
+• sequentialRead: boolean (default true)
+• density: number (1–100000, default 72)
+• ignoreIcc: boolean (default false)
+• pages: number (default 1, -1 for all)
+• page: number (default 0)
+• animated: boolean (default false)
+• raw: {width:number,height:number,channels:number,premultiplied:boolean}
+• create: {width:number,height:number,channels:3|4,background:string|Object,noise:{type:'gaussian',mean:number,sigma:number}}
+• text: {text:string,font:string,fontfile:string,width:number,height:number,align:'left'|'center'|'right',justify:boolean,dpi:number,rgba:boolean,spacing:number,wrap:'word'|'char'|'word-char'|'none'}
+• join: {across:number,animated:boolean,shim:number,background:string|Object,halign:'left'|'center'|'right',valign:'top'|'center'|'bottom'}
 
-  "data": {
-    "values": [
-      {"category": "A", "value": 28},
-      {"category": "B", "value": 55}
-    ]
-  }
+# Output Methods
+.toFile(fileOut, [callback]) ⇒ Promise<Object>
+• fileOut: string, output path
+• callback(err, info) where info: {format, size, width, height, channels, premultiplied, cropOffsetLeft, cropOffsetTop, attentionX, attentionY, pageHeight, pages, textAutofitDpi}
 
-# URL Data Source
+.toBuffer([options],[callback]) ⇒ Promise<Buffer> or Promise<{data:Buffer,info:Object}>
+• options.resolveWithObject: boolean
+• callback(err, data, info)
 
-Use "url": string to load external files. Supported protocols: HTTP(S), file://. Example:
+# Format-specific Methods
+.jpeg([options]) ⇒ Sharp
+• options: {quality:number(1–100, default 80),progressive:boolean,chrom aSubsampling:'4:2:0'|'4:4:4',optimizeCoding:boolean,mоzjpeg:boolean,trellisQuantisation:boolean,overshootDeringing:boolean,optimizeScans:boolean,quantisationTable:0–8,force:boolean}
 
-  "data": {
-    "url": "data.csv"
-  }
+.png([options]) ⇒ Sharp
+• options: {progressive:boolean,compressionLevel:0–9,adaptiveFiltering:boolean,palette:boolean,quality:1–100,effort:1–10,colours:2–256,dither:0–1,force:boolean}
 
-# Data Format Parsing
+.webp([options]) ⇒ Sharp
+• options: {quality:1–100,alphaQuality:0–100,lossless:boolean,nearLossless:boolean,smartSubsample:boolean,smartDeblock:boolean,preset:'default'|'photo'|'picture'|'drawing'|'icon'|'text',effort:0–6,loop:number,delay:number|number[],minSize:boolean,mixed:boolean,force:boolean}
 
-Interface DataFormat {
-  type?: 'json' | 'csv' | 'tsv' | 'topojson';        // default 'json'
-  parse?: 'auto' | 'string' | 'number' | 'boolean' | 'date' | { [field: string]: 'string' | 'number' | 'boolean' | 'date' }; // default 'auto'
-  property?: string;    // nested JSON key, e.g. 'data.records'
-  feature?: string;     // topojson feature key, default 'features'
-}
+.gif([options]) ⇒ Sharp
+• options: {reuse:boolean,progressive:boolean,colours:2–256,effort:1–10,dither:0–1,interFrameMaxError:0–32,interPaletteMaxError:0–256,loop:number,delay:number|number[],force:boolean}
 
-Use:
+.tiff([options]) ⇒ Sharp
+• options: {quality:1–100,compression:'none'|'jpeg'|'deflate'|'packbits'|'ccittfax4'|'lzw'|'webp'|'zstd'|'jp2k',predictor:'none'|'horizontal'|'float',pyramid:boolean,tile:boolean,tileWidth:number,tileHeight:number,xres:number,yres:number,resolutionUnit:'inch'|'cm',bitdepth:1|2|4|8,mini swhite:boolean,force:boolean}
 
-  "data": {
-    "url": "data.geojson",
-    "format": {"type": "topojson", "feature": "countries"}
-  }
-
-# Data Generators
-
-Sequence generator for synthetic data:
-
-  "transform": [
-    {"sequence": {"start": 1, "stop": 10, "step": 1}}
-  ]
-
-Produces array of objects with 'data' fields from start to stop inclusive.
-
-Retrieved on: 2024-06-10
-Attribution: Vega-Lite Documentation; Data Size: 13752109 bytes; Links Found: 15027
+# Retrieval
+Content retrieved 2024-06-06
+Data Size: 7721590 bytes
+Attribution: Sharp by Lovell Fuller et al., Apache License 2.0
 
 ## Attribution
-- Source: Vega-Lite Documentation
-- URL: https://vega.github.io/vega-lite/docs/
-- License: BSD-3-Clause
-- Crawl Date: 2025-05-11T01:30:10.982Z
-- Data Size: 13752109 bytes
-- Links Found: 15027
+- Source: Sharp Image Processing Library
+- URL: https://sharp.pixelplumbing.com/
+- License: MIT
+- Crawl Date: 2025-05-11T02:32:10.692Z
+- Data Size: 7721590 bytes
+- Links Found: 18966
 
 ## Retrieved
 2025-05-11
