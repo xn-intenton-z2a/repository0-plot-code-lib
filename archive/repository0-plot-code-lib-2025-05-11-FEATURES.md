@@ -1,44 +1,69 @@
-features/GENERATE_TIMESERIES.md
-# features/GENERATE_TIMESERIES.md
-# Overview
-Adds CLI support for generating time series data from a mathematical expression and range.
+features/GENERATE_PLOT.md
+# features/GENERATE_PLOT.md
+# Generate Plot Feature
 
-# CLI Options
---expression <expr>  Required: Mathematical expression as a function of x.
---range <min>:<max>:<step>  Required: Range specifier for x values.
---output <file>  Optional: Path to write the output JSON file.
---format <fmt>  Optional: Output format (json or csv). Defaults to json.
+## Purpose
+Add functionality to transform a mathematical expression and numeric range into a time series and generate a chart file in SVG or PNG format.
 
-# Behavior
-Parses the expression and range. Computes data points by evaluating the expression at each x value between min and max inclusive in increments of step. Produces an array of { x, y } objects. If --output is specified, writes the result to the file. Otherwise, prints the result to stdout.
+## CLI Interface
+Define and validate these options in the main function:
+- --expression <expr>   A mathematical expression in terms of x, eg. "sin(x) + x^2".
+- --range <start:end[:step]>   Numeric range for x values, default step of 1 if omitted.
+- --output <path>       File path for the generated plot, default output.svg.
+- --format <svg|png>    Output format, default svg.
 
-# Examples
-repository0-plot-code-lib --expression "Math.sin(x)" --range 0:6.28:0.1
+## Data Generation
+1. Parse the expression using mathjs.
+2. Compute x values from start to end by step.
+3. Evaluate expression at each x to build a data series.
 
-# Validation
-Validates that expression is provided and non-empty. Validates that range parts are numeric and that step is greater than zero.
+## Chart Rendering
+1. Use chartjs-node-canvas to render a line chart from the data series.
+2. Configure axes labels, line style, and title derived from the expression.
+3. Export the chart in the requested format and write to the output path.
 
-# Error Handling
-Exits with code 1 and prints an error message if arguments are missing, invalid, or if evaluation fails.features/PLOT_GENERATION.md
-# features/PLOT_GENERATION.md
-# Overview
-Adds CLI support for rendering generated time series data as SVG or PNG images.
+## Library API
+Export a function generatePlot(options) that can be called programmatically with the same parameters.
 
-# CLI Options
---plot-format <format>  Required: Output image format, either svg or png. Defaults to svg.
---width <pixels>  Optional: Width of the generated plot in pixels. Defaults to 800.
---height <pixels>  Optional: Height of the generated plot in pixels. Defaults to 600.
---output <file>  Optional: Path to write the generated image file. If omitted, writes base64-encoded image to stdout.
+## Testing
+- Add unit tests for argument parsing and validation with zod.
+- Add tests for data generation to ensure correct series for sample expressions.
+- Mock file writing and chart rendering to test output format selection.
 
-# Behavior
-Generates time series data from the provided expression and range (reuse existing options). Renders a line chart representing x vs y using QuickChart for SVG output. If png is requested, processes the SVG through Sharp to produce a PNG image. Outputs the image to the specified file or stdout.
+## Documentation
+- Update README.md with usage examples for CLI invocation and programmatic API.
+- Include sample commands: repository0-plot-code-lib --expression "sin(x)" --range "0:6.28:0.1" --output chart.png --format png
+features/EXPORT_TIMESERIES.md
+# features/EXPORT_TIMESERIES.md
+# EXPORT_TIMESERIES Feature
 
-# Examples
-repository0-plot-code-lib --expression "Math.sin(x)" --range 0:6.28:0.1 --plot-format svg --output sine.svg
-repository0-plot-code-lib --expression "x*x" --range 0:10:0.5 --plot-format png --width 1024 --height 768 --output parabola.png
+## Purpose
+Enable users to export the computed time series data generated from a mathematical expression and numeric range into a standard format (CSV or JSON) for further analysis, sharing, or pipeline integration.
 
-# Validation
-Validates that plot-format is svg or png, width and height are positive integers, and output path is writable. Existing expression and range validation applies.
+## CLI Interface
+Define and validate these options in the main function:
+- --expression <expr>      A mathematical expression in terms of x, e.g., "sin(x) + x^2".
+- --range <start:end[:step]>  Numeric range for x values, default step of 1 if omitted.
+- --export-data <path>     File path for the exported data, default output.csv.
+- --data-format <csv|json> Output data format, default csv.
 
-# Error Handling
-Exits with code 1 and prints an error message if options are missing, invalid formats are provided, or rendering fails.
+## Data Export
+1. Reuse expression parsing and series generation logic to compute x and y pairs.
+2. Serialize the series to CSV or JSON according to the selected format:
+   - CSV: header row "x,y" followed by one line per data point.
+   - JSON: array of objects `{ x: number, y: number }`.
+3. Write the serialized data to the export path.
+
+## Library API
+Export a function `exportTimeSeries(options)` callable programmatically with the same parameters to produce and save the file.
+
+## Testing
+- Add unit tests for CLI argument parsing and validation with zod.
+- Test data serialization logic for both CSV and JSON output with sample inputs.
+- Mock file writing to verify correct file path, content headers, and format selection.
+
+## Documentation
+- Update README.md with usage examples:
+  - Inline code example: `import { exportTimeSeries } from "@xn-intenton-z2a/repository0-plot-code-lib";`
+  - CLI examples: `repository0-plot-code-lib --expression "x^2" --range "0:10:2" --export-data data.json --data-format json`
+- Describe the fields in the exported format and link to generate-plot for visualization workflows.
