@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="basic_shapes" href="#basic_shapes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BASIC_SHAPES</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">SVG uses a user coordinate system with origin at top-left. The <svg> root accepts width, height, viewBox and preserveAspectRatio for scaling. Basic shape elements include <rect>, <circle>, <ellipse>, <line>, <polyline>, and <polygon>, each with specific required attributes (e.g. rect: x,y,width,height; circle: cx,cy,r). Fill, stroke, stroke-width and opacity attributes control rendering. Common pitfalls include missing fill/stroke and undefined viewport. Best practices include defining viewBox for responsiveness, grouping with <g>, and using half-pixel offsets for sharp strokes.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Coordinate System
+2 Rectangle (<rect>)
+3 Circle (<circle>)
+4 Ellipse (<ellipse>)
+5 Line (<line>)
+6 Polyline (<polyline>)
+7 Polygon (<polygon>)
+8 Best Practices &amp; Troubleshooting</p>
+<p class="md-github">1 Coordinate System
+User units default to px. <svg> attributes: width, height, viewBox=&quot;minX minY width height&quot;, preserveAspectRatio=&quot;align meetOrSlice&quot;.</p>
+<p class="md-github">2 Rectangle (<rect>)
+Required: x (default 0), y (default 0), width (&gt;0), height (&gt;0). Optional corner radii: rx, ry. Styling: fill, fill-opacity, stroke, stroke-width, stroke-opacity.</p>
+<p class="md-github">3 Circle (<circle>)
+Required: cx (default 0), cy (default 0), r (&gt;0). Styling same as <rect>.</p>
+<p class="md-github">4 Ellipse (<ellipse>)
+Required: cx, cy, rx (&gt;0), ry (&gt;0). Styling same.</p>
+<p class="md-github">5 Line (<line>)
+Required: x1, y1, x2, y2. Must set stroke and stroke-width to render.</p>
+<p class="md-github">6 Polyline (<polyline>)
+Required: points=&quot;x1,y1 x2,y2…&quot;. Default fill=&quot;none&quot;. Set stroke &amp; stroke-width.</p>
+<p class="md-github">7 Polygon (<polygon>)
+Same as polyline but auto-closed and default fill=&quot;black&quot;.</p>
+<p class="md-github">8 Best Practices &amp; Troubleshooting
+Always define viewport via width/height or viewBox. Use viewBox+preserveAspectRatio for responsiveness. Missing fill/stroke causes invisibility. Group shapes with <g>. To render crisp lines, offset coordinates by 0.5.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">• Units: default user unit = px; append unit identifiers for other units.
+• viewBox: defines user coordinate system origin and scale. Syntax: viewBox=&quot;minX minY width height&quot;.
+• preserveAspectRatio values: xMinYMin, xMidYMid, xMaxYMax + meet or slice.
+• Grouping: <g transform="translate(tx,ty) scale(s)"> … </g>.
+• Sharp 1px strokes: coordinate align on half-pixel (e.g. x=&quot;0.5&quot;).
+• Nested shapes inherit current fill, stroke properties unless overridden.
+• When animating shape attributes, use SMIL or CSS animations on attributes (e.g. <animate attributeName="r" from="10" to="50" dur="2s"/>).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Element: <rect>
+Attributes:
+x: number; defaults 0
+y: number; defaults 0
+width: number; required ≥0
+height: number; required ≥0
+rx: number; defaults 0
+ry: number; defaults 0
+fill: color; defaults black
+fill-opacity: 0.0–1.0; default 1.0
+stroke: color; defaults none
+stroke-width: number; default 1
+stroke-opacity: 0.0–1.0; default 1.0
+Example:
+<rect x="10" y="20" width="100" height="50" rx="5" ry="5" fill="#0F0" stroke="#060" stroke-width="2"/></p>
+<p class="md-github">Element: <circle>
+Attributes:
+cx: number; default 0
+cy: number; default 0
+r: number; required &gt;0
+same style attributes as <rect>
+Example:
+<circle cx="50" cy="50" r="40" fill="red" stroke="black" stroke-width="5"/></p>
+<p class="md-github">Element: <ellipse>
+Attributes:
+cx, cy as above
+rx: number; required &gt;0
+ry: number; required &gt;0
+Example:
+<ellipse cx="75" cy="50" rx="70" ry="30" fill="purple"/></p>
+<p class="md-github">Element: <line>
+Attributes:
+x1, y1, x2, y2: number; required
+stroke: color; required
+stroke-width: number; default 1
+Example:
+<line x1="10" y1="10" x2="200" y2="10" stroke="#333" stroke-width="2"/></p>
+<p class="md-github">Element: <polyline>
+Attributes:
+points: coord list; required
+fill: none by default
+stroke: color; required
+stroke-width: number; default 1
+Example:
+<polyline points="0,0 50,25 50,75 100,100" stroke="blue" fill="none" stroke-width="3"/></p>
+<p class="md-github">Element: <polygon>
+Same as <polyline> but auto-closed and default fill=&quot;black&quot;.</p>
+<p class="md-github">Troubleshooting:
+If nothing renders, check that either fill or stroke is set and viewport size is defined. Use browser devtools to inspect computed coordinates. For unexpected scaling, verify viewBox and preserveAspectRatio syntax.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">SVG viewport: width,height,viewBox(minX,minY,w,h),preserveAspectRatio(align meet|slice). Units: default px. Shapes:
+rect(x,y, width,height, rx?,ry?)
+circle(cx,cy, r)
+ellipse(cx,cy, rx,ry)
+line(x1,y1, x2,y2)
+polyline(points)
+polygon(points). Style attrs: fill(color),fill-opacity, stroke(color),stroke-width,stroke-opacity. Defaults: rect fill black, polygon fill black, others fill none. Must set stroke for lines. Use viewBox for responsive. Offset coordinates by 0.5 for crisp strokes.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Coordinate System
+2 Rectangle (<rect>)
+3 Circle (<circle>)
+4 Ellipse (<ellipse>)
+5 Line (<line>)
+6 Polyline (<polyline>)
+7 Polygon (<polygon>)
+8 Best Practices &amp; Troubleshooting</p>
+<p class="md-github">1 Coordinate System
+User units default to px. <svg> attributes: width, height, viewBox='minX minY width height', preserveAspectRatio='align meetOrSlice'.</p>
+<p class="md-github">2 Rectangle (<rect>)
+Required: x (default 0), y (default 0), width (&gt;0), height (&gt;0). Optional corner radii: rx, ry. Styling: fill, fill-opacity, stroke, stroke-width, stroke-opacity.</p>
+<p class="md-github">3 Circle (<circle>)
+Required: cx (default 0), cy (default 0), r (&gt;0). Styling same as <rect>.</p>
+<p class="md-github">4 Ellipse (<ellipse>)
+Required: cx, cy, rx (&gt;0), ry (&gt;0). Styling same.</p>
+<p class="md-github">5 Line (<line>)
+Required: x1, y1, x2, y2. Must set stroke and stroke-width to render.</p>
+<p class="md-github">6 Polyline (<polyline>)
+Required: points='x1,y1 x2,y2'. Default fill='none'. Set stroke &amp; stroke-width.</p>
+<p class="md-github">7 Polygon (<polygon>)
+Same as polyline but auto-closed and default fill='black'.</p>
+<p class="md-github">8 Best Practices &amp; Troubleshooting
+Always define viewport via width/height or viewBox. Use viewBox+preserveAspectRatio for responsiveness. Missing fill/stroke causes invisibility. Group shapes with <g>. To render crisp lines, offset coordinates by 0.5.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">MDN Scalable Vector Graphics Reference
+https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-basic_shapes" href="#digest-of-basic_shapes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of BASIC_SHAPES</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="coordinate-system" href="#coordinate-system"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Coordinate System</h1>
+<p class="md-github">SVG defines a user coordinate system whose origin (0,0) is the top-left corner of the viewport. Coordinates and lengths default to &quot;px&quot; units unless a unit identifier (e.g. &quot;cm&quot;, &quot;em&quot;) is appended. The root <svg> element can include:</p>
+<p class="md-github">• width, height: viewport size (required unless inherited)
+• viewBox: &quot;minX minY width height&quot; to define user units and scaling
+• preserveAspectRatio: &quot;[align] [meetOrSlice]&quot; (default &quot;xMidYMid meet&quot;) to control scaling alignment</p>
+<h1 class="md-github"><a class="md-github__anchor" name="rectangle-rect" href="#rectangle-rect"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rectangle: <rect></h1>
+<p class="md-github">Syntax:
+<rect x="{number}" y="{number}" width="{number}" height="{number}" rx="{number}" ry="{number}" fill="{color}" stroke="{color}" stroke-width="{number}"/></p>
+<p class="md-github">Attributes:
+• x, y (number; default 0): top-left corner of the rectangle in user units
+• width, height (number; required ≥0): size of the rectangle
+• rx, ry (number; default 0): horizontal and vertical corner radii
+• fill, fill-opacity: paint and opacity of interior
+• stroke, stroke-width, stroke-opacity: outline paint, width, and opacity</p>
+<p class="md-github">Example:
+<svg width="200" height="100" viewBox="0 0 200 100">
+<rect x="10" y="10" width="180" height="80" rx="10" ry="10" fill="#4A90E2" stroke="#004A80" stroke-width="4"/>
+</svg></p>
+<h1 class="md-github"><a class="md-github__anchor" name="circle-circle" href="#circle-circle"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Circle: <circle></h1>
+<p class="md-github">Syntax:
+<circle cx="{number}" cy="{number}" r="{number}" fill="{color}" stroke="{color}" stroke-width="{number}"/></p>
+<p class="md-github">Attributes:
+• cx, cy (number; default 0): center coordinates
+• r (number; required &gt;0): radius
+• style attributes for fill, stroke as above</p>
+<p class="md-github">Example:
+<svg width="120" height="120">
+<circle cx="60" cy="60" r="50" fill="red" stroke="black" stroke-width="5"/>
+</svg></p>
+<h1 class="md-github"><a class="md-github__anchor" name="ellipse-ellipse" href="#ellipse-ellipse"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Ellipse: <ellipse></h1>
+<p class="md-github">Syntax:
+<ellipse cx="{number}" cy="{number}" rx="{number}" ry="{number}"/></p>
+<p class="md-github">Attributes:
+• cx, cy (number; default 0): center
+• rx, ry (number; required &gt;0): radii on x and y axes</p>
+<h1 class="md-github"><a class="md-github__anchor" name="line-line" href="#line-line"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Line: <line></h1>
+<p class="md-github">Syntax:
+<line x1="{number}" y1="{number}" x2="{number}" y2="{number}"/></p>
+<p class="md-github">Attributes:
+• x1, y1: start point
+• x2, y2: end point
+• stroke, stroke-width required to make line visible</p>
+<h1 class="md-github"><a class="md-github__anchor" name="polyline-polyline" href="#polyline-polyline"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Polyline: <polyline></h1>
+<p class="md-github">Syntax:
+<polyline points="x1,y1 x2,y2 x3,y3…"/></p>
+<p class="md-github">Attributes:
+• points (list of coordinate pairs; required)
+• fill default none; stroke must be set</p>
+<h1 class="md-github"><a class="md-github__anchor" name="polygon-polygon" href="#polygon-polygon"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Polygon: <polygon></h1>
+<p class="md-github">Same as polyline but interior automatically closed and fill defaults to black.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="best-practices--troubleshooting" href="#best-practices--troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices &amp; Troubleshooting</h1>
+<p class="md-github">• Always set width and height or viewBox on the root <svg> to define coordinate system.
+• If shape not visible, ensure fill or stroke (with stroke-width&gt;0) is defined.
+• Use viewBox + preserveAspectRatio for responsive graphics.
+• When combining shapes, group them in <g> and apply transformations collectively.
+• For crisp 1px lines, use half-pixel offsets (e.g. x1=&quot;0.5&quot;, x2=&quot;100.5&quot;).</p>
+<p class="md-github">Retrieved: 2025-06-01
+Data size: 1.1 MB</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: MDN Scalable Vector Graphics Reference</li>
+<li class="md-github">URL: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial</li>
+<li class="md-github">License: CC-BY-SA</li>
+<li class="md-github">Crawl Date: 2025-05-11T03:21:08.742Z</li>
+<li class="md-github">Data Size: 1118611 bytes</li>
+<li class="md-github">Links Found: 29937</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-11</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-11T04:38:44.027Z</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="http_server" href="#http_server"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP_SERVER</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">createServer(options, listener) returns Server; core options allowHalfOpen/pauseOnConnect; server.listen(port, hostname, backlog, callback) binding patterns; http.request/get signature and defaults; ClientRequest write/end/abort/setHeader/removeHeader; IncomingMessage properties and read methods; ServerResponse writeHead/setHeader/getHeader/removeHeader/write/end</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 HTTP.createServer
+2 server.listen
+3 HTTP.request
+4 HTTP.get
+5 ClientRequest API
+6 IncomingMessage API
+7 ServerResponse API</p>
+<p class="md-github">1 HTTP.createServer
+Signature: createServer(options?: Object, requestListener: Function) -&gt; Server
+defaults: options.allowHalfOpen=false, options.pauseOnConnect=false</p>
+<p class="md-github">2 server.listen
+Signature: listen(port: string|number, hostname?: string, backlog?: number, callback?: Function) -&gt; Server
+default binding: hostname=all interfaces, backlog=511</p>
+<p class="md-github">3 HTTP.request
+Signature: request(options: Object|string, callback?: Function) -&gt; ClientRequest
+defaults: hostname=localhost, port=80, path='/', method=GET, headers={}, agent=Agent.default</p>
+<p class="md-github">4 HTTP.get
+Alias of HTTP.request with method='GET'
+Signature: get(options: Object|string, callback?: Function) -&gt; ClientRequest</p>
+<p class="md-github">5 ClientRequest API
+Methods
+data transmission: write(chunk, encoding?, callback?), end(data?, encoding?, callback?)
+control: abort()
+headers: setHeader(name, value), removeHeader(name)
+Events: 'response'(IncomingMessage), 'error'(Error), 'socket'</p>
+<p class="md-github">6 IncomingMessage API
+Properties: httpVersion, headers, rawHeaders, trailers, socket
+Methods: setTimeout(timeout, callback?)
+Stream.Readable methods: on('data'), on('end'), read(), pipe()</p>
+<p class="md-github">7 ServerResponse API
+Methods: writeHead(statusCode, statusMessage?, headers?), setHeader(name,value), getHeader(name), removeHeader(name), write(chunk, encoding?, callback?), end(data?, encoding?, callback?)
+Events: 'finish', 'close'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Default Agent configuration: keepAlive=false, maxSockets=Infinity, maxFreeSockets=256, timeout=60000ms
+Default server maxHeadersCount=2000
+Automatic TCP keep-alive disabled by default
+Sockets are unpaused before 'response' event emitted
+ServerResponse .writeHead sets statusCode, statusMessage, and adds headers
+setTimeout on sockets via request.setTimeout or response.setTimeout defines socket timeout and emits timeout event
+backlog default computed by OS if omitted</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Code Example: Create HTTP Server</p>
+<pre class="md-github"><code class="md-github language-js">import http from 'node:http';
+const server = http.createServer({ allowHalfOpen: true }, (req, res) =&gt; {
+  res.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
+  res.end('Hello World');
+});
+server.listen(3000, '127.0.0.1', 100, () =&gt; console.log('Listening'));``` 
+
+HTTP.request Pattern
+```js
+import http from 'node:http';
+const options = { hostname: 'example.com', port: 80, path: '/data', method: 'POST', headers: { 'Content-Type': 'application/json' } };
+const req = http.request(options, (res) =&gt; {
+  let body = '';
+  res.on('data', chunk =&gt; body += chunk);
+  res.on('end', () =&gt; console.log('Response:', body));
+});
+req.on('error', err =&gt; console.error('Request error:', err));
+req.write(JSON.stringify({ key: 'value' }));
+req.end();``` 
+
+Best Practices
+- Reuse http.Agent for connection pooling
+- Add error handler on ClientRequest to avoid uncaught exceptions
+- Call server.close() to stop server, handle 'close' event
+
+Troubleshooting
+Command: netstat -plnt | grep 3000
+Expected: LISTEN on 127.0.0.1:3000
+Error EADDRINUSE: address already in use, run `lsof -i :3000` to find process and kill via `kill -9 &lt;pid&gt;`
+
+Configuration Options
+- allowHalfOpen: controls socket half-open state when server ends
+- pauseOnConnect: if true pause socket until 'connection' listener resumes
+- keepAliveTimeout: server.keepAliveTimeout default 5000ms
+
+## Information Dense Extract
+createServer(options?:Object{allowHalfOpen:false,pauseOnConnect:false},listener(req, res))-&gt;Server; listen(port:string|number,hostname?:string,backlog?:number,callback?)-&gt;Server default hostname=all,backlog=OS; request(options:{hostname:string='localhost',port:number=80,path:string='/',method:string='GET',headers:Object,agent:Agent.default},callback?(res:IncomingMessage))-&gt;ClientRequest; get(...) alias with method='GET'; ClientRequest: write(chunk,encoding?,cb?),end(data?,encoding?,cb?),abort(),setHeader(name,value),removeHeader(name), events:response, error, socket; IncomingMessage: properties httpVersion,headers,rawHeaders,trailers,socket; methods setTimeout(timeout,cb?), Readable interface; ServerResponse: writeHead(statusCode:number,statusMessage?:string,headers?:Object), setHeader(name,value),getHeader(name),removeHeader(name), write(chunk,encoding?,cb?), end(data?,encoding?,cb?), events finish,close; defaults agent.keepAlive=false,maxSockets=Infinity,maxFreeSockets=256,timeout=60000ms; maxHeadersCount=2000; EOF
+
+## Sanitised Extract
+Table of Contents
+1 HTTP.createServer
+2 server.listen
+3 HTTP.request
+4 HTTP.get
+5 ClientRequest API
+6 IncomingMessage API
+7 ServerResponse API
+
+1 HTTP.createServer
+Signature: createServer(options?: Object, requestListener: Function) -&gt; Server
+defaults: options.allowHalfOpen=false, options.pauseOnConnect=false
+
+2 server.listen
+Signature: listen(port: string|number, hostname?: string, backlog?: number, callback?: Function) -&gt; Server
+default binding: hostname=all interfaces, backlog=511
+
+3 HTTP.request
+Signature: request(options: Object|string, callback?: Function) -&gt; ClientRequest
+defaults: hostname=localhost, port=80, path='/', method=GET, headers={}, agent=Agent.default
+
+4 HTTP.get
+Alias of HTTP.request with method='GET'
+Signature: get(options: Object|string, callback?: Function) -&gt; ClientRequest
+
+5 ClientRequest API
+Methods
+data transmission: write(chunk, encoding?, callback?), end(data?, encoding?, callback?)
+control: abort()
+headers: setHeader(name, value), removeHeader(name)
+Events: 'response'(IncomingMessage), 'error'(Error), 'socket'
+
+6 IncomingMessage API
+Properties: httpVersion, headers, rawHeaders, trailers, socket
+Methods: setTimeout(timeout, callback?)
+Stream.Readable methods: on('data'), on('end'), read(), pipe()
+
+7 ServerResponse API
+Methods: writeHead(statusCode, statusMessage?, headers?), setHeader(name,value), getHeader(name), removeHeader(name), write(chunk, encoding?, callback?), end(data?, encoding?, callback?)
+Events: 'finish', 'close'
+
+## Original Source
+Node.js Official API Reference
+https://nodejs.org/docs/latest/api/
+
+## Digest of HTTP_SERVER
+
+# HTTP Module
+
+## HTTP.createServer([options], requestListener)
+* Signature: createServer(options?: Object, requestListener: Function) -&gt; Server
+* options.allowHalfOpen: boolean default false
+* options.pauseOnConnect: boolean default false
+* requestListener: function(req: IncomingMessage, res: ServerResponse)
+* Returns an instance of http.Server
+
+## server.listen(port, [hostname], [backlog], [callback])
+* Signature: server.listen(port: string|number, hostname?: string, backlog?: number, callback?: Function) -&gt; Server
+* port: Port identifier (Number or String)
+* hostname: IP or hostname to bind defaults to undefined (all interfaces)
+* backlog: maximum length of pending connections
+* callback: Called when server is bound
+
+## HTTP.request(options, [callback])
+* Signature: request(options: Object | string, callback?: Function) -&gt; ClientRequest
+* options.hostname: string default 'localhost'
+* options.port: number default 80
+* options.path: string default '/'
+* options.method: string default 'GET'
+* options.headers: Object default {}
+* options.agent: boolean|Agent default Agent.default
+* callback: function(res: IncomingMessage)
+* Returns ClientRequest object
+
+## HTTP.get(options, [callback])
+* Signature: get(options: Object | string, callback?: Function) -&gt; ClientRequest
+* Acts as http.request with method set to GET
+* Returns ClientRequest
+
+## ClientRequest
+* Methods: write(chunk: string|Buffer, encoding?: string, callback?: Function)
+*          end([data], [encoding], [callback])
+*          abort()
+*          setHeader(name: string, value: string|Array&lt;string&gt;)
+*          removeHeader(name: string)
+* Properties: method:string, path:string, host:string, port:number
+* Events: 'response': (res: IncomingMessage), 'error': (err: Error), 'socket'
+
+## IncomingMessage
+* Properties: httpVersion:string, headers:Object, rawHeaders:Array&lt;string&gt;, trailers:Object
+* Methods: setTimeout(timeout: number, callback?: Function)
+* Streams: inherits from Stream.Readable, methods read(), pipe(), etc.
+
+## ServerResponse
+* Methods: writeHead(statusCode: number, statusMessage?: string, headers?: Object)
+*          setHeader(name: string, value: string|Array&lt;string&gt;)
+*          getHeader(name: string) -&gt; string|undefined
+*          removeHeader(name: string)
+*          write(chunk: string|Buffer, encoding?: string, callback?: Function)
+*          end([data], [encoding], [callback])
+* Events: 'finish', 'close'
+
+
+## Attribution
+- Source: Node.js Official API Reference
+- URL: https://nodejs.org/docs/latest/api/
+- License: CC-BY-SA
+- Crawl Date: 2025-05-11T04:03:15.840Z
+- Data Size: 3628998 bytes
+- Links Found: 3102
+
+## Retrieved
+2025-05-11
+</code></pre>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-11T04:38:44.222Z</p>
+  </footer>
+</body>
+</html>

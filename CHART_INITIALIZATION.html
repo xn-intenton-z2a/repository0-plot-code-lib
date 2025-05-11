@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="chart_initialization" href="#chart_initialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CHART_INITIALIZATION</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Install via npm or CDN. Chart constructor accepts element or context and a configuration object. Configuration requires chart type, data with labels and datasets, optional options and plugins. Core options include responsive, scales, plugins.legend, plugins.title, plugins.tooltip. Data parsing bypass and decimation reduce rendering overhead. Must register desired controllers and plugins in ESM builds. Default responsive true, maintainAspectRatio true. Time scales require adapter. Decimation supports lttb and min-max algorithms.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">Installation</li>
+<li class="md-github">Chart Constructor Signature</li>
+<li class="md-github">Configuration Object</li>
+<li class="md-github">Data Structure</li>
+<li class="md-github">Core Options</li>
+<li class="md-github">Performance Plugins</li>
+<li class="md-github">Best Practices</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<p class="md-github">1 Installation
+• npm install chart.js installs package
+• CDN URL https://cdn.jsdelivr.net/npm/chart.js</p>
+<p class="md-github">2 Chart Constructor Signature
+Parameters
+item: string server selector | HTMLCanvasElement reference | CanvasRenderingContext2D context
+config: ChartConfiguration&lt;TType,TData,TLabel&gt;
+Returns
+Chart instance</p>
+<p class="md-github">3 Configuration Object
+Properties
+type: ChartType enum (e.g. &quot;bar&quot;,&quot;line&quot;,&quot;pie&quot;) required
+data: ChartData&lt;TType,TData,TLabel&gt; required
+options: ChartOptions<TType> optional
+plugins: Plugin<TType>[] optional</p>
+<p class="md-github">4 Data Structure
+ChartData
+labels?: array of labels matching dataset length
+datasets: array of ChartDataset objects
+ChartDataset fields
+label: string
+data: array of numbers | objects
+borderWidth: number default 3
+backgroundColor: Color | array default rgba(0,0,0,0.1)</p>
+<p class="md-github">5 Core Options
+ChartOptions
+responsive: boolean default true
+maintainAspectRatio: boolean default true
+animation: false | {
+delay?: number default 0
+duration?: number default 1000
+easing?: EasingFunction default easeOutQuart
+}
+scales: map scaleId to ScaleOptions
+plugins.legend.display: boolean default true
+plugins.title.text: string
+plugins.tooltip.mode: string default nearest</p>
+<p class="md-github">6 Performance Plugins
+Decimation
+enabled: boolean
+algorithm: &quot;lttb&quot; | &quot;min-max&quot;
+samples: number default 100
+Data parsing bypass internal format when data array of primitives</p>
+<p class="md-github">7 Best Practices
+• Use ESM imports and register controllers:
+import {Chart,LineController,LineElement,PointElement,LinearScale,Title} from chart.js
+Chart.register(LineController,LineElement,PointElement,LinearScale,Title)
+• Enable decimation for large datasets in options.plugins.decimation</p>
+<p class="md-github">8 Troubleshooting
+Error Canvas already in use
+Ensure new canvas element per Chart
+Missing time scale adapter
+npm install chartjs-adapter-date-fns
+import and register adapter prior to chart creation</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Installation Steps
+1 npm install chart.js --save
+2 Import in codebase
+import {Chart,registerables} from chart.js
+Chart.register(...registerables)
+3 Optional adapters installation
+npm install chartjs-adapter-date-fns --save
+import 'chartjs-adapter-date-fns'</p>
+<p class="md-github">Configuration Steps
+1 Create HTML container:</p>
+  <div style width100% height400px>
+    <canvas id salesChart></canvas>
+  </div>
+2 Acquire context
+  const ctx=document getElementById salesChart getContext2D()
+3 Define data and options objects
+4 Instantiate chart
+  new Chart(ctx,config)
+<p class="md-github">Key Configuration Options
+responsive true enables resizing on window resize
+maintainAspectRatio true constrains canvas aspect ratio
+animation.delay number ms before animation start default 0
+animation.duration number ms for all property transitions default 1000
+scales.id.beginAtZero boolean default false
+plugins.legend.position top | left | right | bottom default top
+plugins.title.display boolean default false
+plugins.title.text string
+plugins.tooltip.enabled boolean default true
+plugins.decimation.enabled boolean default false
+plugins.decimation.algorithm &quot;lttb&quot; | &quot;min-max&quot; default lttb
+plugins.decimation.samples number default 100</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Chart Constructor Method Signature
+new Chart(item:string|HTMLCanvasElement|CanvasRenderingContext2D,config:ChartConfiguration&lt;TType,TData,TLabel&gt;) : Chart&lt;TType,TData,TLabel&gt;</p>
+<p class="md-github">Complete ChartConfiguration Interface
+interface ChartConfiguration&lt;TType extends ChartType=ChartType,TData=DefaultDataPoint<TType>,TLabel=unknown&gt; {
+type:TType
+data:ChartData&lt;TType,TData,TLabel&gt;
+options?:ChartOptions<TType>
+plugins?:Plugin<TType>[]
+pluginsData?:AnyObject
+}</p>
+<p class="md-github">Full ChartOptions Signature
+interface ChartOptions<TType extends ChartType=ChartType> {
+responsive?:boolean
+maintainAspectRatio?:boolean
+locale?:string
+animation?:false|AnimationSpec<TType>&amp;{onComplete?(this:Chart,event:AnimationEvent):void;onProgress?(this:Chart,event:AnimationEvent):void}
+animations?:AnimationsSpec<TType>
+devicesPixelRatio?:number
+scales?:{
+[scaleId:string]:ScaleOptionsByType&lt;ChartTypeRegistry[TType]['scales']&gt;
+}
+plugins?:{
+legend?:LegendOptions
+title?:TitleOptions
+tooltip?:TooltipOptions<TType>
+decimation?:{
+enabled:boolean
+algorithm:&quot;lttb&quot;|&quot;min-max&quot;
+samples:number
+}
+}
+onHover?(event:ChartEvent,active:ActiveElement[],chart:Chart):void
+onClick?(event:ChartEvent,active:ActiveElement[],chart:Chart):void
+maintainAspectRatio?:boolean
+aspectRatio?:number
+}</p>
+<p class="md-github">Code Example with Comments
+const ctx=document.getElementById 'myChart' getContext '2d'
+const config={
+type:'line',
+data:{
+labels:['Jan','Feb','Mar'],
+datasets:[{
+label:'Sales',
+data:[65,59,80],
+borderColor:'#42A5F5',
+backgroundColor:'rgba(66,165,245,0.4)',
+borderWidth:2
+}]
+},
+options:{
+responsive:true,
+plugins:{
+title:{display:true,text:'Monthly Sales'},
+tooltip:{mode:'index',intersect:false},
+decimation:{enabled:true,algorithm:'lttb',samples:50}
+},
+scales:{
+x:{type:'category',title:{display:true,text:'Month'}},
+y:{beginAtZero:true,title:{display:true,text:'Value'}}
+}
+}
+}
+new Chart(ctx,config)</p>
+<p class="md-github">Best Practices
+Register minimised set of components to reduce bundle size
+import {Chart,LineController,LineElement,PointElement,LinearScale,Title,Tooltip,Legend} from 'chart.js'
+Chart.register(LineController,LineElement,PointElement,LinearScale,Title,Tooltip,Legend)</p>
+<p class="md-github">Troubleshooting Procedures
+Command npm ls chart.js shows installed version
+If chart fails to render check browser console for errors
+Expected output new Chart instance logged
+If time scale unlabeled install and register adapter
+npm install chartjs-adapter-date-fns
+import 'chartjs-adapter-date-fns'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">install chart.js via npm or CDN; import Chart and register components; new Chart(element,config) requires type,label,data,datasets; ChartOptions: responsive true,maintainAspectRatio true,scales{id:options},plugins{legend,title,tooltip,decimation}; enable decimation: enabled true,algorithm lttb|min-max,samples N; time scales require adapter; use ESM imports for tree-shaking; data: labels array,datasets array with label,data,borderColor,backgroundColor,borderWidth; debug by checking console errors and version via npm ls chart.js</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">Installation</li>
+<li class="md-github">Chart Constructor Signature</li>
+<li class="md-github">Configuration Object</li>
+<li class="md-github">Data Structure</li>
+<li class="md-github">Core Options</li>
+<li class="md-github">Performance Plugins</li>
+<li class="md-github">Best Practices</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<p class="md-github">1 Installation
+npm install chart.js installs package
+CDN URL https://cdn.jsdelivr.net/npm/chart.js</p>
+<p class="md-github">2 Chart Constructor Signature
+Parameters
+item: string server selector | HTMLCanvasElement reference | CanvasRenderingContext2D context
+config: ChartConfiguration&lt;TType,TData,TLabel&gt;
+Returns
+Chart instance</p>
+<p class="md-github">3 Configuration Object
+Properties
+type: ChartType enum (e.g. 'bar','line','pie') required
+data: ChartData&lt;TType,TData,TLabel&gt; required
+options: ChartOptions<TType> optional
+plugins: Plugin<TType>[] optional</p>
+<p class="md-github">4 Data Structure
+ChartData
+labels?: array of labels matching dataset length
+datasets: array of ChartDataset objects
+ChartDataset fields
+label: string
+data: array of numbers | objects
+borderWidth: number default 3
+backgroundColor: Color | array default rgba(0,0,0,0.1)</p>
+<p class="md-github">5 Core Options
+ChartOptions
+responsive: boolean default true
+maintainAspectRatio: boolean default true
+animation: false | {
+delay?: number default 0
+duration?: number default 1000
+easing?: EasingFunction default easeOutQuart
+}
+scales: map scaleId to ScaleOptions
+plugins.legend.display: boolean default true
+plugins.title.text: string
+plugins.tooltip.mode: string default nearest</p>
+<p class="md-github">6 Performance Plugins
+Decimation
+enabled: boolean
+algorithm: 'lttb' | 'min-max'
+samples: number default 100
+Data parsing bypass internal format when data array of primitives</p>
+<p class="md-github">7 Best Practices
+Use ESM imports and register controllers:
+import {Chart,LineController,LineElement,PointElement,LinearScale,Title} from chart.js
+Chart.register(LineController,LineElement,PointElement,LinearScale,Title)
+Enable decimation for large datasets in options.plugins.decimation</p>
+<p class="md-github">8 Troubleshooting
+Error Canvas already in use
+Ensure new canvas element per Chart
+Missing time scale adapter
+npm install chartjs-adapter-date-fns
+import and register adapter prior to chart creation</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Chart.js Core Documentation
+https://www.chartjs.org/docs/latest/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-chart_initialization" href="#digest-of-chart_initialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of CHART_INITIALIZATION</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
+<p class="md-github">Install from npm</p>
+<pre class="md-github"><code class="md-github language-shell">npm install chart.js
+</code></pre>
+<p class="md-github">Include via CDN</p>
+<pre class="md-github"><code class="md-github language-html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/chart.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="chart-constructor-signature" href="#chart-constructor-signature"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chart Constructor Signature</h1>
+<pre class="md-github"><code class="md-github language-ts">new Chart(item: string | HTMLCanvasElement | CanvasRenderingContext2D, config: ChartConfiguration&lt;TType, TData, TLabel&gt;)
+</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="chartconfiguration-interface" href="#chartconfiguration-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ChartConfiguration Interface</h1>
+<pre class="md-github"><code class="md-github language-ts">interface ChartConfiguration&lt;TType extends ChartType = ChartType, TData = DefaultDataPoint&lt;TType&gt;, TLabel = unknown&gt; {
+  type: TType
+  data: ChartData&lt;TType, TData, TLabel&gt;
+  options?: ChartOptions&lt;TType&gt;
+  plugins?: Plugin&lt;TType&gt;[]
+  pluginsData?: AnyObject
+}
+</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="chartdata-structure" href="#chartdata-structure"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ChartData Structure</h1>
+<pre class="md-github"><code class="md-github language-ts">interface ChartData&lt;TType extends ChartType, TData = DefaultDataPoint&lt;TType&gt;, TLabel = unknown&gt; {
+  labels?: TLabel[]
+  datasets: ChartDataset&lt;TType, TData&gt;[]
+}
+</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="core-options" href="#core-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Options</h1>
+<pre class="md-github"><code class="md-github language-ts">interface ChartOptions&lt;TType extends ChartType = ChartType&gt; {
+  responsive?: boolean         // default true
+  maintainAspectRatio?: boolean // default true
+  animation?: false | AnimationSpec&lt;TType&gt;
+  scales?: {
+    [scaleId: string]: ScaleOptionsByType&lt;ChartTypeRegistry[TType]['scales']&gt;
+  }
+  plugins?: {
+    legend?: LegendOptions
+    title?: TitleOptions
+    tooltip?: TooltipOptions&lt;TType&gt;
+  }
+}
+</code></pre>
+<h1 class="md-github"><a class="md-github__anchor" name="data-parsing--decimation" href="#data-parsing--decimation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Data Parsing &amp; Decimation</h1>
+<ul class="md-github">
+<li class="md-github">Decimation plugin enabled via options.plugins.decimation</li>
+<li class="md-github">Algorithm: lttb or min-max</li>
+<li class="md-github">Configure options.plugins.decimation.algorithm (&quot;lttb&quot; | &quot;min-max&quot;) and samples</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="responsive-canvas-setup" href="#responsive-canvas-setup"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Responsive Canvas Setup</h1>
+<p class="md-github">Wrap canvas in container with width and height styling for responsiveness</p>
+<h1 class="md-github"><a class="md-github__anchor" name="best-practices" href="#best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices</h1>
+<ul class="md-github">
+<li class="md-github">Register only needed controllers, elements, scales, plugins with Chart.register</li>
+<li class="md-github">Use tree-shaking imports in ESM builds</li>
+<li class="md-github">Enable decimation for large datasets</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h1>
+<ul class="md-github">
+<li class="md-github">Error if canvas/context reused across charts: supply new HTMLCanvasElement or context</li>
+<li class="md-github">Missing adapter for time scales: install date-fns adapter and register</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Chart.js Core Documentation</li>
+<li class="md-github">URL: https://www.chartjs.org/docs/latest/</li>
+<li class="md-github">License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-11T03:36:25.092Z</li>
+<li class="md-github">Data Size: 1547153 bytes</li>
+<li class="md-github">Links Found: 27193</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-11</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-11T04:38:44.130Z</p>
+  </footer>
+</body>
+</html>

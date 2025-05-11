@@ -23,15 +23,46 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
-<hr class="md-github">
+<p class="md-github">Be a go-to plot library with a CLI, be the jq of formulae visualisations.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="project-overview" href="#project-overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Project Overview</h2>
+<p class="md-github">repository0-plot-code-lib is a JavaScript library and command-line tool designed to transform mathematical expressions and value ranges into time series data for visualization. Guided by our mission to be the go-to plot library CLI, it provides robust argument parsing, range validation, and time series generation out of the box.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p class="md-github">Install globally via npm:</p>
+<pre class="md-github"><code class="md-github language-bash">npm install -g @xn-intenton-z2a/repository0-plot-code-lib
+</code></pre>
+<p class="md-github">This installs the <code class="md-github">repository0-plot-code-lib</code> binary.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;&lt;expr&gt;&quot; --range &quot;&lt;axis=min:max[,axis2=min:max]&gt;&quot; [--points &lt;number&gt;] [--format json|csv] [--output &lt;file&gt;]
+</code></pre>
+<p class="md-github">Flags:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">--expression &lt;expr&gt;</code>: (Required) Defines the mathematical expression to evaluate, e.g., <code class="md-github">y=sin(x)</code>.</li>
+<li class="md-github"><code class="md-github">--range &lt;spec&gt;</code>: (Required) Specifies axis ranges in the format <code class="md-github">axis=min:max</code>. Multiple axes separated by commas, e.g., <code class="md-github">x=0:6.28,y=-1:1</code>.</li>
+<li class="md-github"><code class="md-github">--points &lt;number&gt;</code>: (Optional) Number of data points per axis. Must be a positive integer. Default: <code class="md-github">1000</code>.</li>
+<li class="md-github"><code class="md-github">--format json|csv</code>: (Optional) Output data format. Allowed values: <code class="md-github">json</code>, <code class="md-github">csv</code>. Default: <code class="md-github">json</code>.</li>
+<li class="md-github"><code class="md-github">--output &lt;file&gt;</code>: (Optional) File to save output. Defaults to stdout if omitted.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<p class="md-github">Generate default JSON output (1000 points) to stdout:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;y=sin(x)&quot; --range &quot;x=0:3.14&quot;
+# Expect: JSON array printed to stdout of 1000 points.
+</code></pre>
+<p class="md-github">Generate CSV output, 500 points, and save to <code class="md-github">data.csv</code>:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;y=cos(x)&quot; --range &quot;x=0:6.28&quot; --points 500 --format csv --output data.csv
+# Expect: File `data.csv` containing 500 lines of x,y values.
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Argument Parsing</strong>: Robust CLI parsing and validation (<a href="USAGE.md" class="md-github">Usage Guide</a>, <a href="features/ARGUMENT_PARSING.md" class="md-github">Argument Parsing Feature</a>)</li>
+<li class="md-github"><strong class="md-github">Range Validation</strong>: Enforces axis range syntax and value checks.</li>
+<li class="md-github"><strong class="md-github">Time Series Generation</strong>: Produces arrays of data points from mathematical expressions (<a href="features/TIME_SERIES_GENERATION.md" class="md-github">Time Series Generation Feature</a>)</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
-<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-05-11T00:49:38.470Z</p>
+    <p>Generated on 2025-05-11T04:38:44.370Z</p>
   </footer>
 </body>
 </html>
