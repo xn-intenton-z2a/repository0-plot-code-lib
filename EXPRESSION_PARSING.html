@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="expression_parsing" href="#expression_parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESSION_PARSING</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Evaluate: math.evaluate(expr: string|string[], scope?: Map|Object|CustomMap) → any. Wraps Object into ObjectWrappingMap, uses PartitionedMap for functions. Compile: math.compile(expr: string|string[]) → CodeObject{ evaluate(scope?: Map|Object) → any }. Parse: math.parse(expr: string|string[]) → Node{ compile(), toString(): string, toTex(): string }. Parser: math.parser() → Parser{ clear(): void, evaluate(expr: string): any, get(name: string): any, getAll(): Object, getAllAsMap(): Map, remove(name: string): void, set(name: string, value: any): void }. Scope: accepts Object, Map, or custom Map interface; Object is wrapped, Map avoids blacklist enforcement.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Evaluate
+2 Compile
+3 Parse
+4 Parser
+5 Scope</p>
+<p class="md-github">1 Evaluate
+Signature: math.evaluate(expr: string|string[], scope?: Map|Object|CustomMap) → any
+Scope: implements get, set, keys, has
+Object scope wrapped by ObjectWrappingMap; custom functions use PartitionedMap</p>
+<p class="md-github">2 Compile
+Signature: math.compile(expr: string|string[]) → CodeObject
+CodeObject.evaluate(scope?: Map|Object) → any
+Compile once, evaluate repeatedly</p>
+<p class="md-github">3 Parse
+Signature: math.parse(expr: string|string[]) → Node
+Node.compile() → CodeObject; Node.evaluate via code.evaluate
+Node.toString() → string; Node.toTex() → string</p>
+<p class="md-github">4 Parser
+Creation: const parser = math.parser()
+Methods:
+clear(): void
+evaluate(expr: string): any
+get(name: string): any
+getAll(): Object
+getAllAsMap(): Map
+remove(name: string): void
+set(name: string, value: any): void</p>
+<p class="md-github">5 Scope
+Allowed types: Plain Object, ES6 Map, CustomMap (get/set/keys/has)
+Object scope wrapped automatically; Map avoids blacklist enforcement</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">• Scope Implementation: ObjectWrappingMap wraps plain objects; PartitionedMap separates function parameters and original scope. • Parameter Types: expr must be UTF-8 string or array of strings. • Return Types: evaluate() returns number, BigNumber, Complex, Fraction, unit, matrix, or string based on expression. • Map Interface: get(key): any; set(key,value): void; keys(): Iterable<string>; has(key): boolean. • Reuse Pattern: const code = math.compile(expr); code.evaluate(scope) inside loops. • CustomMap: any class implementing Map interface can be used for domain-specific storage.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<p class="md-github">math.evaluate(expr: string|string[], scope?: Map&lt;string,any&gt;|object|CustomMap): any
+Throws: SyntaxError for invalid expr; PermissionError for blacklisted symbols when using object scope.
+Example:
+const result = math.evaluate('a*b', new Map([['a',3],['b',4]])) // 12</p>
+<p class="md-github">math.compile(expr: string|string[]): CodeObject
+CodeObject.evaluate(scope?: Map&lt;string,any&gt;|object): any
+Example:
+const code = math.compile('sqrt(2)'); console.log(code.evaluate()) //1.4142...</p>
+<p class="md-github">math.parse(expr: string|string[]): Node
+Node.compile(): CodeObject
+Node.toString(): string
+Node.toTex(): string
+Example:
+const node = math.parse('x^2+y^2'); const code = node.compile(); console.log(code.evaluate({x:3,y:4})) //25</p>
+<p class="md-github">math.parser(): Parser
+Parser.clear(): void
+Parser.evaluate(expr: string): any
+Parser.get(name: string): any
+Parser.getAll(): object
+Parser.getAllAsMap(): Map&lt;string,any&gt;
+Parser.remove(name: string): void
+Parser.set(name: string, value: any): void
+Example:
+const p = math.parser(); p.set('x',5); console.log(p.evaluate('x+2')) //7</p>
+<p class="md-github">Best Practices:
+• Use ES6 Map for full symbol definition and to bypass blacklist.
+• Compile expressions outside loops to improve performance.
+• Use parser for stateful workflows requiring variable retention.</p>
+<p class="md-github">Troubleshooting:</p>
+<ol class="md-github">
+<li class="md-github">Error: SyntaxError: Parenthesis ) expected at char 5
+Command: node -e &quot;console.log(require('mathjs').evaluate('2+'))&quot;</li>
+<li class="md-github">PermissionError: Symbol import is blacklisted
+Workaround: use parser or Map scope:
+node -e &quot;const m=require('mathjs'); console.log(m.evaluate('import', new Map()))&quot;</li>
+<li class="md-github">Incorrect result with plain Object scope due to property collision
+Solution: use Map scope to isolate variables.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">math.evaluate(expr: string|string[], scope?: Map|Object|CustomMap)=any; math.compile(expr: string|string[])→{evaluate(scope?:Map|Object):any}; math.parse(expr: string|string[])→Node{compile():CodeObject,toString():string,toTex():string}; math.parser():Parser{clear():void,evaluate(expr:string):any,get(name:string):any,getAll():object,getAllAsMap():Map,remove(name:string):void,set(name:string,value:any):void}; scope types: Plain Object wrapped by ObjectWrappingMap, ES6 Map avoids blacklist, CustomMap allowed (get,set,keys,has).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:
+1 Evaluate
+2 Compile
+3 Parse
+4 Parser
+5 Scope</p>
+<p class="md-github">1 Evaluate
+Signature: math.evaluate(expr: string|string[], scope?: Map|Object|CustomMap)  any
+Scope: implements get, set, keys, has
+Object scope wrapped by ObjectWrappingMap; custom functions use PartitionedMap</p>
+<p class="md-github">2 Compile
+Signature: math.compile(expr: string|string[])  CodeObject
+CodeObject.evaluate(scope?: Map|Object)  any
+Compile once, evaluate repeatedly</p>
+<p class="md-github">3 Parse
+Signature: math.parse(expr: string|string[])  Node
+Node.compile()  CodeObject; Node.evaluate via code.evaluate
+Node.toString()  string; Node.toTex()  string</p>
+<p class="md-github">4 Parser
+Creation: const parser = math.parser()
+Methods:
+clear(): void
+evaluate(expr: string): any
+get(name: string): any
+getAll(): Object
+getAllAsMap(): Map
+remove(name: string): void
+set(name: string, value: any): void</p>
+<p class="md-github">5 Scope
+Allowed types: Plain Object, ES6 Map, CustomMap (get/set/keys/has)
+Object scope wrapped automatically; Map avoids blacklist enforcement</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Math.js Expression Evaluation
+https://mathjs.org/docs/expressions/parsing.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-expression_parsing" href="#digest-of-expression_parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPRESSION_PARSING</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="expression-parsing-and-evaluation-mathjs" href="#expression-parsing-and-evaluation-mathjs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expression Parsing and Evaluation (Math.js)</h1>
+<p class="md-github">Retrieved: 2024-06-24
+Source: https://mathjs.org/docs/expressions/parsing.html</p>
+<h1 class="md-github"><a class="md-github__anchor" name="evaluate" href="#evaluate"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Evaluate</h1>
+<p class="md-github">Signature:
+math.evaluate(expr)
+math.evaluate(expr, scope)
+math.evaluate([expr1, expr2, ...])
+math.evaluate([expr1, expr2, ...], scope)</p>
+<p class="md-github">Parameters:
+• expr: string or array of strings
+• scope (optional): Map | Object | custom Map interface (methods get, set, keys, has)</p>
+<p class="md-github">Behavior:
+• Resolves symbols and writes assigned variables/functions into scope
+• Wraps plain Object into ObjectWrappingMap
+• Uses PartitionedMap for custom functions</p>
+<h1 class="md-github"><a class="md-github__anchor" name="compile" href="#compile"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Compile</h1>
+<p class="md-github">Signature:
+math.compile(expr)
+math.compile([expr1, expr2, ...])</p>
+<p class="md-github">Returns:
+{ evaluate(scope?) → any }</p>
+<p class="md-github">Parameters:
+• expr: string or array of strings
+• scope (optional when calling evaluate): Map | Object</p>
+<p class="md-github">Behavior:
+• Parses and compiles once, reuses code.evaluate for repeated evaluation</p>
+<h1 class="md-github"><a class="md-github__anchor" name="parse" href="#parse"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parse</h1>
+<p class="md-github">Signature:
+math.parse(expr)
+math.parse([expr1, expr2, ...])</p>
+<p class="md-github">Returns:
+Node</p>
+<p class="md-github">Node API:
+• node.compile() → { evaluate(scope?) → any }
+• node.toString() → string
+• node.toTex() → string</p>
+<p class="md-github">Parameters:
+• expr: string or array of strings
+• scope (optional when evaluating code): Map | Object</p>
+<h1 class="md-github"><a class="md-github__anchor" name="parser" href="#parser"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parser</h1>
+<p class="md-github">Creation:
+const parser = math.parser()</p>
+<p class="md-github">Parser Methods:
+• parser.clear() → void
+• parser.evaluate(expr: string) → any
+• parser.get(name: string) → any
+• parser.getAll() → Object
+• parser.getAllAsMap() → Map
+• parser.remove(name: string) → void
+• parser.set(name: string, value: any) → void</p>
+<h1 class="md-github"><a class="md-github__anchor" name="scope" href="#scope"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scope</h1>
+<p class="md-github">Allowed Types:
+• Plain JavaScript Object
+• ES6 Map
+• Custom class implementing Map interface (get, set, keys, has)</p>
+<p class="md-github">Notes:
+• evaluate enforces symbol blacklist on Object scope
+• Use Map scope to bypass blacklist</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Math.js Expression Evaluation</li>
+<li class="md-github">URL: https://mathjs.org/docs/expressions/parsing.html</li>
+<li class="md-github">License: Apache-2.0</li>
+<li class="md-github">Crawl Date: 2025-05-11T06:06:03.716Z</li>
+<li class="md-github">Data Size: 27468012 bytes</li>
+<li class="md-github">Links Found: 40711</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-11</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-11T08:38:07.787Z</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="sharp" href="#sharp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SHARP</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Module: sharp (v libvips-based). Install via npm/ yarn/ pnpm/ bun/ deno. Constructor new Sharp(input, options) with input types Buffer|TypedArray|string|Array and options { failOn, limitInputPixels, unlimited, autoOrient, sequentialRead, density, ignoreIcc, pages, page, subifd, level, pdfBackground, animated, raw, create, text, join }. Core chainable methods: resize, rotate, extract, composite, gamma. Output methods: toFile(file, callback) ⇒ Promise&lt;{format, size, width, height, channels,...}&gt;, toBuffer(options, callback) ⇒ Promise&lt;Buffer|{data,info}&gt;. Metadata: metadata() ⇒ Promise&lt;{format, size, width, height, space, channels, depth, density, chromaSubsampling, isProgressive, isPalette, bitsPerSample,...}&gt;. Stats: stats() ⇒ Promise&lt;{channels:[{min,max,sum,squaresSum,mean,stdev,minX,minY,maxX,maxY}], isOpaque, entropy, sharpness, dominant:{r,g,b}}&gt;. Format-specific: jpeg({quality, progressive, chromaSubsampling, optimiseCoding, mozjpeg, trellisQuantisation, overshootDeringing, optimiseScans, quantisationTable, force}), png({progressive, compressionLevel, adaptiveFiltering, palette, quality, effort, colours, dither, force}), webp({quality, alphaQuality, lossless, nearLossless, smartSubsample, smartDeblock, preset, effort, loop, delay, minSize, mixed, force}), gif({reuse, progressive, colours, effort, dither, interFrameMaxError, interPaletteMaxError, loop, delay, force}), tiff({quality, compression, predictor, pyramid, tile, tileWidth, tileHeight, xres, yres, resolutionUnit, bitdepth, miniswhite}), avif({quality, lossless, effort, chromaSubsampling, bitdepth}), heif({compression, quality, lossless, effort, chromaSubsampling, bitdepth}). Env: cross-platform flags (--cpu, --os, --libc), custom libvips via pkg-config, build-from-source flags (SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS), wasm support, bundler externals, electron asarUnpack, AWS Lambda packaging, memory allocator recommendations (jemalloc on glibc), fontconfig path.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Installation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constructor &amp; Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Processing Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Output Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Metadata &amp; Statistics Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Format-Specific Output Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment &amp; Build Configuration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Bundler &amp; Deployment Integration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures</p>
+</li>
+<li class="md-github">
+<p class="md-github">Installation
+npm install sharp<br>
+pnpm add sharp<br>
+yarn add sharp<br>
+bun add sharp<br>
+deno run --allow-ffi ...</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constructor &amp; Options
+Signature: new Sharp(input?, options?) ⇒ Sharp<br>
+input types: Buffer|ArrayBuffer|TypedArray|string|Array<br>
+options:
+failOn: none|truncated|error|warning (default warning)<br>
+limitInputPixels: number|true|false (default 268402689)<br>
+unlimited: boolean (default false)<br>
+autoOrient: boolean (default false)<br>
+sequentialRead: boolean (default true)<br>
+density: number<br>
+ignoreIcc: boolean<br>
+pages: number (-1 for all)<br>
+page: number (zero-based)<br>
+subifd: number<br>
+level: number<br>
+pdfBackground: string|Object<br>
+animated: boolean<br>
+raw: { width: number, height: number, channels: number, premultiplied?: boolean }<br>
+create: { width: number, height: number, channels: 3|4, background: ColorObject, noise?: { type: gaussian, mean: number, sigma: number } }<br>
+text: { text: string, font?: string, fontfile?: string, width?: number, height?: number, align?: left|center|right, justify?: boolean, dpi?: number, rgba?: boolean, spacing?: number, wrap?: word|char|word-char|none }<br>
+join: { across: number, shim: number, background?: ColorObject, animated?: boolean, halign?: left|center|right, valign?: top|center|bottom }</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Processing Methods
+resize(width?: number, height?: number, options?: { fit, position, background, kernel, withoutEnlargement, fastShrinkOnLoad }) ⇒ Sharp
+rotate(angle?: number, options?: { background: ColorObject }) ⇒ Sharp
+extract({ left: number, top: number, width: number, height: number }) ⇒ Sharp
+composite([{ input: Buffer|string|Sharp, blend?: string, gravity?: string, tile?: boolean, top?: number, left?: number }]) ⇒ Sharp
+gamma(gamma?: number) ⇒ Sharp</p>
+</li>
+<li class="md-github">
+<p class="md-github">Output Methods
+toFile(fileOut: string, callback?: (err, info) =&gt; void) ⇒ Promise&lt;{ format, size, width, height, channels, premultiplied, cropOffsetLeft?, cropOffsetTop?, attentionX?, attentionY?, pageHeight?, pages?, textAutofitDpi? }&gt;
+toBuffer(options?: { resolveWithObject: boolean }, callback?: (err, data, info) =&gt; void) ⇒ Promise&lt;Buffer|{ data: Buffer, info: InfoObject }&gt;</p>
+</li>
+<li class="md-github">
+<p class="md-github">Metadata &amp; Statistics Methods
+metadata(callback?: (err, metadata) =&gt; void) ⇒ Promise&lt;{ format, size?, width, height, space, channels, depth, density?, chromaSubsampling?, isProgressive?, isPalette?, bitsPerSample?, pages?, pageHeight?, loop?, delay?, pagePrimary?, levels?, subifds?, background?, compression?, resolutionUnit?, hasProfile?, hasAlpha?, orientation?, exif?, icc?, iptc?, xmp?, tifftagPhotoshop?, formatMagick?, comments? }&gt;
+stats(callback?: (err, stats) =&gt; void) ⇒ Promise&lt;{ channels: Array&lt;{ min, max, sum, squaresSum, mean, stdev, minX, minY, maxX, maxY }&gt;, isOpaque, entropy, sharpness, dominant: { r, g, b } }&gt;</p>
+</li>
+<li class="md-github">
+<p class="md-github">Format-Specific Output Options
+jpeg(options?: { quality:1-100, progressive:boolean, chromaSubsampling:4:2:0|4:4:4, optimiseCoding:boolean, mozjpeg:boolean, trellisQuantisation:boolean, overshootDeringing:boolean, optimiseScans:boolean, quantisationTable:0-8, force:boolean }) ⇒ Sharp
+png(options?: { progressive:boolean, compressionLevel:0-9, adaptiveFiltering:boolean, palette:boolean, quality:1-100, effort:1-10, colours:1-256, dither:0-1, force:boolean }) ⇒ Sharp
+webp(options?: { quality:1-100, alphaQuality:0-100, lossless:boolean, nearLossless:boolean, smartSubsample:boolean, smartDeblock:boolean, preset:default|photo|picture|drawing|icon|text, effort:0-6, loop:number, delay:number|number[], minSize:boolean, mixed:boolean, force:boolean }) ⇒ Sharp
+gif(options?: { reuse:boolean, progressive:boolean, colours:2-256, effort:1-10, dither:0-1, interFrameMaxError:0-32, interPaletteMaxError:0-256, loop:number, delay:number|number[], force:boolean }) ⇒ Sharp
+tiff(options?: { quality:1-100, compression:none|jpeg|deflate|packbits|ccittfax4|lzw|webp|zstd|jp2k, predictor:none|horizontal|float, pyramid:boolean, tile:boolean, tileWidth:number, tileHeight:number, xres:number, yres:number, resolutionUnit:inch|cm, bitdepth:1|2|4|8|16, miniswhite:boolean }) ⇒ Sharp
+avif(options?: { quality:1-100, lossless:boolean, effort:0-9, chromaSubsampling:4:2:0|4:4:4, bitdepth:8|10|12 }) ⇒ Sharp
+heif(options: { compression: av1|hevc, quality:1-100, lossless:boolean, effort:0-9, chromaSubsampling:4:2:0|4:4:4, bitdepth:8|10|12 }) ⇒ Sharp</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment &amp; Build Configuration
+Cross-platform install flags: npm install --cpu=&lt;x64|arm64|wasm32&gt; --os=&lt;darwin|linux|win32&gt; [--libc=&lt;glibc|musl&gt;]<br>
+Custom libvips: require version ≥ config.libvips, pkg-config --modversion vips-cpp; unsupported on Windows and macOS Rosetta<br>
+Build from source: npm install --build-from-source or detect global libvips; environment variables SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS<br>
+Required: C++17 compiler, node-addon-api ≥7, node-gyp ≥9</p>
+</li>
+<li class="md-github">
+<p class="md-github">Bundler &amp; Deployment Integration
+webpack: externals: { 'sharp': 'commonjs sharp' }<br>
+esbuild: external: ['sharp']<br>
+electron-builder: asarUnpack: ['<strong class="md-github">/node_modules/sharp/</strong>/<em class="md-github">']<br>
+electron-forge: packagerConfig.asar.unpack: '<strong class="md-github">/node_modules/{sharp,@img}/</strong>/</em>'<br>
+vite: build.rollupOptions.external: ['sharp']
+AWS Lambda: include linux-x64|arm64 binaries; avoid symlinks; set binary media types in API Gateway; memory ≥1536 MB for performance</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures
+npm v10+ monorepo lockfile: use --os, --cpu, --libc flags<br>
+pnpm: add sharp to ignoredBuiltDependencies or onlyBuiltDependencies<br>
+Fontconfig error: set FONTCONFIG_PATH to custom config<br>
+Canvas+sharp conflict on Windows: avoid mixing both modules in same process</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Installation Details:
+• Ensure Node-API v9 runtime (Node.js ≥18.17.0 or ≥20.3.0).<br>
+• For cross-platform packaging, specify npm_config_{platform,arch,libc} or use flags.<br>
+• To use custom libvips: install globally, verify with pkg-config --modversion vips-cpp; set SHARP_FORCE_GLOBAL_LIBVIPS to override; unsupported on Windows/macOS under Rosetta.</p>
+<p class="md-github">Build Steps:</p>
+<ol class="md-github">
+<li class="md-github">npm install sharp (or pnpm/yarn)</li>
+<li class="md-github">If building from source: npm install --build-from-source sharp</li>
+<li class="md-github">Export SHARP_IGNORE_GLOBAL_LIBVIPS or SHARP_FORCE_GLOBAL_LIBVIPS as needed</li>
+<li class="md-github">Verify node-addon-api and node-gyp installed: npm install --save node-addon-api node-gyp</li>
+</ol>
+<p class="md-github">Memory Allocator Optimization:
+• On glibc Linux, pre-load jemalloc: LD_PRELOAD=libjemalloc.so<br>
+• Disable thread-based concurrency via SHARP_CONCURRENCY=1 if fragmentation occurs.</p>
+<p class="md-github">AWS Lambda Packaging:
+• Build on Amazon Linux x64/ARM64 or cross compile with --cpu/--os flags<br>
+• Bundle sharp binaries in node_modules rather than symlink<br>
+• Set API Gateway binaryMediaTypes to ['<em class="md-github">/</em>']</p>
+<p class="md-github">Bundler Integration:
+• webpack: externals: { sharp: 'commonjs sharp' }<br>
+• esbuild: externals: ['sharp']<br>
+• electron-builder: asarUnpack sharp modules<br>
+• vite: rollupOptions.external: ['sharp']</p>
+<p class="md-github">Font Rendering:
+• On Linux, ensure fontconfig installed and fonts available.<br>
+• Set PANGOCAIRO_BACKEND=fontconfig on macOS Homebrew.<br>
+• In serverless, set FONTCONFIG_PATH to font config directory.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Constructor:</p>
+<p class="md-github">Signature:
+new Sharp(
+input?: Buffer|ArrayBuffer|TypedArray|string|Array,
+options?: {
+failOn?: 'none'|'truncated'|'error'|'warning',
+limitInputPixels?: number|boolean,
+unlimited?: boolean,
+autoOrient?: boolean,
+sequentialRead?: boolean,
+density?: number,
+ignoreIcc?: boolean,
+pages?: number,
+page?: number,
+subifd?: number,
+level?: number,
+pdfBackground?: string|{r:number,g:number,b:number,alpha:number},
+animated?: boolean,
+raw?: {width:number,height:number,channels:number,premultiplied?:boolean},
+create?: {width:number,height:number,channels:3|4,background:{r:number,g:number,b:number,alpha:number},noise?:{type:'gaussian',mean:number,sigma:number}},
+text?: {text:string,font?:string,fontfile?:string,width?:number,height?:number,align?:'left'|'center'|'right',justify?:boolean,dpi?:number,rgba?:boolean,spacing?:number,wrap?:'word'|'char'|'word-char'|'none'},
+join?: {across:number,shim:number,background?:{r:number,g:number,b:number,alpha:number},animated?:boolean,halign?:'left'|'center'|'right',valign?:'top'|'center'|'bottom'}
+}
+) ⇒ Sharp</p>
+<p class="md-github">Throws: Error Invalid parameters</p>
+<p class="md-github">Events:
+on('info', (info) ⇒ void) emitted with {format, size, width, height, channels, ...}
+on('warning', (warning) ⇒ void)</p>
+<p class="md-github">Core Methods:
+resize(
+width?: number,
+height?: number,
+options?: {
+fit?: 'cover'|'contain'|'fill'|'inside'|'outside',
+position?: string|{left:number,top:number},
+background?: {r:number,g:number,b:number,alpha:number},
+kernel?: 'nearest'|'cubic'|'mitchell'|'lanczos2'|'lanczos3',
+withoutEnlargement?: boolean,
+fastShrinkOnLoad?: boolean
+}
+) ⇒ Sharp</p>
+<p class="md-github">rotate(
+angle?: number,
+options?: { background?: {r:number,g:number,b:number,alpha:number} }
+) ⇒ Sharp</p>
+<p class="md-github">extract(
+region: { left:number, top:number, width:number, height:number }
+) ⇒ Sharp</p>
+<p class="md-github">composite(
+overlay: Array&lt;{ input: Buffer|string|Sharp, blend?: string, gravity?: string, tile?: boolean, left?: number, top?: number }&gt;
+) ⇒ Sharp</p>
+<p class="md-github">gamma(gamma?: number) ⇒ Sharp</p>
+<p class="md-github">clone() ⇒ Sharp</p>
+<p class="md-github">Pipeline example:
+const pipeline = sharp('input.jpg').rotate();
+pipeline.clone().resize(800,600).toFile('out1.jpg');
+pipeline.clone().extract({left:10,top:10,width:100,height:100}).toFile('out2.jpg');</p>
+<p class="md-github">Output:</p>
+<p class="md-github">toFile(
+fileOut: string,
+callback?: (err: Error, info: {format:string,size:number,width:number,height:number,channels:number,premultiplied:boolean,cropOffsetLeft?:number,cropOffsetTop?:number,attentionX?:number,attentionY?:number,pageHeight?:number,pages?:number,textAutofitDpi?:number}) =&gt; void
+) ⇒ Promise&lt;{...}&gt;<br>
+Throws: Error Invalid parameters</p>
+<p class="md-github">toBuffer(
+options?: { resolveWithObject?: boolean },
+callback?: (err: Error, data: Buffer, info: InfoObject) =&gt; void
+) ⇒ Promise&lt;Buffer|{data:Buffer,info:InfoObject}&gt;<br>
+Throws: Error Invalid parameters</p>
+<p class="md-github">metadata(
+callback?: (err: Error, metadata: {
+format:string,size?:number,width:number,height:number,space:string,channels:number,depth:string,
+density?:number,chromaSubsampling?:string,isProgressive?:boolean,isPalette?:boolean,
+bitsPerSample?:number,pages?:number,pageHeight?:number,loop?:number,delay?:number[],
+pagePrimary?:number,levels?:any[],subifds?:number,background?:any,compression?:string,
+resolutionUnit?:string,hasProfile?:boolean,hasAlpha?:boolean,orientation?:number,
+exif?:Buffer,icc?:Buffer,iptc?:Buffer,xmp?:Buffer,tifftagPhotoshop?:Buffer,formatMagick?:string,comments?:Array<any>
+}) =&gt; void
+) ⇒ Promise<Object></p>
+<p class="md-github">stats(
+callback?: (err: Error, stats: { channels:Array&lt;{min:number,max:number,sum:number,squaresSum:number,mean:number,stdev:number,minX:number,minY:number,maxX:number,maxY:number}&gt;, isOpaque:boolean, entropy:number, sharpness:number, dominant:{r:number,g:number,b:number} }) =&gt; void
+) ⇒ Promise<Object></p>
+<p class="md-github">Format Methods:
+jpeg(options?: {quality?:number,progressive?:boolean,chromaSubsampling?:string,optimiseCoding?:boolean,mozjpeg?:boolean,trellisQuantisation?:boolean,overshootDeringing?:boolean,optimiseScans?:boolean,quantisationTable?:number,force?:boolean}) ⇒ Sharp
+png(options?: {progressive?:boolean,compressionLevel?:number,adaptiveFiltering?:boolean,palette?:boolean,quality?:number,effort?:number,colours?:number,dither?:number,force?:boolean}) ⇒ Sharp
+webp(options?: {quality?:number,alphaQuality?:number,lossless?:boolean,nearLossless?:boolean,smartSubsample?:boolean,smartDeblock?:boolean,preset?:string,effort?:number,loop?:number,delay?:number|number[],minSize?:boolean,mixed?:boolean,force?:boolean}) ⇒ Sharp
+gif(options?: {reuse?:boolean,progressive?:boolean,colours?:number,effort?:number,dither?:number,interFrameMaxError?:number,interPaletteMaxError?:number,loop?:number,delay?:number|number[],force?:boolean}) ⇒ Sharp
+tiff(options?: {quality?:number,compression?:string,predictor?:string,pyramid?:boolean,tile?:boolean,tileWidth?:number,tileHeight?:number,xres?:number,yres?:number,resolutionUnit?:string,bitdepth?:number,miniswhite?:boolean}) ⇒ Sharp
+avif(options?: {quality?:number,lossless?:boolean,effort?:number,chromaSubsampling?:string,bitdepth?:number}) ⇒ Sharp
+heif(options: {compression:string,quality?:number,lossless?:boolean,effort?:number,chromaSubsampling?:string,bitdepth?:number}) ⇒ Sharp</p>
+<p class="md-github">Best Practices:
+• Always specify width and height to avoid default identity transform.<br>
+• Use clone() for multi-output pipelines.<br>
+• Preload jemalloc on glibc systems.<br>
+• Strip metadata with toBuffer({resolveWithObject:true}) then keepMetadata() if needed.</p>
+<p class="md-github">Troubleshooting:
+• npm install errors: run npm cache clean --force; remove node_modules; install with --build-from-source.<br>
+• FONTCONFIG error: set FONTCONFIG_PATH=/path/to/fontconfig<br>
+• Electron packaging: ensure asarUnpack includes sharp; rebuild native modules with electron-rebuild.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">sharp: high-speed libvips-based Node.js image processing. Install: npm/yarn/pnpm/bun/deno. Construct: new Sharp(input?,options?) with input types Buffer|TypedArray|string|Array; options {failOn:(none|truncated|error|warning),limitInputPixels:number|boolean,unlimited:boolean,autoOrient:boolean,sequentialRead:boolean,density:number,ignoreIcc:boolean,pages:number,page:number,subifd:number,level:number,pdfBackground:Color,animated:boolean,raw:{width,height,channels,premultiplied},create:{width,height,channels,background,noise},text:{text,font,fontfile,width,height,align,justify,dpi,rgba,spacing,wrap},join:{across,shim,background,animated,halign,valign}}. Core: resize(w,h,{fit,position,background,kernel,withoutEnlargement,fastShrinkOnLoad}), rotate(angle,{background}), extract({left,top,width,height}), composite([{input,blend,gravity,tile,left,top}]), gamma(g), clone(). Output: toFile(path,cb) ⇒ Promise&lt;{format,size,width,height,channels,premultiplied,cropOffsetLeft,cropOffsetTop,attentionX,attentionY,pageHeight,pages,textAutofitDpi}&gt;, toBuffer({resolveWithObject},cb) ⇒ Promise&lt;Buffer|{data,info}&gt;. Metadata: metadata() ⇒ Promise&lt;{format,size?,width,height,space,channels,depth,density?,chromaSubsampling?,isProgressive?,isPalette?,bitsPerSample?,pages?,pageHeight?,loop?,delay?,pagePrimary?,levels?,subifds?,background?,compression?,resolutionUnit?,hasProfile?,hasAlpha?,orientation?,exif?,icc?,iptc?,xmp?,tifftagPhotoshop?,formatMagick?,comments?}&gt;. Stats: stats() ⇒ Promise&lt;{channels:[{min,max,sum,squaresSum,mean,stdev,minX,minY,maxX,maxY}],isOpaque,entropy,sharpness,dominant:{r,g,b}}&gt;. Formats: jpeg({quality,progressive,chromaSubsampling,optimiseCoding,mozjpeg,trellisQuantisation,overshootDeringing,optimiseScans,quantisationTable,force}), png({progressive,compressionLevel,adaptiveFiltering,palette,quality,effort,colours,dither,force}), webp({quality,alphaQuality,lossless,nearLossless,smartSubsample,smartDeblock,preset,effort,loop,delay,minSize,mixed,force}), gif({reuse,progressive,colours,effort,dither,interFrameMaxError,interPaletteMaxError,loop,delay,force}), tiff({quality,compression,predictor,pyramid,tile,tileWidth,tileHeight,xres,yres,resolutionUnit,bitdepth,miniswhite}), avif({quality,lossless,effort,chromaSubsampling,bitdepth}), heif({compression,quality,lossless,effort,chromaSubsampling,bitdepth}). Env: flags (--cpu,--os,--libc), SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS, build-from-source, C++17,node-addon-api≥7,node-gyp≥9. Bundlers: externals/asarUnpack configurations. AWS Lambda: include correct binaries, avoid symlinks, binaryMediaTypes. Memory: use jemalloc on glibc. Fonts: fontconfig, FONTCONFIG_PATH. Troubleshoot: npm cache clean, electron-rebuild, set env vars.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Installation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constructor &amp; Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Processing Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Output Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Metadata &amp; Statistics Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Format-Specific Output Options</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment &amp; Build Configuration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Bundler &amp; Deployment Integration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures</p>
+</li>
+<li class="md-github">
+<p class="md-github">Installation
+npm install sharp<br>
+pnpm add sharp<br>
+yarn add sharp<br>
+bun add sharp<br>
+deno run --allow-ffi ...</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constructor &amp; Options
+Signature: new Sharp(input?, options?)  Sharp<br>
+input types: Buffer|ArrayBuffer|TypedArray|string|Array<br>
+options:
+failOn: none|truncated|error|warning (default warning)<br>
+limitInputPixels: number|true|false (default 268402689)<br>
+unlimited: boolean (default false)<br>
+autoOrient: boolean (default false)<br>
+sequentialRead: boolean (default true)<br>
+density: number<br>
+ignoreIcc: boolean<br>
+pages: number (-1 for all)<br>
+page: number (zero-based)<br>
+subifd: number<br>
+level: number<br>
+pdfBackground: string|Object<br>
+animated: boolean<br>
+raw: { width: number, height: number, channels: number, premultiplied?: boolean }<br>
+create: { width: number, height: number, channels: 3|4, background: ColorObject, noise?: { type: gaussian, mean: number, sigma: number } }<br>
+text: { text: string, font?: string, fontfile?: string, width?: number, height?: number, align?: left|center|right, justify?: boolean, dpi?: number, rgba?: boolean, spacing?: number, wrap?: word|char|word-char|none }<br>
+join: { across: number, shim: number, background?: ColorObject, animated?: boolean, halign?: left|center|right, valign?: top|center|bottom }</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Processing Methods
+resize(width?: number, height?: number, options?: { fit, position, background, kernel, withoutEnlargement, fastShrinkOnLoad })  Sharp
+rotate(angle?: number, options?: { background: ColorObject })  Sharp
+extract({ left: number, top: number, width: number, height: number })  Sharp
+composite([{ input: Buffer|string|Sharp, blend?: string, gravity?: string, tile?: boolean, top?: number, left?: number }])  Sharp
+gamma(gamma?: number)  Sharp</p>
+</li>
+<li class="md-github">
+<p class="md-github">Output Methods
+toFile(fileOut: string, callback?: (err, info) =&gt; void)  Promise&lt;{ format, size, width, height, channels, premultiplied, cropOffsetLeft?, cropOffsetTop?, attentionX?, attentionY?, pageHeight?, pages?, textAutofitDpi? }&gt;
+toBuffer(options?: { resolveWithObject: boolean }, callback?: (err, data, info) =&gt; void)  Promise&lt;Buffer|{ data: Buffer, info: InfoObject }&gt;</p>
+</li>
+<li class="md-github">
+<p class="md-github">Metadata &amp; Statistics Methods
+metadata(callback?: (err, metadata) =&gt; void)  Promise&lt;{ format, size?, width, height, space, channels, depth, density?, chromaSubsampling?, isProgressive?, isPalette?, bitsPerSample?, pages?, pageHeight?, loop?, delay?, pagePrimary?, levels?, subifds?, background?, compression?, resolutionUnit?, hasProfile?, hasAlpha?, orientation?, exif?, icc?, iptc?, xmp?, tifftagPhotoshop?, formatMagick?, comments? }&gt;
+stats(callback?: (err, stats) =&gt; void)  Promise&lt;{ channels: Array&lt;{ min, max, sum, squaresSum, mean, stdev, minX, minY, maxX, maxY }&gt;, isOpaque, entropy, sharpness, dominant: { r, g, b } }&gt;</p>
+</li>
+<li class="md-github">
+<p class="md-github">Format-Specific Output Options
+jpeg(options?: { quality:1-100, progressive:boolean, chromaSubsampling:4:2:0|4:4:4, optimiseCoding:boolean, mozjpeg:boolean, trellisQuantisation:boolean, overshootDeringing:boolean, optimiseScans:boolean, quantisationTable:0-8, force:boolean })  Sharp
+png(options?: { progressive:boolean, compressionLevel:0-9, adaptiveFiltering:boolean, palette:boolean, quality:1-100, effort:1-10, colours:1-256, dither:0-1, force:boolean })  Sharp
+webp(options?: { quality:1-100, alphaQuality:0-100, lossless:boolean, nearLossless:boolean, smartSubsample:boolean, smartDeblock:boolean, preset:default|photo|picture|drawing|icon|text, effort:0-6, loop:number, delay:number|number[], minSize:boolean, mixed:boolean, force:boolean })  Sharp
+gif(options?: { reuse:boolean, progressive:boolean, colours:2-256, effort:1-10, dither:0-1, interFrameMaxError:0-32, interPaletteMaxError:0-256, loop:number, delay:number|number[], force:boolean })  Sharp
+tiff(options?: { quality:1-100, compression:none|jpeg|deflate|packbits|ccittfax4|lzw|webp|zstd|jp2k, predictor:none|horizontal|float, pyramid:boolean, tile:boolean, tileWidth:number, tileHeight:number, xres:number, yres:number, resolutionUnit:inch|cm, bitdepth:1|2|4|8|16, miniswhite:boolean })  Sharp
+avif(options?: { quality:1-100, lossless:boolean, effort:0-9, chromaSubsampling:4:2:0|4:4:4, bitdepth:8|10|12 })  Sharp
+heif(options: { compression: av1|hevc, quality:1-100, lossless:boolean, effort:0-9, chromaSubsampling:4:2:0|4:4:4, bitdepth:8|10|12 })  Sharp</p>
+</li>
+<li class="md-github">
+<p class="md-github">Environment &amp; Build Configuration
+Cross-platform install flags: npm install --cpu=&lt;x64|arm64|wasm32&gt; --os=&lt;darwin|linux|win32&gt; [--libc=&lt;glibc|musl&gt;]<br>
+Custom libvips: require version  config.libvips, pkg-config --modversion vips-cpp; unsupported on Windows and macOS Rosetta<br>
+Build from source: npm install --build-from-source or detect global libvips; environment variables SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS<br>
+Required: C++17 compiler, node-addon-api 7, node-gyp 9</p>
+</li>
+<li class="md-github">
+<p class="md-github">Bundler &amp; Deployment Integration
+webpack: externals: { 'sharp': 'commonjs sharp' }<br>
+esbuild: external: ['sharp']<br>
+electron-builder: asarUnpack: ['<strong class="md-github">/node_modules/sharp/</strong>/<em class="md-github">']<br>
+electron-forge: packagerConfig.asar.unpack: '<strong class="md-github">/node_modules/{sharp,@img}/</strong>/</em>'<br>
+vite: build.rollupOptions.external: ['sharp']
+AWS Lambda: include linux-x64|arm64 binaries; avoid symlinks; set binary media types in API Gateway; memory 1536 MB for performance</p>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures
+npm v10+ monorepo lockfile: use --os, --cpu, --libc flags<br>
+pnpm: add sharp to ignoredBuiltDependencies or onlyBuiltDependencies<br>
+Fontconfig error: set FONTCONFIG_PATH to custom config<br>
+Canvas+sharp conflict on Windows: avoid mixing both modules in same process</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Sharp Image Processing Library
+https://sharp.pixelplumbing.com/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-sharp" href="#digest-of-sharp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SHARP</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="sharp-image-processing-library-detailed-digest" href="#sharp-image-processing-library-detailed-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sharp Image Processing Library Detailed Digest</h1>
+<p class="md-github">Date Retrieved: 2024-06-&lt;CURRENT_DATE&gt;
+Data Size: 7807087 bytes
+Links Found: 19174</p>
+<h1 class="md-github"><a class="md-github__anchor" name="introduction" href="#introduction"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduction</h1>
+<p class="md-github">High-performance Node.js module powered by libvips for image conversion and processing in JavaScript runtimes supporting Node-API v9 (Node.js ≥18.17.0, Deno, Bun).</p>
+<h1 class="md-github"><a class="md-github__anchor" name="supported-formats" href="#supported-formats"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supported Formats</h1>
+<p class="md-github">Input: JPEG, PNG, WebP, GIF, AVIF, TIFF, SVG
+Output: JPEG, PNG, WebP, GIF, AVIF, TIFF, raw pixel data</p>
+<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
+<p class="md-github">npm install sharp
+pnpm add sharp (add to ignoredBuiltDependencies)
+yarn add sharp
+bun add sharp
+deno run --allow-ffi ...</p>
+<h1 class="md-github"><a class="md-github__anchor" name="prebuilt-binaries" href="#prebuilt-binaries"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prebuilt Binaries</h1>
+<p class="md-github">macOS x64/ARM64, Linux x64/ARM/ARM64/ppc64/s390x, Windows x64</p>
+<h1 class="md-github"><a class="md-github__anchor" name="constructor" href="#constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h1>
+<p class="md-github">new Sharp([input], [options]) ⇒ Sharp</p>
+<h1 class="md-github"><a class="md-github__anchor" name="core-methods" href="#core-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Methods</h1>
+<p class="md-github">resize(width, height, [options]) ⇒ Sharp
+rotate(angle, [options]) ⇒ Sharp
+extract({ left, top, width, height }) ⇒ Sharp
+composite([{ input, blend, gravity, ... }]) ⇒ Sharp
+gamma(g) ⇒ Sharp</p>
+<h1 class="md-github"><a class="md-github__anchor" name="output" href="#output"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Output</h1>
+<p class="md-github">toFile(fileOut, [callback]) ⇒ Promise<Object>
+toBuffer([options], [callback]) ⇒ Promise<Buffer></p>
+<h1 class="md-github"><a class="md-github__anchor" name="metadata--statistics" href="#metadata--statistics"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata &amp; Statistics</h1>
+<p class="md-github">metadata([callback]) ⇒ Promise<Object>
+stats([callback]) ⇒ Promise<Object></p>
+<h1 class="md-github"><a class="md-github__anchor" name="format-specific-methods" href="#format-specific-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Format-Specific Methods</h1>
+<p class="md-github">jpeg(options) ⇒ Sharp
+png(options) ⇒ Sharp
+webp(options) ⇒ Sharp
+gif(options) ⇒ Sharp
+tiff(options) ⇒ Sharp
+avif(options) ⇒ Sharp
+heif(options) ⇒ Sharp</p>
+<h1 class="md-github"><a class="md-github__anchor" name="environment--advanced" href="#environment--advanced"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Environment &amp; Advanced</h1>
+<p class="md-github">Cross-platform installs (--cpu, --os, --libc)
+Custom libvips (SHARP_IGNORE_GLOBAL_LIBVIPS, SHARP_FORCE_GLOBAL_LIBVIPS)
+Building from source (C++17, node-addon-api ≥7, node-gyp ≥9)
+Wasm support (--cpu=wasm32)
+Bundler exclusions (webpack externals, esbuild external, electron unpack)
+AWS Lambda packaging</p>
+<h1 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h1>
+<p class="md-github">npm install errors (lockfile flags)
+Fontconfig errors (FONTCONFIG_PATH)
+Canvas conflict on Windows</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Sharp Image Processing Library</li>
+<li class="md-github">URL: https://sharp.pixelplumbing.com/</li>
+<li class="md-github">License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-11T05:01:51.100Z</li>
+<li class="md-github">Data Size: 7807087 bytes</li>
+<li class="md-github">Links Found: 19174</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-11</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-11T08:38:08.005Z</p>
+  </footer>
+</body>
+</html>

@@ -24,437 +24,306 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="commander" href="#commander"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>COMMANDER</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">npm install commander
-Use Command or global program
-Option API: option, requiredOption, addOption, flags syntax, default, choices, env, preset, parser, conflicts, implies, hideHelp, makeOptionMandatory
-Command API: command, addCommand, alias, copyInheritedSettings
-Argument API: argument, arguments, addArgument, default, choices, parser, variadic, optional
-Action: action(fn), async via parseAsync
-Parsing: parse, parseAsync, enablePositionalOptions, passThroughOptions, allowUnknownOption, allowExcessArguments, storeOptionsAsProperties
-Help: version, helpOption, helpCommand, addHelpText, showHelpAfterError, showSuggestionAfterError, help, outputHelp, helpInformation, error, exitOverride, configureOutput
-Hooks: preAction, postAction, preSubcommand, option:<name>
-Standalone: description indicates executable search, executableDir, chmod 755
-TS: extra-typings, createCommand
-Errors: unknown option, required missing, invalid choice</p>
+<p class="md-github">version(version: string, flags?: string, description?: string): Command
+name(name: string): Command
+description(description: string): Command
+usage(usage: string): Command
+argument(name: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+option(flags: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+requiredOption(flags: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+action(fn: (...args: any[]) =&gt; void): Command
+parse(argv?: string[], opts?: object): string[]
+parseAsync(argv?: string[], opts?: object): Promise&lt;string[]&gt;
+addHelpCommand(enabled?: boolean, name?: string, description?: string): Command
+exitOverride(fn?: (err: CommanderError) =&gt; void): void
+showHelpAfterError(display?: boolean | string): Command</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<p class="md-github">Table of Contents:
-1 Installation
-2 Program Declaration
-3 Options API
-4 Commands API
-5 Arguments API
-6 Action Handlers
-7 Parsing &amp; Configuration
-8 Help &amp; Output
-9 Hooks &amp; Events
-10 Stand-alone Executables
-11 TypeScript Support</p>
-<p class="md-github">1 Installation
-npm install commander</p>
-<p class="md-github">2 Program Declaration
-CommonJS: const { program } = require('commander');
-ESM/TS: import { Command } from 'commander'; const program = new Command();</p>
-<p class="md-github">3 Options API
-program.option(flags, description, defaultValue?)
-program.requiredOption(flags, description, defaultValue?)
-program.addOption(new Option(flags, description)
-.hideHelp()
-.default(value, name)
-.choices([...])
-.env('ENV_VAR')
-.preset(value)
-.argParser(fn)
-.conflicts('other')
-.implies({key:'value'})
-.makeOptionMandatory()
-)
-Access: program.opts(), .optsWithGlobals(), .getOptionValue(), .setOptionValue(), .getOptionValueSource(), .setOptionValueWithSource()
-Flags syntax: '-p, --port <number>', '--no-flag', '&lt;val...&gt;', '[val]'</p>
-<p class="md-github">4 Commands API
-program.command(nameAndArgs, description?, {executableFile, isDefault, hidden})
-program.addCommand(command, {executableFile, isDefault, hidden})
-alias: command.alias(alias)
-copy settings: command.copyInheritedSettings(subcmd)</p>
-<p class="md-github">5 Arguments API
-program.argument('<name>', 'desc', default?)
-program.arguments('<a> [b]')
-program.addArgument(new Argument('<x>', 'desc')
-.choices([...])
-.default(value, name)
-.argParser(fn)
-)
-Variadic: '&lt;dirs...&gt;'
-Optional: '[name]'</p>
-<p class="md-github">6 Action Handlers
-program.action((args..., options, command) =&gt; {})
-Async: await program.parseAsync()
-'this' bound to command in function expression</p>
-<p class="md-github">7 Parsing &amp; Configuration
-program.parse([argv], {from})
-program.parseAsync([argv], {from})
-.from: 'node'|'electron'|'user'
-program.enablePositionalOptions()
-program.passThroughOptions()
-program.allowUnknownOption([true|false])
-program.allowExcessArguments([true|false])
-program.storeOptionsAsProperties([true|false])</p>
-<p class="md-github">8 Help &amp; Output
-program.version('1.0.0', '-v, --vers', 'desc')
-program.helpOption('-h, --help', 'desc')
-program.helpCommand('assist [cmd]', 'desc')
-program.addHelpText('before'|'after', textOrFn)
-program.showHelpAfterError(msg)
-program.showSuggestionAfterError(false)
-program.help()
-program.outputHelp({error: true})
-program.helpInformation()
-program.error('msg', {exitCode: number, code: 'string'})
-program.exitOverride(handler)
-program.configureOutput({
-writeOut: str =&gt; process.stdout.write(str),
-writeErr: str =&gt; process.stderr.write(str),
-outputError: (str, write) =&gt; write(color(str))
-})</p>
-<p class="md-github">9 Hooks &amp; Events
-program.hook('preAction', (thisCmd, actionCmd) =&gt; {})
-program.hook('postAction', ...)
-program.hook('preSubcommand', ...)
-program.on('option:verbose', () =&gt; {})</p>
-<p class="md-github">10 Stand-alone Executables
-program.command('install [pkgs...]', 'desc', {executableFile:'myInstall', isDefault:true})
-program.executableDir('commands/')
-Make scripts 755
-Handle options within subcommand</p>
-<p class="md-github">11 TypeScript Support
-import { Command } from '@commander-js/extra-typings'
-const program = new Command()
-const custom = createCommand()
-TS-node: node -r ts-node/register script.ts</p>
-<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Option default values: program.option('-c, --cheese <type>', 'cheese', 'blue') sets default=blue
-Negatable boolean: program.option('--no-sauce', 'remove sauce') initial sauce=true, --no-sauce sets false
-Boolean or value: program.option('-c, --cheese [type]', 'opt cheese') returns undefined|true|string
-Variadic options: program.option('-n, --num &lt;vals...&gt;', 'nums') returns array until dash or --
-Required option: program.requiredOption('-c, --cheese <type>', 'desc') throws if missing
-Choices: new Option('-d, --drink <size>', 'desc').choices(['small','medium','large']) validates input
-Env var: new Option('-p, --port <n>', 'desc').env('PORT') uses process.env.PORT
-Preset: new Option('--donate [amt]', 'desc').preset('20') sets default if no arg
-Conflicts: new Option('--disable-server','').conflicts('port')
-Implies: new Option('--free-drink','').implies({drink:'small'})
-Custom parsing: .option('-f, --float <n>', 'float', parseFloat)
-Custom list: .option('-l, --list <items>', 'csv', v=&gt;v.split(','))
-Argument default: program.argument('[pass]','', 'no pass')
-Argument choices: new Argument('<size>', 'desc').choices(['s','m','l'])
-Program.parse modes: parse(['--port','80'],{from:'user'})
-Enable only program options before subcommands: program.enablePositionalOptions()
-Pass through to child: program.passThroughOptions()
-Legacy options: program.storeOptionsAsProperties()
-Output config: program.configureOutput({writeOut,writeErr,outputError})
-Exit Override: program.exitOverride()</p>
-<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">Class Command {
-constructor(name?: string)
-name(name: string): this
-usage(usage: string): this
-description(description: string, summary?: string): this
-summary(summary: string): this
-version(version: string, flags?: string, description?: string): this
-helpOption(flags: string|false, description?: string): this
-helpCommand(name?: string|false, description?: string): this
-addHelpText(position: 'beforeAll'|'before'|'after'|'afterAll', textOrFn: string|((ctx:{error:boolean,command:Command})=&gt;string)): this
-option(flags: string, description?: string, defaultValue?: any): this
-requiredOption(flags: string, description?: string, defaultValue?: any): this
-addOption(option: Option): this
-argument(name: string, description?: string, defaultValue?: any): this
-arguments(args: string): this
-addArgument(argument: Argument): this
-command(nameAndArgs: string, description?: string, config?: {executableFile?:string,isDefault?:boolean,hidden?:boolean}): Command
-addCommand(cmd: Command, config?: {executableFile?:string,isDefault?:boolean,hidden?:boolean}): this
-alias(alias: string): this
-copyInheritedSettings(cmd: Command): this
-action(fn: (...args:any[])=&gt;void): this
-hook(event:'preAction'|'postAction'|'preSubcommand', fn:(thisCmd:Command, actionCmd?:Command)=&gt;any): this
-on(event:string, listener:(...args:any[])=&gt;void): this
-parse(argv?: string[]|{from:'node'|'electron'|'user'}, opts?:{from?:string}): this
-parseAsync(argv?: string[]|{from:'node'|'electron'|'user'}, opts?:{from?:string}): Promise<this>
-enablePositionalOptions(): this
-passThroughOptions(): this
-allowUnknownOption(allow?:boolean): this
-allowExcessArguments(allow?:boolean): this
-storeOptionsAsProperties(store?:boolean): this
-exitOverride(handler?: (err: CommanderError)=&gt;void): this
-configureOutput(config: {writeOut?(str:string):void, writeErr?(str:string):void, outputError?(str:string, write:(str:string)=&gt;void):void}): this
-showHelpAfterError(message?:string|boolean): this
-showSuggestionAfterError(enabled:boolean): this
-help(): never
-outputHelp(opts?:{error?:boolean}): string
-helpInformation(): string
-error(message:string, options?:{exitCode?:number, code?:string}): never
-opts(): Record&lt;string,any&gt;
-optsWithGlobals(): Record&lt;string,any&gt;
-getOptionValue(key:string): any
-setOptionValue(key:string, value:any): this
-getOptionValueSource(key:string): string
-setOptionValueWithSource(key:string, value:any, source:string): this
-args: string[]
-processedArgs: any[]
-}</p>
-<p class="md-github">Class Option {
-constructor(flags: string, description?: string)
-hideHelp(): this
-default(value:any, name:string): this
-choices(choices:string[]): this
-env(envVar:string): this
-preset(value:any): this
-argParser(fn:(value:string,prev:any)=&gt;any): this
-conflicts(optionName:string): this
-implies(mapping:Record&lt;string, any&gt;): this
-makeOptionMandatory(): this
-}</p>
-<p class="md-github">Class Argument {
-constructor(name:string, description?:string)
-choices(choices:string[]): this
-default(value:any, name?:string): this
-argParser(fn:(value:string,prev:any)=&gt;any): this
-}</p>
-<p class="md-github">Type CommanderError = { exitCode: number, code: string, message: string }</p>
-<p class="md-github">Examples:</p>
-<h1 class="md-github"><a class="md-github__anchor" name="splitjs" href="#splitjs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>split.js</h1>
-<p class="md-github">node split.js -s / --fits a/b/c
-error: unknown option '--fits' (Did you mean --first?)</p>
-<h1 class="md-github"><a class="md-github__anchor" name="options-requiredjs" href="#options-requiredjs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>options-required.js</h1>
-<p class="md-github">node pizza
-error: required option '-c, --cheese <type>' not specified</p>
-<h1 class="md-github"><a class="md-github__anchor" name="options-extrajs" href="#options-extrajs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>options-extra.js</h1>
-<p class="md-github">PORT=80 extra --donate --free-drink
-Options: { timeout: 60, donate: 20, port: '80', freeDrink: true, drink: 'small' }</p>
-<h1 class="md-github"><a class="md-github__anchor" name="configure-outputjs" href="#configure-outputjs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>configure-output.js</h1>
-<p class="md-github">program.configureOutput({
-writeOut: str=&gt;process.stdout.write(<code class="md-github">[OUT] ${str}</code>),
-writeErr: str=&gt;process.stdout.write(<code class="md-github">[ERR] ${str}</code>),
-outputError: (str,write)=&gt;write(<code class="md-github">\x1b[31m${str}\x1b[0m</code>)
-})</p>
-<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">install: npm install commander; import: {program}|Command; option(flags,desc,default); requiredOption(flags,desc,default); addOption(new Option(flags,desc).hideHelp().default(v,n).choices([...]).env(v).preset(v).argParser(f).conflicts(o).implies(map).makeOptionMandatory()); argument(name,desc,default); addArgument(new Argument(name,desc).choices([...]).default(v,n).argParser(f)); command(nameAndArgs,desc,{executableFile,isDefault,hidden}); addCommand(cmd,{config}); action(fn(args...,opts,cmd)), async via parseAsync; parse(argv?,{from}); enablePositionalOptions(); passThroughOptions(); allowUnknownOption(bool); allowExcessArguments(bool); storeOptionsAsProperties(bool); version(v,flags,desc); helpOption(flags,desc); helpCommand(name,desc); addHelpText(pos,textOrFn); showHelpAfterError(msg); showSuggestionAfterError(bool); help()/outputHelp()/helpInformation(); error(msg,{exitCode,code}); exitOverride(handler); configureOutput({writeOut,writeErr,outputError}); hook('preAction'|'postAction'|'preSubcommand',fn); on('option:name',fn); executableDir(path); TypeScript: import from '@commander-js/extra-typings'; createCommand(); troubleshooting: unknown option, missing required, invalid choice errors.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
-<p class="md-github">Table of Contents:
-1 Installation
-2 Program Declaration
-3 Options API
-4 Commands API
-5 Arguments API
-6 Action Handlers
-7 Parsing &amp; Configuration
-8 Help &amp; Output
-9 Hooks &amp; Events
-10 Stand-alone Executables
-11 TypeScript Support</p>
-<p class="md-github">1 Installation
-npm install commander</p>
-<p class="md-github">2 Program Declaration
-CommonJS: const { program } = require('commander');
-ESM/TS: import { Command } from 'commander'; const program = new Command();</p>
-<p class="md-github">3 Options API
-program.option(flags, description, defaultValue?)
-program.requiredOption(flags, description, defaultValue?)
-program.addOption(new Option(flags, description)
-.hideHelp()
-.default(value, name)
-.choices([...])
-.env('ENV_VAR')
-.preset(value)
-.argParser(fn)
-.conflicts('other')
-.implies({key:'value'})
-.makeOptionMandatory()
-)
-Access: program.opts(), .optsWithGlobals(), .getOptionValue(), .setOptionValue(), .getOptionValueSource(), .setOptionValueWithSource()
-Flags syntax: '-p, --port <number>', '--no-flag', '&lt;val...&gt;', '[val]'</p>
-<p class="md-github">4 Commands API
-program.command(nameAndArgs, description?, {executableFile, isDefault, hidden})
-program.addCommand(command, {executableFile, isDefault, hidden})
-alias: command.alias(alias)
-copy settings: command.copyInheritedSettings(subcmd)</p>
-<p class="md-github">5 Arguments API
-program.argument('<name>', 'desc', default?)
-program.arguments('<a> [b]')
-program.addArgument(new Argument('<x>', 'desc')
-.choices([...])
-.default(value, name)
-.argParser(fn)
-)
-Variadic: '&lt;dirs...&gt;'
-Optional: '[name]'</p>
-<p class="md-github">6 Action Handlers
-program.action((args..., options, command) =&gt; {})
-Async: await program.parseAsync()
-'this' bound to command in function expression</p>
-<p class="md-github">7 Parsing &amp; Configuration
-program.parse([argv], {from})
-program.parseAsync([argv], {from})
-.from: 'node'|'electron'|'user'
-program.enablePositionalOptions()
-program.passThroughOptions()
-program.allowUnknownOption([true|false])
-program.allowExcessArguments([true|false])
-program.storeOptionsAsProperties([true|false])</p>
-<p class="md-github">8 Help &amp; Output
-program.version('1.0.0', '-v, --vers', 'desc')
-program.helpOption('-h, --help', 'desc')
-program.helpCommand('assist [cmd]', 'desc')
-program.addHelpText('before'|'after', textOrFn)
-program.showHelpAfterError(msg)
-program.showSuggestionAfterError(false)
-program.help()
-program.outputHelp({error: true})
-program.helpInformation()
-program.error('msg', {exitCode: number, code: 'string'})
-program.exitOverride(handler)
-program.configureOutput({
-writeOut: str =&gt; process.stdout.write(str),
-writeErr: str =&gt; process.stderr.write(str),
-outputError: (str, write) =&gt; write(color(str))
-})</p>
-<p class="md-github">9 Hooks &amp; Events
-program.hook('preAction', (thisCmd, actionCmd) =&gt; {})
-program.hook('postAction', ...)
-program.hook('preSubcommand', ...)
-program.on('option:verbose', () =&gt; {})</p>
-<p class="md-github">10 Stand-alone Executables
-program.command('install [pkgs...]', 'desc', {executableFile:'myInstall', isDefault:true})
-program.executableDir('commands/')
-Make scripts 755
-Handle options within subcommand</p>
-<p class="md-github">11 TypeScript Support
-import { Command } from '@commander-js/extra-typings'
-const program = new Command()
-const custom = createCommand()
-TS-node: node -r ts-node/register script.ts</p>
-<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">Commander.js Guide
-https://github.com/tj/commander.js#readme</p>
-<h2 class="md-github"><a class="md-github__anchor" name="digest-of-commander" href="#digest-of-commander"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of COMMANDER</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
-<p class="md-github">npm install commander</p>
-<h1 class="md-github"><a class="md-github__anchor" name="quick-start" href="#quick-start"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Quick Start</h1>
-<p class="md-github">Example split.js
-const { program } = require('commander');</p>
-<p class="md-github">program
-.option('--first')
-.option('-s, --separator <char>')
-.argument('<string>');</p>
-<p class="md-github">program.parse();</p>
-<p class="md-github">const options = program.opts();
-const limit = options.first ? 1 : undefined;
-console.log(program.args[0].split(options.separator, limit));</p>
-<h1 class="md-github"><a class="md-github__anchor" name="program-declaration" href="#program-declaration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Program Declaration</h1>
-<p class="md-github">CommonJS global:
-const { program } = require('commander');</p>
-<p class="md-github">Local Command object:
+<p class="md-github">Table of Contents
+1  Initialization
+2  Versioning
+3  Command Declaration
+4  Option Declaration
+5  Argument Declaration
+6  Action Handlers
+7  Parsing
+8  Help System
+9  Error Handling</p>
+<p class="md-github">1  Initialization
+Require Commander and instantiate
 const { Command } = require('commander');
 const program = new Command();</p>
-<p class="md-github">ESM / TypeScript:
-import { Command } from 'commander';
+<p class="md-github">2  Versioning
+program.version('1.0.0', '-v, --version', 'output the version number');</p>
+<p class="md-github">3  Command Declaration
+program.command('install <pkg> [options]')
+.alias('i')
+.description('install a package');</p>
+<p class="md-github">4  Option Declaration
+program.option('-p, --port <number>', 'port number', '3000');
+program.requiredOption('-u, --username <name>', 'user name');</p>
+<p class="md-github">5  Argument Declaration
+program.argument('<path>', 'file path to process');</p>
+<p class="md-github">6  Action Handlers
+program.action((options) =&gt; {
+console.log(options.port);
+});</p>
+<p class="md-github">7  Parsing
+program.parse(process.argv);
+const args = program.args;</p>
+<p class="md-github">8  Help System
+program.addHelpCommand();
+program.showHelpAfterError();</p>
+<p class="md-github">9  Error Handling
+program.exitOverride();
+program.parseAsync()  // throws CommanderError on invalid input</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">DefaultSettings
+helpOption: '-h, --help'
+helpDescription: 'display help for command'
+helpCommandName: 'help'
+helpCommandDescription: 'display help for subcommand'
+usagePrefix: '[options]'</p>
+<p class="md-github">ParseOptions Interface
+from: boolean  Allow boolean negation
+permissive: boolean  Ignore unknown options</p>
+<p class="md-github">CommanderError Structure
+Properties:
+exitCode: number
+code: string (commander.<errorIdentifier>)
+message: string</p>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Install: npm install commander</li>
+<li class="md-github">Require and instantiate: const program = new Command();</li>
+<li class="md-github">Chain configuration calls</li>
+<li class="md-github">Call parse or parseAsync</li>
+<li class="md-github">Handle errors via exitOverride callback</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Class: Command</p>
+<p class="md-github">Constructor(name?: string)
+name: string Optional command name</p>
+<p class="md-github">Methods:
+version(version: string, flags?: string, description?: string): Command
+name: version string
+flags: string (default '-V, --version')
+description: string
+returns: this</p>
+<p class="md-github">name(name: string): Command
+description: set command name
+returns: this</p>
+<p class="md-github">description(description: string): Command
+description: set summary
+returns: this</p>
+<p class="md-github">usage(usage: string): Command
+description: usage override
+returns: this</p>
+<p class="md-github">argument(name: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+parameters:
+name: argument syntax string
+description: string
+defaultValue: any
+parser: function
+returns: this</p>
+<p class="md-github">option(flags: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+parameters:
+flags: flag definitions
+description: string
+defaultValue: any
+parser: function
+returns: this</p>
+<p class="md-github">requiredOption(flags: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+same as option but throws if missing</p>
+<p class="md-github">addHelpCommand(enabled?: boolean, name?: string, description?: string): Command
+parameters:
+enabled: boolean
+name: string
+description: string
+returns: this</p>
+<p class="md-github">exitOverride(callback?: (err: CommanderError) =&gt; void): void
+override default exit behavior</p>
+<p class="md-github">showHelpAfterError(display?: boolean | string): Command
+show help when errors</p>
+<p class="md-github">parse(argv?: string[], opts?: {from?: boolean, permissive?: boolean}): string[]
+returns: leftover arguments</p>
+<p class="md-github">parseAsync(argv?: string[], opts?: {from?: boolean, permissive?: boolean}): Promise&lt;string[]&gt;</p>
+<p class="md-github">help(callback?: (helpText: string) =&gt; string): void</p>
+<p class="md-github">Examples:
+Full setup example with subcommands, options, arguments, async parsing and error handling:
+const { Command } = require('commander');
+const program = new Command('mycli');</p>
+<p class="md-github">program
+.name('mycli')
+.version('2.0.0', '-v, --version')
+.description('An example CLI')
+.option('-f, --force', 'force operation')
+.argument('<input>', 'input file')
+.argument('[output]', 'output file', 'dist')
+.action((input, output, options) =&gt; {
+if (options.force) console.log('forcing operation');
+console.log(<code class="md-github">processing from ${input} to ${output}</code>);
+});</p>
+<p class="md-github">program
+.addHelpCommand()
+.showHelpAfterError();</p>
+<p class="md-github">program.parseAsync()
+.then(() =&gt; console.log('done'))
+.catch(err =&gt; {
+if (err.code !== 'commander.helpDisplayed') console.error(err.message);
+});</p>
+<p class="md-github">Configuration Options:
+--help shortcut: '-h, --help'
+help description: 'display help'
+automatic help command: enabled by default</p>
+<p class="md-github">Best Practices:
+Chain configuration calls
+Use parseAsync for promise-based workflows
+Override exit to handle errors gracefully</p>
+<p class="md-github">Troubleshooting:
+Invalid Option:
+$ node cli.js --unknown
+Error: unknown option '--unknown'
+Solution:
+Define option via option() before parse</p>
+<p class="md-github">Missing Argument:
+$ node cli.js install
+Error: missing required argument 'pkg'
+Solution:
+Use argument('<pkg>') or requiredOption</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Command(name?)
+.version(version,flags,description)
+.name(name)
+.description(desc)
+.usage(str)
+.argument(name,desc,default,parser)
+.option(flags,desc,default,parser)
+.requiredOption(flags,desc,default,parser)
+.alias(alias)
+.addHelpCommand(enabled?,name?,desc?)
+.exitOverride(cb)
+.showHelpAfterError(display?)
+.parse(argv?,{from,permissive}) -&gt; leftoverArgs
+.parseAsync(argv?,{from,permissive}) -&gt; Promise<leftoverArgs>
+.help(cb)
+.CommanderError { code, exitCode, message }
+Defaults: helpOption '-h, --help', versionOption '-V, --version'
+Examples: full instantiation, subcommands, options, args, async parse, error override</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1  Initialization
+2  Versioning
+3  Command Declaration
+4  Option Declaration
+5  Argument Declaration
+6  Action Handlers
+7  Parsing
+8  Help System
+9  Error Handling</p>
+<p class="md-github">1  Initialization
+Require Commander and instantiate
+const { Command } = require('commander');
 const program = new Command();</p>
-<h1 class="md-github"><a class="md-github__anchor" name="options-api" href="#options-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options API</h1>
-<p class="md-github">program.option(flags: string, description?: string, defaultValue?: any)
-program.requiredOption(flags: string, description?: string, defaultValue?: any)
-program.addOption(new Option(flags: string, description?: string))</p>
-<p class="md-github">Common flags:
--p, --port <number>
---trace
---ws, --workspace <name>
---no-<flag>
-&lt;name...&gt; variadic
-[name] optional</p>
-<p class="md-github">Option methods:
-.hideHelp()
-.default(value: any, name: string)
-.choices(array: string[])
-.env(envVar: string)
-.preset(value: any)
-.argParser(fn: (value: string, previous: any) =&gt; any)
-.conflicts(optionName: string)
-.implies(mapping: Record&lt;string, any&gt;)
-.makeOptionMandatory()</p>
-<p class="md-github">Access:
-program.opts()
-program.optsWithGlobals()
-program.getOptionValue(key)
-program.setOptionValue(key, value)
-program.getOptionValueSource(key)
-program.setOptionValueWithSource(key, value, source)</p>
-<h1 class="md-github"><a class="md-github__anchor" name="commands-api" href="#commands-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Commands API</h1>
-<p class="md-github">program.command(nameAndArgs: string, description?: string, config?: {executableFile?:string, isDefault?:boolean, hidden?:boolean})
-program.addCommand(cmd: Command, config?: {executableFile?:string, isDefault?:boolean, hidden?:boolean})
-.alias(alias: string)
-.copyInheritedSettings(cmd: Command)</p>
-<h1 class="md-github"><a class="md-github__anchor" name="arguments-api" href="#arguments-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Arguments API</h1>
-<p class="md-github">program.argument(name: string, description?: string, defaultValue?: any)
-program.arguments(signatures: string)
-program.addArgument(new Argument(name: string, description?: string))</p>
-<p class="md-github">Argument methods:
-.choices(array: string[])
-.default(value: any, name?: string)
-.argParser(fn: (value: string, previous: any) =&gt; any)</p>
-<h1 class="md-github"><a class="md-github__anchor" name="action-handlers" href="#action-handlers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Action Handlers</h1>
-<p class="md-github">program.action(callback: (...args: any[]) =&gt; void)
-Async handlers: call program.parseAsync()
-Handler signature: (args..., options: Record&lt;string, any&gt;, command: Command)
-or use this in function expression</p>
-<h1 class="md-github"><a class="md-github__anchor" name="parsing-and-configuration" href="#parsing-and-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parsing and Configuration</h1>
-<p class="md-github">program.parse([argv], opts?) =&gt; Command
-program.parseAsync([argv], opts?) =&gt; Promise<Command>
-program.enablePositionalOptions()
-program.passThroughOptions()
-program.allowUnknownOption(allow?: boolean)
-program.allowExcessArguments(allow?: boolean)
-program.storeOptionsAsProperties(store?: boolean)</p>
-<h1 class="md-github"><a class="md-github__anchor" name="help-and-output" href="#help-and-output"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Help and Output</h1>
-<p class="md-github">program.version(version: string, flags?: string, description?: string)
-program.helpOption(flags: string|false, description?: string)
-program.helpCommand(name?: string|false, description?: string)
-program.addHelpText(position: 'beforeAll'|'before'|'after'|'afterAll', textOrFn)
-program.showHelpAfterError(message?: string|boolean)
-program.showSuggestionAfterError(enabled: boolean)
-program.help() // exits
-program.outputHelp(opts?: {error?: boolean}) // returns string
-program.helpInformation() // returns string
-program.error(message: string, options?: {exitCode?: number, code?: string}) // throws
-program.exitOverride(handler?)
-program.configureOutput({writeOut?(str), writeErr?(str), outputError?(str, write)})</p>
-<h1 class="md-github"><a class="md-github__anchor" name="hooks-and-events" href="#hooks-and-events"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hooks and Events</h1>
-<p class="md-github">program.hook('preAction'|'postAction'|'preSubcommand', (thisCmd, actionCmd?) =&gt; void)
-program.on('option:<name>', (...args) =&gt; void)</p>
-<h1 class="md-github"><a class="md-github__anchor" name="stand-alone-executables" href="#stand-alone-executables"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Stand-alone Executables</h1>
-<p class="md-github">program.command('name [args...]', 'description', {executableFile:'file', isDefault:true})
-program.executableDir(path: string)
-Make scripts chmod 755</p>
-<h1 class="md-github"><a class="md-github__anchor" name="typescript-support" href="#typescript-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TypeScript Support</h1>
-<p class="md-github">import { Command } from '@commander-js/extra-typings'
-createCommand() =&gt; Command</p>
-<h1 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h1>
-<p class="md-github">Unknown option:
-error: unknown option '--xyz' (Did you mean --x?)
-Required option missing:
-error: required option '-c, --cheese <type>' not specified
-Invalid argument for choice:
-error: option '-d, --drink <size>' argument 'huge' is invalid. Allowed choices are small, medium, large</p>
+<p class="md-github">2  Versioning
+program.version('1.0.0', '-v, --version', 'output the version number');</p>
+<p class="md-github">3  Command Declaration
+program.command('install <pkg> [options]')
+.alias('i')
+.description('install a package');</p>
+<p class="md-github">4  Option Declaration
+program.option('-p, --port <number>', 'port number', '3000');
+program.requiredOption('-u, --username <name>', 'user name');</p>
+<p class="md-github">5  Argument Declaration
+program.argument('<path>', 'file path to process');</p>
+<p class="md-github">6  Action Handlers
+program.action((options) =&gt; {
+console.log(options.port);
+});</p>
+<p class="md-github">7  Parsing
+program.parse(process.argv);
+const args = program.args;</p>
+<p class="md-github">8  Help System
+program.addHelpCommand();
+program.showHelpAfterError();</p>
+<p class="md-github">9  Error Handling
+program.exitOverride();
+program.parseAsync()  // throws CommanderError on invalid input</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Commander.js CLI Framework
+https://github.com/tj/commander/blob/main/Readme.md</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-commander" href="#digest-of-commander"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of COMMANDER</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="commanderjs-cli-framework" href="#commanderjs-cli-framework"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Commander.js CLI Framework</h1>
+<p class="md-github">Date Retrieved: 2023-11-29</p>
+<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
+<p class="md-github">Install via npm:</p>
+<p class="md-github">npm install commander</p>
+<h1 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h1>
+<p class="md-github">const { Command } = require('commander');
+const program = new Command();</p>
+<p class="md-github">program.version('1.0.0', '-v, --version', 'output the version number');</p>
+<p class="md-github">program.command('install <pkg> [options]')
+.alias('i')
+.description('install a package')
+.option('-D, --save-dev', 'save to devDependencies')
+.action((pkg, options) =&gt; {
+console.log(<code class="md-github">installing ${pkg} to ${options.saveDev ? 'devDependencies' : 'dependencies'}</code>);
+});</p>
+<p class="md-github">program.parse(process.argv);</p>
+<h1 class="md-github"><a class="md-github__anchor" name="api-reference" href="#api-reference"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Reference</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="class-command" href="#class-command"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Class: Command</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="constructor" href="#constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h3>
+<p class="md-github">new Command([name: string])</p>
+<p class="md-github">Creates a new command instance.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="methods" href="#methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h3>
+<p class="md-github">version(version: string, flags?: string, description?: string): Command
+Define the --version option.</p>
+<p class="md-github">name(name: string): Command
+Command name (defaults to script name).</p>
+<p class="md-github">description(description: string): Command
+Set command description.</p>
+<p class="md-github">usage(usage: string): Command
+Override automatic usage display.</p>
+<p class="md-github">argument(name: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+Define a positional argument.</p>
+<p class="md-github">option(flags: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+Add an option.</p>
+<p class="md-github">requiredOption(flags: string, description?: string, defaultValue?: any, parser?: (val: string) =&gt; any): Command
+Add a required option.</p>
+<p class="md-github">action(fn: (...args: any[]) =&gt; void): Command
+Register the action callback.</p>
+<p class="md-github">parse(argv?: string[], opts?: object): string[]
+Parse arguments synchronously.</p>
+<p class="md-github">parseAsync(argv?: string[], opts?: object): Promise&lt;string[]&gt;
+Parse arguments asynchronously.</p>
+<p class="md-github">help(fn?: (helpText: string) =&gt; string): void
+Display or customize help output.</p>
+<p class="md-github">addHelpCommand(enabled?: boolean, name?: string, description?: string): Command
+Add or remove built-in help command.</p>
+<p class="md-github">exitOverride(fn?: (err: CommanderError) =&gt; void): void
+Override default process.exit behavior.</p>
+<p class="md-github">showHelpAfterError(display?: boolean | string): Command
+Show help on error.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="configuration-defaults" href="#configuration-defaults"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Defaults</h1>
+<p class="md-github">helpOption: '-h, --help'
+helpDescription: 'display help for command'
+helpCommandName: 'help'
+helpCommandDescription: 'display help for subcommand'
+usagePrefix: '[options]'</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
-<li class="md-github">Source: Commander.js Guide</li>
-<li class="md-github">URL: https://github.com/tj/commander.js#readme</li>
-<li class="md-github">License: License: MIT</li>
-<li class="md-github">Crawl Date: 2025-05-04T12:58:34.361Z</li>
-<li class="md-github">Data Size: 794140 bytes</li>
-<li class="md-github">Links Found: 5504</li>
+<li class="md-github">Source: Commander.js CLI Framework</li>
+<li class="md-github">URL: https://github.com/tj/commander/blob/main/Readme.md</li>
+<li class="md-github">License: MIT</li>
+<li class="md-github">Crawl Date: 2025-05-11T07:01:08.634Z</li>
+<li class="md-github">Data Size: 0 bytes</li>
+<li class="md-github">Links Found: 0</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-05-04</p>
+<p class="md-github">2025-05-11</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-05-05T15:23:54.188Z</p>
+    <p>Generated on 2025-05-11T08:38:07.684Z</p>
   </footer>
 </body>
 </html>
