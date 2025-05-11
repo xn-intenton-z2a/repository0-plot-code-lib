@@ -1,16 +1,16 @@
 # Express.js API Reference
 ## https://expressjs.com/en/4x/api.html
-Comprehensive reference for Express v4.x core features including routing, middleware, request/body parsing, static file serving, and error-handling utilities. Covers `express.json()` and `express.text()` for JSON and CSV payloads, CORS handling, and middleware order—essential for implementing the serve subcommand’s POST endpoints and error responses. Last updated July 2023; maintained by the Express Foundation with 60k+ stars.
+Comprehensive reference for Express v4.x core features including routing, middleware, request/body parsing, static file serving, and error-handling utilities. Covers `express.json()` and `express.text()` for JSON and CSV payloads, CORS handling, and middleware order—essential for implementing the `serve` subcommand’s POST endpoints and error responses. Last updated July 2023; maintained by the Express Foundation with 60k+ stars.
 ## MIT
 
 # Math.js Expression Evaluation
 ## https://mathjs.org/docs/expressions/parsing.html
-Official guide to parsing and evaluating mathematical expressions with Math.js. Documents `evaluate()`, custom function creation, security sandboxing, and performance tuning for large input sets—directly applicable for safe, formula-based data generation in plot, stats, regression, and transform commands. Last published March 2024; Apache-2.0 license; used in computational tools worldwide.
+Official guide to parsing and evaluating mathematical expressions with Math.js. Documents `evaluate()`, custom function creation, security sandboxing, and performance tuning for large input sets—directly applicable for safe, formula-based data generation in `plot`, `stats`, `regression`, and `transform` commands. Last published March 2024; Apache-2.0 license; used in computational tools worldwide.
 ## Apache-2.0
 
 # Zod Schema Validation
 ## https://github.com/colinhacks/zod
-TypeScript-first runtime schema validation library. Demonstrates defining/composing schemas for CLI flags and config objects, default merging, and detailed error reports. Critical for enforcing input correctness in all command parsers and config file loading via cosmiconfig. Last commit April 2024; MIT license; 27k+ stars.
+TypeScript-first runtime schema validation library. Demonstrates defining/composing schemas for CLI flags and config objects, default merging, and detailed error reports. Critical for enforcing input correctness in all command parsers and config file loading via Cosmiconfig. Last commit April 2024; MIT license; 27k+ stars.
 ## MIT
 
 # js-yaml Usage Guide
@@ -45,35 +45,35 @@ Official Chart.js guide for embedding interactive charts via CDN. Covers chart t
 
 # Chart.js Node Canvas Server-Side Rendering
 ## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
-Guide to using `chartjs-node-canvas` for headless server-side Chart.js rendering. Details instantiating `ChartJSNodeCanvas`, configuring dimensions, chartCallback hooks, and rendering to SVG or PNG buffers. Demonstrates converting SVG buffers to PNG via Sharp—directly powering the `--svg` and `--png` export features. Last updated May 2024; MIT license; 600+ stars.
+Guide to using `chartjs-node-canvas` for headless server-side Chart.js rendering. Details instantiating `ChartJSNodeCanvas`, configuring dimensions, `chartCallback` hooks, and rendering to SVG or PNG buffers. Demonstrates converting SVG buffers to PNG via Sharp—directly powering the `--svg` and `--png` export features. Last updated May 2024; MIT license; 600+ stars.
 ## MIT
 
 # Node.js Official API Reference
 ## https://nodejs.org/docs/latest/api/
-Comprehensive index of Node.js core modules (fs, path, stream, process, buffer, events, etc.), including detailed method references, built-in Promise support, and security considerations. Primary reference for all file I/O, HTTP server internals, and module resolution used throughout the CLI. Updated with each Node.js release; maintained by the Node.js Foundation.
+Comprehensive index of Node.js core modules (`fs`, `path`, `stream`, `process`, `buffer`, `events`, etc.), including detailed method references, built-in Promise support, and security considerations. Primary reference for all file I/O, HTTP server internals, and module resolution used throughout the CLI. Updated with each Node.js release; maintained by the Node.js Foundation.
 ## CC-BY-SA
 
 # Sharp Image Processing Library
 ## https://sharp.pixelplumbing.com/
-High-performance image processing for Node.js, including SVG-to-PNG conversion, resizing, compositing, and streaming. Documents pipeline usage, buffer handling, and format encodings—critical for implementing high-fidelity `--png` exports in the plot command. Last updated April 2024; MIT license; 16k+ stars.
-## MIT
-
-# Asciichart: Lightweight ASCII Charts
-## https://github.com/kroitor/asciichart
-Minimalistic library for rendering ASCII line charts in terminals. Covers data scaling, axis labeling, series styling, and performance optimizations—useful as a reference or alternative for custom `renderAsciiChart` logic. Last commit May 2024; MIT license; 4k+ stars.
+High-performance image processing for Node.js, including SVG-to-PNG conversion, resizing, compositing, and streaming. Documents pipeline usage, buffer handling, and format encodings—critical for implementing high-fidelity `--png` exports in the `plot` command. Last updated April 2024; MIT license; 16k+ stars.
 ## MIT
 
 # Simple Linear Regression (Algorithm Reference)
 ## https://en.wikipedia.org/wiki/Simple_linear_regression
-Authoritative explanation of least-squares linear regression, including mathematical derivations, algorithmic stability, and coefficient of determination. Underlies the CLI’s regression command implementation, informing numeric stability and rounding strategies. Last modified January 2024; CC-BY-SA.
+Authoritative explanation of least-squares linear regression, including mathematical derivations, algorithmic stability, and coefficient of determination. Underlies the CLI’s `regression` command implementation, informing numeric stability and rounding strategies. Last modified January 2024; CC-BY-SA.
 ## CC-BY-SA
-
-# RFC 4180: The Common CSV Format
-## https://datatracker.ietf.org/doc/html/rfc4180
-IETF standard defining CSV syntax, quoting, header conventions, and edge-case handling. Essential for robust CSV parsing and validation in both CLI and HTTP endpoints. Published October 2005; Public Domain.
-## Public Domain
 
 # MDN Scalable Vector Graphics (SVG) Reference
 ## https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial
-Comprehensive tutorial on SVG fundamentals—coordinate systems, shapes, paths, transforms, and styling. Crucial for generating accessible, standards-compliant SVG output in the plot subcommand. Last updated May 2024; maintained by Mozilla under CC-BY-SA.
+Comprehensive tutorial on SVG fundamentals—coordinate systems, shapes, paths, transforms, and styling. Crucial for generating accessible, standards-compliant SVG output in the `plot` subcommand. Last updated May 2024; maintained by Mozilla under CC-BY-SA.
 ## CC-BY-SA
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Concise specification for Vega-Lite, a high-level grammar enabling declarative JSON-based chart definitions. Covers transform pipelines, encoding channels (x, y, color), mark types, scales, axes, layering, and data schemas. Offers extensive examples and integration guides for embedding specs in JavaScript—beneficial for alternative rendering engines or migrating to a declarative spec for advanced features. Last updated April 2024; BSD-3-Clause license; maintained by the Vega community with 15k+ stars.
+## BSD-3-Clause
+
+# OpenAPI 3.1 Specification
+## https://spec.openapis.org/oas/v3.1.0
+Official specification defining the OpenAPI Document structure for RESTful APIs, detailing paths, operations, parameters, request/response schemas, security schemes, servers, and examples. Includes JSON Schema integration for payload validation—critical for designing and auto-generating robust Express.js endpoint definitions for plotting, statistics, and regression services. Published June 2021; maintained by the OpenAPI Initiative; CC-BY-4.0 license.
+## CC-BY-4.0
