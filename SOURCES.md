@@ -9,11 +9,6 @@ TypeScript-first runtime schema validation library. Demonstrates defining, compo
 Unified overview of two leading Node.js CLI parsers: Minimist for minimalist tokenization, and Yargs for declarative nested commands, middleware, and automatic help/version support. Covers boolean/string flags, alias mapping, default values, validation hooks, and middleware strategies—critical for routing and option parsing in main(). Minimist last commit January 2024; Yargs last commit March 2024; both MIT license.
 ## MIT
 
-# Commander.js CLI Framework
-## https://github.com/tj/commander/blob/main/Readme.md
-Robust solution for building feature-rich CLI applications. Provides declarative command definitions, subcommands, option parsing, automatic help/version management, and middleware-like hooks. Ideal for enhancing alias mapping, nested structures, and generating user-friendly interfaces. Last updated May 2024; MIT license; 30k+ stars.
-## MIT
-
 # Vitest Testing Guide
 ## https://vitest.dev/guide/
 Official Vitest documentation covering test declarations, spies, mocks, snapshot testing, parallel runs, and coverage reporting. Includes strategies for async tests, mocking fs and console, and organizing unit vs. integration tests—ensuring comprehensive coverage across all CLI commands and data processing routines. Last updated April 2024; MIT license; 16k+ stars.
@@ -70,12 +65,12 @@ Lightweight JavaScript expression parser and evaluator supporting AST generation
 Official Express 4.x API documentation detailing routing, middleware, request/response objects, error handling, and configuration of built-in parsers (bodyParser, static). Essential for implementing HTTP API endpoints (series, plot, health), request validation, and structured error responses. Last updated October 2023; MIT license; authoritative for Node.js web servers.
 ## MIT
 
-# Vega-Lite Specification and API
-## https://vega.github.io/vega-lite/docs/
-Comprehensive reference for Vega-Lite’s declarative JSON grammar for interactive and static visualizations. Covers encoding channels, data transforms, scales, faceting, and compiling to Vega for rendering. Provides actionable examples for generating charts programmatically that could inspire advanced CLI-driven plot exporters. Last updated June 2024; BSD-3-Clause license; widely used in data visualization tooling.
-## BSD-3-Clause
-
-# D3 Scale Module
-## https://github.com/d3/d3-scale#api-reference
-Detailed API for D3's scale functions including linear and logarithmic scales, domain- and range-mapping, interpolation, and tick generation. Provides patterns for generating evenly spaced or log-distributed values and configuring clamping, nice rounding, and inversion—core to implementing the CLI's axis scaling feature. Last commit May 2024; MIT license; widely adopted with 11k+ stars.
+# js-yaml YAML Parser & Dumper
+## https://github.com/nodeca/js-yaml#readme
+Official repository for js-yaml, the de-facto YAML parser and dumper for JavaScript. Documents safeLoad, safeDump, loadAll, dump, schema customization, and custom type handling—valuable for supporting YAML-based configuration files and advanced CLI or HTTP API configurations. Last commit May 2024; MIT license; 7k+ stars.
 ## MIT
+
+# OpenAPI Specification (OAS) 3.1
+## https://spec.openapis.org/oas/v3.1.0.html
+Comprehensive specification for defining RESTful APIs, including data models, parameter types, request/response schemas, authentication mechanisms, and content negotiation. Essential for formally documenting the /api/series, /api/plot, and /api/health endpoints and enabling client generation tools and interactive API explorers. Last updated February 2023; Apache-2.0 license; maintained by the OpenAPI Initiative.
+## Apache-2.0
