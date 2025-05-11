@@ -7,6 +7,7 @@ import {
   generateData,
   generateSVG,
   main,
+  generatePlot,
 } from '@src/lib/main.js';
 
 // Mock sharp to return a predictable buffer
@@ -108,5 +109,22 @@ describe('CLI discovery flags', () => {
   test('--mission outputs mission and exits with code 0', async () => {
     await expect(main(['--mission'])).rejects.toThrow('Exit:0');
     expect(console.log).toHaveBeenCalledWith(expect.stringContaining('# Mission Statement'));
+  });
+});
+
+describe('generatePlot', () => {
+  test('returns svg result', async () => {
+    const result = await generatePlot({ expression: 'y=x', range: 'x=0:1', format: 'svg' });
+    expect(result).toEqual({ type: 'svg', data: expect.stringContaining('<svg') });
+  });
+
+  test('returns png result', async () => {
+    const result = await generatePlot({ expression: 'y=x', range: 'x=0:1', format: 'png' });
+    expect(result).toEqual({ type: 'png', data: Buffer.from('pngdata') });
+  });
+
+  test('throws on missing required options', async () => {
+    // Missing expression
+    await expect(generatePlot({ range: 'x=0:1', format: 'svg' })).rejects.toThrow();
   });
 });

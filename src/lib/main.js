@@ -86,6 +86,63 @@ export function generateSVG(points, width = 500, height = 500) {
 }
 
 /**
+ * Generate a plot programmatically without file I/O.
+ * @param {Object} options Programmatic options for plot generation.
+ * @returns {Promise<{type: 'svg', data: string} | {type: 'png', data: Buffer}>}
+ */
+export async function generatePlot(options) {
+  const schema = z.object({
+    expression: z.string(),
+    range: z.string().regex(/^.+=[^:]+:[^:]+$/, 'range must be in the format axis=min:max'),
+    format: z.enum(['svg', 'png']),
+    width: z.number().int().positive().optional(),
+    height: z.number().int().positive().optional(),
+    samples: z.number().int().positive().optional(),
+    xLog: z.boolean().optional(),
+    yLog: z.boolean().optional(),
+    grid: z.boolean().optional(),
+    title: z.string().optional(),
+    xLabel: z.string().optional(),
+    yLabel: z.string().optional(),
+  });
+  const opts = schema.parse(options);
+  const {
+    expression,
+    range,
+    format,
+    width = 500,
+    height = 500,
+    samples = 100,
+    xLog = false,
+    yLog = false,
+  } = opts;
+  const rangeObj = parseRange(range);
+  let data = generateData(expression, rangeObj, samples);
+  if (xLog) {
+    data = data.map((p) => {
+      if (p.x <= 0) {
+        throw new Error('x values must be positive for log scale');
+      }
+      return { x: Math.log10(p.x), y: p.y };
+    });
+  }
+  if (yLog) {
+    data = data.map((p) => {
+      if (p.y <= 0) {
+        throw new Error('y values must be positive for log scale');
+      }
+      return { x: p.x, y: Math.log10(p.y) };
+    });
+  }
+  const svg = generateSVG(data, width, height);
+  if (format === 'svg') {
+    return { type: 'svg', data: svg };
+  }
+  const buffer = await sharp(Buffer.from(svg)).png().toBuffer();
+  return { type: 'png', data: buffer };
+}
+
+/**
  * Main entrypoint for the CLI. Parses flags, generates data, and writes SVG or PNG.
  */
 export async function main(inputArgs) {

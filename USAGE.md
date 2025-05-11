@@ -33,3 +33,24 @@ repository0-plot-code-lib --mission
 ```
 
 Use `--help` to display this message and examples.
+
+## Programmatic API
+
+The library provides a programmatic interface for generating plots in memory without performing file I/O. It exports an asynchronous function `generatePlot(options)`:
+
+```js
+import { generatePlot } from '@xn-intenton-z2a/repository0-plot-code-lib';
+
+(async () => {
+  const result = await generatePlot({
+    expression: 'y=sin(x)',
+    range: 'x=0:6.28',
+    format: 'svg',
+    // optional: width, height, samples, xLog, yLog, grid, title, xLabel, yLabel
+  });
+  console.log(result.type); // 'svg'
+  console.log(result.data); // '<svg ...'
+})();
+```
+
+For PNG output, specify `format: 'png'` and the returned data will be a `Buffer` containing PNG image bytes.
