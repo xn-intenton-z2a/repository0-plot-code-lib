@@ -18,14 +18,10 @@ Comprehensive documentation for loading, parsing, and dumping YAML in JavaScript
 Patterns for discovering and loading configuration files (`.json`, `.yaml`, `.rc`) with caching and custom loaders. Explains search hierarchies, error messaging, and CLI overrides—key to the `--config` flag and merging defaults. Last update February 2024; MIT license; 5k+ stars.
 ## MIT
 
-# Yargs Command-Line Parsing
-## https://github.com/yargs/yargs
-Declarative argument parsing library with nested commands, built-in help/version generation, middleware hooks, and validation. Exhibits flag definitions and custom parsing logic—offering a robust solution for routing and option parsing in `main()`. Last commit March 2024; MIT license; 26k+ stars.
-## MIT
-
-# Minimist Command-Line Arguments Parser
+# Command-Line Argument Parsing
 ## https://github.com/substack/minimist
-Minimalist and fast argument parsing library for Node.js. Covers handling string and boolean flags, alias mapping, default values, and error-free parsing of positional arguments. Directly used for initial CLI argument tokenization before validation in `main.js`. Last commit January 2024; MIT license; foundational in many Node.js CLIs.
+## https://github.com/yargs/yargs
+Unified overview of two leading Node.js CLI parsers: Minimist for minimalist and fast argument tokenization and Yargs for declarative nested commands, middleware, and built-in help/version support. Covers string/boolean flag handling, alias mapping, default values, validation hooks, and middleware strategies—essential for robust routing and option parsing in `main()`. Minimist last commit January 2024; Yargs last commit March 2024; both MIT license; foundational in many CLI tools.
 ## MIT
 
 # Vitest Testing Guide
@@ -78,3 +74,8 @@ Comprehensive official documentation for Plotly.js, covering interactive and sta
 ## https://datatracker.ietf.org/doc/html/rfc4180
 IETF RFC specifying CSV file format conventions including field delimiters, quoting rules, escape sequences, header row usage, and line breaks. Critical for ensuring compliance and interoperability of the CLI's CSV output with downstream tools and data pipelines. Published October 2005; IETF Trust; authoritative reference; Public Domain.
 ## Public Domain
+
+# Expr-Eval JavaScript Expression Parser
+## https://github.com/silentmatt/expr-eval#readme
+Lightweight JavaScript expression parser and evaluator supporting AST generation, custom functions, variables, and performance tuning. Ideal for compile user-provided formulas into callable JS functions for `generateSeries` implementations, with support for unary and multi-variable expressions. Last commit June 2024; MIT license; ~1.5k stars.
+## MIT
