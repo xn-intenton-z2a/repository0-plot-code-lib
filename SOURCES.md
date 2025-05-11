@@ -5,12 +5,12 @@ Official guide to parsing and evaluating mathematical expressions with Math.js. 
 
 # Zod Schema Validation
 ## https://github.com/colinhacks/zod
-TypeScript-first runtime schema validation library. Demonstrates defining and composing schemas for CLI flags and config objects, default merging, and detailed error reporting. Critical for enforcing input correctness across all command parsers and config loading via Cosmiconfig. Last commit April 2024; MIT license; 27k+ stars.
+TypeScript-first runtime schema validation library. Demonstrates defining and composing schemas for CLI flags and config objects, default merging, and detailed error reporting. Critical for enforcing input correctness across all command parsers and config loading via Cosmiconfig. Last commit April 2024; MIT license; 27k+ stars on GitHub.
 ## MIT
 
 # js-yaml Usage Guide
 ## https://github.com/nodeca/js-yaml#readme
-Comprehensive documentation for loading, parsing, and dumping YAML in JavaScript. Covers safe loading, custom schema definitions, type casting, and injection prevention—vital for `.plotrc.yaml` support, HTTP YAML payload parsing, and file-based data ingestion. Last updated January 2024; MIT license; used in 12k+ repos.
+Comprehensive documentation for loading, parsing, and dumping YAML in JavaScript. Covers safe loading, custom schema definitions, type casting, and injection prevention—vital for `.plotrc.yaml` support, HTTP YAML payload parsing, and file-based data ingestion. Last updated January 2024; MIT license; used in 12k+ repositories.
 ## MIT
 
 # Cosmiconfig Configuration Loading
@@ -43,11 +43,6 @@ High-performance image processing for Node.js, including SVG-to-PNG conversion, 
 Comprehensive index of Node.js core modules (`fs`, `path`, `stream`, `process`, `buffer`, `events`, etc.), including detailed method references, built-in Promise support, and security considerations. Primary reference for all file I/O, HTTP internals, and module resolution used throughout the CLI. Updated with each Node.js release; maintained by the Node.js Foundation.
 ## CC-BY-SA
 
-# Simple Linear Regression Algorithm
-## https://en.wikipedia.org/wiki/Simple_linear_regression
-Authoritative explanation of least-squares linear regression, including mathematical derivations, algorithmic stability, and coefficient of determination. Underlies the CLI’s `regression` command implementation, informing numeric stability and rounding strategies. Last modified January 2024; CC-BY-SA.
-## CC-BY-SA
-
 # MDN Scalable Vector Graphics Reference
 ## https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial
 Comprehensive tutorial on SVG fundamentals—coordinate systems, shapes, paths, transforms, and styling. Crucial for generating accessible, standards-compliant SVG output in the `plot` subcommand. Last updated May 2024; maintained by Mozilla under CC-BY-SA.
@@ -57,11 +52,6 @@ Comprehensive tutorial on SVG fundamentals—coordinate systems, shapes, paths, 
 ## https://vega.github.io/vega-lite/docs/
 Concise specification for Vega-Lite, a high-level grammar enabling declarative JSON-based chart definitions. Covers transforms, encoding channels, mark types, scales, axes, layering, and data schemas. Offers extensive examples and integration guides—beneficial for advanced or alternative rendering strategies. Last updated April 2024; BSD-3-Clause; 15k+ stars.
 ## BSD-3-Clause
-
-# EJS Templating Engine
-## https://ejs.co/
-Official documentation for EJS, a simple templating language that lets you generate HTML with plain JavaScript. Details template syntax, partials, helpers, and security considerations—useful for creating customizable HTML reports embedding SVG/PNG output from CLI commands. Version current as of 2024; MIT license; widely used in Node.js web apps.
-## MIT
 
 # Minimatch Pattern Matching
 ## https://github.com/isaacs/minimatch#minimatch
@@ -77,3 +67,13 @@ Official README for dotenv, a zero-dependency module that loads environment vari
 ## https://plotly.com/javascript/
 Comprehensive official documentation for Plotly.js, covering interactive and static chart creation, layout configuration, and Node.js image export via Orca or Kaleido. Provides code samples for scatter, line, bar, and area charts, as well as advanced features like subplots, annotations, and animations—facilitating exploration of alternative or advanced rendering strategies for CLI-generated plots. Last updated July 2024; MIT license; widely adopted in data visualization projects.
 ## MIT
+
+# Chart.js Core Documentation
+## https://www.chartjs.org/docs/latest/
+Official Chart.js documentation detailing chart configuration, built-in and custom chart types, plugin architecture, scales, animations, and theme customization. Essential for constructing and customizing chart definitions passed to ChartjsNodeCanvas, with real-world examples and performance tuning tips. Last updated May 2024; MIT license; 75k+ stars on GitHub.
+## MIT
+
+# CSV Format Specification (RFC 4180)
+## https://datatracker.ietf.org/doc/html/rfc4180
+IETF RFC specifying CSV file format conventions including field delimiters, quoting rules, escape sequences, header row usage, and line breaks. Critical for ensuring compliance and interoperability of the CLI's CSV output with downstream tools and data pipelines. Published October 2005; IETF Trust; authoritative reference.
+## Public Domain
