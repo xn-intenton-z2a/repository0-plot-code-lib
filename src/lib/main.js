@@ -69,7 +69,7 @@ export function generateTimeSeries(expression, rangeSpec) {
  *   --expression <string>
  *   --range <string>
  */
-export function main(args) {
+export function main(args = process.argv.slice(2)) {
   const exprIndex = args.indexOf("--expression");
   const rangeIndex = args.indexOf("--range");
   if (exprIndex !== -1 && rangeIndex !== -1) {
