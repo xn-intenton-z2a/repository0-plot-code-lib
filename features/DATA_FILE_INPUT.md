@@ -1,5 +1,5 @@
 # Overview
-Add unified support for plotting external datasets by loading JSON, YAML, or CSV files through a single --data flag. Users can import real-world time series data without writing mathematical expressions.
+Add unified support for plotting external datasets by loading JSON, YAML, or CSV files through a single --data flag with alias --data-file for backward compatibility. Users can import real-world time series data without writing mathematical expressions.
 
 # CLI Flags
 - --data <path>  Path to input data file. Supported extensions: .json, .yaml, .yml, .csv
@@ -9,37 +9,37 @@ Add unified support for plotting external datasets by loading JSON, YAML, or CSV
 
 # Implementation
 1. Schema and Argument Parsing
-   - In src/lib/main.js extend cliSchema to include an optional data field: z.string().refine(path => /\.(json|ya?ml|csv)$/i.test(path), 'data must be .json, .yaml, .yml, or .csv')
-   - Update parseArgs to recognize both --data and --data-file flags and normalize to parsed.data
-   - Enforce mutual exclusivity in the schema between data and all expression-based flags
+   - Extend cliSchema in src/lib/main.js to include optional fields data and data-file as strings
+   - Add zod refinement to ensure file extension matches .json, .yaml, .yml, or .csv
+   - Update parseArgs to recognize both --data and --data-file, normalizing into parsed.data
+   - Enforce mutual exclusivity in the zod schema between data and all expression or range flags
 
 2. Data File Parsing Helper
-   - Implement parseDataFile(path) in src/lib/main.js:
+   - Implement parseDataFile(path) in src/lib/main.js
      • Read file content via fs.readFileSync
-     • Detect file type by extension
-     • For .json use JSON.parse
-     • For .yaml or .yml use js-yaml.load
-     • For .csv split content by lines, parse header row, map each row to numeric { x, y }
-     • Validate that result is an array of objects with numeric x and y, throw descriptive errors otherwise
+     • Determine type by extension: .json (JSON.parse), .yaml/.yml (js-yaml.load), .csv (split lines and parse into numeric { x, y })
+     • Validate result is a non-empty array of objects with numeric x and y properties
+     • Throw descriptive errors for unsupported formats, malformed data, or missing fields
 
 3. Integration in Main
-   - In main(), after schema validation detect parsed.data
-   - Call parseDataFile(parsed.data) to get dataPoints
-   - Skip generateData when dataPoints is provided and feed dataPoints into generateSVG or PNG pipeline
-   - Ensure multi-series and export-data flags operate on loaded data when present
+   - After schema validation in main(), detect if parsed.data is set
+   - Call parseDataFile(parsed.data) to retrieve dataPoints array
+   - Bypass generateData when dataPoints are provided
+   - Feed dataPoints into generateSVG or PNG conversion pipeline
+   - Ensure multi-series plotting, export-data, and other downstream flags operate on loaded dataPoints
 
 # Testing
 - Create tests/unit/data-file-input.test.js
   • Mock fs.readFileSync to return representative JSON, YAML, and CSV content
-  • Test that parseDataFile returns correct array of { x, y } for each format
-  • Invoke main with --data sample.json --format svg --output out.svg and assert writeFileSync called with SVG content
-  • Invoke main with --data sample.csv --format png --output out.png and assert PNG buffer output
-  • Test validation errors for unsupported file extensions, malformed structure, missing x or y values, and exclusivity rule violations
+  • Test parseDataFile returns correct arrays of { x, y } for each format
+  • Invoke main() with --data sample.json --format svg --output out.svg and assert fs.writeFileSync receives SVG
+  • Invoke main() with --data sample.csv --format png --output out.png and assert PNG buffer output
+  • Verify validation errors for unsupported extensions, malformed files, missing x or y values, and exclusivity rule violations
 
 # Documentation
 - Update USAGE.md and README.md
   • Document the --data and --data-file flags, supported formats, and exclusivity rules
   • Provide example commands:
-      repository0-plot-code-lib --data data.json --format svg --output chart.svg
-      repository0-plot-code-lib --data data.csv --format png --output chart.png
+     repository0-plot-code-lib --data data.json --format svg --output chart.svg
+     repository0-plot-code-lib --data-file data.csv --format png --output chart.png
   • Include a sample SVG snippet generated from a CSV dataset
