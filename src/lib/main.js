@@ -5,11 +5,15 @@ import fs from 'fs';
 import path from 'path';
 import { create, all } from 'mathjs';
 import sharp from 'sharp';
+import express from 'express';
 import { z } from 'zod';
 import { fileURLToPath } from 'url';
 
 const math = create(all);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+// Exported express app for HTTP API testing
+export let httpApp;
 
 /**
  * Parse command-line arguments into a key-value object.
@@ -35,7 +39,7 @@ export function parseArgs(inputArgs) {
 
 const cliSchema = z.object({
   expression: z.string(),
-  range: z.string().regex(/^.+=[^:]+:[^:]+$/, 'range must be in the format axis=min:max'),
+  range: z.string().regex(/^[a-zA-Z]+=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/, 'range must be in the format axis=min:max'),
   format: z.enum(['svg', 'png']),
   output: z.string(),
 });
@@ -79,8 +83,8 @@ export function generateData(expression, range, samples = 100) {
  * Generate a basic SVG string containing a polyline for the data points.
  */
 export function generateSVG(points, width = 500, height = 500) {
-  const pointsAttr = points.map(p => `${p.x},${p.y}`).join(' ');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+  const pointsAttr = points.map((p) => `${p.x},${p.y}`).join(' ');
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">  
   <polyline fill="none" stroke="black" points="${pointsAttr}" />
 </svg>`;
 }
@@ -93,7 +97,7 @@ export function generateSVG(points, width = 500, height = 500) {
 export async function generatePlot(options) {
   const schema = z.object({
     expression: z.string(),
-    range: z.string().regex(/^.+=[^:]+:[^:]+$/, 'range must be in the format axis=min:max'),
+    range: z.string().regex(/^[a-zA-Z]+=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/, 'range must be in the format axis=min:max'),
     format: z.enum(['svg', 'png']),
     width: z.number().int().positive().optional(),
     height: z.number().int().positive().optional(),
@@ -176,10 +180,56 @@ export async function main(inputArgs) {
     return;
   }
 
+  let parsedArgs;
+  try {
+    parsedArgs = parseArgs(args);
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
+  }
+
+  // HTTP server mode
+  if (parsedArgs.serve) {
+    const port = Number(parsedArgs.serve);
+    const app = express();
+    httpApp = app;
+
+    app.get('/plot', async (req, res) => {
+      try {
+        const raw = req.query;
+        const opts = {
+          expression: raw.expression,
+          range: raw.range,
+          format: raw.format,
+          width: raw.width ? parseInt(raw.width, 10) : undefined,
+          height: raw.height ? parseInt(raw.height, 10) : undefined,
+          samples: raw.samples ? parseInt(raw.samples, 10) : undefined,
+          xLog: raw.xLog === 'true',
+          yLog: raw.yLog === 'true',
+          grid: raw.grid === 'true',
+          title: raw.title,
+          xLabel: raw.xLabel,
+          yLabel: raw.yLabel,
+        };
+        const result = await generatePlot(opts);
+        if (result.type === 'svg') {
+          res.type('image/svg+xml').send(result.data);
+        } else {
+          res.type('image/png').send(result.data);
+        }
+      } catch (err) {
+        res.status(400).json({ error: err.message });
+      }
+    });
+
+    app.listen(port, () => console.log(`Listening on port ${port}`));
+    return;
+  }
+
+  // CLI mode
   let parsed;
   try {
-    const result = parseArgs(args);
-    parsed = cliSchema.parse(result);
+    parsed = cliSchema.parse(parsedArgs);
   } catch (err) {
     console.error(err.message);
     process.exit(1);

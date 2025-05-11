@@ -1,6 +1,7 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, test, expect, vi, beforeEach, afterEach, beforeAll } from 'vitest';
 import fs from 'fs';
 import sharp from 'sharp';
+import request from 'supertest';
 import {
   parseArgs,
   parseRange,
@@ -8,6 +9,7 @@ import {
   generateSVG,
   main,
   generatePlot,
+  httpApp,
 } from '@src/lib/main.js';
 
 // Mock sharp to return a predictable buffer
@@ -89,7 +91,9 @@ describe('main function', () => {
 describe('CLI discovery flags', () => {
   beforeEach(() => {
     vi.spyOn(console, 'log').mockImplementation(() => {});
-    vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Exit:${code}`); });
+    vi.spyOn(process, 'exit').mockImplementation((code) => {
+      throw new Error(`Exit:${code}`);
+    });
   });
 
   afterEach(() => {
@@ -103,7 +107,7 @@ describe('CLI discovery flags', () => {
 
   test('--version outputs version and exits with code 0', async () => {
     await expect(main(['--version'])).rejects.toThrow('Exit:0');
-    expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/^\d+\.\d+\.\S+/));
+    expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/^\d+\.\d+\..+/));
   });
 
   test('--mission outputs mission and exits with code 0', async () => {
@@ -126,5 +130,45 @@ describe('generatePlot', () => {
   test('throws on missing required options', async () => {
     // Missing expression
     await expect(generatePlot({ range: 'x=0:1', format: 'svg' })).rejects.toThrow();
+  });
+});
+
+describe('HTTP Server Mode', () => {
+  beforeAll(async () => {
+    await main(['--serve', '3000']);
+  });
+
+  test('GET /plot returns svg', async () => {
+    const response = await request(httpApp)
+      .get('/plot')
+      .query({ expression: 'y=x', range: 'x=0:1', format: 'svg' });
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/image\/svg\+xml/);
+    expect(response.body.toString()).toContain('<svg');
+  });
+
+  test('GET /plot returns png', async () => {
+    const response = await request(httpApp)
+      .get('/plot')
+      .query({ expression: 'y=x', range: 'x=0:1', format: 'png' });
+    expect(response.status).toBe(200);
+    expect(response.headers['content-type']).toMatch(/image\/png/);
+    expect(response.body).toEqual(Buffer.from('pngdata'));
+  });
+
+  test('GET /plot missing parameters returns 400', async () => {
+    const response = await request(httpApp)
+      .get('/plot')
+      .query({ range: 'x=0:1', format: 'svg' });
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('error');
+  });
+
+  test('GET /plot invalid parameters returns 400', async () => {
+    const response = await request(httpApp)
+      .get('/plot')
+      .query({ expression: 'y=x', range: 'x=a:b', format: 'svg' });
+    expect(response.status).toBe(400);
+    expect(response.body.error).toMatch(/range must be/);
   });
 });

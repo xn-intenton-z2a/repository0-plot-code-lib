@@ -54,3 +54,18 @@ import { generatePlot } from '@xn-intenton-z2a/repository0-plot-code-lib';
 ```
 
 For PNG output, specify `format: 'png'` and the returned data will be a `Buffer` containing PNG image bytes.
+
+## HTTP Server Mode
+
+Use the `--serve <port>` flag to start an HTTP server exposing a `/plot` endpoint.
+
+```sh
+repository0-plot-code-lib --serve 3000
+```
+
+Request plots via `curl`:
+
+```sh
+curl "http://localhost:3000/plot?expression=y=sin(x)&range=x=0:6.28&format=svg"
+curl "http://localhost:3000/plot?expression=y=x&range=x=0:5&format=png" --output plot.png
+```
