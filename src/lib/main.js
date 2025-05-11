@@ -3,11 +3,16 @@
 
 import { fileURLToPath } from "url";
 
+/**
+ * Main entry point for the CLI or library usage.
+ * @param {string[]} [args] - Optional arguments array. Defaults to process.argv.slice(2).
+ */
 export function main(args) {
-  console.log(`Run with: ${JSON.stringify(args)}`);
+  const realArgs = args ?? process.argv.slice(2);
+  console.log(`Run with: ${JSON.stringify(realArgs)}`);
 }
 
+// If this file is executed directly, run main with default arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const args = process.argv.slice(2);
-  main(args);
+  main();
 }
