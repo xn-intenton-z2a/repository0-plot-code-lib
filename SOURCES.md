@@ -5,7 +5,7 @@ Official guide to parsing and evaluating mathematical expressions with Math.js. 
 
 # Zod Schema Validation
 ## https://github.com/colinhacks/zod
-TypeScript-first runtime schema validation library. Demonstrates defining/composing schemas for CLI flags and config objects, default merging, and detailed error reports. Critical for enforcing input correctness in all command parsers and config file loading via Cosmiconfig. Last commit April 2024; MIT license; 27k+ stars.
+TypeScript-first runtime schema validation library. Demonstrates defining and composing schemas for CLI flags and config objects, default merging, and detailed error reporting. Critical for enforcing input correctness across all command parsers and config loading via Cosmiconfig. Last commit April 2024; MIT license; 27k+ stars.
 ## MIT
 
 # js-yaml Usage Guide
@@ -72,3 +72,8 @@ Guide to using Minimatch for glob pattern matching in file paths. Covers wildcar
 ## https://github.com/motdotla/dotenv#readme
 Official README for dotenv, a zero-dependency module that loads environment variables from a `.env` file into `process.env`. Covers variable expansion, override behavior, and best practices for managing configuration outside of code—handy for customizing CLI defaults or secret keys in automation scripts. Last updated May 2024; BSD-2-Clause license.
 ## BSD-2-Clause
+
+# Plotly.js Graphing Library
+## https://plotly.com/javascript/
+Comprehensive official documentation for Plotly.js, covering interactive and static chart creation, layout configuration, and Node.js image export via Orca or Kaleido. Provides code samples for scatter, line, bar, and area charts, as well as advanced features like subplots, annotations, and animations—facilitating exploration of alternative or advanced rendering strategies for CLI-generated plots. Last updated July 2024; MIT license; widely adopted in data visualization projects.
+## MIT
