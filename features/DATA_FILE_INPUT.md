@@ -1,35 +1,36 @@
 # Overview
-Add support for plotting external time series data via a new --data flag. Users can supply a JSON, YAML, or CSV file containing an array of { x:number, y:number } points. When --data is provided, the CLI bypasses expression parsing and uses the loaded data for SVG or PNG output.
+Add support for plotting external time series data via a new --data-file flag. Users can supply a JSON, YAML, or CSV file containing an array of { x: number, y: number } points. When --data-file is provided, the CLI bypasses expression parsing and uses the loaded data for SVG or PNG output.
 
 # CLI Flags
-- --data <path>: Path to input data file. Supported extensions: .json, .yaml/.yml, .csv
-- Mutual exclusivity: --data cannot be used with --expression or --range
-- Supports existing --format svg|png and --output <path> flags
+- `--data-file <path>`: Path to input data file. Supported extensions: .json, .yaml/.yml, .csv
+- Mutual exclusivity: --data-file cannot be used with --expression or --range
+- Supports existing `--format svg|png` and `--output <path>` flags
 
 # Implementation
-1. Extend cliSchema in src/lib/main.js to accept an optional data: z.string() field
-   and enforce either data or (expression and range) with a custom refinement.
-2. In parseArgs, capture the --data flag value and include it in the parsed result.
-3. After validation, in main(), detect if data is present:
-   - Read file content with fs.readFileSync(path, 'utf-8')
+1. Extend `cliSchema` in `src/lib/main.js` to accept an optional `dataFile` field (z.string) and refine schema so that either `dataFile` is present or both `expression` and `range` are provided.
+2. In `parseArgs`, recognize the `--data-file` flag and assign its value to `dataFile` in the parsed result.
+3. After argument validation, in `main()`, detect if `dataFile` is set:
+   - Read file content with `fs.readFileSync(dataFile, 'utf-8')`.
    - Determine format by file extension:
-     • .json: parse with JSON.parse
-     • .yaml/.yml: import js-yaml and call load
-     • .csv: split by line breaks, skip header line ‘x,y’, then parse each row as two numbers
-   - Validate that parsed result is an array of objects with numeric x and y properties
-4. Feed the array of points into generateSVG or into sharp pipeline for PNG as before
-5. Ensure clear error messages for unsupported extensions or invalid content
+     • `.json`: parse with `JSON.parse`
+     • `.yaml`/`.yml`: import `js-yaml` and call `load`
+     • `.csv`: split by lines, skip header `x,y`, then parse each row into numbers
+   - Validate that the parsed result is an array of objects with numeric `x` and `y` properties; throw a clear error if validation fails.
+   - Use the resulting array of points in place of generated expression data.
+4. Pass the loaded points into `generateSVG` for SVG output or into the sharp pipeline for PNG output as before.
+5. Ensure error messages clearly report unsupported extensions, parse failures, or invalid data structures.
 
 # Testing
-- Create tests in tests/unit/data-input.test.js
-  • Mock fs.readFileSync to return sample JSON, YAML, and CSV strings
-  • Import and call a new parseDataFile(path) helper to verify correct point arrays
-  • Invoke main() with ['--data','data.json','--format','svg','--output','out.svg'] and assert fs.writeFileSync is called with an SVG containing polyline points from the file data
-  • Invoke main() with --data and format png to verify sharp pipeline is invoked and writeFileSync receives a Buffer
+- Create tests in `tests/unit/data-file-input.test.js`:
+  • Mock `fs.readFileSync` to return sample JSON, YAML, and CSV strings.
+  • Test a new helper `parseDataFile(path)` to verify it returns the correct array of `{ x, y }` points for each format.
+  • Invoke `main()` with `['--data-file','data.json','--format','svg','--output','out.svg']` and assert `fs.writeFileSync` writes an SVG containing the expected polyline points.
+  • Invoke `main()` with `--data-file` and `--format png` to verify the sharp pipeline is invoked and `writeFileSync` receives the correct Buffer.
+  • Test error cases: unsupported file extensions, malformed JSON/YAML/CSV, and non-numeric values.
 
 # Documentation
-- Update USAGE.md with examples:
-   repository0-plot-code-lib --data data.json --format svg --output plot.svg
-   repository0-plot-code-lib --data data.yaml --format png --output plot.png
-   repository0-plot-code-lib --data data.csv --format svg --output chart.svg
-- Update README.md to describe the --data flag, supported formats, and include a sample SVG snippet generated from a CSV file
+- Update `USAGE.md` with examples:
+   repository0-plot-code-lib --data-file data.json --format svg --output plot.svg
+   repository0-plot-code-lib --data-file data.yaml --format png --output plot.png
+   repository0-plot-code-lib --data-file data.csv --format svg --output chart.svg
+- Update `README.md` to describe the `--data-file` flag, supported formats, and include a sample SVG snippet generated from a CSV file.
