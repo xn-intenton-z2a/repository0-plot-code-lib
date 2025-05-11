@@ -39,7 +39,7 @@ export function parseArgs(inputArgs) {
 
 const cliSchema = z.object({
   expression: z.string(),
-  range: z.string().regex(/^.+=[^:]+:[^:]+$/, 'range must be in the format axis=min:max'),
+  range: z.string().regex(/^[a-zA-Z]+=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/, 'range must be in the format axis=min:max'),
   format: z.enum(['svg', 'png']),
   output: z.string(),
 });
@@ -97,7 +97,7 @@ export function generateSVG(points, width = 500, height = 500) {
 export async function generatePlot(options) {
   const schema = z.object({
     expression: z.string(),
-    range: z.string().regex(/^.+=[^:]+:[^:]+$/, 'range must be in the format axis=min:max'),
+    range: z.string().regex(/^[a-zA-Z]+=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/, 'range must be in the format axis=min:max'),
     format: z.enum(['svg', 'png']),
     width: z.number().int().positive().optional(),
     height: z.number().int().positive().optional(),

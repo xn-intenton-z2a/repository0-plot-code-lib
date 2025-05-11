@@ -144,7 +144,7 @@ describe('HTTP Server Mode', () => {
       .query({ expression: 'y=x', range: 'x=0:1', format: 'svg' });
     expect(response.status).toBe(200);
     expect(response.headers['content-type']).toMatch(/image\/svg\+xml/);
-    expect(response.text).toContain('<svg');
+    expect(response.body.toString()).toContain('<svg');
   });
 
   test('GET /plot returns png', async () => {
