@@ -6,9 +6,10 @@ import path from "path";
 import fs from "fs";
 import minimist from "minimist";
 import { z } from "zod";
+import { Parser } from "expr-eval";
 
 // Define a regex to validate individual axis ranges
-const rangePattern = /^([a-zA-Z]+)=(-?\d+(?:\.\d+)?):(\-?\d+(?:\.\d+)?)$/;
+const rangePattern = /^([a-zA-Z]+)=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)$/;
 
 // Zod schema for validated options
 const optionsSchema = z.object({
@@ -35,9 +36,90 @@ function parseRange(rangeStr) {
 }
 
 /**
+ * Generate a time series from an expression string, ranges, and number of points.
+ * @param {string} expressionStr - Expression of the form "y=f(x,...)".
+ * @param {object} ranges - Map of axis names to [min, max].
+ * @param {number} points - Number of samples per axis.
+ * @returns {Array<object>} - Array of sample objects.
+ */
+export function generateSeries(expressionStr, ranges, points) {
+  // Split into output variable and expression
+  const parts = expressionStr.split("=");
+  if (parts.length !== 2) {
+    throw new Error("Expression must be of the form 'y=f(x)' or similar");
+  }
+  const outputVar = parts[0].trim();
+  const expr = parts[1].trim();
+
+  // Prepare parser and compile function
+  const parser = new Parser();
+  const ast = parser.parse(expr);
+  const inputVars = Object.keys(ranges);
+  const fn = ast.toJSFunction(inputVars);
+
+  // Build evenly spaced values for each axis
+  const axisValues = {};
+  for (const axis of inputVars) {
+    const [min, max] = ranges[axis];
+    const step = points > 1 ? (max - min) / (points - 1) : 0;
+    axisValues[axis] = Array.from({ length: points }, (_, i) => min + step * i);
+  }
+
+  // Cartesian product of axis values
+  const combos = axisValues[inputVars[0]].map((v) => [v]);
+  for (let i = 1; i < inputVars.length; i++) {
+    const axis = inputVars[i];
+    const vals = axisValues[axis];
+    const prev = combos.slice();
+    combos.length = 0;
+    for (const combo of prev) {
+      for (const v of vals) {
+        combos.push([...combo, v]);
+      }
+    }
+  }
+
+  // Evaluate each combination
+  const series = combos.map((combo) => {
+    const result = fn(...combo);
+    const point = {};
+    inputVars.forEach((axis, idx) => {
+      point[axis] = combo[idx];
+    });
+    point[outputVar] = result;
+    return point;
+  });
+  return series;
+}
+
+/**
+ * Serialize series to pretty JSON.
+ * @param {Array<object>} series
+ * @returns {string}
+ */
+export function serializeJson(series) {
+  return JSON.stringify(series, null, 2);
+}
+
+/**
+ * Serialize series to CSV.
+ * @param {Array<object>} series
+ * @returns {string}
+ */
+export function serializeCsv(series) {
+  if (!Array.isArray(series) || series.length === 0) {
+    return "";
+  }
+  const keys = Object.keys(series[0]);
+  const header = keys.join(",");
+  const rows = series.map((point) => keys.map((k) => point[k]).join(","));
+  return [header, ...rows].join("\n");
+}
+
+/**
  * Main entry point for parsing CLI arguments.
- * @param {string[]} [rawArgs] Optional arguments array for testing.
- * @returns {object|undefined} Returns the validated options or undefined on error or no args.
+ * @param {string[]} [rawArgs]
+ * @returns {object|undefined}
  */
 export function main(rawArgs) {
   const argv = rawArgs || process.argv.slice(2);
@@ -117,10 +199,26 @@ export function main(rawArgs) {
   return options;
 }
 
-// If invoked directly, parse args and print the options
+// If invoked directly, run the series generation and output logic
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const options = main();
   if (options) {
-    console.log(options);
+    try {
+      const series = generateSeries(options.expression, options.range, options.points);
+      let outputData;
+      if (options.format === "json") {
+        outputData = serializeJson(series);
+      } else {
+        outputData = serializeCsv(series);
+      }
+      if (options.output) {
+        fs.writeFileSync(options.output, outputData);
+      } else {
+        process.stdout.write(outputData + "\n");
+      }
+    } catch (err) {
+      console.error(err.message);
+      process.exitCode = 1;
+    }
   }
 }

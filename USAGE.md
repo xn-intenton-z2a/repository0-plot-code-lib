@@ -69,3 +69,41 @@ node src/lib/main.js \
   --format csv \
   --output "output.csv"
 ```
+
+## Sample Outputs
+
+### JSON
+
+```bash
+$ node src/lib/main.js --expression "y=x*2" --range "x=0:1" --points 3 --format json
+```
+
+```json
+[
+  {
+    "x": 0,
+    "y": 0
+  },
+  {
+    "x": 0.5,
+    "y": 1
+  },
+  {
+    "x": 1,
+    "y": 2
+  }
+]
+```
+
+### CSV
+
+```bash
+$ node src/lib/main.js --expression "y=x*2" --range "x=0:1" --points 3 --format csv
+```
+
+```
+x,y
+0,0
+0.5,1
+1,2
+```
