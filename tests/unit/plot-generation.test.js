@@ -1,4 +1,4 @@
-import { describe, test, expect, vi } from 'vitest';
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import fs from 'fs';
 import sharp from 'sharp';
 import {
@@ -90,6 +90,7 @@ describe('CLI discovery flags', () => {
     vi.spyOn(console, 'log').mockImplementation(() => {});
     vi.spyOn(process, 'exit').mockImplementation(code => { throw new Error(`Exit:${code}`); });
   });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
