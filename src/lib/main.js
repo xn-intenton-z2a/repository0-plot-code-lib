@@ -8,7 +8,7 @@ import minimist from "minimist";
 import { z } from "zod";
 
 // Define a regex to validate individual axis ranges
-const rangePattern = /^([a-zA-Z]+)=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)$/;
+const rangePattern = /^([a-zA-Z]+)=(-?\d+(?:\.\d+)?):(\-?\d+(?:\.\d+)?)$/;
 
 // Zod schema for validated options
 const optionsSchema = z.object({
@@ -37,10 +37,16 @@ function parseRange(rangeStr) {
 /**
  * Main entry point for parsing CLI arguments.
  * @param {string[]} [rawArgs] Optional arguments array for testing.
- * @returns {object|undefined} Returns the validated options or undefined on error.
+ * @returns {object|undefined} Returns the validated options or undefined on error or no args.
  */
 export function main(rawArgs) {
   const argv = rawArgs || process.argv.slice(2);
+
+  // If no CLI arguments are provided and not in test, skip validation
+  if (!rawArgs && argv.length === 0) {
+    return;
+  }
+
   const args = minimist(argv, {
     string: ["expression", "range", "format", "output"],
     alias: { e: "expression", r: "range", p: "points", f: "format", o: "output" },
@@ -78,9 +84,10 @@ export function main(rawArgs) {
 
   // Validate output path if provided
   if (args.output) {
-    const outputDir = fs.existsSync(args.output) && fs.statSync(args.output).isDirectory()
-      ? args.output
-      : path.dirname(args.output);
+    const outputDir =
+      fs.existsSync(args.output) && fs.statSync(args.output).isDirectory()
+        ? args.output
+        : path.dirname(args.output);
     try {
       fs.accessSync(outputDir, fs.constants.W_OK);
     } catch {
