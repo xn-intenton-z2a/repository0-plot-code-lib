@@ -10,6 +10,8 @@ This tool generates plots based on mathematical expressions over a numeric range
 
 --mission: Show the project mission statement.
 
+--serve <port>: Start an HTTP server exposing the `/plot` endpoint.
+
 ## CLI Examples
 
 Generate an SVG plot:
@@ -76,7 +78,7 @@ For PNG output, specify `format: 'png'` and the returned data will be a `Buffer`
 
 ## HTTP Server Mode
 
-Use the `--serve <port>` flag to start an HTTP server exposing a `/plot` endpoint.
+Use the `--serve <port>` flag to start an HTTP server exposing a `/plot` endpoint:
 
 ```sh
 repository0-plot-code-lib --serve 3000
