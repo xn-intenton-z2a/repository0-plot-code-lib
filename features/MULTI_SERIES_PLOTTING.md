@@ -1,42 +1,49 @@
 # Overview
-Add the ability to plot multiple mathematical expressions in a single CLI invocation. Users can supply multiple expressions via a comma-separated list or by repeating the --expression flag. Each series will be drawn with a distinct color and labeled in a legend.
+Provide the ability to plot multiple mathematical expressions in a single invocation. Users can supply several expressions by repeating the --expression flag or via a comma-separated --expressions option. Each series is drawn in a distinct color and labeled with its expression in the legend.
 
 # CLI Flags
-- `--expressions <list>`: Comma-separated list of expressions to plot (e.g., "y=sin(x),y=cos(x),y=x^2").
-- Allow multiple `--expression <expr>` flags to collect series.
-- Mutually exclusive with `--data-file`.
-- Supports existing `--range`, `--format`, and `--output` flags.
+- --expression <expr>        Repeatable flag to specify one expression per usage (e.g., --expression "y=sin(x)").
+- --expressions <list>       Comma-separated list of expressions (e.g., --expressions "y=sin(x),y=cos(x),y=x^2").
+- Mutually exclusive with --data and --x-expression/--y-expression (parametric) and --data-file modes.
+- Preserves existing flags: --range, --format, --output, styling (title, labels, grid, palette, colors), derivative, trendline, export-data.
 
 # Implementation
-1. Update `cliSchema` in `src/lib/main.js`:
-   - Make `expression` field accept either a single string or an array of strings.
-   - Add optional `expressions` field as z.string() and apply mutual exclusivity rule with `expression` and `dataFile`.
-2. Enhance `parseArgs`:
-   - Recognize repeated `--expression` flags and collect them into an array.
-   - Recognize `--expressions` and split its value on commas into an array.
-   - Validate that at least one expression is supplied and normalize to `parsed.expressions` array.
-3. In `main()`:
-   - Determine series list from `parsed.expressions` (array) or single `parsed.expression` fallback.
-   - For each expression in the series list, call `generateData` to obtain a point array.
-   - Pass an array of `{ expression, points }` objects into `generateSVG`.
-4. Extend `generateSVG` in `src/lib/main.js`:
-   - Accept an array of series objects instead of a single point array.
-   - Define a default color palette for strokes.
-   - Render one `<polyline>` per series with its assigned stroke color and consistent styles.
-   - Add a `<g class="legend">` element listing each expression with a colored swatch and label.
-   - Preserve single-series behavior when array length is one by delegating to existing logic.
-5. Maintain PNG conversion via `sharp` unchanged.
+1. Schema Updates
+   • In cliSchema (src/lib/main.js) extend:
+     - expressions: z.string().optional().refine(v => v.split(",").length > 0, 'expressions must be a comma-separated list')
+     - Modify expression: z.union([z.string(), z.array(z.string())]) or accept array of strings for repeated flags.
+2. Argument Parsing
+   • In parseArgs(), collect either:
+     - multiple keys named expression into an array
+     - a single key expressions and split its value on commas
+   • Enforce at least one expression or expressions flag present and normalize into parsed.expressions array.
+   • Ensure that expression(s) flags are invalid when --data or parametric flags are also set.
+3. Main Flow
+   • After validation, determine seriesList:
+     - Take parsed.expressions array
+     - For backward compatibility, if only parsed.expression present (string), treat as single-element list.
+   • For each expression in seriesList:
+     - Call generateData(expression, rangeObj, samples) to produce points
+     - Build series object: { label: expression, points }
+   • If derivative, trendlineStats or overlayTrendline flags apply, handle overlays per series as separate series entries.
+   • Pass series array into generateSVG() to render multiple polylines and add legend.
+4. generateSVG Enhancement
+   • Accept an array of series objects: each has label and points
+   • Assign distinct colors from palette or colors list
+   • Render each polyline with stroke color and include legend group labeling each series swatch
+   • Preserve single-series behavior when array length is one.
 
 # Testing
-- Create `tests/unit/multi-series.test.js`:
-  - Verify `parseArgs` handles `--expressions` and repeated `--expression` flags correctly.
-  - Test that `generateSVG` outputs multiple `<polyline>` elements with distinct stroke attributes and includes a legend group.
-  - Test `main()` writes an SVG containing all series when using `--expressions` and that single-expression calls remain unchanged.
-  - Test PNG output for multi-series plots produces a valid PNG buffer.
+- tests/unit/multi-series-plotting.test.js:
+  • parseArgs handles repeated --expression flags and --expressions splitting.
+  • CLI main writes an SVG containing multiple <polyline> elements and a <g class="legend"> with matching labels.
+  • Programmatic generatePlot({ expressions: [...], range, format }) returns SVG with multiple series.
+  • Backward compatibility: single-expression invocation remains unchanged.
+  • Error cases: mixing expressions with --data or missing range or expressions triggers validation error.
 
 # Documentation
-- Update `USAGE.md` and `README.md`:
-  - Document the `--expressions` and repeated `--expression` usage.
-  - Provide example commands:
-     repository0-plot-code-lib --expressions "y=sin(x),y=cos(x)" --range "x=0:6.28" --format svg --output dual.svg
-  - Include a sample SVG snippet showing two colored curves and the legend.
+- Update USAGE.md under **Plotting Multiple Series**:
+  • Document usage of --expressions and repeated --expression flags with examples.
+  • Show sample SVG snippet with two curves and legend.
+- Update README.md to include the new flags in the CLI Usage section and show examples of multi-series plotting.
+- Ensure examples illustrate both forms and preserve links to styling and output options.
