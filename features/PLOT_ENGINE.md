@@ -1,36 +1,41 @@
 # Overview
-Unify all core plotting capabilities into a single engine that powers the CLI, programmatic API, and HTTP endpoints. This feature handles mathematical expressions, data imports, parametric functions, multi-series, derivative and trendline overlays, integral shading, reference lines, log scaling, explicit multi-axis ranges, styling options, and raw data export and analytics.
-
-# CLI Flags
-- expression/expression or expressions: Define one or multiple functions in x (e.g., --expression "y=sin(x)", --expressions "y=sin(x),y=cos(x)").
-- x-expression and y-expression: Parametric mode (mutually exclusive with expressions and data). Supply both to plot parametric curves over t range.
-- range, x-range, y-range: Specify axis ranges (axis=min:max), or combined with comma separated ranges.
-- data or data-file: Import external JSON, YAML, or CSV containing x,y records.
-- format: svg or png output format.
-- output: File path to write the plot file.
-- serve: Start HTTP server on given port.
-- integral: true|false to shade area under curves.
-- derivative: true|false to overlay first derivative curve.
-- trendline-stats and overlay-trendline: Compute and/or overlay regression line with slope, intercept, and R².
-- hline and vline: Comma-separated reference line values on x or y axes.
-- x-log and y-log: Apply base-10 log scaling to axes (requires positive values).
-- export-data and export-format: Write raw data or series to CSV, JSON, or YAML.
-- Styling: width, height, title, x-label, y-label, grid, background, palette, colors, markers, marker-size.
-
-# API Interface
-Export an async function generatePlot(options):
-- options: object supporting all CLI flags in typed form (strings, numbers, booleans).
-- Returns: { type: 'svg'|'png', data: string|Buffer, stats?: { slope, intercept, r2 } } for overlay or stats-only modes.
+Extend the unified plot engine to fully implement and expose a dedicated statistics endpoint that computes summary metrics (min, max, mean, median, stddev) for a series generated from a mathematical expression or imported data.
 
 # HTTP API Endpoints
-- GET /plot: Accepts query params matching generatePlot options plus encoding=base64. Returns raw image bytes or JSON { data: base64, type }.
-- GET /stats: Accepts expression+range or dataFile, optional samples and json flag. Returns summary statistics (min, max, mean, median, stddev) in JSON or plain text.
+- GET /stats  
+  • Query parameters:  
+    - expression (optional when dataFile is provided): string in the form y=…  
+    - range (required when expression is provided): axis=min:max  
+    - dataFile (optional when expression is provided): path to JSON, CSV, or YAML file  
+    - samples (optional): integer number of sample points, default 100  
+    - json (optional): true|false, default true  
+  • Behavior:  
+    - When expression and range are present, generate data points via generateData.  
+    - When dataFile is provided, read and parse file (support JSON, YAML, CSV), convert to series.  
+    - Compute summary statistics: min, max, mean, median, stddev.  
+    - If json=false, respond text/plain with one metric per line (label: value).  
+    - If json=true, respond application/json with an object { min, max, mean, median, stddev }.
 
 # Implementation
-Integrate all parsing, data generation, transformations, plotting, analytics, and export helpers in src/lib/main.js. Extend Zod schemas for CLI and programmatic API. Consolidate generateData, generateDerivativeData, computeTrendlineStats, convertDataToString, generateSVG, generatePlot, and main() HTTP routes into one cohesive feature.
+- In src/lib/main.js during HTTP server setup alongside /plot:  
+  • Add app.get('/stats', async (req, res) => { … }) handler.  
+  • Parse and validate query params (use zod or manual checks).  
+  • For expression mode: call parseRange, generateData.  
+  • For dataFile mode: fs.readFileSync and convertDataToString or a new helper to parse raw file into points.  
+  • Compute summary metrics (implement helper computeSummaryStats).  
+  • Branch on req.query.json flag to send JSON or plain text.  
+  • Return appropriate content-type and status codes on error.
 
 # Testing
-Cover CLI, programmatic, and HTTP modes with unit tests for each behavior: parsing, data import, styling, multi-series, parametric, derivatives, trendline, integrals, reference lines, log scaling, multi-axis ranges, export-data, /plot, and /stats endpoints.
+- Add unit tests in tests/unit/plot-generation.test.js for /stats endpoint:  
+  • Valid expression and range returns JSON with correct metrics.  
+  • Valid expression and range with json=false returns plain text.  
+  • dataFile mode with sample JSON/CSV/YAML fixtures returns correct stats.  
+  • Missing required params or invalid range returns 400 with error message.  
+  • Ensure CORS and headers are consistent with /plot.
 
 # Documentation
-Update USAGE.md and README.md to describe each capability with usage examples for CLI, programmatic API, and HTTP endpoints. Provide sample SVG/PNG snippets and JSON/text outputs for analytics.
+- Update USAGE.md and README.md:  
+  • Describe GET /stats endpoint, supported query parameters, response formats.  
+  • Provide curl examples for JSON and plain-text modes.  
+  • Illustrate sample output blocks for both response types.
