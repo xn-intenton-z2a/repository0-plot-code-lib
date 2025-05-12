@@ -107,3 +107,43 @@ Sample SVG snippet:
   <text x="15" y="200" transform="rotate(-90,15,200)" text-anchor="middle">Value</text>
 </svg>
 ```
+
+## Export Data
+
+Allow export of the generated or imported raw data without interrupting plot output:
+
+--export-data <path>      Path to write raw data (csv, json, yaml inferred by extension)
+--export-format <fmt>     Explicit format when extension is missing or ambiguous (csv, json, yaml)
+
+### Examples
+```sh
+repository0-plot-code-lib --expression "y=x" --range "x=0:5" --export-data data.csv
+repository0-plot-code-lib --expression "y=x" --range "x=0:5" --export-data output --export-format json
+```
+
+#### Sample CSV
+```
+x,y
+0,0
+1,1
+...
+5,5
+```
+
+#### Sample JSON
+```
+[
+  {"x":0,"y":0},
+  {"x":1,"y":1},
+  ...
+]
+```
+
+#### Sample YAML
+```
+- x: 0
+  y: 0
+- x: 1
+  y: 1
+...
+```

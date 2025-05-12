@@ -35,21 +35,21 @@ Generate a PNG:
 repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format png --output plot.png
 ```
 
-### Discovery Flags
-
-- `--help`: Print the help message (contents of `USAGE.md`) and exit with code 0.
+Plot original and derivative:
 ```sh
-repository0-plot-code-lib --help
+repository0-plot-code-lib --expression "y=x^2" --range "x=0:5" --format svg --output plot.svg --derivative true
 ```
 
-- `--version`: Print the version number and exit with code 0.
+#### Export Data
+
+Export raw data to CSV:
 ```sh
-repository0-plot-code-lib --version
+repository0-plot-code-lib --expression "y=x" --range "x=0:5" --export-data data.csv
 ```
 
-- `--mission`: Print the project mission statement and exit with code 0.
+Export raw data to JSON explicitly:
 ```sh
-repository0-plot-code-lib --mission
+repository0-plot-code-lib --expression "y=x" --range "x=0:5" --export-data output --export-format json
 ```
 
 ## Further Reading
