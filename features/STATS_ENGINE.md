@@ -1,49 +1,59 @@
 # Overview
-Provide a unified summary statistics feature that supports both command-line and HTTP contexts. Users can compute min, max, mean, median, and standard deviation for a data series derived from a mathematical expression or input data file and receive results as JSON or plain text.
+Enhance the existing unified summary statistics feature to include optional regression analysis. Users can compute standard summary statistics (min, max, mean, median, stddev) and, when requested, linear regression parameters (slope, intercept, R²) for a data series derived from a mathematical expression or input data file. Results are available in JSON or plain text formats via CLI or HTTP.
 
 # CLI Stats Subcommand
-Add a new stats subcommand to the CLI entrypoint. Invocation:
+Extend the stats subcommand to support a new flag:
+- --trendline-stats <true|false>  Compute regression slope, intercept, and R² (default false)
+
+Invocation:
  repository0-plot-code-lib stats [--flags]
 
 Required flags:
 - --expression <expression>  Function expression in the form y=…
-- --dataFile <path>        Path to JSON CSV or YAML file containing data points
-Optional flags:
 - --range <axis=min:max>    Axis range for expression mode
-- --samples <number>        Number of sample points default 100
-- --json <true|false>       Output format JSON or plain text default true
-- --output <path>           Write output to file defaults to stdout
+or
+- --dataFile <path>        Path to JSON, CSV, or YAML file containing data points
+
+Optional flags:
+- --samples <number>       Number of sample points (default 100)
+- --json <true|false>      Output format JSON or plain text (default true)
+- --trendline-stats <true|false>  Include regression stats (default false)
+- --output <path>          Write output to file (defaults to stdout)
 
 Behavior:
-1. Parse and validate flags on error print to stderr and exit code 1
-2. Load data points from expression via generateData or from dataFile via filesystem
-3. Call computeSummaryStats to calculate min max mean median and stddev
-4. Serialize results as JSON when json flag is true otherwise format as plain text lines
-5. Write results to output path or stdout and exit with code 0
+1. Parse and validate flags; on error print to stderr and exit code 1
+2. Load data points from expression or dataFile
+3. Compute summary statistics via computeSummaryStats
+4. If trendline-stats is true, compute regression parameters with least-squares fitting
+5. Build result object containing summary stats and optional regression fields
+6. Serialize results in JSON or format as labeled plain text lines
+7. Write to output or stdout and exit code 0
 
 # HTTP Stats Endpoint
-Expose GET /stats when server is started with --serve <port>
+Extend GET /stats to accept:
+- trendlineStats (string true|false)
 
-Query parameters mirror CLI flags:
-- expression required unless dataFile provided
-- dataFile
-- range
-- samples
-- json
-
-Behavior:
-1. Validate query parameters using zod return 400 JSON on error
+Query parameters mirror CLI flags. Behavior:
+1. Validate parameters with zod; return 400 JSON on error
 2. Load data points from expression or file
 3. Compute summary statistics
-4. If json is false respond with text plain lines otherwise respond with application JSON object
-5. Include Access Control Allow Origin header on all responses
-6. Return HTTP status 200 on success or 400 with JSON error message on failure
+4. If trendlineStats is true, compute slope, intercept, and R²
+5. If json=false, respond text/plain lines including regression stats when requested
+6. Otherwise respond application/json including both summary and regression fields
+7. Include Access-Control-Allow-Origin header and return 200 on success or 400 on failure
 
 # Implementation
-Implement runStatsCli and HTTP /stats route in src/lib/main.js Use existing parseArgs parseRange generateData computeSummaryStats functions Extend main entrypoint to dispatch on stats subcommand Add zod schema for HTTP parameter validation
+- Update runStatsCli in src/lib/main.js to parse trendline-stats flag
+- Add utility computeRegressionStats(points) to return slope, intercept, r2
+- Extend HTTP handler in createServer to parse trendlineStats and include regression logic
+- Ensure existing computeSummaryStats remains unchanged
 
 # Testing
-Add unit tests in tests unit plot generation test js or a new tests file Cover CLI stats invocation success and error cases Cover HTTP /stats JSON and plain text modes file input mode missing parameters and CORS header presence
+- Add unit tests covering CLI with trendline-stats true and false, JSON and text modes
+- Cover HTTP /stats with trendlineStats=true and false, verifying regression fields
+- Test error handling for missing range when expression provided
+- Verify regression calculations against known data sets
 
 # Documentation
-Update USAGE md and README md to document stats subcommand flags examples HTTP /stats endpoint response formats and CORS support
+- Update USAGE.md and README.md to document new trendline-stats and trendlineStats parameters
+- Include examples for computing regression via CLI and HTTP
