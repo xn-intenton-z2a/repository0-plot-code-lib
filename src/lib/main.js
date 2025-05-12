@@ -94,6 +94,65 @@ export function computeSummaryStats(points) {
 }
 
 /**
+ * Compute histogram: divide y-range into equal bins and count points.
+ */
+export function computeHistogram(points, binCount) {
+  if (!Array.isArray(points) || points.length === 0) {
+    throw new Error('No data points provided');
+  }
+  const ys = points.map(p => p.y);
+  const min = Math.min(...ys);
+  const max = Math.max(...ys);
+  const binWidth = (max - min) / binCount;
+  const bins = [];
+  for (let i = 0; i < binCount; i++) {
+    bins.push({
+      binStart: min + binWidth * i,
+      binEnd: min + binWidth * (i + 1),
+      count: 0
+    });
+  }
+  points.forEach((p) => {
+    let idx = Math.floor((p.y - min) / binWidth);
+    if (idx < 0) idx = 0;
+    if (idx >= binCount) idx = binCount - 1;
+    bins[idx].count++;
+  });
+  return bins;
+}
+
+/**
+ * Compute linear regression (least-squares) slope, intercept, and r2.
+ */
+export function computeRegression(points) {
+  if (!Array.isArray(points) || points.length === 0) {
+    throw new Error('No data points provided');
+  }
+  const n = points.length;
+  let sumX = 0;
+  let sumY = 0;
+  let sumXY = 0;
+  let sumX2 = 0;
+  let sumY2 = 0;
+  points.forEach(({ x, y }) => {
+    sumX += x;
+    sumY += y;
+    sumXY += x * y;
+    sumX2 += x * x;
+    sumY2 += y * y;
+  });
+  const meanX = sumX / n;
+  const meanY = sumY / n;
+  const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
+  const intercept = meanY - slope * meanX;
+  // Compute r2
+  const ssTot = points.reduce((sum, p) => sum + (p.y - meanY) ** 2, 0);
+  const ssRes = points.reduce((sum, p) => sum + (p.y - (slope * p.x + intercept)) ** 2, 0);
+  const r2 = ssTot === 0 ? 1 : 1 - ssRes / ssTot;
+  return { slope, intercept, r2 };
+}
+
+/**
  * CLI subcommand: stats
  */
 export async function runStatsCli(argv) {
@@ -108,6 +167,11 @@ export async function runStatsCli(argv) {
   const { expression, dataFile, range, samples, format, output } = args;
   const sampleCount = samples ? parseInt(samples, 10) : 100;
   const outFormat = format === 'text' ? 'text' : 'json';
+  // New flags
+  const histFlag = args.histogram && args.histogram !== 'false';
+  const binCount = args.bins ? parseInt(args.bins, 10) : 10;
+  const trendFlag = args['trendline-stats'] && args['trendline-stats'] !== 'false';
+
   try {
     let points;
     if (expression) {
@@ -133,11 +197,32 @@ export async function runStatsCli(argv) {
       throw new Error('expression or dataFile is required');
     }
     const stats = computeSummaryStats(points);
+    if (trendFlag) {
+      const reg = computeRegression(points);
+      stats.slope = reg.slope;
+      stats.intercept = reg.intercept;
+      stats.r2 = reg.r2;
+    }
+    if (histFlag) {
+      stats.histogram = computeHistogram(points, binCount);
+    }
     let outStr;
     if (outFormat === 'text') {
       const lines = [];
       for (const [k, v] of Object.entries(stats)) {
-        lines.push(`${k}: ${v.toFixed(2)}`);
+        if (k === 'histogram') continue;
+        if (['slope', 'intercept', 'r2'].includes(k)) {
+          lines.push(`${k}: ${v.toFixed(2)}`);
+        } else {
+          lines.push(`${k}: ${v.toFixed(2)}`);
+        }
+      }
+      if (histFlag) {
+        stats.histogram.forEach(b => {
+          lines.push(
+            `histogram ${b.binStart.toFixed(2)}-${b.binEnd.toFixed(2)}: ${b.count}`
+          );
+        });
       }
       outStr = lines.join('\n');
     } else {
@@ -146,7 +231,7 @@ export async function runStatsCli(argv) {
     if (output) {
       fs.writeFileSync(output, outStr);
     } else {
-      process.stdout.write(outStr + (outFormat === 'text' ? '\n' : ''));  
+      process.stdout.write(outStr + (outFormat === 'text' ? '\n' : ''));
     }
     process.exitCode = 0;
   } catch (err) {
@@ -165,7 +250,10 @@ async function createServer(app) {
       dataFile: z.string().optional(),
       range: z.string().optional(),
       samples: z.string().optional(),
-      json: z.string().optional()
+      json: z.string().optional(),
+      histogram: z.string().optional(),
+      bins: z.string().optional(),
+      trendlineStats: z.string().optional()
     });
     let params;
     try {
@@ -173,15 +261,18 @@ async function createServer(app) {
     } catch (e) {
       return res.status(400).json({ error: e.errors.map(er => er.message).join(', ') });
     }
-    const { expression, dataFile, range, samples, json: jsonFlag } = params;
+    const { expression, dataFile, range, samples, json: jsonFlag, histogram, bins, trendlineStats } = params;
     const isJson = jsonFlag !== 'false';
+    const histFlag = histogram === 'true';
+    const trendFlag = trendlineStats === 'true';
+    const sampleCount = samples ? parseInt(samples, 10) : 100;
+    const binCount = bins ? parseInt(bins, 10) : 10;
     let points;
     try {
-      const count = samples ? parseInt(samples, 10) : 100;
       if (expression) {
         if (!range) throw new Error('range is required when expression is provided');
         const rangeObj = parseRange(range);
-        points = generateData(expression, rangeObj, count);
+        points = generateData(expression, rangeObj, sampleCount);
       } else if (dataFile) {
         const ext = path.extname(dataFile).toLowerCase();
         const raw = fs.readFileSync(dataFile, 'utf-8');
@@ -201,11 +292,28 @@ async function createServer(app) {
         throw new Error('expression or dataFile is required');
       }
       const stats = computeSummaryStats(points);
+      if (trendFlag) {
+        const reg = computeRegression(points);
+        stats.slope = reg.slope;
+        stats.intercept = reg.intercept;
+        stats.r2 = reg.r2;
+      }
+      if (histFlag) {
+        stats.histogram = computeHistogram(points, binCount);
+      }
       if (!isJson) {
         res.type('text/plain');
         const lines = [];
         for (const [k, v] of Object.entries(stats)) {
-          lines.push(`${k}: ${v.toFixed(2)}`);
+          if (k === 'histogram') continue;
+          lines.push(`${k}: ${typeof v === 'number' ? v.toFixed(2) : v}`);
+        }
+        if (histFlag) {
+          stats.histogram.forEach(b => {
+            lines.push(
+              `histogram ${b.binStart.toFixed(2)}-${b.binEnd.toFixed(2)}: ${b.count}`
+            );
+          });
         }
         return res.send(lines.join('\n'));
       }

@@ -33,12 +33,14 @@ Stats subcommand (JSON output):
 ```sh
 repository0-plot-code-lib stats --expression "y=x" --range "x=0:2"
 ```
-
+Stats subcommand with histogram and trendline (JSON output):
+```sh
+repository0-plot-code-lib stats --expression "y=x" --range "x=0:10" --histogram true --bins 5 --trendline-stats true
+```
 Stats subcommand (plain text output):
 ```sh
 repository0-plot-code-lib stats --expression "y=x" --range "x=0:2" --format text
 ```
-
 Stats subcommand from data file to output file:
 ```sh
 repository0-plot-code-lib stats --data-file data.json --format json --output stats.json
@@ -66,6 +68,9 @@ Compute summary statistics for a data series derived from an expression or impor
 - `dataFile` (required unless `expression` provided): Path to a JSON, CSV, or YAML file containing `[{x,y}, …]`.
 - `samples` (optional): Number of sample points for expression mode (default `100`).
 - `json` (optional): `true|false` (default `true`).
+- `histogram` (optional): `true|false` to include histogram counts (default `false`).
+- `bins` (optional): Number of bins for histogram (default `10`).
+- `trendlineStats` (optional): `true|false` to include regression parameters (default `false`).
 
 **Response formats**:
 - JSON (`application/json`) when `json=true`:
@@ -75,7 +80,14 @@ Compute summary statistics for a data series derived from an expression or impor
     "max": 5,
     "mean": 2.5,
     "median": 2.5,
-    "stddev": 1.29
+    "stddev": 1.29,
+    "histogram": [
+      {"binStart":0,"binEnd":2,"count":3},
+      ...
+    ],
+    "slope":1,
+    "intercept":0,
+    "r2":1
   }
   ```
 - Plain text (`text/plain`) when `json=false`:
@@ -85,6 +97,10 @@ Compute summary statistics for a data series derived from an expression or impor
   mean: 2.50
   median: 2.50
   stddev: 1.29
+  slope: 1.00
+  intercept: 0.00
+  histogram 0.00-1.00: 2
+  ...
   ```
 
 **Examples**:
@@ -92,5 +108,5 @@ Compute summary statistics for a data series derived from an expression or impor
 curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
 ```sh
-curl "http://localhost:3000/stats?dataFile=data.json&json=true"
+curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:10&histogram=true&bins=4&trendlineStats=true"
 ```

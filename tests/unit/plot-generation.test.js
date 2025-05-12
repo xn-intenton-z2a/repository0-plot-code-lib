@@ -83,3 +83,48 @@ describe('CLI --mission flag', () => {
     fsSpy.mockRestore();
   });
 });
+
+// New histogram and trendline feature tests
+describe('GET /stats histogram distribution and trendline', () => {
+  test('returns histogram bins counts correctly in JSON', async () => {
+    const res = await request(httpApp)
+      .get('/stats')
+      .query({ expression: 'y=x', range: 'x=0:10', samples: '10', histogram: 'true', bins: '5' });
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/application\/json/);
+    const body = res.body;
+    expect(Array.isArray(body.histogram)).toBe(true);
+    expect(body.histogram).toHaveLength(5);
+    const totalCount = body.histogram.reduce((sum, b) => sum + b.count, 0);
+    expect(totalCount).toBe(11);
+    // Check first and last bin boundaries
+    expect(body.histogram[0].binStart).toBeCloseTo(0);
+    expect(body.histogram[0].binEnd).toBeCloseTo(2);
+    expect(body.histogram[4].binEnd).toBeCloseTo(10);
+  });
+
+  test('returns regression stats correctly in JSON', async () => {
+    const res = await request(httpApp)
+      .get('/stats')
+      .query({ expression: 'y=x', range: 'x=0:10', samples: '10', trendlineStats: 'true' });
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty('slope');
+    expect(res.body).toHaveProperty('intercept');
+    expect(res.body).toHaveProperty('r2');
+    expect(res.body.slope).toBeCloseTo(1);
+    expect(res.body.intercept).toBeCloseTo(0);
+    expect(res.body.r2).toBeCloseTo(1);
+  });
+
+  test('includes both histogram and regression in plain text output', async () => {
+    const res = await request(httpApp)
+      .get('/stats')
+      .query({ expression: 'y=x', range: 'x=0:4', samples: '4', histogram: 'true', bins: '2', trendlineStats: 'true', json: 'false' });
+    expect(res.status).toBe(200);
+    const text = res.text;
+    expect(text).toMatch(/slope: 1\.00/);
+    expect(text).toMatch(/intercept: 0\.00/);
+    expect(text).toMatch(/histogram 0\.00-2\.00: \d+/);
+    expect(text).toMatch(/histogram 2\.00-4\.00: \d+/);
+  });
+});
