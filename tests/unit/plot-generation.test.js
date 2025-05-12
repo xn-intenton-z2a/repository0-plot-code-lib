@@ -9,6 +9,7 @@ import {
   generateData,
   generateDerivativeData,
   generateSVG,
+  convertDataToString,
   main,
   generatePlot,
   httpApp,
@@ -75,6 +76,31 @@ describe('generateDerivativeData', () => {
   });
 });
 
+describe('convertDataToString', () => {
+  test('CSV single-series output', () => {
+    const data = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const csv = convertDataToString(data, 'csv');
+    expect(csv).toBe('x,y\n0,0\n1,1');
+  });
+
+  test('CSV multi-series output', () => {
+    const series = [
+      { label: 'a', points: [{ x: 0, y: 0 }, { x: 1, y: 1 }] },
+      { label: 'b', points: [{ x: 2, y: 2 }] }
+    ];
+    const csv = convertDataToString(series, 'csv');
+    expect(csv).toContain('series,x,y');
+    expect(csv).toContain('a,0,0');
+    expect(csv).toContain('b,2,2');
+  });
+
+  test('JSON single-series output', () => {
+    const data = [{ x: 0, y: 0 }];
+    const json = convertDataToString(data, 'json');
+    expect(json).toBe(JSON.stringify(data, null, 2));
+  });
+});
+
 describe('generateSVG', () => {
   test('generates svg string with polyline points', () => {
     const points = [
@@ -119,6 +145,21 @@ describe('main function', () => {
     expect((svg.match(/<polyline/g) || []).length).toBe(2);
     expect(svg).toContain('<g class="legend">');
   });
+
+  test('writes export data and plot files', async () => {
+    writeSpy.mockClear();
+    await main([
+      '--expression', 'y=x', '--range', 'x=0:0', '--format', 'svg',
+      '--output', 'plot.svg', '--export-data', 'data.csv'
+    ]);
+    expect(writeSpy).toHaveBeenCalledTimes(2);
+    // export-data first
+    expect(writeSpy.mock.calls[0][0]).toBe('data.csv');
+    expect(writeSpy.mock.calls[0][1]).toMatch(/^x,y\n0,0/);
+    // plot file second
+    expect(writeSpy.mock.calls[1][0]).toBe('plot.svg');
+    expect(writeSpy.mock.calls[1][1]).toContain('<svg');
+  });
 });
 
 describe('generatePlot', () => {
@@ -148,8 +189,8 @@ describe('generatePlot', () => {
     test('returns png buffer for derivative', async () => {
       const result = await generatePlot({ expression: 'y=x^2', range: 'x=0:2', format: 'png', derivative: true });
       expect(result.type).toBe('png');
-      expect(result.data).toEqual(Buffer.from('pngdata'));
-    });
+      expect(result.data).toEqual(Buffer.from('pngdata'));}
+  );
   });
 });
 

@@ -7,6 +7,7 @@ import { create, all } from "mathjs";
 import sharp from "sharp";
 import express from "express";
 import { z } from "zod";
+import { dump as yamlDump } from "js-yaml";
 import { fileURLToPath } from "url";
 
 const math = create(all);
@@ -52,6 +53,8 @@ const cliSchema = z.object({
   grid: z.string().regex(/^(true|false)$/, 'grid must be true or false').optional(),
   palette: z.enum(["default", "pastel", "dark", "highContrast"]).optional(),
   colors: z.string().optional(),
+  'export-data': z.string().optional(),
+  'export-format': z.enum(["csv","json","yaml"]).optional()
 });
 
 /**
@@ -102,6 +105,59 @@ export function generateDerivativeData(expression, range, samples = 100) {
     points.push({ x, y });
   }
   return points;
+}
+
+/**
+ * Convert raw data or a series array to a string in the specified format.
+ */
+export function convertDataToString(dataOrSeries, format) {
+  // CSV format
+  if (format === 'csv') {
+    const lines = [];
+    const multi = Array.isArray(dataOrSeries) && dataOrSeries.length > 0 && dataOrSeries[0].points;
+    if (multi) {
+      lines.push('series,x,y');
+      dataOrSeries.forEach((series) => {
+        series.points.forEach((p) => {
+          lines.push(`${series.label},${p.x},${p.y}`);
+        });
+      });
+    } else {
+      lines.push('x,y');
+      dataOrSeries.forEach((p) => {
+        lines.push(`${p.x},${p.y}`);
+      });
+    }
+    return lines.join('\n');
+  }
+  // JSON format
+  if (format === 'json') {
+    const multi = Array.isArray(dataOrSeries) && dataOrSeries.length > 0 && dataOrSeries[0].points;
+    if (multi) {
+      const obj = {};
+      dataOrSeries.forEach((series) => {
+        obj[series.label] = series.points;
+      });
+      return JSON.stringify(obj, null, 2);
+    }
+    return JSON.stringify(dataOrSeries, null, 2);
+  }
+  // YAML format
+  if (format === 'yaml') {
+    const multi = Array.isArray(dataOrSeries) && dataOrSeries.length > 0 && dataOrSeries[0].points;
+    let toDump;
+    if (multi) {
+      const obj = {};
+      dataOrSeries.forEach((series) => {
+        obj[series.label] = series.points;
+      });
+      toDump = obj;
+    } else {
+      toDump = dataOrSeries;
+    }
+    return yamlDump(toDump);
+  }
+  throw new Error(`Unsupported export format: ${format}`);
 }
 
 /**
@@ -280,7 +336,7 @@ export async function generatePlot(options) {
 }
 
 /**
- * Main entrypoint for the CLI. Parses flags, generates data, and writes SVG or PNG.
+ * Main entrypoint for the CLI. Parses flags, generates data, optionally exports data, and writes SVG or PNG.
  */
 export async function main(inputArgs) {
   const args = inputArgs || process.argv.slice(2);
@@ -385,29 +441,49 @@ export async function main(inputArgs) {
     grid,
     palette,
     colors,
+    'export-data': exportData,
+    'export-format': exportFormat
   } = parsed;
   const derivativeFlag = derivative === 'true';
   const rangeObj = parseRange(range);
   const data = generateData(expression, rangeObj, 100);
-
   const widthVal = width ? Number(width) : 500;
   const heightVal = height ? Number(height) : 500;
   const gridFlag = grid === 'true';
   const colorsList = colors ? colors.split(',') : undefined;
   const styleOpts = { grid: gridFlag, title, xLabel, yLabel, palette, colors: colorsList };
 
-  let svg;
+  // Determine data or series for plotting and export
+  let seriesOrData;
   if (derivativeFlag) {
     const derivativeData = generateDerivativeData(expression, rangeObj, 100);
-    const series = [
+    seriesOrData = [
       { label: 'original', points: data },
-      { label: 'derivative', points: derivativeData },
+      { label: 'derivative', points: derivativeData }
     ];
-    svg = generateSVG(series, widthVal, heightVal, styleOpts);
   } else {
-    svg = generateSVG(data, widthVal, heightVal, styleOpts);
+    seriesOrData = data;
   }
 
+  // Export raw data if requested
+  if (exportData) {
+    let exFormat = exportFormat;
+    if (!exFormat) {
+      const ext = path.extname(exportData).toLowerCase();
+      if (ext === '.csv') exFormat = 'csv';
+      else if (ext === '.json') exFormat = 'json';
+      else if (ext === '.yaml' || ext === '.yml') exFormat = 'yaml';
+      else {
+        console.error(`Unsupported export format for ${exportData}`);
+        process.exit(1);
+      }
+    }
+    const dataString = convertDataToString(seriesOrData, exFormat);
+    fs.writeFileSync(exportData, dataString);
+  }
+
+  // Generate plot SVG/PNG
+  const svg = generateSVG(seriesOrData, widthVal, heightVal, styleOpts);
   if (format === 'svg') {
     fs.writeFileSync(output, svg);
   } else {
