@@ -1,52 +1,50 @@
 # Overview
-Add advanced customization for plot appearance including dimensions, title, axis labels, gridlines, and series color control. Users can select predefined palettes or specify exact CSS colors for each data series to ensure consistent styling in multi-series or derivative plots.
+Add advanced customization for plot appearance including dimensions, title, axis labels, gridlines, series color control, and axis tick configuration. Users can adjust the number or specific values of ticks on the x and y axes to fine-tune the scale and presentation.
 
 # CLI Flags
-- `--width <number>`: Specify the width of the output SVG in pixels (default 500).
-- `--height <number>`: Specify the height of the output SVG in pixels (default 500).
-- `--title <string>`: Add a centered title at the top of the plot.
-- `--x-label <string>`: Label the x-axis, rendered below the horizontal axis.
-- `--y-label <string>`: Label the y-axis, rendered rotated alongside the vertical axis.
-- `--grid`: Include gridlines at major tick intervals based on the data range.
-- `--palette <name>`: Choose a predefined color palette for series strokes. Supported names: default, pastel, dark, highContrast. Applies when plotting one or more series.
-- `--colors <list>`: Comma-separated list of CSS color values (e.g., "red,#00ff00,rgba(0,0,255,0.5)"). When provided, overrides palette and assigns each color in sequence to each series. If fewer colors than series, remaining series use default palette colors.
+- --width <number>: Specify the width of the output SVG in pixels (default 500).
+- --height <number>: Specify the height of the output SVG in pixels (default 500).
+- --title <string>: Add a centered title at the top of the plot.
+- --x-label <string>: Label the x-axis, rendered below the horizontal axis.
+- --y-label <string>: Label the y-axis, rendered rotated alongside the vertical axis.
+- --grid <true|false>: Include gridlines at major tick intervals based on the data range.
+- --palette <name>: Choose a predefined color palette for series strokes. Supported names: default, pastel, dark, highContrast.
+- --colors <list>: Comma-separated list of CSS color values overriding palette. Applies in sequence to series.
+- --x-ticks <number|list>: Specify the number of evenly spaced ticks on the x-axis or a comma-separated list of exact numeric x-values for tick positions.
+- --y-ticks <number|list>: Specify the number of evenly spaced ticks on the y-axis or a comma-separated list of exact numeric y-values for tick positions.
 
 # Implementation
 1. Schema Updates
-   • In `cliSchema` (src/lib/main.js), add optional fields:
-     - `palette`: z.enum(["default","pastel","dark","highContrast"]).optional()
-     - `colors`: z.string().optional()
-   • In programmatic API schema for `generatePlot`, add matching `palette` and `colors` fields (palette as z.enum, colors as z.string).
+   • In cliSchema (src/lib/main.js) add optional fields:
+     - xTicks: z.string().optional()
+     - yTicks: z.string().optional()
+   • In programmatic API schema for generatePlot, add matching xTicks and yTicks fields as z.string().optional().
+
 2. Argument Parsing
-   • In `parseArgs`, detect `--palette` and `--colors`, store raw values.
+   • In parseArgs, detect --x-ticks and --y-ticks flags and store raw values.
    • After schema validation, normalize:
-     - `selectedPalette` as string or undefined.
-     - `colorList` by splitting `colors` string on commas into an array of CSS strings.
-3. GenerateSVG Enhancement
-   • Extend `generateSVG` signature to accept an options object including palette and colorList alongside width, height, grid, labels.
-   • Determine series stroke colors in priority:
-     1. If `colorList` provided, use its entries in series order.
-     2. Else if `palette` provided, map palette name to a color array:
-        - default: ["black","red","blue","green","orange","purple"]
-        - pastel: ["#FFB3BA","#BFFCC6","#BBD2FF","#FFFFBA","#FFDFBA","#DFBAFF"]
-        - dark: ["#222222","#444444","#666666","#888888","#AAAAAA","#CCCCCC"]
-        - highContrast: ["#000000","#FFFFFF"]
-     3. Otherwise, use existing default color array.
-   • Apply determined colors to each `<polyline>` stroke attribute.
-   • Preserve existing rendering order and legend generation.
-4. Programmatic and HTTP API
-   • Propagate palette and colorList into calls to `generatePlot` and HTTP `/plot` endpoint handlers.
+     - If xTicks is a number string, treat as tickCountX. If comma list, parse into tickValuesX array of numbers.
+     - Likewise for yTicks into tickCountY or tickValuesY.
+
+3. generateSVG Enhancement
+   • Extend generateSVG signature to accept options.xTicks and options.yTicks alongside existing styling options.
+   • Determine x-axis range from series data or supplied yRange/xRange. Compute SVG coordinates for each tick:
+     - If tickCountX provided, divide axis interval into equal segments.
+     - If tickValuesX provided, map each value via scaling function.
+   • For each x-tick:
+     - Append a short <line> element at (xPos, height) to (xPos, height - tickLength) with stroke="black".
+     - Append a <text> element below the axis at (xPos, height + labelOffset) showing the numeric tick value.
+   • Repeat for y-ticks: draw vertical ticks along left axis and rotate tick labels.
+   • Ensure tick elements render above grid but behind data series.
 
 # Testing
-- Update `tests/unit/plot-styling.test.js` to cover:
-  • Parsing of `--palette` and `--colors` flags and conversion to options.
-  • In `generateSVG`, when options.colors is provided, verify `<polyline>` strokes match provided list.
-  • When `--palette pastel` is used, verify SVG strokes cycle through pastel colors.
-  • Backward compatibility: absence of palette and colors yields original behavior and default colors.
+- Create tests/unit/plot-ticks.test.js:
+  • parseArgs should capture --x-ticks and --y-ticks flags and correctly parse counts and lists.
+  • generateSVG should render <line> and <text> elements at correct positions for tickCount and tickValues modes.
+  • Integration: main() or generatePlot() with styling and tick flags returns an SVG containing tick markers and labels.
 
 # Documentation
-- Update `USAGE.md` and `README.md`:
-  • Document `--palette` and `--colors` flags with examples:
-    repository0-plot-code-lib --expressions "y=sin(x),y=cos(x)" --range "x=0:6.28" --format svg --output dual.svg --palette pastel
-    repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format svg --output custom.svg --colors "#ff0000,blue"
-  • Show sample SVG snippets illustrating customized series colors and legend entries.
+- Update USAGE.md and README.md under Plot Styling:
+  • Document --x-ticks and --y-ticks flags with examples:
+    repository0-plot-code-lib --expression "y=x" --range "x=0:10" --format svg --output plot.svg --x-ticks 5 --y-ticks "0,2,4,6"
+  • Provide a sample SVG snippet showing tick lines and numeric labels along both axes.
