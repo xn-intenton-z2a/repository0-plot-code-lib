@@ -1,41 +1,44 @@
 # Overview
-Add the ability for users to dump the computed or imported data series directly to a file in CSV or JSON format. This feature complements plotting workflows by letting users reuse, analyze or share the underlying numeric data without manual extraction from images or code.
+Add support for exporting the generated or imported time series data directly to a file in JSON, CSV, or YAML format. This feature enables users to reuse or analyze numeric data outside of plots without manual extraction.
 
 # CLI Flags
-- --export-data <path>   Path to write raw data. Supported extensions indicate format: .csv or .json
-- --export-format <csv|json>   Force output format when file extension is ambiguous. Defaults to csv for .csv files and json for .json files. Optional when export-data is provided.
+- --export-data <path>  Path to write raw data series. The file extension determines format: .csv, .json, .yaml, or .yml.
+- --export-format <csv|json|yaml>  Optional override when extension is absent or ambiguous. Defaults to csv for .csv, json for .json, and yaml for .yaml or .yml files.
 
 # Implementation
 1. Schema and Argument Parsing
-   In src/lib/main.js extend cliSchema to include optional fields:
-     • exportData: z.string().optional()
-     • exportFormat: z.enum(["csv","json"]).optional()
-   In parseArgs detect --export-data and --export-format flags and normalize into parsed.exportData and parsed.exportFormat.
+   Extend cliSchema in src/lib/main.js to include:
+     • exportData: optional string
+     • exportFormat: optional enum of csv, json, yaml
+   In parseArgs detect --export-data and --export-format, normalize values into parsed.exportData and parsed.exportFormat.
 
 2. Data Acquisition
-   After generateData or parseDataFile or derivative transformations, before or alongside rendering, assemble the final data series array of {x,y} or named series.
+   After generating or loading data series (from generateData, generateDerivativeData, or parseDataFile), assemble a unified data structure representing one or multiple series.
 
 3. Data Conversion Helper
-   Implement a helper convertDataToString(dataOrSeries, format) that:
-     • For csv: outputs a header and rows. For single series header "x,y" then each line x comma y. For multi-series include "series,x,y" prefix per row.
-     • For json: outputs a JSON array. For single series an array of points. For multi-series an object with keys as series labels and arrays of points.
+   Implement a helper function convertDataToString(dataOrSeries, format) that:
+     • For csv: output header x,y for single series, and for multi-series include series,x,y columns.
+     • For json: output a JSON array of point objects for single series, or an object mapping series labels to arrays of points for multi-series.
+     • For yaml: use js-yaml to dump the same structures as JSON.
 
 4. CLI Integration
-   In main(), after computing data and before writing SVG or PNG, if exportData is set:
-     • Determine output format from exportFormat or file extension
-     • Call convertDataToString on data or series
-     • Write the string to the specified path via fs.writeFileSync
-   Proceed with normal image rendering and file output.
+   In main() after data conversion steps, if exportData is set:
+     • Determine format from exportFormat or file extension.
+     • Call convertDataToString with the data or series.
+     • Write the resulting string to the specified path using fs.writeFileSync.
+   Proceed with normal SVG or PNG rendering and file output without interruption.
 
 # Testing
-- Create tests/unit/data-export.test.js
-  • Test parseArgs recognizes export-data and export-format flags and errors on missing value
-  • In main() when export-data is provided verify fs.writeFileSync writes the correct CSV or JSON string and that plotting output still writes image
-  • Test convertDataToString helper for single and multi-series data in both formats
+- Create tests/unit/data-export.test.js to cover:
+  • parseArgs capturing --export-data and --export-format flags and error on missing values.
+  • convertDataToString producing correct CSV, JSON, and YAML outputs for single and multi-series inputs.
+  • CLI mode: running main with --export-data writes the correct file and also writes image output.
+  • Error cases: unsupported extension or format mismatch produce descriptive errors.
 
 # Documentation
 - Update USAGE.md and README.md:
-  • Document new --export-data and --export-format flags with examples:
+  • Document --export-data and --export-format flags with examples:
       repository0-plot-code-lib --expression y=x --range x=0:5 --export-data data.csv
-      repository0-plot-code-lib --expression y=x --range x=0:5 --export-data data.out --export-format json
-  • Show sample CSV and JSON snippets of exported data
+      repository0-plot-code-lib --expression y=sin(x) --range x=0:6.28 --export-data out.yaml
+      repository0-plot-code-lib --expression y=x --range x=0:5 --export-data out.dat --export-format json
+  • Show sample CSV, JSON, and YAML snippets of exported data.
