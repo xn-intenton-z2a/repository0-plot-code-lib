@@ -28,6 +28,7 @@ The core CLI flags:
 - `--export-data <path>`: Export the raw x,y data to a file (CSV, JSON, YAML).
 - `--export-format <csv|json|yaml>`: Override the export format when the file extension is missing or ambiguous.
 - `--serve <port>`: Start an HTTP server on the specified port exposing the `/plot` endpoint.
+- `--mission`: Show the project mission statement.
 - `examples`: Run the automated examples subcommand to print Markdown-formatted usage examples.
 
 For advanced styling options (title, labels, grid, colors, etc.), see the [Usage guide](USAGE.md).
@@ -46,7 +47,7 @@ Once running, the server exposes the following endpoints:
 
 - **Query parameters** (all in backticks):
   - `expression` (required): Function expression in `x`, e.g., `y=sin(x)`.
-  - `range` (required): Axis range in `axis=min:max` format, e.g., `x=0:6.28`.
+  - `range` (required): `axis=min:max` format, e.g., `x=0:6.28`.
   - `format` (required): `svg` or `png`.
   - Optional: `width`, `height`, `samples`, `xLog`, `yLog`, `grid`, `title`, `xLabel`, `yLabel`, `derivative`, `palette`, `colors`, `trendlineStats`, `overlayTrendline`.
 
@@ -136,6 +137,13 @@ curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 Sample `curl` for JSON stats:
 ```sh
 curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5"
+```
+
+## CLI --mission Example
+
+Print the project mission statement:
+```sh
+repository0-plot-code-lib --mission
 ```
 
 ## Examples
