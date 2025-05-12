@@ -1,6 +1,6 @@
 # Usage
 
-This tool generates plots based on mathematical expressions over a numeric range.
+This tool generates plots based on mathematical expressions over a numeric range and provides a `/stats` endpoint for summary statistics.
 
 ## Flags
 
@@ -10,7 +10,7 @@ This tool generates plots based on mathematical expressions over a numeric range
 
 --mission: Show the project mission statement.
 
---serve <port>: Start an HTTP server exposing the `/plot` endpoint.
+--serve <port>: Start an HTTP server exposing the `/plot` and `/stats` endpoints.
 
 ## CLI Examples
 
@@ -24,19 +24,9 @@ Generate a PNG plot:
 repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format png --output plot.png
 ```
 
-Plot original and derivative curves (SVG):
-```sh
-repository0-plot-code-lib --expression "y=x^2" --range "x=0:5" --format svg --output plot.svg --derivative true
-```
-
 Compute regression stats only:
 ```sh
 repository0-plot-code-lib --expression "y=2*x+1" --range "x=0:2" --trendline-stats true
-```
-
-Overlay trendline on plot:
-```sh
-repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format svg --output plot.svg --overlay-trendline true
 ```
 
 Show version:
@@ -44,131 +34,57 @@ Show version:
 repository0-plot-code-lib --version
 ```
 
-Show mission:
-```sh
-repository0-plot-code-lib --mission
-```
-
-Use `--help` to display this message and examples.
-
-## Programmatic API
-
-The library provides a programmatic interface for generating plots in memory without performing file I/O. It exports an asynchronous function `generatePlot(options)`:
-
-```js
-import { generatePlot } from '@xn-intenton-z2a/repository0-plot-code-lib';
-
-(async () => {
-  const result = await generatePlot({
-    expression: 'y=sin(x)',
-    range: 'x=0:6.28',
-    format: 'svg',
-    // optional: width, height, samples, xLog, yLog, grid, title, xLabel, yLabel, palette, colors, derivative,
-    // trendlineStats, overlayTrendline
-    trendlineStats: true,
-    overlayTrendline: true
-  });
-  console.log(result.type); // 'svg'
-  console.log(result.data); // '<svg ...'
-  console.log(result.stats); // { slope: ..., intercept: ..., r2: ... }
-})();
-```
-
-For PNG output, specify `format: 'png'` and the returned data will be a `Buffer` containing PNG image bytes.
-
 ## HTTP Server Mode
 
-Use the `--serve <port>` flag to start an HTTP server exposing a `/plot` endpoint:
+Use the `--serve <port>` flag to start an HTTP server exposing `/plot` and `/stats` endpoints:
 
 ```sh
 repository0-plot-code-lib --serve 3000
 ```
 
-Request plots via `curl`:
+Request stats via `curl`:
 
 ```sh
-curl "http://localhost:3000/plot?expression=y=sin(x)&range=x=0:6.28&format=svg"
-curl "http://localhost:3000/plot?expression=y=x&range=x=0:5&format=png" --output plot.png
+curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
 
-## Plot Styling
+## /stats Endpoint
 
-Enhance your plots with advanced styling options:
+Compute summary statistics for a data series derived from an expression or imported data file.
 
---width <number>        SVG width in px (default 500)
---height <number>       SVG height in px (default 500)
---title <string>        Centered plot title
---x-label <string>      X-axis label
---y-label <string>      Y-axis label
---grid <true|false>     Draw dashed gridlines
---palette <name>        Predefined palettes: default, pastel, dark, highContrast
---colors <list>         Comma-separated CSS colors overriding palette
+**GET** `/stats`
 
-### Plot Styling Example
+**Query parameters**:
+- `expression` (required unless `dataFile` provided): Function expression in `y=…` form.
+- `range` (required with `expression`): Axis range in `axis=min:max` format.
+- `dataFile` (required unless `expression` provided): Path to a JSON, CSV, or YAML file containing `[{x,y}, …]`.
+- `samples` (optional): Number of sample points for expression mode (default `100`).
+- `json` (optional): `true|false` (default `true`).
+
+**Response formats**:
+- JSON (`application/json`) when `json=true`:
+  ```json
+  {
+    "min": 0,
+    "max": 5,
+    "mean": 2.5,
+    "median": 2.5,
+    "stddev": 1.29
+  }
+  ```
+- Plain text (`text/plain`) when `json=false`:
+  ```text
+  min: 0.00
+  max: 5.00
+  mean: 2.50
+  median: 2.50
+  stddev: 1.29
+  ```
+
+**Examples**:
 ```sh
-repository0-plot-code-lib --expression "y=x" --range "x=0:1" --format svg --output plot.svg \
-  --width 600 --height 400 --title "My Plot" \
-  --x-label "Time" --y-label "Value" --grid true \
-  --palette pastel --colors "red,green"
+curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
-
-Sample SVG snippet:
-```xml
-<svg width="600" height="400" ...>
-  <line ... stroke-dasharray="4,2" />
-  <text x="300" y="20" text-anchor="middle">My Plot</text>
-  <polyline ... stroke="red" points="..." />
-  <text x="300" y="395" text-anchor="middle">Time</text>
-  <text x="15" y="200" transform="rotate(-90,15,200)" text-anchor="middle">Value</text>
-</svg>
-```
-
-## Automated Examples
-
-Use the `examples` subcommand to generate Markdown-formatted usage examples and outputs for core features:
-
 ```sh
-repository0-plot-code-lib examples
-```
-
-This command prints a series of code blocks with representative CLI commands and their resulting SVG outputs, which can be embedded directly in documentation.
-
-## Export Data
-
-Allow export of the generated or imported raw data without interrupting plot output:
-
---export-data <path>      Path to write raw data (csv, json, yaml inferred by extension)
---export-format <fmt>     Explicit format when extension is missing or ambiguous (csv, json, yaml)
-
-### Examples
-```sh
-repository0-plot-code-lib --expression "y=x" --range "x=0:5" --export-data data.csv
-repository0-plot-code-lib --expression "y=x" --range "x=0:5" --export-data output --export-format json
-```
-
-#### Sample CSV
-```
-x,y
-0,0
-1,1
-...
-5,5
-```
-
-#### Sample JSON
-```
-[
-  {"x":0,"y":0},
-  {"x":1,"y":1},
-  ...
-]
-```
-
-#### Sample YAML
-```
-- x: 0
-  y: 0
-- x: 1
-  y: 1
-...
+curl "http://localhost:3000/stats?dataFile=data.json&json=true"
 ```
