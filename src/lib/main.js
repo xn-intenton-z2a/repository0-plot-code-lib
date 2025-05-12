@@ -202,13 +202,13 @@ export function generateSVG(dataOrSeries, width = 500, height = 500, options = {
     for (let i = 0; i <= cols; i++) {
       const x = xStep * i;
       elements.push(
-        `<line x1="${x}" y1="0" x2="${x}" y2="${height}" stroke="lightgray" stroke-dasharray="4,2" />`
+        `<line x1="${x}" y1="0" x2="${width}" y2="${height}" stroke="lightgray" stroke-dasharray="4,2" />`
       );
     }
     for (let j = 0; j <= rows; j++) {
       const y = yStep * j;
       elements.push(
-        `<line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="lightgray" stroke-dasharray="4,2" />`
+        `<line x1="0" y1="${y}" x2="${width}" y2="${height}" stroke="lightgray" stroke-dasharray="4,2" />`
       );
     }
   }
@@ -260,7 +260,7 @@ export function generateSVG(dataOrSeries, width = 500, height = 500, options = {
   }
 
   const inner = elements.join('');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${inner}</svg>`;
+  return `<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"${width}\" height=\"${height}\">${inner}</svg>`;
 }
 
 /**
@@ -341,8 +341,39 @@ export async function generatePlot(options) {
 export async function main(inputArgs) {
   const args = inputArgs || process.argv.slice(2);
 
+  // Automated examples subcommand
+  if (args[0] === 'examples') {
+    const examples = [
+      {
+        command: 'repository0-plot-code-lib --expression "y=x" --range "x=0:1" --format svg',
+        options: { expression: 'y=x', range: 'x=0:1', format: 'svg' },
+      },
+      {
+        command: 'repository0-plot-code-lib --expression "y=x^2" --range "x=0:2" --format svg --derivative true',
+        options: { expression: 'y=x^2', range: 'x=0:2', format: 'svg', derivative: true },
+      },
+    ];
+    for (const ex of examples) {
+      console.log('```sh');
+      console.log(`$ ${ex.command}`);
+      console.log('```');
+      // Use dynamic import to call exported generatePlot so spies can intercept
+      const { generatePlot: gp } = await import(import.meta.url);
+      const result = await gp(ex.options);
+      if (result.type === 'svg') {
+        console.log('```svg');
+        console.log(result.data);
+        console.log('```');
+      } else {
+        console.log('![PNG output omitted]');
+      }
+    }
+    return;
+  }
+
+  const argsCount = args.length;
   // Standard discovery flags
-  if (args.length === 1) {
+  if (argsCount === 1) {
     const flag = args[0];
     if (flag === '--help') {
       const usagePath = path.resolve(__dirname, '../../USAGE.md');
@@ -364,7 +395,7 @@ export async function main(inputArgs) {
     }
   }
 
-  if (args.length === 0) {
+  if (argsCount === 0) {
     console.log(`Run with: ${JSON.stringify(args)}`);
     return;
   }
