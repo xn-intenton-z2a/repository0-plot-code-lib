@@ -1,62 +1,43 @@
 # Overview
-Extend the HTTP server and CLI to support computing and returning summary statistics for a data series via both HTTP and a fully implemented `stats` CLI subcommand. Users can derive statistics from a mathematical expression over a range or from an existing data file using a unified API and CLI interface.
+Extend the CLI to support a new plot subcommand that mirrors the HTTP /plot endpoint, enabling users to generate SVG or PNG plots directly from the command line and optionally export the underlying data series.
 
-# HTTP API Endpoint `/stats`
-- **GET** `/stats`
-  • Query parameters:
-    - `expression` (required when `dataFile` is absent): function expression in form `y=…`
-    - `range` (required with `expression`): axis range in format `axis=min:max`
-    - `dataFile` (required when `expression` is absent): path to JSON, CSV, or YAML data
-    - `samples` (optional): integer count of sample points (default `100`)
-    - `json` (optional): `true|false` (default `true`)
-  • Behavior:
-    - Expression mode: parse range with `parseRange`, generate points with `generateData`
-    - File mode: read and parse JSON, CSV, or YAML files into `{x, y}` points
-    - Compute statistics via `computeSummaryStats`: `min`, `max`, `mean`, `median`, `stddev`
-    - If `json=false`: respond `text/plain`, one `key: value` per line with two decimal places
-    - If `json=true`: respond `application/json` with JSON object of stats
-    - Always include `Access-Control-Allow-Origin: *`
-    - On invalid input or processing errors: respond `400` with JSON `{ error: message }`
-
-# CLI `stats` Subcommand
-- **Usage**: `repository0-plot-code-lib stats [options]`
-- **Options**:
-  - `--expression <expression>`: function expression in form `y=…`
-  - `--range <axis>=<min>:<max>`: numeric range for sampling when expression is provided
-  - `--data-file <path>`: path to JSON, CSV, or YAML file with `[{x,y}, …]`
-  - `--samples <number>`: number of sample points for expression mode (default `100`)
-  - `--format <json|text>`: output format (default `json`)
-  - `--output <path>`: optional file path to write results; writes to stdout if omitted
-- **Behavior**:
-  - Validate that either `expression` with `range`, or `dataFile` is provided. Exit with code `1` and error message on stderr if validation fails
-  - Load or generate data series and compute stats via `computeSummaryStats`
-  - Format output as JSON or plain text according to `--format`
-  - If `--output` is specified, write formatted results to file; else print to stdout
-  - Exit with code `0` on success or non-zero on failure
+# CLI plot Subcommand
+- Usage: repository0-plot-code-lib plot [options]
+- Flags
+  - --expression (required) mathematical function in form y=…
+  - --range (required with expression) axis range in axis=min:max format
+  - --format (required) svg or png
+  - --output (optional) file path for image output; writes to stdout if omitted
+  - --samples (optional) integer sample count; default 100
+  - --width (optional) image width in pixels; default 800
+  - --height (optional) image height in pixels; default 600
+  - --derivative (optional) true or false; overlay first derivative curve
+  - --overlay-trendline (optional) true or false; overlay regression trendline
+  - --trendline-stats (optional) true or false; compute and print trendline statistics without image
+  - --export-data (optional) file path to write raw data series
+  - --export-format (optional) csv, json, or yaml; default inferred from export-data extension
+- Behavior
+  - Validate that expression and range are provided; on validation failure print error to stderr and exit with code 1
+  - Generate data series via parseRange and generateData
+  - Render plot using existing plot generator to SVG or PNG buffer
+  - Write image to output path or print binary to stdout
+  - When export-data is specified, serialize series in requested format and write to file
+  - Exit with code 0 on success or non-zero on error
 
 # Implementation
-- Update `src/lib/main.js`:
-  • In `main(argv)`, detect first argument `stats` and route to a new `runStatsCli(argv)` function
-  • In `runStatsCli`:
-    - Parse flags using `parseArgs`
-    - Perform validation for required flags
-    - Reuse `parseRange`, `generateData`, file parsing, and `computeSummaryStats`
-    - Serialize stats based on `--format` and handle file writes when `--output` is provided
-    - Write errors to stderr and set process exit code appropriately
-- Ensure existing HTTP `/stats` handler remains unchanged and fully functional
+- In src/lib/main.js, update main to detect first argument plot and call new runPlotCli function
+- Implement runPlotCli to parse flags using parseArgs, validate inputs, reuse parseRange and generateData, and call generatePlot
+- Use sharp or SVG API to produce the requested image buffer
+- Handle file writes and stdout accordingly, and set process exit codes
 
 # Testing
-- Add unit tests in `tests/unit/cli-stats.test.js`:
-  • Verify `stats` subcommand outputs correct JSON and text for expression mode
-  • Verify `--data-file` mode works for JSON, CSV, and YAML inputs
-  • Test `--output` writes files correctly (use temporary directories and cleanup)
-  • Test error conditions: missing required flags, invalid range format, unsupported file types
-- Update `tests/unit/plot-generation.test.js` if necessary to avoid conflicts
+- Add unit tests in tests/unit/cli-plot.test.js
+  - Test plot subcommand for svg and png output to file and stdout
+  - Test error conditions: missing expression, missing range, unsupported format
+  - Test export-data flag writes correct csv and json outputs
+  - Use vitest command invocation and temporary files for isolation
 
 # Documentation
-- Update `USAGE.md`:
-  • Add section for `stats` subcommand syntax, options, defaults, and examples
-- Update `README.md`:
-  • Document `stats` subcommand under CLI Usage with examples for JSON and plain-text outputs
-  • Ensure consistency with HTTP `/stats` documentation
-- Confirm that `--help` includes `stats` usage
+- Update USAGE.md and README.md to include a CLI plot section
+- Document all flags, defaults, and examples without code escape sequences
+- Provide sample commands showing image and data export workflows
