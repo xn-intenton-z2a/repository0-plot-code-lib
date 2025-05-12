@@ -457,6 +457,22 @@ export async function main(inputArgs) {
     process.exit(1);
   }
 
+  // Stats-only CLI mode: support trendline-stats without requiring output
+  if (parsedArgs['trendline-stats'] === 'true' && parsedArgs['overlay-trendline'] !== 'true') {
+    if (!parsedArgs.expression || !parsedArgs.range) {
+      console.error('expression and range are required for stats-only mode');
+      process.exit(1);
+    }
+    // Generate data and compute stats
+    const rangeObj = parseRange(parsedArgs.range);
+    const data = generateData(parsedArgs.expression, rangeObj, 100);
+    const stats = computeTrendlineStats(data);
+    console.log(`slope: ${stats.slope.toFixed(2)}`);
+    console.log(`intercept: ${stats.intercept.toFixed(2)}`);
+    console.log(`r2: ${stats.r2.toFixed(2)}`);
+    return;
+  }
+
   // HTTP server mode
   if (parsedArgs.serve) {
     const port = Number(parsedArgs.serve);
@@ -559,14 +575,6 @@ export async function main(inputArgs) {
     ];
   } else {
     seriesOrData = data;
-  }
-
-  // Stats-only CLI
-  if (tlStats && !tlOverlay) {
-    console.log(`slope: ${stats.slope.toFixed(2)}`);
-    console.log(`intercept: ${stats.intercept.toFixed(2)}`);
-    console.log(`r2: ${stats.r2.toFixed(2)}`);
-    process.exit(0);
   }
 
   // Export raw data if requested
