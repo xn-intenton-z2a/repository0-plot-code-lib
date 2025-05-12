@@ -35,6 +35,23 @@ Generate a PNG:
 repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format png --output plot.png
 ```
 
+### Discovery Flags
+
+- `--help`: Print the help message (contents of `USAGE.md`) and exit with code 0.
+```sh
+repository0-plot-code-lib --help
+```
+
+- `--version`: Print the version number and exit with code 0.
+```sh
+repository0-plot-code-lib --version
+```
+
+- `--mission`: Print the project mission statement and exit with code 0.
+```sh
+repository0-plot-code-lib --mission
+```
+
 ## Further Reading
 
 For advanced flags and additional examples, see the [Usage guide](USAGE.md).

@@ -1,5 +1,6 @@
 import { describe, test, expect, vi, beforeEach, afterEach, beforeAll } from 'vitest';
 import fs from 'fs';
+import path from 'path';
 import sharp from 'sharp';
 import request from 'supertest';
 import {
@@ -189,5 +190,60 @@ describe('HTTP Server Mode', () => {
       .query({ expression: 'y=x', range: 'x=a:b', format: 'svg' });
     expect(response.status).toBe(400);
     expect(response.body.error).toMatch(/range must be/);
+  });
+});
+
+// CLI Discovery Flags tests
+
+describe('CLI Discovery Flags', () => {
+  let exitSpy;
+  let logSpy;
+
+  beforeEach(() => {
+    exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => {
+      throw new Error(`process.exit:${code}`);
+    });
+    logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    exitSpy.mockRestore();
+    logSpy.mockRestore();
+  });
+
+  test('--help prints usage and exits 0', async () => {
+    const usageText = fs.readFileSync(path.resolve(__dirname, '../../USAGE.md'), 'utf-8');
+    let error;
+    try {
+      await main(['--help']);
+    } catch (err) {
+      error = err;
+    }
+    expect(error.message).toBe('process.exit:0');
+    expect(logSpy).toHaveBeenCalledWith(usageText);
+  });
+
+  test('--version prints version and exits 0', async () => {
+    const pkg = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../package.json'), 'utf-8'));
+    let error;
+    try {
+      await main(['--version']);
+    } catch (err) {
+      error = err;
+    }
+    expect(error.message).toBe('process.exit:0');
+    expect(logSpy).toHaveBeenCalledWith(pkg.version);
+  });
+
+  test('--mission prints mission and exits 0', async () => {
+    const missionText = fs.readFileSync(path.resolve(__dirname, '../../MISSION.md'), 'utf-8');
+    let error;
+    try {
+      await main(['--mission']);
+    } catch (err) {
+      error = err;
+    }
+    expect(error.message).toBe('process.exit:0');
+    expect(logSpy).toHaveBeenCalledWith(missionText);
   });
 });

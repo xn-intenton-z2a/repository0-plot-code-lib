@@ -10,8 +10,6 @@ This tool generates plots based on mathematical expressions over a numeric range
 
 --mission: Show the project mission statement.
 
---derivative <true|false>: Overlay the first derivative curve on the plot.
-
 ## CLI Examples
 
 Generate an SVG plot:
@@ -76,4 +74,21 @@ Request plots via `curl`:
 ```sh
 curl "http://localhost:3000/plot?expression=y=sin(x)&range=x=0:6.28&format=svg"
 curl "http://localhost:3000/plot?expression=y=x&range=x=0:5&format=png" --output plot.png
+```
+
+## Discovery Flags
+
+--help: Print the contents of `USAGE.md` to stdout and exit with code 0.
+```sh
+repository0-plot-code-lib --help
+```
+
+--version: Print the version string from `package.json` to stdout and exit with code 0.
+```sh
+repository0-plot-code-lib --version
+```
+
+--mission: Print the contents of `MISSION.md` to stdout and exit with code 0.
+```sh
+repository0-plot-code-lib --mission
 ```
