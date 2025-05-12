@@ -27,6 +27,16 @@ Plot original and derivative curves (SVG):
 repository0-plot-code-lib --expression "y=x^2" --range "x=0:5" --format svg --output plot.svg --derivative true
 ```
 
+Compute regression stats only:
+```sh
+repository0-plot-code-lib --expression "y=2*x+1" --range "x=0:2" --trendline-stats true
+```
+
+Overlay trendline on plot:
+```sh
+repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format svg --output plot.svg --overlay-trendline true
+```
+
 Show version:
 ```sh
 repository0-plot-code-lib --version
@@ -51,11 +61,14 @@ import { generatePlot } from '@xn-intenton-z2a/repository0-plot-code-lib';
     expression: 'y=sin(x)',
     range: 'x=0:6.28',
     format: 'svg',
-    // optional: width, height, samples, xLog, yLog, grid, title, xLabel, yLabel, palette, colors, derivative
-    derivative: true,
+    // optional: width, height, samples, xLog, yLog, grid, title, xLabel, yLabel, palette, colors, derivative,
+    // trendlineStats, overlayTrendline
+    trendlineStats: true,
+    overlayTrendline: true
   });
   console.log(result.type); // 'svg'
   console.log(result.data); // '<svg ...'
+  console.log(result.stats); // { slope: ..., intercept: ..., r2: ... }
 })();
 ```
 

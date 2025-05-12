@@ -44,6 +44,9 @@ const cliSchema = z.object({
   format: z.enum(["svg", "png"]),
   output: z.string(),
   derivative: z.string().regex(/^(true|false)$/, 'derivative must be true or false').optional(),
+  // TRENDLINE_FITTING flags
+  'trendline-stats': z.string().regex(/^(true|false)$/, 'trendline-stats must be true or false').optional(),
+  'overlay-trendline': z.string().regex(/^(true|false)$/, 'overlay-trendline must be true or false').optional(),
   // Plot styling options
   width: z.string().regex(/^\d+$/, 'width must be a positive integer').optional(),
   height: z.string().regex(/^\d+$/, 'height must be a positive integer').optional(),
@@ -105,6 +108,25 @@ export function generateDerivativeData(expression, range, samples = 100) {
     points.push({ x, y });
   }
   return points;
+}
+
+/**
+ * Compute linear regression stats for a single series of points.
+ */
+export function computeTrendlineStats(points) {
+  const n = points.length;
+  const xs = points.map(p => p.x);
+  const ys = points.map(p => p.y);
+  const xMean = xs.reduce((a,b) => a+b, 0)/n;
+  const yMean = ys.reduce((a,b) => a+b, 0)/n;
+  const ssX = xs.reduce((sum, x) => sum + (x - xMean)**2, 0);
+  const ssXY = xs.reduce((sum, x, i) => sum + (x - xMean)*(ys[i] - yMean), 0);
+  const slope = ssXY/ssX;
+  const intercept = yMean - slope*xMean;
+  const ssTot = ys.reduce((sum,y) => sum + (y - yMean)**2, 0);
+  const ssRes = points.reduce((sum,p) => sum + (p.y - (slope*p.x + intercept))**2, 0);
+  const r2 = 1 - ssRes/ssTot;
+  return { slope, intercept, r2 };
 }
 
 /**
@@ -202,13 +224,13 @@ export function generateSVG(dataOrSeries, width = 500, height = 500, options = {
     for (let i = 0; i <= cols; i++) {
       const x = xStep * i;
       elements.push(
-        `<line x1="${x}" y1="0" x2="${width}" y2="${height}" stroke="lightgray" stroke-dasharray="4,2" />`
+        `<line x1=\"${x}\" y1=\"0\" x2=\"${x}\" y2=\"${height}\" stroke=\"lightgray\" stroke-dasharray=\"4,2\" />`
       );
     }
     for (let j = 0; j <= rows; j++) {
       const y = yStep * j;
       elements.push(
-        `<line x1="0" y1="${y}" x2="${width}" y2="${height}" stroke="lightgray" stroke-dasharray="4,2" />`
+        `<line x1=\"0\" y1=\"${y}\" x2=\"${width}\" y2=\"${y}\" stroke=\"lightgray\" stroke-dasharray=\"4,2\" />`
       );
     }
   }
@@ -216,7 +238,7 @@ export function generateSVG(dataOrSeries, width = 500, height = 500, options = {
   // Title
   if (options.title) {
     elements.push(
-      `<text x="${width / 2}" y="20" text-anchor="middle">${options.title}</text>`
+      `<text x=\"${width / 2}\" y=\"20\" text-anchor=\"middle\">${options.title}</text>`
     );
   }
 
@@ -226,16 +248,16 @@ export function generateSVG(dataOrSeries, width = 500, height = 500, options = {
       const col = colorList[idx % colorList.length];
       const pts = series.points.map((p) => `${p.x},${p.y}`).join(' ');
       elements.push(
-        `<polyline fill="none" stroke="${col}" points="${pts}" />`
+        `<polyline fill=\"none\" stroke=\"${col}\" points=\"${pts}\" />`
       );
     });
     // Legend
-    elements.push(`<g class="legend">`);
+    elements.push(`<g class=\"legend\">`);
     seriesList.forEach((series, idx) => {
       const col = colorList[idx % colorList.length];
       const yPos = 20 + idx * 20;
       elements.push(
-        `<text x="10" y="${yPos}" fill="${col}">${series.label}</text>`
+        `<text x=\"10\" y=\"${yPos}\" fill=\"${col}\">${series.label}</text>`
       );
     });
     elements.push(`</g>`);
@@ -243,19 +265,19 @@ export function generateSVG(dataOrSeries, width = 500, height = 500, options = {
     const pts = dataOrSeries.map((p) => `${p.x},${p.y}`).join(' ');
     const col = colorList[0];
     elements.push(
-      `<polyline fill="none" stroke="${col}" points="${pts}" />`
+      `<polyline fill=\"none\" stroke=\"${col}\" points=\"${pts}\" />`
     );
   }
 
   // Axis labels
   if (options.xLabel) {
     elements.push(
-      `<text x="${width / 2}" y="${height - 5}" text-anchor="middle">${options.xLabel}</text>`
+      `<text x=\"${width / 2}\" y=\"${height - 5}\" text-anchor=\"middle\">${options.xLabel}</text>`
     );
   }
   if (options.yLabel) {
     elements.push(
-      `<text x="15" y="${height / 2}" transform="rotate(-90,15,${height / 2})" text-anchor="middle">${options.yLabel}</text>`
+      `<text x=\"15\" y=\"${height / 2}\" transform=\"rotate(-90,15,${height / 2})\" text-anchor=\"middle\">${options.yLabel}</text>`
     );
   }
 
@@ -283,6 +305,9 @@ export async function generatePlot(options) {
     derivative: z.boolean().optional(),
     palette: z.enum(["default", "pastel", "dark", "highContrast"]).optional(),
     colors: z.string().optional(),
+    // TRENDLINE_FITTING options
+    trendlineStats: z.boolean().optional(),
+    overlayTrendline: z.boolean().optional(),
   });
   const opts = schema.parse(options);
   const {
@@ -301,6 +326,8 @@ export async function generatePlot(options) {
     derivative = false,
     palette,
     colors,
+    trendlineStats = false,
+    overlayTrendline = false,
   } = opts;
   const rangeObj = parseRange(range);
   let data = generateData(expression, rangeObj, samples);
@@ -316,9 +343,22 @@ export async function generatePlot(options) {
       return { x: p.x, y: Math.log10(p.y) };
     });
   }
+  // compute trendline stats
+  let stats;
+  if (trendlineStats || overlayTrendline) {
+    stats = computeTrendlineStats(data);
+  }
   const styleOpts = { grid, title, xLabel, yLabel, palette, colors: colors ? colors.split(',') : undefined };
   let svg;
-  if (derivative) {
+  if (overlayTrendline) {
+    // build series with trendline overlay
+    const trendPoints = data.map(p => ({ x: p.x, y: stats.slope * p.x + stats.intercept }));
+    const series = [
+      { label: "original", points: data },
+      { label: "trendline", points: trendPoints }
+    ];
+    svg = generateSVG(series, width, height, styleOpts);
+  } else if (derivative) {
     const derivativeData = generateDerivativeData(expression, rangeObj, samples);
     const series = [
       { label: "original", points: data },
@@ -328,11 +368,20 @@ export async function generatePlot(options) {
   } else {
     svg = generateSVG(data, width, height, styleOpts);
   }
+  if (trendlineStats && !overlayTrendline) {
+    // stats-only
+    console.log(`slope: ${stats.slope.toFixed(2)}`);
+    console.log(`intercept: ${stats.intercept.toFixed(2)}`);
+    console.log(`r2: ${stats.r2.toFixed(2)}`);
+    return { type: format, stats };
+  }
   if (format === 'svg') {
-    return { type: 'svg', data: svg };
+    if (overlayTrendline || !trendlineStats) {
+      return { type: 'svg', data: svg, stats };
+    }
   }
   const buffer = await sharp(Buffer.from(svg)).png().toBuffer();
-  return { type: 'png', data: buffer };
+  return { type: 'png', data: buffer, stats };
 }
 
 /**
@@ -376,7 +425,7 @@ export async function main(inputArgs) {
   if (argsCount === 1) {
     const flag = args[0];
     if (flag === '--help') {
-      const usagePath = path.resolve(__dirname, '../../USAGE.md');
+      const usagePath = path.resolve(__dirname, '..../../USAGE.md');
       const usageText = fs.readFileSync(usagePath, 'utf-8');
       console.log(usageText);
       process.exit(0);
@@ -473,9 +522,13 @@ export async function main(inputArgs) {
     palette,
     colors,
     'export-data': exportData,
-    'export-format': exportFormat
+    'export-format': exportFormat,
+    'trendline-stats': trendlineStats,
+    'overlay-trendline': overlayTrendline
   } = parsed;
   const derivativeFlag = derivative === 'true';
+  const tlStats = trendlineStats === 'true';
+  const tlOverlay = overlayTrendline === 'true';
   const rangeObj = parseRange(range);
   const data = generateData(expression, rangeObj, 100);
   const widthVal = width ? Number(width) : 500;
@@ -484,9 +537,21 @@ export async function main(inputArgs) {
   const colorsList = colors ? colors.split(',') : undefined;
   const styleOpts = { grid: gridFlag, title, xLabel, yLabel, palette, colors: colorsList };
 
+  // compute trendline stats if requested
+  let stats;
+  if (tlStats || tlOverlay) {
+    stats = computeTrendlineStats(data);
+  }
+
   // Determine data or series for plotting and export
   let seriesOrData;
-  if (derivativeFlag) {
+  if (tlOverlay) {
+    const trendPoints = data.map(p => ({ x: p.x, y: stats.slope*p.x + stats.intercept }));
+    seriesOrData = [
+      { label: 'original', points: data },
+      { label: 'trendline', points: trendPoints }
+    ];
+  } else if (derivativeFlag) {
     const derivativeData = generateDerivativeData(expression, rangeObj, 100);
     seriesOrData = [
       { label: 'original', points: data },
@@ -494,6 +559,14 @@ export async function main(inputArgs) {
     ];
   } else {
     seriesOrData = data;
+  }
+
+  // Stats-only CLI
+  if (tlStats && !tlOverlay) {
+    console.log(`slope: ${stats.slope.toFixed(2)}`);
+    console.log(`intercept: ${stats.intercept.toFixed(2)}`);
+    console.log(`r2: ${stats.r2.toFixed(2)}`);
+    process.exit(0);
   }
 
   // Export raw data if requested
