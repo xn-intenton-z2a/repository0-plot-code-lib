@@ -10,6 +10,8 @@ This tool generates plots based on mathematical expressions over a numeric range
 
 --mission: Show the project mission statement.
 
+--derivative <true|false>: Overlay the first derivative curve on the plot.
+
 ## CLI Examples
 
 Generate an SVG plot:
@@ -20,6 +22,11 @@ repository0-plot-code-lib --expression "y=sin(x)+0.5*x" --range "x=0:10" --forma
 Generate a PNG plot:
 ```sh
 repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format png --output plot.png
+```
+
+Plot original and derivative curves (SVG):
+```sh
+repository0-plot-code-lib --expression "y=x^2" --range "x=0:5" --format svg --output plot.svg --derivative true
 ```
 
 Show version:
@@ -47,6 +54,7 @@ import { generatePlot } from '@xn-intenton-z2a/repository0-plot-code-lib';
     range: 'x=0:6.28',
     format: 'svg',
     // optional: width, height, samples, xLog, yLog, grid, title, xLabel, yLabel
+    derivative: true,
   });
   console.log(result.type); // 'svg'
   console.log(result.data); // '<svg ...'

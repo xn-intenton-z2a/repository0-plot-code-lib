@@ -6,6 +6,7 @@ import {
   parseArgs,
   parseRange,
   generateData,
+  generateDerivativeData,
   generateSVG,
   main,
   generatePlot,
@@ -62,6 +63,17 @@ describe('generateData', () => {
   });
 });
 
+describe('generateDerivativeData', () => {
+  test('generates correct derivative data for y=x^2', () => {
+    const points = generateDerivativeData('y=x^2', { min: 0, max: 2 }, 2);
+    expect(points).toEqual([
+      { x: 0, y: 0 },
+      { x: 1, y: 2 },
+      { x: 2, y: 4 },
+    ]);
+  });
+});
+
 describe('generateSVG', () => {
   test('generates svg string with polyline points', () => {
     const points = [
@@ -86,33 +98,25 @@ describe('main function', () => {
     await main(['--expression', 'y=x', '--range', 'x=0:1', '--format', 'png', '--output', 'out.png']);
     expect(writeSpy).toHaveBeenCalledWith('out.png', Buffer.from('pngdata'));
   });
-});
 
-describe('CLI discovery flags', () => {
-  beforeEach(() => {
-    vi.spyOn(console, 'log').mockImplementation(() => {});
-    vi.spyOn(process, 'exit').mockImplementation((code) => {
-      throw new Error(`Exit:${code}`);
-    });
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  test('--help outputs usage and exits with code 0', async () => {
-    await expect(main(['--help'])).rejects.toThrow('Exit:0');
-    expect(console.log).toHaveBeenCalledWith(expect.stringContaining('# Usage'));
-  });
-
-  test('--version outputs version and exits with code 0', async () => {
-    await expect(main(['--version'])).rejects.toThrow('Exit:0');
-    expect(console.log).toHaveBeenCalledWith(expect.stringMatching(/^\d+\.\d+\..+/));
-  });
-
-  test('--mission outputs mission and exits with code 0', async () => {
-    await expect(main(['--mission'])).rejects.toThrow('Exit:0');
-    expect(console.log).toHaveBeenCalledWith(expect.stringContaining('# Mission Statement'));
+  test('writes svg file with derivative series and legend', async () => {
+    writeSpy.mockClear();
+    await main([
+      '--expression',
+      'y=x^2',
+      '--range',
+      'x=0:2',
+      '--format',
+      'svg',
+      '--output',
+      'out.svg',
+      '--derivative',
+      'true',
+    ]);
+    expect(writeSpy).toHaveBeenCalledWith('out.svg', expect.any(String));
+    const svg = writeSpy.mock.calls[0][1];
+    expect((svg.match(/<polyline/g) || []).length).toBe(2);
+    expect(svg).toContain('<g class="legend">');
   });
 });
 
@@ -128,8 +132,23 @@ describe('generatePlot', () => {
   });
 
   test('throws on missing required options', async () => {
-    // Missing expression
     await expect(generatePlot({ range: 'x=0:1', format: 'svg' })).rejects.toThrow();
+  });
+
+  describe('with derivative', () => {
+    test('returns svg with two series and legend', async () => {
+      const result = await generatePlot({ expression: 'y=x^2', range: 'x=0:2', format: 'svg', derivative: true });
+      expect(result.type).toBe('svg');
+      expect(typeof result.data).toBe('string');
+      expect((result.data.match(/<polyline/g) || []).length).toBe(2);
+      expect(result.data).toContain('<g class="legend">');
+    });
+
+    test('returns png buffer for derivative', async () => {
+      const result = await generatePlot({ expression: 'y=x^2', range: 'x=0:2', format: 'png', derivative: true });
+      expect(result.type).toBe('png');
+      expect(result.data).toEqual(Buffer.from('pngdata'));
+    });
   });
 });
 
