@@ -29,6 +29,21 @@ Compute regression stats only:
 repository0-plot-code-lib --expression "y=2*x+1" --range "x=0:2" --trendline-stats true
 ```
 
+Stats subcommand (JSON output):
+```sh
+repository0-plot-code-lib stats --expression "y=x" --range "x=0:2"
+```
+
+Stats subcommand (plain text output):
+```sh
+repository0-plot-code-lib stats --expression "y=x" --range "x=0:2" --format text
+```
+
+Stats subcommand from data file to output file:
+```sh
+repository0-plot-code-lib stats --data-file data.json --format json --output stats.json
+```
+
 Show version:
 ```sh
 repository0-plot-code-lib --version
@@ -37,20 +52,6 @@ repository0-plot-code-lib --version
 Show mission statement:
 ```sh
 repository0-plot-code-lib --mission
-```
-
-## HTTP Server Mode
-
-Use the `--serve <port>` flag to start an HTTP server exposing `/plot` and `/stats` endpoints:
-
-```sh
-repository0-plot-code-lib --serve 3000
-```
-
-Request stats via `curl`:
-
-```sh
-curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
 
 ## /stats Endpoint
