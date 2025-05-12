@@ -1,50 +1,52 @@
 # Overview
-Implement a new CLI subcommand named stats that computes summary statistics for a generated or imported data series, including minimum, maximum, mean, median, and standard deviation. This mode complements the existing plot and export workflows by providing quantitative insights without rendering images.
+Implement a new CLI subcommand stats to compute summary statistics (minimum, maximum, mean, median, and standard deviation) for a generated or imported data series. This mode complements existing plot and export workflows by providing quick quantitative insights without rendering images.
 
 # CLI Subcommand
-- Add a new positional subcommand stats before all named flags.
-- Supported flags:
-  • --expression <expr>        Mathematical expression to generate data if no data-file is provided.
-  • --range <axis>=min:max     Numeric range for data generation; mutually exclusive with --data-file.
-  • --data-file <path>         Path to JSON, YAML, or CSV data file; mutually exclusive with expression mode.
-  • --samples <number>         Number of intervals for data generation; default 100.
-  • --json                     Output results as a JSON object instead of plain text.
+- New positional subcommand: stats
+- Usage patterns:
+  • repository0-plot-code-lib stats --expression <expr> --range <axis>=<min>:<max> [--samples <number>] [--json]
+  • repository0-plot-code-lib stats --data-file <path> [--samples <number>] [--json]
+- Flags:
+  • --expression <expr>   Mathematical expression for data generation, exclusive with --data-file.
+  • --range <axis>=min:max Numeric range for data generation, required with --expression.
+  • --data-file <path>    Path to JSON, YAML, or CSV data file, exclusive with --expression.
+  • --samples <number>    Number of intervals for data generation; default 100.
+  • --json                Output results as a JSON object instead of plain text.
 
 # Implementation
-1. Subcommand Detection and Parsing
-   - In src/lib/main.js, detect if the first argument is stats.  Remove it from argument list before parseArgs.
-   - Extend cliSchema or introduce a separate statsSchema with required fields: exactly one of expression+range or data-file, optional samples, optional json flag.
-2. Data Acquisition
-   - If data-file is set, call existing parseDataFile to load an array of {x,y} points.
-   - Otherwise use parseRange and generateData to produce an array of points.
-3. Statistics Computation
-   - Compute five summary values:
-     • min: smallest y-value in the series.
-     • max: largest y-value.
-     • mean: arithmetic average of y-values.
-     • median: middle y-value after sorting;
-     • stddev: sample standard deviation of y-values.
-   - Use mathjs library or a simple utility function over the numeric array.
-4. Output Formatting
-   - If --json is provided, assemble an object with keys min, max, mean, median, stddev and print JSON.stringify with two-space indentation.
-   - Otherwise, print each statistic on its own line, e.g.
-     min: 0.00
-     max: 2.00
-     mean: 1.00
-     median: 1.00
-     stddev: 0.82
-5. Exit Behavior
-   - Exit with code 0 on success.  On missing or invalid flags, display an error message and exit with code 1.
+1. Subcommand Detection
+   • In src/lib/main.js, before standard parseArgs, detect if first argument is 'stats'. Remove it from argument list and route to a new stats handler.
+2. Stats Schema
+   • Define a zod schema statsSchema requiring either expression+range or dataFile, optional samples (positive integer) and json flag (boolean).
+3. Data Acquisition
+   • If --data-file is provided, call existing parseDataFile to load an array of {x,y} points.
+   • Otherwise use parseRange and generateData with samples to produce points.
+4. Statistics Computation
+   • Extract y-values from points array.
+   • Compute:
+     – min: Math.min over y-values
+     – max: Math.max over y-values
+     – mean: sum(y)/n
+     – median: sorted y-values middle or average of two middle
+     – stddev: sample standard deviation = sqrt(sum((y-mean)^2)/(n-1))
+5. Output Formatting
+   • If json flag is true, assemble {min, max, mean, median, stddev} and print JSON.stringify with two-space indentation.
+   • Otherwise, print each statistic on its own line in key: value format with two decimal places.
+6. Exit Behavior
+   • On success exit with code 0. On missing or invalid inputs display an error and exit with code 1.
 
 # Testing
-- Create tests/unit/stats-command.test.js:
-  • Test expression mode: run main(['stats','--expression','y=x','--range','x=0:2','--samples','2']) and capture console output containing correct numeric statistics.
-  • Test data-file mode: mock fs.readFileSync to return a simple JSON or CSV, verify stats on sample data.
-  • Test --json flag: output is valid JSON with exactly the five keys and numeric values.
-  • Error cases: missing required flags, both expression and data-file provided, invalid range or non-numeric samples.
+- Add tests in tests/unit/stats-command.test.js:
+  • Expression mode: verify correct numeric output for simple expressions and ranges.
+  • Data-file mode: mock fs.readFileSync to return sample JSON, YAML, and CSV; verify computed statistics.
+  • JSON output: --json flag produces valid JSON with expected keys and values.
+  • Error cases: both expression and data-file provided, missing range, invalid samples, invalid data file path.
 
 # Documentation
-- Update USAGE.md and README.md:
-  • Add a **stats** section under CLI Examples describing usage and sample output.
-  • Show both plain-text and JSON output examples.
-  • Reference the new stats subcommand in the overview of available commands.
+- Update USAGE.md:
+  • Add a **stats** section under CLI Examples showing both plain-text and JSON output, e.g.:
+    repository0-plot-code-lib stats --expression "y=x" --range x=0:10 --samples 10
+    repository0-plot-code-lib stats --data-file data.csv --json
+- Update README.md:
+  • Under **CLI Flags** or **Examples**, add stats subcommand usage and sample output.
+  • Reference the new subcommand in overview of available commands.
