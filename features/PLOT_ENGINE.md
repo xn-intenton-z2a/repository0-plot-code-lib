@@ -1,72 +1,85 @@
 # Overview
-Provide an end-to-end plotting feature that supports both command-line and HTTP contexts. Users can render function expressions or import data files as SVG or PNG images and retrieve results via a CLI command or a REST endpoint.
+Extend the existing plotting feature to fully implement the CLI subcommand for generating SVG and PNG images from mathematical expressions or imported data, alongside the existing HTTP endpoint. Users will be able to render charts directly via command-line or through a RESTful GET request.
 
 # CLI Plot Subcommand
-Invocation
+
+Invoke:
  repository0-plot-code-lib plot [--flags]
 
-Required flags
- - --expression expression to plot in form y equals math expression
- - --range axis equals min colon max numeric axis range for expression mode
- - --format svg or png output image format
+Required flags:
+ - --expression <expression>      Mathematical expression in the form y=… for expression mode
+ - --range <axis=min:max>         Axis range for expression mode
+ - --format <svg|png>             Output image format
 
-Optional flags
- - --dataFile path to JSON CSV or YAML file containing data points
- - --output path to write image defaults to stdout
- - --width pixels image width default 800
- - --height pixels image height default 600
- - --samples number of sample points default 100
- - --xLog boolean use logarithmic scale for x axis
- - --yLog boolean use logarithmic scale for y axis
- - --grid boolean include grid lines
- - --title text chart title
- - --xLabel text label for x axis
- - --yLabel text label for y axis
- - --derivative boolean overlay first derivative curve
- - --overlayTrendline boolean overlay a regression trendline
- - --palette name color scheme from predefined palettes
- - --colors comma separated list of colors for series
- - --exportData path export raw data points to file
- - --exportFormat csv json or yaml format for export when extension is missing
- - --encoding base64 return JSON object with base64 encoded image
+Optional flags:
+ - --dataFile <path>              Path to JSON, CSV, or YAML file containing data points
+ - --output <path>                File path to write the image (defaults to stdout)
+ - --width <number>               Image width in pixels (default 800)
+ - --height <number>              Image height in pixels (default 600)
+ - --samples <number>             Number of sample points (default 100)
+ - --xLog <true|false>            Use logarithmic scale for x axis (default false)
+ - --yLog <true|false>            Use logarithmic scale for y axis (default false)
+ - --grid <true|false>            Include grid lines (default false)
+ - --title <text>                 Chart title
+ - --xLabel <text>                Label for x axis
+ - --yLabel <text>                Label for y axis
+ - --derivative <true|false>      Overlay the first derivative curve (default false)
+ - --overlayTrendline <true|false>Overlay a regression trendline (default false)
+ - --palette <name>               Predefined color scheme
+ - --colors <c1,c2,…>             Comma-separated list of series colors
+ - --exportData <path>            Export raw data points to a file
+ - --exportFormat <csv|json|yaml> Format to use when exporting data
+ - --encoding <base64|url>        Return a base64 or URL-encoded image in JSON instead of raw bytes
 
-Behavior
- 1 parse and validate flags on error print message and exit code 1
- 2 load data points from expression via generateData or from dataFile via filesystem
- 3 call generatePlot with data points and styling options to produce SVG output
- 4 if format is png convert SVG to PNG via sharp
- 5 if exportData is provided write raw data points to file in exportFormat
- 6 if encoding is base64 wrap image output in JSON with data and type and write to stdout
- 7 otherwise write image bytes to stdout or to output path and exit code 0
+Behavior:
+1. Dispatch when first CLI argument is plot; parse and validate flags, exit code 1 on error
+2. Load points from expression via generateData or from dataFile via filesystem
+3. Call generatePlot(points, options) to produce an SVG string
+4. If format is png convert SVG to PNG using sharp
+5. If exportData is provided write raw points in specified format
+6. If encoding is set wrap image data in JSON with fields data and type
+7. Otherwise write raw image bytes or SVG text to stdout or output file
+8. Set process.exitCode to 0 on success
 
 # HTTP Plot Endpoint
-Expose GET slash plot when server is started with serve flag
 
-Query parameters mirror CLI flags
- expression required unless dataFile provided
- range required with expression
- dataFile optional unless expression missing
- format required svg or png
- width height samples xLog yLog grid title xLabel yLabel derivative overlayTrendline palette colors exportData exportFormat encoding
+Route: GET /plot
+Query parameters mirror CLI flags:
+ expression, range, dataFile, format, width, height, samples, xLog, yLog, grid,
+ title, xLabel, yLabel, derivative, overlayTrendline, palette, colors,
+ exportData, exportFormat, encoding
 
-Behavior
- 1 validate query parameters using zod return 400 JSON error on validation failure
- 2 load data points from expression or file
- 3 generate plot via generatePlot then convert to PNG if needed
- 4 set Access Control Allow Origin header on all responses
- 5 if encoding is base64 respond with application json containing data and type
- 6 otherwise respond with raw image bytes and correct content type image slash svg xml or image slash png
- 7 return HTTP status 200 on success or 400 with JSON error on failure
+Behavior:
+1. Validate query parameters with zod; on failure respond 400 JSON error
+2. Load data points from expression or file
+3. Generate SVG via generatePlot, convert to PNG via sharp if requested
+4. Include Access-Control-Allow-Origin: * on all responses
+5. If encoding is set respond with application/json { data, type }
+6. Otherwise respond with image/svg+xml or image/png bytes
+7. Respond with HTTP 200 on success or 400 on failure
 
 # Implementation
-Implement runPlotCli and extend main entrypoint in src slash lib slash main dot js to handle plot subcommand
-In setupHttp add GET slash plot route with zod schema for parameter validation
-Use existing utilities parseArgs parseRange generateData and integrate generatePlot and sharp for PNG conversion
+
+- In src/lib/main.js add handling in main() for argv[0] === 'plot' to invoke a new runPlotCli function
+- Implement runPlotCli that uses parseArgs, parseRange, generateData, fs and yamlLoad to load points
+- Import and call an existing generatePlot utility to render an SVG; use sharp for PNG conversion
+- Respect flags for exportData and encoding
+- Extend createServer to register GET /plot route with a zod schema reflecting all flags
+- Ensure CORS header is applied and response content types are correct
 
 # Testing
-Add unit tests in tests slash unit slash plot cli dot test dot js and tests slash unit slash plot endpoint dot test dot js
-Cover CLI flag validation success and error cases output SVG and PNG files encoding and exportData modes
-Cover HTTP slash plot returning SVG and PNG content types JSON base64 encoding and CORS header presence and validation errors
+
+- Add unit tests tests/unit/plot-cli.test.js covering:
+  • Successful CLI plot generation for SVG and PNG formats
+  • Error cases for missing required flags or invalid ranges
+  • Encoding and exportData modes
+- Add unit tests tests/unit/plot-endpoint.test.js covering:
+  • HTTP GET /plot returning valid SVG and PNG content types
+  • JSON response when encoding=base64 or url
+  • Validation errors returning 400 with JSON error messages
+  • Presence of Access-Control-Allow-Origin header
 
 # Documentation
-Update USAGE dot md and README dot md to document plot subcommand flags and examples HTTP slash plot endpoint parameters response formats content types and CORS support
+
+- Update USAGE.md to include a new section for the plot subcommand flags and examples
+- Update README.md to document the plot CLI invocation and HTTP /plot endpoint, including sample curl commands and encoding examples
