@@ -1,48 +1,67 @@
 # Overview
-Add the ability to compute and overlay a regression trendline (linear or polynomial) on top of the plotted data series. Users can choose between linear and polynomial fits and specify the polynomial degree. The trendline will be rendered alongside the original data with a distinct color and labeled in the legend.
+Add a new `trendline` subcommand that computes linear regression statistics (slope, intercept, and coefficient of determination R²) for a data series and, when requested, overlays the fitted trendline on the plot. This feature addresses analytical use cases by providing both numeric regression outputs and visual trend insights.
 
 # CLI Flags
-- `--trendline <type>`: Specify the type of trendline to overlay. Supported values: `linear`, `polynomial`. Defaults to no trendline when omitted.
-- `--trendline-degree <integer>`: Degree of the polynomial fit when `--trendline polynomial` is selected. Must be a positive integer. Defaults to 2.
+- `--trendline-stats <true|false>`  Boolean flag to compute and print slope, intercept, and R² for the primary data series. Must be true or false; defaults to false when omitted.
+- `--overlay-trendline <true|false>`  Boolean flag to include the fitted trendline as a second series on the output plot. Must be true or false; defaults to false when omitted.
+- When `--trendline-stats` is true, the CLI writes regression metrics to standard output. When `--overlay-trendline` is true, the plot includes the trendline beneath or alongside the original data series.
+- The two flags may be used independently or together; if both are false or omitted, no regression is performed.
 
 # Implementation
-1. **Schema and Argument Parsing**
-   - In `cliSchema` (src/lib/main.js), add optional fields:
-     • `trendline`: z.string().refine(val => ["linear","polynomial"].includes(val), 'trendline must be linear or polynomial').optional()
-     • `trendline-degree`: z.string().regex(/^\d+$/, 'trendline-degree must be a positive integer').optional()
-   - In `parseArgs`, detect the new flags and convert:
-     • `trendlineType = parsedArgs.trendline` or undefined
-     • `trendlineDegree = parsedArgs["trendline-degree"] ? Number(parsedArgs["trendline-degree"]) : 2`
+1. Schema and Argument Parsing
+   1. In `src/lib/main.js`, extend `cliSchema` to accept optional string fields:
+      - `trendline-stats`: must match `^(true|false)$`
+      - `overlay-trendline`: must match `^(true|false)$`
+   2. In `parseArgs`, convert them to booleans:
+      ```js
+      const statsFlag = parsedArgs['trendline-stats'] === 'true';
+      const overlayFlag = parsedArgs['overlay-trendline'] === 'true';
+      ```
 
-2. **Data Generation and Fit Computation**
-   - After loading or generating the primary data series (`points`), if `trendlineType` is set:
-     • For `linear`: compute slope (m) and intercept (b) using least squares formulas over `{x,y}`.
-     • For `polynomial`: build a Vandermonde matrix for x values and solve for coefficients of degree N polynomial using mathjs.lusolve or mathjs.solve.
-   - Generate a second array of `{x,y}` by evaluating the fitted model at the original x sample points.
+2. Regression Computation
+   1. After generating or importing the primary data series as an array of points `{x, y}`, if `statsFlag` or `overlayFlag` is true:
+      - Compute linear regression using least squares:
+        • `slope  = (Σ(xy) - N·x̄·ȳ) / (Σ(x²) - N·x̄²)`
+        • `intercept = ȳ - slope·x̄`
+      - Compute R² (coefficient of determination):
+        • Total sum of squares: `SStot = Σ(y - ȳ)²`
+        • Residual sum of squares: `SSres = Σ(y - (slope·x + intercept))²`
+        • `R² = 1 - SSres / SStot`
+   2. If `statsFlag` is true, print metrics with two decimal places:
+      ```text
+      slope: <value>
+      intercept: <value>
+      r2: <value>
+      ```
+      Then exit with code 0; no plot is generated unless `overlayFlag` is also true.
 
-3. **Series Assembly and Rendering**
-   - Build a multi-series array:
-     • `{ label: 'original', points: originalPoints }`
-     • `{ label: 'trendline', points: trendlinePoints }`
-   - Call `generateSVG(seriesArray, width, height)` to render both curves. The library’s existing color palette and legend rendering will distinguish the two series.
-   - Preserve existing PNG conversion logic via `sharp` unchanged.
+3. Overlay Trendline on Plot
+   1. When `overlayFlag` is true:
+      - Generate a trendline data series by evaluating the model at each original x-value: `{ x, y: slope·x + intercept }`.
+      - Build a series array:
+        • `{ label: 'original', points: originalPoints }`
+        • `{ label: 'trendline', points: trendlinePoints }`
+      - Pass this series array to `generateSVG` for rendering.
+      - Preserve existing color palette, ensuring the trendline uses a distinct stroke style or color.
+
+4. Programmatic API Support
+   1. Extend `generatePlot` schema to accept optional boolean fields `trendlineStats` and `overlayTrendline`.
+   2. In `generatePlot()`, perform the same regression calculation and:
+      - If `trendlineStats` is true, return an additional property `stats: { slope, intercept, r2 }` on the result object.
+      - If `overlayTrendline` is true, include the trendline series in the returned SVG or PNG.
 
 # Testing
-- **Unit tests for fit computation** in `tests/unit/trendline-fitting.test.js`:
-  • Test linear regression on simple datasets (e.g., y = 2x + 1). Verify slope and intercept.
-  • Test polynomial fit on small known points for degree 2 and degree 3.
-  • Test error cases: invalid degree (zero or non-integer), insufficient data points for polynomial degree.
-- **CLI integration tests** in `tests/unit/cli-trendline.test.js`:
-  • Run `main()` with `--expression y=x` and `--trendline linear`. Assert SVG contains two `<polyline>` elements and a legend entry for `trendline`.
-  • Run with `--trendline polynomial --trendline-degree 3`. Verify output lines count and legend.
-  • Error on unsupported `--trendline` value or invalid degree.
-- **Programmatic API tests** in `tests/unit/generatePlot-trendline.test.js`:
-  • Call `generatePlot({ expression, range, format:'svg', trendline:'linear' })`. Assert returned SVG has two series.
-  • Test PNG path similarly.
+- Create tests/unit/trendline-fitting.test.js:
+  • **Regression Calculation**: For a known dataset (e.g., y=2x+1 over x=0..2), verify computed slope=2.00, intercept=1.00, r2=1.00.
+  • **CLI Stats Output**: Run `main()` with `--expression 'y=2*x+1' --range 'x=0:2' --format svg --output out.svg --trendline-stats true` and capture stdout, asserting printed metrics match expected values and no file is written.
+  • **CLI Overlay**: Run with `--overlay-trendline true` and verify the output SVG contains two `<polyline>` elements and a legend entry for `trendline`.
+  • **Combined Flags**: Run with both flags true, capture stdout and inspect the written plot file for overlay.
+  • **Programmatic API**: Call `generatePlot({ expression, range, format:'svg', trendlineStats:true })` and assert returned object includes a `stats` property. Call with `overlayTrendline:true` and assert SVG contains trendline.
+  • **Error Cases**: Invalid flag values should trigger schema validation errors and exit with code 1.
 
 # Documentation
-- **USAGE.md** and **README.md**:
-  • Document `--trendline` and `--trendline-degree` flags with examples:
-    repository0-plot-code-lib --expression "y=x*2+1" --range "x=0:10" --format svg --output fit.svg --trendline linear
-    repository0-plot-code-lib --expression "y=x^2" --range "x=0:5" --format svg --output poly.svg --trendline polynomial --trendline-degree 2
-  • Show sample SVG snippet with two colored curves and legend entries: Original and Trendline.
+- Update `USAGE.md` and `README.md`:
+  • Document `--trendline-stats` and `--overlay-trendline` flags with examples:
+    repository0-plot-code-lib --expression 'y=x*2+1' --range 'x=0:5' --trendline-stats true
+    repository0-plot-code-lib --expression 'y=x' --range 'x=0:5' --overlay-trendline true --format svg --output plot.svg
+  • Show sample output snippet of printed metrics and an SVG snippet with the trendline overlay.
