@@ -1,36 +1,36 @@
 # Overview
-Add support for shading the area under a plotted curve to emphasize the integral of a series over its range. When enabled, the plot will include a filled region from the baseline (y=0 or specified axis) up to the data points.
+Add support for shading the area under a plotted curve to emphasize the integral of a series over its range. When enabled, the plot will include a filled region from the baseline (default y=0) up to the data points.
 
 # CLI Flags
-- --integral <true|false>  Boolean flag to enable area shading under the primary series.
-  Must be true or false; defaults to false when omitted.
-  Mutually exclusive with derivative flag only in the sense that shading applies to each series but does not prevent multiple series plots.
+- --integral <true|false>  Boolean flag to enable area shading under each series. Defaults to false.  
+- --baseline <number>      Optional numeric flag to specify the baseline y-value for shading. Defaults to 0.
 
 # Implementation
-1. Schema and Argument Parsing
-   In src/lib/main.js update the CLI schema to include:
-     integral: z.string().regex(/^(true|false)$/).optional()
-   In parseArgs detect --integral and convert the string to a boolean flag showIntegral = parsedArgs.integral === 'true'.
-2. GeneratePlot and Main Entry
-   Extend the programmatic API schema in generatePlot to accept integral as a boolean optional field.
-   After generating data (or data series for multi-series), before rendering call generateSVG with an options object that includes integral: showIntegral.
-3. generateSVG Enhancement
-   Update generateSVG signature to accept a second parameter options containing integral boolean and baseline (default 0).
-   When options.integral is true:
-     • For single series, construct a polygon by prepending a point at the first x on baseline, appending a point at the last x on baseline, and filling with a semi-transparent color.
-     • For multi-series, apply shading only to the first series or document behavior for multiple series (e.g., shade each series separately).
-   Ensure shading is rendered behind polyline elements by inserting the fill path before stroke elements.
-4. Baseline Flexibility (Optional)
-   Default baseline is y=0. Future iterations may accept a --baseline flag to customize the fill boundary.
+1. Schema Updates  
+   • In cliSchema extend with:
+     - integral: z.string().regex(/^(true|false)$/, 'integral must be true or false').optional()  
+     - baseline: z.string().optional()  
+2. Argument Parsing  
+   • In parseArgs detect --integral and convert to boolean showIntegral = parsedArgs.integral === 'true'.  
+   • Parse --baseline into a number baselineValue or default 0.  
+3. Programmatic API  
+   • Extend generatePlot schema to include:
+     - integral: z.boolean().optional()  
+     - baseline: z.number().optional()  
+   • In generatePlot parse options.integral and options.baseline  
+4. Data and SVG Generation  
+   • After data series generation, if integral is true:
+     - For each series or single data array, construct a filled polygon or path by adding baseline points at first and last x with y=baseline.  
+     - Pass integral and baseline into generateSVG options.  
+   • In generateSVG extend signature to accept options.integral and options.baseline.  
+     - When options.integral true insert a <polygon> or <path> element before polyline strokes, filling with semi-transparent series color.  
 
 # Testing
-- Create tests/unit/integral-plotting.test.js:
-  • Programmatic API: call generatePlot with integral true and verify returned SVG contains a <polygon> or <path fill= attribute and that the data polyline remains present.
-  • CLI mode: run main with --integral true, inspect written SVG and ensure shading appears before polyline and uses correct coordinates.
-  • Error cases: invalid integral values (not true or false) should trigger schema validation errors and exit with code 1.
+- Create tests/unit/integral-plotting.test.js:  
+  • CLI mode: run main with --integral true and --baseline 1 inspect written SVG for a polygon with fill attribute shading from baseline to curve.  
+  • Programmatic API: call generatePlot with integral true and baseline 2 and verify returned SVG contains shading path.  
+  • Error cases: invalid integral values or non-numeric baseline should trigger schema errors and exit code 1.
 
 # Documentation
-- Update USAGE.md and README.md:
-  • Describe the --integral flag with an example:
-    repository0-plot-code-lib --expression y=x^2 --range x=0:5 --format svg --output plot.svg --integral true
-  • Show a sample SVG snippet including a shaded polygon region under the curve.
+- Update USAGE.md and README.md under plot styling section to describe --integral and --baseline flags with usage examples.  
+- Provide a sample SVG snippet showing a shaded polygon beneath the curve.
