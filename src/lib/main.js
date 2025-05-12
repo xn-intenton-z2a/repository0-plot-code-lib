@@ -357,7 +357,9 @@ export async function main(inputArgs) {
       console.log('```sh');
       console.log(`$ ${ex.command}`);
       console.log('```');
-      const result = await generatePlot(ex.options);
+      // Use dynamic import to call exported generatePlot so spies can intercept
+      const { generatePlot: gp } = await import(import.meta.url);
+      const result = await gp(ex.options);
       if (result.type === 'svg') {
         console.log('```svg');
         console.log(result.data);
