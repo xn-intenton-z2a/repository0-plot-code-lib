@@ -1,45 +1,44 @@
 # Overview
 
-Implement a dedicated CLI plot subcommand that generates SVG or PNG visualizations from mathematical expressions over a numeric range. This iteration focuses on core flags for basic plotting and file output, providing a foundation to layer on overlays, encoding, and data exports in future releases.
+Extend the CLI to support a dedicated plot subcommand that generates SVG or PNG visualizations from mathematical expressions over a numeric range. This feature lays the foundation for advanced styling, overlays, and HTTP rendering in future iterations while delivering core plotting functionality.
 
 # CLI Plot Subcommand
 
-Add a new top-level subcommand `plot` in `src/lib/main.js`:
+Add a new top-level CLI subcommand plot:
 
 Flags:
-- --expression <expression>    Mathematical expression in the form `y=…` (required)
-- --range <axis>=<min>:<max>  Numeric axis range (required)
-- --format <svg|png>          Output image format (required)
-- --output <path>             File path to write the resulting image (required)
+- --expression <expression>    Required mathematical expression in the form y=…
+- --range <axis>=<min>:<max>   Required numeric range string (e.g., x=0:10)
+- --format <svg|png>           Required output image format
+- --output <path>              Required file path to write the generated image
 
 Behavior:
-1. Invoke parseArgs to collect CLI flags after the `plot` keyword.
-2. Validate that expression, range, format, and output flags are present; emit an error and exit code 1 if any are missing or invalid.
-3. Use parseRange to interpret the range string into axis, min, and max.
-4. Call generateData to sample the expression at default 100 points.
-5. Render the plot:
-   - For SVG: construct a QuickChart configuration JSON and request the QuickChart render endpoint, or use an embedded SVG builder.
-   - For PNG: generate an SVG first then rasterize via sharp to PNG.
-6. Write the binary or text image to the specified output path.
-7. Set exit code 0 on success, 1 on validation or render errors.
+1. Inspect argv[0] for plot and invoke runPlotCli with remaining args
+2. Parse flags using parseArgs and validate presence and formats of expression, range, format, and output; on validation failure print descriptive error and exit code 1
+3. Interpret range string via parseRange into axis, min, and max
+4. Sample the expression with generateData using default 100 points or a samples flag in future
+5. Render chart configuration:
+   - SVG: build a ChartJS configuration and call QuickChart HTTP API or embedded SVG builder
+   - PNG: generate an SVG first then rasterize to PNG via sharp
+6. Write resulting image file to the given output path
+7. Set process.exitCode to 0 on success, 1 on any error
 
 # Implementation
 
-- In `src/lib/main.js`, add a `runPlotCli` function parallel to `runStatsCli`:
-  1. Detect the first CLI argument `plot` and dispatch to `runPlotCli` in `main()`.
-  2. Integrate QuickChart or sharp (already in dependencies) for rendering.
-  3. Use existing `generateData`, `parseRange`, and mathjs utilities for data generation.
+- In src/lib/main.js add runPlotCli to handle parseArgs, parseRange, generateData, rendering and file output
+- In main(), dispatch to runPlotCli when the first argument is plot
+- Reuse existing mathjs, generateData, and parseRange utilities
+- Use QuickChart API or internal SVG builder for chart markup
+- Employ sharp to convert SVG to PNG for format=png
 
 # Testing
 
-- Add unit tests under `tests/unit/plot-generation.test.js`:
-  - Invoke `main(['plot', '--expression', 'y=x', '--range', 'x=0:1', '--format', 'svg', '--output', 'out.svg'])` and verify `out.svg` exists and begins with `<svg`.
-  - Test PNG output file contains the PNG signature bytes (`\x89PNG`).
-  - Validate missing required flags produce exit code 1 and error messages.
+- Create tests in tests/unit/plot-generation.test.js
+- Test that running main(["plot", flags…]) writes an SVG file starting with <svg
+- Test that PNG output file begins with PNG signature (0x89 0x50 0x4E 0x47)
+- Verify missing required flags produce exit code 1 and appropriate stderr messages
 
 # Documentation
 
-- Update `USAGE.md` and `README.md` to include:
-  - The new `plot` subcommand syntax and minimal example for SVG and PNG output.
-  - Illustrative CLI commands:
-    repository0-plot-code-lib plot --expression "y=sin(x)" --range "x=0:6.28" --format svg --output plot.svg
+- Update USAGE.md and README.md to include the plot subcommand syntax and minimal examples for SVG and PNG output
+- Illustrate usage with repository0-plot-code-lib plot --expression "y=sin(x)" --range "x=0:6.28" --format svg --output plot.svg
