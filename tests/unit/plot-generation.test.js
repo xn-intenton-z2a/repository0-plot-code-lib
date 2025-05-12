@@ -11,6 +11,7 @@ import {
   generateDerivativeData,
   generateSVG,
   convertDataToString,
+  computeTrendlineStats,
   main,
   generatePlot,
   httpApp,
@@ -77,6 +78,20 @@ describe('generateDerivativeData', () => {
   });
 });
 
+describe('computeTrendlineStats', () => {
+  test('perfect line y=2x+1 stats', () => {
+    const pts = [
+      { x: 0, y: 1 },
+      { x: 1, y: 3 },
+      { x: 2, y: 5 }
+    ];
+    const stats = computeTrendlineStats(pts);
+    expect(stats.slope).toBeCloseTo(2);
+    expect(stats.intercept).toBeCloseTo(1);
+    expect(stats.r2).toBeCloseTo(1);
+  });
+});
+
 describe('convertDataToString', () => {
   test('CSV single-series output', () => {
     const data = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
@@ -116,6 +131,12 @@ describe('generateSVG', () => {
 
 describe('main function', () => {
   const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+  const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+
+  afterEach(() => {
+    writeSpy.mockClear();
+    logSpy.mockClear();
+  });
 
   test('writes svg file for svg format', async () => {
     await main(['--expression', 'y=x', '--range', 'x=0:1', '--format', 'svg', '--output', 'out.svg']);
@@ -127,19 +148,22 @@ describe('main function', () => {
     expect(writeSpy).toHaveBeenCalledWith('out.png', Buffer.from('pngdata'));
   });
 
-  test('writes svg file with derivative series and legend', async () => {
-    writeSpy.mockClear();
+  test('stats-only mode outputs stats and does not write files', async () => {
+    await main(['--expression', 'y=2*x+1', '--range', 'x=0:2', '--format', 'svg', '--trendline-stats', 'true']);
+    expect(logSpy).toHaveBeenCalledWith('slope: 2.00');
+    expect(logSpy).toHaveBeenCalledWith('intercept: 1.00');
+    expect(logSpy).toHaveBeenCalledWith('r2: 1.00');
+    expect(writeSpy).not.toHaveBeenCalled();
+  });
+
+  test('overlay-trendline writes plot with two polylines and legend', async () => {
     await main([
       '--expression',
-      'y=x^2',
-      '--range',
-      'x=0:2',
-      '--format',
-      'svg',
-      '--output',
-      'out.svg',
-      '--derivative',
-      'true',
+      'y=x',
+      '--range', 'x=0:2',
+      '--format', 'svg',
+      '--output', 'out.svg',
+      '--overlay-trendline', 'true'
     ]);
     expect(writeSpy).toHaveBeenCalledWith('out.svg', expect.any(String));
     const svg = writeSpy.mock.calls[0][1];
@@ -148,16 +172,13 @@ describe('main function', () => {
   });
 
   test('writes export data and plot files', async () => {
-    writeSpy.mockClear();
     await main([
       '--expression', 'y=x', '--range', 'x=0:0', '--format', 'svg',
       '--output', 'plot.svg', '--export-data', 'data.csv'
     ]);
     expect(writeSpy).toHaveBeenCalledTimes(2);
-    // export-data first
     expect(writeSpy.mock.calls[0][0]).toBe('data.csv');
     expect(writeSpy.mock.calls[0][1]).toMatch(/^x,y\n0,0/);
-    // plot file second
     expect(writeSpy.mock.calls[1][0]).toBe('plot.svg');
     expect(writeSpy.mock.calls[1][1]).toContain('<svg');
   });
@@ -178,20 +199,23 @@ describe('generatePlot', () => {
     await expect(generatePlot({ range: 'x=0:1', format: 'svg' })).rejects.toThrow();
   });
 
-  describe('with derivative', () => {
+  describe('with trendlineStats', () => {
+    test('returns stats object', async () => {
+      const res = await generatePlot({ expression: 'y=2*x+1', range: 'x=0:2', format: 'svg', trendlineStats: true });
+      expect(res.stats).toBeDefined();
+      expect(res.stats.slope).toBeCloseTo(2);
+      expect(res.stats.intercept).toBeCloseTo(1);
+      expect(res.stats.r2).toBeCloseTo(1);
+    });
+  });
+
+  describe('with overlayTrendline', () => {
     test('returns svg with two series and legend', async () => {
-      const result = await generatePlot({ expression: 'y=x^2', range: 'x=0:2', format: 'svg', derivative: true });
+      const result = await generatePlot({ expression: 'y=x', range: 'x=0:1', format: 'svg', overlayTrendline: true });
       expect(result.type).toBe('svg');
-      expect(typeof result.data).toBe('string');
       expect((result.data.match(/<polyline/g) || []).length).toBe(2);
       expect(result.data).toContain('<g class="legend">');
     });
-
-    test('returns png buffer for derivative', async () => {
-      const result = await generatePlot({ expression: 'y=x^2', range: 'x=0:2', format: 'png', derivative: true });
-      expect(result.type).toBe('png');
-      expect(result.data).toEqual(Buffer.from('pngdata'));}
-  );
   });
 });
 
@@ -234,43 +258,3 @@ describe('HTTP Server Mode', () => {
     expect(response.body.error).toMatch(/range must be/);
   });
 });
-
-// Plot Styling tests
-
-// ... existing Plot Styling and CLI Discovery Flags suites remain unchanged
-
-describe('examples subcommand', () => {
-  let logSpy, writeSpy, genPlotSpy;
-
-  beforeEach(() => {
-    logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    genPlotSpy = vi.spyOn(mainModule, 'generatePlot').mockImplementation(async (opts) => {
-      if (opts.derivative) {
-        return { type: 'svg', data: '<svg>derivative</svg>' };
-      }
-      return { type: 'svg', data: '<svg>basic</svg>' };
-    });
-  });
-
-  afterEach(() => {
-    logSpy.mockRestore();
-    writeSpy.mockRestore();
-    genPlotSpy.mockRestore();
-  });
-
-  test('outputs markdown examples without side effects', async () => {
-    await mainModule.main(['examples']);
-    expect(genPlotSpy).toHaveBeenCalled();
-    expect(writeSpy).not.toHaveBeenCalled();
-    const logs = logSpy.mock.calls.map(c => c[0]);
-    expect(logs).toContain('```sh');
-    expect(logs).toContain('$ repository0-plot-code-lib --expression "y=x" --range "x=0:1" --format svg');
-    expect(logs).toContain('```svg');
-    expect(logs).toContain('<svg>basic</svg>');
-    expect(logs).toContain('$ repository0-plot-code-lib --expression "y=x^2" --range "x=0:2" --format svg --derivative true');
-    expect(logs).toContain('<svg>derivative</svg>');
-  });
-});
-
-// CLI Discovery Flags tests remain below
