@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 // src/lib/main.js
 
-import fs from 'fs';
-import path from 'path';
-import { create, all } from 'mathjs';
-import sharp from 'sharp';
-import express from 'express';
-import { z } from 'zod';
-import { fileURLToPath } from 'url';
+import fs from "fs";
+import path from "path";
+import { create, all } from "mathjs";
+import sharp from "sharp";
+import express from "express";
+import { z } from "zod";
+import { fileURLToPath } from "url";
 
 const math = create(all);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -40,8 +40,9 @@ export function parseArgs(inputArgs) {
 const cliSchema = z.object({
   expression: z.string(),
   range: z.string().regex(/^[a-zA-Z]+=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/, 'range must be in the format axis=min:max'),
-  format: z.enum(['svg', 'png']),
+  format: z.enum(["svg", "png"]),
   output: z.string(),
+  derivative: z.string().regex(/^(true|false)$/, 'derivative must be true or false').optional(),
 });
 
 /**
@@ -80,13 +81,55 @@ export function generateData(expression, range, samples = 100) {
 }
 
 /**
- * Generate a basic SVG string containing a polyline for the data points.
+ * Generate time series data points for the derivative expression.
+ * @param {string} expression Expression string, can include 'y=' prefix.
+ * @param {{min:number,max:number}} range Range object.
+ * @param {number} samples Number of segments (default 100).
  */
-export function generateSVG(points, width = 500, height = 500) {
-  const pointsAttr = points.map((p) => `${p.x},${p.y}`).join(' ');
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">  
-  <polyline fill="none" stroke="black" points="${pointsAttr}" />
-</svg>`;
+export function generateDerivativeData(expression, range, samples = 100) {
+  const expr = expression.includes('=') ? expression.split('=')[1].trim() : expression;
+  const derivativeNode = math.derivative(expr, 'x');
+  const { min, max } = range;
+  const count = samples;
+  const step = (max - min) / count;
+  const points = [];
+  for (let i = 0; i <= count; i++) {
+    const x = min + step * i;
+    const y = derivativeNode.evaluate({ x });
+    points.push({ x, y });
+  }
+  return points;
+}
+
+/**
+ * Generate an SVG string for single or multiple data series.
+ * @param {Array<{label: string, points: Array<{x:number,y:number}>}>|Array<{x:number,y:number}>} dataOrSeries
+ * @param {number} width SVG width in pixels
+ * @param {number} height SVG height in pixels
+ */
+export function generateSVG(dataOrSeries, width = 500, height = 500) {
+  const colors = ["black", "red", "blue", "green", "orange", "purple"];
+  let inner = '';
+  const isMultiSeries =
+    Array.isArray(dataOrSeries) && dataOrSeries.length > 0 && dataOrSeries[0].points;
+  if (isMultiSeries) {
+    dataOrSeries.forEach((series, idx) => {
+      const col = colors[idx % colors.length];
+      const pointsAttr = series.points.map((p) => `${p.x},${p.y}`).join(' ');
+      inner += `<polyline fill="none" stroke="${col}" points="${pointsAttr}" />`;
+    });
+    inner += `<g class="legend">`;
+    dataOrSeries.forEach((series, idx) => {
+      const col = colors[idx % colors.length];
+      const yPos = 20 + idx * 20;
+      inner += `<text x="10" y="${yPos}" fill="${col}">${series.label}</text>`;
+    });
+    inner += `</g>`;
+  } else {
+    const pointsAttr = dataOrSeries.map((p) => `${p.x},${p.y}`).join(' ');
+    inner += `<polyline fill="none" stroke="black" points="${pointsAttr}" />`;
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${inner}</svg>`;
 }
 
 /**
@@ -98,7 +141,7 @@ export async function generatePlot(options) {
   const schema = z.object({
     expression: z.string(),
     range: z.string().regex(/^[a-zA-Z]+=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/, 'range must be in the format axis=min:max'),
-    format: z.enum(['svg', 'png']),
+    format: z.enum(["svg", "png"]),
     width: z.number().int().positive().optional(),
     height: z.number().int().positive().optional(),
     samples: z.number().int().positive().optional(),
@@ -108,6 +151,7 @@ export async function generatePlot(options) {
     title: z.string().optional(),
     xLabel: z.string().optional(),
     yLabel: z.string().optional(),
+    derivative: z.boolean().optional(),
   });
   const opts = schema.parse(options);
   const {
@@ -119,6 +163,7 @@ export async function generatePlot(options) {
     samples = 100,
     xLog = false,
     yLog = false,
+    derivative = false,
   } = opts;
   const rangeObj = parseRange(range);
   let data = generateData(expression, rangeObj, samples);
@@ -138,7 +183,17 @@ export async function generatePlot(options) {
       return { x: p.x, y: Math.log10(p.y) };
     });
   }
-  const svg = generateSVG(data, width, height);
+  let svg;
+  if (derivative) {
+    const derivativeData = generateDerivativeData(expression, rangeObj, samples);
+    const series = [
+      { label: "original", points: data },
+      { label: "derivative", points: derivativeData },
+    ];
+    svg = generateSVG(series, width, height);
+  } else {
+    svg = generateSVG(data, width, height);
+  }
   if (format === 'svg') {
     return { type: 'svg', data: svg };
   }
@@ -210,6 +265,7 @@ export async function main(inputArgs) {
           title: raw.title,
           xLabel: raw.xLabel,
           yLabel: raw.yLabel,
+          derivative: raw.derivative === 'true',
         };
         const result = await generatePlot(opts);
         if (result.type === 'svg') {
@@ -235,15 +291,26 @@ export async function main(inputArgs) {
     process.exit(1);
   }
 
-  const { expression, range, format, output } = parsed;
+  const { expression, range, format, output, derivative } = parsed;
+  const derivativeFlag = derivative === 'true';
   const rangeObj = parseRange(range);
   const data = generateData(expression, rangeObj, 100);
 
+  let svg;
+  if (derivativeFlag) {
+    const derivativeData = generateDerivativeData(expression, rangeObj, 100);
+    const series = [
+      { label: 'original', points: data },
+      { label: 'derivative', points: derivativeData },
+    ];
+    svg = generateSVG(series);
+  } else {
+    svg = generateSVG(data);
+  }
+
   if (format === 'svg') {
-    const svg = generateSVG(data);
     fs.writeFileSync(output, svg);
   } else {
-    const svg = generateSVG(data);
     const buffer = await sharp(Buffer.from(svg)).png().toBuffer();
     fs.writeFileSync(output, buffer);
   }
