@@ -17,6 +17,7 @@ export let httpApp;
 
 /**
  * Parse command-line arguments into a key-value object.
+ * Supports boolean flags when no value is provided.
  */
 export function parseArgs(inputArgs) {
   const args = inputArgs || process.argv.slice(2);
@@ -27,12 +28,15 @@ export function parseArgs(inputArgs) {
       throw new Error(`Unknown argument: ${arg}`);
     }
     const key = arg.slice(2);
-    const value = args[i + 1];
-    if (!value || value.startsWith('--')) {
-      throw new Error(`Missing value for argument: ${arg}`);
+    const next = args[i + 1];
+    // Boolean flag if no value or next starts with '--'
+    if (!next || next.startsWith('--')) {
+      result[key] = true;
+      continue;
     }
+    // Key has a value
+    result[key] = next;
     i++;
-    result[key] = value;
   }
   return result;
 }
@@ -159,6 +163,20 @@ async function setupHttp(app) {
  */
 export async function main(argv = process.argv.slice(2)) {
   const parsedArgs = parseArgs(argv);
+
+  // Handle mission statement flag
+  if (parsedArgs.mission) {
+    try {
+      const missionPath = path.resolve(__dirname, '..', '..', 'MISSION.md');
+      const content = fs.readFileSync(missionPath, 'utf-8');
+      console.log(content);
+    } catch (err) {
+      console.error(`Error reading mission statement: ${err.message}`);
+      process.exitCode = 1;
+    }
+    return;
+  }
+
   if (parsedArgs.serve) {
     const port = Number(parsedArgs.serve);
     const app = express();

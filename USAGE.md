@@ -34,6 +34,11 @@ Show version:
 repository0-plot-code-lib --version
 ```
 
+Show mission statement:
+```sh
+repository0-plot-code-lib --mission
+```
+
 ## HTTP Server Mode
 
 Use the `--serve <port>` flag to start an HTTP server exposing `/plot` and `/stats` endpoints:

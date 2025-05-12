@@ -70,3 +70,16 @@ describe('CORS header', () => {
     expect(res.headers['access-control-allow-origin']).toBe('*');
   });
 });
+
+// CLI --mission flag
+describe('CLI --mission flag', () => {
+  test('prints mission statement to stdout', async () => {
+    const content = '# Test Mission Statement';
+    const fsSpy = vi.spyOn(fs, 'readFileSync').mockReturnValue(content);
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    await mainModule.main(['--mission']);
+    expect(logSpy).toHaveBeenCalledWith(content);
+    logSpy.mockRestore();
+    fsSpy.mockRestore();
+  });
+});
