@@ -43,6 +43,7 @@
 <li class="md-github"><code class="md-github">--export-data &lt;path&gt;</code>: Export the raw x,y data to a file (CSV, JSON, YAML).</li>
 <li class="md-github"><code class="md-github">--export-format &lt;csv|json|yaml&gt;</code>: Override the export format when the file extension is missing or ambiguous.</li>
 <li class="md-github"><code class="md-github">--serve &lt;port&gt;</code>: Start an HTTP server on the specified port exposing the <code class="md-github">/plot</code> endpoint.</li>
+<li class="md-github"><code class="md-github">--mission</code>: Show the project mission statement.</li>
 <li class="md-github"><code class="md-github">examples</code>: Run the automated examples subcommand to print Markdown-formatted usage examples.</li>
 </ul>
 <p class="md-github">For advanced styling options (title, labels, grid, colors, etc.), see the <a href="USAGE.md" class="md-github">Usage guide</a>.</p>
@@ -56,7 +57,7 @@
 <li class="md-github"><strong class="md-github">Query parameters</strong> (all in backticks):
 <ul class="md-github">
 <li class="md-github"><code class="md-github">expression</code> (required): Function expression in <code class="md-github">x</code>, e.g., <code class="md-github">y=sin(x)</code>.</li>
-<li class="md-github"><code class="md-github">range</code> (required): Axis range in <code class="md-github">axis=min:max</code> format, e.g., <code class="md-github">x=0:6.28</code>.</li>
+<li class="md-github"><code class="md-github">range</code> (required): <code class="md-github">axis=min:max</code> format, e.g., <code class="md-github">x=0:6.28</code>.</li>
 <li class="md-github"><code class="md-github">format</code> (required): <code class="md-github">svg</code> or <code class="md-github">png</code>.</li>
 <li class="md-github">Optional: <code class="md-github">width</code>, <code class="md-github">height</code>, <code class="md-github">samples</code>, <code class="md-github">xLog</code>, <code class="md-github">yLog</code>, <code class="md-github">grid</code>, <code class="md-github">title</code>, <code class="md-github">xLabel</code>, <code class="md-github">yLabel</code>, <code class="md-github">derivative</code>, <code class="md-github">palette</code>, <code class="md-github">colors</code>, <code class="md-github">trendlineStats</code>, <code class="md-github">overlayTrendline</code>.</li>
 </ul>
@@ -140,6 +141,10 @@ stddev: 1.87
 <p class="md-github">Sample <code class="md-github">curl</code> for JSON stats:</p>
 <pre class="md-github"><code class="md-github language-sh">curl &quot;http://localhost:3000/stats?expression=y%3Dx&amp;range=x%3D0:5&quot;
 </code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="cli---mission-example" href="#cli---mission-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI --mission Example</h2>
+<p class="md-github">Print the project mission statement:</p>
+<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --mission
+</code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <p class="md-github">Generate an SVG:</p>
 <pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --expression &quot;y=sin(x)+0.5*x&quot; --range &quot;x=0:10&quot; --format svg --output plot.svg
@@ -154,7 +159,7 @@ stddev: 1.87
 
   </section>
   <footer>
-    <p>Generated on 2025-05-12T12:47:14.059Z</p>
+    <p>Generated on 2025-05-12T16:41:15.360Z</p>
   </footer>
 </body>
 </html>
