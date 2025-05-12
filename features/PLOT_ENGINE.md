@@ -1,62 +1,52 @@
 # Overview
-Extend the repository to implement a fully working plot subcommand for CLI and HTTP, generating SVG or PNG images from mathematical expressions or imported data files.
+Enhance the repository with a fully working plot command and HTTP endpoint. Users can generate PNG or SVG visualizations from mathematical expressions or from imported time series data. This feature complements the statistics engine and aligns with the mission of providing formula visualisations.
 
 # CLI Plot Subcommand
-Add a new `plot` subcommand that supports the following flags:
-- --expression <expression>    Function to plot in the form `y=…` when generating computed data
-- --range <axis>=<min>:<max>   Required with `--expression` to define numeric range
-- --data-file <path>           Path to a JSON, CSV, or YAML file containing an array of {x,y} points
-- --format <svg|png>           Output image format (required)
-- --output <path>              Destination file path for the rendered image (required)
-- --width <number>             Optional image width in pixels (default 500)
-- --height <number>            Optional image height in pixels (default 300)
-- --samples <number>           Number of points for expression mode (default 100)
-- --derivative <true|false>    Overlay first derivative curve when using `--expression`
-- --overlay-trendline <true|false>    Overlay regression trendline on the chart
-- --palette <CSV>              Comma-separated list of CSS color strings for series
+- Introduce a new command "plot" in src/lib/main.js. When argv 0 equals plot, dispatch to runPlotCli with remaining arguments.
+- Accept flags:
+  - expression <function>  a y equation in form y=... for computed mode
+  - range <axis>=min:max  required for expression mode to define numeric domain
+  - dataFile <path>       optional path to file with array of points in JSON CSV or YAML
+  - format <svg|png>      required output image format
+  - output <path>         required file to write the image
+  - width <number>        optional width in pixels default 500
+  - height <number>       optional height in pixels default 300
+  - samples <number>      optional sample count default 100 for expression mode
+  - derivative <true|false> optional overlay of first derivative curve
+  - overlayTrendline <true|false> optional regression trendline overlay on the plot
+  - palette <colors>      optional comma separated CSS color list for series
 
-Behavior:
-1. In `main()`, detect `argv[0] === 'plot'` and dispatch to `runPlotCli(argv.slice(1))`
-2. Validate flags and combinations; exit code 1 on missing or invalid parameters
-3. Load or generate data points:
-   - Computed mode: use `parseRange`, `generateData`
-   - File mode: detect extension and parse JSON, YAML, or CSV into a points array
-4. Build a ChartJS configuration object with axes, series, overlays (derivative, trendline), and palette
-5. Render the chart to SVG or PNG using embedded ChartJS with `canvas` or via QuickChart HTTP API; fallback to `sharp` for PNG rasterization if needed
-6. Write the rendered buffer or string to the `--output` file; exit code 0 on success
+Validation
+- Validate combinations: expression requires range, format and output always required
+- On missing or invalid parameters exit code 1 and print error message
+
+Data Preparation
+- Computed mode: parse range string, generate series from expression using generateData helper
+- File mode: detect file extension, load JSON parse YAML or parse CSV into {x,y} points array
+
+Rendering
+- Build ChartJS configuration object with axes labels, data series, derivative and trendline overlays, and palette
+- For SVG render use embedded Canvas or ChartJS SVG renderer
+- For PNG render use QuickChart HTTP API as fallback or use chart.js with canvas and sharp for rasterization
+- Write resulting buffer or string to output file path
+- On success exit code 0
 
 # HTTP Plot Endpoint
-Ensure the existing Express server exposes `/plot` with the following behavior:
-- Accept same parameters as CLI via query string plus `encoding=base64` for JSON-wrapped base64 output
-- Validate inputs with zod
-- Generate chart configuration and render as above
-- Set appropriate content-type:
-  - `image/svg+xml` for SVG
-  - `image/png` for PNG
-  - `application/json` when `encoding=base64`
-- Include CORS header `Access-Control-Allow-Origin: *`
-- Return 400 on validation or runtime errors
-
-# Implementation Details
-- In `src/lib/main.js`, implement `runPlotCli` parallel to `runStatsCli`
-- Update `main()` dispatch logic to call `runPlotCli` when `plot` is requested
-- Reuse `parseArgs`, `parseRange`, `generateData`, `computeRegression`
-- Add dependencies: `chart.js` (or QuickChart client) and `canvas` or use existing `sharp` for PNG rendering
-- Extend Express setup in `createServer` to mount `/plot`
+- In createServer mount GET /plot with query parameters matching CLI flags plus encoding=base64
+- Validate inputs via zod schema
+- Generate chart configuration and render as in CLI
+- Response content types:
+  - image/svg+xml for svg format
+  - image/png for png format
+  - application/json for base64 encoding returning JSON object with data and type fields
+- Include Access-Control-Allow-Origin star for CORS
+- On validation or runtime errors return 400 with JSON error message
 
 # Testing
-- Add unit tests for CLI in `tests/unit/plot-cli.test.js`:
-  - Verify SVG and PNG files are created with correct dimensions
-  - Test expression mode and data-file mode for both formats
-  - Test flags: samples, derivative overlay, trendline overlay, palette
-  - Test invalid flag combinations and missing parameters
-- Extend HTTP tests in `tests/unit/plot-generation.test.js`:
-  - GET `/plot?expression=…&range=…&format=svg` returns `image/svg+xml`
-  - GET `/plot?dataFile=…&format=png` returns `image/png`
-  - Encoding=base64 returns JSON with `data` and `type`
-  - CORS header present
-  - Validation errors return 400
+- Add unit tests under tests/unit:
+  - plot-cli.test.js to verify CLI invocation creates correct SVG or PNG file given expression and dataFile modes and flags samples derivative overlay overlayTrendline palette width height
+  - plot-http.test.js to verify GET /plot returns correct content type and body for svg png and base64 encoding and CORS header and error codes on invalid input
 
-# Documentation Updates
-- Update USAGE.md and README.md to document the new `plot` subcommand and `/plot` endpoint with examples
-- Provide usage examples for both expression and data-file modes, with both local CLI and HTTP invocation
+# Documentation
+- Update USAGE.md and README.md to include examples for plot subcommand and /plot endpoint with all flag combinations and base64 example
+- Provide examples for computed expression mode and dataFile mode for both SVG and PNG outputs
