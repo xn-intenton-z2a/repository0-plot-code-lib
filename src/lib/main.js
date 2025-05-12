@@ -93,6 +93,68 @@ export function computeSummaryStats(points) {
   return { min, max, mean, median, stddev };
 }
 
+/**
+ * CLI subcommand: stats
+ */
+export async function runStatsCli(argv) {
+  let args;
+  try {
+    args = parseArgs(argv);
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exitCode = 1;
+    return;
+  }
+  const { expression, dataFile, range, samples, format, output } = args;
+  const sampleCount = samples ? parseInt(samples, 10) : 100;
+  const outFormat = format === 'text' ? 'text' : 'json';
+  try {
+    let points;
+    if (expression) {
+      if (!range) throw new Error('range is required when expression is provided');
+      const rangeObj = parseRange(range);
+      points = generateData(expression, rangeObj, sampleCount);
+    } else if (dataFile) {
+      const ext = path.extname(dataFile).toLowerCase();
+      const raw = fs.readFileSync(dataFile, 'utf-8');
+      if (ext === '.json') {
+        points = JSON.parse(raw);
+      } else if (ext === '.yaml' || ext === '.yml') {
+        points = yamlLoad(raw);
+      } else if (ext === '.csv') {
+        points = raw.trim().split('\n').slice(1).map(line => {
+          const [x, y] = line.split(',').map(Number);
+          return { x, y };
+        });
+      } else {
+        throw new Error('Unsupported dataFile format');
+      }
+    } else {
+      throw new Error('expression or dataFile is required');
+    }
+    const stats = computeSummaryStats(points);
+    let outStr;
+    if (outFormat === 'text') {
+      const lines = [];
+      for (const [k, v] of Object.entries(stats)) {
+        lines.push(`${k}: ${v.toFixed(2)}`);
+      }
+      outStr = lines.join('\n');
+    } else {
+      outStr = JSON.stringify(stats, null, 2);
+    }
+    if (output) {
+      fs.writeFileSync(output, outStr);
+    } else {
+      process.stdout.write(outStr + (outFormat === 'text' ? '\n' : ''));  
+    }
+    process.exitCode = 0;
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exitCode = 1;
+  }
+}
+
 // HTTP server extension
 async function createServer(app) {
   app.get('/stats', async (req, res) => {
@@ -162,6 +224,11 @@ async function setupHttp(app) {
  * Main entrypoint handling CLI and server modes.
  */
 export async function main(argv = process.argv.slice(2)) {
+  if (argv[0] === 'stats') {
+    await runStatsCli(argv.slice(1));
+    return;
+  }
+
   const parsedArgs = parseArgs(argv);
 
   // Handle mission statement flag
@@ -185,7 +252,7 @@ export async function main(argv = process.argv.slice(2)) {
     app.listen(port, () => console.log(`Listening on port ${port}`));
     return;
   }
-  // CLI mode not implemented for stats endpoint
+  // CLI mode not implemented for stats endpoint other than stats subcommand
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
