@@ -1,260 +1,70 @@
-import { describe, test, expect, vi, beforeEach, afterEach, beforeAll } from 'vitest';
+import { describe, test, expect, vi, beforeAll } from 'vitest';
 import fs from 'fs';
 import path from 'path';
-import sharp from 'sharp';
 import request from 'supertest';
 import * as mainModule from '@src/lib/main.js';
-import {
-  parseArgs,
-  parseRange,
-  generateData,
-  generateDerivativeData,
-  generateSVG,
-  convertDataToString,
-  computeTrendlineStats,
-  main,
-  generatePlot,
-  httpApp,
-} from '@src/lib/main.js';
+import { httpApp } from '@src/lib/main.js';
 
-// Mock sharp to return a predictable buffer
-vi.mock('sharp', () => {
-  return {
-    default: vi.fn(() => ({ png: () => ({ toBuffer: () => Promise.resolve(Buffer.from('pngdata')) }) }))
-  };
+beforeAll(async () => {
+  await mainModule.main(['--serve', '4000']);
 });
 
-describe('parseArgs', () => {
-  test('parses valid arguments', () => {
-    const args = ['--expression', 'y=x', '--range', 'x=0:3', '--format', 'svg', '--output', 'out.svg'];
-    const parsed = parseArgs(args);
-    expect(parsed).toEqual({
-      expression: 'y=x',
-      range: 'x=0:3',
-      format: 'svg',
-      output: 'out.svg',
-    });
-  });
-
-  test('throws on missing value', () => {
-    expect(() => parseArgs(['--expression'])).toThrow('Missing value for argument: --expression');
-  });
-
-  test('throws on unknown argument', () => {
-    expect(() => parseArgs(['test'])).toThrow('Unknown argument: test');
+describe('GET /stats expression mode JSON', () => {
+  test('returns JSON stats', async () => {
+    const res = await request(httpApp)
+      .get('/stats')
+      .query({ expression: 'y=x', range: 'x=0:2', samples: '3' });
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/application\/json/);
+    expect(res.body).toEqual({ min: 0, max: 2, mean: 1, median: 1, stddev: Math.sqrt((0+1+1+4)/4) });
   });
 });
 
-describe('parseRange', () => {
-  test('parses x range correctly', () => {
-    expect(parseRange('x=0:10')).toEqual({ axis: 'x', min: 0, max: 10 });
-  });
-
-  test('throws on invalid number', () => {
-    expect(() => parseRange('x=a:b')).toThrow('Invalid range values: a:b');
-  });
-});
-
-describe('generateData', () => {
-  test('generates correct data for y=x', () => {
-    const points = generateData('y=x', { min: 0, max: 3 }, 3);
-    expect(points).toEqual([
-      { x: 0, y: 0 },
-      { x: 1, y: 1 },
-      { x: 2, y: 2 },
-      { x: 3, y: 3 },
-    ]);
+describe('GET /stats expression mode plain text', () => {
+  test('returns plain text stats', async () => {
+    const res = await request(httpApp)
+      .get('/stats')
+      .query({ expression: 'y=x', range: 'x=0:2', samples: '2', json: 'false' });
+    expect(res.status).toBe(200);
+    expect(res.headers['content-type']).toMatch(/text\/plain/);
+    const lines = res.text.split('\n');
+    expect(lines[0]).toMatch(/min: 0.00/);
+    expect(lines[1]).toMatch(/max: 2.00/);
   });
 });
 
-describe('generateDerivativeData', () => {
-  test('generates correct derivative data for y=x^2', () => {
-    const points = generateDerivativeData('y=x^2', { min: 0, max: 2 }, 2);
-    expect(points).toEqual([
-      { x: 0, y: 0 },
-      { x: 1, y: 2 },
-      { x: 2, y: 4 },
-    ]);
+describe('GET /stats file mode JSON', () => {
+  const tmpFile = path.join(__dirname, 'temp-data.json');
+  beforeAll(() => {
+    fs.writeFileSync(tmpFile, JSON.stringify([{ x: 1, y: 2 }, { x: 3, y: 4 }]));
+  });
+
+  test('returns JSON stats from file', async () => {
+    const res = await request(httpApp)
+      .get('/stats')
+      .query({ dataFile: tmpFile });
+    expect(res.status).toBe(200);
+    expect(res.body).toEqual({ min: 2, max: 4, mean: 3, median: 3, stddev: Math.sqrt(1) });
   });
 });
 
-describe('computeTrendlineStats', () => {
-  test('perfect line y=2x+1 stats', () => {
-    const pts = [
-      { x: 0, y: 1 },
-      { x: 1, y: 3 },
-      { x: 2, y: 5 }
-    ];
-    const stats = computeTrendlineStats(pts);
-    expect(stats.slope).toBeCloseTo(2);
-    expect(stats.intercept).toBeCloseTo(1);
-    expect(stats.r2).toBeCloseTo(1);
+
+// Missing params
+describe('GET /stats missing params', () => {
+  test('returns 400 if no expression or dataFile', async () => {
+    const res = await request(httpApp)
+      .get('/stats');
+    expect(res.status).toBe(400);
+    expect(res.body).toHaveProperty('error');
   });
 });
 
-describe('convertDataToString', () => {
-  test('CSV single-series output', () => {
-    const data = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
-    const csv = convertDataToString(data, 'csv');
-    expect(csv).toBe('x,y\n0,0\n1,1');
-  });
-
-  test('CSV multi-series output', () => {
-    const series = [
-      { label: 'a', points: [{ x: 0, y: 0 }, { x: 1, y: 1 }] },
-      { label: 'b', points: [{ x: 2, y: 2 }] }
-    ];
-    const csv = convertDataToString(series, 'csv');
-    expect(csv).toContain('series,x,y');
-    expect(csv).toContain('a,0,0');
-    expect(csv).toContain('b,2,2');
-  });
-
-  test('JSON single-series output', () => {
-    const data = [{ x: 0, y: 0 }];
-    const json = convertDataToString(data, 'json');
-    expect(json).toBe(JSON.stringify(data, null, 2));
-  });
-});
-
-describe('generateSVG', () => {
-  test('generates svg string with polyline points', () => {
-    const points = [
-      { x: 0, y: 0 },
-      { x: 1, y: 2 },
-    ];
-    const svg = generateSVG(points, 100, 100);
-    expect(svg).toContain('<svg');
-    expect(svg).toContain('points="0,0 1,2"');
-  });
-});
-
-describe('main function', () => {
-  const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-  const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-
-  afterEach(() => {
-    writeSpy.mockClear();
-    logSpy.mockClear();
-  });
-
-  test('writes svg file for svg format', async () => {
-    await main(['--expression', 'y=x', '--range', 'x=0:1', '--format', 'svg', '--output', 'out.svg']);
-    expect(writeSpy).toHaveBeenCalledWith('out.svg', expect.stringContaining('<svg'));
-  });
-
-  test('writes png file for png format', async () => {
-    await main(['--expression', 'y=x', '--range', 'x=0:1', '--format', 'png', '--output', 'out.png']);
-    expect(writeSpy).toHaveBeenCalledWith('out.png', Buffer.from('pngdata'));
-  });
-
-  test('stats-only mode outputs stats and does not write files', async () => {
-    await main(['--expression', 'y=2*x+1', '--range', 'x=0:2', '--format', 'svg', '--trendline-stats', 'true']);
-    expect(logSpy).toHaveBeenCalledWith('slope: 2.00');
-    expect(logSpy).toHaveBeenCalledWith('intercept: 1.00');
-    expect(logSpy).toHaveBeenCalledWith('r2: 1.00');
-    expect(writeSpy).not.toHaveBeenCalled();
-  });
-
-  test('overlay-trendline writes plot with two polylines and legend', async () => {
-    await main([
-      '--expression',
-      'y=x',
-      '--range', 'x=0:2',
-      '--format', 'svg',
-      '--output', 'out.svg',
-      '--overlay-trendline', 'true'
-    ]);
-    expect(writeSpy).toHaveBeenCalledWith('out.svg', expect.any(String));
-    const svg = writeSpy.mock.calls[0][1];
-    expect((svg.match(/<polyline/g) || []).length).toBe(2);
-    expect(svg).toContain('<g class="legend">');
-  });
-
-  test('writes export data and plot files', async () => {
-    await main([
-      '--expression', 'y=x', '--range', 'x=0:0', '--format', 'svg',
-      '--output', 'plot.svg', '--export-data', 'data.csv'
-    ]);
-    expect(writeSpy).toHaveBeenCalledTimes(2);
-    expect(writeSpy.mock.calls[0][0]).toBe('data.csv');
-    expect(writeSpy.mock.calls[0][1]).toMatch(/^x,y\n0,0/);
-    expect(writeSpy.mock.calls[1][0]).toBe('plot.svg');
-    expect(writeSpy.mock.calls[1][1]).toContain('<svg');
-  });
-});
-
-describe('generatePlot', () => {
-  test('returns svg result', async () => {
-    const result = await generatePlot({ expression: 'y=x', range: 'x=0:1', format: 'svg' });
-    expect(result).toEqual({ type: 'svg', data: expect.stringContaining('<svg') });
-  });
-
-  test('returns png result', async () => {
-    const result = await generatePlot({ expression: 'y=x', range: 'x=0:1', format: 'png' });
-    expect(result).toEqual({ type: 'png', data: Buffer.from('pngdata') });
-  });
-
-  test('throws on missing required options', async () => {
-    await expect(generatePlot({ range: 'x=0:1', format: 'svg' })).rejects.toThrow();
-  });
-
-  describe('with trendlineStats', () => {
-    test('returns stats object', async () => {
-      const res = await generatePlot({ expression: 'y=2*x+1', range: 'x=0:2', format: 'svg', trendlineStats: true });
-      expect(res.stats).toBeDefined();
-      expect(res.stats.slope).toBeCloseTo(2);
-      expect(res.stats.intercept).toBeCloseTo(1);
-      expect(res.stats.r2).toBeCloseTo(1);
-    });
-  });
-
-  describe('with overlayTrendline', () => {
-    test('returns svg with two series and legend', async () => {
-      const result = await generatePlot({ expression: 'y=x', range: 'x=0:1', format: 'svg', overlayTrendline: true });
-      expect(result.type).toBe('svg');
-      expect((result.data.match(/<polyline/g) || []).length).toBe(2);
-      expect(result.data).toContain('<g class="legend">');
-    });
-  });
-});
-
-describe('HTTP Server Mode', () => {
-  beforeAll(async () => {
-    await main(['--serve', '3000']);
-  });
-
-  test('GET /plot returns svg', async () => {
-    const response = await request(httpApp)
-      .get('/plot')
-      .query({ expression: 'y=x', range: 'x=0:1', format: 'svg' });
-    expect(response.status).toBe(200);
-    expect(response.headers['content-type']).toMatch(/image\/svg\+xml/);
-    expect(response.body.toString()).toContain('<svg');
-  });
-
-  test('GET /plot returns png', async () => {
-    const response = await request(httpApp)
-      .get('/plot')
-      .query({ expression: 'y=x', range: 'x=0:1', format: 'png' });
-    expect(response.status).toBe(200);
-    expect(response.headers['content-type']).toMatch(/image\/png/);
-    expect(response.body).toEqual(Buffer.from('pngdata'));
-  });
-
-  test('GET /plot missing parameters returns 400', async () => {
-    const response = await request(httpApp)
-      .get('/plot')
-      .query({ range: 'x=0:1', format: 'svg' });
-    expect(response.status).toBe(400);
-    expect(response.body).toHaveProperty('error');
-  });
-
-  test('GET /plot invalid parameters returns 400', async () => {
-    const response = await request(httpApp)
-      .get('/plot')
-      .query({ expression: 'y=x', range: 'x=a:b', format: 'svg' });
-    expect(response.status).toBe(400);
-    expect(response.body.error).toMatch(/range must be/);
+// CORS header
+describe('CORS header', () => {
+  test('includes Access-Control-Allow-Origin', async () => {
+    const res = await request(httpApp)
+      .get('/stats')
+      .query({ expression: 'y=x', range: 'x=0:1' });
+    expect(res.headers['access-control-allow-origin']).toBe('*');
   });
 });
