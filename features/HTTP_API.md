@@ -1,89 +1,50 @@
 # Overview
-Enhance the existing HTTP server mode by adding Cross-Origin Resource Sharing (CORS) support, a configurable origin whitelist, and a new `/stats` endpoint to expose summary statistics via HTTP alongside the existing `/plot` endpoint.  Ensure the `/plot` endpoint also supports an `encoding=base64` query parameter.
+Enhance the HTTP server mode by adding a `/stats` endpoint for summary statistics alongside the existing `/plot` endpoint. Enable CORS support, configurable origin whitelisting, and support `encoding=base64` on `/plot`.
 
 # Endpoints
 
 ## GET /plot
-- Accept same query parameters as programmatic API: expression, range, format, width, height, samples, xLog, yLog, grid, title, xLabel, yLabel, derivative, palette, colors, trendlineStats, overlayTrendline.
-- Support new query parameter `encoding=base64`. When present, respond with `application/json` containing `{ data: string, type: string }` where `data` is the base64 encoding of the image or SVG.
+- Accept all existing query parameters: `expression`, `range`, `format`, `width`, `height`, `samples`, `xLog`, `yLog`, `grid`, `title`, `xLabel`, `yLabel`, `derivative`, `palette`, `colors`, `trendlineStats`, `overlayTrendline`.
+- New query parameter `encoding=base64`. When present:
+  • Respond with `application/json` containing an object: `{ data: string, type: string }`.
+  • `data` is the base64-encoded image (SVG or PNG) string.
 
 ## GET /stats
-- Compute and return summary statistics (min, max, mean, median, stddev) for a data series defined by either:
-  - Query parameters `expression` and `range` (in axis=min:max format)
-  - Query parameter `dataFile` pointing to a JSON, YAML, or CSV file on disk.
-- Optional `samples` parameter (default 100) and `json=true|false` to control output format.
-- When `json=false`, return `text/plain` with each statistic on its own line formatted to two decimal places.
-- When `json=true`, return `application/json` with the statistics object.
-
-# CORS Support
-- Enable CORS globally on the Express app by default, allowing all origins.
-- Introduce a new CLI flag `--cors-origins <list>` and environment variable `CORS_ORIGINS` to restrict allowed origins to a comma-separated whitelist.
-- When specified, configure the CORS middleware to accept only those origins.
+- Compute summary statistics (`min`, `max`, `mean`, `median`, `stddev`) for a data series defined by:
+  • Query parameters `expression` and `range` (format `axis=min:max`), or
+  • `dataFile` pointing to a JSON, YAML, or CSV file on disk.
+- Optional `samples` (default 100) and `json` (`true|false`, default `true`).
+- If `json=false`, return `text/plain` with each statistic on its own line formatted to two decimal places.
+- If `json=true`, return `application/json` with the statistics object.
 
 # Implementation
-1. **Dependencies**
-   - Ensure `cors` is imported in `src/lib/main.js` and added to `package.json` dependencies if missing.
-2. **Configure CORS**
-   - In HTTP server mode, before defining routes, call:
-     ```js
-     import cors from 'cors';
-     const corsOptions = {}; 
-     if (parsedArgs['cors-origins']) {
-       const allowed = parsedArgs['cors-origins'].split(',');
-       corsOptions.origin = (origin, cb) => {
-         cb(null, allowed.includes(origin));
-       };
-     } else if (process.env.CORS_ORIGINS) {
-       const allowed = process.env.CORS_ORIGINS.split(',');
-       corsOptions.origin = (origin, cb) => {
-         cb(null, allowed.includes(origin));
-       };
-     }
-     app.use(cors(corsOptions));
-     ```
-3. **/plot Handler Updates**
-   - After calling `generatePlot(opts)`, detect `req.query.encoding==='base64'`. If set, encode the returned SVG string or PNG buffer to base64 and respond with `application/json`:
-     ```js
-     const rawData = result.data;
-     const payload = Buffer.isBuffer(rawData)
-       ? rawData.toString('base64')
-       : Buffer.from(rawData).toString('base64');
-     return res.json({ data: payload, type: result.type });
-     ```
-4. **/stats Handler**
-   - Add:
-     ```js
-     app.get('/stats', async (req, res) => {
-       try {
-         // Parse and validate query with a Zod schema mirroring CLI statsSchema
-         const { expression, range, dataFile, samples, json } = /* parse and coerce */;
-         let points;
-         if (dataFile) {
-           points = parseDataFile(dataFile);
-         } else {
-           const rangeObj = parseRange(range);
-           points = generateData(expression, rangeObj, Number(samples) || 100);
-         }
-         // Extract y-values and compute min, max, mean, median, stddev
-         const ys = points.map(p => p.y);
-         // Compute statistics...
-         if (json === false) {
-           return res.type('text/plain').send(...);
-         }
-         return res.json({ min, max, mean, median, stddev });
-       } catch (err) {
-         res.status(400).json({ error: err.message });
-       }
-     });
-     ```
-5. **Testing**
-   - In `tests/unit/http-api.test.js`, verify:
-     - CORS headers `Access-Control-Allow-Origin` reflect default and whitelist behavior.
-     - `/plot` responds with JSON when `encoding=base64` for both SVG and PNG.
-     - `/stats` returns correct formats and error codes.
+1. **Dependencies and Imports**  
+   • Install and import the `cors` middleware if not already present.  
+2. **CORS Configuration**  
+   • In HTTP server mode, before defining routes, apply `app.use(cors(corsOptions))`.  
+   • Support `--cors-origins` CLI flag and `CORS_ORIGINS` environment variable to restrict origins.  
+3. **/plot Handler Enhancements**  
+   • After calling `generatePlot(opts)`, detect `req.query.encoding==='base64'`.  
+   • Encode the returned `result.data` (string or Buffer) to base64.  
+   • Respond with JSON `{ data: <base64>, type: result.type }` and `application/json` content type.  
+4. **/stats Handler**  
+   • Add `app.get('/stats', async (req, res) => { ... })` after `/plot`.  
+   • Parse and validate query parameters using Zod or existing `statsSchema`.  
+   • For expression mode: `parseRange(range)` then `generateData(expression, rangeObj, samples)`.  
+   • For dataFile mode: `parseDataFile(dataFile)` to load points.  
+   • Compute statistics over the `y` values: `min`, `max`, `mean`, `median`, `stddev`.  
+   • Respond with `text/plain` or `application/json` based on `json` flag.  
+   • On errors, return `400` status with JSON `{ error: message }`.
+
+# Testing
+- Add new tests in `tests/unit/http-api.test.js`:
+  • **CORS**: default allows all origins, and respects whitelisted origins via flag or env var.  
+  • **/plot**: with `encoding=base64`, returns JSON payload and correct base64 string for both SVG and PNG.  
+  • **/stats**: valid expression, range, dataFile scenarios for both JSON and plain-text responses.  
+  • **Error cases**: missing required parameters, invalid range syntax, unsupported dataFile extension, invalid `json` flag causes `400`.
 
 # Documentation
 - Update `README.md` and `USAGE.md` under **HTTP Server Mode**:
-  - Document `--cors-origins` flag and `CORS_ORIGINS` environment variable.
-  - Illustrate `/plot?encoding=base64` usage and sample JSON response.
-  - Add a **Stats Endpoint** section showing `GET /stats` examples for plain-text and JSON output.
+  • Document the `--cors-origins` flag and `CORS_ORIGINS` environment variable.  
+  • Describe `GET /plot?encoding=base64` usage and sample JSON response.  
+  • Add a **Stats Endpoint** section illustrating `GET /stats` for both plain-text and JSON formats with example `curl` commands.
