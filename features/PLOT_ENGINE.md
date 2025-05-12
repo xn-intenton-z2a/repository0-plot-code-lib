@@ -1,9 +1,8 @@
 # Overview
-Enhance and fully implement the plot subcommand and HTTP /plot endpoint in server mode to generate SVG and PNG images from mathematical expressions or input data files. Provide complete CLI options support for styling, export, and encoding modes, and enable CORS-enabled HTTP responses with optional base64 or URL encoding.
+Enhance and fully implement the plot subcommand and HTTP /plot endpoint to generate SVG and PNG images from mathematical expressions or input data files. Provide complete CLI options support for styling, export, and encoding modes, and enable configurable CORS origins for embedding control in browser contexts.
 
 # CLI Plot Subcommand
 Invoke the plot mode via:
-
  repository0-plot-code-lib plot [--flags]
 
 Required flags:
@@ -30,6 +29,7 @@ Optional flags:
  - --exportData <path>            Export raw data points to file
  - --exportFormat <csv|json|yaml> Format for data export
  - --encoding <base64|url>        Return image encoded in JSON
+ - --cors-origins <origins>       Comma-separated list of allowed origins for CORS when in server mode
 
 Behavior:
  1. Detect plot subcommand and parse flags; on error print to stderr and set exit code 1
@@ -38,40 +38,44 @@ Behavior:
  4. Generate SVG via generatePlot(points, options)
  5. If format is png, convert SVG to PNG via sharp
  6. If exportData is present, write data file in specified exportFormat
- 7. If encoding is set to base64 or url, output JSON with data and type
+ 7. If encoding is set, output JSON with data and type
  8. Otherwise write raw SVG or PNG bytes to stdout or output file
  9. Set process.exitCode to 0 on success
 
 # HTTP /plot Endpoint
 Route: GET /plot
 
-Query parameters mirror CLI flags: expression, range, format, dataFile, width, height, samples, xLog, yLog, grid, title, xLabel, yLabel, derivative, overlayTrendline, palette, colors, exportData, exportFormat, encoding
+Query parameters mirror CLI flags plus:
+ - corsOrigins (optional): Comma-separated list of origins to set in Access-Control-Allow-Origin
 
 Behavior:
- 1. Validate parameters with zod; respond 400 JSON on error
- 2. Load points from expression or dataFile
- 3. Generate SVG via generatePlot; convert to PNG if format=png
- 4. Set CORS header Access-Control-Allow-Origin: *
- 5. If encoding is set, respond application/json with { data, type }
- 6. Otherwise respond with image/svg+xml or image/png bytes
- 7. Return HTTP 200 on success
+ 1. Determine allowed origins in priority:
+    a. Query parameter corsOrigins
+    b. CLI flag corsOrigins when launching with --serve
+    c. Environment variable CORS_ORIGINS
+    d. Fallback to '*' if none provided
+ 2. Validate corsOrigins format using zod; return 400 JSON on error
+ 3. Load data points from expression or dataFile
+ 4. Generate SVG via generatePlot; convert to PNG if format=png
+ 5. Set response header Access-Control-Allow-Origin to the resolved allowed origins value
+ 6. If encoding is set, respond application/json with { data, type } else respond with image/svg+xml or image/png bytes
+ 7. Return HTTP 200 on success or 400 on failure
 
 # Implementation
- - In src/lib/main.js extend main() to detect argv[0] === 'plot' and call runPlotCli
- - Implement runPlotCli to parse flags, load data, call generatePlot, handle PNG conversion, exportData, and encoding
- - In createServer register GET /plot with a zod schema reflecting all flags, implement behavior including CORS
- - Ensure consistent flag names between CLI and HTTP modes
+- Extend parseArgs to accept --cors-origins and pass it through parsedArgs
+- In main(), when parsedArgs.serve is present, extract parsedArgs['cors-origins'] and process.env.CORS_ORIGINS and store allowedOrigins list
+- Modify createServer to accept an allowedOrigins parameter and apply it in both /plot and /stats handlers instead of wildcard
+- In createServer, replace fixed res.set('Access-Control-Allow-Origin', '*') with the configured allowedOrigins value
+- Add zod validation for corsOrigins query parameter in GET /plot route
 
 # Testing
- - Add unit tests for CLI plot in tests/unit/plot-cli.test.js:
-    • SVG and PNG generation success
-    • Error cases for missing or invalid flags
-    • exportData and encoding modes
- - Add tests for HTTP GET /plot in tests/unit/plot-endpoint.test.js:
-    • Valid SVG and PNG responses content-type
-    • JSON response when encoding=base64 or url
-    • Validation errors return 400 with JSON error
-    • CORS header present
+- Add unit tests for HTTP GET /plot verifying Access-Control-Allow-Origin header matches:
+   • custom origin provided via corsOrigins query parameter
+   • custom origin provided via CORS_ORIGINS environment variable
+   • custom origin provided via --cors-origins CLI flag
+   • fallback to '*' when no origin configured
+- Verify status codes and content types for encoding, image bytes, and JSON modes
 
 # Documentation
- - Update USAGE.md and README.md to document plot subcommand flags, examples, and HTTP /plot endpoint usage
+- Update USAGE.md to document the new --cors-origins flag, corsOrigins query parameter, and CORS_ORIGINS environment variable
+- Update README.md under HTTP Server Mode and CORS Support sections with examples of configuring allowed origins
