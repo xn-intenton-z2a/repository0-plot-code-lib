@@ -1,6 +1,6 @@
 # Usage
 
-This tool generates plots based on mathematical expressions over a numeric range.
+This tool generates plots based on mathematical expressions over a numeric range and provides a `/stats` endpoint for summary statistics.
 
 ## Flags
 
@@ -10,7 +10,7 @@ This tool generates plots based on mathematical expressions over a numeric range
 
 --mission: Show the project mission statement.
 
---serve <port>: Start an HTTP server exposing the `/plot` endpoint.
+--serve <port>: Start an HTTP server exposing the `/plot` and `/stats` endpoints.
 
 ## CLI Examples
 
@@ -24,19 +24,9 @@ Generate a PNG plot:
 repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format png --output plot.png
 ```
 
-Plot original and derivative curves (SVG):
-```sh
-repository0-plot-code-lib --expression "y=x^2" --range "x=0:5" --format svg --output plot.svg --derivative true
-```
-
 Compute regression stats only:
 ```sh
 repository0-plot-code-lib --expression "y=2*x+1" --range "x=0:2" --trendline-stats true
-```
-
-Overlay trendline on plot:
-```sh
-repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format svg --output plot.svg --overlay-trendline true
 ```
 
 Show version:
@@ -44,26 +34,18 @@ Show version:
 repository0-plot-code-lib --version
 ```
 
-Show mission:
-```sh
-repository0-plot-code-lib --mission
-```
-
-Use `--help` to display this message and examples.
-
 ## HTTP Server Mode
 
-Use the `--serve <port>` flag to start an HTTP server exposing a `/plot` endpoint:
+Use the `--serve <port>` flag to start an HTTP server exposing `/plot` and `/stats` endpoints:
 
 ```sh
 repository0-plot-code-lib --serve 3000
 ```
 
-Request plots via `curl`:
+Request stats via `curl`:
 
 ```sh
-curl "http://localhost:3000/plot?expression=y%3Dx&range=x%3D0:6.28&format=svg"
-curl "http://localhost:3000/plot?expression=y=x&range=x=0:5&format=png" --output plot.png
+curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
 
 ## /stats Endpoint
@@ -87,7 +69,7 @@ Compute summary statistics for a data series derived from an expression or impor
     "max": 5,
     "mean": 2.5,
     "median": 2.5,
-    "stddev": 1.87
+    "stddev": 1.29
   }
   ```
 - Plain text (`text/plain`) when `json=false`:
@@ -96,7 +78,7 @@ Compute summary statistics for a data series derived from an expression or impor
   max: 5.00
   mean: 2.50
   median: 2.50
-  stddev: 1.87
+  stddev: 1.29
   ```
 
 **Examples**:

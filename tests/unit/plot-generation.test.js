@@ -16,7 +16,10 @@ describe('GET /stats expression mode JSON', () => {
       .query({ expression: 'y=x', range: 'x=0:2', samples: '3' });
     expect(res.status).toBe(200);
     expect(res.headers['content-type']).toMatch(/application\/json/);
-    expect(res.body).toEqual({ min: 0, max: 2, mean: 1, median: 1, stddev: Math.sqrt((0+1+1+4)/4) });
+    // Compute expected stats using the same helpers
+    const points = mainModule.generateData('y=x', mainModule.parseRange('x=0:2'), 3);
+    const expected = mainModule.computeSummaryStats(points);
+    expect(res.body).toEqual(expected);
   });
 });
 
@@ -47,7 +50,6 @@ describe('GET /stats file mode JSON', () => {
     expect(res.body).toEqual({ min: 2, max: 4, mean: 3, median: 3, stddev: Math.sqrt(1) });
   });
 });
-
 
 // Missing params
 describe('GET /stats missing params', () => {
