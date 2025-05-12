@@ -1,37 +1,45 @@
 # Overview
-Enhance the existing plot subcommand and HTTP endpoint with comprehensive test coverage and updated documentation so users can verify and understand all plot features.
+
+Implement a dedicated CLI plot subcommand that generates SVG or PNG visualizations from mathematical expressions over a numeric range. This iteration focuses on core flags for basic plotting and file output, providing a foundation to layer on overlays, encoding, and data exports in future releases.
 
 # CLI Plot Subcommand
-Maintain all existing flags and behavior for the plot subcommand:
-- expression, range, dataFile, format, output, encoding, width, height, devicePixelRatio, backgroundColor, version, derivative, overlayTrendline, exportData, exportFormat
-- Behavior unchanged: parsing flags, generating data, computing overlays, rendering via QuickChart or sharp, encoding, writing output and setting exit codes
 
-# HTTP /plot Endpoint
-Preserve GET /plot behavior and Zod schema validation for all query parameters, maintain CORS header, support image and data export responses:
-- Validate parameters expression, range, format, encoding, dataFile, width, height, samples, derivative, overlayTrendline, exportData, exportFormat
-- Generate or load points, compute overlays
-- Return binary image or application/json with base64 data, or raw data exports
+Add a new top-level subcommand `plot` in `src/lib/main.js`:
+
+Flags:
+- --expression <expression>    Mathematical expression in the form `y=…` (required)
+- --range <axis>=<min>:<max>  Numeric axis range (required)
+- --format <svg|png>          Output image format (required)
+- --output <path>             File path to write the resulting image (required)
+
+Behavior:
+1. Invoke parseArgs to collect CLI flags after the `plot` keyword.
+2. Validate that expression, range, format, and output flags are present; emit an error and exit code 1 if any are missing or invalid.
+3. Use parseRange to interpret the range string into axis, min, and max.
+4. Call generateData to sample the expression at default 100 points.
+5. Render the plot:
+   - For SVG: construct a QuickChart configuration JSON and request the QuickChart render endpoint, or use an embedded SVG builder.
+   - For PNG: generate an SVG first then rasterize via sharp to PNG.
+6. Write the binary or text image to the specified output path.
+7. Set exit code 0 on success, 1 on validation or render errors.
 
 # Implementation
-No changes to core logic in src/lib/main.js. Focus on test setup and documentation updates.
+
+- In `src/lib/main.js`, add a `runPlotCli` function parallel to `runStatsCli`:
+  1. Detect the first CLI argument `plot` and dispatch to `runPlotCli` in `main()`.
+  2. Integrate QuickChart or sharp (already in dependencies) for rendering.
+  3. Use existing `generateData`, `parseRange`, and mathjs utilities for data generation.
 
 # Testing
-Add and organize tests in tests/unit to cover plot features end to end:
-1. CLI tests for plot subcommand:
-   - Invoke parseArgs and runPlotCli with sample flags to generate SVG and PNG output files and stdout behavior
-   - Verify output file contents match expected SVG or PNG buffer signatures
-   - Test base64 encoding JSON response from CLI when encoding=base64
-   - Test data export in CSV, JSON, and YAML formats
-2. HTTP endpoint tests using supertest:
-   - Request GET /plot with expression and range, format=svg and png, verify status 200 and content-type image/svg+xml or image/png
-   - Test encoding=base64 returns application/json with data and type fields
-   - Test exportData responses return correct serialized data for CSV, JSON, YAML
-   - Verify CORS header Access-Control-Allow-Origin is set to '*'
-   - Test validation errors return status 400 with error messages
-3. Ensure coverage thresholds include plot tests and pass on CI
+
+- Add unit tests under `tests/unit/plot-generation.test.js`:
+  - Invoke `main(['plot', '--expression', 'y=x', '--range', 'x=0:1', '--format', 'svg', '--output', 'out.svg'])` and verify `out.svg` exists and begins with `<svg`.
+  - Test PNG output file contains the PNG signature bytes (`\x89PNG`).
+  - Validate missing required flags produce exit code 1 and error messages.
 
 # Documentation
-Update README.md with usage examples for plot functionality:
-- CLI examples for generating SVG and PNG plots, overlay derivative and trendline, encoding base64, exporting data
-- HTTP examples showing curl commands for GET /plot with query parameters, illustrate image and JSON responses
-- Add a new section under "Examples" or "HTTP Server Mode" demonstrating plot endpoint usage
+
+- Update `USAGE.md` and `README.md` to include:
+  - The new `plot` subcommand syntax and minimal example for SVG and PNG output.
+  - Illustrative CLI commands:
+    repository0-plot-code-lib plot --expression "y=sin(x)" --range "x=0:6.28" --format svg --output plot.svg
