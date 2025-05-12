@@ -1,71 +1,59 @@
 # Overview
-Enhance and fully implement the plot subcommand and HTTP /plot endpoint to generate dynamic SVG and PNG images from mathematical expressions or input data files. Support raw binary and encoded JSON responses, flexible styling, overlays, and configurable CORS origins for secure embedding.
+Enhance the existing plot subcommand and HTTP /plot endpoint to support exporting raw time series data points alongside or instead of image outputs. Users can optionally save or retrieve generated x,y pairs in CSV, JSON, or YAML formats to facilitate analysis, pipelines, or storage.
 
 # CLI Plot Subcommand
-Extend the existing plot CLI to accept and validate the following options:
-
-- `--expression <expr>`           Mathematical expression in form `y=...` (required unless `--data-file` provided)
-- `--range <axis>=<min>:<max>`    Axis range for expression mode (required when expression provided)
-- `--format <svg|png>`            Output image format (required)
-- `--width <number>`              Image width in pixels (default 800)
-- `--height <number>`             Image height in pixels (default 600)
-- `--samples <number>`            Sample points for expression (default 100)
-- `--x-log <true|false>`          Apply logarithmic x scale (default false)
-- `--y-log <true|false>`          Apply logarithmic y scale (default false)
-- `--grid <true|false>`           Include grid lines (default false)
-- `--title <string>`              Plot title annotation
-- `--x-label <string>`            X-axis label
-- `--y-label <string>`            Y-axis label
-- `--derivative <true|false>`     Overlay first derivative curve (default false)
-- `--overlay-trendline <true|false>` Overlay regression trendline (default false)
-- `--palette <string>`            Named color palette
-- `--colors <list>`               Custom color list for series
-- `--data-file <path>`            Path to JSON, CSV, or YAML file with data points
-- `--encoding <base64|url>`       Return JSON with encoded image instead of raw bytes
-- `--cors-origins <list>`         Comma-separated allowed origins for CORS when serving
-- `--output <path>`               File path to write output (otherwise stdout)
+Extend the plot CLI to include export options:
+- --export-data <path>           File path to write raw data points (required when exporting)
+- --export-format <csv|json|yaml> Format for exported data (inferred from extension if omitted)
 
 Behavior:
-1. Parse and validate flags; on error emit message and exit code 1.
-2. Load or generate point list via `generateData` or file parsing.
-3. Call new utility `generatePlot(points, options)` to produce SVG markup with styling and overlays.
-4. If `format=png`, convert SVG to PNG using `sharp`.
-5. If `encoding` is set, output a JSON object `{ data: <encoded>, type: <format> }` to stdout or file.
-6. Otherwise write raw SVG or PNG bytes with appropriate stdout output or file write.
-7. Exit with code 0 on success.
+1. Parse and validate all plot flags and new export flags.  If --export-data is provided without a valid path, error.
+2. Generate or load point list via generateData or data-file parsing as before.
+3. If --export-data is provided:
+   a. Serialize points in the specified or inferred format:
+      - JSON: pretty-printed JSON array of {x,y} objects.
+      - CSV: header "x,y" followed by rows of numeric values.
+      - YAML: standard YAML sequence of mappings.
+   b. Write serialized data to the export path.
+   c. If no image flags requested (format), exit with code 0 after export.
+4. If image output is also requested (--format, --output), generate SVG or PNG using generatePlot and write as before.
+5. Exit with code 0 on success, or code 1 on any error, printing to stderr.
 
 # HTTP /plot Endpoint
-Expose GET `/plot` on the HTTP server to mirror CLI behavior over HTTP:
-
-Query parameters:
-- `expression`, `dataFile`, `range`, `format`, `width`, `height`, `samples`, `xLog`, `yLog`, `grid`, `title`, `xLabel`, `yLabel`, `derivative`, `overlayTrendline`, `palette`, `colors`, `encoding`, `corsOrigins`
+Allow clients to request raw data export via query parameters:
+- exportData (true|false)          Include raw data export response
+- exportFormat (csv|json|yaml)     Format of exported data
 
 Behavior:
-1. Validate all query parameters with a Zod schema; on validation failure return 400 JSON `{ error: <message> }`.
-2. Determine allowed origins: `corsOrigins` query, CLI flag, or `CORS_ORIGINS` env var, default `*`.
-3. Load or generate data points as in CLI.
-4. Generate SVG with `generatePlot`, convert to PNG if requested.
-5. Set `Access-Control-Allow-Origin` header to resolved origins.
-6. If `encoding` is set, respond `application/json` with `{ data, type }` and status 200.
-7. Otherwise respond with image bytes (`image/svg+xml` or `image/png`) and status 200.
+1. Validate exportData and exportFormat along with existing parameters via Zod schema.
+2. Generate or load points as in CLI mode.
+3. If exportData=true:
+   a. Serialize points to the requested format.
+   b. Respond with appropriate content-type:
+      - application/json for JSON
+      - text/csv for CSV
+      - application/x-yaml for YAML
+   c. Send serialized body and status 200, skipping image generation.
+4. Otherwise behave as existing plot endpoint: generate and return image or JSON-encoded image.
+5. Include Access-Control-Allow-Origin header for CORS as configured.
 
 # Implementation
-- Extend `parseArgs` and `runPlotCli` in `src/lib/main.js` to support new flags.
-- Add `generatePlot(points, options)` utility function for chart creation.
-- Integrate `sharp` for SVG to PNG conversion.
-- In HTTP setup (`createServer`), register `/plot` handler with Zod parameter schema and conversion logic.
-- Ensure existing `/stats` endpoint remains unchanged.
+- In src/lib/main.js, extend parseArgs and runPlotCli to consume new flags and implement export logic before or alongside generatePlot.
+- In setupHttp/createServer, update Zod schema for GET /plot to include exportData and exportFormat, and handle export branch in handler.
+- Add utility functions serializeDataPoints(points, format) to centralize CSV/JSON/YAML serialization.
+- Ensure error handling aligns with existing CLI and HTTP patterns.
 
 # Testing
-- Add unit tests for CLI plot:
-  • SVG and PNG output to stdout and file
-  • Encoding modes produce valid JSON with correct `data` and `type`
-  • Error on missing required parameters
-- Add HTTP tests for GET `/plot` via Supertest:
-  • Raw image responses with correct Content-Type
-  • JSON encoded responses with base64/url
-  • CORS header honors `corsOrigins` and defaults
-  • Error responses on invalid or missing parameters
+- Add unit tests for CLI:
+  • Export JSON, CSV, and YAML output files with matching content.
+  • Combined export and image generation scenarios.
+  • Error on invalid format or path missing.
+- Add HTTP tests via Supertest:
+  • GET /plot?expression=y%3Dx&range=x%3D0:5&exportData=true&exportFormat=csv returns CSV content.
+  • JSON and YAML export endpoints return correct Content-Type and body.
+  • Errors on invalid exportFormat values.
+- Ensure existing plot image tests remain passing.
 
 # Documentation
-- Update `USAGE.md` and `README.md` to include `/plot` HTTP endpoint usage examples, encoding section, and CORS configuration.
+- Update USAGE.md and README.md to document new --export-data and --export-format flags in CLI examples.
+- Document exportData and exportFormat query parameters and response content types in /plot section.
