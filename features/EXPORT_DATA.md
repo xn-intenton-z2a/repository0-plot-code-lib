@@ -1,44 +1,62 @@
 # Overview
-Add support for exporting the generated or imported time series data directly to a file in JSON, CSV, or YAML format. This feature enables users to reuse or analyze numeric data outside of plots without manual extraction.
+
+Add a new CLI subcommand and flags to export raw time series data (generated or imported) into JSON, CSV, and YAML formats for downstream analysis without manual extraction.
 
 # CLI Flags
-- --export-data <path>  Path to write raw data series. The file extension determines format: .csv, .json, .yaml, or .yml.
-- --export-format <csv|json|yaml>  Optional override when extension is absent or ambiguous. Defaults to csv for .csv, json for .json, and yaml for .yaml or .yml files.
+
+- `--export-data <path>`  Specify output path for raw data series. File extension (.csv, .json, .yaml, .yml) determines format.
+- `--export-format <csv|json|yaml>`  Optional override when extension is missing or ambiguous. Defaults based on extension: .csv→csv, .json→json, .yaml/.yml→yaml.
+- These flags are mutually exclusive with or in addition to plotting flags; `--export-data` writing does not prevent normal SVG/PNG rendering.
 
 # Implementation
+
 1. Schema and Argument Parsing
-   Extend cliSchema in src/lib/main.js to include:
-     • exportData: optional string
-     • exportFormat: optional enum of csv, json, yaml
-   In parseArgs detect --export-data and --export-format, normalize values into parsed.exportData and parsed.exportFormat.
+   - In `src/lib/main.js` extend `cliSchema` to include:
+     • `exportData`: z.string().optional()
+     • `exportFormat`: z.enum(["csv","json","yaml"]).optional()
+   - In `parseArgs`, detect `--export-data` and `--export-format` and normalize them into `parsed.exportData` and `parsed.exportFormat`.
 
-2. Data Acquisition
-   After generating or loading data series (from generateData, generateDerivativeData, or parseDataFile), assemble a unified data structure representing one or multiple series.
+2. Data Conversion Helper
+   - In `src/lib/main.js`, implement a new helper function `convertDataToString(dataOrSeries, format)`:
+     • For `csv`:
+       - Single-series: output header `x,y` then rows of values.
+       - Multi-series: output header `series,x,y` then rows for each point of each series.
+     • For `json`:
+       - Single-series: JSON array of `{x,y}` objects.
+       - Multi-series: JSON object mapping series labels to arrays of point objects.
+     • For `yaml`: call `import { dump } from 'js-yaml'` and dump the same structure as JSON.
 
-3. Data Conversion Helper
-   Implement a helper function convertDataToString(dataOrSeries, format) that:
-     • For csv: output header x,y for single series, and for multi-series include series,x,y columns.
-     • For json: output a JSON array of point objects for single series, or an object mapping series labels to arrays of points for multi-series.
-     • For yaml: use js-yaml to dump the same structures as JSON.
+3. CLI Integration in `main()`
+   - After data generation or import and before plotting, if `parsed.exportData` is set:
+     • Determine `format` from `parsed.exportFormat` or file extension of `exportData`.
+     • Call `convertDataToString(dataOrSeries, format)` with the generated data or series array.
+     • Write the resulting string to disk at `exportData` path via `fs.writeFileSync`.
+   - Continue with existing logic to produce SVG or PNG without interruption.
 
-4. CLI Integration
-   In main() after data conversion steps, if exportData is set:
-     • Determine format from exportFormat or file extension.
-     • Call convertDataToString with the data or series.
-     • Write the resulting string to the specified path using fs.writeFileSync.
-   Proceed with normal SVG or PNG rendering and file output without interruption.
+4. Programmatic API Support (Optional)
+   - Extend `generatePlot` options and schema to accept `exportData` and `exportFormat`.
+   - When provided in programmatic API, return the converted data string alongside image result or throw if unsupported. (This can be deferred to a later iteration.)
 
 # Testing
-- Create tests/unit/data-export.test.js to cover:
-  • parseArgs capturing --export-data and --export-format flags and error on missing values.
-  • convertDataToString producing correct CSV, JSON, and YAML outputs for single and multi-series inputs.
-  • CLI mode: running main with --export-data writes the correct file and also writes image output.
-  • Error cases: unsupported extension or format mismatch produce descriptive errors.
+
+- Add `tests/unit/data-export.test.js`:
+  • Mock `fs.readFileSync` and `fs.writeFileSync` as needed.
+  • Test `parseArgs` captures `--export-data` and `--export-format` and errors on missing values or unsupported formats.
+  • Test `convertDataToString` outputs correct CSV, JSON, and YAML for single and multi-series inputs.
+  • Test CLI: run `main()` with `--expression`, `--range`, `--export-data data.csv` writes a CSV file containing the generated points and also writes the plot file when combined with `--format` and `--output`.
+  • Test error cases: unsupported extension without `export-format`, conflicting flags.
 
 # Documentation
-- Update USAGE.md and README.md:
-  • Document --export-data and --export-format flags with examples:
-      repository0-plot-code-lib --expression y=x --range x=0:5 --export-data data.csv
-      repository0-plot-code-lib --expression y=sin(x) --range x=0:6.28 --export-data out.yaml
-      repository0-plot-code-lib --expression y=x --range x=0:5 --export-data out.dat --export-format json
-  • Show sample CSV, JSON, and YAML snippets of exported data.
+
+1. **USAGE.md**
+   - Document `--export-data` and `--export-format` flags with examples:
+     repository0-plot-code-lib --expression y=x --range x=0:5 --export-data data.csv
+     repository0-plot-code-lib --expression y=x --range x=0:5 --export-data output --export-format json
+   - Show sample CSV, JSON, and YAML snippets of exported data.
+
+2. **README.md**
+   - Under **Examples**, add an **Export Data** section illustrating CLI commands and output preview.
+
+# Dependencies
+
+- Ensure `js-yaml` remains a dependency for YAML support. No new dependencies required.
