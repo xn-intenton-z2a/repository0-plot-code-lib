@@ -1,51 +1,50 @@
 # Overview
-Extend the existing statistics engine to support both distribution analysis and histogram generation alongside summary and regression metrics. Users can compute standard summary statistics, optional linear regression parameters, and a configurable histogram of data series derived from a mathematical expression or an input data file. Results are available in JSON or plain text formats via CLI and HTTP.
+Extend the existing statistics engine to support flexible export formats alongside summary, regression, and histogram metrics. Users can compute statistics and optionally export results in JSON, CSV, or YAML formats via CLI and HTTP.
 
 # CLI Stats Subcommand
-Extend the stats subcommand to support existing flags and add histogram behavior:
-- --trendline-stats <true|false>    Compute regression slope, intercept, and R² (default false)
-- --histogram <true|false>          Generate histogram counts over the data (default false)
-- --bins <number>                   Number of bins for histogram (default 10)
-
-Invocation:
- repository0-plot-code-lib stats [--flags]
+Add two new flags:
+- --export-data <path>    Write statistics output to the specified file instead of stdout
+- --export-format <csv|json|yaml>    Format for exported data (default inferred from file extension or json)
 
 Behavior:
-1. Parse and validate flags; on error print to stderr and exit code 1
-2. Load data points from expression or dataFile
-3. Compute summary statistics via computeSummaryStats
-4. If trendline-stats is true, compute regression parameters with least-squares fitting
-5. If histogram is true, compute histogram bins using computeHistogram(points, bins)
-6. Build result object containing summary stats, optional regression fields, and optional histogram array of {binStart, binEnd, count}
-7. Serialize results in JSON or plain text lines
-8. Write to output or stdout and exit code 0
+1. Parse and validate all flags, including --export-data and --export-format
+2. Load or generate data points (expression or dataFile)
+3. Compute summary statistics, optional regression, and optional histogram
+4. Serialize results:
+   - json: pretty-printed JSON
+   - csv: header row and comma-separated values for each statistic; histogram rows with binStart,binEnd,count
+   - yaml: use js-yaml to dump a mapping for statistics and sequence for histogram
+5. Write to output file if --export-data is provided, otherwise write to stdout
+6. Exit with code 0 on success, code 1 on validation or runtime error
 
 # HTTP Stats Endpoint
-Extend GET /stats to accept:
-- trendlineStats (string true|false)
-- histogram (string true|false)
-- bins (string number)
+Add optional query parameters:
+- exportFormat (csv|json|yaml)    Overrides response format
+- encoding (base64)                Base64-encode the response body when used with binary formats (not typical for stats)
 
-Query parameters mirror CLI flags. Behavior:
-1. Validate parameters with zod; return 400 JSON on error
-2. Load data points from expression or file
-3. Compute summary statistics
-4. If trendlineStats is true, compute slope, intercept, R²
-5. If histogram is true, compute histogram array
-6. Respond in text/plain or application/json including histogram when requested
-7. Include Access-Control-Allow-Origin header and return 200 on success or 400 on failure
+Behavior:
+1. Validate exportFormat and encoding via zod
+2. Compute statistics as before
+3. Serialize response based on exportFormat or json flag:
+   - application/json for json
+   - text/csv for csv
+   - application/x-yaml for yaml
+4. Include CORS header and return 200 on success or 400 on validation errors
 
 # Implementation
-- Add utility computeHistogram(points, binCount) that divides the y-value range into binCount equal intervals and counts points per bin
-- In src/lib/main.js implement runStatsCli handling new flags histogram and bins
-- Extend createServer to register GET /stats with zod schema including histogram and bins, and to include histogram logic
-- Ensure backwards compatibility: when histogram=false and trendlineStats=false behave as before
+- In src/lib/main.js, update runStatsCli to handle new flags, serialize CSV and YAML
+- Extend HTTP handler in createServer to parse exportFormat, call serializer, set correct content-type
+- Use js-yaml for YAML and simple CSV generation
 
 # Testing
-- Add unit tests for CLI stats with histogram true and false, verifying JSON and text outputs
-- Add tests for HTTP GET /stats with histogram and bins parameters
-- Verify correct bin boundaries and counts against known data sets
-- Ensure summary and regression tests remain passing
+- Add unit tests for CLI:
+  - Export JSON, CSV, YAML via --export-data and --export-format
+  - Verify file content matches expected structure
+- Add tests for HTTP:
+  - GET /stats?exportFormat=csv returns text/csv with correct header and rows
+  - GET /stats?exportFormat=yaml returns application/x-yaml with valid YAML
+  - Invalid exportFormat yields 400
 
 # Documentation
-- Update USAGE.md and README.md to document new histogram and bins options in CLI and HTTP examples
+- Update USAGE.md and README.md to document --export-data and --export-format flags
+- Add examples for CSV and YAML exports in CLI and HTTP sections
