@@ -1,43 +1,31 @@
 # Overview
-Extend the CLI to support a new plot subcommand that mirrors the HTTP /plot endpoint, enabling users to generate SVG or PNG plots directly from the command line and optionally export the underlying data series.
+Add a new plot subcommand to the CLI to generate SVG or PNG plots directly from mathematical expressions and numeric ranges.
 
-# CLI plot Subcommand
-- Usage: repository0-plot-code-lib plot [options]
-- Flags
-  - --expression (required) mathematical function in form y=…
-  - --range (required with expression) axis range in axis=min:max format
-  - --format (required) svg or png
-  - --output (optional) file path for image output; writes to stdout if omitted
-  - --samples (optional) integer sample count; default 100
-  - --width (optional) image width in pixels; default 800
-  - --height (optional) image height in pixels; default 600
-  - --derivative (optional) true or false; overlay first derivative curve
-  - --overlay-trendline (optional) true or false; overlay regression trendline
-  - --trendline-stats (optional) true or false; compute and print trendline statistics without image
-  - --export-data (optional) file path to write raw data series
-  - --export-format (optional) csv, json, or yaml; default inferred from export-data extension
-- Behavior
-  - Validate that expression and range are provided; on validation failure print error to stderr and exit with code 1
-  - Generate data series via parseRange and generateData
-  - Render plot using existing plot generator to SVG or PNG buffer
-  - Write image to output path or print binary to stdout
-  - When export-data is specified, serialize series in requested format and write to file
-  - Exit with code 0 on success or non-zero on error
+# CLI plot Command
+Usage: repository0-plot-code-lib plot --expression <expression> --range <axis=min:max> --format <svg|png> [--output <path>]
+
+# Flags
+- --expression (required): mathematical expression in the form y=…
+- --range (required): axis range in axis=min:max format
+- --format (required): svg or png
+- --output (optional): file path to write the generated image; writes to stdout if omitted
+
+# Behavior
+- Validate presence of required flags; on validation error write error to stderr and exit code 1
+- Parse range and generate data series via existing parseRange and generateData functions
+- Render the data to SVG or PNG using generatePlot
+- Write the image buffer or text to the output file or stdout
+- Exit with code 0 on success or non-zero on error
 
 # Implementation
-- In src/lib/main.js, update main to detect first argument plot and call new runPlotCli function
-- Implement runPlotCli to parse flags using parseArgs, validate inputs, reuse parseRange and generateData, and call generatePlot
-- Use sharp or SVG API to produce the requested image buffer
-- Handle file writes and stdout accordingly, and set process exit codes
+- In src/lib/main.js extend main to detect first argument plot and invoke runPlotCli
+- Implement runPlotCli that uses parseArgs for flags, validate inputs, call generateData and generatePlot, and handle fs writes or stdout
+- Reuse existing dependencies and ensure proper exit codes
 
 # Testing
 - Add unit tests in tests/unit/cli-plot.test.js
-  - Test plot subcommand for svg and png output to file and stdout
-  - Test error conditions: missing expression, missing range, unsupported format
-  - Test export-data flag writes correct csv and json outputs
-  - Use vitest command invocation and temporary files for isolation
+- Test generating svg and png output to file and stdout
+- Test validation errors for missing or invalid flags
 
 # Documentation
-- Update USAGE.md and README.md to include a CLI plot section
-- Document all flags, defaults, and examples without code escape sequences
-- Provide sample commands showing image and data export workflows
+- Update USAGE.md and README.md to include the plot subcommand, its flags, examples, and usage
