@@ -45,21 +45,20 @@
 <p class="md-github">Generate a PNG:</p>
 <pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --expression &quot;y=x&quot; --range &quot;x=0:5&quot; --format png --output plot.png
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="discovery-flags" href="#discovery-flags"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Discovery Flags</h3>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--help</code>: Print the help message (contents of <code class="md-github">USAGE.md</code>) and exit with code 0.</li>
-</ul>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --help
+<p class="md-github">Plot original and derivative:</p>
+<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --expression &quot;y=x^2&quot; --range &quot;x=0:5&quot; --format svg --output plot.svg --derivative true
 </code></pre>
 <ul class="md-github">
-<li class="md-github"><code class="md-github">--version</code>: Print the version number and exit with code 0.</li>
+<li class="md-github"><code class="md-github">examples</code>: Generate Markdown-formatted examples demonstrating core CLI usage:</li>
 </ul>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --version
+<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib examples
 </code></pre>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--mission</code>: Print the project mission statement and exit with code 0.</li>
-</ul>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --mission
+<h4 class="md-github"><a class="md-github__anchor" name="export-data" href="#export-data"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Export Data</h4>
+<p class="md-github">Export raw data to CSV:</p>
+<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --expression &quot;y=x&quot; --range &quot;x=0:5&quot; --export-data data.csv
+</code></pre>
+<p class="md-github">Export raw data to JSON explicitly:</p>
+<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --expression &quot;y=x&quot; --range &quot;x=0:5&quot; --export-data output --export-format json
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="further-reading" href="#further-reading"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Further Reading</h2>
 <p class="md-github">For advanced flags and additional examples, see the <a href="USAGE.md" class="md-github">Usage guide</a>.</p>
@@ -68,7 +67,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-05-12T04:39:33.828Z</p>
+    <p>Generated on 2025-05-12T08:40:44.297Z</p>
   </footer>
 </body>
 </html>
