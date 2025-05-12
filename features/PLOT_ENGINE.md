@@ -1,55 +1,62 @@
 # Overview
-Extend the HTTP server and CLI to support computing and returning summary statistics for a data series via both HTTP and a new CLI subcommand. Users can derive statistics from a mathematical expression over a range or from an existing data file using a unified API and CLI interface.
+Extend the HTTP server and CLI to support computing and returning summary statistics for a data series via both HTTP and a fully implemented `stats` CLI subcommand. Users can derive statistics from a mathematical expression over a range or from an existing data file using a unified API and CLI interface.
 
-# HTTP API Endpoints
-- GET `/stats`
+# HTTP API Endpoint `/stats`
+- **GET** `/stats`
   • Query parameters:
     - `expression` (required when `dataFile` is absent): function expression in form `y=…`
-    - `range` (required when `expression` is provided): axis range in format `axis=min:max`
-    - `dataFile` (required when `expression` is absent): file path to JSON, CSV, or YAML data
-    - `samples` (optional): integer count of sample points, default `100`
-    - `json` (optional): `true|false`, default `true`
+    - `range` (required with `expression`): axis range in format `axis=min:max`
+    - `dataFile` (required when `expression` is absent): path to JSON, CSV, or YAML data
+    - `samples` (optional): integer count of sample points (default `100`)
+    - `json` (optional): `true|false` (default `true`)
   • Behavior:
-    - Expression mode: parse range and generate data points via generateData
-    - File mode: read and parse JSON, CSV, or YAML into `{x, y}` points
-    - Compute metrics (min, max, mean, median, stddev) via computeSummaryStats
-    - If `json=false`: respond `text/plain` with one `label: value` per line
-    - If `json=true`: respond `application/json` with `{ min, max, mean, median, stddev }`
-    - Set `Access-Control-Allow-Origin: *` for CORS support
-    - On validation or processing errors: respond status `400` with JSON `{ error: message }`
+    - Expression mode: parse range with `parseRange`, generate points with `generateData`
+    - File mode: read and parse JSON, CSV, or YAML files into `{x, y}` points
+    - Compute statistics via `computeSummaryStats`: `min`, `max`, `mean`, `median`, `stddev`
+    - If `json=false`: respond `text/plain`, one `key: value` per line with two decimal places
+    - If `json=true`: respond `application/json` with JSON object of stats
+    - Always include `Access-Control-Allow-Origin: *`
+    - On invalid input or processing errors: respond `400` with JSON `{ error: message }`
 
-# CLI Stats Subcommand
-- Subcommand: `repository0-plot-code-lib stats`
-  • Options:
-    - `--expression <expression>`: function expression in form `y=…`
-    - `--range <axis>=<min>:<max>`: numeric range for sampling when expression is provided
-    - `--data-file <path>`: path to JSON, CSV, or YAML file containing `[{x,y}, …]`
-    - `--samples <number>`: number of sample points for expression mode, default `100`
-    - `--format <json|text>`: output format, default `json`
-    - `--output <path>`: optional file path to write results; prints to stdout if omitted
-  • Behavior:
-    - Validate that either `expression` and `range`, or `dataFile` is provided
-    - Generate or load data series and compute summary stats via computeSummaryStats
-    - Format output as JSON or plain text
-    - If `--output` is provided, write output to file, else print to console
-    - On missing or invalid arguments: exit with non-zero status and print error to stderr
+# CLI `stats` Subcommand
+- **Usage**: `repository0-plot-code-lib stats [options]`
+- **Options**:
+  - `--expression <expression>`: function expression in form `y=…`
+  - `--range <axis>=<min>:<max>`: numeric range for sampling when expression is provided
+  - `--data-file <path>`: path to JSON, CSV, or YAML file with `[{x,y}, …]`
+  - `--samples <number>`: number of sample points for expression mode (default `100`)
+  - `--format <json|text>`: output format (default `json`)
+  - `--output <path>`: optional file path to write results; writes to stdout if omitted
+- **Behavior**:
+  - Validate that either `expression` with `range`, or `dataFile` is provided. Exit with code `1` and error message on stderr if validation fails
+  - Load or generate data series and compute stats via `computeSummaryStats`
+  - Format output as JSON or plain text according to `--format`
+  - If `--output` is specified, write formatted results to file; else print to stdout
+  - Exit with code `0` on success or non-zero on failure
 
 # Implementation
-- In `src/lib/main.js` adjust `main` function:
-  • Detect if first argument is `stats` and shift into CLI mode
-  • Parse flags using `parseArgs` for the subcommand context
-  • Reuse `parseRange`, `generateData`, data-file parsing, and `computeSummaryStats`
-  • Serialize output based on `--format` and handle file writes when `--output` is set
-  • Ensure exit code reflects success or failure
+- Update `src/lib/main.js`:
+  • In `main(argv)`, detect first argument `stats` and route to a new `runStatsCli(argv)` function
+  • In `runStatsCli`:
+    - Parse flags using `parseArgs`
+    - Perform validation for required flags
+    - Reuse `parseRange`, `generateData`, file parsing, and `computeSummaryStats`
+    - Serialize stats based on `--format` and handle file writes when `--output` is provided
+    - Write errors to stderr and set process exit code appropriately
+- Ensure existing HTTP `/stats` handler remains unchanged and fully functional
 
 # Testing
-- Add unit tests in `tests/unit/plot-generation.test.js` or a new `tests/unit/cli-stats.test.js`:
-  • Verify `stats` subcommand computes correct metrics in JSON and text formats for expression and file modes
-  • Test error conditions: missing required flags, invalid range, unsupported file formats
-  • Mock filesystem writes when `--output` is used
+- Add unit tests in `tests/unit/cli-stats.test.js`:
+  • Verify `stats` subcommand outputs correct JSON and text for expression mode
+  • Verify `--data-file` mode works for JSON, CSV, and YAML inputs
+  • Test `--output` writes files correctly (use temporary directories and cleanup)
+  • Test error conditions: missing required flags, invalid range format, unsupported file types
+- Update `tests/unit/plot-generation.test.js` if necessary to avoid conflicts
 
 # Documentation
-- Update `USAGE.md` and `README.md`:
-  • Document the `stats` subcommand syntax, required options, defaults, and output formats
-  • Provide `shell` examples for expression mode and data-file mode in both JSON and text outputs
-  • Note exit codes and error messages
+- Update `USAGE.md`:
+  • Add section for `stats` subcommand syntax, options, defaults, and examples
+- Update `README.md`:
+  • Document `stats` subcommand under CLI Usage with examples for JSON and plain-text outputs
+  • Ensure consistency with HTTP `/stats` documentation
+- Confirm that `--help` includes `stats` usage
