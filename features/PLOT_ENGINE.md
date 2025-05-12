@@ -1,44 +1,48 @@
 # Overview
-
-Extend the CLI to support a dedicated plot subcommand that generates SVG or PNG visualizations from mathematical expressions over a numeric range. This feature lays the foundation for advanced styling, overlays, and HTTP rendering in future iterations while delivering core plotting functionality.
+Extend the CLI plot subcommand and add an HTTP /plot endpoint to serve generated plots as SVG or PNG. This feature enables programmatic visualization over HTTP and brings parity between CLI and server modes.
 
 # CLI Plot Subcommand
-
-Add a new top-level CLI subcommand plot:
-
-Flags:
+Add or update the existing plot subcommand with these flags:
 - --expression <expression>    Required mathematical expression in the form y=…
-- --range <axis>=<min>:<max>   Required numeric range string (e.g., x=0:10)
+- --range <axis>=<min>:<max>   Required numeric range (e.g., x=0:10)
 - --format <svg|png>           Required output image format
-- --output <path>              Required file path to write the generated image
+- --output <path>              Required file path to write the image
+- --width <number>             Optional width of the plot in pixels (default 500)
+- --height <number>            Optional height of the plot in pixels (default 300)
+- --derivative <true|false>    Overlay first derivative curve
+- --overlay-trendline <true|false>    Overlay regression trendline
 
 Behavior:
-1. Inspect argv[0] for plot and invoke runPlotCli with remaining args
-2. Parse flags using parseArgs and validate presence and formats of expression, range, format, and output; on validation failure print descriptive error and exit code 1
-3. Interpret range string via parseRange into axis, min, and max
-4. Sample the expression with generateData using default 100 points or a samples flag in future
-5. Render chart configuration:
-   - SVG: build a ChartJS configuration and call QuickChart HTTP API or embedded SVG builder
-   - PNG: generate an SVG first then rasterize to PNG via sharp
-6. Write resulting image file to the given output path
-7. Set process.exitCode to 0 on success, 1 on any error
+1. Dispatch to runPlotCli when argv[0] is "plot".
+2. Parse and validate flags; on error print message and exit code 1.
+3. Generate data points, build ChartJS configuration.
+4. Render SVG or PNG via embedded builder or QuickChart API and sharp.
+5. Write output file and set exit code 0 on success.
+
+# HTTP Plot Endpoint
+Add a new HTTP GET /plot endpoint with query parameters:
+- expression (required): y=… form
+- range (required with expression): axis=min:max
+- format (required): svg or png
+- width, height, samples, derivative, overlayTrendline, trendlineStats, palette, xLog, yLog, grid, title, xLabel, yLabel (all optional)
+- encoding (optional): base64 to return JSON {data, type}
+
+Behavior:
+1. Validate query parameters with zod.
+2. Generate data and ChartJS configuration.
+3. Render SVG or PNG, optionally rasterize.
+4. If encoding=base64, return application/json with data and type; otherwise respond with image SVG or PNG with correct content-type.
+5. Include Access-Control-Allow-Origin: * on all responses.
+6. Return 400 on validation or runtime errors.
 
 # Implementation
-
-- In src/lib/main.js add runPlotCli to handle parseArgs, parseRange, generateData, rendering and file output
-- In main(), dispatch to runPlotCli when the first argument is plot
-- Reuse existing mathjs, generateData, and parseRange utilities
-- Use QuickChart API or internal SVG builder for chart markup
-- Employ sharp to convert SVG to PNG for format=png
+- In src/lib/main.js, update setupHttp to register GET /plot handler after /stats.
+- Reuse parseArgs, parseRange, generateData, and mathjs.
+- Use QuickChart API or embedded builder for SVG, use sharp for PNG.
 
 # Testing
-
-- Create tests in tests/unit/plot-generation.test.js
-- Test that running main(["plot", flags…]) writes an SVG file starting with <svg
-- Test that PNG output file begins with PNG signature (0x89 0x50 0x4E 0x47)
-- Verify missing required flags produce exit code 1 and appropriate stderr messages
+- Add tests in tests/unit/plot-server.test.js using supertest.
+- Test valid SVG and PNG responses, base64 JSON encoding, parameter validation errors, and CORS header.
 
 # Documentation
-
-- Update USAGE.md and README.md to include the plot subcommand syntax and minimal examples for SVG and PNG output
-- Illustrate usage with repository0-plot-code-lib plot --expression "y=sin(x)" --range "x=0:6.28" --format svg --output plot.svg
+- Update USAGE.md and README.md with HTTP /plot endpoint details, query parameters, response formats, and examples.
