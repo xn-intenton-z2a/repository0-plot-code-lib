@@ -17,7 +17,7 @@ paths:
   featuresPath:
     path: 'features/'
     permissions: [ 'write' ]
-    limit: 16
+    limit: 2
 
   # Filepaths for engineer workflows
   contributingFilepath:
