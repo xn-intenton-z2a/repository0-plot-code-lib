@@ -1,59 +1,45 @@
 # Overview
-Enhance the existing plot subcommand and HTTP /plot endpoint to support exporting raw time series data points alongside or instead of image outputs. Users can optionally save or retrieve generated x,y pairs in CSV, JSON, or YAML formats to facilitate analysis, pipelines, or storage.
+
+Enhance the plot subcommand and HTTP /plot endpoint with advanced analytical overlays and data export capabilities. Users can generate plots with optional derivative curves and regression trendlines overlaid on the chart, alongside exporting raw point data in multiple formats to support downstream analysis.
 
 # CLI Plot Subcommand
-Extend the plot CLI to include export options:
-- --export-data <path>           File path to write raw data points (required when exporting)
-- --export-format <csv|json|yaml> Format for exported data (inferred from extension if omitted)
+
+Add the following flags to the existing plot command:
+
+- --derivative <true|false>       Compute and overlay the first derivative curve on the plot (default false)
+- --overlay-trendline <true|false> Compute regression parameters and draw the trendline on the plot (default false)
+- --export-data <path>            File path to write raw x,y points (optional)
+- --export-format <csv|json|yaml> Format for exported data; inferred from extension if omitted
 
 Behavior:
-1. Parse and validate all plot flags and new export flags.  If --export-data is provided without a valid path, error.
-2. Generate or load point list via generateData or data-file parsing as before.
-3. If --export-data is provided:
-   a. Serialize points in the specified or inferred format:
-      - JSON: pretty-printed JSON array of {x,y} objects.
-      - CSV: header "x,y" followed by rows of numeric values.
-      - YAML: standard YAML sequence of mappings.
-   b. Write serialized data to the export path.
-   c. If no image flags requested (format), exit with code 0 after export.
-4. If image output is also requested (--format, --output), generate SVG or PNG using generatePlot and write as before.
-5. Exit with code 0 on success, or code 1 on any error, printing to stderr.
+1. Parse and validate flags; on error print to stderr and exit code 1.
+2. Generate or load data points via generateData or data-file parsing.
+3. If derivative=true, compute derivative y′ values at each sample and include the derivative curve in the plot data.
+4. If overlay-trendline=true, perform least-squares regression on points and overlay the computed trendline on the chart.
+5. If export-data is provided:
+   a. Serialize raw points (and derivative if computed) in requested format.
+   b. Write serialized output to the specified file and, if no image flags, exit with code 0.
+6. If image output flags (--format and --output) are present, render the enhanced plot (including derivative and/or trendline) to SVG or PNG using existing generatePlot utility and write to output.
+7. Exit with code 0 on success or 1 on any error.
 
 # HTTP /plot Endpoint
-Allow clients to request raw data export via query parameters:
-- exportData (true|false)          Include raw data export response
-- exportFormat (csv|json|yaml)     Format of exported data
+
+Extend GET /plot to support analytical overlays and data export:
+
+Query parameters:
+- derivative (true|false)           Overlay derivative curve
+- overlayTrendline (true|false)     Overlay regression trendline
+- exportData (true|false)           Return raw point data instead of image
+- exportFormat (csv|json|yaml)      Format for data export
 
 Behavior:
-1. Validate exportData and exportFormat along with existing parameters via Zod schema.
-2. Generate or load points as in CLI mode.
-3. If exportData=true:
-   a. Serialize points to the requested format.
-   b. Respond with appropriate content-type:
-      - application/json for JSON
-      - text/csv for CSV
-      - application/x-yaml for YAML
+1. Validate new parameters with Zod alongside existing ones; return 400 JSON on error.
+2. Generate or load points as before.
+3. If derivative=true, compute and attach derivative values.
+4. If overlayTrendline=true, compute regression and attach trendline segments.
+5. If exportData=true:
+   a. Serialize point data (including derivative if computed) to specified format.
+   b. Respond with content-type: application/json, text/csv, or application/x-yaml.
    c. Send serialized body and status 200, skipping image generation.
-4. Otherwise behave as existing plot endpoint: generate and return image or JSON-encoded image.
-5. Include Access-Control-Allow-Origin header for CORS as configured.
-
-# Implementation
-- In src/lib/main.js, extend parseArgs and runPlotCli to consume new flags and implement export logic before or alongside generatePlot.
-- In setupHttp/createServer, update Zod schema for GET /plot to include exportData and exportFormat, and handle export branch in handler.
-- Add utility functions serializeDataPoints(points, format) to centralize CSV/JSON/YAML serialization.
-- Ensure error handling aligns with existing CLI and HTTP patterns.
-
-# Testing
-- Add unit tests for CLI:
-  • Export JSON, CSV, and YAML output files with matching content.
-  • Combined export and image generation scenarios.
-  • Error on invalid format or path missing.
-- Add HTTP tests via Supertest:
-  • GET /plot?expression=y%3Dx&range=x%3D0:5&exportData=true&exportFormat=csv returns CSV content.
-  • JSON and YAML export endpoints return correct Content-Type and body.
-  • Errors on invalid exportFormat values.
-- Ensure existing plot image tests remain passing.
-
-# Documentation
-- Update USAGE.md and README.md to document new --export-data and --export-format flags in CLI examples.
-- Document exportData and exportFormat query parameters and response content types in /plot section.
+6. Otherwise render image with derivative and trendline overlays as requested.
+7. Include Access-Control-Allow-Origin header and return 200 on success.
