@@ -17,7 +17,7 @@ import {
 // Mock sharp to return a predictable buffer
 vi.mock('sharp', () => {
   return {
-    default: vi.fn(() => ({ png: () => ({ toBuffer: () => Promise.resolve(Buffer.from('pngdata')) }) })),
+    default: vi.fn(() => ({ png: () => ({ toBuffer: () => Promise.resolve(Buffer.from('pngdata')) }) }))
   };
 });
 
@@ -193,6 +193,78 @@ describe('HTTP Server Mode', () => {
   });
 });
 
+// Plot Styling tests
+
+describe('Plot Styling', () => {
+  test('parseArgs includes styling flags', () => {
+    const args = [
+      '--expression', 'y=x',
+      '--range', 'x=0:1',
+      '--format', 'svg',
+      '--output', 'out.svg',
+      '--width', '100',
+      '--height', '200',
+      '--title', 'My Title',
+      '--x-label', 'XL',
+      '--y-label', 'YL',
+      '--grid', 'true',
+      '--palette', 'pastel',
+      '--colors', 'red,blue'
+    ];
+    const parsed = parseArgs(args);
+    expect(parsed).toMatchObject({
+      width: '100',
+      height: '200',
+      title: 'My Title',
+      'x-label': 'XL',
+      'y-label': 'YL',
+      grid: 'true',
+      palette: 'pastel',
+      colors: 'red,blue'
+    });
+  });
+
+  test('generateSVG with styling options includes grid, title, labels, and custom colors', () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const svg = generateSVG(points, 100, 100, {
+      grid: true,
+      title: 'T',
+      xLabel: 'X',
+      yLabel: 'Y',
+      palette: 'dark',
+      colors: ['orange', 'pink']
+    });
+    expect(svg).toContain('<line');
+    expect(svg).toContain('stroke-dasharray="4,2"');
+    expect(svg).toContain('T');
+    expect(svg).toContain('X');
+    expect(svg).toContain('Y');
+    expect(svg).toContain('stroke="orange"');
+  });
+
+  test('generatePlot with styling options returns styled svg', async () => {
+    const result = await generatePlot({
+      expression: 'y=x',
+      range: 'x=0:1',
+      format: 'svg',
+      width: 150,
+      height: 150,
+      title: 'Title',
+      xLabel: 'XL',
+      yLabel: 'YL',
+      grid: true,
+      palette: 'pastel',
+      colors: 'red,green'
+    });
+    expect(result.type).toBe('svg');
+    expect(result.data).toContain('Title');
+    expect(result.data).toContain('XL');
+    expect(result.data).toContain('YL');
+    expect(result.data).toContain('<line');
+    expect(result.data).toContain('stroke="red"');
+  });
+});
+
 // CLI Discovery Flags tests
 
 describe('CLI Discovery Flags', () => {
@@ -233,7 +305,7 @@ describe('CLI Discovery Flags', () => {
     }
     expect(error.message).toBe('process.exit:0');
     expect(logSpy).toHaveBeenCalledWith(pkg.version);
-  });
+  });   
 
   test('--mission prints mission and exits 0', async () => {
     const missionText = fs.readFileSync(path.resolve(__dirname, '../../MISSION.md'), 'utf-8');

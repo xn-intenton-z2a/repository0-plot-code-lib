@@ -43,6 +43,15 @@ const cliSchema = z.object({
   format: z.enum(["svg", "png"]),
   output: z.string(),
   derivative: z.string().regex(/^(true|false)$/, 'derivative must be true or false').optional(),
+  // Plot styling options
+  width: z.string().regex(/^\d+$/, 'width must be a positive integer').optional(),
+  height: z.string().regex(/^\d+$/, 'height must be a positive integer').optional(),
+  title: z.string().optional(),
+  'x-label': z.string().optional(),
+  'y-label': z.string().optional(),
+  grid: z.string().regex(/^(true|false)$/, 'grid must be true or false').optional(),
+  palette: z.enum(["default", "pastel", "dark", "highContrast"]).optional(),
+  colors: z.string().optional(),
 });
 
 /**
@@ -61,9 +70,6 @@ export function parseRange(rangeStr) {
 
 /**
  * Generate time series data points for the provided expression and range.
- * @param {string} expression Expression string, can include 'y=' prefix.
- * @param {{min:number,max:number}} range Range object.
- * @param {number} samples Number of segments (default 100).
  */
 export function generateData(expression, range, samples = 100) {
   const expr = expression.includes('=') ? expression.split('=')[1].trim() : expression;
@@ -82,9 +88,6 @@ export function generateData(expression, range, samples = 100) {
 
 /**
  * Generate time series data points for the derivative expression.
- * @param {string} expression Expression string, can include 'y=' prefix.
- * @param {{min:number,max:number}} range Range object.
- * @param {number} samples Number of segments (default 100).
  */
 export function generateDerivativeData(expression, range, samples = 100) {
   const expr = expression.includes('=') ? expression.split('=')[1].trim() : expression;
@@ -102,40 +105,110 @@ export function generateDerivativeData(expression, range, samples = 100) {
 }
 
 /**
- * Generate an SVG string for single or multiple data series.
- * @param {Array<{label: string, points: Array<{x:number,y:number}>}>|Array<{x:number,y:number}>} dataOrSeries
- * @param {number} width SVG width in pixels
- * @param {number} height SVG height in pixels
+ * Generate an SVG string for single or multiple data series with styling options.
  */
-export function generateSVG(dataOrSeries, width = 500, height = 500) {
-  const colors = ["black", "red", "blue", "green", "orange", "purple"];
-  let inner = '';
-  const isMultiSeries =
-    Array.isArray(dataOrSeries) && dataOrSeries.length > 0 && dataOrSeries[0].points;
-  if (isMultiSeries) {
-    dataOrSeries.forEach((series, idx) => {
-      const col = colors[idx % colors.length];
-      const pointsAttr = series.points.map((p) => `${p.x},${p.y}`).join(' ');
-      inner += `<polyline fill="none" stroke="${col}" points="${pointsAttr}" />`;
-    });
-    inner += `<g class="legend">`;
-    dataOrSeries.forEach((series, idx) => {
-      const col = colors[idx % colors.length];
-      const yPos = 20 + idx * 20;
-      inner += `<text x="10" y="${yPos}" fill="${col}">${series.label}</text>`;
-    });
-    inner += `</g>`;
+export function generateSVG(dataOrSeries, width = 500, height = 500, options = {}) {
+  // Default color palettes
+  const defaultColors = ["black", "red", "blue", "green", "orange", "purple"];
+  const palettes = {
+    default: defaultColors,
+    pastel: ["#FFB3BA", "#BFFCC6", "#BBD2FF", "#FFFFBA", "#FFDFBA", "#DFBAFF"],
+    dark: ["#222222", "#444444", "#666666", "#888888", "#AAAAAA", "#CCCCCC"],
+    highContrast: ["#000000", "#FFFFFF"],
+  };
+
+  const seriesList = Array.isArray(dataOrSeries) && dataOrSeries.length > 0 && dataOrSeries[0].points
+    ? dataOrSeries
+    : null;
+
+  // Determine color list
+  let colorList;
+  if (options.colors) {
+    if (Array.isArray(options.colors)) {
+      colorList = options.colors;
+    } else if (typeof options.colors === 'string') {
+      colorList = options.colors.split(',');
+    }
+  } else if (options.palette && palettes[options.palette]) {
+    colorList = palettes[options.palette];
   } else {
-    const pointsAttr = dataOrSeries.map((p) => `${p.x},${p.y}`).join(' ');
-    inner += `<polyline fill="none" stroke="black" points="${pointsAttr}" />`;
+    colorList = defaultColors;
   }
+
+  const elements = [];
+
+  // Grid lines
+  if (options.grid) {
+    const cols = 10;
+    const rows = 10;
+    const xStep = width / cols;
+    const yStep = height / rows;
+    for (let i = 0; i <= cols; i++) {
+      const x = xStep * i;
+      elements.push(
+        `<line x1="${x}" y1="0" x2="${x}" y2="${height}" stroke="lightgray" stroke-dasharray="4,2" />`
+      );
+    }
+    for (let j = 0; j <= rows; j++) {
+      const y = yStep * j;
+      elements.push(
+        `<line x1="0" y1="${y}" x2="${width}" y2="${y}" stroke="lightgray" stroke-dasharray="4,2" />`
+      );
+    }
+  }
+
+  // Title
+  if (options.title) {
+    elements.push(
+      `<text x="${width / 2}" y="20" text-anchor="middle">${options.title}</text>`
+    );
+  }
+
+  // Plot series
+  if (seriesList) {
+    seriesList.forEach((series, idx) => {
+      const col = colorList[idx % colorList.length];
+      const pts = series.points.map((p) => `${p.x},${p.y}`).join(' ');
+      elements.push(
+        `<polyline fill="none" stroke="${col}" points="${pts}" />`
+      );
+    });
+    // Legend
+    elements.push(`<g class="legend">`);
+    seriesList.forEach((series, idx) => {
+      const col = colorList[idx % colorList.length];
+      const yPos = 20 + idx * 20;
+      elements.push(
+        `<text x="10" y="${yPos}" fill="${col}">${series.label}</text>`
+      );
+    });
+    elements.push(`</g>`);
+  } else {
+    const pts = dataOrSeries.map((p) => `${p.x},${p.y}`).join(' ');
+    const col = colorList[0];
+    elements.push(
+      `<polyline fill="none" stroke="${col}" points="${pts}" />`
+    );
+  }
+
+  // Axis labels
+  if (options.xLabel) {
+    elements.push(
+      `<text x="${width / 2}" y="${height - 5}" text-anchor="middle">${options.xLabel}</text>`
+    );
+  }
+  if (options.yLabel) {
+    elements.push(
+      `<text x="15" y="${height / 2}" transform="rotate(-90,15,${height / 2})" text-anchor="middle">${options.yLabel}</text>`
+    );
+  }
+
+  const inner = elements.join('');
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">${inner}</svg>`;
 }
 
 /**
  * Generate a plot programmatically without file I/O.
- * @param {Object} options Programmatic options for plot generation.
- * @returns {Promise<{type: 'svg', data: string} | {type: 'png', data: Buffer}>}
  */
 export async function generatePlot(options) {
   const schema = z.object({
@@ -152,6 +225,8 @@ export async function generatePlot(options) {
     xLabel: z.string().optional(),
     yLabel: z.string().optional(),
     derivative: z.boolean().optional(),
+    palette: z.enum(["default", "pastel", "dark", "highContrast"]).optional(),
+    colors: z.string().optional(),
   });
   const opts = schema.parse(options);
   const {
@@ -163,26 +238,29 @@ export async function generatePlot(options) {
     samples = 100,
     xLog = false,
     yLog = false,
+    grid = false,
+    title,
+    xLabel,
+    yLabel,
     derivative = false,
+    palette,
+    colors,
   } = opts;
   const rangeObj = parseRange(range);
   let data = generateData(expression, rangeObj, samples);
   if (xLog) {
     data = data.map((p) => {
-      if (p.x <= 0) {
-        throw new Error('x values must be positive for log scale');
-      }
+      if (p.x <= 0) throw new Error('x values must be positive for log scale');
       return { x: Math.log10(p.x), y: p.y };
     });
   }
   if (yLog) {
     data = data.map((p) => {
-      if (p.y <= 0) {
-        throw new Error('y values must be positive for log scale');
-      }
+      if (p.y <= 0) throw new Error('y values must be positive for log scale');
       return { x: p.x, y: Math.log10(p.y) };
     });
   }
+  const styleOpts = { grid, title, xLabel, yLabel, palette, colors: colors ? colors.split(',') : undefined };
   let svg;
   if (derivative) {
     const derivativeData = generateDerivativeData(expression, rangeObj, samples);
@@ -190,9 +268,9 @@ export async function generatePlot(options) {
       { label: "original", points: data },
       { label: "derivative", points: derivativeData },
     ];
-    svg = generateSVG(series, width, height);
+    svg = generateSVG(series, width, height, styleOpts);
   } else {
-    svg = generateSVG(data, width, height);
+    svg = generateSVG(data, width, height, styleOpts);
   }
   if (format === 'svg') {
     return { type: 'svg', data: svg };
@@ -266,6 +344,8 @@ export async function main(inputArgs) {
           xLabel: raw.xLabel,
           yLabel: raw.yLabel,
           derivative: raw.derivative === 'true',
+          palette: raw.palette,
+          colors: raw.colors,
         };
         const result = await generatePlot(opts);
         if (result.type === 'svg') {
@@ -291,10 +371,30 @@ export async function main(inputArgs) {
     process.exit(1);
   }
 
-  const { expression, range, format, output, derivative } = parsed;
+  const {
+    expression,
+    range,
+    format,
+    output,
+    derivative,
+    width,
+    height,
+    title,
+    'x-label': xLabel,
+    'y-label': yLabel,
+    grid,
+    palette,
+    colors,
+  } = parsed;
   const derivativeFlag = derivative === 'true';
   const rangeObj = parseRange(range);
   const data = generateData(expression, rangeObj, 100);
+
+  const widthVal = width ? Number(width) : 500;
+  const heightVal = height ? Number(height) : 500;
+  const gridFlag = grid === 'true';
+  const colorsList = colors ? colors.split(',') : undefined;
+  const styleOpts = { grid: gridFlag, title, xLabel, yLabel, palette, colors: colorsList };
 
   let svg;
   if (derivativeFlag) {
@@ -303,9 +403,9 @@ export async function main(inputArgs) {
       { label: 'original', points: data },
       { label: 'derivative', points: derivativeData },
     ];
-    svg = generateSVG(series);
+    svg = generateSVG(series, widthVal, heightVal, styleOpts);
   } else {
-    svg = generateSVG(data);
+    svg = generateSVG(data, widthVal, heightVal, styleOpts);
   }
 
   if (format === 'svg') {

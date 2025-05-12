@@ -51,7 +51,7 @@ import { generatePlot } from '@xn-intenton-z2a/repository0-plot-code-lib';
     expression: 'y=sin(x)',
     range: 'x=0:6.28',
     format: 'svg',
-    // optional: width, height, samples, xLog, yLog, grid, title, xLabel, yLabel
+    // optional: width, height, samples, xLog, yLog, grid, title, xLabel, yLabel, palette, colors, derivative
     derivative: true,
   });
   console.log(result.type); // 'svg'
@@ -76,19 +76,34 @@ curl "http://localhost:3000/plot?expression=y=sin(x)&range=x=0:6.28&format=svg"
 curl "http://localhost:3000/plot?expression=y=x&range=x=0:5&format=png" --output plot.png
 ```
 
-## Discovery Flags
+## Plot Styling
 
---help: Print the contents of `USAGE.md` to stdout and exit with code 0.
+Enhance your plots with advanced styling options:
+
+--width <number>        SVG width in px (default 500)
+--height <number>       SVG height in px (default 500)
+--title <string>        Centered plot title
+--x-label <string>      X-axis label
+--y-label <string>      Y-axis label
+--grid <true|false>     Draw dashed gridlines
+--palette <name>        Predefined palettes: default, pastel, dark, highContrast
+--colors <list>         Comma-separated CSS colors overriding palette
+
+### Plot Styling Example
 ```sh
-repository0-plot-code-lib --help
+repository0-plot-code-lib --expression "y=x" --range "x=0:1" --format svg --output plot.svg \
+  --width 600 --height 400 --title "My Plot" \
+  --x-label "Time" --y-label "Value" --grid true \
+  --palette pastel --colors "red,green"
 ```
 
---version: Print the version string from `package.json` to stdout and exit with code 0.
-```sh
-repository0-plot-code-lib --version
-```
-
---mission: Print the contents of `MISSION.md` to stdout and exit with code 0.
-```sh
-repository0-plot-code-lib --mission
+Sample SVG snippet:
+```xml
+<svg width="600" height="400" ...>
+  <line ... stroke-dasharray="4,2" />
+  <text x="300" y="20" text-anchor="middle">My Plot</text>
+  <polyline ... stroke="red" points="..." />
+  <text x="300" y="395" text-anchor="middle">Time</text>
+  <text x="15" y="200" transform="rotate(-90,15,200)" text-anchor="middle">Value</text>
+</svg>
 ```
