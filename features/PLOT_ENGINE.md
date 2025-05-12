@@ -1,67 +1,71 @@
 # Overview
-Enhance and fully implement the plot subcommand and HTTP /plot endpoint to generate SVG and PNG images from mathematical expressions or input data files. Support both raw output and encoded responses, and configure CORS origins for secure embedding.
+Enhance and fully implement the plot subcommand and HTTP /plot endpoint to generate dynamic SVG and PNG images from mathematical expressions or input data files. Support raw binary and encoded JSON responses, flexible styling, overlays, and configurable CORS origins for secure embedding.
 
 # CLI Plot Subcommand
-Extend the plot subcommand to accept:
-- expression: mathematical expression in form y=... (required unless dataFile provided)
-- range: axis=min:max for expression mode (required when expression provided)
-- format: svg or png (required)
-- dataFile: path to JSON, CSV, or YAML file with data points (optional alternative to expression)
-- width, height: image dimensions (default 800x600)
-- samples: number of sample points for expression mode (default 100)
-- xLog, yLog: flags for logarithmic scales
-- grid: include grid lines
-- title, xLabel, yLabel: chart annotations
-- derivative: overlay first derivative curve
-- overlayTrendline: overlay regression trendline on plot
-- palette, colors: styling options
-- exportData and exportFormat: raw data export
-- encoding: base64 or url to output JSON with encoded image instead of raw bytes
-- corsOrigins: comma-separated list of allowed origins for CORS when in server mode
+Extend the existing plot CLI to accept and validate the following options:
+
+- `--expression <expr>`           Mathematical expression in form `y=...` (required unless `--data-file` provided)
+- `--range <axis>=<min>:<max>`    Axis range for expression mode (required when expression provided)
+- `--format <svg|png>`            Output image format (required)
+- `--width <number>`              Image width in pixels (default 800)
+- `--height <number>`             Image height in pixels (default 600)
+- `--samples <number>`            Sample points for expression (default 100)
+- `--x-log <true|false>`          Apply logarithmic x scale (default false)
+- `--y-log <true|false>`          Apply logarithmic y scale (default false)
+- `--grid <true|false>`           Include grid lines (default false)
+- `--title <string>`              Plot title annotation
+- `--x-label <string>`            X-axis label
+- `--y-label <string>`            Y-axis label
+- `--derivative <true|false>`     Overlay first derivative curve (default false)
+- `--overlay-trendline <true|false>` Overlay regression trendline (default false)
+- `--palette <string>`            Named color palette
+- `--colors <list>`               Custom color list for series
+- `--data-file <path>`            Path to JSON, CSV, or YAML file with data points
+- `--encoding <base64|url>`       Return JSON with encoded image instead of raw bytes
+- `--cors-origins <list>`         Comma-separated allowed origins for CORS when serving
+- `--output <path>`               File path to write output (otherwise stdout)
 
 Behavior:
-1. Parse and validate flags and required options, emit error and exit code 1 on failure.
-2. Load data points from expression or dataFile using generateData or file parsing.
-3. Generate SVG markup via generatePlot with styling and overlays.
-4. If format is png, convert SVG to PNG using sharp.
-5. If exportData set, write raw points to file in specified exportFormat.
-6. If encoding is provided, emit JSON object with fields data (encoded string) and type (svg or png).
-7. Otherwise write binary SVG or PNG to stdout or specified output file.
-8. Exit with code 0 on success.
+1. Parse and validate flags; on error emit message and exit code 1.
+2. Load or generate point list via `generateData` or file parsing.
+3. Call new utility `generatePlot(points, options)` to produce SVG markup with styling and overlays.
+4. If `format=png`, convert SVG to PNG using `sharp`.
+5. If `encoding` is set, output a JSON object `{ data: <encoded>, type: <format> }` to stdout or file.
+6. Otherwise write raw SVG or PNG bytes with appropriate stdout output or file write.
+7. Exit with code 0 on success.
 
 # HTTP /plot Endpoint
-Route: GET /plot
+Expose GET `/plot` on the HTTP server to mirror CLI behavior over HTTP:
 
-Query parameters mirror CLI flags:
-expression, dataFile, range, format, width, height, samples, xLog, yLog, grid, title, xLabel, yLabel, derivative, overlayTrendline, palette, colors, encoding, corsOrigins
+Query parameters:
+- `expression`, `dataFile`, `range`, `format`, `width`, `height`, `samples`, `xLog`, `yLog`, `grid`, `title`, `xLabel`, `yLabel`, `derivative`, `overlayTrendline`, `palette`, `colors`, `encoding`, `corsOrigins`
 
 Behavior:
-1. Determine allowed origins from corsOrigins query, CLI flag, or CORS_ORIGINS environment variable, defaulting to '*'.
-2. Validate all parameters with zod, return 400 JSON on validation errors.
-3. Load data points from expression or dataFile.
-4. Generate SVG and convert to PNG if required.
-5. Set Access-Control-Allow-Origin header to resolved origins.
-6. If encoding is provided, respond with application/json containing data and type.
-7. Otherwise respond with image/svg+xml or image/png bytes and 200 status.
-8. Handle errors with 400 JSON responses.
+1. Validate all query parameters with a Zod schema; on validation failure return 400 JSON `{ error: <message> }`.
+2. Determine allowed origins: `corsOrigins` query, CLI flag, or `CORS_ORIGINS` env var, default `*`.
+3. Load or generate data points as in CLI.
+4. Generate SVG with `generatePlot`, convert to PNG if requested.
+5. Set `Access-Control-Allow-Origin` header to resolved origins.
+6. If `encoding` is set, respond `application/json` with `{ data, type }` and status 200.
+7. Otherwise respond with image bytes (`image/svg+xml` or `image/png`) and status 200.
 
 # Implementation
-- Update parseArgs to include --encoding and --cors-origins flags for CLI.
-- Implement runPlotCli in src/lib/main.js following the CLI behavior steps.
-- In setupHttp or createServer, register GET /plot handler with zod schema for query validation.
-- Use generateData, parseRange, and a new generatePlot utility to produce SVG.
-- Integrate sharp for SVG to PNG conversion when format is png.
-- Manage CORS origins by reading CLI flag and environment variable.
+- Extend `parseArgs` and `runPlotCli` in `src/lib/main.js` to support new flags.
+- Add `generatePlot(points, options)` utility function for chart creation.
+- Integrate `sharp` for SVG to PNG conversion.
+- In HTTP setup (`createServer`), register `/plot` handler with Zod parameter schema and conversion logic.
+- Ensure existing `/stats` endpoint remains unchanged.
 
 # Testing
-- Add unit tests for CLI plot subcommand covering SVG and PNG output, encoding modes, and error conditions.
-- Add HTTP tests via supertest for GET /plot:
-  • expression mode raw image and encoded JSON
-  • dataFile mode raw image and encoded JSON
-  • correct Content-Type headers
-  • Access-Control-Allow-Origin with custom and default origins
-  • error responses on missing required params or invalid values
+- Add unit tests for CLI plot:
+  • SVG and PNG output to stdout and file
+  • Encoding modes produce valid JSON with correct `data` and `type`
+  • Error on missing required parameters
+- Add HTTP tests for GET `/plot` via Supertest:
+  • Raw image responses with correct Content-Type
+  • JSON encoded responses with base64/url
+  • CORS header honors `corsOrigins` and defaults
+  • Error responses on invalid or missing parameters
 
 # Documentation
-- Update USAGE.md to include examples for HTTP /plot with encoding and dataFile parameters.
-- Update README.md under HTTP Server Mode, adding encoding and dataFile usage and CORS configuration.
+- Update `USAGE.md` and `README.md` to include `/plot` HTTP endpoint usage examples, encoding section, and CORS configuration.
