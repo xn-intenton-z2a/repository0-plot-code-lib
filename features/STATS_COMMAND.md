@@ -1,79 +1,63 @@
 # Overview
-
-Add a new CLI subcommand stats that calculates and reports summary statistics for a data series produced from a mathematical expression over a numeric range or imported from a data file. This command provides quick quantitative insights without generating a plot.
+Add a new CLI subcommand stats that computes and reports summary statistics for a data series.  Users can generate quantitative insights including minimum, maximum, mean, median, and standard deviation without producing a plot.
 
 # CLI Subcommand
+Command: repository0-plot-code-lib stats [options]
 
-**Command**
-
-  repository0-plot-code-lib stats [options]
-
-**Usage Examples**
-
-  repository0-plot-code-lib stats --expression "y=x" --range "x=0:10" --samples 50
-  repository0-plot-code-lib stats --data-file data.csv --json
-
-**Options**
-
-  --expression <expr>        Mathematical expression to generate y values. Exclusive with data-file
-  --range <axis>=<min>:<max> Numeric range for generation. Required with expression mode
-  --data-file <path>         Path to JSON, YAML, or CSV file. Exclusive with expression mode
-  --samples <number>         Number of intervals for generation. Default 100
-  --json                     Emit output as a JSON object instead of plain text
+Options:
+- --expression <expr>        Mathematical expression to generate y values, exclusive with data-file
+- --range <axis>=min:max     Numeric range for generation, required with expression mode
+- --data-file <path>         Path to JSON, YAML, or CSV file, exclusive with expression mode
+- --samples <number>         Number of intervals for generation, default 100
+- --json                     Emit output as a JSON object instead of plain text
 
 # Implementation
-
 1. Subcommand Detection
-   In src/lib/main.js, at the start of main(), check if first argument equals stats. If so:
-     • Remove stats from argument list
-     • Invoke a new function handleStats with remaining args and return
+   - In main() detect when the first argument is stats. Remove stats from args and call a new function handleStats, then return.
 
 2. Stats Schema and Parsing
-   Define statsSchema using Zod:
-     • expression: string (optional)
-     • range: string matching axis=min:max when expression is provided
-     • dataFile: string when data-file is provided
-     • samples: positive integer, default 100
+   - Define a statsSchema using Zod with fields:
+     • expression: string, optional
+     • range: string matching axis=min:max when expression is present
+     • dataFile: string when data-file is used
+     • samples: integer, default 100
      • json: boolean, default false
-   Use parseArgs to read raw flags, then validate with statsSchema. Enforce that exactly one of expression or dataFile is provided, and range must accompany expression.
+   - Enforce that exactly one of expression or dataFile is provided and that range accompanies expression mode.
 
 3. Data Acquisition
-   • If dataFile is set, call existing parseDataFile(path) to retrieve Array<{x, y}>
-   • Otherwise, call parseRange(range) and generateData(expression, rangeObj, samples)
+   - If dataFile is set, call parseDataFile(path) to load Array<{x,y}>.
+   - Otherwise parse range into a range object and call generateData(expression, rangeObj, samples).
 
 4. Summary Statistics Computation
-   Extract y-values from the point array. Compute:
+   - Extract y-values from the point array.
+   - Compute:
      • min: smallest y
      • max: largest y
      • mean: sum(y)/n
-     • median: sort(y) and pick middle or average of two middle values
-     • stddev: sample standard deviation = sqrt(sum((y-mean)^2)/(n-1)) when n>1 or zero otherwise
+     • median: sort(y) and select middle or average of two middle values
+     • stddev: sample standard deviation = sqrt(sum((y–mean)^2)/(n–1)) or zero when n ≤ 1
 
 5. Output Formatting
-   • If json is true, console.log JSON.stringify({ min, max, mean, median, stddev }, null, 2)
-   • Otherwise, print each statistic as key: value with two decimal places on its own line
-   • On error, print descriptive message to stderr and process.exit(1)
-   • On success, process.exit(0)
+   - If json flag is true, output JSON.stringify({ min, max, mean, median, stddev }, null, 2) to stdout.
+   - Otherwise, write each statistic on its own line formatted as key: value with two decimals.
+   - On error print a descriptive message to stderr and exit with code 1.  On success exit with code 0.
 
 # Testing
-
-Create tests/unit/stats-command.test.js that covers:
-
-  • Expression mode: verify correct values for simple linear functions
-  • Data-file mode: mock fs.readFileSync to return sample JSON, YAML, CSV and assert computed statistics
-  • JSON output: verify JSON structure and numeric precision
-  • Error cases: missing both expression and data-file, missing range, invalid samples, unsupported file extension
+- Create tests/unit/stats-command.test.js covering:
+  • Expression mode computing known statistics for a simple function.
+  • Data-file mode with mocked fs.readFileSync for JSON, YAML, and CSV formats.
+  • JSON output produces correct object and precision.
+  • Error cases: missing both expression and data-file, missing range with expression, invalid samples, unsupported file extension.
 
 # Documentation
+- USAGE.md
+  Add a Stats section under CLI Examples with commands:
+    repository0-plot-code-lib stats --expression y=x --range x=0:10
+    repository0-plot-code-lib stats --data-file data.csv --json
+  Show sample plain text and JSON outputs.
 
-1. USAGE.md
-   Add a **Stats** section under CLI Examples illustrating both plain text and JSON output:
+- README.md
+  Under Examples add a stats subcommand snippet showing plain text and JSON usage and output.
 
-     repository0-plot-code-lib stats --expression "y=x" --range "x=0:5"
-     repository0-plot-code-lib stats --data-file data.csv --json
-
-2. README.md
-   Under **Examples**, include a snippet for stats usage and sample output lines
-
-3. Help Output
-   Ensure --help and --help stats mention the new stats subcommand and its flags
+- Help Output
+  Ensure --help and --help stats mention the new stats subcommand and its flags.
