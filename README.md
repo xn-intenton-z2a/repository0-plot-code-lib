@@ -40,6 +40,11 @@ Plot original and derivative:
 repository0-plot-code-lib --expression "y=x^2" --range "x=0:5" --format svg --output plot.svg --derivative true
 ```
 
+- `examples`: Generate Markdown-formatted examples demonstrating core CLI usage:
+```sh
+repository0-plot-code-lib examples
+```
+
 #### Export Data
 
 Export raw data to CSV:

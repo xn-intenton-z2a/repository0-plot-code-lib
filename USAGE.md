@@ -108,6 +108,16 @@ Sample SVG snippet:
 </svg>
 ```
 
+## Automated Examples
+
+Use the `examples` subcommand to generate Markdown-formatted usage examples and outputs for core features:
+
+```sh
+repository0-plot-code-lib examples
+```
+
+This command prints a series of code blocks with representative CLI commands and their resulting SVG outputs, which can be embedded directly in documentation.
+
 ## Export Data
 
 Allow export of the generated or imported raw data without interrupting plot output:
