@@ -1,55 +1,56 @@
 # Overview
-Implement the plot command and HTTP /plot endpoint using the QuickChart API to render PNG and SVG outputs. Support both computed expression mode and dataFile mode, optional derivative and regression overlays, custom sizing and color palettes, and optional base64 encoding for HTTP responses.
+Extend the existing plot functionality by fully implementing the CLI plot subcommand and the HTTP /plot endpoint to generate SVG and PNG images from mathematical expressions or data files. Support derivative overlays, regression trendlines, custom sizing, color palettes, and optional base64 encoding for HTTP responses.
 
 # CLI Plot Subcommand
-Add a new command "plot" in src/lib/main.js that dispatches to runPlotCli
-Flags:
+Add a new command "plot" in src/lib/main.js with flags:
 - --expression <function>    mathematical expression in form y=... for computed mode
 - --range <axis>=min:max     axis range for computed mode
-- --data-file <path>         optional JSON, CSV, or YAML file of points
+- --data-file <path>         JSON, CSV, or YAML file of points for file mode
 - --format <png|svg>         required output image format
 - --output <path>            required file to write the image
 - --width <number>           optional width in pixels (default 500)
 - --height <number>          optional height in pixels (default 300)
 - --samples <number>         optional sample count (default 100)
-- --derivative <true|false>  optional overlay of first derivative curve
-- --overlay-trendline <true|false> optional regression trendline overlay
-- --palette <colors>         optional comma-separated list of CSS colors
+- --derivative <true|false>  overlay first derivative curve
+- --overlay-trendline <true|false> overlay regression trendline
+- --palette <colors>         comma-separated list of CSS colors
 
 Behavior:
-1. Parse and validate flags with zod, exit code 1 on validation errors.
-2. Load or generate data points using generateData for computed mode or file parsing for dataFile mode.
-3. If derivative is true compute derivative series by finite differences.
-4. If overlay-trendline is true compute regression parameters and generate trendline series.
-5. Build a Chart.js configuration object including series, size, colors, overlays.
-6. Call QuickChart API /chart endpoint via node-fetch or axios, sending chart configuration and format.
-7. For PNG or binary SVG receive a buffer and write it to the output file.
-8. Exit with code 0 on success or code 1 on error.
+1. Parse and validate flags with zod; exit code 1 on validation errors.
+2. Generate or load data points using generateData or file parsing logic.
+3. If derivative flag is true, compute finite-difference derivative series.
+4. If overlay-trendline is true, compute regression parameters and trendline series.
+5. Construct a Chart.js configuration object with series, overlays, dimensions, and color palette.
+6. Send a POST to QuickChart API /chart with JSON body including width, height, format, and chart configuration.
+7. Receive image buffer or text SVG; write to output path; exit code 0 on success.
 
 # HTTP Plot Endpoint
-Implement GET /plot in the express server with the same behavior as the CLI:
-Query parameters:
-- expression, range, dataFile, format, width, height, samples, derivative, overlayTrendline, palette, encoding=base64
+Implement GET /plot in the express server with query parameters:
+- expression, range, dataFile, format, width, height, samples, derivative, overlayTrendline, palette, encoding
 
 Behavior:
-1. Validate query parameters with zod, return 400 on invalid input.
-2. Generate data, derivative, and trendline as in CLI.
+1. Validate parameters with zod; return 400 on invalid input.
+2. Generate data points, derivative, and trendline as in CLI.
 3. Build Chart.js configuration and request image from QuickChart API.
-4. If encoding=base64 return application/json with fields data (base64 string) and type (png or svg).
-5. Otherwise respond with content-type image/png or image/svg+xml and raw bytes.
-6. Always include Access-Control-Allow-Origin: * header.
+4. If encoding=base64, return application/json with fields data (base64 string) and type (png or svg).
+5. Otherwise set content-type image/png or image/svg+xml and respond with raw bytes.
+6. Include Access-Control-Allow-Origin: * header in all responses.
 
 # Implementation
-- Reuse generateData, computeRegression, and file parsing logic from stats.
-- Use node-fetch to POST to https://quickchart.io/chart with JSON body containing width, height, format, chart configuration.
-- Decode response and handle base64 mode as needed.
-- Add runPlotCli implementation and dispatch in main.
-- Extend createServer to handle /plot with full implementation.
-- Add node-fetch or axios to dependencies.
+- Implement runPlotCli in src/lib/main.js, replacing stub.
+- Update main dispatch to invoke runPlotCli for "plot" command.
+- Extend createServer in src/lib/main.js to handle /plot with full logic.
+- Add node-fetch or axios to dependencies for HTTP requests to QuickChart.
 
 # Testing
-- Add unit tests for CLI in tests/unit/plot-cli.test.js verifying output files for PNG and SVG in both computed and dataFile modes.
-- Add unit tests for HTTP in tests/unit/plot-http.test.js verifying status codes, content types, bytes vs base64 JSON payload, and CORS header.
+- Add unit tests for CLI in tests/unit/plot-cli.test.js:
+  - Verify PNG and SVG files are created correctly in computed and file modes.
+  - Test derivative and overlay-trendline flags.
+- Add HTTP tests in tests/unit/plot-http.test.js using supertest:
+  - GET /plot returns correct status, content-type, raw bytes for SVG and PNG.
+  - GET /plot?encoding=base64 returns JSON with base64 data and correct type.
+  - Invalid inputs return 400 and error messages.
 
 # Documentation
-- Update USAGE.md and README.md to document the "plot" subcommand and /plot endpoint with examples for PNG, SVG, and base64 modes.
+- Update USAGE.md and README.md to document plot subcommand and /plot endpoint.
+- Provide examples for PNG, SVG, and base64 modes for both CLI and HTTP.
