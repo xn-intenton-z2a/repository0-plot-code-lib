@@ -1,60 +1,49 @@
 # Overview
-Enhance the existing plot engine feature to support rich chart customization options including chart title, axis labels, grid toggling, and axis scaling modes. These additions apply to both the CLI `plot` subcommand and the HTTP `/plot` endpoint, allowing users to tailor the appearance and scale of generated plots.
+Extend the existing plot engine to support both rich chart customization and an integrated ASCII art rendering subcommand within a single CLI, and apply customization options to the HTTP `/plot` endpoint.
 
-# CLI Customization Flags
-Introduce the following new flags to `runPlotCli`:
+# CLI Subcommands
 
-- --title <text>               Add a chart title displayed at the top.
-- --x-label <text>             Label for the horizontal (x) axis.
-- --y-label <text>             Label for the vertical (y) axis.
-- --grid <true|false>          Show or hide grid lines (default: true).
-- --x-log <true|false>         Use logarithmic scale on x axis (default: false).
-- --y-log <true|false>         Use logarithmic scale on y axis (default: false).
+## plot
+Introduce flags for advanced customization:
+- --title <text>          Chart title displayed at the top
+- --x-label <text>        Horizontal axis label
+- --y-label <text>        Vertical axis label
+- --grid <true|false>     Show or hide grid lines (default: true)
+- --x-log <true|false>    Use logarithmic scale on x-axis (default: false)
+- --y-log <true|false>    Use logarithmic scale on y-axis (default: false)
+
+These flags integrate into the QuickChart `chartConfig.options`:
+- Set plugins.title.text when title is provided
+- Set scales.x.title.text and scales.y.title.text for axis labels
+- Toggle grid display and axis scale types based on flags
+
+## ascii
+Add a new top-level subcommand `ascii` alongside `stats` and `plot`:
+- Invocation: repository0-plot-code-lib ascii [common plot flags] [--width-chars <n>] [--height-rows <n>] [--plot-char <char>]
+- Common flags: --expression, --range, --dataFile, --samples
+- New flags:
+  - --width-chars <number>  Number of character columns (default: 80)
+  - --height-rows <number>  Number of rows (default: 20)
+  - --plot-char <char>      Character for the line (default: *)
 
 Behavior:
-1. Parse new flags alongside existing plot parameters.
-2. Convert boolean flags (`grid`, `x-log`, `y-log`) to true/false.
-3. Integrate into the QuickChart `chartConfig.options` object:
-   - Set `options.plugins.title.text` to title string when provided.
-   - Set `options.scales.x.title.text` and `options.scales.y.title.text` for axis labels.
-   - Set `options.scales.x.grid.display` and `options.scales.y.grid.display` according to `grid` flag.
-   - Set `options.scales.x.type` to `logarithmic` when `x-log` is true, otherwise `linear`.
-   - Set `options.scales.y.type` similarly based on `y-log`.
-4. Send updated `chartConfig` to QuickChart as before.
+1. Parse and validate arguments
+2. Generate or load data points
+3. Map points onto an ASCII grid of given dimensions
+4. Draw axes and plot line using chosen character
+5. Write multi-line ASCII chart to stdout, exit code 0 on success, code 1 on missing inputs
 
-# HTTP `/plot` Query Parameters
-Extend the HTTP endpoint to accept equivalent query parameters:
-
-- title            Chart title.
-- xLabel           Horizontal axis label.
-- yLabel           Vertical axis label.
-- grid             "true" or "false" for grid lines.
-- xLog             "true" or "false" for logarithmic x axis.
-- yLog             "true" or "false" for logarithmic y axis.
-
-Ensure parameters are validated via Zod schema and merged into `chartConfig.options` as described for CLI.
+# HTTP `/plot` Endpoint
+Extend the HTTP `/plot` endpoint to accept equivalent query parameters for title, xLabel, yLabel, grid, xLog, and yLog. Validate via Zod and merge into `chartConfig.options` as in the CLI. Preserve existing encoding and response logic for SVG and PNG.
 
 # Testing
-Add tests to `tests/unit/plot-generation.test.js`:
+Add unit and integration tests in tests/unit/plot-generation.test.js and a new tests/unit/ascii-art.test.js:
+- Verify customization flags produce correct `chartConfig.options` for CLI and HTTP
+- Test ASCII output shape and dimensions for simple expressions
+- Test error handling when required flags are missing
 
-## CLI Unit Tests
-- Verify that `--title`, `--x-label`, `--y-label`, `--grid=false`, `--x-log=true`, `--y-log=true` produce a chartConfig containing:
-  - plugins.title.text set to the title.
-  - scales.x.title.text and scales.y.title.text matching labels.
-  - scales.x.grid.display and scales.y.grid.display false when grid=false.
-  - scales.x.type and scales.y.type set to `logarithmic` when flags are true.
-- Mock `fetch` to intercept request body and assert `chartConfig.options` correct.
-
-## HTTP Integration Tests
-- GET `/plot` with query parameters title and labels returns 200 and correct content type.
-- Mock QuickChart upstream via `vi.spyOn(fetch)` to return fixed SVG, then assert grid and axis settings appear in request body options.
-
-# Documentation Updates
+# Documentation
 Update USAGE.md and README.md:
-
-- Under `plot` flags section, document new flags with descriptions and defaults.
-- Add CLI example:
-  `repository0-plot-code-lib plot --expression "y=x" --range "x=0:10" --format svg --title "Linear Trend" --x-label "Time" --y-label "Value" --grid false --x-log true`
-- Add HTTP example:
-  `curl "http://localhost:3000/plot?expression=y%3Dx&range=x%3D0:10&format=svg&title=MyPlot&xLabel=Time&yLabel=Value&grid=false&xLog=true&yLog=false"`
-- Illustrate how these options map to chart appearance.
+- Under `plot` section, document new flags with descriptions and defaults
+- Under CLI Subcommands, document `ascii` with usage examples and sample ASCII chart
+- Under HTTP `/plot`, document new query parameters and show examples of customized charts
