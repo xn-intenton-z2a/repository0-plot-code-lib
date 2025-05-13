@@ -1,27 +1,56 @@
 # Overview
-Extend the existing plot engine to support additional CLI flags for chart customization and implement tests for both CLI and HTTP `/plot` endpoint. Update README with examples for the new flags.
 
-# CLI Plot Flags
-Enhance the plot subcommand with flags:
-- --title <text> for chart title
-- --x-label <text> for horizontal axis label
-- --y-label <text> for vertical axis label
-- --grid <true|false> to show or hide grid lines
-- --x-log <true|false> to use logarithmic scale on the x axis
-- --y-log <true|false> to use logarithmic scale on the y axis
-Integrate these into chartConfig.options under plugins.title and scales.x, scales.y.
+Enhance the existing Plot engine to support chart customization via CLI flags and HTTP query parameters, enabling users to specify titles, axis labels, grid visibility, and logarithmic scales for both axes. Maintain support for existing expression/data modes, sample counts, derivative and trendline overlays, and PNG/SVG output with optional base64 encoding.
 
-# HTTP /plot Endpoint
-Extend the HTTP `/plot` endpoint to accept title, xLabel, yLabel, grid, xLog, yLog as query parameters. Validate parameters with the existing Zod schema. Merge them into chartConfig.options. Preserve SVG and PNG response logic and CORS header.
+# CLI Plot Customization
+
+Introduce new flags for the `plot` subcommand:
+- --title <text>             Chart title displayed above the plot
+- --x-label <text>           Label for the horizontal (x) axis
+- --y-label <text>           Label for the vertical (y) axis
+- --grid <true|false>        Show or hide grid lines (default: true)
+- --x-log <true|false>       Use logarithmic scale on the x axis (default: false)
+- --y-log <true|false>       Use logarithmic scale on the y axis (default: false)
+
+Behavior:
+1. Parse values from CLI via parseArgs and coerce booleans.
+2. When provided, merge into `chartConfig.options`:
+   - plugins.title.text = title
+   - scales.x.title.text = xLabel
+   - scales.y.title.text = yLabel
+   - scales.x.grid.display = grid
+   - scales.y.grid.display = grid
+   - scales.x.type = xLog? 'log':'linear'
+   - scales.y.type = yLog? 'log':'linear'
+3. Preserve existing datasets configuration, derivative, trendline, palette, encoding, output.
+
+# HTTP /plot Customization
+
+Extend HTTP `/plot` endpoint to accept the same customization parameters via query string:
+- title, xLabel, yLabel, grid, xLog, yLog alongside expression, dataFile, range, format, width, height, samples, derivative, overlayTrendline, palette, encoding.
+
+Implementation:
+1. Update Zod schema to include optional string flags for title, xLabel, yLabel, grid, xLog, yLog.
+2. After data generation and overlays, construct `chartConfig` including customization as above.
+3. Forward request to QuickChart and return SVG/PNG or base64 JSON as current.
+4. Honor CORS header and existing error handling.
 
 # Testing
-Add new tests under tests/unit:
-- plot-flags.test.js to verify runPlotCli handles each new flag and produces correct chartConfig.options
-- plot-endpoint.test.js to verify GET `/plot` with title, xLabel, yLabel, grid, xLog, yLog returns correct status, content type, and response body for SVG, PNG, and base64 encoding
-- Error cases when expression, dataFile, or range is missing
+
+Add unit and integration tests covering customizations:
+
+## CLI Unit Tests
+- Verify runPlotCli merges title, labels, grid, xLog, yLog into chartConfig before QuickChart invocation (mock fetch).
+- Test each flag independently and in combination with derivative and overlayTrendline.
+- Test boolean parsing for true and false values.
+
+## HTTP Integration Tests
+- GET `/plot` with title, xLabel, yLabel, grid=false, xLog=true, yLog=true and format=svg: expect content-type image/svg+xml and returned SVG contains title element and axis definitions.
+- GET `/plot`?format=png encoding=base64 with customization: expect JSON with data and type and underlying chartConfig passed correctly.
+- Error cases: invalid grid/xLog values produce 400 with JSON error body.
 
 # Documentation
-Update README.md in the Plot section:
-- Add CLI examples showing title, labels, grid, and log scale flags
-- Add HTTP `/plot` examples demonstrating title, labels, grid toggles, and log scales, both raw and base64 responses
-Ensure USAGE.md is updated with descriptions and examples for all new flags and endpoint parameters.
+
+Update usage documentation:
+- In README.md and USAGE.md under the Plot section, document new flags and query parameters with descriptions and CLI/HTTP examples.
+- Provide example commands demonstrating title, axis labels, grid toggling, and log scales in both SVG and base64-encoded JSON.
