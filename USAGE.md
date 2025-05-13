@@ -1,6 +1,6 @@
 # Usage
 
-This tool generates plots based on mathematical expressions over a numeric range and provides a `/plot` and `/stats` endpoint for summary statistics.
+This tool generates plots based on mathematical expressions over a numeric range and provides `/plot` and `/stats` endpoints for summary statistics.
 
 ## Flags
 
@@ -12,35 +12,72 @@ This tool generates plots based on mathematical expressions over a numeric range
 
 --serve <port>: Start an HTTP server exposing the `/plot` and `/stats` endpoints.
 
-## CLI Examples
+## CLI Subcommands
 
-### Plot Subcommand (stub)
-```
-repository0-plot-code-lib plot --expression "y=x" --range "x=0:10" --format svg --output out.svg
-```
-**Note:** Plot functionality is currently not implemented and will return an error message.
+### `plot`
 
-## `stats` Subcommand
+Generate a plot image (SVG or PNG) using QuickChart API.
+
+**Flags**:
+```
+--expression <function>           Mathematical expression in y=… form (e.g., "y=sin(x)")
+--range <axis>=<min>:<max>       Axis range for expression mode (e.g., "x=0:10")
+--dataFile <path>                JSON, CSV, or YAML data file path
+--format <svg|png>               Output image format (default: svg)
+--width <number>                 Image width in pixels (default: 500)
+--height <number>                Image height in pixels (default: 300)
+--samples <number>               Sample count for expression mode (default: 100)
+--derivative <true|false>        Overlay first derivative curve
+--overlayTrendline <true|false>  Overlay regression trendline
+--palette <colors>               Comma-separated CSS colors for series
+--encoding <base64>              Base64-encode output and wrap in JSON
+--output <path>                  Destination file path (stdout if omitted)
+```
+
+**Example**:
+```sh
+repository0-plot-code-lib plot \
+  --expression "y=x" \
+  --range "x=0:10" \
+  --format svg \
+  --width 800 \
+  --height 400 \
+  --derivative true \
+  --overlayTrendline true \
+  --palette "red,green,blue" \
+  --encoding base64 \
+  --output plot.svg
+```
+
+### `stats`
 
 Compute summary statistics for an expression or data file.
 
 ```sh
 repository0-plot-code-lib stats --expression "y=x" --range "x=0:2"
 ```
+
 Stats subcommand with histogram and trendline (JSON output):
 ```sh
-repository0-plot-code-lib stats --expression "y=x" --range "x=0:10" --histogram true --bins 5 --trendline-stats true
+repository0-plot-code-lib stats \
+  --expression "y=x" \
+  --range "x=0:10" \
+  --histogram true \
+  --bins 5 \
+  --trendline-stats true
 ```
+
 Stats subcommand (plain text output):
 ```sh
 repository0-plot-code-lib stats --expression "y=x" --range "x=0:2" --format text
 ```
+
 Stats subcommand from data file to output file:
 ```sh
-repository0-plot-code-lib stats --data-file data.json --format json --output stats.json
+repository0-plot-code-lib stats --dataFile data.json --format json --output stats.json
 ```
 
-## /stats Endpoint
+## `/stats` Endpoint
 
 Compute summary statistics for a data series derived from an expression or imported data file.
 
@@ -92,15 +129,33 @@ Compute summary statistics for a data series derived from an expression or impor
 curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
 
-## /plot Endpoint (stub)
+## `/plot` Endpoint
 
 Generate a plot image (SVG or PNG).
 
 **GET** `/plot`
 
-**Note:** Plot functionality is currently not implemented and returns HTTP 501.
+**Query parameters**:
+- `expression` (required unless `dataFile` provided): Function expression in `y=…` form.
+- `range` (required with `expression`): Axis range in `axis=min:max` format.
+- `dataFile` (required unless `expression` provided): Path to a JSON, CSV, or YAML file.
+- `format` (optional): `svg|png` (default `svg`).
+- `width` (optional): Image width (default `500`).
+- `height` (optional): Image height (default `300`).
+- `samples` (optional): Sample count (default `100`).
+- `derivative` (optional): `true|false` to overlay derivative.
+- `overlayTrendline` (optional): `true|false` to overlay regression.
+- `palette` (optional): Comma-separated colors.
+- `encoding` (optional): `base64` to wrap output in JSON.
 
-Example (stub):
+**Response**:
+- Raw SVG (`image/svg+xml`) or PNG (`image/png`) when no encoding.
+- JSON (`application/json`) with `{ data: <base64>, type: <format> }` when `encoding=base64`.
+
+**Examples**:
 ```sh
 curl "http://localhost:3000/plot?expression=y%3Dx&range=x%3D0:5&format=svg"
+```
+```sh
+curl "http://localhost:3000/plot?expression=y%3Dx&range=x%3D0:5&format=png&encoding=base64"
 ```
