@@ -4,7 +4,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Overview
 
-**repository0-plot-code-lib** is a JavaScript library and CLI tool that transforms mathematical expressions into time series data and generates SVG or PNG plots. It provides a simple and flexible interface for visualizing functions and data series directly from the command line.
+**repository0-plot-code-lib** is a JavaScript library and CLI tool that transforms mathematical expressions into time series data, computes summary statistics, exports raw data, and generates SVG or PNG plots using the QuickChart API. It also provides an optional HTTP server exposing `/stats` and `/plot` endpoints.
 
 ## Installation
 
@@ -14,153 +14,156 @@ Install via npm:
 npm install @xn-intenton-z2a/repository0-plot-code-lib
 ```
 
-## CLI Usage
+## Command-line Interface
 
-The core CLI flags:
+The tool offers two main subcommands: `stats` and `plot`. Common global flags:
 
-- `--expression <expression>`: Mathematical expression in terms of `x` (e.g., `y=sin(x)+0.5*x`).
-- `--range \"<axis>=<min>:<max>\"`: Numeric range for the axis (e.g., `x=0:10`).
-- `--format <svg|png>`: Output image format (`svg` or `png`).
-- `--output <path>`: File path to write the plot.
-- `--derivative <true|false>`: Overlay the first derivative curve alongside the original plot.
-- `--trendline-stats <true|false>`: Compute and print regression statistics (slope, intercept, r2) without generating a plot.
-- `--overlay-trendline <true|false>`: Overlay a regression trendline on the plot.
-- `--export-data <path>`: Export the raw x,y data to a file (CSV, JSON, YAML).
-- `--export-format <csv|json|yaml>`: Override the export format when the file extension is missing or ambiguous.
-- `--serve <port>`: Start an HTTP server on the specified port exposing the `/plot` endpoint.
+- `--serve <port>`: Start an HTTP server on the specified port.
 - `--mission`: Show the project mission statement.
-- `examples`: Run the automated examples subcommand to print Markdown-formatted usage examples.
+- `--help`: Show help message.
+- `--version`: Show the installed CLI version.
 
-For advanced styling options (title, labels, grid, colors, etc.), see the [Usage guide](USAGE.md).
+### `stats`
+
+Compute summary statistics or export raw data.
+
+**Usage**:
+```sh
+repository0-plot-code-lib stats [options]
+```
+
+**Options**:
+
+- `--expression <function>`       Mathematical expression in `y=…` form (e.g., `y=sin(x)`).
+- `--range <axis>=<min>:<max>`    Axis range for expression mode (e.g., `x=0:10`).
+- `--dataFile <path>`             JSON, CSV, or YAML data file path.
+- `--samples <number>`            Number of samples for expression mode (default: 100).
+- `--histogram <true|false>`      Include histogram bins in summary (default: false).
+- `--bins <number>`               Number of histogram bins (default: 10).
+- `--trendline-stats <true|false>`Include linear regression statistics (slope, intercept, r2) (default: false).
+- `--format <json|text>`          Output format: JSON (`json`) or plain text (`text`) (default: json).
+- `--output <path>`               Write output to a file (stdout if omitted).
+- `--export-data <path|->`        Export raw `x,y` data points. Provide a file path or `-` for stdout.
+- `--export-format <csv|json|yaml>` Serialization format for raw data export. Default inferred from file extension or `json`.
+
+**Examples**:
+
+Compute stats in JSON (default):
+```sh
+repository0-plot-code-lib stats --expression "y=x" --range "x=0:5" --trendline-stats true --histogram true --bins 5
+```
+
+Export raw data to CSV:
+```sh
+repository0-plot-code-lib stats --expression "y=x" --range "x=0:2" --export-data data.csv --export-format csv
+```
+
+Export raw data to stdout in JSON:
+```sh
+repository0-plot-code-lib stats --dataFile data.json --export-data - --export-format json
+```
+
+### `plot`
+
+Generate a plot image using the QuickChart API.
+
+**Usage**:
+```sh
+repository0-plot-code-lib plot [options]
+```
+
+**Options**:
+
+- `--expression <function>`       Mathematical expression in `y=…` form (e.g., `y=sin(x)`).
+- `--range <axis>=<min>:<max>`    Axis range for expression mode (e.g., `x=0:10`).
+- `--dataFile <path>`             JSON, CSV, or YAML data file path.
+- `--format <svg|png>`            Output image format (default: `svg`).
+- `--width <number>`              Image width in pixels (default: `500`).
+- `--height <number>`             Image height in pixels (default: `300`).
+- `--samples <number>`            Number of samples for expression mode (default: `100`).
+- `--derivative <true|false>`     Overlay first derivative curve (default: false).
+- `--overlayTrendline <true|false>` Overlay linear regression trendline (default: false).
+- `--palette <colors>`            Comma-separated CSS colors for series (e.g., `red,green,blue`).
+- `--encoding <base64>`           Base64-encode output and wrap in JSON.
+- `--output <path>`               Write output to a file (stdout if omitted).
+
+**Examples**:
+
+Generate an SVG plot:
+```sh
+repository0-plot-code-lib plot --expression "y=sin(x)" --range "x=0:6.28" --derivative true --overlayTrendline true --palette "red,green" --output plot.svg
+```
+
+Generate a PNG plot with base64 encoding:
+```sh
+repository0-plot-code-lib plot --expression "y=x" --range "x=0:5" --format png --encoding base64
+```
 
 ## HTTP Server Mode
 
-Use the `--serve <port>` flag to start an HTTP server on the specified port:
+Start an HTTP server exposing `/stats` and `/plot` endpoints:
 
 ```sh
 repository0-plot-code-lib --serve 3000
 ```
 
-Once running, the server exposes the following endpoints:
+Once running, CORS is enabled (`Access-Control-Allow-Origin: *`).
 
-### GET `/plot`
+### GET `/stats`
 
-- **Query parameters** (all in backticks):
-  - `expression` (required): Function expression in `x`, e.g., `y=sin(x)`.
-  - `range` (required): `axis=min:max` format, e.g., `x=0:6.28`.
-  - `format` (required): `svg` or `png`.
-  - Optional: `width`, `height`, `samples`, `xLog`, `yLog`, `grid`, `title`, `xLabel`, `yLabel`, `derivative`, `palette`, `colors`, `trendlineStats`, `overlayTrendline`.
+Compute summary statistics for a data series derived from an expression or data file.
 
-The response content type is:
-- `image/svg+xml` for SVG when `format=svg` (binary or UTF-8 text).
-- `image/png` for PNG when `format=png`.
+**Query parameters**:
 
-#### Base64 Encoding
+- `expression` (required unless `dataFile` provided): Function expression in `y=…` form.
+- `range` (required with `expression`): Axis range in `axis=min:max` format.
+- `dataFile` (required unless `expression` provided): Path to a JSON, CSV, or YAML file.
+- `samples` (optional): Number of sample points (default: `100`).
+- `json` (optional): `true|false` (default: `true`).
+- `histogram` (optional): `true|false` (default: `false`).
+- `bins` (optional): Number of histogram bins (default: 10).
+- `trendlineStats` (optional): `true|false` to include regression parameters (default: false).
 
-- Add `encoding=base64` to the query string to receive a JSON response instead of raw image bytes.
-- When used, the endpoint returns `application/json` with the structure:
-  ```json
-  {
-    "data": "<base64string>",
-    "type": "svg" | "png"
-  }
-  ```
+**Response**:
 
-Sample request using `curl`:
-```sh
-curl "http://localhost:3000/plot?expression=y%3Dx&range=x%3D0:5&format=svg&encoding=base64"
-```
-Sample JSON response:
-```json
-{
-  "data": "PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIC8+",
-  "type": "svg"
-}
-```
+- JSON (`application/json`) when `json=true` (default).
+- Plain text (`text/plain`) when `json=false`.
 
-### CORS Support
+**Examples**:
 
-CORS is enabled by default. All responses include the header:
-```
-Access-Control-Allow-Origin: *
-```
-
-To restrict allowed origins, use:
-- The `--cors-origins` CLI flag with a comma-separated list of origins.
-- The `CORS_ORIGINS` environment variable.
-
-Example using `fetch` in the browser:
-```js
-fetch('http://localhost:3000/plot?expression=y=x&range=x=0:5&format=svg')
-  .then(res => {
-    console.log(res.headers.get('Access-Control-Allow-Origin')); // '*'
-    return res.text();
-  })
-  .then(svg => console.log(svg));
-```
-
-#### Stats Endpoint (`/stats`)
-
-Compute and return summary statistics for a data series.
-
-- **GET** `/stats`
-- **Query parameters** (all in backticks):
-  - Required: `expression` **or** `dataFile` (path to JSON/YAML/CSV data file).
-  - Required when using `expression`: `range` in `axis=min:max` format.
-  - Optional: `samples` (default `100`), `json` (`true`|`false`, default `true`).
-
-The response format depends on `json`:
-- `json=false`: `text/plain`, each statistic on its own line:
-  ```text
-  min: 0.00
-  max: 5.00
-  mean: 2.50
-  median: 2.50
-  stddev: 1.87
-  ```
-- `json=true` (default): `application/json`:
-  ```json
-  {
-    "min": 0,
-    "max": 5,
-    "mean": 2.5,
-    "median": 2.5,
-    "stddev": 1.87
-  }
-  ```
-
-Sample `curl` for plain-text stats:
 ```sh
 curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
 
-Sample `curl` for JSON stats:
-```sh
-curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5"
-```
+### GET `/plot`
 
-## CLI --mission Example
+Generate a plot image (SVG or PNG).
 
-Print the project mission statement:
+**Query parameters**:
+
+- `expression` (required unless `dataFile` provided).
+- `range` (required with `expression`).
+- `dataFile` (required unless `expression` provided).
+- `format` (optional): `svg|png` (default: `svg`).
+- `width` (optional): Image width (default: `500`).
+- `height` (optional): Image height (default: `300`).
+- `samples` (optional): Sample count (default: `100`).
+- `derivative` (optional): `true|false`.
+- `overlayTrendline` (optional): `true|false`.
+- `palette` (optional): Comma-separated colors.
+- `encoding` (optional): `base64`.
+
+**Response**:
+
+- Raw SVG (`image/svg+xml`) or PNG (`image/png`) when no `encoding`.
+- JSON (`application/json`) when `encoding=base64`.
+
+## Mission
+
+Show mission statement:
 ```sh
 repository0-plot-code-lib --mission
 ```
-
-## Examples
-
-Generate an SVG:
-```sh
-repository0-plot-code-lib --expression "y=sin(x)+0.5*x" --range "x=0:10" --format svg --output plot.svg
-```
-
-Generate a PNG:
-```sh
-repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format png --output plot.png
-```
-
-## Further Reading
-
-For advanced flags, HTTP server details, styling options, and programmatic API, see the [Usage guide](USAGE.md).
 
 ## License
 
