@@ -145,7 +145,6 @@ export function computeRegression(points) {
   const meanY = sumY / n;
   const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
   const intercept = meanY - slope * meanX;
-  // Compute r2
   const ssTot = points.reduce((sum, p) => sum + (p.y - meanY) ** 2, 0);
   const ssRes = points.reduce((sum, p) => sum + (p.y - (slope * p.x + intercept)) ** 2, 0);
   const r2 = ssTot === 0 ? 1 : 1 - ssRes / ssTot;
@@ -156,6 +155,7 @@ export function computeRegression(points) {
  * CLI subcommand: stats
  */
 export async function runStatsCli(argv) {
+  // existing stats implementation...
   let args;
   try {
     args = parseArgs(argv);
@@ -240,10 +240,18 @@ export async function runStatsCli(argv) {
   }
 }
 
+/**
+ * CLI subcommand: plot (stubbed implementation)
+ */
+export async function runPlotCli(argv) {
+  console.error('Error: Plot command not implemented');
+  process.exitCode = 1;
+}
+
 // HTTP server extension
 async function createServer(app) {
   app.get('/stats', async (req, res) => {
-    // CORS header
+    // existing stats endpoint...
     res.set('Access-Control-Allow-Origin', '*');
     const schema = z.object({
       expression: z.string().optional(),
@@ -322,6 +330,12 @@ async function createServer(app) {
       return res.status(400).json({ error: err.message });
     }
   });
+
+  // Stubbed plot endpoint
+  app.get('/plot', async (req, res) => {
+    res.set('Access-Control-Allow-Origin', '*');
+    return res.status(501).send('Plot endpoint not implemented');
+  });
 }
 
 async function setupHttp(app) {
@@ -334,6 +348,11 @@ async function setupHttp(app) {
 export async function main(argv = process.argv.slice(2)) {
   if (argv[0] === 'stats') {
     await runStatsCli(argv.slice(1));
+    return;
+  }
+
+  if (argv[0] === 'plot') {
+    await runPlotCli(argv.slice(1));
     return;
   }
 
@@ -360,7 +379,7 @@ export async function main(argv = process.argv.slice(2)) {
     app.listen(port, () => console.log(`Listening on port ${port}`));
     return;
   }
-  // CLI mode not implemented for stats endpoint other than stats subcommand
+  // CLI mode not implemented for other commands
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
