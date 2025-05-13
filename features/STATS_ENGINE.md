@@ -1,36 +1,33 @@
 # Overview
-Extend the existing statistics engine to support exporting raw time series data via CLI flags alongside existing summary and regression capabilities.
+Enhance the existing statistics engine to include tests and documentation for raw data export via CLI flags. This ensures end-to-end verification of the export-data and export-format options and provides clear guidance for users.
 
 # CLI Stats Subcommand
-Add or refine flags:
-- --export-data <path>    Write raw x,y data points to the specified file or stdout if omitted
+Refine flags:
+- --export-data <path>    Write raw x,y data points to the specified file or to stdout if path is dash or omitted
 - --export-format <csv|json|yaml>    Format for exported raw data (default inferred from file extension or json)
 
 Behavior:
-1. Parse and validate flags, including --export-data and --export-format.
-2. Load or generate data points:
-   - Expression mode: use --expression and --range to generate points.
-   - File mode: parse JSON, YAML, or CSV input.
-3. If --export-data is provided:
-   - Serialize raw points based on export-format:
-     • csv: header row x,y and comma-separated lines
-     • json: array of {x,y} objects
-     • yaml: sequence of mappings via js-yaml.dump
-   - Write to the output file or stdout and exit with code 0.
-4. Otherwise compute summary statistics, optional regression (--trendline-stats) and histogram (--histogram, --bins) as before, then output.
+1. If --export-data is provided, bypass summary statistics, regression and histogram features.
+2. Load or generate raw points from expression and range or from dataFile input.
+3. Serialize based on export-format:
+   • csv: header row x,y followed by comma separated values
+   • json: array of objects with fields x and y
+   • yaml: sequence of mappings via js-yaml.dump
+4. Write output to the specified file or stdout and exit with code 0.
 
-# Testing
-Add unit tests for CLI raw export functionality:
-- JSON export: runStatsCli with --expression, --range, --export-data - (stdout) and check JSON array of points
-- CSV export: runStatsCli with --export-data data.csv and --export-format csv, verify file content has header and rows
-- YAML export: runStatsCli with --export-format yaml and --export-data -, verify yaml dump sequence
-- Default format inference when --export-format is omitted
-Ensure existing stats and error handling tests remain passing.
+# Testing raw data export
+Add unit tests in tests/unit/main.test.js or in a dedicated file:
+- JSON export to stdout: runStatsCli with arguments --expression y=x --range x=0:1 --samples 2 --export-data - and verify stdout is a JSON array of two points
+- CSV export to file: runStatsCli with arguments --expression y=x --range x=0:1 --samples 2 --export-data export.csv --export-format csv, then read export.csv and assert header and rows match expected values
+- YAML export to stdout: runStatsCli with arguments --expression y=x --range x=0:1 --samples 2 --export-format yaml --export-data -, verify yaml sequence output
+- Default format inference: invoke runStatsCli with arguments --expression y=x --range x=0:1 --export-data data.json and verify JSON output without explicitly passing export-format
+- Error case: passing --export-data without expression or dataFile should exit with error code 1 and print an error message
+Ensure tests clean up temporary files and restore any spies or mocks after each run.
 
 # Documentation
-Update USAGE.md and README.md under the Stats Subcommand section:
-- Document --export-data and --export-format flags and their behaviors
-- Provide CLI examples for raw export in JSON, CSV, and YAML:
-  repository0-plot-code-lib stats --expression "y=x" --range "x=0:1" --export-data data.csv
-  repository0-plot-code-lib stats --dataFile data.json --export-data - --export-format yaml
-- Clarify exit codes and data formats returned.
+Update USAGE.md and README.md under the Stats subcommand section:
+- Document the --export-data and --export-format flags and their behavior when exporting raw data
+- Provide CLI examples for raw export in each supported format:
+    repository0-plot-code-lib stats --expression y=x --range x=0:1 --export-data data.csv
+    repository0-plot-code-lib stats --dataFile data.json --export-data - --export-format yaml
+- Clarify that using export-data causes the tool to emit only raw points and exit immediately with code 0.
