@@ -241,11 +241,125 @@ export async function runStatsCli(argv) {
 }
 
 /**
- * CLI subcommand: plot (stubbed implementation)
+ * CLI subcommand: plot
  */
 export async function runPlotCli(argv) {
-  console.error('Error: Plot command not implemented');
-  process.exitCode = 1;
+  let args;
+  try {
+    args = parseArgs(argv);
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exitCode = 1;
+    return;
+  }
+  const {
+    expression,
+    dataFile,
+    range,
+    format = 'svg',
+    output,
+    width = '500',
+    height = '300',
+    samples = '100',
+    derivative,
+    overlayTrendline,
+    palette,
+    encoding
+  } = args;
+  const fmt = format.toLowerCase();
+  const w = parseInt(width, 10);
+  const h = parseInt(height, 10);
+  const sampleCount = parseInt(samples, 10);
+  if (!expression && !dataFile) {
+    console.error('Error: expression or dataFile is required');
+    process.exitCode = 1;
+    return;
+  }
+  if (expression && !range) {
+    console.error('Error: range is required with expression');
+    process.exitCode = 1;
+    return;
+  }
+  try {
+    // Load or generate data
+    let pts;
+    if (expression) {
+      const rangeObj = parseRange(range);
+      pts = generateData(expression, rangeObj, sampleCount);
+    } else {
+      const ext = path.extname(dataFile).toLowerCase();
+      const raw = fs.readFileSync(dataFile, 'utf-8');
+      if (ext === '.json') pts = JSON.parse(raw);
+      else if (ext === '.yaml' || ext === '.yml') pts = yamlLoad(raw);
+      else if (ext === '.csv') pts = raw.trim().split('\n').slice(1).map(line => {
+        const [x, y] = line.split(',').map(Number);
+        return { x, y };
+      });
+      else throw new Error('Unsupported dataFile format');
+    }
+    // Prepare datasets
+    const datasets = [];
+    const colors = palette ? palette.split(',') : [];
+    datasets.push({ label: 'series', data: pts, borderColor: colors[0] || undefined });
+    // Derivative overlay
+    if (derivative === 'true' || derivative === true) {
+      const dpts = pts.slice(1).map((p, i) => {
+        const prev = pts[i];
+        return { x: p.x, y: (p.y - prev.y) / (p.x - prev.x) };
+      });
+      datasets.push({ label: 'derivative', data: dpts, borderColor: colors[1] || undefined });
+    }
+    // Trendline overlay
+    if (overlayTrendline === 'true' || overlayTrendline === true) {
+      const reg = computeRegression(pts);
+      const rpts = pts.map(p => ({ x: p.x, y: reg.slope * p.x + reg.intercept }));
+      datasets.push({ label: 'trendline', data: rpts, borderColor: colors[2] || undefined });
+    }
+    const chartConfig = {
+      type: 'line',
+      data: { datasets },
+      options: { scales: { x: { type: 'linear', position: 'bottom' } } }
+    };
+    const body = { chart: chartConfig, width: w, height: h, format: fmt };
+    // Request QuickChart
+    const resp = await fetch('https://quickchart.io/chart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!resp.ok) {
+      throw new Error(`QuickChart error: ${resp.status}`);
+    }
+    let outData;
+    if (fmt === 'png') {
+      const buf = Buffer.from(await resp.arrayBuffer());
+      outData = buf;
+      if (encoding === 'base64') {
+        const b64 = buf.toString('base64');
+        const wrapper = JSON.stringify({ data: b64, type: fmt }, null, 2);
+        process.stdout.write(wrapper);
+      } else if (output) {
+        fs.writeFileSync(output, buf);
+      } else {
+        process.stdout.write(buf);
+      }
+    } else {
+      const text = await resp.text();
+      if (encoding === 'base64') {
+        const b64 = Buffer.from(text).toString('base64');
+        const wrapper = JSON.stringify({ data: b64, type: fmt }, null, 2);
+        process.stdout.write(wrapper);
+      } else if (output) {
+        fs.writeFileSync(output, text);
+      } else {
+        process.stdout.write(text);
+      }
+    }
+    process.exitCode = 0;
+  } catch (err) {
+    console.error(`Error: ${err.message}`);
+    process.exitCode = 1;
+  }
 }
 
 // HTTP server extension
@@ -331,10 +445,120 @@ async function createServer(app) {
     }
   });
 
-  // Stubbed plot endpoint
+  // Plot endpoint
   app.get('/plot', async (req, res) => {
     res.set('Access-Control-Allow-Origin', '*');
-    return res.status(501).send('Plot endpoint not implemented');
+    const schema = z.object({
+      expression: z.string().optional(),
+      dataFile: z.string().optional(),
+      range: z.string().optional(),
+      format: z.string().optional(),
+      width: z.string().optional(),
+      height: z.string().optional(),
+      samples: z.string().optional(),
+      derivative: z.string().optional(),
+      overlayTrendline: z.string().optional(),
+      palette: z.string().optional(),
+      encoding: z.string().optional()
+    });
+    let params;
+    try {
+      params = schema.parse(req.query);
+    } catch (e) {
+      return res.status(400).json({ error: e.errors.map(er => er.message).join(', ') });
+    }
+    const {
+      expression,
+      dataFile,
+      range,
+      format = 'svg',
+      width = '500',
+      height = '300',
+      samples = '100',
+      derivative,
+      overlayTrendline,
+      palette,
+      encoding
+    } = params;
+    const fmt = format.toLowerCase();
+    const w = parseInt(width, 10);
+    const h = parseInt(height, 10);
+    const sampleCount = parseInt(samples, 10);
+    if (!expression && !dataFile) {
+      return res.status(400).json({ error: 'expression or dataFile is required' });
+    }
+    if (expression && !range) {
+      return res.status(400).json({ error: 'range is required with expression' });
+    }
+    try {
+      let pts;
+      if (expression) {
+        const rangeObj = parseRange(range);
+        pts = generateData(expression, rangeObj, sampleCount);
+      } else {
+        const ext = path.extname(dataFile).toLowerCase();
+        const raw = fs.readFileSync(dataFile, 'utf-8');
+        if (ext === '.json') pts = JSON.parse(raw);
+        else if (ext === '.yaml' || ext === '.yml') pts = yamlLoad(raw);
+        else if (ext === '.csv') pts = raw.trim().split('\n').slice(1).map(line => {
+          const [x, y] = line.split(',').map(Number);
+          return { x, y };
+        });
+        else throw new Error('Unsupported dataFile format');
+      }
+      const datasets = [];
+      const colors = palette ? palette.split(',') : [];
+      datasets.push({ label: 'series', data: pts, borderColor: colors[0] || undefined });
+      if (derivative === 'true') {
+        const dpts = pts.slice(1).map((p, i) => {
+          const prev = pts[i];
+          return { x: p.x, y: (p.y - prev.y) / (p.x - prev.x) };
+        });
+        datasets.push({ label: 'derivative', data: dpts, borderColor: colors[1] || undefined });
+      }
+      if (overlayTrendline === 'true') {
+        const reg = computeRegression(pts);
+        const rpts = pts.map(p => ({ x: p.x, y: reg.slope * p.x + reg.intercept }));
+        datasets.push({ label: 'trendline', data: rpts, borderColor: colors[2] || undefined });
+      }
+      const chartConfig = {
+        type: 'line',
+        data: { datasets },
+        options: { scales: { x: { type: 'linear', position: 'bottom' } } }
+      };
+      const body = { chart: chartConfig, width: w, height: h, format: fmt };
+      let qcRes;
+      try {
+        qcRes = await fetch('https://quickchart.io/chart', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+      } catch (_) {
+        return res.status(502).json({ error: 'Upstream QuickChart request failed' });
+      }
+      if (!qcRes.ok) {
+        return res.status(502).json({ error: `QuickChart error: ${qcRes.status}` });
+      }
+      if (fmt === 'png') {
+        const buf = Buffer.from(await qcRes.arrayBuffer());
+        if (encoding === 'base64') {
+          const b64 = buf.toString('base64');
+          return res.json({ data: b64, type: fmt });
+        }
+        res.type('image/png');
+        return res.send(buf);
+      }
+      const svgText = await qcRes.text();
+      if (encoding === 'base64') {
+        const b64 = Buffer.from(svgText).toString('base64');
+        return res.json({ data: b64, type: fmt });
+      }
+      res.type('image/svg+xml');
+      return res.send(svgText);
+    } catch (err) {
+      return res.status(400).json({ error: err.message });
+    }
   });
 }
 
