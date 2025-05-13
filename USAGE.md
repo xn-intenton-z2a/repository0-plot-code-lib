@@ -1,6 +1,6 @@
 # Usage
 
-This tool generates plots based on mathematical expressions over a numeric range and provides a `/stats` endpoint for summary statistics.
+This tool generates plots based on mathematical expressions over a numeric range and provides a `/plot` and `/stats` endpoint for summary statistics.
 
 ## Flags
 
@@ -14,22 +14,16 @@ This tool generates plots based on mathematical expressions over a numeric range
 
 ## CLI Examples
 
-Generate an SVG plot:
-```sh
-repository0-plot-code-lib --expression "y=sin(x)+0.5*x" --range "x=0:10" --format svg --output plot.svg
+### Plot Subcommand (stub)
 ```
-
-Generate a PNG plot:
-```sh
-repository0-plot-code-lib --expression "y=x" --range "x=0:5" --format png --output plot.png
+repository0-plot-code-lib plot --expression "y=x" --range "x=0:10" --format svg --output out.svg
 ```
+**Note:** Plot functionality is currently not implemented and will return an error message.
 
-Compute regression stats only:
-```sh
-repository0-plot-code-lib --expression "y=2*x+1" --range "x=0:2" --trendline-stats true
-```
+## `stats` Subcommand
 
-Stats subcommand (JSON output):
+Compute summary statistics for an expression or data file.
+
 ```sh
 repository0-plot-code-lib stats --expression "y=x" --range "x=0:2"
 ```
@@ -44,16 +38,6 @@ repository0-plot-code-lib stats --expression "y=x" --range "x=0:2" --format text
 Stats subcommand from data file to output file:
 ```sh
 repository0-plot-code-lib stats --data-file data.json --format json --output stats.json
-```
-
-Show version:
-```sh
-repository0-plot-code-lib --version
-```
-
-Show mission statement:
-```sh
-repository0-plot-code-lib --mission
 ```
 
 ## /stats Endpoint
@@ -107,6 +91,16 @@ Compute summary statistics for a data series derived from an expression or impor
 ```sh
 curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:5&json=false"
 ```
+
+## /plot Endpoint (stub)
+
+Generate a plot image (SVG or PNG).
+
+**GET** `/plot`
+
+**Note:** Plot functionality is currently not implemented and returns HTTP 501.
+
+Example (stub):
 ```sh
-curl "http://localhost:3000/stats?expression=y%3Dx&range=x%3D0:10&histogram=true&bins=4&trendlineStats=true"
+curl "http://localhost:3000/plot?expression=y%3Dx&range=x%3D0:5&format=svg"
 ```
