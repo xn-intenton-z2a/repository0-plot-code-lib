@@ -21,3 +21,5 @@
 
 2025-05-17T18:31:37.126Z - Digested select(selector):Selection; selectAll(selector):Selection; append(name):Selection. scaleLinear():domain([0,1])->range([0,1])->clamp(false)->interpolate(d3.interpolate)->ticks(10)->tickFormat(count,fmt). scaleTime():Date domain. axisBottom(scale)->ticks( count,fmt )->tickSize(6)->tickPadding(3)->tickFormat(fmt). line():x(fn)->y(fn)->curve(factory)->defined(fn)->context(ctx). arc():innerRadius(r)->outerRadius(r)->startAngle(a)->endAngle(a)->padAngle(a). csv(url,row)->Promise<Object[]>. transition(name)->duration(ms)->delay(ms)->ease(name)->attr(name,val)->style(name,val). defaults: scale.domain[0,1],range[0,1],clamp false,nice optional; axis.tickSize6,tickPadding3; transition.duration250,ease cubic-in-out. code: const svg=d3.select('body').append('svg').attr('width',W).attr('height',H); const x=d3.scaleLinear().domain([0,max]).range([0,W]); svg.append('g').attr('transform',t).call(d3.axisBottom(x)); d3.csv(url,d).then(data=>{/*draw*/});.
 
+2025-05-17T20:57:37.778Z - Maintained feature OUTPUT_FORMATS.
+
