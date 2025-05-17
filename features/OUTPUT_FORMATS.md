@@ -1,40 +1,46 @@
 # Overview
 
-Extend the CLI and library to support multiple output formats: SVG (existing), PNG, and JSON data. Introduce a new --format option to choose between formats, defaulting to SVG. Provide conversion from SVG to PNG using a headless canvas implementation and expose raw numerical data as JSON for downstream processing.
+Extend the CLI and library to support multiple output formats (SVG, PNG, JSON) and customizable plot appearance via new flags. Users can specify image dimensions, margins, axis labels, and plot title to tailor visualizations to their needs.
 
 # CLI Integration
 
-- Add new flag --format <format> where format is one of svg, png, json. Default is svg.
-- parseArgs should validate format against allowed values and include format in the parsed result.
-- Update usage examples in README.md and USAGE.md to demonstrate generating PNG and JSON outputs:
-  - npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --format png --output out.png
-  - npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:1" --format json > data.json
+- Add flags to parseArgs:
+  - --format <format>    : one of svg, png, json. Default svg.
+  - --width <number>     : output width in pixels. Default 800.
+  - --height <number>    : output height in pixels. Default 600.
+  - --margin <number>    : margin around plot in pixels. Default 40.
+  - --x-label <string>   : label text for the x-axis.
+  - --y-label <string>   : label text for the y-axis.
+  - --title <string>     : title text displayed at top of SVG.
+
+Update usage examples in README.md and USAGE.md to include customization:
+  npx repo0-plot --expression "sin(x)" --range "x=0:6.28:0.1" --format png --width 1024 --height 768 --margin 50 --x-label "Time (s)" --y-label "Amplitude" --title "Sine Wave" --output out.png
 
 # Implementation
 
-- In main.js:
-  - Add format to argsSchema and default to svg.
-  - After generating SVG, branch on format:
-    - svg: write or console.log SVG as before.
-    - json: serialize object { xValues, yValues } to JSON string and write to output.
-    - png: convert the SVG string to a PNG buffer using the canvas package:
-      - Import { createCanvas, loadImage } from canvas.
-      - Create a canvas matching SVG width/height.
-      - Load SVG as image and draw to canvas.
-      - Use canvas.toBuffer('image/png') to obtain PNG data.
-      - Write buffer to file or stdout (respect --output).
+- In src/lib/main.js:
+  - Extend argsSchema with width (number), height (number), margin (number), xLabel (string optional), yLabel (string optional), title (string optional).
+  - After parsing and data generation, call generateSVG(data, { width, height, margin, xLabel, yLabel, title }).
+  - Branch on format:
+    - svg: output SVG string.
+    - json: output JSON { xValues, yValues }.
+    - png: convert SVG to PNG buffer via canvas and write buffer.
+
+- In generateSVG:
+  - Use width, height, margin values to compute scales.
+  - Render title centered at top using <text> element.
+  - Render axis labels near axis ends using <text> rotated for y-axis.
+  - Preserve existing axes lines and polyline rendering.
 
 # Tests
 
-- Update plot-generation.test.js:
-  - Add tests for parseArgs with --format flag.
-  - Test JSON output by invoking generateData + JSON serialization helper returns valid JSON with correct arrays.
-  - Test PNG conversion function produces a Buffer starting with PNG signature bytes (0x89,0x50,0x4e,0x47).
-
-# Dependencies
-
-- Add "canvas" to dependencies in package.json.
+- Update tests for parseArgs:
+  - Ensure new flags parse correctly and default values apply.
+- Add tests for generateSVG:
+  - Verify <text> element for title contains correct text.
+  - Verify x-axis and y-axis labels appear at expected positions.
+- Retain and extend tests for format conversions (JSON, PNG buffer signature).
 
 # Documentation
 
-- Update README.md and USAGE.md to document the new --format option and examples for all formats.
+- Update README.md and USAGE.md sections to document new flags with examples and default values.
