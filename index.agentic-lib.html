@@ -23,134 +23,58 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
-<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github"><strong class="md-github">repository0-plot-code-lib</strong> is a JavaScript library and CLI tool that transforms mathematical expressions into time series data, computes summary statistics, exports raw data, and generates SVG or PNG plots using the QuickChart API. It also provides an optional HTTP server exposing <code class="md-github">/stats</code> and <code class="md-github">/plot</code> endpoints.</p>
+<p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p class="md-github">Install via npm:</p>
-<pre class="md-github"><code class="md-github language-sh">npm install @xn-intenton-z2a/repository0-plot-code-lib
+<pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
 </code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="command-line-interface" href="#command-line-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Command-line Interface</h2>
-<p class="md-github">The tool offers two main subcommands: <code class="md-github">stats</code> and <code class="md-github">plot</code>. Common global flags:</p>
+<p class="md-github">Or use npx without installing:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --expression &quot;sin(x)&quot; --range &quot;x=0:6.28:0.1&quot;
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
+<p class="md-github">Run the CLI with the following syntax:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --expression &quot;&lt;expr&gt;&quot; --range &quot;&lt;range&gt;&quot; [--input &quot;&lt;file&gt;&quot;] [--input-format &lt;csv|json&gt;] [--format &lt;svg|png|json|csv&gt;] [--output &quot;&lt;file&gt;&quot;] [--serve] [--port &lt;number&gt;]
+</code></pre>
+<p class="md-github">Options:</p>
 <ul class="md-github">
-<li class="md-github"><code class="md-github">--serve &lt;port&gt;</code>: Start an HTTP server on the specified port.</li>
-<li class="md-github"><code class="md-github">--mission</code>: Show the project mission statement.</li>
-<li class="md-github"><code class="md-github">--help</code>: Show help message.</li>
-<li class="md-github"><code class="md-github">--version</code>: Show the installed CLI version.</li>
+<li class="md-github"><code class="md-github">--expression &lt;expr&gt;</code>: A mathematical expression in variable <code class="md-github">x</code>. Required unless using <code class="md-github">--input</code>.</li>
+<li class="md-github"><code class="md-github">--range &lt;range&gt;</code>: Range for <code class="md-github">x</code> in the format <code class="md-github">x=min:max[:step]</code>. Required unless using <code class="md-github">--input</code>. <code class="md-github">step</code> defaults to <code class="md-github">1</code>.</li>
+<li class="md-github"><code class="md-github">--input &lt;file&gt;</code>: Path to a CSV or JSON file containing time series data. When provided, expression and range are ignored.</li>
+<li class="md-github"><code class="md-github">--input-format &lt;csv|json&gt;</code>: Override input format detection based on file extension. Optional.</li>
+<li class="md-github"><code class="md-github">--format &lt;svg|png|json|csv&gt;</code>: Specify output format. Defaults to <code class="md-github">svg</code>.</li>
+<li class="md-github"><code class="md-github">--output &lt;file&gt;</code>: Path to save the output. Optional. Defaults to stdout.</li>
+<li class="md-github"><code class="md-github">--png</code> (deprecated): Alias for <code class="md-github">--format png</code>.</li>
+<li class="md-github"><code class="md-github">--serve</code>: Enable HTTP server mode.</li>
+<li class="md-github"><code class="md-github">--port &lt;number&gt;</code>: Port for HTTP server. Defaults to <code class="md-github">3000</code>.</li>
 </ul>
-<h3 class="md-github"><a class="md-github__anchor" name="stats" href="#stats"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code class="md-github">stats</code></h3>
-<p class="md-github">Compute summary statistics or export raw data.</p>
-<p class="md-github"><strong class="md-github">Usage</strong>:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib stats [options]
+<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<p class="md-github">Generate an SVG plot from an expression and save to a file:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --expression &quot;sin(x)&quot; --range &quot;x=0:6.28:0.1&quot; --output plot.svg
 </code></pre>
-<p class="md-github"><strong class="md-github">Options</strong>:</p>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--expression &lt;function&gt;</code>       Mathematical expression in <code class="md-github">y=…</code> form (e.g., <code class="md-github">y=sin(x)</code>).</li>
-<li class="md-github"><code class="md-github">--range &lt;axis&gt;=&lt;min&gt;:&lt;max&gt;</code>    Axis range for expression mode (e.g., <code class="md-github">x=0:10</code>).</li>
-<li class="md-github"><code class="md-github">--dataFile &lt;path&gt;</code>             JSON, CSV, or YAML data file path.</li>
-<li class="md-github"><code class="md-github">--samples &lt;number&gt;</code>            Number of samples for expression mode (default: 100).</li>
-<li class="md-github"><code class="md-github">--histogram &lt;true|false&gt;</code>      Include histogram bins in summary (default: false).</li>
-<li class="md-github"><code class="md-github">--bins &lt;number&gt;</code>               Number of histogram bins (default: 10).</li>
-<li class="md-github"><code class="md-github">--trendline-stats &lt;true|false&gt;</code>Include linear regression statistics (slope, intercept, r2) (default: false).</li>
-<li class="md-github"><code class="md-github">--format &lt;json|text&gt;</code>          Output format: JSON (<code class="md-github">json</code>) or plain text (<code class="md-github">text</code>) (default: json).</li>
-<li class="md-github"><code class="md-github">--output &lt;path&gt;</code>               Write output to a file (stdout if omitted).</li>
-<li class="md-github"><code class="md-github">--export-data &lt;path|-&gt;</code>        Export raw <code class="md-github">x,y</code> data points. Provide a file path or <code class="md-github">-</code> for stdout.</li>
-<li class="md-github"><code class="md-github">--export-format &lt;csv|json|yaml&gt;</code> Serialization format for raw data export. Default inferred from file extension or <code class="md-github">json</code>.</li>
-</ul>
-<p class="md-github"><strong class="md-github">Examples</strong>:</p>
-<p class="md-github">Compute stats in JSON (default):</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib stats --expression &quot;y=x&quot; --range &quot;x=0:5&quot; --trendline-stats true --histogram true --bins 5
+<p class="md-github">Generate a PNG plot:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --expression &quot;sin(x)&quot; --range &quot;x=0:6.28:0.1&quot; --format png --output plot.png
 </code></pre>
-<p class="md-github">Export raw data to CSV:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib stats --expression &quot;y=x&quot; --range &quot;x=0:2&quot; --export-data data.csv --export-format csv
+<p class="md-github">Generate JSON data from an expression:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --expression &quot;x&quot; --range &quot;x=0:5&quot; --format json --output data.json
 </code></pre>
-<p class="md-github">Export raw data to stdout in JSON:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib stats --dataFile data.json --export-data - --export-format json
+<p class="md-github">Load data from a CSV file and generate an SVG plot:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --input data.csv --output plot.svg
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="plot" href="#plot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><code class="md-github">plot</code></h3>
-<p class="md-github">Generate a plot image using the QuickChart API.</p>
-<p class="md-github"><strong class="md-github">Usage</strong>:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib plot [options]
+<p class="md-github">Generate CSV output from JSON input:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --input data.json --format csv &gt; data.csv
 </code></pre>
-<p class="md-github"><strong class="md-github">Options</strong>:</p>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--expression &lt;function&gt;</code>       Mathematical expression in <code class="md-github">y=…</code> form (e.g., <code class="md-github">y=sin(x)</code>).</li>
-<li class="md-github"><code class="md-github">--range &lt;axis&gt;=&lt;min&gt;:&lt;max&gt;</code>    Axis range for expression mode (e.g., <code class="md-github">x=0:10</code>).</li>
-<li class="md-github"><code class="md-github">--dataFile &lt;path&gt;</code>             JSON, CSV, or YAML data file path.</li>
-<li class="md-github"><code class="md-github">--format &lt;svg|png&gt;</code>            Output image format (default: <code class="md-github">svg</code>).</li>
-<li class="md-github"><code class="md-github">--width &lt;number&gt;</code>              Image width in pixels (default: <code class="md-github">500</code>).</li>
-<li class="md-github"><code class="md-github">--height &lt;number&gt;</code>             Image height in pixels (default: <code class="md-github">300</code>).</li>
-<li class="md-github"><code class="md-github">--samples &lt;number&gt;</code>            Number of samples for expression mode (default: <code class="md-github">100</code>).</li>
-<li class="md-github"><code class="md-github">--derivative &lt;true|false&gt;</code>     Overlay first derivative curve (default: false).</li>
-<li class="md-github"><code class="md-github">--overlayTrendline &lt;true|false&gt;</code> Overlay linear regression trendline (default: false).</li>
-<li class="md-github"><code class="md-github">--palette &lt;colors&gt;</code>            Comma-separated CSS colors for series (e.g., <code class="md-github">red,green,blue</code>).</li>
-<li class="md-github"><code class="md-github">--encoding &lt;base64&gt;</code>           Base64-encode output and wrap in JSON.</li>
-<li class="md-github"><code class="md-github">--output &lt;path&gt;</code>               Write output to a file (stdout if omitted).</li>
-</ul>
-<p class="md-github"><strong class="md-github">Examples</strong>:</p>
-<p class="md-github">Generate an SVG plot:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib plot --expression &quot;y=sin(x)&quot; --range &quot;x=0:6.28&quot; --derivative true --overlayTrendline true --palette &quot;red,green&quot; --output plot.svg
+<p class="md-github">Run the HTTP server on port 4000:</p>
+<pre class="md-github"><code class="md-github language-bash">npx repository0-plot-code-lib --serve --port 4000
 </code></pre>
-<p class="md-github">Generate a PNG plot with base64 encoding:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib plot --expression &quot;y=x&quot; --range &quot;x=0:5&quot; --format png --encoding base64
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="http-server-mode" href="#http-server-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP Server Mode</h2>
-<p class="md-github">Start an HTTP server exposing <code class="md-github">/stats</code> and <code class="md-github">/plot</code> endpoints:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --serve 3000
-</code></pre>
-<p class="md-github">Once running, CORS is enabled (<code class="md-github">Access-Control-Allow-Origin: *</code>).</p>
-<h3 class="md-github"><a class="md-github__anchor" name="get-stats" href="#get-stats"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GET <code class="md-github">/stats</code></h3>
-<p class="md-github">Compute summary statistics for a data series derived from an expression or data file.</p>
-<p class="md-github"><strong class="md-github">Query parameters</strong>:</p>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">expression</code> (required unless <code class="md-github">dataFile</code> provided): Function expression in <code class="md-github">y=…</code> form.</li>
-<li class="md-github"><code class="md-github">range</code> (required with <code class="md-github">expression</code>): Axis range in <code class="md-github">axis=min:max</code> format.</li>
-<li class="md-github"><code class="md-github">dataFile</code> (required unless <code class="md-github">expression</code> provided): Path to a JSON, CSV, or YAML file.</li>
-<li class="md-github"><code class="md-github">samples</code> (optional): Number of sample points (default: <code class="md-github">100</code>).</li>
-<li class="md-github"><code class="md-github">json</code> (optional): <code class="md-github">true|false</code> (default: <code class="md-github">true</code>).</li>
-<li class="md-github"><code class="md-github">histogram</code> (optional): <code class="md-github">true|false</code> (default: <code class="md-github">false</code>).</li>
-<li class="md-github"><code class="md-github">bins</code> (optional): Number of histogram bins (default: 10).</li>
-<li class="md-github"><code class="md-github">trendlineStats</code> (optional): <code class="md-github">true|false</code> to include regression parameters (default: false).</li>
-</ul>
-<p class="md-github"><strong class="md-github">Response</strong>:</p>
-<ul class="md-github">
-<li class="md-github">JSON (<code class="md-github">application/json</code>) when <code class="md-github">json=true</code> (default).</li>
-<li class="md-github">Plain text (<code class="md-github">text/plain</code>) when <code class="md-github">json=false</code>.</li>
-</ul>
-<p class="md-github"><strong class="md-github">Examples</strong>:</p>
-<pre class="md-github"><code class="md-github language-sh">curl &quot;http://localhost:3000/stats?expression=y%3Dx&amp;range=x%3D0:5&amp;json=false&quot;
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="get-plot" href="#get-plot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GET <code class="md-github">/plot</code></h3>
-<p class="md-github">Generate a plot image (SVG or PNG).</p>
-<p class="md-github"><strong class="md-github">Query parameters</strong>:</p>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">expression</code> (required unless <code class="md-github">dataFile</code> provided).</li>
-<li class="md-github"><code class="md-github">range</code> (required with <code class="md-github">expression</code>).</li>
-<li class="md-github"><code class="md-github">dataFile</code> (required unless <code class="md-github">expression</code> provided).</li>
-<li class="md-github"><code class="md-github">format</code> (optional): <code class="md-github">svg|png</code> (default: <code class="md-github">svg</code>).</li>
-<li class="md-github"><code class="md-github">width</code> (optional): Image width (default: <code class="md-github">500</code>).</li>
-<li class="md-github"><code class="md-github">height</code> (optional): Image height (default: <code class="md-github">300</code>).</li>
-<li class="md-github"><code class="md-github">samples</code> (optional): Sample count (default: <code class="md-github">100</code>).</li>
-<li class="md-github"><code class="md-github">derivative</code> (optional): <code class="md-github">true|false</code>.</li>
-<li class="md-github"><code class="md-github">overlayTrendline</code> (optional): <code class="md-github">true|false</code>.</li>
-<li class="md-github"><code class="md-github">palette</code> (optional): Comma-separated colors.</li>
-<li class="md-github"><code class="md-github">encoding</code> (optional): <code class="md-github">base64</code>.</li>
-</ul>
-<p class="md-github"><strong class="md-github">Response</strong>:</p>
-<ul class="md-github">
-<li class="md-github">Raw SVG (<code class="md-github">image/svg+xml</code>) or PNG (<code class="md-github">image/png</code>) when no <code class="md-github">encoding</code>.</li>
-<li class="md-github">JSON (<code class="md-github">application/json</code>) when <code class="md-github">encoding=base64</code>.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="mission" href="#mission"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mission</h2>
-<p class="md-github">Show mission statement:</p>
-<pre class="md-github"><code class="md-github language-sh">repository0-plot-code-lib --mission
+<p class="md-github">Access the <code class="md-github">/plot</code> endpoint:</p>
+<pre class="md-github"><code class="md-github language-bash">curl &quot;http://localhost:4000/plot?expression=x&amp;range=x=0:5:1&amp;format=csv&quot; &gt; data.csv
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-05-17T10:36:44.008Z</p>
+    <p>Generated on 2025-05-18T10:36:28.511Z</p>
   </footer>
 </body>
 </html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="express_api" href="#express_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESS_API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">express() top-level creates app. Built-in body parsers: json, raw, text, urlencoded with models of options: inflate (true), limit ('100kb'), type (content-type match), verify callback. Router options: caseSensitive (false), mergeParams (false), strict (false). static(root, options): dotfiles, etag, extensions, fallthrough, immutable, index, lastModified, maxAge, redirect, setHeaders. app methods: use, METHODS (get, post, put, delete, all, param, engine, listen, set, get, enable, disable). Default settings: case sensitive routing undefined, env 'development', etag 'weak', jsonp callback 'callback', query parser 'extended', strict routing undefined, subdomain offset 2, trust proxy false, views 'cwd/views', view cache prod.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">express() Initialization</p>
+</li>
+<li class="md-github">
+<p class="md-github">Built-in Middleware
+2.1 json(options)
+2.2 raw(options)
+2.3 text(options)
+2.4 urlencoded(options)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Router Creation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Static File Serving</p>
+</li>
+<li class="md-github">
+<p class="md-github">Application Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Application Settings</p>
+</li>
+<li class="md-github">
+<p class="md-github">express() Initialization
+Signature: var express = require('express'); var app = express();
+Creates an Express application function that handles requests.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Built-in Middleware
+2.1 json(options)
+Signature: express.json({inflate:boolean=true, limit:number|string='100kb', reviver:Function|null=null, strict:boolean=true, type:string|string[]|Function='application/json', verify:Function|undefined});</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Parses JSON bodies matching Content-Type. Populates req.body Object or {}.</li>
+<li class="md-github">gzip/deflate inflation enabled. verify(req,res,buf,encoding) may throw to abort.</li>
+</ul>
+<p class="md-github">2.2 raw(options)
+Signature: express.raw({inflate:boolean=true, limit:number|string='100kb', type:string|string[]|Function='application/octet-stream', verify:Function|undefined});</p>
+<ul class="md-github">
+<li class="md-github">Populates req.body Buffer. validate Buffer before use.</li>
+</ul>
+<p class="md-github">2.3 text(options)
+Signature: express.text({defaultCharset:string='utf-8', inflate:boolean=true, limit:number|string='100kb', type:string|string[]|Function='text/plain', verify:Function|undefined});</p>
+<ul class="md-github">
+<li class="md-github">Populates req.body string.</li>
+</ul>
+<p class="md-github">2.4 urlencoded(options)
+Signature: express.urlencoded({extended:boolean=true, inflate:boolean=true, limit:number|string='100kb', parameterLimit:number=1000, type:string|string[]|Function='application/x-www-form-urlencoded', verify:Function|undefined});</p>
+<ul class="md-github">
+<li class="md-github">Populates req.body Object. extended=false uses querystring, true uses qs.</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Router Creation
+Signature: express.Router({caseSensitive:boolean=false, mergeParams:boolean=false, strict:boolean=false});</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Returns router for grouping routes and middleware.</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Static File Serving
+Signature: express.static(root:string, {dotfiles:'allow'|'deny'|'ignore'=undefined, etag:boolean=true, extensions:string[]|false=false, fallthrough:boolean=true, immutable:boolean=false, index:string|string[]|false='index.html', lastModified:boolean=true, maxAge:number|string=0, redirect:boolean=true, setHeaders:function(res,path,stat)});</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Combines req.url with root to locate file. Errors fallthrough or sent.</li>
+<li class="md-github">dotfiles: allow/deny/ignore. fallthrough: true calls next(); false next(err).</li>
+<li class="md-github">setHeaders(res,path,stat) sets headers synchronously.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Application Methods
+app.METHOD(path, ...callbacks)</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">path: string|RegExp|Array; callbacks: middleware functions. Returns app.
+app.all(path, ...)
+app.use([path], middleware)
+app.param(name|string[] , callback(req,res,next,value,name))
+app.engine(ext, callback(path, options, cb))
+app.listen([port[, host[, backlog]]], [callback]) =&gt; http.Server
+app.set(name, value), app.get(name)
+app.enable(name), app.disable(name), app.enabled(name), app.disabled(name)</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Application Settings
+case sensitive routing: undefined
+env: process.env.NODE_ENV||'development'
+etag: 'weak'
+jsonp callback name: 'callback'
+json escape: undefined
+json replacer: undefined
+json spaces: undefined
+query parser: 'extended'
+strict routing: undefined
+subdomain offset: 2
+trust proxy: false
+views: process.cwd() + '/views'
+view cache: NODE_ENV==='production'</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<ul class="md-github">
+<li class="md-github">For json, raw, text, urlencoded: Content-Type matching uses type-is library. type option accepts string, array, or fn(req).</li>
+<li class="md-github">limit accepts bytes or string parsed by bytes library.</li>
+<li class="md-github">verify signature: function(req, res, buf:Buffer, encoding:string) =&gt; void; throw Error to abort.</li>
+<li class="md-github">Router mergeParams preserves parent req.params on child.</li>
+<li class="md-github">static: maxAge sets Cache-Control:max-age in ms or '1d' etc.</li>
+<li class="md-github">immutable adds Cache-Control: immutable directive; works only if maxAge &gt; 0.</li>
+<li class="md-github">When static 'redirect' false, directory URLs without slash won't redirect.</li>
+<li class="md-github">setHeaders called before headers sent.</li>
+<li class="md-github">app.listen returns http.Server. Accepts any signature https://nodejs.org/api/net.html#serverlisten.</li>
+<li class="md-github">app.engine mapping: ext and .__express or custom.</li>
+<li class="md-github">app.param callback ordering: triggers per parameter once per request.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">--- express.json ---
+Signature: express.json(options) -&gt; RequestHandler
+Options:
+inflate: boolean = true
+limit: number|string = '100kb'
+reviver: Function|null = null
+strict: boolean = true
+type: string|string[]|Function = 'application/json'
+verify: (req:Request, res:Response, buf:Buffer, encoding:string) =&gt; void
+Returns: function(req, res, next)
+Behavior: parse JSON; req.body = parsed object or {}.</p>
+<p class="md-github">Example:
+app.use(express.json({limit:'1mb', strict:false, verify:(req,res,buf,enc)=&gt;{if(buf.length&gt;1e6) throw new Error('Payload too large');}}));</p>
+<p class="md-github">Troubleshoot:
+command: curl -X POST -H 'Content-Type: application/json' -d '{malformed}' http://localhost:3000/endpoint
+expected: HTTP 400 with SyntaxError message.</p>
+<p class="md-github">--- express.static ---
+Signature: express.static(root, options) -&gt; RequestHandler
+Options:
+dotfiles: 'allow'|'deny'|'ignore'
+etag: boolean = true
+extensions: string[]|false = false
+fallthrough: boolean = true
+immutable: boolean = false
+index: string|string[]|false = 'index.html'
+lastModified: boolean = true
+maxAge: number|string = 0
+redirect: boolean = true
+setHeaders: (res:Response, path:string, stat:fs.Stats) =&gt; void
+Behavior: serve files; errors or next().
+Example:
+var options = {
+dotfiles: 'deny',
+etag: false,
+extensions: ['htm','html'],
+index: false,
+maxAge: '1d',
+redirect: false,
+setHeaders: function(res,path,stat){ res.set('x-timestamp',Date.now()); }
+};
+app.use('/static', express.static('public', options));</p>
+<p class="md-github">Troubleshoot:
+command: curl -I http://localhost:3000/static/file.txt
+expected headers: Cache-Control: public, max-age=86400</p>
+<p class="md-github">--- Routing Methods ---
+Signature: app.get(path, ...callbacks)
+path: string|RegExp|Array
+callbacks: (req, res, next) =&gt; void
+Example:
+app.all('/api/*', requireAuth, loadUser);</p>
+<p class="md-github">--- app.listen ---
+Signature: app.listen(port?:number, host?:string, backlog?:number, callback?:() =&gt; void) -&gt; http.Server
+Example:
+var server = app.listen(0, '127.0.0.1', undefined, () =&gt; { console.log('Listening'); });
+server.address(); // { port: ..., family:'IPv4', address:'127.0.0.1' }</p>
+<p class="md-github">--- Best Practices ---</p>
+<ul class="md-github">
+<li class="md-github">Validate req.body before use.</li>
+<li class="md-github">Use helmet middleware for security.</li>
+<li class="md-github">Enable production settings: app.set('view cache', true); app.enable('trust proxy');</li>
+</ul>
+<p class="md-github">--- Troubleshooting ---</p>
+<ul class="md-github">
+<li class="md-github">Check Content-Type header.</li>
+<li class="md-github">Use debug('express:router')=true env var for routing logs.</li>
+<li class="md-github">Trace static middleware with morgan logging.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">express(): app function; use with http.createServer.
+json(options): inflate=true,limit='100kb',reviver,null,strict=true,type='application/json',verify fn; parses JSON into req.body.
+raw(options): inflate=true,limit='100kb',type='application/octet-stream',verify fn; populates Buffer.
+text(options): defaultCharset='utf-8',inflate=true,limit='100kb',type='text/plain',verify fn; populates String.
+urlencoded(options): extended=true,inflate=true,limit='100kb',parameterLimit=1000,type='application/x-www-form-urlencoded',verify fn; populates Object.
+Router(opts): caseSensitive=false,mergeParams=false,strict=false.
+static(root,opts): dotfiles='ignore',etag=true,extensions=false,fallthrough=true,immutable=false,index='index.html',lastModified=true,maxAge=0,redirect=true,setHeaders fn.
+app.VERB(path,callbacks): path: string|RegExp|Array; callbacks: middleware.
+app.use(path?,middleware)
+app.param(name|[],fn(req,res,next,val,name))
+app.engine(ext,(path,opts,cb))
+app.listen(port?,host?,backlog?,cb)-&gt;http.Server
+app.set/get(name),app.enable/disable(name),app.enabled/disabled(name)
+Settings defaults: case sensitive routing undefined; env 'development'; etag 'weak'; jsonp cb 'callback'; query parser 'extended'; strict routing undefined; subdomain offset=2; trust proxy=false; views cwd+'/views'; view cache true in production.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">express() Initialization</p>
+</li>
+<li class="md-github">
+<p class="md-github">Built-in Middleware
+2.1 json(options)
+2.2 raw(options)
+2.3 text(options)
+2.4 urlencoded(options)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Router Creation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Static File Serving</p>
+</li>
+<li class="md-github">
+<p class="md-github">Application Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Application Settings</p>
+</li>
+<li class="md-github">
+<p class="md-github">express() Initialization
+Signature: var express = require('express'); var app = express();
+Creates an Express application function that handles requests.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Built-in Middleware
+2.1 json(options)
+Signature: express.json({inflate:boolean=true, limit:number|string='100kb', reviver:Function|null=null, strict:boolean=true, type:string|string[]|Function='application/json', verify:Function|undefined});</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Parses JSON bodies matching Content-Type. Populates req.body Object or {}.</li>
+<li class="md-github">gzip/deflate inflation enabled. verify(req,res,buf,encoding) may throw to abort.</li>
+</ul>
+<p class="md-github">2.2 raw(options)
+Signature: express.raw({inflate:boolean=true, limit:number|string='100kb', type:string|string[]|Function='application/octet-stream', verify:Function|undefined});</p>
+<ul class="md-github">
+<li class="md-github">Populates req.body Buffer. validate Buffer before use.</li>
+</ul>
+<p class="md-github">2.3 text(options)
+Signature: express.text({defaultCharset:string='utf-8', inflate:boolean=true, limit:number|string='100kb', type:string|string[]|Function='text/plain', verify:Function|undefined});</p>
+<ul class="md-github">
+<li class="md-github">Populates req.body string.</li>
+</ul>
+<p class="md-github">2.4 urlencoded(options)
+Signature: express.urlencoded({extended:boolean=true, inflate:boolean=true, limit:number|string='100kb', parameterLimit:number=1000, type:string|string[]|Function='application/x-www-form-urlencoded', verify:Function|undefined});</p>
+<ul class="md-github">
+<li class="md-github">Populates req.body Object. extended=false uses querystring, true uses qs.</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Router Creation
+Signature: express.Router({caseSensitive:boolean=false, mergeParams:boolean=false, strict:boolean=false});</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Returns router for grouping routes and middleware.</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Static File Serving
+Signature: express.static(root:string, {dotfiles:'allow'|'deny'|'ignore'=undefined, etag:boolean=true, extensions:string[]|false=false, fallthrough:boolean=true, immutable:boolean=false, index:string|string[]|false='index.html', lastModified:boolean=true, maxAge:number|string=0, redirect:boolean=true, setHeaders:function(res,path,stat)});</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Combines req.url with root to locate file. Errors fallthrough or sent.</li>
+<li class="md-github">dotfiles: allow/deny/ignore. fallthrough: true calls next(); false next(err).</li>
+<li class="md-github">setHeaders(res,path,stat) sets headers synchronously.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Application Methods
+app.METHOD(path, ...callbacks)</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">path: string|RegExp|Array; callbacks: middleware functions. Returns app.
+app.all(path, ...)
+app.use([path], middleware)
+app.param(name|string[] , callback(req,res,next,value,name))
+app.engine(ext, callback(path, options, cb))
+app.listen([port[, host[, backlog]]], [callback]) =&gt; http.Server
+app.set(name, value), app.get(name)
+app.enable(name), app.disable(name), app.enabled(name), app.disabled(name)</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Application Settings
+case sensitive routing: undefined
+env: process.env.NODE_ENV||'development'
+etag: 'weak'
+jsonp callback name: 'callback'
+json escape: undefined
+json replacer: undefined
+json spaces: undefined
+query parser: 'extended'
+strict routing: undefined
+subdomain offset: 2
+trust proxy: false
+views: process.cwd() + '/views'
+view cache: NODE_ENV==='production'</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Express.js Web Framework
+https://expressjs.com/en/4x/api.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-express_api" href="#digest-of-express_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPRESS_API</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="express-4x-api-reference-retrieved-2023-11-24" href="#express-4x-api-reference-retrieved-2023-11-24"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express 4.x API Reference (Retrieved: 2023-11-24)</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="express" href="#express"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express()</h2>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">var express = require('express');
+var app = express();
+</code></pre>
+<p class="md-github">Creates an Express application.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="built-in-middleware" href="#built-in-middleware"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Built-in Middleware:</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="expressjsonoptions" href="#expressjsonoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.json([options])</h3>
+<p class="md-github">Availability: v4.16.0+</p>
+<p class="md-github">Parses JSON payloads into req.body (Object). Based on body-parser.</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">express.json(options?: {
+  inflate?: boolean;          // default true
+  limit?: number|string;      // default '100kb'
+  reviver?: Function|null;    // passed to JSON.parse
+  strict?: boolean;           // default true
+  type?: string|string[]|Function;  // default 'application/json'
+  verify?: (req, res, buf, encoding) =&gt; void; // optional
+}): RequestHandler
+</code></pre>
+<p class="md-github">Behavior:</p>
+<ul class="md-github">
+<li class="md-github">Only parses requests where Content-Type matches <code class="md-github">type</code>.</li>
+<li class="md-github">Populates req.body with parsed object or {}.</li>
+<li class="md-github">Supports gzip/deflate.</li>
+<li class="md-github">Throws on invalid JSON.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="expressrawoptions" href="#expressrawoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.raw([options])</h3>
+<p class="md-github">Availability: v4.17.0+</p>
+<p class="md-github">Parses bodies into Buffer on req.body.</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">express.raw(options?: {
+  inflate?: boolean;        // default true
+  limit?: number|string;    // default '100kb'
+  type?: string|string[]|Function;  // default 'application/octet-stream'
+  verify?: (req, res, buf, encoding) =&gt; void; // optional
+}): RequestHandler
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="expresstextoptions" href="#expresstextoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.text([options])</h3>
+<p class="md-github">Availability: v4.17.0+</p>
+<p class="md-github">Parses bodies into string on req.body.</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">express.text(options?: {
+  defaultCharset?: string;  // default 'utf-8'
+  inflate?: boolean;        // default true
+  limit?: number|string;    // default '100kb'
+  type?: string|string[]|Function;  // default 'text/plain'
+  verify?: (req, res, buf, encoding) =&gt; void; // optional
+}): RequestHandler
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="expressurlencodedoptions" href="#expressurlencodedoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.urlencoded([options])</h3>
+<p class="md-github">Availability: v4.16.0+</p>
+<p class="md-github">Parses urlencoded bodies into req.body (Object).</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">express.urlencoded(options?: {
+  extended?: boolean;       // default true
+  inflate?: boolean;        // default true
+  limit?: number|string;    // default '100kb'
+  parameterLimit?: number;  // default 1000
+  type?: string|string[]|Function;  // default 'application/x-www-form-urlencoded'
+  verify?: (req, res, buf, encoding) =&gt; void; // optional
+}): RequestHandler
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="expressrouteroptions" href="#expressrouteroptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.Router([options])</h3>
+<p class="md-github">Creates a router.</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">var router = express.Router(options?: {
+  caseSensitive?: boolean;  // default false
+  mergeParams?: boolean;     // default false  (v4.5.0+)
+  strict?: boolean;          // default false
+});
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="expressstaticroot-options" href="#expressstaticroot-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>express.static(root, [options])</h3>
+<p class="md-github">Serves static assets.</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">express.static(root: string, options?: {
+  dotfiles?: 'allow'|'deny'|'ignore';  // default undefined
+  etag?: boolean;          // default true (weak ETag)
+  extensions?: string[]|false;  // default false
+  fallthrough?: boolean;    // default true
+  immutable?: boolean;      // default false
+  index?: string|string[]|false;  // default 'index.html'
+  lastModified?: boolean;   // default true
+  maxAge?: number|string;   // default 0
+  redirect?: boolean;       // default true
+  setHeaders?: (res, path, stat) =&gt; void; // optional
+}): RequestHandler
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="routing--application-methods" href="#routing--application-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Routing &amp; Application Methods</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="appmethodpath-callbacks" href="#appmethodpath-callbacks"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.METHOD(path, ...callbacks)</h3>
+<p class="md-github">Registers route handlers for HTTP METHOD (lowercase).</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">app.get(path: string|RegExp|Array, ...callbacks: Function[]): Application;
+app.post(...)
+app.put(...)
+app.delete(...)
+app.all(path, ...callbacks);
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="appparamnamenames-callback" href="#appparamnamenames-callback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.param(name|names, callback)</h3>
+<p class="md-github">Registers parameter middleware.</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">app.param(name: string, fn: (req, res, next, value, name) =&gt; void);
+app.param(names: string[], fn);
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="appusepath-middleware" href="#appusepath-middleware"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.use([path], middleware)</h3>
+<p class="md-github">Registers middleware or sub-apps.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="applistenport-host-backlog-callback" href="#applistenport-host-backlog-callback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.listen([port[, host[, backlog]]], [callback])</h3>
+<p class="md-github">Starts HTTP server. Returns http.Server.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="appengineext-callback" href="#appengineext-callback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.engine(ext, callback)</h3>
+<p class="md-github">Registers template engine.</p>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-javascript">app.engine(ext: string, fn: (path: string, options: object, callback: (err, rendered) =&gt; void) =&gt; void);
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="appsetname-value--appgetname" href="#appsetname-value--appgetname"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.set(name, value) / app.get(name)</h3>
+<p class="md-github">Configures application settings.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="appenablename--appdisablename" href="#appenablename--appdisablename"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>app.enable(name) / app.disable(name)</h3>
+<p class="md-github">Sets Boolean settings.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="application-settings-defaults" href="#application-settings-defaults"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Application Settings (defaults)</h2>
+<p class="md-github">case sensitive routing: undefined
+env: process.env.NODE_ENV || 'development'
+etag: 'weak'
+jsonp callback name: 'callback'
+query parser: 'extended'
+strict routing: undefined
+subdomain offset: 2
+trust proxy: false
+views: process.cwd() + '/views'
+view cache: NODE_ENV === 'production'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="static-options-dotfiles-fallthrough-immutable-behavior-setheaders-signature" href="#static-options-dotfiles-fallthrough-immutable-behavior-setheaders-signature"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Static Options: dotfiles, fallthrough, immutable behavior, setHeaders signature</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="json-middleware-options-table-inflate-limit-reviver-strict-type-verify" href="#json-middleware-options-table-inflate-limit-reviver-strict-type-verify"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSON middleware options table (inflate, limit, reviver, strict, type, verify)</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Express.js Web Framework</li>
+<li class="md-github">URL: https://expressjs.com/en/4x/api.html</li>
+<li class="md-github">License: License</li>
+<li class="md-github">Crawl Date: 2025-05-18T06:31:30.527Z</li>
+<li class="md-github">Data Size: 29716450 bytes</li>
+<li class="md-github">Links Found: 22980</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-18</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-18T10:36:28.061Z</p>
+  </footer>
+</body>
+</html>

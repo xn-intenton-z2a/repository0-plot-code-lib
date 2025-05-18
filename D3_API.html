@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="d3_api" href="#d3_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>D3_API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Selection API: select, selectAll, append. Scale API: scaleLinear (domain, range, clamp, interpolate, ticks, tickFormat), scaleTime. Axis API: axisBottom, axisLeft with ticks, tickSize, tickPadding, tickFormat. Shape Generators: line (x, y, curve, defined, context), arc (innerRadius, outerRadius, startAngle, endAngle, padAngle). Fetch: csv parsing with Promise. Transitions: duration, delay, ease, attr, style.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Selection API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Scale API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Axis API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shape Generators</p>
+</li>
+<li class="md-github">
+<p class="md-github">Data Loading</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transitions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Selection API
+• d3.select(selector: string):Selection — Single-element selection
+• d3.selectAll(selector: string):Selection — Multi-element selection
+• selection.append(name: string):Selection — Append child element</p>
+</li>
+<li class="md-github">
+<p class="md-github">Scale API
+• d3.scaleLinear():ScaleLinear — linear mapping domain→range; default domain [0,1], range [0,1]
+Methods:
+domain([number…]):ScaleLinear
+range([number…]):ScaleLinear
+clamp(boolean):ScaleLinear
+interpolate(function):ScaleLinear
+ticks(count:number):number[]
+tickFormat(count:number, specifier?:string):(d:number)=&gt;string
+• d3.scaleTime():ScaleTime — domain &amp; range accept Date; inherits all ScaleLinear methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Axis API
+• d3.axisBottom(scale:Scale):Axis — orientation bottom
+• d3.axisLeft(scale:Scale):Axis — orientation left
+Axis Methods:
+ticks(count:number, specifier?:string):Axis
+tickSize(size:number):Axis
+tickPadding(padding:number):Axis
+tickFormat(format:function|string):Axis</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shape Generators
+• d3.line():LineGenerator — create path from points
+Methods:
+x(fn:(d,D,i)=&gt;number):LineGenerator
+y(fn:(d,D,i)=&gt;number):LineGenerator
+curve(curveFactory):LineGenerator
+defined(fn:(d,D,i)=&gt;boolean):LineGenerator
+context(ctx:CanvasRenderingContext2D):LineGenerator
+• d3.arc():ArcGenerator — create arc path
+Methods:
+innerRadius(number|function):ArcGenerator
+outerRadius(number|function):ArcGenerator
+startAngle(number|function):ArcGenerator
+endAngle(number|function):ArcGenerator
+padAngle(number|function):ArcGenerator</p>
+</li>
+<li class="md-github">
+<p class="md-github">Data Loading
+• d3.csv(url:string, row?:function, callback?:function):Promise&lt;object[]&gt; — fetch CSV, parse rows, optional conversion, callback support</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transitions
+• selection.transition(name?:string):Transition — schedule tweening
+Methods:
+duration(ms:number):Transition
+delay(ms:number):Transition
+ease(name:string):Transition
+attr(name:string, value:any|function):Transition
+style(name:string, value:any|function):Transition</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Scale Default Values: domain=[0,1], range=[0,1], clamp=false, interpolate=d3.interpolate. Axis Default Values: tickSize=6, tickPadding=3, tickFormat=scale.tickFormat(10). Fetch Options: row conversion receives (row:Object,i:number)=&gt;Object. Transitions: default duration=250ms, default ease=&quot;cubic-in-out&quot;.</p>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Include <script src="https://d3js.org/d3.v7.min.js"></script></li>
+<li class="md-github">Create SVG: const svg = d3.select('body').append('svg').attr('width',800).attr('height',600);</li>
+<li class="md-github">Define scale: const x = d3.scaleLinear().domain([0,100]).range([0,800]);</li>
+<li class="md-github">Generate axis: const axis = d3.axisBottom(x).ticks(5);</li>
+<li class="md-github">Append axis: svg.append('g').attr('transform','translate(0,550)').call(axis);</li>
+<li class="md-github">Load data: d3.csv('data.csv', d=&gt;({x:+d.x,y:+d.y})).then(data=&gt;{ /* use data */ });</li>
+<li class="md-github">Draw line: const line = d3.line().x(d=&gt;x(d.x)).y(d=&gt;y(d.y)); svg.append('path').datum(data).attr('d',line).attr('fill','none').attr('stroke','#333');</li>
+<li class="md-github">Add transition: svg.selectAll('circle').data(data).enter().append('circle').attr('r',0).transition().duration(500).attr('r',4);</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Signatures:</p>
+<p class="md-github">// Selection
+select(selector: string):Selection&lt;SVGElement, any, HTMLElement, any&gt;
+selectAll(selector: string):Selection&lt;SVGElement, any, HTMLElement, any&gt;
+Selection.append(name: string):Selection&lt;SVGElement, any, SVGElement, any&gt;</p>
+<p class="md-github">// Scales
+scaleLinear():ScaleLinear&lt;number,number&gt;
+ScaleLinear.domain(domain: [number,number] | number[]):this
+ScaleLinear.range(range: [number,number] | number[]):this
+ScaleLinear.clamp(clamp: boolean):this
+ScaleLinear.interpolate(interpolate: (a:any,b:any)=&gt;any):this
+ScaleLinear.ticks(count?: number): number[]
+ScaleLinear.tickFormat(count?:number, specifier?:string): (d:number)=&gt;string</p>
+<p class="md-github">scaleTime():ScaleTime&lt;Date,number&gt;
+ScaleTime.domain(domain: [Date,Date]):this
+ScaleTime.range(range: [number,number] | number[]):this</p>
+<p class="md-github">// Axes
+axisBottom(scale: Scale): Axis<Domain>
+axisLeft(scale: Scale): Axis<Domain>
+Axis.ticks(count?:number, specifier?:string):this
+Axis.tickSize(size: number):this
+Axis.tickPadding(padding: number):this
+Axis.tickFormat(format: string | ((d:any,i:number)=&gt;string)):this</p>
+<p class="md-github">// Line Generator
+line(): Line&lt;[number,number]&gt;
+Line.x(accessor: (d:any,i:number)=&gt;number):this
+Line.y(accessor: (d:any,i:number)=&gt;number):this
+Line.curve(curveFactory: CurveFactory):this
+Line.defined(accessor: (d:any,i:number)=&gt;boolean):this
+Line.context(context: CanvasRenderingContext2D):this</p>
+<p class="md-github">// Arc Generator
+arc(): Arc<any>
+Arc.innerRadius(radius: number|function):this
+Arc.outerRadius(radius: number|function):this
+Arc.startAngle(angle: number|function):this
+Arc.endAngle(angle: number|function):this
+Arc.padAngle(angle: number|function):this</p>
+<p class="md-github">// CSV
+csv(url: string, row?: (row:Object,i:number)=&gt;any, callback?: (error:any,data:any)=&gt;void): Promise&lt;any[]&gt;</p>
+<p class="md-github">// Transitions
+transition(name?: string): Transition
+Transition.duration(duration: number):this
+Transition.delay(delay: number):this
+Transition.ease(ease: string | (t:number)=&gt;number):this
+Transition.attr(name: string, value: any | ((d:any,i:number)=&gt;any)):this
+Transition.style(name: string, value: any | ((d:any,i:number)=&gt;any), priority?: string):this</p>
+<p class="md-github">Code Examples:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Linear Scale &amp; Axis
+const x = d3.scaleLinear().domain([0,100]).range([0,400]).clamp(true);
+const xAxis = d3.axisBottom(x).ticks(5).tickSize(10).tickPadding(5).tickFormat(d3.format(&quot;,.0f&quot;));
+svg.append('g').attr('transform','translate(50,300)').call(xAxis);</p>
+</li>
+<li class="md-github">
+<p class="md-github">Line Chart
+const line = d3.line().x(d=&gt;x(d.x)).y(d=&gt;y(d.y)).curve(d3.curveMonotoneX);
+svg.append('path').datum(data).attr('d',line).attr('stroke','steelblue').attr('fill','none');</p>
+</li>
+<li class="md-github">
+<p class="md-github">CSV Loading
+console.log('Loading data');
+d3.csv('data.csv', d=&gt;({x:+d.x,y:+d.y})).then(data=&gt;console.log(data));</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transition Example
+svg.selectAll('rect').data(data).enter().append('rect')
+.attr('height',0).transition('grow').duration(800).ease('bounce')
+.attr('height',d=&gt;y(d.value));</p>
+</li>
+</ol>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">scaleLinear.domain: default [0,1]</li>
+<li class="md-github">scaleLinear.range: default [0,1]</li>
+<li class="md-github">scaleLinear.clamp: default false</li>
+<li class="md-github">axis.tickSize: default 6</li>
+<li class="md-github">axis.tickPadding: default 3</li>
+<li class="md-github">transition.duration: default 250</li>
+<li class="md-github">transition.ease: default cubic-in-out</li>
+</ul>
+<p class="md-github">Best Practices:
+• Always set explicit domain and range on scales.
+• Use .nice() on scales after domain for rounded ticks: scale.nice(5).
+• Use curve factories for smooth lines: d3.curveBasis, d3.curveMonotoneX.
+• Reuse scales and axes for performance.</p>
+<p class="md-github">Troubleshooting:</p>
+<ol class="md-github">
+<li class="md-github">Verify d3 version: console.log(d3.version) // expect &quot;7.x&quot;</li>
+<li class="md-github">Check selection length: console.log(selection.size()) // &gt;0</li>
+<li class="md-github">Ensure SVG namespace: document.createElementNS('http://www.w3.org/2000/svg','svg')</li>
+<li class="md-github">Use browser devtools to inspect path 'd' attribute for syntax errors.</li>
+<li class="md-github">If CSV fails, check CORS and network: curl -I https://example.com/data.csv
+Expected 200 OK.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">select(selector):Selection; selectAll(selector):Selection; append(name):Selection. scaleLinear():domain([0,1])-&gt;range([0,1])-&gt;clamp(false)-&gt;interpolate(d3.interpolate)-&gt;ticks(10)-&gt;tickFormat(count,fmt). scaleTime():Date domain. axisBottom(scale)-&gt;ticks( count,fmt )-&gt;tickSize(6)-&gt;tickPadding(3)-&gt;tickFormat(fmt). line():x(fn)-&gt;y(fn)-&gt;curve(factory)-&gt;defined(fn)-&gt;context(ctx). arc():innerRadius(r)-&gt;outerRadius(r)-&gt;startAngle(a)-&gt;endAngle(a)-&gt;padAngle(a). csv(url,row)-&gt;Promise&lt;Object[]&gt;. transition(name)-&gt;duration(ms)-&gt;delay(ms)-&gt;ease(name)-&gt;attr(name,val)-&gt;style(name,val). defaults: scale.domain[0,1],range[0,1],clamp false,nice optional; axis.tickSize6,tickPadding3; transition.duration250,ease cubic-in-out. code: const svg=d3.select('body').append('svg').attr('width',W).attr('height',H); const x=d3.scaleLinear().domain([0,max]).range([0,W]); svg.append('g').attr('transform',t).call(d3.axisBottom(x)); d3.csv(url,d).then(data=&gt;{/<em class="md-github">draw</em>/});</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Selection API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Scale API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Axis API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shape Generators</p>
+</li>
+<li class="md-github">
+<p class="md-github">Data Loading</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transitions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Selection API
+d3.select(selector: string):Selection  Single-element selection
+d3.selectAll(selector: string):Selection  Multi-element selection
+selection.append(name: string):Selection  Append child element</p>
+</li>
+<li class="md-github">
+<p class="md-github">Scale API
+d3.scaleLinear():ScaleLinear  linear mapping domainrange; default domain [0,1], range [0,1]
+Methods:
+domain([number]):ScaleLinear
+range([number]):ScaleLinear
+clamp(boolean):ScaleLinear
+interpolate(function):ScaleLinear
+ticks(count:number):number[]
+tickFormat(count:number, specifier?:string):(d:number)=&gt;string
+d3.scaleTime():ScaleTime  domain &amp; range accept Date; inherits all ScaleLinear methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Axis API
+d3.axisBottom(scale:Scale):Axis  orientation bottom
+d3.axisLeft(scale:Scale):Axis  orientation left
+Axis Methods:
+ticks(count:number, specifier?:string):Axis
+tickSize(size:number):Axis
+tickPadding(padding:number):Axis
+tickFormat(format:function|string):Axis</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shape Generators
+d3.line():LineGenerator  create path from points
+Methods:
+x(fn:(d,D,i)=&gt;number):LineGenerator
+y(fn:(d,D,i)=&gt;number):LineGenerator
+curve(curveFactory):LineGenerator
+defined(fn:(d,D,i)=&gt;boolean):LineGenerator
+context(ctx:CanvasRenderingContext2D):LineGenerator
+d3.arc():ArcGenerator  create arc path
+Methods:
+innerRadius(number|function):ArcGenerator
+outerRadius(number|function):ArcGenerator
+startAngle(number|function):ArcGenerator
+endAngle(number|function):ArcGenerator
+padAngle(number|function):ArcGenerator</p>
+</li>
+<li class="md-github">
+<p class="md-github">Data Loading
+d3.csv(url:string, row?:function, callback?:function):Promise&lt;object[]&gt;  fetch CSV, parse rows, optional conversion, callback support</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transitions
+selection.transition(name?:string):Transition  schedule tweening
+Methods:
+duration(ms:number):Transition
+delay(ms:number):Transition
+ease(name:string):Transition
+attr(name:string, value:any|function):Transition
+style(name:string, value:any|function):Transition</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">D3.js Data-Driven Documents
+https://github.com/d3/d3/blob/main/API.md</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-d3_api" href="#digest-of-d3_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of D3_API</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="d3-api-reference--retrieved-2024-06-26" href="#d3-api-reference--retrieved-2024-06-26"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>D3 API Reference — Retrieved 2024-06-26</h1>
+<p class="md-github">Data Size: 882968 bytes</p>
+<h1 class="md-github"><a class="md-github__anchor" name="selection-api" href="#selection-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Selection API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="d3selectselector-string-selection" href="#d3selectselector-string-selection"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.select(selector: string): Selection</h2>
+<p class="md-github">Selects the first matching element in the document. Returns a single-element selection. Throws no error if selector not found.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="d3selectallselector-string-selection" href="#d3selectallselector-string-selection"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.selectAll(selector: string): Selection</h2>
+<p class="md-github">Selects all matching elements. Returns multi-element selection.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="selectionappendname-string-selection" href="#selectionappendname-string-selection"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Selection.append(name: string): Selection</h2>
+<p class="md-github">Creates a new element of the given name and appends it to each selected element. Returns updated selection.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="scale-api" href="#scale-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scale API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="d3scalelinear-scalelinear" href="#d3scalelinear-scalelinear"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.scaleLinear(): ScaleLinear</h2>
+<p class="md-github">Creates a linear scale with default domain [0,1] and range [0,1]. Methods:
+• scale.domain([number…]): ScaleLinear  (default [0,1])
+• scale.range([number…]): ScaleLinear   (default [0,1])
+• scale.clamp(boolean): ScaleLinear      (default false)
+• scale.interpolate(function): ScaleLinear (default d3.interpolate)
+• scale.ticks(count: number): number[]   (default count ~10)
+• scale.tickFormat(count: number, specifier?: string): (d: number)→string</p>
+<h2 class="md-github"><a class="md-github__anchor" name="d3scaletime-scaletime" href="#d3scaletime-scaletime"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.scaleTime(): ScaleTime</h2>
+<p class="md-github">Same as scaleLinear but accepts Date objects and domain(range) as [Date,Date].</p>
+<h1 class="md-github"><a class="md-github__anchor" name="axis-api" href="#axis-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Axis API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="d3axisbottomscale-scale-axis" href="#d3axisbottomscale-scale-axis"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.axisBottom(scale: Scale): Axis</h2>
+<p class="md-github">Creates a bottom-oriented axis generator for the given scale.
+• axis.ticks(count: number, specifier?: string)
+• axis.tickSize(size: number)
+• axis.tickPadding(padding: number)
+• axis.tickFormat(format: function or string)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="d3axisleftscale-scale-axis" href="#d3axisleftscale-scale-axis"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.axisLeft(scale: Scale): Axis</h2>
+<p class="md-github">Creates a left-oriented axis.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="shape-generators" href="#shape-generators"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shape Generators</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="d3line-linegenerator" href="#d3line-linegenerator"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.line(): LineGenerator</h2>
+<p class="md-github">Creates a line generator. Methods:
+• .x(function): LineGenerator
+• .y(function): LineGenerator
+• .curve(curveFactory)
+• .defined(function)
+• .context(context: CanvasRenderingContext2D)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="d3arc-arcgenerator" href="#d3arc-arcgenerator"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.arc(): ArcGenerator</h2>
+<p class="md-github">Path data for arcs with methods:
+• .innerRadius(number|function)
+• .outerRadius(number|function)
+• .startAngle(number|function)
+• .endAngle(number|function)
+• .padAngle(number|function)</p>
+<h1 class="md-github"><a class="md-github__anchor" name="fetch-api" href="#fetch-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fetch API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="d3csvurl-string-row-function-callback-promise" href="#d3csvurl-string-row-function-callback-promise"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>d3.csv(url: string, row?: function, callback?): Promise</h2>
+<p class="md-github">Parses CSV from URL. Returns Promise of array of objects. Optional row conversion and callback.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="transitions" href="#transitions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Transitions</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="selectiontransitionname-string-transition" href="#selectiontransitionname-string-transition"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>selection.transition(name?: string): Transition</h2>
+<p class="md-github">Creates a transition on a selection. Methods:
+• .duration(milliseconds: number)
+• .delay(milliseconds: number)
+• .ease(name: string)
+• .attr(name: string, value: any|function)
+• .style(name: string, value: any|function)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: D3.js Data-Driven Documents</li>
+<li class="md-github">URL: https://github.com/d3/d3/blob/main/API.md</li>
+<li class="md-github">License: BSD-3-Clause</li>
+<li class="md-github">Crawl Date: 2025-05-17T18:31:15.104Z</li>
+<li class="md-github">Data Size: 882968 bytes</li>
+<li class="md-github">Links Found: 5681</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-17</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-18T10:36:28.156Z</p>
+  </footer>
+</body>
+</html>
