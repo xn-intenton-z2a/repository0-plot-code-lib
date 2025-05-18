@@ -1,10 +1,15 @@
 import { describe, test, expect } from "vitest";
+import fs from "fs";
+import os from "os";
+import path from "path";
 import {
   parseArgs,
   parseRange,
   generateData,
   generateSVG,
   main,
+  parseInputFile,
+  convertSVGtoPNG,
 } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
@@ -70,5 +75,39 @@ describe("Default main", () => {
   test("should terminate without error on no args", () => {
     process.argv = ["node", "src/lib/main.js"];
     expect(() => main()).not.toThrow();
+  });
+});
+
+describe("parseInputFile", () => {
+  test("should parse CSV input file", () => {
+    const tmp = path.join(os.tmpdir(), "test-input.csv");
+    fs.writeFileSync(tmp, "x,y\n1,2\n3,4\n");
+    const data = parseInputFile(tmp);
+    expect(data).toEqual({ xValues: [1, 3], yValues: [2, 4] });
+    fs.unlinkSync(tmp);
+  });
+
+  test("should parse JSON input file with object array", () => {
+    const tmp = path.join(os.tmpdir(), "test-input.json");
+    const arr = [{ x: 0, y: 1 }, { x: 2, y: 3 }];
+    fs.writeFileSync(tmp, JSON.stringify(arr));
+    const data = parseInputFile(tmp);
+    expect(data).toEqual({ xValues: [0, 2], yValues: [1, 3] });
+    fs.unlinkSync(tmp);
+  });
+
+  test("should throw on unsupported format", () => {
+    const tmp = path.join(os.tmpdir(), "test-input.txt");
+    fs.writeFileSync(tmp, "foo");
+    expect(() => parseInputFile(tmp)).toThrow("Unsupported input format");
+    fs.unlinkSync(tmp);
+  });
+});
+
+describe("convertSVGtoPNG", () => {
+  test("should convert SVG to PNG buffer", async () => {
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10"/></svg>';
+    const buffer = await convertSVGtoPNG(svg);
+    expect(buffer.slice(0, 8)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
   });
 });

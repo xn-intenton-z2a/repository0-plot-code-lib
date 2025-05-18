@@ -20,7 +20,11 @@
     "test:unit": "vitest --coverage tests/unit/*.test.js",
     "start": "node src/lib/main.js"
   },
-  "keywords": [],
+  "keywords": [
+    "csv",
+    "json",
+    "png"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -30,6 +34,7 @@
     "mathjs": "^11.8.2",
     "minimatch": "^10.0.1",
     "openai": "^4.95.1",
+    "sharp": "^0.32.4",
     "zod": "^3.24.4"
   },
   "devDependencies": {
