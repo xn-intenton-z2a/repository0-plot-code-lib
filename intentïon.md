@@ -8,3 +8,5 @@
 
 2025-05-18T08:58:07.670Z - Maintained feature OUTPUT_FORMATS.
 
+2025-05-18T12:26:33.400Z - Maintain sources of library content.
+
