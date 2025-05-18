@@ -1,58 +1,48 @@
 # Overview
 
-Extend the CLI and library to support multiple output formats (SVG, PNG, JSON), customizable plot appearance via new flags, and an HTTP API endpoint for on-demand plot generation. Users can tailor visualizations in both CLI and server modes.
+Extend the CLI and library to support multiple output formats including SVG, PNG, JSON and CSV. Provide consistent behavior in both CLI and HTTP server modes and enable users to export raw data as comma separated values for integration with external tools.
 
 # CLI Integration
 
-- Add flags to parseArgs:
-  - --format <format>    : one of svg, png, json. Default svg.
-  - --width <number>     : output width in pixels. Default 800.
-  - --height <number>    : output height in pixels. Default 600.
-  - --margin <number>    : margin around plot in pixels. Default 40.
-  - --x-label <string>   : label text for the x-axis.
-  - --y-label <string>   : label text for the y-axis.
-  - --title <string>     : title text displayed at top of SVG.
-  - --serve              : if present, launch HTTP server instead of writing to stdout or file.
-  - --port <number>      : port on which HTTP server listens. Default 3000.
-
-# HTTP API
-
-- When --serve flag is provided:
-  - Start an Express server on the specified port.
-  - Expose GET /plot endpoint accepting query parameters:
-    - expression: mathematical expression in variable x. Required.
-    - range: range for x in format x=min:max[:step]. Required.
-    - format, width, height, margin, x-label, y-label, title as above.
-  - Validate parameters and return:
-    - Content-Type image/svg+xml for format=svg.
-    - image/png for format=png.
-    - application/json for format=json.
-  - Respond with generated plot or data or error JSON.
+- Add flag --format <format>    : one of svg png json csv. Default svg.
+- Retain existing flags --width --height --margin --x-label --y-label --title --serve --port and their defaults.
+- When format is csv:
+  - Generate a text output with a header row x,y and one line per data point.
+  - Write the CSV string to stdout or to the file specified by --output.
 
 # Implementation
 
 - In src/lib/main.js:
-  - Extend argsSchema with serve (boolean) and port (number).
-  - After parsing args, if serve is true:
-    - Import express and create an app.
-    - Define GET /plot handler that:
-      - Parses query parameters.
-      - Reuses parseRange, parseArgs logic to build args object.
-      - Calls generateData and generateSVG or conversion to PNG/JSON.
-      - Sets appropriate Content-Type and sends response.
-    - Start listening on the port.
-  - If serve is false, preserve existing CLI behavior for writing or printing output.
+  - Extend argsSchema to accept format as an enum of svg png json csv and validate default to svg.
+  - After parsing args and generating data, branch on format:
+    - svg: use existing generateSVG to produce SVG output.
+    - png: convert SVG to PNG as before.
+    - json: serialize data object { xValues yValues } to JSON.
+    - csv: implement a new function generateCSV(data) that returns a string starting with header x,y then each x,y pair on its own line.
+  - For serve mode, set Content-Type text/csv when format=csv and send the CSV string.
+  - Ensure exit codes and error messages remain consistent across formats.
+
+# HTTP API
+
+- Support format=csv in addition to svg png json:
+  - GET /plot accepts format csv.
+  - Respond with Content-Type text/csv and the CSV data.
+  - Validate query parameters and return error JSON if invalid.
 
 # Tests
 
-- Update existing parseArgs tests to cover serve and port flags and default values.
-- Add tests using supertest to:
-  - Launch the server in test mode.
-  - Send requests to GET /plot with valid and invalid parameters.
-  - Verify status codes, Content-Type headers, and response bodies for svg, png, json.
+- Update parseArgs tests to cover csv as a valid format and default behavior.
+- Add unit tests for generateCSV:
+  - Verify header row and correct comma separation for a sample data set.
+  - Test error handling for empty or mismatched data.
+- Extend HTTP API tests with supertest:
+  - GET /plot?expression=x&range=x=0:2&format=csv returns status 200 text/csv and expected CSV body.
+  - Test invalid format values report 400 with error JSON.
 
 # Documentation
 
-- Update README.md and USAGE.md to document the new serve mode and HTTP API usage with examples:
-  npx repository0-plot-code-lib --serve --port 8080
-  curl "http://localhost:8080/plot?expression=sin(x)&range=x=0:6.28:0.1&format=png" > sin.png
+- Update README.md and USAGE.md to include csv as an output format:
+  npx repository0-plot-code-lib --expression sin(x) --range x=0:3:1 --format csv --output data.csv
+
+- Provide CURL example for HTTP API:
+  curl http://localhost:3000/plot?expression=x&range=x=0:5&format=csv > data.csv
