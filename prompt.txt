@@ -1,55 +1,33 @@
 
-You are providing the entire new content of source files, test files, documentation files, and other necessary
-files with all necessary changes applied to deliver the resolution to an issue. Focus on high-impact, 
-functional solutions that address core issues rather than superficial changes or excessive code polishing.
-Implement as much as you can and refer to the projects features and mission statement when expanding the code
-beyond the scope of the original issue. Implement whole features and do not leave stubbed out or pretended code.
+You are providing updates to the README.md file and other documentation files to ensure they accurately reflect the current state of the codebase and emphasize content that delivers substantial user value and addresses core implementation needs.
 
-Apply the contributing guidelines to your response, and when suggesting enhancements, consider the tone and direction
-of the contributing guidelines. Prioritize changes that deliver user value and maintain the integrity
-of the codebase's primary purpose.
+The README is the primary focus, but other documentation files can be updated as well if needed. Source files (srcFiles) and test files (testFiles) should NOT be updated.
 
-Do as much as you can all at once.
+When updating the README:
+1. Preserve existing README content that delivers substantial user value, even if it describes features not yet implemented
+2. Update the README if it conflicts with current source code, tests, or documentation, prioritizing content that directly enhances the product's primary purpose
+3. If documentation files are out of date compared to the source code or tests, update them to be consistent, focusing on high-impact information that enables immediate application rather than superficial descriptions
+4. Ensure documentation clearly communicates the core functionality and value proposition of the product, prioritizing content that helps users solve real problems
 
-Follow the linting guidelines and the formatting guidelines from the included config.
+Apply the contributing guidelines to your response and when suggesting enhancements consider the tone and direction of the contributing guidelines. Focus on documentation improvements that deliver measurable value to users rather than cosmetic changes or excessive detail on edge cases.
 
-
-You must only add, remove, or change the files in the target writable locations. You can update multiple
-files by specifying their paths and contents in the enumerated updatedFile01Filepath updatedFile02Contents response
-attribute, a second file would use updatedFile01Filepath updatedFile02Contents and so on to 16. Each file will
-be checked against the write permission in the Agent configuration file before being written. Feel free to
-add new files as long as they are in the target writable locations. You can also remove files, but only if
-they are in the target writable locations. To delete a file, set the updated file contents to "delete".
-
-The target writable locations for your output are: SOURCES.md;library/;features/;tests/unit/plot-generation.test.js;src/lib/main.js;package.json;USAGE.md;README.md
-Other file will be supplied in the context but only the paths above should be written to.
-
-Only provide new or updated content for the target source files in src/lib/main.js.
-Only delete or update the target source files in src/lib/main.js.
-Only provide new or updated content for the target test files in tests/unit/plot-generation.test.js.
-Only delete or update the target test files in tests/unit/plot-generation.test.js.
-Only update dependency file package.json.
-Only update the target documentation files in USAGE.md.
-
-Follow the attached Formatting file content and Linting file content.
+You may only change the files provided in the prompt context. You can update multiple files by specifying their paths and contents in the updatedFiles object. Each file will be checked against the allowedFilepathPatterns before being written.
 
 Consider the following when refining your response:
-* Current feature names and specifications in the repository
-* Source file content
-* Test file content
-* Documentation file content
-* README file content
-* MISSION file content
-* Contributing file content
-* Dependencies file content
-* Formatting file content
-* Linting file content
-* Agent configuration file content
-* Issue details
-* Dependency list
-* Build output
-* Test output
-* Main execution output
+  * Current feature names and specifications in the repository
+  * Source file content (for context only)
+  * Test file content (for context only)
+  * Documentation file content
+  * README file content
+  * MISSION file content
+  * Contributing file content
+  * Dependencies file content
+  * Dependency install output
+  * Issue details (if any)
+  * Build output
+  * Test output
+  * Main execution output
+  * Agent configuration file content
 
 Current feature names and specifications (for context, read only):
 CURRENT_FEATURES_START
@@ -142,9 +120,9 @@ Add support for importing time series data from external files (JSON or CSV) to 
 - Update README.md and USAGE.md to document the new --input flag, supported formats, examples, and error conditions.
 CURRENT_FEATURES_END
 
-Source files (write new files or update files in src/lib/main.js as necessary):
-(Multiple files from both in writable locations and not.)
-SOURCE_FILE_START Filepath: src/lib/main.js
+Source files (for context only, DO NOT UPDATE):
+SOURCE_FILES_START
+File: src/lib/main.js
 #!/usr/bin/env node
 // src/lib/main.js
 
@@ -154,11 +132,32 @@ import path from "path";
 import { z } from "zod";
 import { create, all } from "mathjs";
 import sharp from "sharp";
+import express from "express";
 
 const math = create(all);
 
 export function parseArgs(args) {
-  const booleanFlags = ["png"];
+  const booleanFlags = ["png", "serve"];
+  const parsed = {};
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (!arg.startsWith("--")) {
+      continue;
+    }
+    const rawKey = arg.slice(2);
+    const key = rawKey.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+    if (booleanFlags.includes(key)) {
+      parsed[key] = true;
+    } else {
+      const value = args[i + 1];
+      if (value && !value.startsWith("--")) {
+        parsed[key] = value;
+        i++;
+      } else {
+        throw new Error(`Missing value for argument: ${arg}`);
+      }
+    }
+  }
   const argsSchema = z.object({
     expression: z.string().optional(),
     range: z.string().optional(),
@@ -166,25 +165,16 @@ export function parseArgs(args) {
     input: z.string().optional(),
     inputFormat: z.enum(["csv", "json"]).optional(),
     png: z.boolean().optional(),
-  });
-  const parsed = {};
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if (arg.startsWith("--")) {
-      const key = arg.substring(2);
-      if (booleanFlags.includes(key)) {
-        parsed[key] = true;
-      } else {
-        const value = args[i + 1];
-        if (value && !value.startsWith("--")) {
-          parsed[key] = value;
-          i++;
-        } else {
-          throw new Error(`Missing value for argument: ${arg}`);
-        }
+    format: z.enum(["svg", "png", "json", "csv"]).optional(),
+    serve: z.boolean().optional(),
+    port: z.preprocess((val) => {
+      if (typeof val === "string") {
+        const num = parseInt(val, 10);
+        return Number.isNaN(num) ? val : num;
       }
-    }
-  }
+      return val;
+    }, z.number().int().positive().optional()),
+  });
   return argsSchema.parse(parsed);
 }
 
@@ -196,8 +186,8 @@ export function parseRange(rangeStr) {
   const parts = rangePart.split(":").map((p) => parseFloat(p));
   const min = parts[0];
   const max = parts[1];
-  const step = parts.length >= 3 && !isNaN(parts[2]) ? parts[2] : 1;
-  if (isNaN(min) || isNaN(max) || isNaN(step)) {
+  const step = parts.length >= 3 && !Number.isNaN(parts[2]) ? parts[2] : 1;
+  if (Number.isNaN(min) || Number.isNaN(max) || Number.isNaN(step)) {
     throw new Error(`Invalid range numbers in: ${rangeStr}`);
   }
   return { varName, min, max, step };
@@ -266,7 +256,7 @@ export function parseInputFile(filePath, formatOverride) {
       if (cols.length !== 2) throw new Error(`Invalid CSV row: ${lines[i]}`);
       const x = parseFloat(cols[0]);
       const y = parseFloat(cols[1]);
-      if (isNaN(x) || isNaN(y)) throw new Error(`Invalid number in CSV at row ${i + 1}`);
+      if (Number.isNaN(x) || Number.isNaN(y)) throw new Error(`Invalid number in CSV at row ${i + 1}`);
       xValues.push(x);
       yValues.push(y);
     }
@@ -311,6 +301,25 @@ export async function convertSVGtoPNG(svg) {
   return sharp(Buffer.from(svg)).png().toBuffer();
 }
 
+export function generateCSV({ xValues, yValues }) {
+  if (!Array.isArray(xValues) || !Array.isArray(yValues)) {
+    throw new Error("Data must have xValues and yValues arrays");
+  }
+  if (xValues.length === 0 || yValues.length === 0) {
+    throw new Error("No data points available");
+  }
+  if (xValues.length !== yValues.length) {
+    throw new Error("Mismatched data lengths");
+  }
+  const header = "x,y";
+  const rows = xValues.map((x, i) => `${x},${yValues[i]}`);
+  return [header, ...rows].join("\n");
+}
+
+export function generateJSON(data) {
+  return JSON.stringify(data);
+}
+
 export async function main(argsParam) {
   const args = argsParam ?? process.argv.slice(2);
   if (!args || args.length === 0) {
@@ -323,6 +332,52 @@ export async function main(argsParam) {
   } catch (err) {
     console.error(err.message);
     process.exit(1);
+  }
+  let { format, png, serve, port } = parsed;
+  if (png && !format) {
+    console.warn("[DEPRECATED] --png is deprecated, use --format=png");
+    format = "png";
+  }
+  format = format || "svg";
+  if (serve) {
+    const app = express();
+    app.get("/plot", async (req, res) => {
+      try {
+        const { expression, range, input, inputFormat, format: qFormat } = req.query;
+        const outFormat = qFormat || format;
+        let data;
+        if (input) {
+          data = parseInputFile(input, inputFormat);
+        } else {
+          if (!expression || !range) {
+            throw new Error("Missing expression or range");
+          }
+          const rng = parseRange(range);
+          data = generateData(expression, rng);
+        }
+        if (outFormat === "svg") {
+          const svg = generateSVG(data);
+          res.type("image/svg+xml").send(svg);
+        } else if (outFormat === "png") {
+          const svg = generateSVG(data);
+          const buffer = await convertSVGtoPNG(svg);
+          res.type("image/png").send(buffer);
+        } else if (outFormat === "json") {
+          res.type("application/json").send(generateJSON(data));
+        } else if (outFormat === "csv") {
+          res.type("text/csv").send(generateCSV(data));
+        } else {
+          throw new Error(`Unsupported format: ${outFormat}`);
+        }
+      } catch (err) {
+        res.status(400).json({ error: err.message });
+      }
+    });
+    const listenPort = port || 3000;
+    app.listen(listenPort, () => {
+      console.log(`Server listening on port ${listenPort}`);
+    });
+    return;
   }
   let data;
   if (parsed.input) {
@@ -347,9 +402,19 @@ export async function main(argsParam) {
       process.exit(1);
     }
   }
-  const svg = generateSVG(data);
-  if (parsed.png) {
-    try {
+  try {
+    if (format === "svg") {
+      const svg = generateSVG(data);
+      if (parsed.output) {
+        const outPath = path.isAbsolute(parsed.output)
+          ? parsed.output
+          : path.resolve(process.cwd(), parsed.output);
+        fs.writeFileSync(outPath, svg, "utf8");
+      } else {
+        console.log(svg);
+      }
+    } else if (format === "png") {
+      const svg = generateSVG(data);
       const buffer = await convertSVGtoPNG(svg);
       if (parsed.output) {
         const outPath = path.isAbsolute(parsed.output)
@@ -359,24 +424,33 @@ export async function main(argsParam) {
       } else {
         process.stdout.write(buffer);
       }
-    } catch (err) {
-      console.error(`Error generating PNG: ${err.message}`);
-      process.exit(1);
-    }
-  } else {
-    if (parsed.output) {
-      try {
+    } else if (format === "json") {
+      const jsonStr = generateJSON(data);
+      if (parsed.output) {
         const outPath = path.isAbsolute(parsed.output)
           ? parsed.output
           : path.resolve(process.cwd(), parsed.output);
-        fs.writeFileSync(outPath, svg, "utf8");
-      } catch (err) {
-        console.error(`Error writing file: ${err.message}`);
-        process.exit(1);
+        fs.writeFileSync(outPath, jsonStr, "utf8");
+      } else {
+        console.log(jsonStr);
+      }
+    } else if (format === "csv") {
+      const csvStr = generateCSV(data);
+      if (parsed.output) {
+        const outPath = path.isAbsolute(parsed.output)
+          ? parsed.output
+          : path.resolve(process.cwd(), parsed.output);
+        fs.writeFileSync(outPath, csvStr, "utf8");
+      } else {
+        console.log(csvStr);
       }
     } else {
-      console.log(svg);
+      console.error(`Unsupported format: ${format}`);
+      process.exit(1);
     }
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
   }
 }
 
@@ -384,13 +458,12 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(process.argv.slice(2));
 }
 
-SOURCE_FILE_END
 
+SOURCE_FILES_END
 
-
-Test files (write new files or update files in tests/unit/plot-generation.test.js as necessary):
-(Multiple files from both in writable locations and not.)
-TEST_FILE_START File: tests/unit/plot-generation.test.js
+Test files (for context only, DO NOT UPDATE):
+TEST_FILES_START
+File: tests/unit/plot-generation.test.js
 import { describe, test, expect } from "vitest";
 import fs from "fs";
 import os from "os";
@@ -403,11 +476,21 @@ import {
   main,
   parseInputFile,
   convertSVGtoPNG,
+  generateCSV,
+  generateJSON,
 } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
-    expect({ parseArgs, parseRange, generateData, generateSVG, main }).not.toBeNull();
+    expect({
+      parseArgs,
+      parseRange,
+      generateData,
+      generateSVG,
+      main,
+      generateCSV,
+      generateJSON,
+    }).not.toBeNull();
   });
 });
 
@@ -427,6 +510,22 @@ describe("parseArgs", () => {
       range: "x=0:5:2",
       output: "out.svg",
     });
+  });
+  test("should parse --format flag", () => {
+    const args = ["--format", "csv"];
+    const parsed = parseArgs(args);
+    expect(parsed.format).toBe("csv");
+  });
+  test("should alias --png as boolean and warn on format assignment", () => {
+    const args = ["--png"];
+    const parsed = parseArgs(args);
+    expect(parsed.png).toBe(true);
+  });
+  test("should parse serve and port flags", () => {
+    const args = ["--serve", "--port", "4000"];
+    const parsed = parseArgs(args);
+    expect(parsed.serve).toBe(true);
+    expect(parsed.port).toBe(4000);
   });
 });
 
@@ -461,6 +560,25 @@ describe("generateSVG", () => {
     expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
     expect(svg).toContain('<polyline');
     expect(svg).toMatch(/points="[^"]+"/);
+  });
+});
+
+describe("generateCSV", () => {
+  test("should generate CSV string correctly", () => {
+    const data = { xValues: [1, 2], yValues: [3, 4] };
+    const csv = generateCSV(data);
+    expect(csv).toBe("x,y\n1,3\n2,4");
+  });
+  test("should throw on empty data", () => {
+    expect(() => generateCSV({ xValues: [], yValues: [] })).toThrow("No data points available");
+  });
+});
+
+describe("generateJSON", () => {
+  test("should generate JSON string correctly", () => {
+    const data = { xValues: [1], yValues: [2] };
+    const jsonStr = generateJSON(data);
+    expect(jsonStr).toBe(JSON.stringify(data));
   });
 });
 
@@ -504,10 +622,9 @@ describe("convertSVGtoPNG", () => {
     expect(buffer.slice(0, 8)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
   });
 });
-TEST_FILE_END
 
 
-TEST_FILE_START File: tests/unit/main.test.js
+File: tests/unit/main.test.js
 import { describe, test, expect } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
@@ -525,13 +642,12 @@ describe("Default main", () => {
   });
 });
 
-TEST_FILE_END
 
+TEST_FILES_END
 
-
-Documentation files (write new files or update files in USAGE.md as necessary):
-(Multiple files from both in writable locations and not.)
-DOCUMENTATION_FILE_START File: USAGE.md
+Documentation files (to be updated if necessary):
+DOCS_FILES_START
+File: USAGE.md
 # Usage
 
 To generate an SVG plot from a mathematical expression:
@@ -544,10 +660,13 @@ Options:
 
 - `--expression <expr>`: A mathematical expression in variable `x`. Required unless using `--input`.
 - `--range <range>`: Range for `x` in the format `x=min:max[:step]`. Required unless using `--input`. `step` defaults to `1`.
-- `--output <file>`: Output file path for the image or SVG. Optional. Defaults to stdout.
+- `--output <file>`: Output file path for the image, SVG, JSON, or CSV. Optional. Defaults to stdout.
 - `--input <file>`: Path to a CSV or JSON file containing time series data. When provided, `--expression` and `--range` are ignored.
 - `--input-format <csv|json>`: Override input format detection based on file extension. Optional.
-- `--png`: Output a PNG image instead of SVG. When used without `--output`, the PNG binary is written to stdout.
+- `--format <svg|png|json|csv>`: Specify output format. Defaults to `svg`.
+- `--png`: (Deprecated) Alias for `--format png`. Outputs a PNG image instead of SVG.
+- `--serve`: Enable HTTP server mode.
+- `--port <number>`: Port for HTTP server. Defaults to `3000`.
 
 Examples:
 
@@ -558,23 +677,32 @@ npx repository0-plot-code-lib --input data.csv --output plot.svg
 
 Generate PNG from CSV data:
 ```bash
-npx repository0-plot-code-lib --input data.csv --png --output plot.png
+npx repository0-plot-code-lib --input data.csv --format png --output plot.png
 ```
 
-Generate PNG from JSON data, writing to stdout:
+Generate JSON from CSV data:
 ```bash
-npx repository0-plot-code-lib --input data.json --input-format json --png > out.png
+npx repository0-plot-code-lib --input data.csv --format json --output data.json
 ```
 
-You can still use the expression/range syntax for SVG:
+Generate CSV from JSON data, writing to stdout:
 ```bash
-npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:0.5" > plot.svg
+npx repository0-plot-code-lib --input data.json --format csv > data.csv
 ```
-DOCUMENTATION_FILE_END
+
+Run HTTP server on port 4000:
+```bash
+npx repository0-plot-code-lib --serve --port 4000
+```
+Access the `/plot` endpoint:
+```bash
+curl "http://localhost:4000/plot?expression=x&range=x=0:5:1&format=csv" > data.csv
+```
 
 
+DOCS_FILES_END
 
-README file (for context, read only): README.md
+README file (primary focus, to be updated): README.md
 README_FILE_START
 # repository0-plot-code-lib
 
@@ -754,6 +882,7 @@ DEPENDENCIES_FILE_START
     "markdown-it": "^14.1.0",
     "npm-check-updates": "^17.1.18",
     "prettier": "^3.5.3",
+    "supertest": "^6.3.3",
     "vitest": "^3.1.3"
   },
   "engines": {
@@ -766,116 +895,71 @@ DEPENDENCIES_FILE_START
     "registry": "https://npm.pkg.github.com"
   }
 }
+DEPENDENCIES_FILE_END   
 
-DEPENDENCIES_FILE_END
+Dependencies install from command: npm install
+DEPENDENCIES_INSTALL_START
+npm warn deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+npm warn deprecated @humanwhocodes/config-array@0.13.0: Use @eslint/config-array instead
+npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supported
+npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
+npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated superagent@8.1.2: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
+npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
 
-Formatting file (for context, read only): .prettierrc
-FORMATTING_FILE_START
-{
-  "singleQuote": false,
-  "trailingComma": "all",
-  "printWidth": 120,
-  "tabWidth": 2,
-  "useTabs": false,
-  "quoteProps": "consistent",
-  "overrides": [
-    {
-      "files": ".prettierrc",
-      "options": { "parser": "json" }
-    }
-  ]
-}
+added 548 packages, and audited 549 packages in 6s
 
-FORMATTING_FILE_END
+172 packages are looking for funding
+  run `npm fund` for details
 
-Linting file (for context, read only): eslint.config.js
-LINTING_FILE_START
-import js from "@eslint/js";
-import google from "eslint-config-google";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-import globals from "globals";
-import promise from "eslint-plugin-promise";
-import security from "eslint-plugin-security";
-import sonarjs from "eslint-plugin-sonarjs";
-import react from "eslint-plugin-react";
-import importPlugin from "eslint-plugin-import";
+found 0 vulnerabilities
+DEPENDENCIES_INSTALL_END    
 
-const modifiedGoogleConfig = { ...google, rules: { ...google.rules } };
-delete modifiedGoogleConfig.rules["valid-jsdoc"];
-delete modifiedGoogleConfig.rules["require-jsdoc"];
+Build output from command: npm run build
+BUILD_OUTPUT_START
 
-/** @type {import('eslint').Linter.FlatConfig[]} */
-export default [
-  js.configs.recommended,
-  modifiedGoogleConfig,
-  eslintPluginPrettierRecommended,
-  {
-    plugins: {
-      promise,
-      security,
-      sonarjs,
-      react,
-      import: importPlugin,
-    },
-    languageOptions: {
-      ecmaVersion: 2023,
-      sourceType: "module",
-      globals: {
-        ...globals.node,
-      },
-    },
-    rules: {
-      "prettier/prettier": "error",
-      ...promise.configs.recommended.rules,
-      ...sonarjs.configs.recommended.rules,
-      "sonarjs/os-command": "off",
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 build
+> echo 'Nothing to build'
 
-      // Formatting and organisation
-      "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
-      "no-extra-semi": 2,
-      "object-curly-newline": ["error", { consistent: true }],
-      "array-element-newline": ["error", "consistent", { multiline: true, minItems: 10 }],
-      "import/newline-after-import": ["error", { count: 1 }],
-      "camelcase": "off",
+Nothing to build
+BUILD_OUTPUT_END      
 
-      // ESM import rules
-      "import/no-amd": "error",
-      "import/no-commonjs": "error",
-      "import/no-import-module-exports": "error",
-      "import/no-cycle": "error",
-      "import/no-dynamic-require": "error",
-      "import/no-self-import": "off",
-      "import/no-unresolved": "off",
-      "import/no-useless-path-segments": "error",
-      "import/no-duplicates": "error",
-      "sonarjs/fixme-tag": "warn",
-    },
-  },
-  {
-    files: ["**/*.js"],
-    ignores: ["**/tests/**/*.js", "**/*.test.js", "eslint.config.js"],
-    rules: {
-      ...security.configs.recommended.rules,
-      "security/detect-non-literal-fs-filename": "off",
-      "security/detect-non-literal-regexp": "off",
-      "security/detect-object-injection": "off",
-    },
-  },
-  {
-    settings: {
-      react: {
-        version: "18",
-      },
-    },
-  },
-  {
-    ignores: ["build/", "coverage/", "dist/", "exports/", "node_modules/", "eslint.config.js"],
-  },
-];
+Test output from command: npm test
+TEST_OUTPUT_START
 
-LINTING_FILE_END
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 test
+> vitest tests/unit/*.test.js
 
-Agent configuration file (for context, read only):
+
+[1m[46m RUN [49m[22m [36mv3.1.3 [39m[90m/home/runner/work/repository0-plot-code-lib/repository0-plot-code-lib[39m
+
+ [32m✓[39m tests/unit/module-index.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
+[90mstdout[2m | tests/unit/main.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error
+[22m[39mRun with: []
+
+ [32m✓[39m tests/unit/main.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+[90mstdout[2m | tests/unit/plot-generation.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error on no args
+[22m[39mRun with: []
+
+ [32m✓[39m tests/unit/plot-generation.test.js [2m([22m[2m17 tests[22m[2m)[22m[32m 64[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m20 passed[39m[22m[90m (20)[39m
+[2m   Start at [22m 08:50:00
+[2m   Duration [22m 1.28s[2m (transform 70ms, setup 0ms, collect 1.98s, tests 70ms, environment 1ms, prepare 271ms)[22m
+TEST_OUTPUT_END            
+
+Main execution output from command: npm run start
+MAIN_OUTPUT_START
+
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
+> node src/lib/main.js
+
+Run with: []
+MAIN_OUTPUT_END    
+
+Agent configuration file:
 AGENT_CONFIG_FILE_START
 # Which agentic-lib workflow schedule should be used?
 schedule: schedule-2
@@ -958,253 +1042,29 @@ intentionBot:
 
 AGENT_CONFIG_FILE_END
 
-Issue details:
-ISSUE_START
-title: Implement OUTPUT_FORMATS feature and HTTP server mode (SVG, PNG, JSON, CSV)
-description:
-Title: Implement OUTPUT_FORMATS feature and HTTP server mode (SVG, PNG, JSON, CSV)
+Please produce updated versions of the README and documentation files to ensure they accurately reflect the current state of the codebase.
+Remember:
+1. The README is the primary focus, but other documentation files can be updated as well if needed
+2. Source files (srcFiles) and test files (testFiles) should NOT be updated
+3. Preserve existing README content even if it describes features not yet implemented
+4. Update the README if it conflicts with current source code, tests, or documentation
+5. If documentation files are out of date compared to the source code or tests, update them to be consistent
 
-Description:
-Extend the existing CLI tool to support multiple output formats and add an HTTP server mode. Replace the deprecated --png flag with a unified --format flag, implement JSON and CSV output, and expose a GET /plot HTTP endpoint.
-
-Testable Acceptance Criteria:
-
-1. CLI Flag Parsing:
-   - New flag `--format <svg|png|json|csv>` is supported, defaulting to `svg`.
-   - The existing `--png` flag is treated as an alias for `--format=png` (with a deprecation warning).
-   - New flags `--serve` (boolean) and `--port <number>` (default 3000) are parsed correctly.
-   - Unit tests for `parseArgs` cover valid and invalid combinations of `--format`, `--png`, `--serve`, and `--port`.
-
-2. Output Generation Functions:
-   - Implement `generateCSV(data)` that returns a string with header `"x,y"` and one row per data point.
-     - Throws an error if `xValues` or `yValues` are empty or lengths mismatch.
-   - JSON output: serializes data to `{ xValues: [...], yValues: [...] }`.
-   - Unit tests verify:
-     - Correct CSV string for sample data.
-     - Errors on invalid CSV input.
-     - JSON output matches expected structure and values.
-
-3. CLI Output Behavior:
-   - For `--format=svg`, call `generateSVG` and output XML to stdout or file.
-   - For `--format=png`, call `generateSVG` then `convertSVGtoPNG` and output binary to stdout or file.
-   - For `--format=json`, output JSON text to stdout or file.
-   - For `--format=csv`, output CSV text to stdout or file.
-   - Tests for each format confirm correct content, content type, and file creation.
-
-4. HTTP Server Mode:
-   - When `--serve` is passed, start an Express server on the specified port.
-   - Register `GET /plot` endpoint accepting query parameters: `expression`, `range`, `input`, `inputFormat`, and `format`.
-   - On valid requests, respond with HTTP 200, correct `Content-Type` header (`image/svg+xml`, `image/png`, `application/json`, or `text/csv`), and appropriate payload.
-   - On missing or invalid parameters, respond with HTTP 400 and JSON body `{ error: <message> }`.
-   - Integration tests using `supertest` cover:
-     - Successful responses for each format.
-     - Error responses for missing/invalid parameters.
-
-5. Documentation Updates:
-   - Update `README.md` and `USAGE.md` to document the `--format`, `--serve`, and `--port` flags and deprecation of `--png`.
-   - Provide CLI and HTTP examples for JSON and CSV outputs.
-
-6. Dependencies:
-   - Add `supertest` to `devDependencies` for HTTP integration tests.
-   - No other dependencies should be added or removed.
-
-Verification:
-- Run `npm test` and ensure all unit and integration tests pass.
-- Manual verification: CLI examples produce expected outputs; HTTP server returns correct content types and data.
-
-Maintains backward compatibility with existing expression/range and `--input` file functionality.
-comments:
-Author:github-actions[bot], Created:2025-05-18T04:59:25Z, Comment: Workflow name: flow-feature-maintenance
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092504483
-Workflow event: schedule
-Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/5489f471afdff5ed77543606259482ede760f368
-Author:github-actions[bot], Created:2025-05-18T05:00:20Z, Comment: This issue has been reviewed and marked as 'ready'. The description has been updated with testable acceptance criteria, and relevant library documents ([], 0 in total) have been added as comments.
-Author:github-actions[bot], Created:2025-05-18T08:16:15Z, Comment: Workflow name: discussions-bot
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15093916836
-Workflow event: schedule
-Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/c08eaf7701decf2b80ffa276959394d717235ff0
-Author:github-actions[bot], Created:2025-05-18T08:17:14Z, Comment: ## Relevant Library Document: EXPRESS_API.md
-
-Table of Contents
-1. express() Initialization
-2. Built-in Middleware
-   2.1 json(options)
-   2.2 raw(options)
-   2.3 text(options)
-   2.4 urlencoded(options)
-3. Router Creation
-4. Static File Serving
-5. Application Methods
-6. Application Settings
-
-1. express() Initialization
-Signature: var express = require('express'); var app = express();
-Creates an Express application function that handles requests.
-
-2. Built-in Middleware
-2.1 json(options)
-Signature: express.json({inflate:boolean=true, limit:number|string='100kb', reviver:Function|null=null, strict:boolean=true, type:string|string[]|Function='application/json', verify:Function|undefined});
-- Parses JSON bodies matching Content-Type. Populates req.body Object or {}.
-- gzip/deflate inflation enabled. verify(req,res,buf,encoding) may throw to abort.
-
-2.2 raw(options)
-Signature: express.raw({inflate:boolean=true, limit:number|string='100kb', type:string|string[]|Function='application/octet-stream', verify:Function|undefined});
-- Populates req.body Buffer. validate Buffer before use.
-
-2.3 text(options)
-Signature: express.text({defaultCharset:string='utf-8', inflate:boolean=true, limit:number|string='100kb', type:string|string[]|Function='text/plain', verify:Function|undefined});
-- Populates req.body string.
-
-2.4 urlencoded(options)
-Signature: express.urlencoded({extended:boolean=true, inflate:boolean=true, limit:number|string='100kb', parameterLimit:number=1000, type:string|string[]|Function='application/x-www-form-urlencoded', verify:Function|undefined});
-- Populates req.body Object. extended=false uses querystring, true uses qs.
-
-3. Router Creation
-Signature: express.Router({caseSensitive:boolean=false, mergeParams:boolean=false, strict:boolean=false});
-- Returns router for grouping routes and middleware.
-
-4. Static File Serving
-Signature: express.static(root:string, {dotfiles:'allow'|'deny'|'ignore'=undefined, etag:boolean=true, extensions:string[]|false=false, fallthrough:boolean=true, immutable:boolean=false, index:string|string[]|false='index.html', lastModified:boolean=true, maxAge:number|string=0, redirect:boolean=true, setHeaders:function(res,path,stat)});
-- Combines req.url with root to locate file. Errors fallthrough or sent.
-- dotfiles: allow/deny/ignore. fallthrough: true calls next(); false next(err).
-- setHeaders(res,path,stat) sets headers synchronously.
-
-5. Application Methods
-app.METHOD(path, ...callbacks)
-- path: string|RegExp|Array; callbacks: middleware functions. Returns app.
-app.all(path, ...)
-app.use([path], middleware)
-app.param(name|string[] , callback(req,res,next,value,name))
-app.engine(ext, callback(path, options, cb))
-app.listen([port[, host[, backlog]]], [callback]) => http.Server
-app.set(name, value), app.get(name)
-app.enable(name), app.disable(name), app.enabled(name), app.disabled(name)
-
-6. Application Settings
-case sensitive routing: undefined
-env: process.env.NODE_ENV||'development'
-etag: 'weak'
-jsonp callback name: 'callback'
-json escape: undefined
-json replacer: undefined
-json spaces: undefined
-query parser: 'extended'
-strict routing: undefined
-subdomain offset: 2
-trust proxy: false
-views: process.cwd() + '/views'
-view cache: NODE_ENV==='production'
-Author:github-actions[bot], Created:2025-05-18T08:17:14Z, Comment: This issue has been reviewed and marked as 'ready'. The description has been updated with testable acceptance criteria, and relevant library documents ([EXPRESS_API.md], 1 in total) have been added as comments.
-Author:github-actions[bot], Created:2025-05-18T08:25:21Z, Comment: Workflow name: flow-feature-development
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15094027740
-Workflow event: schedule
-Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/c08eaf7701decf2b80ffa276959394d717235ff0
-Author:github-actions[bot], Created:2025-05-18T08:25:46Z, Comment: Workflow name: flow-feature-development
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15094027740
-Workflow event: schedule
-Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/c08eaf7701decf2b80ffa276959394d717235ff0
-Author:github-actions[bot], Created:2025-05-18T08:26:58Z, Comment: Workflow name: flow-feature-development
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15094027740
-Workflow event: schedule
-Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/c08eaf7701decf2b80ffa276959394d717235ff0
-ISSUE_END            
-
-Dependencies list from command: npm list
-DEPENDENCIES_LIST_START
-@xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 /home/runner/work/repository0-plot-code-lib/repository0-plot-code-lib
-├── @microsoft/eslint-formatter-sarif@3.1.0
-├── @vitest/coverage-v8@3.1.3
-├── dotenv@16.5.0
-├── ejs@3.1.10
-├── eslint-config-google@0.14.0
-├── eslint-config-prettier@10.1.5
-├── eslint-plugin-import@2.31.0
-├── eslint-plugin-prettier@5.4.0
-├── eslint-plugin-promise@7.2.1
-├── eslint-plugin-react@7.37.5
-├── eslint-plugin-security@3.0.1
-├── eslint-plugin-sonarjs@3.0.2
-├── eslint@9.27.0
-├── express@4.21.2
-├── js-yaml@4.1.0
-├── markdown-it-github@0.5.0
-├── markdown-it@14.1.0
-├── mathjs@11.12.0
-├── minimatch@10.0.1
-├── npm-check-updates@17.1.18
-├── openai@4.100.0
-├── prettier@3.5.3
-├── sharp@0.32.6
-├── vitest@3.1.3
-└── zod@3.24.4
-DEPENDENCIES_LIST_END    
-
-Build output from command: npm run build
-BUILD_OUTPUT_START
-
-> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 build
-> echo 'Nothing to build'
-
-Nothing to build
-BUILD_OUTPUT_END      
-
-Test output from command: npm test
-TEST_OUTPUT_START
-
-> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 test
-> vitest tests/unit/*.test.js
-
-
-[1m[46m RUN [49m[22m [36mv3.1.3 [39m[90m/home/runner/work/repository0-plot-code-lib/repository0-plot-code-lib[39m
-
- [32m✓[39m tests/unit/module-index.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
-[90mstdout[2m | tests/unit/main.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error
-[22m[39mRun with: []
-
- [32m✓[39m tests/unit/main.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
-[90mstdout[2m | tests/unit/plot-generation.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error on no args
-[22m[39mRun with: []
-
- [32m✓[39m tests/unit/plot-generation.test.js [2m([22m[2m11 tests[22m[2m)[22m[32m 70[2mms[22m[39m
-
-[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
-[2m      Tests [22m [1m[32m14 passed[39m[22m[90m (14)[39m
-[2m   Start at [22m 08:28:26
-[2m   Duration [22m 1.25s[2m (transform 73ms, setup 0ms, collect 1.94s, tests 77ms, environment 1ms, prepare 262ms)[22m
-TEST_OUTPUT_END            
-
-Main execution output from command: npm run start
-MAIN_OUTPUT_START
-
-> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
-> node src/lib/main.js
-
-Run with: []
-MAIN_OUTPUT_END    
-
-Please produce updated versions of the files that resolve the issue.
-Note that the README.md file is provided for context only - any documentation changes should be written to the documentation files.
-The source files, test files, and documentation files can be individual files or directories containing multiple files.
-Never truncate the files, when returning a file, always return the entire file content.
+If there are no changes required, please provide the original content and state that no changes are necessary in the message.
 
 Paths in (updatedFile01Filepath, updatedFile02Filepath, etc...) must begin with one of: SOURCES.md;library/;features/;tests/unit/plot-generation.test.js;src/lib/main.js;package.json;USAGE.md;README.md
 
 Answer strictly with a JSON object following this schema:
 {
-  "message": "A short sentence explaining the change applied (or why no changes were applied) suitable for a commit message or PR text.",
-  "updatedFile01Filepath": "src/lib/main.js/orderParser.js",
-  "updatedFile01Contents": "The entire new content of the source file, with all necessary changes applied, if any.",
-  "updatedFile02Filepath":  "tests/unit/plot-generation.test.js/orderParser.test.js",
-  "updatedFile02Contents": "The entire new content of the test file, with all necessary changes applied, if any.",
-  "updatedFile03Filepath": "USAGE.md/USAGE.md",
-  "updatedFile03Contents": "The entire new content of the documentation file, with all necessary changes applied, if any.",
-  "updatedFile04Filepath": "USAGE.md/A_FILE_WE_DONT_WANT.md",
-  "updatedFile04Contents": "delete",
+  "message": "A short sentence explaining the changes applied (or why no changes were applied) suitable for a commit message or PR text.",
+  "updatedFile01Filepath": "README.md",
+  "updatedFile01Contents": "The entire new content of the README file, with all necessary changes applied, if any.",
+  "updatedFile02Filepath":  "USAGE.md/USAGE.md",
+  "updatedFile02Contents": "The entire new content of the file, with all necessary changes applied, if any.",
+  "updatedFile03Filepath": "unused",
+  "updatedFile03Contents": "unused",
+  "updatedFile04Filepath": "unused",
+  "updatedFile04Contents": "unused",
   "updatedFile05Filepath": "unused",
   "updatedFile05Contents": "unused",
   "updatedFile06Filepath": "unused",
@@ -1233,7 +1093,6 @@ Answer strictly with a JSON object following this schema:
 
 You can include up to 16 files using the updatedFileXXName and updatedFileXXContents pairs (where XX is a number from 01 to 16)
 Where a file name and contents slot is not used, populate tha name with "unused" and the contents with "unused".
-Where a file is to be deleted, set the name to the file path and the contents to "delete".
 Never truncate the files, when returning a file, always return the entire file content.
 
 Ensure valid JSON.
