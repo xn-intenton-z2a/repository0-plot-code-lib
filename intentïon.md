@@ -49,3 +49,18 @@
 
 2025-05-18T06:25:57.002Z - Maintain sources of library content.
 
+2025-05-18T06:31:56.384Z - Digested express(): app function; use with http.createServer.
+json(options): inflate=true,limit='100kb',reviver,null,strict=true,type='application/json',verify fn; parses JSON into req.body.
+raw(options): inflate=true,limit='100kb',type='application/octet-stream',verify fn; populates Buffer.
+text(options): defaultCharset='utf-8',inflate=true,limit='100kb',type='text/plain',verify fn; populates String.
+urlencoded(options): extended=true,inflate=true,limit='100kb',parameterLimit=1000,type='application/x-www-form-urlencoded',verify fn; populates Object.
+Router(opts): caseSensitive=false,mergeParams=false,strict=false.
+static(root,opts): dotfiles='ignore',etag=true,extensions=false,fallthrough=true,immutable=false,index='index.html',lastModified=true,maxAge=0,redirect=true,setHeaders fn.
+app.VERB(path,callbacks): path: string|RegExp|Array; callbacks: middleware.
+app.use(path?,middleware)
+app.param(name|[],fn(req,res,next,val,name))
+app.engine(ext,(path,opts,cb))
+app.listen(port?,host?,backlog?,cb)->http.Server
+app.set/get(name),app.enable/disable(name),app.enabled/disabled(name)
+Settings defaults: case sensitive routing undefined; env 'development'; etag 'weak'; jsonp cb 'callback'; query parser 'extended'; strict routing undefined; subdomain offset=2; trust proxy=false; views cwd+'/views'; view cache true in production..
+
