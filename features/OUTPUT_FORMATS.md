@@ -1,43 +1,54 @@
 # Overview
-Extend the CLI tool and add an HTTP server mode to support multiple output formats: svg, png, json, and csv. Provide a consistent interface across both CLI and HTTP modes, enabling users to export vector or raster images, raw data, or tabular outputs for integration with external workflows.
+
+Enhance the existing output generation feature to support plot annotations including a chart title, x-axis label, and y-axis label in both CLI and HTTP modes. Retain existing multi-format exports (svg, png, json, csv) and integrate annotation metadata seamlessly.
 
 # CLI Integration
-- Add flag --format <format> with allowed values svg, png, json, csv. Default svg.
-- Retain existing flags --expression, --range, --input, --input-format, --output, and deprecate --png by mapping it to --format png.
-- After parsing args, load or generate data, then branch on format:
-  - svg: generate vector via generateSVG(data, options) and output XML.
-  - png: invoke convertSVGtoPNG on the generated SVG and output binary.
-  - json: serialize { xValues, yValues } to application/json.
-  - csv: implement a generateCSV(data) helper to produce text/csv with header x,y and rows.
-- Write output to stdout or to the file specified by --output, honoring absolute or relative paths.
+
+- Add flags:
+  - `--title <string>`: Optional chart title to render at the top of the plot.
+  - `--x-label <string>`: Optional label for the horizontal axis.
+  - `--y-label <string>`: Optional label for the vertical axis.
+- Retain and document existing flags: `--format`, `--expression`, `--range`, `--input`, `--input-format`, `--output`, `--serve`, `--port`, and deprecated `--png` alias.
+- After parsing args, collect annotation options (`title`, `xLabel`, `yLabel`) and pass them into the rendering helper along with existing dimension and margin settings.
+- Examples:
+  - `npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --format svg --title "Sine Wave" --x-label "Time (s)" --y-label "Amplitude" --output wave.svg`
+  - `npx repository0-plot-code-lib --input data.csv --format png --title "Sample Data" --output plot.png`
 
 # HTTP API
-- Introduce flags --serve to enable server mode and --port <number> to specify listening port (default 3000).
-- When --serve is true, spin up an Express app and register a GET /plot endpoint.
-- Accept query parameters: expression, range, input, inputFormat, format, output omitted.
-- Validate required parameters and return 400 with a JSON error on invalid input or missing fields.
-- On success, generate the requested format and set Content-Type accordingly: image/svg+xml, image/png, application/json, or text/csv.
-- Respond with data in the response body without writing to disk.
+
+- Accept query parameters:
+  - `title`: Chart title string.
+  - `xLabel`: X-axis label string.
+  - `yLabel`: Y-axis label string.
+  - Existing query params: `expression`, `range`, `input`, `inputFormat`, `format`.
+- On GET `/plot`, parse and validate annotation params. If provided, forward to SVG generator.
+- Respond with annotated SVG when `format=svg`, or convert and wrap with PNG, JSON, CSV logic as before.
 
 # Implementation
-- Update parseArgs in src/lib/main.js to include format (enum), serve (boolean), and port (number); deprecate png alias.
-- After data is loaded, pass options.width, height, margin from optional flags if provided.
-- Abstract common generation logic into a helper function to reuse between CLI and HTTP.
-- Use sharp for PNG conversion and Express for server.
+
+- Extend `parseArgs` in `src/lib/main.js` to include:
+  ```js
+  title: z.string().optional(),
+  xLabel: z.string().optional(),
+  yLabel: z.string().optional(),
+  ```
+- In `main`, after parsing, collect `parsed.title`, `parsed.xLabel`, `parsed.yLabel` and include them in the options passed to `generateSVG`.
+- Update `generateSVG(data, options)` signature to read `options.title`, `options.xLabel`, `options.yLabel`, along with width, height, margin.
+- In SVG output:
+  - If `options.title` present, add a `<text>` element centered at top (y = margin/2) with font-size proportional to margin.
+  - If `options.xLabel` present, add a `<text>` element centered below the x-axis with appropriate positioning.
+  - If `options.yLabel` present, add a rotated `<text>` element along the y-axis with appropriate transform.
+- Ensure annotation elements render above axes and polyline.
 
 # Tests
-- Extend parseArgs tests to cover --format, --serve, --port, and deprecation of --png.
-- Add unit tests for json and csv outputs in tests/unit/plot-generation.test.js:
-  - Verify JSON payload structure and error on empty data.
-  - Verify CSV header and rows.
-- Use supertest to test HTTP API in a new tests/unit/http-api.test.js:
-  - GET /plot?expression=x&range=x=0:2&format=csv returns 200 text/csv and correct CSV.
-  - Test format=json returns application/json with correct body.
-  - Test format=png and format=svg return correct content types and response bodies.
-  - Test error responses for missing expression or bad range.
+
+- Extend `parseArgs` tests to verify parsing of `--title`, `--x-label`, and `--y-label` flags.
+- Add unit tests for `generateSVG` in `tests/unit/plot-generation.test.js`:
+  - When title and labels are provided, SVG string contains `<text>` elements with correct content and attributes.
+  - Ensure annotations do not appear when not provided.
+- Extend HTTP API tests in `tests/unit/http-api.test.js`:
+  - Request `/plot?expression=x&range=x=0:2&format=svg&title=Test&xLabel=X&yLabel=Y` returns status 200 with `Content-Type: image/svg+xml` and SVG including annotation tags.
 
 # Documentation
-- Update README.md and USAGE.md to document --format, --serve, --port and HTTP examples:
-    curl "http://localhost:3000/plot?expression=x&range=x=0:5:1&format=csv" > data.csv
-    npx repository0-plot-code-lib --serve --port 4000
-    npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:3" --format png --output out.png
+
+- Update `README.md` and `USAGE.md` to include the new flags and query parameters, with example invocations for both CLI and HTTP modes.
