@@ -31,3 +31,5 @@
 
 2025-05-18T04:35:37.465Z - Maintained feature OUTPUT_FORMATS.
 
+2025-05-18T04:39:49.544Z - Updated issue 3083.
+
