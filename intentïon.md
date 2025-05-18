@@ -6,3 +6,5 @@
 
 2025-05-18T08:51:26.451Z - Worked to update README with: Update README and USAGE documentation with latest CLI options and examples.
 
+2025-05-18T08:58:07.670Z - Maintained feature OUTPUT_FORMATS.
+
