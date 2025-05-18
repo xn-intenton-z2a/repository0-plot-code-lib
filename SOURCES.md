@@ -69,3 +69,27 @@ MIT
 Official Supertest library documentation for end-to-end testing of HTTP servers in Node.js. Demonstrates request chaining, assertions on status codes, headers, and response bodies, and integration patterns with frameworks like Express. Provides actionable examples for testing the `/plot` endpoint, parameter validation errors, and content-type assertions. Last updated March 2024; widely used in production test suites.
 ## License
 MIT
+
+# MDN SVG Text Element Reference
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
+Comprehensive reference on the SVG `<text>` element, covering attributes like `x`, `y`, `dx`, `dy`, `text-anchor`, `font-size`, and transformations. Provides examples for positioning and styling text in an SVG canvas—directly applicable for rendering chart titles, axis labels, and annotations. Updated June 2024; maintained by Mozilla, authoritative MDN content.
+## License
+CC-BY-SA
+
+# W3C SVG 1.1 Text and Font Specification
+## https://www.w3.org/TR/SVG11/text.html
+The formal W3C specification for SVG text rendering, detailing coordinate systems, text layout, font inheritance, and placement rules. Offers in-depth technical guidance on baseline alignment, text transformations, and multiline text support—critical for implementing consistent and standards-compliant chart annotations. Last revised September 2011; maintained by W3C Working Group.
+## License
+W3C Public License
+
+# Plotly.js Annotation Guide
+## https://plotly.com/javascript/annotations/
+Official Plotly.js documentation on adding annotations including text boxes, arrows, and shapes to charts. Covers configuration options such as `xref`, `yref`, annotation positioning, styling, and interactivity—offering actionable patterns for advanced annotation features. Updated May 2024; maintained by Plotly, widely used in interactive charting applications.
+## License
+MIT
+
+# Node.js URL and Query Parameter Handling
+## https://nodejs.org/api/url.html#url_class_urlsearchparams
+Authoritative Node.js API reference for the `URLSearchParams` class and the URL API. Details methods for parsing, appending, and serializing query parameters—relevant for processing `title`, `xLabel`, and `yLabel` parameters in HTTP mode. Continuously updated with each Node LTS release (last revised June 2024).
+## License
+CC-BY-SA
