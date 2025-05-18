@@ -79,3 +79,15 @@ LLM API Usage:
 
 ---
 
+## Activity at 2025-05-18T18:31:20.589Z
+
+Digested UTF-8 no BOM, LF delim. One JSON value per line, whitespace-trimmed. .jsonl extension, .jsonl.gz/.bz2 optional, MIME application/jsonl. Examples: arrays for tabular data, objects for records, nested arrays. Tools: grep + jq, Python json module, Node.js readline+JSON.parse, Go bufio.Scanner+encoding/json. Integrations: Scrapy FEED_FORMAT=jsonlines; Logstash codec=json_lines; ClickHouse JSONEachRow; BigQuery NEWLINE_DELIMITED_JSON..
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":12321,"completion_tokens":2260,"total_tokens":14581,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":704,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
