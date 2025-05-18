@@ -23,3 +23,5 @@
 
 2025-05-17T20:57:37.778Z - Maintained feature OUTPUT_FORMATS.
 
+2025-05-18T00:43:13.833Z - Maintain sources of library content.
+
