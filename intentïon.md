@@ -4,3 +4,5 @@
 
 2025-05-18T08:30:50.675Z - Worked to resolve issue Implement output formats and HTTP server mode add parseArgs enhancements generateCSVJSON HTTP handling add tests and docs. Implement output formats and HTTP server mode add parseArgs enhancements generateCSVJSON HTTP handling add tests and docs.
 
+2025-05-18T08:51:26.451Z - Worked to update README with: Update README and USAGE documentation with latest CLI options and examples.
+
