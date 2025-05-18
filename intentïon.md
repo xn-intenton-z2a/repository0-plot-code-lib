@@ -12,3 +12,5 @@
 
 2025-05-18T12:32:33.770Z - Digested layout.annotations:Array<Annotation>{x:number|string,y:number|string,xref:'x'|'paper',yref:'y'|'paper',text:string,showarrow:boolean,ax:number,ay:number,arrowhead:0–8,arrowsize:number,arrowwidth:number,arrowcolor:string,font:{family:string,size:number,color:string},bgcolor:string,bordercolor:string,borderpad:number,borderwidth:number,opacity:0–1,align:'left'|'center'|'right',xanchor:'auto'|'left'|'center'|'right',yanchor:'auto'|'top'|'middle'|'bottom',captureevents:boolean};Plotly.newPlot(div,data,layout,config{editable:boolean,dragmode:string})=>Promise;Plotly.relayout(div,update{'annotations[i].field':value}|{annotations:Array<Annotation>})=>Promise;dragmode='annotate';config.editable=true;Update via zero-based index;Defaults: arrowhead=1,arrowsize=1,arrowwidth=1,arrowcolor='black',borderpad=2,opacity=1;Use captureevents:false to disable drag;Wrap relayout in .then/.catch;Use xref/yref='paper' to anchor to plot area..
 
+2025-05-18T13:04:56.458Z - Maintained feature OUTPUT_FORMATS.
+
