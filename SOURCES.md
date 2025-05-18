@@ -2,13 +2,13 @@
 ## https://github.com/colinhacks/zod
 ## https://github.com/substack/minimist
 ## https://github.com/yargs/yargs
-Provides a consolidated guide for defining, parsing, and validating command-line arguments in Node.js. Zod offers a type-safe schema definition with runtime checks and clear error messages—critical for new flags like `--format`, `--width`, and `--input`. Minimist delivers lightweight tokenization for basic workflows, while Yargs supports nested commands, middleware hooks, automatic help/version generation, and advanced flag validation—essential for a robust CLI interface. Last updates: Zod (April 2024), Minimist (January 2024), Yargs (March 2024); all are widely adopted, community-maintained, and battle-tested.
+Provides a consolidated guide for defining, parsing, and validating command-line arguments in Node.js. Zod offers a type-safe schema definition with runtime checks and clear error messages—critical for flags like `--format`, `--serve`, and `--port`. Minimist delivers lightweight tokenization for basic workflows, while Yargs supports nested commands, middleware hooks, automatic help/version generation, and advanced flag validation—essential for a robust CLI interface and seamless deprecation handling of `--png`. Last updates: Zod (April 2024), Minimist (January 2024), Yargs (March 2024); all are widely adopted, community-maintained, and battle-tested.
 ## License
 Zod: MIT; Minimist: MIT; Yargs: BSD-3-Clause
 
 # Vitest Testing Guide
 ## https://vitest.dev/guide/
-The official Vitest documentation covers everything needed for unit, integration, and end-to-end testing in modern ES modules. Topics include parallel test execution, spies, mocks, snapshot testing, coverage reporting, and setup/teardown hooks. Advanced patterns demonstrate how to isolate file-system and network interactions—vital for validating CSV/JSON ingestion, `--format` behavior, SVG/PNG buffer outputs, and future HTTP endpoints. Last updated April 2024; maintained by the Vitest core team.
+The official Vitest documentation covers unit, integration, and end-to-end testing in modern ES modules. Topics include parallel test execution, spies, mocks, snapshot testing, coverage reporting, and setup/teardown hooks. Advanced patterns demonstrate how to isolate file-system and network interactions—vital for testing CSV/JSON ingestion, CLI flag behaviors, HTTP API endpoints, and buffer-based PNG outputs. Last updated April 2024; maintained by the Vitest core team.
 ## License
 MIT
 
@@ -27,30 +27,30 @@ High-performance native image processing for Node.js. Covers resizing, compositi
 ## License
 MIT
 
-# Node.js Official API Reference
+# Node.js Core API & Streams
 ## https://nodejs.org/docs/latest/api/
-The authoritative source for Node.js core modules—including fs, path, stream, buffer, URL, events, and HTTP. Details method signatures, event diagrams, Promise support, ESM considerations, and security best practices. Foundational for file I/O (`--input`), directory resolution, environment variable loading, and any future HTTP server or streaming pipelines. Continuously updated with each LTS release.
+Authoritative source for Node.js core modules, including fs, path, http, stream, buffer, events, and URL. Covers method signatures, readable/writable/transform streams, backpressure management, event-driven patterns, Promises, and ESM integration. Foundational for file I/O (`--input`/`--output`), streaming CSV/JSON ingestion, SVG/PNG pipelines, and HTTP server creation with Express. Continuously updated with each LTS release (last revised June 2024).
 ## License
 CC-BY-SA
 
 # MDN Scalable Vector Graphics Reference
 ## https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial
-In-depth tutorial on SVG syntax, shapes, paths, transforms, styling, and accessibility. Provides practical code examples for generating compliant, responsive SVG output in your `plot` command—ensuring cross-platform fidelity and seamless integration with headless canvases. Updated May 2024; maintained by Mozilla.
+In-depth tutorial on SVG syntax, shapes, paths, transforms, styling, and accessibility. Provides practical code examples for generating compliant, responsive SVG output in the `plot` command—ensuring cross-platform fidelity and seamless integration with headless canvases. Updated May 2024; maintained by Mozilla.
 ## License
 CC-BY-SA
 
 # dotenv Environment Variable Loader
 ## https://github.com/motdotla/dotenv#readme
-Official guide for loading and managing `.env` variables in Node.js. Discusses variable expansion, override precedence, security best practices, and programmatic APIs—crucial for safely handling API keys (e.g., QuickChart) and customizing CLI defaults. Last updated May 2024; widely adopted in the Node ecosystem.
+Official guide for loading and managing `.env` variables in Node.js. Discusses variable expansion, override precedence, security best practices, and programmatic APIs—crucial for safely handling API keys (e.g., QuickChart) and customizing CLI defaults such as default port or file paths. Last updated May 2024; widely adopted in the Node ecosystem.
 ## License
 BSD-2-Clause
 
 # CSV Handling and Parsing
 ## https://datatracker.ietf.org/doc/html/rfc4180
 ## https://csv.js.org/parse/
-Combines the formal CSV format specification (RFC 4180) with a high-performance Node.js parsing library. The spec defines delimiters, quoting rules, and header semantics; csv-parse offers sync/async APIs, streaming, custom delimiters, and transform hooks—critical for robust `--input` CSV ingestion and error-resilient parsing. RFC published October 2005; csv-parse maintained under MIT.
+Combines the formal CSV format specification (RFC 4180) with the csv-parse library guide for Node.js. The spec defines delimiters, quoting rules, and header semantics; csv-parse covers sync/async APIs, streams, custom delimiters, and transform hooks—critical for robust `--input` CSV ingestion, header validation, and error-resilient parsing. Last updated October 2005 (RFC), csv-parse updated May 2024; both are authoritative community resources.
 ## License
-Public Domain (RFC 4180); csv-parse: MIT
+Public Domain (RFC 4180); MIT (csv-parse)
 
 # Math.js API Documentation
 ## https://mathjs.org/docs/
@@ -58,8 +58,14 @@ Comprehensive reference for mathematical expression evaluation, symbolic computa
 ## License
 Apache-2.0
 
-# Node.js Streams and Data Pipelines
-## https://nodejs.org/docs/latest/api/stream.html
-An in-depth look at Node.js stream abstractions: Readable, Writable, Transform, and Duplex. Covers piping, backpressure, `stream.pipeline`, and robust error handling—essential for processing large CSV/JSON inputs, streaming chart buffers, and efficient memory usage without full data loading. Continuously updated in sync with Node.js LTS.
+# Express.js Web Framework
+## https://expressjs.com/en/4x/api.html
+Comprehensive official reference for Express 4.x covering application setup, routing methods (`app.get`, `app.post`, etc.), middleware architecture, query and body parsing, error handlers, response methods, and integration with Node.js HTTP server. Essential for implementing the HTTP API mode (`--serve`), parameter validation, status codes, content negotiation, and middleware patterns in a production-grade server. Last updated April 2024; maintained by the Express.js team with community contributions (over 55K stars on GitHub).
 ## License
-CC-BY-SA
+MIT
+
+# Supertest HTTP Assertions
+## https://github.com/visionmedia/supertest#readme
+Official Supertest library documentation for end-to-end testing of HTTP servers in Node.js. Demonstrates request chaining, assertions on status codes, headers, and response bodies, and integration patterns with frameworks like Express. Provides actionable examples for testing the `/plot` endpoint, parameter validation errors, and content-type assertions. Last updated March 2024; widely used in production test suites.
+## License
+MIT
