@@ -1,5 +1,11 @@
 # Usage
 
+CLI Synopsis:
+
+```bash
+npx repository0-plot-code-lib --expression "<expr>" --range "<range>" [--input "<file>"] [--input-format <csv|json>] [--format <svg|png|json|csv>] [--output "<file>"] [--serve] [--port <number>]
+```
+
 To generate an SVG plot from a mathematical expression:
 
 ```bash
@@ -44,6 +50,7 @@ Run HTTP server on port 4000:
 ```bash
 npx repository0-plot-code-lib --serve --port 4000
 ```
+
 Access the `/plot` endpoint:
 ```bash
 curl "http://localhost:4000/plot?expression=x&range=x=0:5:1&format=csv" > data.csv

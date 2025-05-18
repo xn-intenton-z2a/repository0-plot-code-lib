@@ -21,30 +21,63 @@ npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1"
 Run the CLI with the following syntax:
 
 ```bash
-npx repository0-plot-code-lib --expression "<expr>" --range "<range>" [--output "<file>"]
+npx repository0-plot-code-lib --expression "<expr>" --range "<range>" [--input "<file>"] [--input-format <csv|json>] [--format <svg|png|json|csv>] [--output "<file>"] [--serve] [--port <number>]
 ```
 
 Options:
 
-- `--expression <expr>` (required): A mathematical expression in variable `x`.
-- `--range <range>` (required): Range for `x` in the format `x=min:max[:step]`. Step defaults to `1`.
-- `--output <file>` (optional): Path to save the output. Defaults to stdout.
-- `--input <file>` (optional): Path to a CSV or JSON file containing data (ignores expression and range).
-- `--input-format <csv|json>` (optional): Override input format detection.
-- `--png` (optional): Output a PNG image instead of SVG.
+- `--expression <expr>`: A mathematical expression in variable `x`. Required unless using `--input`.
+- `--range <range>`: Range for `x` in the format `x=min:max[:step]`. Required unless using `--input`. `step` defaults to `1`.
+- `--input <file>`: Path to a CSV or JSON file containing time series data. When provided, expression and range are ignored.
+- `--input-format <csv|json>`: Override input format detection based on file extension. Optional.
+- `--format <svg|png|json|csv>`: Specify output format. Defaults to `svg`.
+- `--output <file>`: Path to save the output. Optional. Defaults to stdout.
+- `--png` (deprecated): Alias for `--format png`.
+- `--serve`: Enable HTTP server mode.
+- `--port <number>`: Port for HTTP server. Defaults to `3000`.
 
 ## Examples
 
-Generate an SVG plot and save to a file:
+Generate an SVG plot from an expression and save to a file:
 
 ```bash
-npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --output output.svg
+npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --output plot.svg
 ```
 
-Redirect output to STDOUT and pipe to a file:
+Generate a PNG plot:
 
 ```bash
-npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:0.5" > plot.svg
+npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --format png --output plot.png
+```
+
+Generate JSON data from an expression:
+
+```bash
+npx repository0-plot-code-lib --expression "x" --range "x=0:5" --format json --output data.json
+```
+
+Load data from a CSV file and generate an SVG plot:
+
+```bash
+npx repository0-plot-code-lib --input data.csv --output plot.svg
+```
+
+Generate CSV output from JSON input:
+
+```bash
+npx repository0-plot-code-lib --input data.json --format csv > data.csv
+```
+
+Run the HTTP server on port 4000:
+
+```bash
+npx repository0-plot-code-lib --serve --port 4000
+```
+
+Access the `/plot` endpoint:
+
+```bash
+curl "http://localhost:4000/plot?expression=x&range=x=0:5:1&format=csv" > data.csv
 ```
 
 ## License
