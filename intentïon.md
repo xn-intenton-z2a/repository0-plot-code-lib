@@ -43,3 +43,5 @@
 
 2025-05-18T04:58:02.061Z - Maintained feature OUTPUT_FORMATS.
 
+2025-05-18T04:59:05.408Z - Generated feature development issue with title Implement OUTPUT_FORMATS feature and HTTP server mode (SVG, PNG, JSON, CSV).
+
