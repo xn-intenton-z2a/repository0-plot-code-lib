@@ -158,23 +158,36 @@ import { fileURLToPath } from "url";
 import path from "path";
 import { z } from "zod";
 import { create, all } from "mathjs";
+import sharp from "sharp";
 
 const math = create(all);
 
 export function parseArgs(args) {
+  const booleanFlags = ["png"];
   const argsSchema = z.object({
-    expression: z.string(),
-    range: z.string(),
+    expression: z.string().optional(),
+    range: z.string().optional(),
     output: z.string().optional(),
+    input: z.string().optional(),
+    inputFormat: z.enum(["csv", "json"]).optional(),
+    png: z.boolean().optional(),
   });
   const parsed = {};
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg.startsWith("--")) {
       const key = arg.substring(2);
-      const value = args[i + 1];
-      parsed[key] = value;
-      i++;
+      if (booleanFlags.includes(key)) {
+        parsed[key] = true;
+      } else {
+        const value = args[i + 1];
+        if (value && !value.startsWith("--")) {
+          parsed[key] = value;
+          i++;
+        } else {
+          throw new Error(`Missing value for argument: ${arg}`);
+        }
+      }
     }
   }
   return argsSchema.parse(parsed);
@@ -235,7 +248,75 @@ export function generateSVG({ xValues, yValues }, options = {}) {
 </svg>`;
 }
 
-export function main(argsParam) {
+export function parseInputFile(filePath, formatOverride) {
+  const ext = path.extname(filePath).toLowerCase().slice(1);
+  const format = formatOverride || ext;
+  if (!["csv", "json"].includes(format)) {
+    throw new Error("Unsupported input format");
+  }
+  const content = fs.readFileSync(filePath, "utf8");
+  let xValues = [];
+  let yValues = [];
+  if (format === "csv") {
+    const lines = content.split(/\r?\n/).filter((line) => line.trim() !== "");
+    if (lines.length < 2) {
+      throw new Error("CSV file must have at least a header and one data row");
+    }
+    const header = lines[0].split(",");
+    if (header[0].trim() !== "x" || header[1].trim() !== "y") {
+      throw new Error("CSV header must be 'x,y'");
+    }
+    for (let i = 1; i < lines.length; i++) {
+      const cols = lines[i].split(",");
+      if (cols.length !== 2) throw new Error(`Invalid CSV row: ${lines[i]}`);
+      const x = parseFloat(cols[0]);
+      const y = parseFloat(cols[1]);
+      if (isNaN(x) || isNaN(y)) throw new Error(`Invalid number in CSV at row ${i + 1}`);
+      xValues.push(x);
+      yValues.push(y);
+    }
+  } else {
+    let parsedJson;
+    try {
+      parsedJson = JSON.parse(content);
+    } catch (err) {
+      throw new Error(`Invalid JSON: ${err.message}`);
+    }
+    if (Array.isArray(parsedJson)) {
+      for (const item of parsedJson) {
+        if (typeof item.x !== "number" || typeof item.y !== "number") {
+          throw new Error("JSON items must have numeric 'x' and 'y' properties");
+        }
+        xValues.push(item.x);
+        yValues.push(item.y);
+      }
+    } else if (parsedJson.xValues && parsedJson.yValues) {
+      if (!Array.isArray(parsedJson.xValues) || !Array.isArray(parsedJson.yValues)) {
+        throw new Error("JSON must have 'xValues' and 'yValues' arrays");
+      }
+      xValues = parsedJson.xValues;
+      yValues = parsedJson.yValues;
+      if (xValues.length !== yValues.length) {
+        throw new Error("Mismatched data lengths");
+      }
+      if (!xValues.every((x) => typeof x === "number") || !yValues.every((y) => typeof y === "number")) {
+        throw new Error("JSON arrays must contain numbers");
+      }
+    } else {
+      throw new Error("JSON must be an array of {x,y} or an object with xValues and yValues");
+    }
+  }
+  if (xValues.length !== yValues.length) {
+    throw new Error("Mismatched data lengths");
+  }
+  return { xValues, yValues };
+}
+
+export async function convertSVGtoPNG(svg) {
+  return sharp(Buffer.from(svg)).png().toBuffer();
+}
+
+export async function main(argsParam) {
   const args = argsParam ?? process.argv.slice(2);
   if (!args || args.length === 0) {
     console.log(`Run with: ${JSON.stringify(args)}`);
@@ -248,38 +329,64 @@ export function main(argsParam) {
     console.error(err.message);
     process.exit(1);
   }
-  let rangeObj;
-  try {
-    rangeObj = parseRange(parsed.range);
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
-  }
   let data;
-  try {
-    data = generateData(parsed.expression, rangeObj);
-  } catch (err) {
-    console.error(`Error evaluating expression: ${err.message}`);
-    process.exit(1);
-  }
-  const svg = generateSVG(data);
-  if (parsed.output) {
+  if (parsed.input) {
     try {
-      const outPath = path.isAbsolute(parsed.output)
-        ? parsed.output
-        : path.resolve(process.cwd(), parsed.output);
-      fs.writeFileSync(outPath, svg, "utf8");
+      data = parseInputFile(parsed.input, parsed.inputFormat);
     } catch (err) {
-      console.error(`Error writing file: ${err.message}`);
+      console.error(err.message);
       process.exit(1);
     }
   } else {
-    console.log(svg);
+    let rangeObj;
+    try {
+      rangeObj = parseRange(parsed.range);
+    } catch (err) {
+      console.error(err.message);
+      process.exit(1);
+    }
+    try {
+      data = generateData(parsed.expression, rangeObj);
+    } catch (err) {
+      console.error(`Error evaluating expression: ${err.message}`);
+      process.exit(1);
+    }
+  }
+  const svg = generateSVG(data);
+  if (parsed.png) {
+    try {
+      const buffer = await convertSVGtoPNG(svg);
+      if (parsed.output) {
+        const outPath = path.isAbsolute(parsed.output)
+          ? parsed.output
+          : path.resolve(process.cwd(), parsed.output);
+        fs.writeFileSync(outPath, buffer);
+      } else {
+        process.stdout.write(buffer);
+      }
+    } catch (err) {
+      console.error(`Error generating PNG: ${err.message}`);
+      process.exit(1);
+    }
+  } else {
+    if (parsed.output) {
+      try {
+        const outPath = path.isAbsolute(parsed.output)
+          ? parsed.output
+          : path.resolve(process.cwd(), parsed.output);
+        fs.writeFileSync(outPath, svg, "utf8");
+      } catch (err) {
+        console.error(`Error writing file: ${err.message}`);
+        process.exit(1);
+      }
+    } else {
+      console.log(svg);
+    }
   }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main();
+  main(process.argv.slice(2));
 }
 
 SOURCE_FILE_END
@@ -290,12 +397,17 @@ Test files (write new files or update files in tests/unit/plot-generation.test.j
 (Multiple files from both in writable locations and not.)
 TEST_FILE_START File: tests/unit/plot-generation.test.js
 import { describe, test, expect } from "vitest";
+import fs from "fs";
+import os from "os";
+import path from "path";
 import {
   parseArgs,
   parseRange,
   generateData,
   generateSVG,
   main,
+  parseInputFile,
+  convertSVGtoPNG,
 } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
@@ -364,6 +476,39 @@ describe("Default main", () => {
   });
 });
 
+describe("parseInputFile", () => {
+  test("should parse CSV input file", () => {
+    const tmp = path.join(os.tmpdir(), "test-input.csv");
+    fs.writeFileSync(tmp, "x,y\n1,2\n3,4\n");
+    const data = parseInputFile(tmp);
+    expect(data).toEqual({ xValues: [1, 3], yValues: [2, 4] });
+    fs.unlinkSync(tmp);
+  });
+
+  test("should parse JSON input file with object array", () => {
+    const tmp = path.join(os.tmpdir(), "test-input.json");
+    const arr = [{ x: 0, y: 1 }, { x: 2, y: 3 }];
+    fs.writeFileSync(tmp, JSON.stringify(arr));
+    const data = parseInputFile(tmp);
+    expect(data).toEqual({ xValues: [0, 2], yValues: [1, 3] });
+    fs.unlinkSync(tmp);
+  });
+
+  test("should throw on unsupported format", () => {
+    const tmp = path.join(os.tmpdir(), "test-input.txt");
+    fs.writeFileSync(tmp, "foo");
+    expect(() => parseInputFile(tmp)).toThrow("Unsupported input format");
+    fs.unlinkSync(tmp);
+  });
+});
+
+describe("convertSVGtoPNG", () => {
+  test("should convert SVG to PNG buffer", async () => {
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10"/></svg>';
+    const buffer = await convertSVGtoPNG(svg);
+    expect(buffer.slice(0, 8)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+  });
+});
 TEST_FILE_END
 
 
@@ -402,22 +547,34 @@ npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --out
 
 Options:
 
-- `--expression <expr>`: A mathematical expression in variable `x`. Required.
-- `--range <range>`: Range for `x` in the format `x=min:max[:step]`. Required. `step` defaults to `1`.
-- `--output <file>`: Output file path for the SVG. Optional. Defaults to stdout.
+- `--expression <expr>`: A mathematical expression in variable `x`. Required unless using `--input`.
+- `--range <range>`: Range for `x` in the format `x=min:max[:step]`. Required unless using `--input`. `step` defaults to `1`.
+- `--output <file>`: Output file path for the image or SVG. Optional. Defaults to stdout.
+- `--input <file>`: Path to a CSV or JSON file containing time series data. When provided, `--expression` and `--range` are ignored.
+- `--input-format <csv|json>`: Override input format detection based on file extension. Optional.
+- `--png`: Output a PNG image instead of SVG. When used without `--output`, the PNG binary is written to stdout.
 
-Example:
+Examples:
 
+Generate SVG from CSV data:
 ```bash
-npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:0.5"
+npx repository0-plot-code-lib --input data.csv --output plot.svg
 ```
 
-This prints an SVG to stdout. Redirect to a file to save:
+Generate PNG from CSV data:
+```bash
+npx repository0-plot-code-lib --input data.csv --png --output plot.png
+```
 
+Generate PNG from JSON data, writing to stdout:
+```bash
+npx repository0-plot-code-lib --input data.json --input-format json --png > out.png
+```
+
+You can still use the expression/range syntax for SVG:
 ```bash
 npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:0.5" > plot.svg
 ```
-
 DOCUMENTATION_FILE_END
 
 
@@ -570,7 +727,11 @@ DEPENDENCIES_FILE_START
     "test:unit": "vitest --coverage tests/unit/*.test.js",
     "start": "node src/lib/main.js"
   },
-  "keywords": [],
+  "keywords": [
+    "csv",
+    "json",
+    "png"
+  ],
   "author": "",
   "license": "MIT",
   "dependencies": {
@@ -580,6 +741,7 @@ DEPENDENCIES_FILE_START
     "mathjs": "^11.8.2",
     "minimatch": "^10.0.1",
     "openai": "^4.95.1",
+    "sharp": "^0.32.4",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -806,102 +968,94 @@ AGENT_CONFIG_FILE_END
 
 Issue details:
 ISSUE_START
-title: Add time series data import (CSV/JSON) and PNG export
+title: [Documenter] Refresh README with Comprehensive Usage Instructions and Examples
 description:
-## Summary
+## Context
+The current `README.md` only contains the project name and license, lacking essential usage instructions, CLI examples, and option details. Users currently must refer to separate documentation (`USAGE.md`) or external resources to understand how to use the CLI.
 
-Extend the CLI to import existing time series data in CSV or JSON format and to export plots as PNG in addition to SVG. This aligns with our mission to read/write standard time series formats and provide both SVG and PNG outputs.
+## Objective
+Enhance `README.md` with clear, concise, and actionable usage guidance to onboard users quickly and reduce context switching.
 
-## Changes Required
-
-1. **CLI Flags & Parsing**
-   - Add new flags in `src/lib/main.js`:
-     - `--input <file>`: path to a CSV or JSON file containing time series data.
-     - `--input-format <csv|json>`: optional override to specify format (auto-detect by extension if omitted).
-     - `--png`: boolean flag to output a PNG instead of SVG.
-   - Implement `parseInputFile(filePath, format)` that:
-     - Reads the file with `fs.readFileSync`.
-     - Parses CSV (e.g., with `csv-parse`) or JSON into `{ xValues: number[], yValues: number[] }`.
-     - Validates that arrays are numeric and of matching lengths; throws on errors.
-
-2. **Integration in `main()`**
-   - If `--input` is provided:
-     - Skip expression/range parsing and data generation.
-     - Call `parseInputFile` to obtain data.
-   - After `generateSVG(data)`, if `--png` is set:
-     - Convert the SVG to PNG (e.g., using `sharp`).
-     - Write the PNG buffer to the specified output path or stdout.
-   - Ensure exit codes and error messages remain consistent on failure.
-
-3. **Testing**
-   - **Unit Tests** in `tests/unit/plot-generation.test.js`:
-     1. CSV input parsing: create a temporary CSV file with header `x,y` and verify arrays.
-     2. JSON input parsing: use a JSON array of objects with `x` and `y` and verify arrays.
-     3. PNG export: mock an SVG string, run `main()` with `--png`, and assert the output buffer starts with PNG signature (`\x89PNG`).
-     4. Error handling: unsupported file extension, malformed CSV/JSON, mismatched lengths return exit code 1 and descriptive error.
-
-4. **Documentation**
-   - Update `USAGE.md`:
-     - Document `--input <file>`, `--input-format <csv|json>`, and `--png` flags.
-     - Provide example commands:
+## Acceptance Criteria
+1. **Installation Section**: 
+   - Contains instructions for installing via `npm install @xn-intenton-z2a/repository0-plot-code-lib` and running via `npx repository0-plot-code-lib`.
+   - Validated by presence of code blocks showing both installation and `npx` usage.
+2. **Usage Section**:  
+   - Documents the CLI syntax with flags: `--expression <expr>`, `--range <range>`, `--output <file>`.
+   - Each flag is described, its requirement status noted (required vs optional), and default behavior explained.
+   - Validated by presence of a table or list detailing each flag and default values.
+3. **Examples Section**:  
+   - Includes at least two distinct examples:
+     - Generating an SVG to a file:  
        ```bash
-       npx repository0-plot-code-lib --input data.csv --input-format csv --png --output plot.png
-       npx repository0-plot-code-lib --input data.json --png > out.png
+       npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --output output.svg
        ```
+     - Redirecting output to STDOUT and piping to a file:  
+       ```bash
+       npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:0.5" > plot.svg
+       ```
+   - Validated by presence of those exact code blocks.
+4. **License Section**:  
+   - Remains at the bottom of the document without alteration.
 
-5. **Dependencies**
-   - Add `sharp` for PNG generation.
-   - Add `csv-parse` (or similar) for robust CSV parsing.
-   - Update `package.json` keywords to include `csv`, `json`, `png`.
+## Tasks
+1. Update `README.md` to include:
+   - Installation instructions (npm and npx).
+   - Usage section with flag definitions.
+   - Examples section as described above.
+   - Ensure license section remains intact and unmodified, except for repositioning if needed.
+2. Preview the rendered `README.md` on GitHub to confirm formatting and code blocks display correctly.
 
-## Testable Acceptance Criteria
-
-1. **CSV Import**:
-   - Given a valid `data.csv` with header `x,y`, running `npx repository0-plot-code-lib --input data.csv --output plot.svg` creates `plot.svg` representing the data without errors.
-2. **JSON Import**:
-   - Given a valid `data.json` representing `[ { "x": 0, "y": 1 }, ... ]`, running `--input data.json --format json` outputs the correct JSON representation of the data.
-3. **PNG Export**:
-   - With any valid input (expression/range or `--input`), adding `--png --output out.png` produces a file starting with the PNG signature bytes (`\x89PNG`) and valid dimensions.
-4. **Error Cases**:
-   - Supplying an unsupported extension (e.g., `.txt`) returns exit code 1 and prints "Unsupported input format".
-   - Malformed CSV/JSON returns exit code 1 and prints a descriptive parse error.
-   - Mismatched `x`/`y` lengths returns exit code 1 and prints "Mismatched data lengths".
-5. **Backward Compatibility**:
-   - Existing commands without `--input` and without `--png` continue to produce identical SVG output and pass all existing tests.
-
+_No source code, tests, or dependencies changes are required; this is purely a documentation update._
 comments:
-Author:github-actions[bot], Created:2025-05-17T12:27:08Z, Comment: Workflow name: flow-feature-development
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15085157254
+Author:github-actions[bot], Created:2025-05-17T12:50:47Z, Comment: Workflow name: flow-maintenance-activity-to-issue
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15085351309
 Workflow event: schedule
 Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/ce57452c250db639555b2291a0ae2fba07c333b6
-Author:github-actions[bot], Created:2025-05-17T12:27:47Z, Comment: Workflow name: flow-feature-development
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15085157254
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/b453f35daecd9d458769d42ab57301ec2b99b7cd
+Author:github-actions[bot], Created:2025-05-17T12:51:34Z, Comment: This issue has been reviewed and marked as 'ready'. The description has been updated with testable acceptance criteria, and relevant library documents ([], 0 in total) have been added as comments.
+Author:github-actions[bot], Created:2025-05-17T12:52:01Z, Comment: Workflow name: flow-maintenance-activity-to-issue
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15085351309
 Workflow event: schedule
 Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/ce57452c250db639555b2291a0ae2fba07c333b6
-Author:github-actions[bot], Created:2025-05-17T12:29:04Z, Comment: Workflow name: flow-feature-development
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15085157254
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/6a95a7f4ff96559552fab3be2fd524328b2ee2dc
+Author:github-actions[bot], Created:2025-05-17T12:53:05Z, Comment: Workflow name: flow-maintenance-activity-to-issue
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15085351309
 Workflow event: schedule
 Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/ce57452c250db639555b2291a0ae2fba07c333b6
-Author:github-actions[bot], Created:2025-05-17T12:32:25Z, Comment: Add CSV/JSON input parsing and PNG export support
-Author:github-actions[bot], Created:2025-05-18T04:38:23Z, Comment: Workflow name: flow-linting-to-issue
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092362401
-Workflow event: schedule
-Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/ce4b6273a6aceaba5d2c960c3fe620f43922d687
-Author:github-actions[bot], Created:2025-05-18T04:39:23Z, Comment: This issue has been reviewed and marked as 'ready'. The description has been updated with testable acceptance criteria, and relevant library documents ([], 0 in total) have been added as comments.
-Author:github-actions[bot], Created:2025-05-18T04:40:14Z, Comment: Workflow name: flow-linting-to-issue
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092362401
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/6a95a7f4ff96559552fab3be2fd524328b2ee2dc
+Author:github-actions[bot], Created:2025-05-17T12:54:53Z, Comment: docs: enhance README with installation, usage, and examples
+Author:github-actions[bot], Created:2025-05-17T12:55:06Z, Comment: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/tree/agentic-lib-issue-3084
+Author:github-actions[bot], Created:2025-05-18T04:43:52Z, Comment: Workflow name: transformation-07.1-in-progress-issue-to-ready-issue
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092418010
 Workflow event: schedule
 Workflow inputs: null
 HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/175965d54e0151ddb5a5beae0330b9c43558e8ce
-Author:github-actions[bot], Created:2025-05-18T04:41:19Z, Comment: Workflow name: flow-linting-to-issue
-Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092362401
+Author:github-actions[bot], Created:2025-05-18T04:45:44Z, Comment: Workflow name: transformation-06-issue-to-code
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092427238
 Workflow event: schedule
 Workflow inputs: null
-HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/175965d54e0151ddb5a5beae0330b9c43558e8ce
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/71a51448f1ef58f89cd6b7fa6968a997f92367b0
+Author:github-actions[bot], Created:2025-05-18T04:46:20Z, Comment: Workflow name: flow-publish-stats
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092433253
+Workflow event: workflow_run
+Workflow inputs: null
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/326bd6dc96e6edf253b1b3139123cd9636d3ae5d
+Author:github-actions[bot], Created:2025-05-18T04:48:32Z, Comment: Workflow name: flow-maintenance-activity-to-issue
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092410595
+Workflow event: schedule
+Workflow inputs: null
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/647628e0a123eb8548443381373d219d282617a3
+Author:github-actions[bot], Created:2025-05-18T04:49:45Z, Comment: Workflow name: flow-maintenance-activity-to-issue
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092410595
+Workflow event: schedule
+Workflow inputs: null
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/647628e0a123eb8548443381373d219d282617a3
+Author:github-actions[bot], Created:2025-05-18T04:50:45Z, Comment: Workflow name: flow-maintenance-activity-to-issue
+Workflow run URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/actions/runs/15092410595
+Workflow event: schedule
+Workflow inputs: null
+HEAD of main URL: https://github.com/xn-intenton-z2a/repository0-plot-code-lib/commit/647628e0a123eb8548443381373d219d282617a3
 ISSUE_END            
 
 Dependencies list from command: npm list
@@ -929,6 +1083,7 @@ DEPENDENCIES_LIST_START
 ├── npm-check-updates@17.1.18
 ├── openai@4.100.0
 ├── prettier@3.5.3
+├── sharp@0.32.6
 ├── vitest@3.1.3
 └── zod@3.24.4
 DEPENDENCIES_LIST_END    
@@ -955,16 +1110,16 @@ TEST_OUTPUT_START
 [90mstdout[2m | tests/unit/main.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error
 [22m[39mRun with: []
 
+ [32m✓[39m tests/unit/main.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
 [90mstdout[2m | tests/unit/plot-generation.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error on no args
 [22m[39mRun with: []
 
- [32m✓[39m tests/unit/main.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
- [32m✓[39m tests/unit/plot-generation.test.js [2m([22m[2m7 tests[22m[2m)[22m[32m 84[2mms[22m[39m
+ [32m✓[39m tests/unit/plot-generation.test.js [2m([22m[2m11 tests[22m[2m)[22m[32m 73[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
-[2m      Tests [22m [1m[32m10 passed[39m[22m[90m (10)[39m
-[2m   Start at [22m 04:42:44
-[2m   Duration [22m 1.19s[2m (transform 74ms, setup 0ms, collect 1.79s, tests 92ms, environment 1ms, prepare 305ms)[22m
+[2m      Tests [22m [1m[32m14 passed[39m[22m[90m (14)[39m
+[2m   Start at [22m 04:52:10
+[2m   Duration [22m 1.38s[2m (transform 102ms, setup 0ms, collect 2.03s, tests 80ms, environment 1ms, prepare 384ms)[22m
 TEST_OUTPUT_END            
 
 Main execution output from command: npm run start
