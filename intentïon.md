@@ -35,3 +35,5 @@
 
 2025-05-18T04:44:05.861Z - Updated issue 3081.
 
+2025-05-18T04:45:05.350Z - Worked to resolve issue Add CSVJSON input parsing PNG export support and update docs and dependencies. Add CSVJSON input parsing PNG export support and update docs and dependencies.
+
