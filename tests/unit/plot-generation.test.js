@@ -10,11 +10,21 @@ import {
   main,
   parseInputFile,
   convertSVGtoPNG,
+  generateCSV,
+  generateJSON,
 } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
-    expect({ parseArgs, parseRange, generateData, generateSVG, main }).not.toBeNull();
+    expect({
+      parseArgs,
+      parseRange,
+      generateData,
+      generateSVG,
+      main,
+      generateCSV,
+      generateJSON,
+    }).not.toBeNull();
   });
 });
 
@@ -34,6 +44,22 @@ describe("parseArgs", () => {
       range: "x=0:5:2",
       output: "out.svg",
     });
+  });
+  test("should parse --format flag", () => {
+    const args = ["--format", "csv"];
+    const parsed = parseArgs(args);
+    expect(parsed.format).toBe("csv");
+  });
+  test("should alias --png as boolean and warn on format assignment", () => {
+    const args = ["--png"];
+    const parsed = parseArgs(args);
+    expect(parsed.png).toBe(true);
+  });
+  test("should parse serve and port flags", () => {
+    const args = ["--serve", "--port", "4000"];
+    const parsed = parseArgs(args);
+    expect(parsed.serve).toBe(true);
+    expect(parsed.port).toBe(4000);
   });
 });
 
@@ -68,6 +94,25 @@ describe("generateSVG", () => {
     expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
     expect(svg).toContain('<polyline');
     expect(svg).toMatch(/points="[^"]+"/);
+  });
+});
+
+describe("generateCSV", () => {
+  test("should generate CSV string correctly", () => {
+    const data = { xValues: [1, 2], yValues: [3, 4] };
+    const csv = generateCSV(data);
+    expect(csv).toBe("x,y\n1,3\n2,4");
+  });
+  test("should throw on empty data", () => {
+    expect(() => generateCSV({ xValues: [], yValues: [] })).toThrow("No data points available");
+  });
+});
+
+describe("generateJSON", () => {
+  test("should generate JSON string correctly", () => {
+    const data = { xValues: [1], yValues: [2] };
+    const jsonStr = generateJSON(data);
+    expect(jsonStr).toBe(JSON.stringify(data));
   });
 });
 

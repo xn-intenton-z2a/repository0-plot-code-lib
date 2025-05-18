@@ -7,11 +7,32 @@ import path from "path";
 import { z } from "zod";
 import { create, all } from "mathjs";
 import sharp from "sharp";
+import express from "express";
 
 const math = create(all);
 
 export function parseArgs(args) {
-  const booleanFlags = ["png"];
+  const booleanFlags = ["png", "serve"];
+  const parsed = {};
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (!arg.startsWith("--")) {
+      continue;
+    }
+    const rawKey = arg.slice(2);
+    const key = rawKey.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
+    if (booleanFlags.includes(key)) {
+      parsed[key] = true;
+    } else {
+      const value = args[i + 1];
+      if (value && !value.startsWith("--")) {
+        parsed[key] = value;
+        i++;
+      } else {
+        throw new Error(`Missing value for argument: ${arg}`);
+      }
+    }
+  }
   const argsSchema = z.object({
     expression: z.string().optional(),
     range: z.string().optional(),
@@ -19,25 +40,16 @@ export function parseArgs(args) {
     input: z.string().optional(),
     inputFormat: z.enum(["csv", "json"]).optional(),
     png: z.boolean().optional(),
-  });
-  const parsed = {};
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if (arg.startsWith("--")) {
-      const key = arg.substring(2);
-      if (booleanFlags.includes(key)) {
-        parsed[key] = true;
-      } else {
-        const value = args[i + 1];
-        if (value && !value.startsWith("--")) {
-          parsed[key] = value;
-          i++;
-        } else {
-          throw new Error(`Missing value for argument: ${arg}`);
-        }
+    format: z.enum(["svg", "png", "json", "csv"]).optional(),
+    serve: z.boolean().optional(),
+    port: z.preprocess((val) => {
+      if (typeof val === "string") {
+        const num = parseInt(val, 10);
+        return Number.isNaN(num) ? val : num;
       }
-    }
-  }
+      return val;
+    }, z.number().int().positive().optional()),
+  });
   return argsSchema.parse(parsed);
 }
 
@@ -49,8 +61,8 @@ export function parseRange(rangeStr) {
   const parts = rangePart.split(":").map((p) => parseFloat(p));
   const min = parts[0];
   const max = parts[1];
-  const step = parts.length >= 3 && !isNaN(parts[2]) ? parts[2] : 1;
-  if (isNaN(min) || isNaN(max) || isNaN(step)) {
+  const step = parts.length >= 3 && !Number.isNaN(parts[2]) ? parts[2] : 1;
+  if (Number.isNaN(min) || Number.isNaN(max) || Number.isNaN(step)) {
     throw new Error(`Invalid range numbers in: ${rangeStr}`);
   }
   return { varName, min, max, step };
@@ -119,7 +131,7 @@ export function parseInputFile(filePath, formatOverride) {
       if (cols.length !== 2) throw new Error(`Invalid CSV row: ${lines[i]}`);
       const x = parseFloat(cols[0]);
       const y = parseFloat(cols[1]);
-      if (isNaN(x) || isNaN(y)) throw new Error(`Invalid number in CSV at row ${i + 1}`);
+      if (Number.isNaN(x) || Number.isNaN(y)) throw new Error(`Invalid number in CSV at row ${i + 1}`);
       xValues.push(x);
       yValues.push(y);
     }
@@ -164,6 +176,25 @@ export async function convertSVGtoPNG(svg) {
   return sharp(Buffer.from(svg)).png().toBuffer();
 }
 
+export function generateCSV({ xValues, yValues }) {
+  if (!Array.isArray(xValues) || !Array.isArray(yValues)) {
+    throw new Error("Data must have xValues and yValues arrays");
+  }
+  if (xValues.length === 0 || yValues.length === 0) {
+    throw new Error("No data points available");
+  }
+  if (xValues.length !== yValues.length) {
+    throw new Error("Mismatched data lengths");
+  }
+  const header = "x,y";
+  const rows = xValues.map((x, i) => `${x},${yValues[i]}`);
+  return [header, ...rows].join("\n");
+}
+
+export function generateJSON(data) {
+  return JSON.stringify(data);
+}
+
 export async function main(argsParam) {
   const args = argsParam ?? process.argv.slice(2);
   if (!args || args.length === 0) {
@@ -176,6 +207,52 @@ export async function main(argsParam) {
   } catch (err) {
     console.error(err.message);
     process.exit(1);
+  }
+  let { format, png, serve, port } = parsed;
+  if (png && !format) {
+    console.warn("[DEPRECATED] --png is deprecated, use --format=png");
+    format = "png";
+  }
+  format = format || "svg";
+  if (serve) {
+    const app = express();
+    app.get("/plot", async (req, res) => {
+      try {
+        const { expression, range, input, inputFormat, format: qFormat } = req.query;
+        const outFormat = qFormat || format;
+        let data;
+        if (input) {
+          data = parseInputFile(input, inputFormat);
+        } else {
+          if (!expression || !range) {
+            throw new Error("Missing expression or range");
+          }
+          const rng = parseRange(range);
+          data = generateData(expression, rng);
+        }
+        if (outFormat === "svg") {
+          const svg = generateSVG(data);
+          res.type("image/svg+xml").send(svg);
+        } else if (outFormat === "png") {
+          const svg = generateSVG(data);
+          const buffer = await convertSVGtoPNG(svg);
+          res.type("image/png").send(buffer);
+        } else if (outFormat === "json") {
+          res.type("application/json").send(generateJSON(data));
+        } else if (outFormat === "csv") {
+          res.type("text/csv").send(generateCSV(data));
+        } else {
+          throw new Error(`Unsupported format: ${outFormat}`);
+        }
+      } catch (err) {
+        res.status(400).json({ error: err.message });
+      }
+    });
+    const listenPort = port || 3000;
+    app.listen(listenPort, () => {
+      console.log(`Server listening on port ${listenPort}`);
+    });
+    return;
   }
   let data;
   if (parsed.input) {
@@ -200,9 +277,19 @@ export async function main(argsParam) {
       process.exit(1);
     }
   }
-  const svg = generateSVG(data);
-  if (parsed.png) {
-    try {
+  try {
+    if (format === "svg") {
+      const svg = generateSVG(data);
+      if (parsed.output) {
+        const outPath = path.isAbsolute(parsed.output)
+          ? parsed.output
+          : path.resolve(process.cwd(), parsed.output);
+        fs.writeFileSync(outPath, svg, "utf8");
+      } else {
+        console.log(svg);
+      }
+    } else if (format === "png") {
+      const svg = generateSVG(data);
       const buffer = await convertSVGtoPNG(svg);
       if (parsed.output) {
         const outPath = path.isAbsolute(parsed.output)
@@ -212,24 +299,33 @@ export async function main(argsParam) {
       } else {
         process.stdout.write(buffer);
       }
-    } catch (err) {
-      console.error(`Error generating PNG: ${err.message}`);
-      process.exit(1);
-    }
-  } else {
-    if (parsed.output) {
-      try {
+    } else if (format === "json") {
+      const jsonStr = generateJSON(data);
+      if (parsed.output) {
         const outPath = path.isAbsolute(parsed.output)
           ? parsed.output
           : path.resolve(process.cwd(), parsed.output);
-        fs.writeFileSync(outPath, svg, "utf8");
-      } catch (err) {
-        console.error(`Error writing file: ${err.message}`);
-        process.exit(1);
+        fs.writeFileSync(outPath, jsonStr, "utf8");
+      } else {
+        console.log(jsonStr);
+      }
+    } else if (format === "csv") {
+      const csvStr = generateCSV(data);
+      if (parsed.output) {
+        const outPath = path.isAbsolute(parsed.output)
+          ? parsed.output
+          : path.resolve(process.cwd(), parsed.output);
+        fs.writeFileSync(outPath, csvStr, "utf8");
+      } else {
+        console.log(csvStr);
       }
     } else {
-      console.log(svg);
+      console.error(`Unsupported format: ${format}`);
+      process.exit(1);
     }
+  } catch (err) {
+    console.error(err.message);
+    process.exit(1);
   }
 }
 

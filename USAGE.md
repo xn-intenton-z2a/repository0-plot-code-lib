@@ -10,10 +10,13 @@ Options:
 
 - `--expression <expr>`: A mathematical expression in variable `x`. Required unless using `--input`.
 - `--range <range>`: Range for `x` in the format `x=min:max[:step]`. Required unless using `--input`. `step` defaults to `1`.
-- `--output <file>`: Output file path for the image or SVG. Optional. Defaults to stdout.
+- `--output <file>`: Output file path for the image, SVG, JSON, or CSV. Optional. Defaults to stdout.
 - `--input <file>`: Path to a CSV or JSON file containing time series data. When provided, `--expression` and `--range` are ignored.
 - `--input-format <csv|json>`: Override input format detection based on file extension. Optional.
-- `--png`: Output a PNG image instead of SVG. When used without `--output`, the PNG binary is written to stdout.
+- `--format <svg|png|json|csv>`: Specify output format. Defaults to `svg`.
+- `--png`: (Deprecated) Alias for `--format png`. Outputs a PNG image instead of SVG.
+- `--serve`: Enable HTTP server mode.
+- `--port <number>`: Port for HTTP server. Defaults to `3000`.
 
 Examples:
 
@@ -24,15 +27,24 @@ npx repository0-plot-code-lib --input data.csv --output plot.svg
 
 Generate PNG from CSV data:
 ```bash
-npx repository0-plot-code-lib --input data.csv --png --output plot.png
+npx repository0-plot-code-lib --input data.csv --format png --output plot.png
 ```
 
-Generate PNG from JSON data, writing to stdout:
+Generate JSON from CSV data:
 ```bash
-npx repository0-plot-code-lib --input data.json --input-format json --png > out.png
+npx repository0-plot-code-lib --input data.csv --format json --output data.json
 ```
 
-You can still use the expression/range syntax for SVG:
+Generate CSV from JSON data, writing to stdout:
 ```bash
-npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:0.5" > plot.svg
+npx repository0-plot-code-lib --input data.json --format csv > data.csv
+```
+
+Run HTTP server on port 4000:
+```bash
+npx repository0-plot-code-lib --serve --port 4000
+```
+Access the `/plot` endpoint:
+```bash
+curl "http://localhost:4000/plot?expression=x&range=x=0:5:1&format=csv" > data.csv
 ```
