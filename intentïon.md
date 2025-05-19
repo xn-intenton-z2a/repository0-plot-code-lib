@@ -32,3 +32,78 @@ LLM API Usage:
 
 2025-05-19T15:38:20Z - Archiving intentïon to branch https://github.com/xn-intenton-z2a/repository0-plot-code-lib/tree/intention-2025-05-19T15-37Z
 
+## Feature to Issue at 2025-05-19T15:39:39.956Z
+
+Generated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3102 with title:
+
+Implement core PLOT_GENERATION feature: expression parser, sampling, and SVG/PNG output
+
+And description:
+
+## Summary
+
+The CLI and programmatic API currently stub out `main()` but lack any real plot‐generation logic. We need to deliver the core PLOT_GENERATION feature so users can:
+
+- Parse a simple expression syntax (`y=sin(x)`, `y=x^2+3`) and numeric range (`x=0:10`).
+- Sample points (default 100, override via flag).
+- Render charts in both SVG and PNG formats.
+- Expose the functionality via a `plotExpression(options)` API and CLI flags.
+
+## Tasks
+
+1. **Update package.json**
+   - Add dependencies:
+     - `mathjs` for expression parsing and evaluation.
+     - `chartjs-node-canvas` for rendering charts to SVG/PNG.
+   - Ensure these appear under `dependencies` and update `npm test` to still work.
+
+2. **Enhance `src/lib/main.js`**
+   - Implement a `plotExpression({ expression, range, format, output, points })` function that:
+     1. Parses `expression` (e.g. `y=sin(x)`).
+     2. Parses `range` (e.g. `"x=0:6.28"`) into numeric `[min, max]`.
+     3. Generates `points` samples (default 100).
+     4. Uses `chartjs-node-canvas` to render a Cartesian plot.
+     5. Writes the file to disk as SVG or PNG, rejecting on errors.
+   - Update `main(args)` to:
+     1. Parse CLI flags: `--expression`, `--range`, `--format` (svg|png), `--output`, and optional `--points`.
+     2. Validate required flags and show a usage message if missing/invalid.
+     3. Call `plotExpression()` and await completion.
+     4. Exit with `0` on success and nonzero on failure.
+
+3. **Expand tests in `tests/unit/plot-generation.test.js`**
+   - Write unit tests covering:
+     - Expression parsing and evaluation (e.g. `y=2*x+1`).
+     - Range parsing (`x=0:1`, invalid ranges).
+     - Default sampling interval and custom `points` override.
+     - Rendering to both SVG and PNG (verify output buffer or file existence).
+     - CLI invocation: simulate `process.argv` for valid and invalid flag combinations and check exit codes.
+
+4. **Update README.md**
+   - Add a **Usage** section demonstrating:
+     - CLI examples:
+       ```bash
+       node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --format svg --output plot.svg
+       ```
+     - Programmatic API example:
+       ```js
+       import { plotExpression } from 'repository0-plot-code-lib';
+       await plotExpression({ expression: 'y=sin(x)', range: { x: [0, 6.28] }, format: 'png', output: 'plot.png' });
+       ```
+   - Note default `points=100` and supported formats.
+
+## Verification
+
+- Run `npm install` & `npm test` to ensure all tests pass.
+- Try example CLI commands and confirm files `plot.svg` and `plot.png` are generated and valid.
+- Import and run `plotExpression` in a small script to verify the API works.
+
+> After merging, this will complete the end-to-end PLOT_GENERATION feature and satisfy the mission of producing visual plots from expressions via both CLI and API.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":4547,"completion_tokens":1876,"total_tokens":6423,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1024,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
