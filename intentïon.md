@@ -303,3 +303,69 @@ LLM API Usage:
 
 ---
 
+## Enhanced Issue at 2025-05-19T16:45:43.272Z
+
+Enhanced maintenance issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3105 with enhanced description:
+
+## Summary
+
+Improve **README.md** to surface the library’s core functionality and streamline onboarding for new users.
+
+## Requirements
+
+1. **Project Overview**
+   - Add a section briefly describing the library’s purpose: generating visual plots from mathematical expressions via CLI or API.
+2. **Installation**
+   - Include a code block to install from npm:
+     ```bash
+     npm install @xn-intenton-z2a/repository0-plot-code-lib
+     ```
+3. **CLI Usage**
+   - Provide a complete example:
+     ```bash
+     node src/lib/main.js --expression "y=sin(x)" \
+       --range "x=0:6.28" --format svg --output plot.svg
+     ```
+   - Explain the flags: `--expression`, `--range`, `--format`, `--output`, `--mission`.
+4. **API Usage**
+   - Add a JavaScript snippet demonstrating `plotExpression`:
+     ```js
+     import { plotExpression } from '@xn-intenton-z2a/repository0-plot-code-lib';
+
+     plotExpression({
+       expression: 'y=sin(x)',
+       range: { x: [0, 6.28] },
+       format: 'png',
+       output: 'plot.png'
+     })
+     .then(() => console.log('Plot generated'))
+     .catch(console.error);
+     ```
+5. **Links & References**
+   - Link to the mission statement (`--mission`).
+   - Add links to `USAGE.md` and `features/PLOT_GENERATION.md` for deeper details.
+6. **License**
+   - Retain the existing MIT license section at the bottom.
+
+## Acceptance Criteria
+
+- README.md includes all sections outlined in requirements.
+- Installation code block correctly installs the published package.
+- CLI usage example runs successfully and matches documented behavior.
+- API usage snippet imports the function and generates a plot without errors.
+- Links to USAGE.md and features/PLOT_GENERATION.md navigate to the correct files.
+- MIT license remains present at the end of README.md.
+- Rendering in GitHub preview shows proper headings, code blocks, and formatting.
+
+**Verification Steps:**
+1. Open README.md in GitHub’s preview to confirm formatting and section order.
+2. Run the installation command locally to validate the package name.
+3. Execute the CLI and API examples in a sample project to ensure examples work as described.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5520,"completion_tokens":1749,"total_tokens":7269,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1152,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
