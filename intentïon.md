@@ -187,3 +187,119 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Code at 2025-05-19T16:31:00.003Z
+
+fixApplied: true
+
+Add --mission flag to CLI display mission statement and add tests and usage docs
+
+Git Diff:
+
+```diff --git a/package-lock.json b/package-lock.json
+index 2a090a74..bf9fc60d 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -14,17 +14,17 @@
+         "js-yaml": "^4.1.0",
+         "minimatch": "^10.0.1",
+         "openai": "^4.95.1",
+-        "zod": "^3.24.4"
++        "zod": "^3.24.3"
+       },
+       "bin": {
+         "repository0-plot-code-lib": "src/lib/main.js"
+       },
+       "devDependencies": {
+         "@microsoft/eslint-formatter-sarif": "^3.1.0",
+-        "@vitest/coverage-v8": "^3.1.3",
++        "@vitest/coverage-v8": "^3.1.2",
+         "eslint": "^9.25.1",
+         "eslint-config-google": "^0.14.0",
+-        "eslint-config-prettier": "^10.1.5",
++        "eslint-config-prettier": "^10.1.2",
+         "eslint-plugin-import": "^2.31.0",
+         "eslint-plugin-prettier": "^5.2.6",
+         "eslint-plugin-promise": "^7.2.1",
+@@ -37,7 +37,7 @@
+         "markdown-it-github": "^0.5.0",
+         "npm-check-updates": "^17.1.18",
+         "prettier": "^3.5.3",
+-        "vitest": "^3.1.3"
++        "vitest": "^3.1.2"
+       },
+       "engines": {
+         "node": ">=20.0.0"
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 3cdd4e2a..aaa23253 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,13 +1,26 @@
+ #!/usr/bin/env node
+ // src/lib/main.js
+ 
++import fs from "fs";
++import path from "path";
+ import { fileURLToPath } from "url";
+ 
+-export function main(args) {
+-  console.log(`Run with: ${JSON.stringify(args)}`);
++export function main(rawArgs = process.argv.slice(2)) {
++  if (rawArgs.includes("--mission")) {
++    const __filename = fileURLToPath(import.meta.url);
++    const __dirname = path.dirname(__filename);
++    const missionPath = path.join(__dirname, "../../MISSION.md");
++    try {
++      const content = fs.readFileSync(missionPath, "utf-8");
++      console.log(content);
++    } catch (err) {
++      console.error(`Error reading mission file: ${err.message}`);
++    }
++    return;
++  }
++  console.log(`Run with: ${JSON.stringify(rawArgs)}`);
+ }
+ 
+ if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  const args = process.argv.slice(2);
+-  main(args);
++  main();
+ }
+diff --git a/tests/unit/plot-generation.test.js b/tests/unit/plot-generation.test.js
+index 19a4042c..c89e2c55 100644
+--- a/tests/unit/plot-generation.test.js
++++ b/tests/unit/plot-generation.test.js
+@@ -14,3 +14,17 @@ describe("Default main", () => {
+     main();
+   });
+ });
++
++describe("Mission Flag", () => {
++  test("should display mission statement", () => {
++    const logs = [];
++    const originalLog = console.log;
++    console.log = (msg) => logs.push(msg);
++    process.argv = ["node", "src/lib/main.js", "--mission"];
++    main();
++    console.log = originalLog;
++    expect(
++      logs.some((entry) => entry.includes("Be a go-to plot library"))
++    ).toBe(true);
++  });
++});```
+
+mainOutput:```
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
+> node src/lib/main.js
+
+Run with: []```
+
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3103 with title: ""]
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":7518,"completion_tokens":2906,"total_tokens":10424,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1792,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
