@@ -12,7 +12,7 @@ Last known publication: March 2024. Widely adopted in the Node.js ecosystem.
 
 # D3.js
 ## https://d3js.org/
-D3.js offers low-level APIs to manipulate HTML, SVG, and CSS for data-driven visualizations. The documentation explains data joins, scales, axes, and transitions, allowing fine-grained control of SVG plot generation and dynamic styling. Useful for custom interactive time series visualizations with performance tuning tips.
+D3.js offers low-level APIs to manipulate HTML, SVG, and CSS for data-driven visualizations. The documentation explains data joins, scales, axes, and transitions, allowing fine-grained control of SVG plot generation and dynamic styling. Useful for custom interactive time-series visualizations with performance tuning tips.
 Last known publication: February 2024. Maintained by Mike Bostock and community contributors.
 ## BSD-3-Clause
 
@@ -24,7 +24,7 @@ Last known publication: January 2024. Maintained by Plotly.
 
 # Vega-Lite
 ## https://vega.github.io/vega-lite/
-Vega-Lite is a concise grammar for declarative interactive graphics. The documentation outlines the JSON schema for chart specs, data transformations, and encoding channels, and covers compilation to Vega for rendering in Node.js. Ideal for rapid prototyping of standardized time series visuals.
+Vega-Lite is a concise grammar for declarative interactive graphics. The documentation outlines the JSON schema for chart specs, data transformations, and encoding channels, and covers compilation to Vega for rendering in Node.js. Ideal for rapid prototyping of standardized time-series visuals.
 Last known publication: March 2024. Backed by the University of Washington and contributors.
 ## BSD-3-Clause
 
@@ -57,7 +57,7 @@ Last known publication: March 2024. Widely used in the ESM testing ecosystem.
 ## https://www.chartjs.org/docs/latest/
 ## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
 This combined source documents client-side and server-side chart rendering. Chart.js docs describe chart configuration, dataset options, scales, plugins, and exportable canvas draw calls. Chartjs-node-canvas README adds server-side integration examples for PNG/SVG output, buffer handling, and canvas configuration, enabling seamless CLI plot generation.
-Last known publication: Chart.js (April 2024), Chartjs-node-canvas (March 2024). Maintained by Chart.js project and automattic contributors.
+Last known publication: Chart.js (April 2024), Chartjs-node-canvas (March 2024). Maintained by Chart.js project and Automattic contributors.
 ## MIT & Apache-2.0
 
 # Express.js
@@ -89,3 +89,8 @@ Last known publication: January 2024. World Wide Web Consortium.
 The Node.js fs module documentation details synchronous and asynchronous file I/O, streams, and directory operations. It covers methods like fs.writeFile, fs.createWriteStream, file permission handling, and error codes. This is critical for writing JSON, JSONL, CSV, SVG, and PNG buffers reliably in CLI workflows.
 Last known publication: March 2024. Official Node.js documentation.
 ## Node.js License
+
+# OpenAPI 3.0.3
+## https://spec.openapis.org/oas/v3.0.3
+OpenAPI defines a standard, language-agnostic interface to RESTful APIs, enabling interactive documentation and automated code generation. The specification details PathItem, Operation Object, Parameter Object, RequestBody, Responses, and Components sections, essential for defining and documenting the /plot and /series endpoints with query parameters (expression, range, format) and response schemas. It integrates JSON Schema for parameter and response validation and supports content negotiation for image/svg+xml, image/png, application/json, and application/jsonl. Last known publication: July 2022. Maintained by the OpenAPI Initiative.
+## CC0
