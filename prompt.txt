@@ -31,93 +31,84 @@ Consider the following when refining your response:
 
 Current feature names and specifications (for context, read only):
 CURRENT_FEATURES_START
-features/OUTPUT_FORMATS.md
-# features/OUTPUT_FORMATS.md
+features/PLOT_GENERATION.md
+# features/PLOT_GENERATION.md
 # Overview
-Extend the CLI tool and add an HTTP server mode to support multiple output formats: svg, png, json, and csv. Provide a consistent interface across both CLI and HTTP modes, enabling users to export vector or raster images, raw data, or tabular outputs for integration with external workflows.
+This feature enhances the CLI plot generation capabilities and adds an HTTP API for on-demand plot and time series generation.
 
-# CLI Integration
-- Add flag --format <format> with allowed values svg, png, json, csv. Default svg.
-- Retain existing flags --expression, --range, --input, --input-format, --output, and deprecate --png by mapping it to --format png.
-- After parsing args, load or generate data, then branch on format:
-  - svg: generate vector via generateSVG(data, options) and output XML.
-  - png: invoke convertSVGtoPNG on the generated SVG and output binary.
-  - json: serialize { xValues, yValues } to application/json.
-  - csv: implement a generateCSV(data) helper to produce text/csv with header x,y and rows.
-- Write output to stdout or to the file specified by --output, honoring absolute or relative paths.
+# CLI Arguments
+- Add or extend flag --plot with values svg or png to specify the output image format
+- Add or extend flag --output with a file path for CLI image generation
+- Add new flag --serve to start an HTTP server instead of executing a CLI task
+- Add flags --port and --host to configure the server binding, defaulting to port 3000 and host 127.0.0.1
+- Validate that when --serve is provided, CLI output flags (--plot and --output) are ignored
+
+# Plot Generation
+- For CLI mode, invoke chartjs-node-canvas as before to generate line charts from time series data
+- Support svg and png render modes based on --plot value
+- Write image buffer to the specified --output file
 
 # HTTP API
-- Introduce flags --serve to enable server mode and --port <number> to specify listening port (default 3000).
-- When --serve is true, spin up an Express app and register a GET /plot endpoint.
-- Accept query parameters: expression, range, input, inputFormat, format, output omitted.
-- Validate required parameters and return 400 with a JSON error on invalid input or missing fields.
-- On success, generate the requested format and set Content-Type accordingly: image/svg+xml, image/png, application/json, or text/csv.
-- Respond with data in the response body without writing to disk.
+- Implement an Express HTTP server that listens on the configured host and port
+- HTTP GET /plot endpoint:
+  - Query parameters: expression, range, format(svg or png)
+  - Generate time series data (reuse existing expression parsing logic)
+  - Render the plot and respond with image buffer and Content-Type image/svg+xml or image/png
+  - Return status 400 with JSON {error: message} for missing or invalid parameters
+- HTTP GET /series endpoint:
+  - Query parameters: expression, range, format(json or jsonl)
+  - Generate time series data and respond with JSON or JSON Lines
+  - Set Content-Type application/json or application/jsonl
+  - Return status 400 with JSON {error: message} for missing or invalid parameters
 
-# Implementation
-- Update parseArgs in src/lib/main.js to include format (enum), serve (boolean), and port (number); deprecate png alias.
-- After data is loaded, pass options.width, height, margin from optional flags if provided.
-- Abstract common generation logic into a helper function to reuse between CLI and HTTP.
-- Use sharp for PNG conversion and Express for server.
-
-# Tests
-- Extend parseArgs tests to cover --format, --serve, --port, and deprecation of --png.
-- Add unit tests for json and csv outputs in tests/unit/plot-generation.test.js:
-  - Verify JSON payload structure and error on empty data.
-  - Verify CSV header and rows.
-- Use supertest to test HTTP API in a new tests/unit/http-api.test.js:
-  - GET /plot?expression=x&range=x=0:2&format=csv returns 200 text/csv and correct CSV.
-  - Test format=json returns application/json with correct body.
-  - Test format=png and format=svg return correct content types and response bodies.
-  - Test error responses for missing expression or bad range.
+# Testing
+- Unit tests for the Express server routes to verify correct status codes, headers, and payloads
+- Integration tests using supertest to start the server, perform GET requests to /plot and /series, and assert responses
 
 # Documentation
-- Update README.md and USAGE.md to document --format, --serve, --port and HTTP examples:
-    curl "http://localhost:3000/plot?expression=x&range=x=0:5:1&format=csv" > data.csv
-    npx repository0-plot-code-lib --serve --port 4000
-    npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:3" --format png --output out.png
-features/DATA_INPUT.md
-# features/DATA_INPUT.md
+- Update README.md to include HTTP API usage examples with curl commands for /plot and /series
+- Add HTTP API reference section in USAGE.md with parameter descriptions and sample responses
+
+# Dependencies
+- Add supertest to devDependencies for HTTP endpoint integration tests
+- Ensure express is declared as a dependency for HTTP server
+features/EXPRESSION_TIME_SERIES.md
+# features/EXPRESSION_TIME_SERIES.md
 # Overview
 
-Add support for importing time series data from external files (JSON or CSV) to generate plots without requiring an expression and range on the command line. This enables users to visualize arbitrary datasets and integrate seamlessly with downstream workflows.
+This feature extends the CLI entry point to accept a mathematical expression and a numeric range, generate a time series of data points, and optionally persist the result in JSON, JSON Lines, or CSV format.
 
-# CLI Integration
+# CLI Arguments
 
-- Introduce a new flag --input <file> to specify a path to a JSON or CSV file containing time series data.
-- When --input is provided:
-  - expression and range flags become optional and ignored.
-  - Validate file extension: .json or .csv. Report an error for unsupported formats.
-  - Provide an example usage:
-    npx repository0-plot-code-lib --input data.json --output plot.svg
-    npx repository0-plot-code-lib --input data.csv --format png --output plot.png
+- Support a flag `--expression` that takes a string defining y as a function of x (for example `sin(x)`).
+- Support a flag `--range` that takes a string in the format x=start:end:step (for example `x=-1:1:0.1`).
+- Add an optional flag `--output-file` that takes a file path where the time series data will be written.
+- Extend the flag `--output-format` to accept values `json`, `jsonl`, or `csv`, defaulting to `json`.
+- Validate that when `--output-file` is provided, `--output-format` is one of the supported values.
 
-# Implementation
+# Time Series Generation
 
-- Extend parseArgs in src/lib/main.js to accept input (string) in the args schema.
-- In main:
-  - If parsed.input exists, read the file from disk with fs.readFileSync.
-  - If .json:
-    - JSON.parse to obtain an object with xValues (number[]) and yValues (number[]). Validate array lengths match.
-  - If .csv:
-    - Parse lines by splitting on newlines. Expect header row, e.g., x,y. Use built-in string methods to parse numbers.
-    - Convert columns into xValues and yValues arrays. Throw an error on parse failure or mismatched lengths.
-  - After data is loaded, reuse generateSVG or format logic (with --format) to produce the plot or raw data output.
-  - Honor --format and --output flags as in existing flow.
-  - Print clear error messages for file I/O or parsing issues and exit with non-zero status.
+- Parse the `--range` parameter into numeric start, end, and step values.
+- Use mathjs to parse, compile, and evaluate the expression for each x value in the range.
+- Collect an array of objects `{ x, y }` representing the series.
 
-# Tests
+# Persistence
 
-- Add unit tests in tests/unit/plot-generation.test.js to cover:
-  - parseArgs correctly parsing --input alongside other flags.
-  - Loading JSON input: create a temporary JSON file with known arrays and verify generateSVG called with correct data.
-  - Loading CSV input: create a temporary CSV file, parse it, and verify data arrays.
-  - Error handling: unsupported extension, invalid JSON, malformed CSV, mismatched array lengths.
-- Ensure the test suite cleans up any temp files and does not interfere with other tests.
+- If `--output-file` is provided:
+  - For format `json`, write the entire array as a JSON string to the specified file.
+  - For format `jsonl`, write each data point as a JSON value on its own line following the JSON Lines standard.
+  - For format `csv`, write a header row `x,y`, followed by each data point as comma-separated values, ensuring UTF-8 encoding.
+  - Ensure CSV output uses LF line endings and properly escapes values if needed.
+
+# Testing
+
+- Add unit tests for the persistence utility to verify correct output in JSON, JSON Lines, and CSV formats.
+- Add CLI integration tests by simulating process arguments with `--expression`, `--range`, `--output-file`, and `--output-format csv`, then asserting that the output file exists and its contents match the expected CSV structure.
 
 # Documentation
 
-- Update README.md and USAGE.md to document the new --input flag, supported formats, examples, and error conditions.
+- Update README.md to include example commands for writing time series data to `output.csv` using the `--output-format csv` flag.
+- Update USAGE.md to include a CSV persistence section with sample output and notes on interoperability with spreadsheet tools and data pipelines.
 CURRENT_FEATURES_END
 
 Source files (for context only, DO NOT UPDATE):
@@ -126,336 +117,15 @@ File: src/lib/main.js
 #!/usr/bin/env node
 // src/lib/main.js
 
-import fs from "fs";
 import { fileURLToPath } from "url";
-import path from "path";
-import { z } from "zod";
-import { create, all } from "mathjs";
-import sharp from "sharp";
-import express from "express";
 
-const math = create(all);
-
-export function parseArgs(args) {
-  const booleanFlags = ["png", "serve"];
-  const parsed = {};
-  for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if (!arg.startsWith("--")) {
-      continue;
-    }
-    const rawKey = arg.slice(2);
-    const key = rawKey.replace(/-([a-z])/g, (_, char) => char.toUpperCase());
-    if (booleanFlags.includes(key)) {
-      parsed[key] = true;
-    } else {
-      const value = args[i + 1];
-      if (value && !value.startsWith("--")) {
-        parsed[key] = value;
-        i++;
-      } else {
-        throw new Error(`Missing value for argument: ${arg}`);
-      }
-    }
-  }
-  const argsSchema = z.object({
-    expression: z.string().optional(),
-    range: z.string().optional(),
-    output: z.string().optional(),
-    input: z.string().optional(),
-    inputFormat: z.enum(["csv", "json"]).optional(),
-    png: z.boolean().optional(),
-    format: z.enum(["svg", "png", "json", "csv"]).optional(),
-    serve: z.boolean().optional(),
-    port: z.preprocess((val) => {
-      if (typeof val === "string") {
-        const num = parseInt(val, 10);
-        return Number.isNaN(num) ? val : num;
-      }
-      return val;
-    }, z.number().int().positive().optional()),
-  });
-  return argsSchema.parse(parsed);
-}
-
-export function parseRange(rangeStr) {
-  const [varName, rangePart] = rangeStr.split("=");
-  if (!varName || !rangePart) {
-    throw new Error(`Invalid range format: ${rangeStr}`);
-  }
-  const parts = rangePart.split(":").map((p) => parseFloat(p));
-  const min = parts[0];
-  const max = parts[1];
-  const step = parts.length >= 3 && !Number.isNaN(parts[2]) ? parts[2] : 1;
-  if (Number.isNaN(min) || Number.isNaN(max) || Number.isNaN(step)) {
-    throw new Error(`Invalid range numbers in: ${rangeStr}`);
-  }
-  return { varName, min, max, step };
-}
-
-export function generateData(expression, { varName, min, max, step }) {
-  const expr = math.parse(expression).compile();
-  const xValues = math.range(min, max, step, true).toArray();
-  const yValues = xValues.map((x) => expr.evaluate({ [varName]: x }));
-  return { xValues, yValues };
-}
-
-export function generateSVG({ xValues, yValues }, options = {}) {
-  const width = options.width || 800;
-  const height = options.height || 600;
-  const margin = options.margin || 40;
-
-  const minX = Math.min(...xValues);
-  const maxX = Math.max(...xValues);
-  const minY = Math.min(...yValues);
-  const maxY = Math.max(...yValues);
-  const xScale = (width - 2 * margin) / (maxX - minX || 1);
-  const yScale = (height - 2 * margin) / (maxY - minY || 1);
-
-  const points = xValues
-    .map((x, i) => {
-      const y = yValues[i];
-      const px = margin + (x - minX) * xScale;
-      const py = height - margin - (y - minY) * yScale;
-      return `${px},${py}`;
-    })
-    .join(" ");
-
-  const axes = [
-    `<line x1="${margin}" y1="${margin}" x2="${margin}" y2="${height - margin}" stroke="black"/>`,
-    `<line x1="${margin}" y1="${height - margin}" x2="${width - margin}" y2="${height - margin}" stroke="black"/>`,
-  ];
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
-  ${axes.join("\n  ")}
-  <polyline fill="none" stroke="black" stroke-width="2" points="${points}"/>
-</svg>`;
-}
-
-export function parseInputFile(filePath, formatOverride) {
-  const ext = path.extname(filePath).toLowerCase().slice(1);
-  const format = formatOverride || ext;
-  if (!["csv", "json"].includes(format)) {
-    throw new Error("Unsupported input format");
-  }
-  const content = fs.readFileSync(filePath, "utf8");
-  let xValues = [];
-  let yValues = [];
-  if (format === "csv") {
-    const lines = content.split(/\r?\n/).filter((line) => line.trim() !== "");
-    if (lines.length < 2) {
-      throw new Error("CSV file must have at least a header and one data row");
-    }
-    const header = lines[0].split(",");
-    if (header[0].trim() !== "x" || header[1].trim() !== "y") {
-      throw new Error("CSV header must be 'x,y'");
-    }
-    for (let i = 1; i < lines.length; i++) {
-      const cols = lines[i].split(",");
-      if (cols.length !== 2) throw new Error(`Invalid CSV row: ${lines[i]}`);
-      const x = parseFloat(cols[0]);
-      const y = parseFloat(cols[1]);
-      if (Number.isNaN(x) || Number.isNaN(y)) throw new Error(`Invalid number in CSV at row ${i + 1}`);
-      xValues.push(x);
-      yValues.push(y);
-    }
-  } else {
-    let parsedJson;
-    try {
-      parsedJson = JSON.parse(content);
-    } catch (err) {
-      throw new Error(`Invalid JSON: ${err.message}`);
-    }
-    if (Array.isArray(parsedJson)) {
-      for (const item of parsedJson) {
-        if (typeof item.x !== "number" || typeof item.y !== "number") {
-          throw new Error("JSON items must have numeric 'x' and 'y' properties");
-        }
-        xValues.push(item.x);
-        yValues.push(item.y);
-      }
-    } else if (parsedJson.xValues && parsedJson.yValues) {
-      if (!Array.isArray(parsedJson.xValues) || !Array.isArray(parsedJson.yValues)) {
-        throw new Error("JSON must have 'xValues' and 'yValues' arrays");
-      }
-      xValues = parsedJson.xValues;
-      yValues = parsedJson.yValues;
-      if (xValues.length !== yValues.length) {
-        throw new Error("Mismatched data lengths");
-      }
-      if (!xValues.every((x) => typeof x === "number") || !yValues.every((y) => typeof y === "number")) {
-        throw new Error("JSON arrays must contain numbers");
-      }
-    } else {
-      throw new Error("JSON must be an array of {x,y} or an object with xValues and yValues");
-    }
-  }
-  if (xValues.length !== yValues.length) {
-    throw new Error("Mismatched data lengths");
-  }
-  return { xValues, yValues };
-}
-
-export async function convertSVGtoPNG(svg) {
-  return sharp(Buffer.from(svg)).png().toBuffer();
-}
-
-export function generateCSV({ xValues, yValues }) {
-  if (!Array.isArray(xValues) || !Array.isArray(yValues)) {
-    throw new Error("Data must have xValues and yValues arrays");
-  }
-  if (xValues.length === 0 || yValues.length === 0) {
-    throw new Error("No data points available");
-  }
-  if (xValues.length !== yValues.length) {
-    throw new Error("Mismatched data lengths");
-  }
-  const header = "x,y";
-  const rows = xValues.map((x, i) => `${x},${yValues[i]}`);
-  return [header, ...rows].join("\n");
-}
-
-export function generateJSON(data) {
-  return JSON.stringify(data);
-}
-
-export async function main(argsParam) {
-  const args = argsParam ?? process.argv.slice(2);
-  if (!args || args.length === 0) {
-    console.log(`Run with: ${JSON.stringify(args)}`);
-    return;
-  }
-  let parsed;
-  try {
-    parsed = parseArgs(args);
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
-  }
-  let { format, png, serve, port } = parsed;
-  if (png && !format) {
-    console.warn("[DEPRECATED] --png is deprecated, use --format=png");
-    format = "png";
-  }
-  format = format || "svg";
-  if (serve) {
-    const app = express();
-    app.get("/plot", async (req, res) => {
-      try {
-        const { expression, range, input, inputFormat, format: qFormat } = req.query;
-        const outFormat = qFormat || format;
-        let data;
-        if (input) {
-          data = parseInputFile(input, inputFormat);
-        } else {
-          if (!expression || !range) {
-            throw new Error("Missing expression or range");
-          }
-          const rng = parseRange(range);
-          data = generateData(expression, rng);
-        }
-        if (outFormat === "svg") {
-          const svg = generateSVG(data);
-          res.type("image/svg+xml").send(svg);
-        } else if (outFormat === "png") {
-          const svg = generateSVG(data);
-          const buffer = await convertSVGtoPNG(svg);
-          res.type("image/png").send(buffer);
-        } else if (outFormat === "json") {
-          res.type("application/json").send(generateJSON(data));
-        } else if (outFormat === "csv") {
-          res.type("text/csv").send(generateCSV(data));
-        } else {
-          throw new Error(`Unsupported format: ${outFormat}`);
-        }
-      } catch (err) {
-        res.status(400).json({ error: err.message });
-      }
-    });
-    const listenPort = port || 3000;
-    app.listen(listenPort, () => {
-      console.log(`Server listening on port ${listenPort}`);
-    });
-    return;
-  }
-  let data;
-  if (parsed.input) {
-    try {
-      data = parseInputFile(parsed.input, parsed.inputFormat);
-    } catch (err) {
-      console.error(err.message);
-      process.exit(1);
-    }
-  } else {
-    let rangeObj;
-    try {
-      rangeObj = parseRange(parsed.range);
-    } catch (err) {
-      console.error(err.message);
-      process.exit(1);
-    }
-    try {
-      data = generateData(parsed.expression, rangeObj);
-    } catch (err) {
-      console.error(`Error evaluating expression: ${err.message}`);
-      process.exit(1);
-    }
-  }
-  try {
-    if (format === "svg") {
-      const svg = generateSVG(data);
-      if (parsed.output) {
-        const outPath = path.isAbsolute(parsed.output)
-          ? parsed.output
-          : path.resolve(process.cwd(), parsed.output);
-        fs.writeFileSync(outPath, svg, "utf8");
-      } else {
-        console.log(svg);
-      }
-    } else if (format === "png") {
-      const svg = generateSVG(data);
-      const buffer = await convertSVGtoPNG(svg);
-      if (parsed.output) {
-        const outPath = path.isAbsolute(parsed.output)
-          ? parsed.output
-          : path.resolve(process.cwd(), parsed.output);
-        fs.writeFileSync(outPath, buffer);
-      } else {
-        process.stdout.write(buffer);
-      }
-    } else if (format === "json") {
-      const jsonStr = generateJSON(data);
-      if (parsed.output) {
-        const outPath = path.isAbsolute(parsed.output)
-          ? parsed.output
-          : path.resolve(process.cwd(), parsed.output);
-        fs.writeFileSync(outPath, jsonStr, "utf8");
-      } else {
-        console.log(jsonStr);
-      }
-    } else if (format === "csv") {
-      const csvStr = generateCSV(data);
-      if (parsed.output) {
-        const outPath = path.isAbsolute(parsed.output)
-          ? parsed.output
-          : path.resolve(process.cwd(), parsed.output);
-        fs.writeFileSync(outPath, csvStr, "utf8");
-      } else {
-        console.log(csvStr);
-      }
-    } else {
-      console.error(`Unsupported format: ${format}`);
-      process.exit(1);
-    }
-  } catch (err) {
-    console.error(err.message);
-    process.exit(1);
-  }
+export function main(args) {
+  console.log(`Run with: ${JSON.stringify(args)}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  main(process.argv.slice(2));
+  const args = process.argv.slice(2);
+  main(args);
 }
 
 
@@ -465,161 +135,19 @@ Test files (for context only, DO NOT UPDATE):
 TEST_FILES_START
 File: tests/unit/plot-generation.test.js
 import { describe, test, expect } from "vitest";
-import fs from "fs";
-import os from "os";
-import path from "path";
-import {
-  parseArgs,
-  parseRange,
-  generateData,
-  generateSVG,
-  main,
-  parseInputFile,
-  convertSVGtoPNG,
-  generateCSV,
-  generateJSON,
-} from "@src/lib/main.js";
+import * as mainModule from "@src/lib/main.js";
+import { main } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
-    expect({
-      parseArgs,
-      parseRange,
-      generateData,
-      generateSVG,
-      main,
-      generateCSV,
-      generateJSON,
-    }).not.toBeNull();
-  });
-});
-
-describe("parseArgs", () => {
-  test("should parse valid CLI args", () => {
-    const args = [
-      "--expression",
-      "x*2",
-      "--range",
-      "x=0:5:2",
-      "--output",
-      "out.svg",
-    ];
-    const parsed = parseArgs(args);
-    expect(parsed).toEqual({
-      expression: "x*2",
-      range: "x=0:5:2",
-      output: "out.svg",
-    });
-  });
-  test("should parse --format flag", () => {
-    const args = ["--format", "csv"];
-    const parsed = parseArgs(args);
-    expect(parsed.format).toBe("csv");
-  });
-  test("should alias --png as boolean and warn on format assignment", () => {
-    const args = ["--png"];
-    const parsed = parseArgs(args);
-    expect(parsed.png).toBe(true);
-  });
-  test("should parse serve and port flags", () => {
-    const args = ["--serve", "--port", "4000"];
-    const parsed = parseArgs(args);
-    expect(parsed.serve).toBe(true);
-    expect(parsed.port).toBe(4000);
-  });
-});
-
-describe("parseRange", () => {
-  test("should parse range string", () => {
-    const range = "x=0:5:2";
-    const result = parseRange(range);
-    expect(result).toEqual({ varName: "x", min: 0, max: 5, step: 2 });
-  });
-  test("should default step to 1", () => {
-    const range = "x=1:3";
-    const result = parseRange(range);
-    expect(result).toEqual({ varName: "x", min: 1, max: 3, step: 1 });
-  });
-});
-
-describe("generateData", () => {
-  test("should generate data points", () => {
-    const exp = "x*2";
-    const rangeObj = { varName: "x", min: 0, max: 4, step: 2 };
-    const data = generateData(exp, rangeObj);
-    expect(data.xValues).toEqual([0, 2, 4]);
-    expect(data.yValues).toEqual([0, 4, 8]);
-  });
-});
-
-describe("generateSVG", () => {
-  test("should generate SVG with expected tags and points", () => {
-    const data = { xValues: [0, 1], yValues: [0, 2] };
-    const svg = generateSVG(data, { width: 100, height: 50, margin: 5 });
-    expect(svg).toContain('<svg');
-    expect(svg).toContain('xmlns="http://www.w3.org/2000/svg"');
-    expect(svg).toContain('<polyline');
-    expect(svg).toMatch(/points="[^"]+"/);
-  });
-});
-
-describe("generateCSV", () => {
-  test("should generate CSV string correctly", () => {
-    const data = { xValues: [1, 2], yValues: [3, 4] };
-    const csv = generateCSV(data);
-    expect(csv).toBe("x,y\n1,3\n2,4");
-  });
-  test("should throw on empty data", () => {
-    expect(() => generateCSV({ xValues: [], yValues: [] })).toThrow("No data points available");
-  });
-});
-
-describe("generateJSON", () => {
-  test("should generate JSON string correctly", () => {
-    const data = { xValues: [1], yValues: [2] };
-    const jsonStr = generateJSON(data);
-    expect(jsonStr).toBe(JSON.stringify(data));
+    expect(mainModule).not.toBeNull();
   });
 });
 
 describe("Default main", () => {
-  test("should terminate without error on no args", () => {
+  test("should terminate without error", () => {
     process.argv = ["node", "src/lib/main.js"];
-    expect(() => main()).not.toThrow();
-  });
-});
-
-describe("parseInputFile", () => {
-  test("should parse CSV input file", () => {
-    const tmp = path.join(os.tmpdir(), "test-input.csv");
-    fs.writeFileSync(tmp, "x,y\n1,2\n3,4\n");
-    const data = parseInputFile(tmp);
-    expect(data).toEqual({ xValues: [1, 3], yValues: [2, 4] });
-    fs.unlinkSync(tmp);
-  });
-
-  test("should parse JSON input file with object array", () => {
-    const tmp = path.join(os.tmpdir(), "test-input.json");
-    const arr = [{ x: 0, y: 1 }, { x: 2, y: 3 }];
-    fs.writeFileSync(tmp, JSON.stringify(arr));
-    const data = parseInputFile(tmp);
-    expect(data).toEqual({ xValues: [0, 2], yValues: [1, 3] });
-    fs.unlinkSync(tmp);
-  });
-
-  test("should throw on unsupported format", () => {
-    const tmp = path.join(os.tmpdir(), "test-input.txt");
-    fs.writeFileSync(tmp, "foo");
-    expect(() => parseInputFile(tmp)).toThrow("Unsupported input format");
-    fs.unlinkSync(tmp);
-  });
-});
-
-describe("convertSVGtoPNG", () => {
-  test("should convert SVG to PNG buffer", async () => {
-    const svg = '<svg xmlns="http://www.w3.org/2000/svg"><rect width="10" height="10"/></svg>';
-    const buffer = await convertSVGtoPNG(svg);
-    expect(buffer.slice(0, 8)).toEqual(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]));
+    main();
   });
 });
 
@@ -648,56 +176,6 @@ TEST_FILES_END
 Documentation files (to be updated if necessary):
 DOCS_FILES_START
 File: USAGE.md
-# Usage
-
-To generate an SVG plot from a mathematical expression:
-
-```bash
-npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --output output.svg
-```
-
-Options:
-
-- `--expression <expr>`: A mathematical expression in variable `x`. Required unless using `--input`.
-- `--range <range>`: Range for `x` in the format `x=min:max[:step]`. Required unless using `--input`. `step` defaults to `1`.
-- `--output <file>`: Output file path for the image, SVG, JSON, or CSV. Optional. Defaults to stdout.
-- `--input <file>`: Path to a CSV or JSON file containing time series data. When provided, `--expression` and `--range` are ignored.
-- `--input-format <csv|json>`: Override input format detection based on file extension. Optional.
-- `--format <svg|png|json|csv>`: Specify output format. Defaults to `svg`.
-- `--png`: (Deprecated) Alias for `--format png`. Outputs a PNG image instead of SVG.
-- `--serve`: Enable HTTP server mode.
-- `--port <number>`: Port for HTTP server. Defaults to `3000`.
-
-Examples:
-
-Generate SVG from CSV data:
-```bash
-npx repository0-plot-code-lib --input data.csv --output plot.svg
-```
-
-Generate PNG from CSV data:
-```bash
-npx repository0-plot-code-lib --input data.csv --format png --output plot.png
-```
-
-Generate JSON from CSV data:
-```bash
-npx repository0-plot-code-lib --input data.csv --format json --output data.json
-```
-
-Generate CSV from JSON data, writing to stdout:
-```bash
-npx repository0-plot-code-lib --input data.json --format csv > data.csv
-```
-
-Run HTTP server on port 4000:
-```bash
-npx repository0-plot-code-lib --serve --port 4000
-```
-Access the `/plot` endpoint:
-```bash
-curl "http://localhost:4000/plot?expression=x&range=x=0:5:1&format=csv" > data.csv
-```
 
 
 DOCS_FILES_END
@@ -706,56 +184,16 @@ README file (primary focus, to be updated): README.md
 README_FILE_START
 # repository0-plot-code-lib
 
-"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
-## Installation
-
-Install via npm:
-
-```bash
-npm install @xn-intenton-z2a/repository0-plot-code-lib
-```
-
-Or use npx without installing:
-
-```bash
-npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1"
-```
-
-## Usage
-
-Run the CLI with the following syntax:
-
-```bash
-npx repository0-plot-code-lib --expression "<expr>" --range "<range>" [--output "<file>"]
-```
-
-Options:
-
-- `--expression <expr>` (required): A mathematical expression in variable `x`.
-- `--range <range>` (required): Range for `x` in the format `x=min:max[:step]`. Step defaults to `1`.
-- `--output <file>` (optional): Path to save the output. Defaults to stdout.
-- `--input <file>` (optional): Path to a CSV or JSON file containing data (ignores expression and range).
-- `--input-format <csv|json>` (optional): Override input format detection.
-- `--png` (optional): Output a PNG image instead of SVG.
-
-## Examples
-
-Generate an SVG plot and save to a file:
-
-```bash
-npx repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.28:0.1" --output output.svg
-```
-
-Redirect output to STDOUT and pipe to a file:
-
-```bash
-npx repository0-plot-code-lib --expression "x^2" --range "x=0:10:0.5" > plot.svg
-```
+---
 
 ## License
 
 MIT
+
+---
+
 
 README_FILE_END
 
@@ -847,21 +285,15 @@ DEPENDENCIES_FILE_START
     "test:unit": "vitest --coverage tests/unit/*.test.js",
     "start": "node src/lib/main.js"
   },
-  "keywords": [
-    "csv",
-    "json",
-    "png"
-  ],
+  "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^16.5.0",
+    "openai": "^4.95.1",
     "ejs": "^3.1.10",
     "js-yaml": "^4.1.0",
-    "mathjs": "^11.8.2",
     "minimatch": "^10.0.1",
-    "openai": "^4.95.1",
-    "sharp": "^0.32.4",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -882,19 +314,17 @@ DEPENDENCIES_FILE_START
     "markdown-it": "^14.1.0",
     "npm-check-updates": "^17.1.18",
     "prettier": "^3.5.3",
-    "supertest": "^6.3.3",
     "vitest": "^3.1.3"
   },
   "engines": {
     "node": ">=20.0.0"
   },
-  "files": [
-    "src/"
-  ],
+  "files": ["src/"],
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   }
 }
+
 DEPENDENCIES_FILE_END   
 
 Dependencies install from command: npm install
@@ -905,12 +335,11 @@ npm warn deprecated rimraf@3.0.2: Rimraf versions prior to v4 are no longer supp
 npm warn deprecated @humanwhocodes/object-schema@2.0.3: Use @eslint/object-schema instead
 npm warn deprecated glob@7.2.3: Glob versions prior to v9 are no longer supported
 npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
-npm warn deprecated superagent@8.1.2: Please upgrade to v9.0.0+ as we have fixed a public vulnerability with formidable dependency. Note that v9.0.0+ requires Node.js v14.18.0+. See https://github.com/ladjs/superagent/pull/1800 for insight. This project is supported and maintained by the team at Forward Email @ https://forwardemail.net
 npm warn deprecated eslint@8.57.1: This version is no longer supported. Please see https://eslint.org/version-support for other options.
 
-added 548 packages, and audited 549 packages in 6s
+added 478 packages, and audited 479 packages in 4s
 
-172 packages are looking for funding
+159 packages are looking for funding
   run `npm fund` for details
 
 found 0 vulnerabilities
@@ -934,20 +363,20 @@ TEST_OUTPUT_START
 
 [1m[46m RUN [49m[22m [36mv3.1.3 [39m[90m/home/runner/work/repository0-plot-code-lib/repository0-plot-code-lib[39m
 
- [32m✓[39m tests/unit/module-index.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 2[2mms[22m[39m
 [90mstdout[2m | tests/unit/main.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error
-[22m[39mRun with: []
+[22m[39mRun with: undefined
 
- [32m✓[39m tests/unit/main.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 4[2mms[22m[39m
-[90mstdout[2m | tests/unit/plot-generation.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error on no args
-[22m[39mRun with: []
+ [32m✓[39m tests/unit/main.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+[90mstdout[2m | tests/unit/plot-generation.test.js[2m > [22m[2mDefault main[2m > [22m[2mshould terminate without error
+[22m[39mRun with: undefined
 
- [32m✓[39m tests/unit/plot-generation.test.js [2m([22m[2m17 tests[22m[2m)[22m[32m 64[2mms[22m[39m
+ [32m✓[39m tests/unit/plot-generation.test.js [2m([22m[2m2 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/unit/module-index.test.js [2m([22m[2m1 test[22m[2m)[22m[32m 6[2mms[22m[39m
 
 [2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
-[2m      Tests [22m [1m[32m20 passed[39m[22m[90m (20)[39m
-[2m   Start at [22m 08:50:00
-[2m   Duration [22m 1.28s[2m (transform 70ms, setup 0ms, collect 1.98s, tests 70ms, environment 1ms, prepare 271ms)[22m
+[2m      Tests [22m [1m[32m5 passed[39m[22m[90m (5)[39m
+[2m   Start at [22m 08:52:52
+[2m   Duration [22m 431ms[2m (transform 82ms, setup 0ms, collect 87ms, tests 20ms, environment 1ms, prepare 431ms)[22m
 TEST_OUTPUT_END            
 
 Main execution output from command: npm run start
