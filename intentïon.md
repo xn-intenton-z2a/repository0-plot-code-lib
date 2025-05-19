@@ -369,3 +369,102 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Code at 2025-05-19T16:49:33.147Z
+
+fixApplied: true
+
+Refresh README with core usage examples and installation instructions
+
+Git Diff:
+
+```diff --git a/README.md b/README.md
+index 816f5140..2c329d72 100644
+--- a/README.md
++++ b/README.md
+@@ -1,12 +1,65 @@
+-# repository0-plot-code-lib
++# @xn-intenton-z2a/repository0-plot-code-lib
+ 
+-_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
++"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+ 
+ ---
+ 
+-## License
++## Project Overview
+ 
+-MIT
++`repository0-plot-code-lib` is a JavaScript library and CLI tool for generating visual plots from mathematical expressions. It provides both a simple command-line interface and a programmatic API to parse expressions and numeric ranges, sample data points, and output charts in SVG or PNG format.
++
++## Installation
++
++Install the package from npm:
++
++```bash
++npm install @xn-intenton-z2a/repository0-plot-code-lib
++```
++
++## CLI Usage
++
++Generate a plot using the CLI:
++
++```bash
++node src/lib/main.js --expression "y=sin(x)" \
++  --range "x=0:6.28" \
++  --format svg \
++  --output plot.svg
++```
++
++Flags:
++
++- `--expression`: Mathematical expression to plot (e.g., `"y=sin(x)"`).
++- `--range`: Range of the independent variable (e.g., `"x=0:6.28"`). Supports multiple variables like `"x=0:10,y=-1:1"`.
++- `--format`: Output format (`svg` or `png`).
++- `--output`: Filename for the generated plot.
++- `--mission`: Display the project mission statement.
++
++## API Usage
++
++Use the programmatic API to generate a plot in your code:
++
++```js
++import { plotExpression } from '@xn-intenton-z2a/repository0-plot-code-lib';
++
++plotExpression({
++  expression: 'y=sin(x)',
++  range: { x: [0, 6.28] },
++  format: 'png',
++  output: 'plot.png',
++})
++  .then(() => console.log('Plot generated'))
++  .catch(console.error);
++```
++
++## Links & References
++
++- View the mission statement with the `--mission` flag or in [MISSION.md](MISSION.md).
++- Detailed CLI and API usage in [USAGE.md](USAGE.md).
++- Feature specification in [features/PLOT_GENERATION.md](features/PLOT_GENERATION.md).
+ 
+ ---
+ 
++## License
++
++MIT```
+
+mainOutput:```
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
+> node src/lib/main.js
+
+Run with: []```
+
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3105 with title: ""]
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":8151,"completion_tokens":1758,"total_tokens":9909,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":960,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
