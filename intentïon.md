@@ -259,3 +259,15 @@ LLM API Usage:
 
 ---
 
+## Activity at 2025-05-19T08:53:48.984Z
+
+Worked to update README with: Update README and USAGE.md to reflect current CLI behavior and outline planned features.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":6223,"completion_tokens":2508,"total_tokens":8731,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1408,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
