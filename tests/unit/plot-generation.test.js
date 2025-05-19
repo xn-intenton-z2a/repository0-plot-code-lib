@@ -14,3 +14,17 @@ describe("Default main", () => {
     main();
   });
 });
+
+describe("Mission Flag", () => {
+  test("should display mission statement", () => {
+    const logs = [];
+    const originalLog = console.log;
+    console.log = (msg) => logs.push(msg);
+    process.argv = ["node", "src/lib/main.js", "--mission"];
+    main();
+    console.log = originalLog;
+    expect(
+      logs.some((entry) => entry.includes("Be a go-to plot library"))
+    ).toBe(true);
+  });
+});
