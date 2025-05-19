@@ -1,83 +1,91 @@
 # Math.js
 ## https://mathjs.org/docs/index.html
-Math.js is a comprehensive math library for JavaScript and Node.js that supports expression parsing, symbolic computations, unit conversions, and matrix operations. The documentation provides detailed API references for `math.evaluate`, `math.parse`, and compilation features, including performance considerations for large data sets. It addresses core implementation needs by showing how to integrate the parser in Node.js environments, handle errors gracefully, and extend the library with custom functions. Examples cover asynchronous evaluation, chainable operations, and tree walking for custom transformations.
+Math.js is a comprehensive math library for JavaScript and Node.js that supports expression parsing, symbolic computations, unit conversions, and matrix operations. The documentation provides detailed API references for math.evaluate, math.parse, and compile features, including performance considerations and error handling strategies. It shows integration in Node.js environments, extending with custom functions, asynchronous evaluation, and tree-walking for transformations.
 Last known publication: April 2024. Authoritative source maintained by the Math.js team; version 11.8.
 ## Apache-2.0
 
 # Yargs
 ## https://yargs.js.org/docs/
-Yargs is a robust CLI argument parser for Node.js. The documentation covers advanced parsing patterns, command modules, middleware hooks, and detailed examples for flags, commands, and positional arguments. It guides on validation, error handling, and built-in help generation, critical for building user-friendly CLI tools like the expression-to-timeseries converter. Topics include customizing failure messages and automatic type coercion to streamline UX.
+Yargs is a robust CLI argument parser for Node.js. The docs cover advanced parsing patterns, command modules, middleware hooks, and examples for flags, commands, and positional arguments. It guides on validation, failure message customization, and automatic type coercion, essential for building intuitive CLI tools and enforcing parameter schemas.
 Last known publication: March 2024. Widely adopted in the Node.js ecosystem.
 ## MIT
 
 # D3.js
 ## https://d3js.org/
-D3.js is a powerful library for manipulating documents based on data using HTML, SVG, and CSS. The API docs illustrate data joins, scales, axes, and transitions, enabling low-level control of SVG plot generation. This source is essential for implementing custom plot rendering and interactive visualizations, with examples showing how to bind time series data to SVG elements and apply dynamic styling.
-Last known publication: February 2024. Highly authoritative, maintained by Mike Bostock and community contributors.
+D3.js offers low-level APIs to manipulate HTML, SVG, and CSS for data-driven visualizations. The documentation explains data joins, scales, axes, and transitions, allowing fine-grained control of SVG plot generation and dynamic styling. Useful for custom interactive time series visualizations with performance tuning tips.
+Last known publication: February 2024. Maintained by Mike Bostock and community contributors.
 ## BSD-3-Clause
 
 # Plotly.js
 ## https://plotly.com/javascript/getting-started/
-Plotly.js offers high-level charting APIs for JavaScript, supporting Node.js environments via CommonJS or ESM. The documentation details chart types, configuration options, static image export workflows, and integration with Node-canvas for PNG/SVG outputs. It provides actionable guidance for generating plots programmatically with rich interactivity, customization of layout and styling, and embedding in server-side scripts.
+Plotly.js provides high-level charting APIs with rich interactivity and static export capabilities. The docs detail chart types, layout options, Node.js integration via CommonJS/ESM, and Node-canvas workflows for image export. It emphasizes programmatic plot configuration, custom styling, and embedding in server-side scripts.
 Last known publication: January 2024. Maintained by Plotly.
 ## MIT
 
 # Vega-Lite
 ## https://vega.github.io/vega-lite/
-Vega-Lite is a high-level grammar of interactive graphics. The documentation describes the JSON schema for chart specifications, data transformations, and encoding channels. It simplifies declarative chart creation and can compile to Vega for rendering in Node.js environments, useful for standardized plot definitions and quick prototyping of time series plots.
-Last known publication: March 2024. Backed by University of Washington and contributors.
+Vega-Lite is a concise grammar for declarative interactive graphics. The documentation outlines the JSON schema for chart specs, data transformations, and encoding channels, and covers compilation to Vega for rendering in Node.js. Ideal for rapid prototyping of standardized time series visuals.
+Last known publication: March 2024. Backed by the University of Washington and contributors.
 ## BSD-3-Clause
 
 # Node-canvas
 ## https://github.com/Automattic/node-canvas#readme
-Node-canvas is a Cairo-backed Canvas implementation for Node.js. The README covers installation, platform requirements, Canvas API compatibility, and examples generating PNG and SVG streams. It addresses core needs for rendering chart primitives and exporting rasterized images, with benchmarks and guidance on performance tuning for large canvases.
-Last known publication: February 2024. Authoritative repository by Automattic.
+Node-canvas is a Cairo-backed Canvas API implementation for Node.js. Its README covers installation, platform requirements, Canvas API compatibility, and examples for generating PNG/SVG streams. It includes benchmarks and performance tuning advice for large canvases, essential for server-side plot rendering.
+Last known publication: February 2024. Maintained by Automattic.
 ## MIT
 
 # Gnuplot
 ## http://www.gnuplot.info/documentation.html
-Gnuplot is a mature command-line driven graphing utility. The documentation includes syntax for plotting mathematical functions, data files, and custom styling, demonstrating efficient CLI-driven plot generation. It is a key reference for benchmarking CLI-driven math-plot pipelines and understanding conventional plot scripting paradigms.
-Last known publication: April 2023. Longstanding tool with extensive community maintenance.
+Gnuplot is a mature command-line graphing utility with extensive scripting capabilities. The official docs cover function plotting, data file handling, and styling options via scripts, offering a benchmark for CLI-driven plot pipelines and insights into conventional plot scripting paradigms.
+Last known publication: April 2023. Longstanding tool with community support.
 ## Unknown
 
-# JSON Lines
+# Data Format Standards: JSON Lines & CSV
 ## https://jsonlines.org/
-JSON Lines is a convenient format for storing structured data where each line is a valid JSON value. The specification outlines streaming write/read patterns, tooling compatibility, and error-handling strategies, which directly inform robust JSON output for time series data in CLI tools. The guide covers chunked writing, error recovery, and compatibility with UNIX text utilities.
-Last known publication: 2020. De facto standard in data streaming.
-## CC0
-
-# RFC 4180 - CSV Format
 ## https://datatracker.ietf.org/doc/html/rfc4180
-RFC 4180 specifies the common CSV file format, including conventions for delimiters, quoting, and line breaks. This source is critical for CSV import/export capabilities and ensuring interoperability with spreadsheet software and data pipelines. It also highlights edge cases around embedded line breaks and character encoding.
-Last known publication: October 2005. Official IETF specification.
-## IETF Trust
+This combined source covers two essential data interchange formats. JSON Lines specifies streaming read/write patterns, error recovery, and UNIX tool compatibility. RFC 4180 defines CSV syntax, quoting, delimiters, and edge case handling for interoperability with spreadsheets and data pipelines. Together, they inform robust output routines for JSON, JSONL, and CSV persistence.
+Last known publication: JSON Lines (2020), RFC 4180 (October 2005). Authoritative specifications by JSON Lines community and IETF.
+## CC0 & IETF Trust
 
 # Vitest
 ## https://vitest.dev/guide/
-Vitest is a Vite-native unit test framework with fast startup and built-in coverage reporting. The guide covers test syntax, mocking, snapshot testing, and CLI integration, essential for implementing comprehensive unit tests for the time series generator and CLI behavior. It includes best practices for performance optimization in ESM contexts.
+Vitest is a fast, Vite-native unit testing framework with built-in coverage reporting. The guide details test syntax, mocking, snapshot testing, and performance optimizations for ESM contexts. It covers CLI flags, reporters, and integration strategies, essential for both unit and integration tests in Node.js projects.
 Last known publication: March 2024. Widely used in the ESM testing ecosystem.
 ## MIT
 
-# Chart.js
+# Chart.js & Chartjs-node-canvas
 ## https://www.chartjs.org/docs/latest/
-Chart.js provides a flexible, open-source charting library for JavaScript, supporting line, bar, scatter, and more. The documentation details the chart configuration object, dataset options, scales, and plugin architecture. Core implementation guidance includes customizing renderers, animations, and exporting canvas draw calls to buffers in Node.js.
-Last known publication: April 2024. Maintained by the Chart.js Open Source Project.
+## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
+This combined source documents client-side and server-side chart rendering. Chart.js docs describe chart configuration, dataset options, scales, plugins, and exportable canvas draw calls. Chartjs-node-canvas README adds server-side integration examples for PNG/SVG output, buffer handling, and canvas configuration, enabling seamless CLI plot generation.
+Last known publication: Chart.js (April 2024), Chartjs-node-canvas (March 2024). Maintained by Chart.js project and automattic contributors.
+## MIT & Apache-2.0
+
+# Express.js
+## https://expressjs.com/en/4x/api.html
+Express is a minimal and flexible Node.js web application framework. The API docs explain application and router setup, middleware chaining, request and response objects, and error handling patterns. Detailed guides cover serving binary data, content negotiation, and security best practices, underpinning the implementation of HTTP /plot and /series endpoints.
+Last known publication: April 2024. Authoritative docs by the Express.js team.
 ## MIT
 
-# Chartjs-node-canvas
-## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
-Chartjs-node-canvas is a wrapper around Chart.js for Node.js, enabling server-side chart rendering. The README provides installation steps, usage examples for SVG and PNG output, and advanced configuration for canvas size, background color, and chart callbacks. It directly supports integration with file system and buffer handling for CLI tools.
-Last known publication: March 2024. Apache-2.0 licensed; active community maintenance.
+# Supertest
+## https://github.com/visionmedia/supertest#readme
+Supertest provides a high-level abstraction for testing HTTP servers. The README shows how to issue requests against Express apps, chain assertions on status, headers, and body, and handle setup/teardown. It supports Promise-based tests and integration with Vitest, streamlining end-to-end testing of /plot and /series endpoints.
+Last known publication: March 2024. Maintained by the Visionmedia community.
+## MIT
+
+# Zod
+## https://github.com/colinhacks/zod
+Zod is a TypeScript-first schema validation library. The documentation details creating schemas, parsing and safe parsing APIs, custom error messages, and data transforms. It is ideal for validating and parsing HTTP query parameters, body payloads, and ensuring robust runtime checks in the Express server.
+Last known publication: March 2024. Maintained by the Zod project.
 ## MIT
 
 # SVG 2.0
 ## https://www.w3.org/TR/SVG2/
-The W3C SVG 2.0 specification defines the core elements, attributes, and CSS integration for Scalable Vector Graphics. It covers path drawing, text layout, and coordinate systems, essential for generating compliant SVG output from chart libraries. The spec includes detailed sections on shapes, markers, and style inheritance.
+The W3C SVG 2.0 specification defines core SVG elements, attributes, and CSS integration. It covers path commands, shapes, text layout, coordinate systems, and styling inheritance, ensuring compliant and interoperable SVG output for chart libraries.
 Last known publication: January 2024. World Wide Web Consortium.
 ## W3C License
 
-# Node.js File System
+# Node.js File System (fs)
 ## https://nodejs.org/api/fs.html
-The Node.js File System (fs) module documentation details synchronous and asynchronous APIs for file I/O, streams, and directory operations. It covers methods such as `fs.writeFile`, `fs.createWriteStream`, and handling file permissions. Essential for writing JSON, SVG, and PNG buffers to disk reliably in CLI workflows.
+The Node.js fs module documentation details synchronous and asynchronous file I/O, streams, and directory operations. It covers methods like fs.writeFile, fs.createWriteStream, file permission handling, and error codes. This is critical for writing JSON, JSONL, CSV, SVG, and PNG buffers reliably in CLI workflows.
 Last known publication: March 2024. Official Node.js documentation.
 ## Node.js License
