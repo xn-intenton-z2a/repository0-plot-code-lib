@@ -49,3 +49,48 @@ LLM API Usage:
 
 ---
 
+## Feature to enhanced Issue at 2025-05-19T15:17:32.602Z
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3101 with enhanced description:
+
+This issue implements the core PLOT_GENERATION feature end-to-end, delivering CLI parsing of `--expression` and `--range`, a library API `generatePlot(options)` to compute time series and render SVG or PNG plots, and updated documentation and tests.
+
+**Acceptance Criteria**
+
+1. **Library API**
+   - `generatePlot(options: { expression: string; range: { start: number; end: number; step: number }; output: string; format: 'svg' | 'png' })` exists, returns `Promise<void>`, and writes a file at `output` when awaited.
+   - Unit test: parsing range string `"0:2:1"` yields `[0, 1, 2]`.
+   - Unit test: evaluating expression `"y=x+2"` over `[0,1,2]` yields `[2,3,4]`.
+
+2. **CLI Interface**
+   - Supports flags: `--expression`, `--range`, `--output`, `--format`.
+   - Validates inputs with `zod` and fails with an error on invalid values.
+   - Invoking `node src/lib/main.js --expression "y=sin(x)" --range "0:3.14:1.57" --output test.svg --format svg` creates `test.svg` containing an `<svg` element.
+   - Invoking with `--format png` produces a file starting with the PNG signature (`\x89PNG`).
+
+3. **Dependencies**
+   - Adds `mathjs` for parsing and evaluating expressions.
+   - Adds a lightweight converter (e.g., `sharp` or `svg2png`) for PNG output.
+
+4. **Tests**
+   - Unit tests for range parsing and expression evaluation.
+   - Integration test calling `generatePlot` on a temporary path with a mock filesystem, asserting that the output file exists and its contents match SVG or PNG format.
+   - CLI tests invoking the main entrypoint with mock `process.argv` and verifying no errors and correct file creation.
+
+5. **Documentation**
+   - Update `README.md` with installation steps, CLI usage examples, and library API usage snippet.
+   - Update `USAGE.md` with detailed flag descriptions and sample commands for both SVG and PNG output.
+
+6. **Verification**
+   - `npm test` passes existing and new tests.
+   - `npm run build` remains a no-op but succeeds.
+
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5336,"completion_tokens":1224,"total_tokens":6560,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":640,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
