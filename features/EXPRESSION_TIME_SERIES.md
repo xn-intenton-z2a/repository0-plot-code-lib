@@ -1,35 +1,49 @@
 # Overview
 
-This feature extends the CLI entry point to accept a mathematical expression and a numeric range, generate a time series of data points, and optionally persist the result in JSON, JSON Lines, or CSV format.
+Extend the CLI entry point to fully implement expression parsing, numeric range handling, time series generation, and persistence in JSON, JSON Lines, and CSV formats using robust argument validation.
 
 # CLI Arguments
 
-- Support a flag `--expression` that takes a string defining y as a function of x (for example `sin(x)`).
-- Support a flag `--range` that takes a string in the format x=start:end:step (for example `x=-1:1:0.1`).
-- Add an optional flag `--output-file` that takes a file path where the time series data will be written.
-- Extend the flag `--output-format` to accept values `json`, `jsonl`, or `csv`, defaulting to `json`.
-- Validate that when `--output-file` is provided, `--output-format` is one of the supported values.
+- Define a Zod schema for the following flags:
+  - `--expression <string>`: required; a mathematical expression in terms of x (e.g., `sin(x)`).
+  - `--range <start:end:step>`: required; x start, end, and step values separated by colons.
+  - `--output-format <json|jsonl|csv>`: optional; defaults to `json`.
+  - `--output-file <path>`: optional; when provided, persist output to file.
+- Parse and validate `process.argv` against the schema, producing structured config or exiting with code 1 and an error message.
+- On validation failure, print a descriptive message to stderr.
 
 # Time Series Generation
 
-- Parse the `--range` parameter into numeric start, end, and step values.
-- Use mathjs to parse, compile, and evaluate the expression for each x value in the range.
-- Collect an array of objects `{ x, y }` representing the series.
+- Parse the `range` token into numeric `start`, `end`, and `step` components.
+- Configure mathjs per MATHJS_CONFIG guidelines (e.g., BigNumber for high precision).
+- Compile the expression string and evaluate for each x in the defined range.
+- Collect an array of `{ x, y }` objects in memory.
 
 # Persistence
 
-- If `--output-file` is provided:
-  - For format `json`, write the entire array as a JSON string to the specified file.
-  - For format `jsonl`, write each data point as a JSON value on its own line following the JSON Lines standard.
-  - For format `csv`, write a header row `x,y`, followed by each data point as comma-separated values, ensuring UTF-8 encoding.
-  - Ensure CSV output uses LF line endings and properly escapes values if needed.
+- When `--output-file` is provided:
+  - For `json`: write the full array as a JSON string.
+  - For `jsonl`: write one JSON object per line, UTF-8, LF line endings.
+  - For `csv`: write a header row `x,y`, then comma-separated values, escaping if necessary.
+- When no `--output-file` is provided, print JSON output to stdout.
+
+# Error Handling
+
+- Detect invalid numeric ranges (e.g., zero step, start > end) and exit with code 1.
+- Catch evaluation errors from mathjs and report the invalid expression.
 
 # Testing
 
-- Add unit tests for the persistence utility to verify correct output in JSON, JSON Lines, and CSV formats.
-- Add CLI integration tests by simulating process arguments with `--expression`, `--range`, `--output-file`, and `--output-format csv`, then asserting that the output file exists and its contents match the expected CSV structure.
+- Unit tests for:
+  - Zod schema validation (valid and invalid flag combinations).
+  - Range parsing logic for edge cases.
+  - Mathjs-based evaluation correctness.
+  - Persistence utilities for JSON, JSONL, CSV outputs.
+- CLI integration tests using Vitest and `execa`:
+  - Spawn the CLI with various flag sets and assert exit codes.
+  - Verify file creation and exact contents for JSON, JSONL, and CSV modes.
 
 # Documentation
 
-- Update README.md to include example commands for writing time series data to `output.csv` using the `--output-format csv` flag.
-- Update USAGE.md to include a CSV persistence section with sample output and notes on interoperability with spreadsheet tools and data pipelines.
+- Update README.md Quickstart section with example commands for writing time series to JSON, JSONL, and CSV files.
+- Update USAGE.md with a new section on CSV persistence, sample outputs, and notes on external tool interoperability.
