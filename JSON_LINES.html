@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="json_lines" href="#json_lines"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSON_LINES</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Specification: UTF-8 without BOM; one JSON value per line; newline <code class="md-github">\n</code> separator; trailing newline allowed. Conventions: .jsonl extension, optional gzip/bzip2 compression, MIME type application/jsonl. Examples: tabular arrays, JSON objects, nested arrays. Shell tooling: grep + jq.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Requirements</p>
+</li>
+<li class="md-github">
+<p class="md-github">Conventions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Examples</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shell Tooling</p>
+</li>
+<li class="md-github">
+<p class="md-github">Requirements
+• Encoding: UTF-8 only
+• No BOM (U+FEFF prohibited)
+• Each line contains exactly one valid JSON value
+• Whitespace trimmed around values
+• End-of-line delimiter is <code class="md-github">\n</code>; <code class="md-github">\r\n</code> normalized to <code class="md-github">\n</code>
+• Optional trailing newline does not create empty record</p>
+</li>
+<li class="md-github">
+<p class="md-github">Conventions
+• Filename extension: <code class="md-github">.jsonl</code>
+• Compressed forms: <code class="md-github">.jsonl.gz</code>, <code class="md-github">.jsonl.bz2</code>
+• Recommended MIME: <code class="md-github">application/jsonl</code>
+• Line count equals record index (first line = record 1)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Examples
+• Tabular data as JSON arrays:
+[&quot;Name&quot;,&quot;Session&quot;,&quot;Score&quot;,&quot;Completed&quot;]
+[&quot;Alexa&quot;,&quot;2013&quot;,29,true]
+• Self-describing records:
+{&quot;name&quot;:&quot;May&quot;,&quot;session&quot;:&quot;2012B&quot;,&quot;score&quot;:14,&quot;completed&quot;:false}
+• Nested arrays:
+{&quot;name&quot;:&quot;Deloise&quot;,&quot;wins&quot;:[[&quot;three of a kind&quot;,&quot;5♣&quot;]]}</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shell Tooling
+• Filtering: <code class="md-github">grep pattern file.jsonl</code>
+• Pretty print: pipe to <code class="md-github">jq .</code>
+• Combined: <code class="md-github">grep pair file.jsonl | jq .</code></p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Parameter Values:
+• Encoding: UTF-8 (RFC 3629)
+• BOM: must not include U+FEFF at start
+• Line separator: LF (<code class="md-github">0x0A</code>); CRLF (<code class="md-github">0x0D0A</code>) accepted but normalized
+• File extension: <code class="md-github">.jsonl</code>; compressors yield <code class="md-github">.jsonl.gz</code> or <code class="md-github">.jsonl.bz2</code>
+• MIME type: <code class="md-github">application/jsonl</code> (draft)</p>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Open file in text mode with UTF-8 decoding</li>
+<li class="md-github">Read line by line, trimming trailing CR and LF</li>
+<li class="md-github">For each non-empty line, parse JSON value</li>
+<li class="md-github">Process or stream values sequentially</li>
+</ol>
+<p class="md-github">Best Practices:
+• Use streaming JSON parsers to handle large files
+• Avoid loading entire file into memory
+• Compress large archives with gzip or bzip2</p>
+<p class="md-github">Tools &amp; Libraries:
+• jq: lightweight JSON processor (filtering &amp; formatting)
+• Python: built-in <code class="md-github">json</code> module with <code class="md-github">for line in open(...)</code> loop
+• Node.js: <code class="md-github">readline</code> module paired with <code class="md-github">JSON.parse(line)</code>
+• Go: <code class="md-github">bufio.Scanner</code> + <code class="md-github">encoding/json</code></p>
+<p class="md-github">Troubleshooting:
+• Error: unexpected BOM: remove BOM or ensure UTF-8 without BOM
+• Malformed JSON: validate with <code class="md-github">jq .</code> or online validators
+• Incomplete lines: ensure trailing newline at EOF</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Shell Example:
+Command: grep pair winning_hands.jsonl | jq .
+Expected Output:
+{
+&quot;name&quot;: &quot;Gilbert&quot;,
+&quot;wins&quot;: [[&quot;straight&quot;,&quot;7♣&quot;],[&quot;one pair&quot;,&quot;10♥&quot;]]
+}
+{
+&quot;name&quot;: &quot;Alexa&quot;,
+&quot;wins&quot;: [[&quot;two pair&quot;,&quot;4♠&quot;],[&quot;two pair&quot;,&quot;9♠&quot;]]
+}</p>
+<p class="md-github">Tool Integrations:
+• pytest-reportlog plugin: outputs JSON Lines from pytest
+• Logstash json_lines codec: configure <code class="md-github">codec =&gt; json_lines</code>
+• Scrapy: <code class="md-github">FEED_FORMAT = 'jsonlines'</code>
+• ClickHouse: use <code class="md-github">JSONEachRow</code> format for INSERT/SELECT
+• BigQuery: specify <code class="md-github">NEWLINE_DELIMITED_JSON</code> for load jobs</p>
+<p class="md-github">Configuration Snippets:</p>
+<ul class="md-github">
+<li class="md-github">Logstash pipeline:
+input { file { path =&gt; &quot;/path/to/*.jsonl&quot; codec =&gt; json_lines } }</li>
+<li class="md-github">Scrapy settings.py:
+FEED_URI = 'output.jsonl'
+FEED_FORMAT = 'jsonlines'</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">UTF-8 no BOM, LF delim. One JSON value per line, whitespace-trimmed. .jsonl extension, .jsonl.gz/.bz2 optional, MIME application/jsonl. Examples: arrays for tabular data, objects for records, nested arrays. Tools: grep + jq, Python json module, Node.js readline+JSON.parse, Go bufio.Scanner+encoding/json. Integrations: Scrapy FEED_FORMAT=jsonlines; Logstash codec=json_lines; ClickHouse JSONEachRow; BigQuery NEWLINE_DELIMITED_JSON.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Requirements</p>
+</li>
+<li class="md-github">
+<p class="md-github">Conventions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Examples</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shell Tooling</p>
+</li>
+<li class="md-github">
+<p class="md-github">Requirements
+Encoding: UTF-8 only
+No BOM (U+FEFF prohibited)
+Each line contains exactly one valid JSON value
+Whitespace trimmed around values
+End-of-line delimiter is ''n'; ''r'n' normalized to ''n'
+Optional trailing newline does not create empty record</p>
+</li>
+<li class="md-github">
+<p class="md-github">Conventions
+Filename extension: '.jsonl'
+Compressed forms: '.jsonl.gz', '.jsonl.bz2'
+Recommended MIME: 'application/jsonl'
+Line count equals record index (first line = record 1)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Examples
+Tabular data as JSON arrays:
+['Name','Session','Score','Completed']
+['Alexa','2013',29,true]
+Self-describing records:
+{'name':'May','session':'2012B','score':14,'completed':false}
+Nested arrays:
+{'name':'Deloise','wins':[['three of a kind','5']]}</p>
+</li>
+<li class="md-github">
+<p class="md-github">Shell Tooling
+Filtering: 'grep pattern file.jsonl'
+Pretty print: pipe to 'jq .'
+Combined: 'grep pair file.jsonl | jq .'</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">JSON Lines
+https://jsonlines.org/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-json_lines" href="#digest-of-json_lines"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of JSON_LINES</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="json-lines-format-specification-retrieved-2024-07-13" href="#json-lines-format-specification-retrieved-2024-07-13"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JSON Lines Format Specification (retrieved 2024-07-13)</h1>
+<h1 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h1>
+<p class="md-github">JSON Lines (newline-delimited JSON) is a text format for storing structured data one record per line. It supports stream processing, shell pipelines, and parallel loading of large datasets.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="1-requirements" href="#1-requirements"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Requirements</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="11-utf-8-encoding" href="#11-utf-8-encoding"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.1 UTF-8 Encoding</h2>
+<p class="md-github">• Files MUST be encoded in UTF-8
+• No byte order mark (U+FEFF) may appear</p>
+<h2 class="md-github"><a class="md-github__anchor" name="12-valid-json-value-per-line" href="#12-valid-json-value-per-line"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.2 Valid JSON Value per Line</h2>
+<p class="md-github">• Each line must contain exactly one complete JSON value (object, array, string, number, boolean, or null)
+• Leading and trailing whitespace on each line is ignored</p>
+<h2 class="md-github"><a class="md-github__anchor" name="13-line-separator" href="#13-line-separator"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.3 Line Separator</h2>
+<p class="md-github">• Lines are terminated by a single <code class="md-github">\n</code> character
+• <code class="md-github">\r\n</code> sequences are accepted and parsed as if trimmed to <code class="md-github">\n</code>
+• The file may end with a trailing <code class="md-github">\n</code>; it does not introduce an empty record</p>
+<h1 class="md-github"><a class="md-github__anchor" name="2-suggested-conventions" href="#2-suggested-conventions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Suggested Conventions</h1>
+<p class="md-github">• File extension: <code class="md-github">.jsonl</code>
+• Compressed variants: <code class="md-github">.jsonl.gz</code>, <code class="md-github">.jsonl.bz2</code>
+• Recommended MIME type: <code class="md-github">application/jsonl</code> (in-progress)
+• Value indexing: first line is value 1, second line is value 2, etc.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="3-usage-examples" href="#3-usage-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Usage Examples</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="31-tabular-data" href="#31-tabular-data"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.1 Tabular Data</h2>
+<p class="md-github">[&quot;Name&quot;, &quot;Session&quot;, &quot;Score&quot;, &quot;Completed&quot;]
+[&quot;Gilbert&quot;, &quot;2013&quot;, 24, true]</p>
+<h2 class="md-github"><a class="md-github__anchor" name="32-self-describing-objects" href="#32-self-describing-objects"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.2 Self-Describing Objects</h2>
+<p class="md-github">{&quot;name&quot;: &quot;Gilbert&quot;, &quot;session&quot;: &quot;2013&quot;, &quot;score&quot;: 24, &quot;completed&quot;: true}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="33-nested-structures" href="#33-nested-structures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3 Nested Structures</h2>
+<p class="md-github">{&quot;name&quot;: &quot;Gilbert&quot;, &quot;wins&quot;: [[&quot;straight&quot;, &quot;7♣&quot;], [&quot;one pair&quot;, &quot;10♥&quot;]]}</p>
+<h1 class="md-github"><a class="md-github__anchor" name="4-shell-processing" href="#4-shell-processing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Shell Processing</h1>
+<p class="md-github">Use Unix tools for filtering and pretty-printing:</p>
+<pre class="md-github"><code class="md-github language-shell">grep pair winning_hands.jsonl | jq .
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: JSON Lines</li>
+<li class="md-github">URL: https://jsonlines.org/</li>
+<li class="md-github">License: CC0</li>
+<li class="md-github">Crawl Date: 2025-05-18T18:30:52.918Z</li>
+<li class="md-github">Data Size: 81999 bytes</li>
+<li class="md-github">Links Found: 23</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-05-18</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-05-19T10:38:35.153Z</p>
+  </footer>
+</body>
+</html>

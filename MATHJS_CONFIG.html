@@ -24,309 +24,275 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="mathjs_config" href="#mathjs_config"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MATHJS_CONFIG</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">npm install mathjs; import/create instances; load via ES modules, CommonJS, browser; configure relTol, absTol, matrix, number, numberFallback, precision, predictable, randomSeed; core functions evaluate, compile, parse, chain, import, replacer/reviver; chaining pattern; JSON serialization with replacer and reviver.</p>
+<p class="md-github">math.config supports eight options: relTol(1e-12), absTol(1e-15), matrix('Matrix'|'Array'), number('number'|'BigNumber'|'bigint'|'Fraction'), numberFallback('number'|'BigNumber'), precision(64), predictable(false), randomSeed(null). Create an instance with create(all, config). Override config at runtime with math.config(partialConfig). Default behaviors: relational tolerance, matrix output type, numeric parsing and fallback, BigNumber precision, predictable complex output, seeded RNG.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
 <p class="md-github">Table of Contents
 1 Installation
-2 Loading
-3 Configuration Options
-4 Core APIs
-5 Chaining
-6 Serialization</p>
-<p class="md-github">1 Installation</p>
+2 Loading and Bundling
+3 Instantiating with Configuration
+4 Configuration Options
+5 Runtime Overrides</p>
+<p class="md-github">1 Installation
+npm install mathjs@<version></p>
 <ul class="md-github">
-<li class="md-github">npm install mathjs</li>
-<li class="md-github">version 14.4.0 CDN URLs unpkg, cdnjs, jsDelivr, PageCDN</li>
+<li class="md-github">Type definitions included for TypeScript.</li>
 </ul>
-<p class="md-github">2 Loading
-ES Modules: import { create, all } from 'mathjs'; const math = create(all, config)
-CommonJS: const { create, all } = require('mathjs'); const math = create(all, config)
-Browser: <script src="math.js"></script>; use global math</p>
-<p class="md-github">3 Configuration Options
-relTol:1e-12 absTol:1e-15 matrix:'Matrix'|'Array' number:'number'|'BigNumber'|'bigint'|'Fraction' numberFallback:'number'|'BigNumber' precision:64 predictable:false randomSeed:null
-Use math.config({ ... }) or supply second arg to create(all, config)</p>
-<p class="md-github">4 Core APIs
-math.evaluate(expr[,scope]):any
-math.compile(expr):{evaluate(scope?):any}
-math.parse(expr):Node
-type Node: compile(), evaluate()
-math.chain(value):Chain; Chain.done():any; Chain.valueOf():any; Chain.toString():string
-math.import(funcs[,options]); options.override,silent,wrap
-math.replacer: function for JSON.stringify; math.reviver: function for JSON.parse</p>
-<p class="md-github">5 Chaining
-math.chain(value).fn1(...).fn2(...).done()
-All math.* functions available</p>
-<p class="md-github">6 Serialization
-JSON.stringify(obj, math.replacer)
-JSON.parse(json, math.reviver)
-Pass replacer to retain Infinity as 'Infinity'</p>
+<p class="md-github">2 Loading and Bundling
+CommonJS (Node.js)
+const { create, all } = require('mathjs')
+ES Modules
+import { create, all } from 'mathjs'
+// Lightweight build
+import { sqrt } from 'mathjs/number'
+Browser
+<script src="math.js"></script>
+// Global variable: math
+Tree-shaking
+import only required functions or bundles via custom bundling API.</p>
+<p class="md-github">3 Instantiating with Configuration
+Signature: create(all: MathJsStatic, config: ConfigOptions) =&gt; MathJsInstance
+Example:
+const config = { matrix:'Array', number:'BigNumber', precision:32 }
+const math = create(all, config)</p>
+<p class="md-github">4 Configuration Options
+relTol: number (default=1e-12)
+Minimum relative tolerance for comparisons.
+absTol: number (default=1e-15)
+Minimum absolute tolerance for comparisons.
+matrix: 'Matrix'|'Array' (default='Matrix')
+Output type for matrix operations.
+number: 'number'|'BigNumber'|'bigint'|'Fraction' (default='number')
+Type for parsing strings and creating values.
+numberFallback: 'number'|'BigNumber' (default='number')
+Fallback when primary number type cannot parse value.
+precision: number (default=64)
+Significant digits for BigNumber operations.
+predictable: boolean (default=false)
+When true, forces output types based solely on input types.
+randomSeed: string|number|null (default=null)
+Seed pseudo RNG for deterministic random(), randomInt().</p>
+<p class="md-github">5 Runtime Overrides
+Signature: math.config(options: Partial<ConfigOptions>) =&gt; ConfigOptions
+Usage:
+math.config({ number:'Fraction' })
+const cfg = math.config()</p>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
 <p class="md-github">Implementation Steps</p>
 <ol class="md-github">
-<li class="md-github">Install: npm install mathjs</li>
-<li class="md-github">Import or require: ES modules or CommonJS</li>
-<li class="md-github">Create instance: const math = create(all, config)</li>
-<li class="md-github">Configure at runtime: math.config({ matrix:'Array', number:'BigNumber', precision:32, predictable:true })</li>
-<li class="md-github">Use core APIs: math.evaluate, math.compile, math.parse, math.chain</li>
-<li class="md-github">Extend library: math.import({ fn:..., ...}, { override:true, wrap:true, silent:false })</li>
-<li class="md-github">Serialize data types: JSON.stringify(x, math.replacer); restore: JSON.parse(str, math.reviver)</li>
+<li class="md-github">npm install or include via CDN.</li>
+<li class="md-github">Import create and all from 'mathjs'.</li>
+<li class="md-github">Define a ConfigOptions object with only required keys.</li>
+<li class="md-github">Call create(all, config) to obtain math instance.</li>
+<li class="md-github">Use math.config(...) at any time to override options.</li>
+<li class="md-github">Retrieve current config via math.config().</li>
 </ol>
-<p class="md-github">Configuration Effects</p>
-<ul class="md-github">
-<li class="md-github">Changing matrix affects all matrix-returning functions</li>
-<li class="md-github">Changing number affects evaluate, parse, range, unit parsing</li>
-<li class="md-github">predictable:true forces NaN for sqrt(-4)</li>
-<li class="md-github">Setting randomSeed resets PRNG deterministically on each set</li>
-</ul>
-<p class="md-github">Custom Bundling</p>
-<ul class="md-github">
-<li class="md-github">Import subsets: import { sqrt } from 'mathjs/number'</li>
-<li class="md-github">Build tree-shakable bundles with create and selective import</li>
-</ul>
+<p class="md-github">Custom Bundling
+Use the custom bundle builder or tree-shaking import patterns to reduce bundle size.
+Example: import { evaluate } from 'mathjs/small'</p>
+<p class="md-github">Command Line Interface
+npm install -g mathjs
+Usage: mathjs -e &quot;sqrt(3^2+4^2)&quot;</p>
+<p class="md-github">CDN Links
+https://unpkg.com/mathjs@14.4.0/
+https://cdnjs.com/libraries/mathjs</p>
+<p class="md-github">Extensions
+Import external libraries via math.import(lib, {wrap:true}).
+Example: math.import(numbers, {wrap:true, silent:true})</p>
+<p class="md-github">RNG Seeding
+math.config({randomSeed:'myseed'})
+math.random() returns deterministic sequence.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">API Specifications</p>
-<p class="md-github">math.evaluate(expr: string | string[], scope?: Map|string|Object): any | any[]</p>
+<p class="md-github">API Signatures</p>
+<p class="md-github">create(all: MathJsStatic, config: ConfigOptions) =&gt; MathJsInstance</p>
 <ul class="md-github">
-<li class="md-github">expr: expression or list of expressions</li>
-<li class="md-github">scope: Map with get, set, has, keys or plain object</li>
-<li class="md-github">returns evaluated result(s)</li>
+<li class="md-github">all: built-in namespace containing all functions and constants.</li>
+<li class="md-github">config: full ConfigOptions object.</li>
+<li class="md-github">Returns: a configured Math.js instance.</li>
 </ul>
-<p class="md-github">math.compile(expr: string | string[]): { evaluate(scope?: Map|string|Object): any | any[] }</p>
+<p class="md-github">math.config(): ConfigOptions</p>
 <ul class="md-github">
-<li class="md-github">compile once, evaluate multiple times</li>
+<li class="md-github">No arguments: returns current full configuration.</li>
 </ul>
-<p class="md-github">math.parse(expr: string | string[]): Node | Node[]</p>
+<p class="md-github">math.config(options: Partial<ConfigOptions>): ConfigOptions</p>
 <ul class="md-github">
-<li class="md-github">Node methods: compile():Compiled, evaluate(scope?): any</li>
-<li class="md-github">Node.toString(): string; Node.toTex(): string</li>
+<li class="md-github">options: subset of ConfigOptions to override.</li>
+<li class="md-github">Returns: updated full configuration.</li>
 </ul>
-<p class="md-github">math.chain(value: any): Chain</p>
+<p class="md-github">ConfigOptions properties
+relTol: number = 1e-12
+absTol: number = 1e-15
+matrix: 'Matrix' | 'Array' = 'Matrix'
+number: 'number' | 'BigNumber' | 'bigint' | 'Fraction' = 'number'
+numberFallback: 'number' | 'BigNumber' = 'number'
+precision: number = 64
+predictable: boolean = false
+randomSeed: string | number | null = null</p>
+<p class="md-github">math.import(functions: object | Array<factory>, options?: {override?:boolean, silent?:boolean, wrap?:boolean}): void</p>
 <ul class="md-github">
-<li class="md-github">Chain methods: .done(): any; .valueOf(): any; .toString(): string</li>
-<li class="md-github">All math.* functions available on chain instance</li>
+<li class="md-github">functions: object mapping names to functions/values or factory array.</li>
+<li class="md-github">options.override: overwrite existing definitions.</li>
+<li class="md-github">options.silent: suppress duplicate errors.</li>
+<li class="md-github">options.wrap: auto-convert wrapped types.</li>
 </ul>
-<p class="md-github">math.config(options: {
-relTol?: number,
-absTol?: number,
-matrix?: 'Matrix'|'Array',
-number?: 'number'|'BigNumber'|'bigint'|'Fraction',
-numberFallback?: 'number'|'BigNumber',
-precision?: number,
-predictable?: boolean,
-randomSeed?: string|null
-}): Config</p>
+<p class="md-github">Chain API</p>
+<p class="md-github">math.chain(value: any) =&gt; Chain
+Chain.done(): any      // finalize and return result
+Chain.valueOf(): any   // alias of done()
+Chain.toString(): string // format output as string</p>
+<p class="md-github">Parser API</p>
+<p class="md-github">math.parser(): Parser
+Parser.evaluate(expr: string): any
+Parser.get(name: string): any
+Parser.set(name: string, value: any): void
+Parser.remove(name: string): void
+Parser.clear(): void</p>
+<p class="md-github">Troubleshooting Procedures</p>
+<ol class="md-github">
+<li class="md-github">Unrecognized config key error
 <ul class="md-github">
-<li class="md-github">Returns current config object</li>
+<li class="md-github">Check spelling of keys in ConfigOptions.</li>
 </ul>
-<p class="md-github">math.import(
-functions: Object|Function[],
-options?: { override?: boolean, silent?: boolean, wrap?: boolean }
-): void</p>
-<p class="md-github">math.replacer(key: string, value: any): any
-math.reviver(key: string, value: any): any</p>
-<p class="md-github">Code Examples</p>
-<p class="md-github">// Evaluate and parse
-const res = math.evaluate('2+3*4') //14
-const code = math.compile('sqrt(x^2+y^2)')
-console.log(code.evaluate({ x:3, y:4 })) //5</p>
-<p class="md-github">// Chaining
-const c = math.chain([1,2,3]).map(x =&gt; x*2).sum().done() //12</p>
-<p class="md-github">// Typed import extension
-const custom = {
-negSquare: factory('negSquare', ['multiply','unaryMinus'], ({multiply,unaryMinus}) =&gt; x =&gt; unaryMinus(multiply(x,x)))
-}
-math.import(custom)</p>
+</li>
+<li class="md-github">BigNumber precision insufficient
+<ul class="md-github">
+<li class="md-github">Increase precision parameter via math.config({precision:<digits>}).</li>
+</ul>
+</li>
+<li class="md-github">Non-deterministic random()
+<ul class="md-github">
+<li class="md-github">Set randomSeed: math.config({randomSeed:<value>}).</li>
+</ul>
+</li>
+<li class="md-github">Bundle too large
+<ul class="md-github">
+<li class="md-github">Use tree-shaking: import only required modules: e.g. import { sqrt } from 'mathjs/number'.</li>
+</ul>
+</li>
+<li class="md-github">CLI not found after global install
+<ul class="md-github">
+<li class="md-github">Ensure npm global bin is in PATH: echo $PATH</li>
+</ul>
+</li>
+</ol>
 <p class="md-github">Best Practices</p>
 <ul class="md-github">
-<li class="md-github">Always pass math.replacer to JSON.stringify to handle Infinity and NaN</li>
-<li class="md-github">Use create(all, config) for isolated instances, avoid mutating default global</li>
-<li class="md-github">Use tree-shaking via selective imports to reduce bundle size</li>
-</ul>
-<p class="md-github">Troubleshooting</p>
-<ul class="md-github">
-<li class="md-github">If math.evaluate throws “UndefinedSymbolError”, ensure scope includes variable: math.evaluate('a+1',{a:2})</li>
-<li class="md-github">Infinity serializes to null without replacer: JSON.stringify(Infinity) =&gt; null; use replacer to get &quot;Infinity&quot;</li>
-<li class="md-github">Setting predictable:true changes sqrt(-4) from Complex to NaN; revert setting if unexpected NaN</li>
+<li class="md-github">Always specify only required config overrides.</li>
+<li class="md-github">Use Partial<ConfigOptions> with math.config to avoid resetting defaults.</li>
+<li class="md-github">Seed RNG in tests for repeatability.</li>
+<li class="md-github">Choose number or BigNumber consistently to avoid fallback performance hits.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">install:npm install mathjs;import:{create,all}from'mathjs';const math=create(all,{relTol:1e-12,absTol:1e-15,matrix:'Matrix',number:'number',numberFallback:'number',precision:64,predictable:false,randomSeed:null});APIs:evaluate(expr,scope?):any;compile(expr)-&gt;{evaluate(scope?):any};parse(expr)-&gt;Node;chain(value)-&gt;Chain;import(funcs,options?);replacer;reviver;config(options);usage:math.evaluate('sqrt(3^2+4^2)');math.chain(3).add(4).multiply(2).done();serialization:JSON.stringify(x,math.replacer);JSON.parse(str,math.reviver);best:use create() for isolated instance;pass replacer;tree-shake via selective imports;predictable:true→NaN for negative sqrt;randomSeed for deterministic random</p>
+<p class="md-github">npm install mathjs@<ver>; import { create, all } from 'mathjs'; const math = create(all,{relTol:1e-12,absTol:1e-15,matrix:'Array',number:'BigNumber',numberFallback:'number',precision:64,predictable:false,randomSeed:null}); math.config(); math.config({number:'number'}); API: create(all,ConfigOptions):MathJsInstance; math.config():ConfigOptions; math.config(Partial<ConfigOptions>):ConfigOptions; ConfigOptions keys: relTol,absTol,matrix,number,numberFallback,precision,predictable,randomSeed; math.import(obj,{override?,silent?,wrap?}); math.chain(val).add(x).done(); math.parser().evaluate(expr); troubleshooting: set randomSeed for deterministic RNG; tree-shake via import from 'mathjs/number.'</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
 <p class="md-github">Table of Contents
 1 Installation
-2 Loading
-3 Configuration Options
-4 Core APIs
-5 Chaining
-6 Serialization</p>
-<p class="md-github">1 Installation</p>
+2 Loading and Bundling
+3 Instantiating with Configuration
+4 Configuration Options
+5 Runtime Overrides</p>
+<p class="md-github">1 Installation
+npm install mathjs@<version></p>
 <ul class="md-github">
-<li class="md-github">npm install mathjs</li>
-<li class="md-github">version 14.4.0 CDN URLs unpkg, cdnjs, jsDelivr, PageCDN</li>
+<li class="md-github">Type definitions included for TypeScript.</li>
 </ul>
-<p class="md-github">2 Loading
-ES Modules: import { create, all } from 'mathjs'; const math = create(all, config)
-CommonJS: const { create, all } = require('mathjs'); const math = create(all, config)
-Browser: <script src='math.js'></script>; use global math</p>
-<p class="md-github">3 Configuration Options
-relTol:1e-12 absTol:1e-15 matrix:'Matrix'|'Array' number:'number'|'BigNumber'|'bigint'|'Fraction' numberFallback:'number'|'BigNumber' precision:64 predictable:false randomSeed:null
-Use math.config({ ... }) or supply second arg to create(all, config)</p>
-<p class="md-github">4 Core APIs
-math.evaluate(expr[,scope]):any
-math.compile(expr):{evaluate(scope?):any}
-math.parse(expr):Node
-type Node: compile(), evaluate()
-math.chain(value):Chain; Chain.done():any; Chain.valueOf():any; Chain.toString():string
-math.import(funcs[,options]); options.override,silent,wrap
-math.replacer: function for JSON.stringify; math.reviver: function for JSON.parse</p>
-<p class="md-github">5 Chaining
-math.chain(value).fn1(...).fn2(...).done()
-All math.* functions available</p>
-<p class="md-github">6 Serialization
-JSON.stringify(obj, math.replacer)
-JSON.parse(json, math.reviver)
-Pass replacer to retain Infinity as 'Infinity'</p>
+<p class="md-github">2 Loading and Bundling
+CommonJS (Node.js)
+const { create, all } = require('mathjs')
+ES Modules
+import { create, all } from 'mathjs'
+// Lightweight build
+import { sqrt } from 'mathjs/number'
+Browser
+<script src='math.js'></script>
+// Global variable: math
+Tree-shaking
+import only required functions or bundles via custom bundling API.</p>
+<p class="md-github">3 Instantiating with Configuration
+Signature: create(all: MathJsStatic, config: ConfigOptions) =&gt; MathJsInstance
+Example:
+const config = { matrix:'Array', number:'BigNumber', precision:32 }
+const math = create(all, config)</p>
+<p class="md-github">4 Configuration Options
+relTol: number (default=1e-12)
+Minimum relative tolerance for comparisons.
+absTol: number (default=1e-15)
+Minimum absolute tolerance for comparisons.
+matrix: 'Matrix'|'Array' (default='Matrix')
+Output type for matrix operations.
+number: 'number'|'BigNumber'|'bigint'|'Fraction' (default='number')
+Type for parsing strings and creating values.
+numberFallback: 'number'|'BigNumber' (default='number')
+Fallback when primary number type cannot parse value.
+precision: number (default=64)
+Significant digits for BigNumber operations.
+predictable: boolean (default=false)
+When true, forces output types based solely on input types.
+randomSeed: string|number|null (default=null)
+Seed pseudo RNG for deterministic random(), randomInt().</p>
+<p class="md-github">5 Runtime Overrides
+Signature: math.config(options: Partial<ConfigOptions>) =&gt; ConfigOptions
+Usage:
+math.config({ number:'Fraction' })
+const cfg = math.config()</p>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">Math.js Documentation
-https://mathjs.org/docs/</p>
+<p class="md-github">Math.js
+https://mathjs.org/docs/index.html</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-mathjs_config" href="#digest-of-mathjs_config"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of MATHJS_CONFIG</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="mathjs-technical-digest-retrieved-2024-06-20" href="#mathjs-technical-digest-retrieved-2024-06-20"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Math.js Technical Digest (retrieved 2024-06-20)</h1>
-<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<ul class="md-github">
-<li class="md-github">npm install mathjs</li>
-<li class="md-github">Built-in TypeScript definitions included</li>
-<li class="md-github">CDN URLs (version 14.4.0):
-<ul class="md-github">
-<li class="md-github">unpkg: https://unpkg.com/mathjs@14.4.0/</li>
-<li class="md-github">cdnjs: https://cdnjs.com/libraries/mathjs</li>
-<li class="md-github">jsDelivr: https://www.jsdelivr.com/package/npm/mathjs</li>
-<li class="md-github">PageCDN: https://pagecdn.com/lib/mathjs</li>
-</ul>
-</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="loading-and-instantiation" href="#loading-and-instantiation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Loading and Instantiation</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="es-modules" href="#es-modules"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ES Modules</h3>
-<pre class="md-github"><code class="md-github language-js">import { create, all } from 'mathjs'
-const config = { /* see Configuration below */ }
+<h1 class="md-github"><a class="md-github__anchor" name="mathjs-configuration-retrieved-on-2024-06-12" href="#mathjs-configuration-retrieved-on-2024-06-12"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Math.js Configuration (retrieved on 2024-06-12)</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration-api" href="#configuration-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration API</h2>
+<p class="md-github">Signature</p>
+<p class="md-github">math.config(config: ConfigOptions): ConfigOptions</p>
+<p class="md-github">Description</p>
+<p class="md-github">Apply or override runtime configuration on a Math.js instance. Returns the full applied configuration.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="configoptions-interface" href="#configoptions-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ConfigOptions Interface</h2>
+<p class="md-github">interface ConfigOptions {
+relTol: number         // Minimum relative difference for relational comparisons (default: 1e-12)
+absTol: number         // Minimum absolute difference for relational comparisons (default: 1e-15)
+matrix: 'Matrix' | 'Array'    // Default output type for matrix functions (default: 'Matrix')
+number: 'number' | 'BigNumber' | 'bigint' | 'Fraction'  // Numeric type for parsing and creation (default: 'number')
+numberFallback: 'number' | 'BigNumber'  // Fallback type when primary number type cannot represent a value (default: 'number')
+precision: number      // Significant digits for BigNumber (default: 64)
+predictable: boolean   // Force predictable output types (default: false)
+randomSeed: string | number | null  // Seed for deterministic RNG (default: null)
+}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="instantiation-with-configuration" href="#instantiation-with-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Instantiation with Configuration</h2>
+<p class="md-github">Signature</p>
+<p class="md-github">import { create, all } from 'mathjs'
+const math = create(all, config: ConfigOptions)</p>
+<p class="md-github">Example</p>
+<p class="md-github">const config = {
+relTol: 1e-10,
+absTol: 1e-14,
+matrix: 'Array',
+number: 'BigNumber',
+precision: 32,
+predictable: true,
+randomSeed: 'seed123'
+}
 const math = create(all, config)
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="commonjs-nodejs" href="#commonjs-nodejs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CommonJS (Node.js)</h3>
-<pre class="md-github"><code class="md-github language-js">const { create, all } = require('mathjs')
-const config = { /* see Configuration below */ }
-const math = create(all, config)
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="browser-global" href="#browser-global"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Browser Global</h3>
-<pre class="md-github"><code class="md-github language-html">&lt;script src=&quot;math.js&quot;&gt;&lt;/script&gt;
-&lt;script&gt;
-  console.log(math.sqrt(-4).toString()) // 2i
-&lt;/script&gt;
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options</h2>
-<p class="md-github">Call <code class="md-github">math.config(options)</code> or supply <code class="md-github">options</code> to <code class="md-github">create(all, options)</code>.</p>
-<table class="md-github">
-<thead class="md-github">
-<tr class="md-github">
-<th class="md-github">Option</th>
-<th class="md-github">Type</th>
-<th class="md-github">Default</th>
-<th class="md-github">Description</th>
-</tr>
-</thead>
-<tbody class="md-github">
-<tr class="md-github">
-<td class="md-github">relTol</td>
-<td class="md-github">number</td>
-<td class="md-github">1e-12</td>
-<td class="md-github">Minimum relative difference for relational functions</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">absTol</td>
-<td class="md-github">number</td>
-<td class="md-github">1e-15</td>
-<td class="md-github">Minimum absolute difference for relational functions</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">matrix</td>
-<td class="md-github">'Matrix'  'Array'</td>
-<td class="md-github">'Matrix'</td>
-<td class="md-github">Default output type for matrix functions</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">number</td>
-<td class="md-github">'number'</td>
-<td class="md-github">'BigNumber'</td>
-<td class="md-github">'bigint'</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">numberFallback</td>
-<td class="md-github">'number'</td>
-<td class="md-github">'BigNumber'</td>
-<td class="md-github">'number'</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">precision</td>
-<td class="md-github">integer</td>
-<td class="md-github">64</td>
-<td class="md-github">Maximum significant digits for BigNumbers</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">predictable</td>
-<td class="md-github">boolean</td>
-<td class="md-github">false</td>
-<td class="md-github">When true, output type depends only on input types (e.g. sqrt(-4) → NaN when true)</td>
-</tr>
-<tr class="md-github">
-<td class="md-github">randomSeed</td>
-<td class="md-github">string</td>
-<td class="md-github">null</td>
-<td class="md-github">null</td>
-</tr>
-</tbody>
-</table>
-<h3 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h3>
-<pre class="md-github"><code class="md-github language-js">// create with BigNumber and custom tolerance
-t const math = create(all, { number: 'BigNumber', precision: 32, relTol: 1e-10 })
-console.log(math.evaluate('1 / 3')) // BigNumber: 0.333... (32 digits)
-math.config({ predictable: true })
-console.log(math.sqrt(-4))        // NaN
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="core-apis" href="#core-apis"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core APIs</h2>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">math.evaluate(expr[, scope]) : any</code></li>
-<li class="md-github"><code class="md-github">math.compile(expr) -&gt; { evaluate(scope?): any }</code></li>
-<li class="md-github"><code class="md-github">math.parse(expr) -&gt; Node</code></li>
-<li class="md-github"><code class="md-github">math.chain(value) -&gt; Chain</code></li>
-<li class="md-github"><code class="md-github">math.import(functions[, options])</code></li>
-<li class="md-github"><code class="md-github">math.replacer</code> and <code class="md-github">math.reviver</code> for JSON serialization</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="chaining" href="#chaining"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chaining</h2>
-<pre class="md-github"><code class="md-github language-js">math.chain(3)
-    .add(4)
-    .multiply(2)
-    .done() // 14
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="serialization" href="#serialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Serialization</h2>
-<pre class="md-github"><code class="md-github language-js">const x = math.complex('2+3i')
-const json = JSON.stringify(x, math.replacer)
-// '{&quot;mathjs&quot;:&quot;Complex&quot;,&quot;re&quot;:2,&quot;im&quot;:3}'
-const restored = JSON.parse(json, math.reviver)
-</code></pre>
-<hr class="md-github">
-<p class="md-github"><strong class="md-github">Attribution</strong>: Math.js documentation, Data Size: 19021957 bytes, Links Found: 35602</p>
+console.log(math.config())</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overriding-at-runtime" href="#overriding-at-runtime"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overriding at Runtime</h2>
+<p class="md-github">Signature</p>
+<p class="md-github">math.config(options: Partial<ConfigOptions>): ConfigOptions</p>
+<p class="md-github">Example</p>
+<p class="md-github">math.config({ number: 'Fraction', matrix: 'Array' })
+const current = math.config()
+console.log(current.number, current.matrix)</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
-<li class="md-github">Source: Math.js Documentation</li>
-<li class="md-github">URL: https://mathjs.org/docs/</li>
-<li class="md-github">License: License: Apache-2.0</li>
-<li class="md-github">Crawl Date: 2025-05-10T03:34:17.993Z</li>
-<li class="md-github">Data Size: 19021957 bytes</li>
-<li class="md-github">Links Found: 35602</li>
+<li class="md-github">Source: Math.js</li>
+<li class="md-github">URL: https://mathjs.org/docs/index.html</li>
+<li class="md-github">License: Apache-2.0</li>
+<li class="md-github">Crawl Date: 2025-05-19T06:32:03.807Z</li>
+<li class="md-github">Data Size: 3160396 bytes</li>
+<li class="md-github">Links Found: 4341</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-05-10</p>
+<p class="md-github">2025-05-19</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-05-10T04:38:38.914Z</p>
+    <p>Generated on 2025-05-19T10:38:35.244Z</p>
   </footer>
 </body>
 </html>
