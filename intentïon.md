@@ -840,3 +840,49 @@ LLM API Usage:
 
 ---
 
+## Enhanced Issue at 2025-05-19T12:53:24.997Z
+
+Enhanced maintenance issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3099 with enhanced description:
+
+Title: Implement full CLI parsing, expression evaluation, and plotting
+
+Description:
+The current src/lib/main.js only logs raw arguments and does not implement the PLOT_CLI feature as defined in features/PLOT_CLI.md. We need to integrate yargs for CLI parsing, mathjs for expression evaluation, and a lightweight plotting library (e.g. plotly.js-dist-min) to generate SVG or PNG output from mathematical expressions.
+
+Testable Acceptance Criteria:
+1. CLI Flag Parsing and Validation:
+   - The tool accepts and validates the following flags:
+     • --expression <string> (required)
+     • --range <string> (format: x=min:max, required)
+     • --file <string> (required)
+     • --format <svg|png> (optional, default: svg)
+   - Missing or invalid flags cause the CLI to exit with a non-zero code and a clear error message.
+
+2. Expression Evaluation and Sampling:
+   - The expression string is parsed into a function f(x) using mathjs.
+   - Sampling logic produces an array of 1000 evenly spaced x values over the specified range and computes corresponding y values.
+   - Unit tests verify that for a simple expression (e.g. y=x), the first and last samples match the range endpoints.
+
+3. Plot Generation and File Output:
+   - The (x,y) series is rendered to SVG or PNG using the chosen plotting library.
+   - The output file is written to disk at the specified path.
+   - An SVG output file contains an `<svg` tag; a PNG output file begins with the PNG signature (89 50 4E 47...).
+   - End-to-end tests run the CLI in a child process with a simple expression (e.g. "y=x") and inspect the generated file.
+
+4. Repository Updates:
+   - package.json includes dependencies: yargs, mathjs, and the chosen plotting library.
+   - README.md includes a Usage section with flag descriptions, defaults, and example commands.
+
+Verification:
+- `npm test` passes all new and existing tests.
+- `node src/lib/main.js --expression "y=1+x" --range "x=0:1" --file test.svg` produces a valid SVG file with an `<svg` tag.
+- Errors for missing or invalid flags return exit code >0.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5412,"completion_tokens":1061,"total_tokens":6473,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":512,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
