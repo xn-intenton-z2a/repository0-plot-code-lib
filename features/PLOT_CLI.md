@@ -1,48 +1,47 @@
 # Overview
 
-Add a complete command line interface to parse a mathematical expression, generate a time series over a specified range, and render a plot file in SVG or PNG format. This feature covers parsing of flags, expression evaluation, time series generation, plotting, and saving of the resulting image.
+Enhance the existing CLI to fully support parsing and validating mathematical expressions and range specifications before sampling or plotting. Users can now supply an expression flag and a flexible range flag for both x and y axes.
 
 # CLI Arguments
 
 --expression <string>
-  A formula in simple infix syntax, for example y=sin(x)
-
+  A mathematical formula in infix syntax, for example y=sin(x) or x^2 + 3*x + 1
+  Must be provided and must reference variable x (for y expressions).
 --range <string>
-  A colon-delimited x and y range specification, for example x=-1:1,y=-1:1
-
---file <string>
-  The output file path, for example output.svg or image.png
-
---format <string>
-  The output image format, either svg or png. Defaults to svg
+  A comma-delimited specification of numeric ranges: x=start:end,y=start:end
+  For example x=-1:1,y=-2:2
+  Both x and y sections are required and must parse to two numeric values separated by a colon.
+-e, -r
+  Short forms for --expression and --range respectively
 
 # Behavior
 
-1. Parse and validate CLI flags
-2. Use a formula parsing library to convert the expression into a function
-3. Sample the function across the x range to produce (x,y) pairs
-4. Generate a chart using a lightweight plotting library
-5. Write the resulting SVG or PNG to the specified output file
+1. Parse command line flags including expression (-e) and range (-r).
+2. Validate that the expression flag is present and follows permitted syntax.
+3. Validate that the range flag is present, split into x and y parts, and convert each start and end to numbers.
+4. On validation error, display a clear message and exit with non-zero code.
+5. On success, pass parsed expression and numeric ranges to downstream sampling and plotting logic (unchanged).
 
 # Implementation Details
 
-Update src/lib/main.js to:
-- Add argument parsing via minimist or yargs
-- Import a math parsing library (eg mathjs) to handle the expression
-- Generate time series data at a default resolution of 1000 points
-- Use a minimal plot library (eg plotly.js or a simple SVG builder) to produce the image
-- Write image output via fs
+- Update src/lib/main.js:
+  - Integrate a flag parser (minimist or yargs) to handle --expression, --range, --file, --format and their shorthand.
+  - Import mathjs to parse the expression string into an executable function of x.
+  - Implement a parseRange helper to split the range string by comma, then colon, coercing to numbers and validating order.
+  - Throw or log a user-friendly error if flags are missing or malformed.
+  - Preserve existing time series sampling and image output behavior after successful parse.
 
-Update package.json to include any new dependencies for parsing and plotting.
+- Update package.json if adding mathjs or range parsing dependencies (otherwise none).
 
 # Testing
 
-Add unit tests to:
-  - Verify that main() recognizes and rejects missing or invalid flags
-  - Confirm that a valid expression and range generate an image file in the correct format
-  - Ensure that the function returns without error when run without file output in dry mode
+- In tests/unit/plot-generation.test.js and main.test.js:
+  - Add tests to verify missing expression or range flags cause process exit with error.
+  - Test valid expression and range strings produce a parsed AST and numeric range output without error.
 
 # Documentation
 
-- Update README.md to list the new CLI flags and include example commands
-- Create or update USAGE.md with detailed walkthroughs and sample output
+- Update README.md:
+  - Document new --expression and --range flags with examples and shorthand usage.
+- Update USAGE.md:
+  - Show sample commands demonstrating valid and invalid flag usage and expected outputs.
