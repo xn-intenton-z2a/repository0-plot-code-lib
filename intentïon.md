@@ -1653,3 +1653,64 @@ LLM API Usage:
 
 ---
 
+## Feature to enhanced Issue at 2025-05-19T13:11:06.285Z
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3100 with enhanced description:
+
+We need to implement the feature described in features/TIME_SERIES_EXPORT.md to allow end users to export the raw time series data as CSV or JSON files.
+
+Acceptance Criteria:
+
+1. CLI Flag Parsing:
+   • Two new flags should be supported via a CLI parser (e.g., minimist):
+     - --export-data-file <path> (optional): Path to write the exported data file.
+     - --data-format <csv|json> (optional, defaults to json): Output serialization format.
+
+2. JSON Export:
+   • When invoked with `--export-data-file data.json --data-format json`, the CLI must create `data.json` containing a valid JSON array of `{ x, y }` objects, formatted with 2-space indentation.
+   • File contents must parse successfully with `JSON.parse` and match the generated time series data.
+
+3. CSV Export:
+   • When invoked with `--export-data-file data.csv --data-format csv` or omitting `--data-format`, the CLI must create `data.csv` containing a header row `x,y` followed by each point on a separate line (e.g., `0,1`).
+   • CSV must be valid and should round-trip if parsed by a CSV parser into the original data.
+
+4. Exit Behavior & Errors:
+   • The CLI should exit with code 0 when export succeeds and should not throw uncaught errors.
+   • When `--export-data-file` is not provided, no file operations occur and the CLI only logs run arguments.
+
+5. Automated Tests:
+   • Tests in `tests/unit/plot-generation.test.js` must mock a minimal time series (e.g., `[{ x: 0, y: 1 }, { x: 1, y: 2 }]`), run `main()` with appropriate `process.argv` settings, and assert:
+     - That the target file exists in a temporary directory.
+     - That the file contents match expected JSON or CSV formats exactly.
+   • Tests must clean up any temporary files after assertions.
+
+6. Documentation Updates:
+   • Update `README.md` to document the new CLI flags with short descriptions and example commands for both JSON and CSV exports.
+   • Update `USAGE.md` to add a new section “Exporting raw data” showing sample command usage and sample output snippets.
+
+Implementation Steps:
+1. Modify `src/lib/main.js`:
+   - Integrate a CLI parser (e.g., minimist) to read `--export-data-file` and `--data-format`.
+   - After time series generation, conditionally serialize and write the data:
+     • JSON: `JSON.stringify(data, null, 2)`
+     • CSV: build header and rows as comma-separated lines.
+   - Use `fs.writeFileSync` to write the output file.
+2. Enhance tests in `tests/unit/plot-generation.test.js` as described.
+3. Update `README.md` and `USAGE.md` to reflect the new export feature.
+
+Validation:
+- Run `npm test` and ensure all new and existing tests pass.
+- Manually verify:
+  ```bash
+  npm run start -- --expression "y=sin(x)" --range "x=0:10" --export-data-file out.csv --data-format csv
+  ```
+  produces `out.csv` with correct `x,y` header and data rows.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5475,"completion_tokens":1548,"total_tokens":7023,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":768,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
