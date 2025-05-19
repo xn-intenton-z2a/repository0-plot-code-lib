@@ -1,24 +1,31 @@
 # Overview
-This feature extends the CLI entry point to accept a mathematical expression and a numeric range, generate a time series of (x,y) data points by evaluating the expression over the specified range, and output the result as JSON to standard output.
+This feature extends the CLI entry point to accept a mathematical expression and a numeric range, generate a time series of data points, and optionally persist the result in JSON or JSON Lines format.
 
 # CLI Arguments
-- Support a new flag --expression that takes a string defining y as a function of x, for example sin(x) or y=sin(x).
-- Support a new flag --range that takes a string in the format x=start:end:step, for example x=-1:1:0.1.
-- Validate the presence and format of both flags and report user-friendly errors if missing or malformed.
+- Support a flag `--expression` that takes a string defining y as a function of x (for example `sin(x)`).
+- Support a flag `--range` that takes a string in the format x=start:end:step (for example `x=-1:1:0.1`).
+- Add an optional flag `--output-file` that takes a file path where the time series data will be written.
+- Add an optional flag `--output-format` that takes a value `json` or `jsonl`, defaulting to `json`.
+- Validate that when `--output-file` is provided, `--output-format` is one of the supported values.
 
 # Time Series Generation
-- Parse the range parameter into numeric start, end, and step values.
-- Use a math parser library (for example mathjs) to parse and compile the expression.
-- Iterate x from start to end in increments of step, evaluate the expression for each x, and collect an array of objects { x, y }.
-- Print the resulting array as a JSON string to stdout.
+- Parse the `--range` parameter into numeric start, end, and step values.
+- Use mathjs to parse, compile, and evaluate the expression for each x value in the range.
+- Collect an array of objects { x, y } representing the series.
+
+# Persistence
+- If `--output-file` is provided:
+  - For format `json`, write the entire array as a JSON string to the specified file.
+  - For format `jsonl`, write each data point as a JSON value on its own line following the JSON Lines standard.
+  - Ensure UTF-8 encoding and that each JSON value is trimmed of surrounding whitespace.
 
 # Testing
-- Add unit tests for the time series generator function to cover simple expressions such as x, sin(x), and polynomial functions over a known range.
-- Test CLI integration by simulating process.argv, invoking main(), and capturing stdout to verify valid JSON output and correct values.
+- Add unit tests for the persistence utility to verify both `json` and `jsonl` outputs produce correct file contents and valid formats.
+- Add CLI integration tests by simulating process arguments with expression, range, output-file, and output-format flags, then asserting that the output file exists and its contents match expected structure.
 
 # Documentation
-- Update README.md to include usage examples of the CLI with --expression and --range, and show sample JSON output.
-- Document the new behavioral contract in USAGE.md or README.md.
+- Update README.md to include example commands for writing time series data to `output.json` and `output.jsonl`.
+- Reference the JSON Lines specification and explain its benefits for streaming and pipelining data.
 
 # Dependencies
-- Add a dependency on mathjs in package.json to enable robust expression parsing and evaluation.
+- No new dependencies; use built-in Node.js file system APIs for writing files.
