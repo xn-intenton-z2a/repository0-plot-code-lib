@@ -107,3 +107,72 @@ LLM API Usage:
 
 ---
 
+## Feature to enhanced Issue at 2025-05-19T15:40:59.088Z
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3102 with enhanced description:
+
+## Summary
+
+The CLI and API currently stub out `main()` but lack real plotting logic. Implement the core PLOT_GENERATION feature so users can:
+
+- Parse a simple expression syntax (e.g., `y=sin(x)`, `y=x^2+3`).
+- Parse numeric ranges (e.g., `x=0:10`, support multiple dimensions).
+- Sample `points` data points (default 100, overridable via flag).
+- Render charts to both SVG and PNG formats.
+- Expose functionality via a `plotExpression(options)` API and CLI flags.
+
+## Acceptance Criteria
+
+1. **CLI Functionality**
+   - Given: `node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --format svg --output out.svg`
+     - Then: `out.svg` is created, is a valid SVG file containing a plotted sine curve.
+     - Exit code is `0` on success.
+   - Given missing or invalid flags, the CLI prints a descriptive usage message and exits with a non-zero code.
+
+2. **Programmatic API**
+   - Given: 
+     ```js
+     await plotExpression({
+       expression: 'y=2*x+1',
+       range: { x: [0, 1] },
+       points: 200,
+       format: 'png',
+       output: 'out.png'
+     });
+     ```
+     - Then: The function resolves successfully and writes a valid PNG file `out.png` of non-zero size.
+
+3. **Expression Parsing**
+   - Support arithmetic operators `+ - * / ^` and functions `sin, cos, tan, exp, log`.
+   - Invalid expressions reject with a descriptive error.
+
+4. **Range Parsing**
+   - Support syntax `variable=min:max[,variable2=min2:max2]`.
+   - Invalid ranges reject with a descriptive error and non-zero exit code.
+
+5. **Sampling**
+   - Default to 100 data points when `--points` is not provided.
+   - Honor custom `points` value when provided.
+
+6. **Rendering**
+   - Use `chartjs-node-canvas` to generate plots in both SVG and PNG.
+   - Generated files contain axes, plotted data line, and basic labels.
+
+7. **Testing**
+   - Unit tests cover expression parsing, range parsing, sampling defaults/overrides, rendering buffers, file generation, CLI flag handling, and error conditions.
+
+**Verification Steps**
+
+- Run `npm install && npm test` to ensure tests pass.
+- Execute example CLI command and inspect output files.
+- Write a small script importing `plotExpression` to confirm API behavior.
+
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5365,"completion_tokens":1936,"total_tokens":7301,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1280,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
