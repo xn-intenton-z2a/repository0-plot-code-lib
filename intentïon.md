@@ -774,3 +774,69 @@ LLM API Usage:
 
 ---
 
+## Feature to enhanced Issue at 2025-05-19T12:35:04.287Z
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3098 with enhanced description:
+
+### Objective
+Provide a fully functional command-line interface for the PLOT_CLI feature that:
+1. Parses and validates user flags (`--expression`, `--range`, `--file`, `--format`).
+2. Evaluates the expression over 1,000 points within the specified `x` range.
+3. Renders an SVG plot (and a PNG via conversion) scaled to the specified `y` range.
+4. Writes the output file to disk or exits with an error code on failure.
+
+### Scope of Work
+1. **Dependencies**
+   - Add to `package.json`: `minimist`, `mathjs`, `sharp`.
+2. **Implementation (`src/lib/main.js`)**
+   - Parse flags via `minimist` (including a `--help` flag).
+   - Validate and extract:
+     - `--expression <string>` (e.g. "y=sin(x)").
+     - `--range <string>` (e.g. `"x=0:1,y=-1:1"`).
+     - `--file <string>` (output path).
+     - `--format <svg|png>` (default: `svg`).
+   - Convert the `range` string to numeric `xMin, xMax, yMin, yMax`.
+   - Compile the expression into a safe function using `mathjs`.
+   - Generate 1,000 `(x,y)` samples uniformly over `[xMin, xMax]`.
+   - Build an SVG document (e.g. `<svg><polyline points="..."/></svg>`) scaled to the ranges.
+   - If `format === 'png'`, convert the SVG buffer with `sharp().png()`.
+   - Write the resulting buffer to `--file`.
+   - On missing/invalid flags or evaluation errors, print an error message to stderr and exit with code `1`.
+3. **Tests (`tests/unit/plot-generation.test.js`)**
+   - Test that invoking `main(['--expression','y=x','--range','x=0:1,y=0:1','--file','./tmp.svg'])` creates `tmp.svg` containing `<svg`.
+   - Test that invoking `main(['--expression','y=x','--range','x=0:1,y=0:1','--file','./tmp.png','--format','png'])` creates a non-empty PNG file whose first bytes match the PNG signature (`\x89PNG`).
+   - Test that missing any required flag causes `main()` to throw or exit with code `1`.
+   - Test that `--help` prints usage instructions and exits with code `0`.
+   - Clean up temporary files after each test.
+4. **Documentation**
+   - Update `README.md` and/or `USAGE.md` with a new “Command-Line Usage” section:
+     ```bash
+     repository0-plot-code-lib --expression "sin(x)" --range "x=0:2*pi,y=-1:1" --file plot.svg
+     repository0-plot-code-lib --expression "x^2" --range "x=-5:5,y=0:25" --file plot.png --format png
+     ```
+   - Document default values and error behavior.
+
+### Acceptance Criteria
+- CLI invocation with valid flags writes an SVG file at the specified path containing an `<svg>` element.
+- CLI invocation with `--format png` writes a PNG file ≥1 byte with correct PNG signature.
+- Omitted or invalid flags cause exit code `1` and an error message on stderr.
+- `--help` displays usage information and exits with code `0`.
+- Automated tests cover all cases and pass via `npm test`.
+- README/USAGE.md updated with working examples.
+
+### Verification
+```bash
+npm install
+npm test
+npm run start -- --expression "sin(x)" --range "x=0:1,y=-1:1" --file example.svg
+npm run start -- --expression "sin(x)" --range "x=0:1,y=-1:1" --file example.png --format png
+```
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5471,"completion_tokens":1589,"total_tokens":7060,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":640,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
+
