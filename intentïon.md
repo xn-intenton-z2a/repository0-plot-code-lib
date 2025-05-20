@@ -124,3 +124,49 @@ LLM API Usage:
 ```
 ---
 
+## Issue to enhanced Issue at 2025-05-20T01:37:00.726Z
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+This issue will fully implement the TIME_SERIES_GENERATION CLI feature, enabling users to generate a JSON-formatted time series from a mathematical expression and numeric range.
+
+Scope of Work:
+1. CLI Argument Parsing and Validation
+   - Parse --expression (required, format `y=<function of x>`), --range (required, format `<var>=<start>:<end>`), and --points (optional, integer > 1, default 100).
+   - Validate inputs using zod: ensure expression is non-empty, range has valid start/end numbers, and points is a positive integer.
+   - On validation failure or missing flags, output a clear error message to stderr and exit with code > 0.
+
+2. Time Series Generation
+   - Generate an array of `points` evenly spaced x values between start and end (inclusive).
+   - Use mathjs to safely parse and evaluate the expression at each x value.
+   - Collect results into an array of objects: `[{ x: number, y: number }, ...]`.
+   - Output the JSON array to stdout.
+
+3. Tests (tests/unit/plot-generation.test.js)
+   - Accept valid inputs and produce the correct number of points and expected y values for known functions:
+     • Linear (e.g., `y=x` over range 0:10 with 11 points yields x and y arrays that match exactly).
+     • Trigonometric (e.g., `y=sin(x)` over 0:π with 5 points yields y values approximating [0, 0.707, 1, 0.707, 0]).
+   - Capture stdout and exit code for valid runs (exit code 0) and error runs (exit code > 0).
+   - Verify JSON structure: array length matches `points`, each element has numeric `x` and `y` properties.
+
+4. Documentation Updates
+   - README.md: Add a **TIME_SERIES_GENERATION** section with CLI synopsis, example commands, and sample JSON output.
+   - USAGE.md: Provide detailed usage examples showing both successful runs and error cases.
+
+Acceptance Criteria:
+- [ ] `npm install` includes `mathjs` and `minimist` in dependencies without affecting existing ones.
+- [ ] Running `repo0-plot-code-lib --expression "y=x" --range "x=0:10" --points 11` prints a JSON array of 11 points with `y` equal to `x`.
+- [ ] Running `repo0-plot-code-lib --expression "y=sin(x)" --range "x=0:3.1416" --points 5` prints a JSON array approximating sine values at the 5 sampled points.
+- [ ] Invalid or missing flags produce a descriptive error message and exit code > 0.
+- [ ] All new and existing tests pass via `npm test`.
+- [ ] README.md and USAGE.md reflect the new CLI feature and usage examples.
+
+This completes the TIME_SERIES_GENERATION core functionality and ensures measurable, testable user value by allowing formula-based time series output via the CLI.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5101,"completion_tokens":981,"total_tokens":6082,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":256,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
