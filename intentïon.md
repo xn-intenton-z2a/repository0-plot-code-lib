@@ -12,3 +12,5 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 `plot-code-lib` facilitate the creation of plots from mathematical expressions and time series data. It will take a
 mathematical expression and a range of values and generate a plot in SVG or PNG format.
+2025-05-20T01:34:48Z - Archiving intentïon to branch https://github.com/xn-intenton-z2a/repository0-plot-code-lib/tree/intention-2025-05-20T01-34Z
+
