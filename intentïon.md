@@ -107,3 +107,20 @@ LLM API Usage:
 ```
 ---
 
+## Feature to Issue at 2025-05-20T01:36:19.245Z
+
+Generated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3112 with title:
+
+Implement TIME_SERIES_GENERATION CLI: generate JSON time series from expression
+
+And description:
+
+This issue will fully realize the TIME_SERIES_GENERATION feature by extending the CLI to parse a mathematical expression and a value range, generate evenly spaced sample points, evaluate the expression at each point, and emit a JSON array of {x, y} objects. It includes updates to source code, tests, documentation (README.md and USAGE.md), and package.json dependencies.\n\nScope of work:\n1. src/lib/main.js:\n   - Add CLI argument parsing (using minimist).\n   - Validate --expression, --range, and optional --points flags with zod.\n   - Generate an array of `points` evenly spaced values between the specified start and end of the range.\n   - Use mathjs to parse and safely evaluate the expression at each x value.\n   - Print a JSON-formatted array of objects [{ x: number, y: number }, ...] to stdout.\n   - Exit with code >0 and a user-friendly error message on missing or malformed flags.\n\n2. package.json:\n   - Add `mathjs` and `minimist` to dependencies.\n   - Ensure the CLI entry point remains `src/lib/main.js`.\n\n3. tests/unit/plot-generation.test.js:\n   - Write unit tests for TIME_SERIES_GENERATION logic:\n     • Given a linear expression (e.g., `y=x`) and known range, confirm correct number of output points and values.\n     • Test a trigonometric function (e.g., `y=sin(x)`) over a small range with a fixed point count and assert expected JSON values.\n     • Validate error handling for missing or malformed flags.\n   - Stub or capture console.log to verify JSON shape and exit codes.\n\n4. Documentation (README.md & USAGE.md):\n   - Add a `TIME_SERIES_GENERATION` section to README with CLI synopsis and usage examples.\n   - In USAGE.md, include sample commands and outputs demonstrating JSON output for a simple expression.\n\nVerification steps after implementation:\n- Run `npm install`; confirm `mathjs` and `minimist` are added.\n- Execute `npm test` and verify all new and existing tests pass.\n- Try sample commands, e.g.:\n  ```bash\n  repo0-plot-code-lib --expression "y=sin(x)" --range "x=0:3.1416" --points 5\n  ```\n  and confirm JSON array of 5 x/y pairs is printed.\n\nThis change directly completes the core functionality of TIME_SERIES_GENERATION and ensures users can generate raw time series data from CLI formula inputs. A single LLM invocation should produce the complete updated source, tests, dependencies, and docs in one response.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":4568,"completion_tokens":1478,"total_tokens":6046,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":832,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
