@@ -23,56 +23,15 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
-<p class="md-github">repository0-plot-code-lib is a JavaScript library and CLI tool designed to:</p>
-<ul class="md-github">
-<li class="md-github">Parse simple mathematical expressions.</li>
-<li class="md-github">Generate time-series data.</li>
-<li class="md-github">Render SVG and PNG plots.</li>
-<li class="md-github">Expose both a CLI interface and an HTTP API.</li>
-</ul>
-<p class="md-github"><strong class="md-github">Current Status (v1.2.0-0)</strong></p>
-<p class="md-github">The CLI entry point is available and will echo any provided arguments. Core features for expression parsing, time-series generation, plotting, and the HTTP API are under active development.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p class="md-github">Install globally with npm:</p>
-<pre class="md-github"><code class="md-github language-bash">npm install -g @xn-intenton-z2a/repository0-plot-code-lib
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="quickstart" href="#quickstart"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Quickstart</h2>
-<p class="md-github">Run the CLI with any flags; it will print the provided arguments:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;sin(x)&quot; --range &quot;x=0:10:0.5&quot;
-# Output:
-# Run with: [&quot;--expression&quot;,&quot;sin(x)&quot;,&quot;--range&quot;,&quot;x=0:10:0.5&quot;]
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="planned-features" href="#planned-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Planned Features</h2>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">CLI Flags</strong></p>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--expression &lt;expr&gt;</code>: mathematical expression, e.g. <code class="md-github">sin(x)</code>.</li>
-<li class="md-github"><code class="md-github">--range &lt;start:end:step&gt;</code>: defines x start, end, and increment.</li>
-<li class="md-github"><code class="md-github">--output-format &lt;json|jsonl|csv&gt;</code>: time-series output format.</li>
-<li class="md-github"><code class="md-github">--plot &lt;svg|png&gt;</code>: plot image format.</li>
-<li class="md-github"><code class="md-github">--output &lt;file&gt;</code>: path to write plot image or data.</li>
-<li class="md-github"><code class="md-github">--serve</code>: start HTTP server instead of CLI mode.</li>
-<li class="md-github"><code class="md-github">--host</code>, <code class="md-github">--port</code>: HTTP server binding (defaults: <code class="md-github">127.0.0.1:3000</code>).</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">HTTP API</strong> (coming soon)</p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">GET /plot</strong>: generate and return a plot image (<code class="md-github">image/svg+xml</code> or <code class="md-github">image/png</code>).</li>
-<li class="md-github"><strong class="md-github">GET /series</strong>: generate and return time-series data (<code class="md-github">application/json</code> or <code class="md-github">application/jsonl</code>).</li>
-</ul>
-</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p class="md-github">For guidelines on reporting issues, submitting pull requests, coding standards, and documentation updates, see <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</p>
+<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
+<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-05-19T10:38:35.377Z</p>
+    <p>Generated on 2025-05-20T10:38:25.539Z</p>
   </footer>
 </body>
 </html>
