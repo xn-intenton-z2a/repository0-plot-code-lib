@@ -1090,3 +1090,51 @@ LLM API Usage:
 ```
 ---
 
+## Issue to enhanced Issue at 2025-05-21T23:56:42.069Z
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+Title: Implement TIME_SERIES_GENERATION Core Functionality: Expression and Range Parsing with JSON Output
+
+Description:
+The TIME_SERIES_GENERATION feature should enable users to provide a mathematical expression and an input range via CLI flags and receive a JSON array of { x, y } points evaluated at uniform intervals.
+
+Acceptance Criteria:
+1. CLI Argument Parsing
+   - Given the flags `--expression <expr>` (or `-e <expr>`) and `--range <range>` (or `-r <range>`), the tool must parse them successfully and exit with an error if either is missing.
+   - The `--output-format` flag defaults to `json` and rejects unsupported formats with a clear error.
+   - The `--file` flag directs output to the specified path; if omitted, output goes to stdout.
+2. Range Interpretation
+   - Accept range strings in the form `x=start:end[:steps]`. When `steps` is omitted, default to 100 intervals.
+   - Compute an array of `steps + 1` uniformly spaced x values from `start` to `end` inclusive.
+   - Handle floating-point start and end values correctly.
+3. Expression Evaluation
+   - Use mathjs to compile the expression string into a function of `x`.
+   - Evaluate `y` for each generated `x` point.
+   - For known expressions (e.g., `sin(x)`, `x^2`), the `y` values must match expected results within a small tolerance (e.g., 1e-12).
+4. Output Structure
+   - Build an array of objects: `[{ x: number, y: number }, …]` of length `steps + 1`.
+   - Serialize the array to JSON and write to stdout or to the provided file.
+5. Testing
+   - Unit tests verify: parsing of default and custom ranges, correct evaluation for `sin(x)` and `x^2`, length and structure of the output array, and file writing.
+   - Ensure `npm test` passes without errors after implementation.
+6. Documentation
+   - USAGE.md contains examples:
+     • `repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.283" --file output.json`
+     • `repository0-plot-code-lib --expression "x^2" --range "x=0:2:3"`
+   - README.md summarizes CLI flags, defaults, and sample commands.
+
+Deliverables:
+- Updated `package.json` with `mathjs` dependency.
+- Revised `src/lib/main.js` implementing the above logic.
+- Expanded `tests/unit/plot-generation.test.js` (and adjusted `main.test.js`) to cover new behaviors.
+- Updated `USAGE.md` and `README.md` with usage examples.
+
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5189,"completion_tokens":1932,"total_tokens":7121,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1280,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
