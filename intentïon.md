@@ -1027,3 +1027,66 @@ LLM API Usage:
 ```
 ---
 
+## Feature to Issue at 2025-05-21T23:55:46.892Z
+
+Generated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3114 with title:
+
+Implement TIME_SERIES_GENERATION Core Functionality: Expression and Range Parsing with JSON Output
+
+And description:
+
+Background:
+The TIME_SERIES_GENERATION feature should allow users to input a mathematical expression and an input range via CLI flags, then output a JSON array of {x, y} points evaluated at uniform intervals. Currently, main.js only logs the raw args.
+
+Scope:
+- Add mathjs as a runtime dependency in package.json for expression parsing.
+- Enhance src/lib/main.js to:
+  1. Parse CLI args using a minimal parser (e.g., yargs or custom) for:
+     - `--expression, -e` (required)
+     - `--range, -r` (required), format `x=start:end[:steps]` (steps default to 100).
+     - `--output-format` (optional, default `json`).
+     - `--file, -f` (optional, default stdout).
+  2. Validate and interpret the range string:
+     - Extract start, end, steps (if provided).
+     - Compute an array of x values from start to end inclusive.
+  3. Use mathjs to compile the expression into a function of x, evaluate y for each x.
+  4. Build the JSON array of `{ x: number, y: number }`.
+  5. Write output (stringified JSON) to stdout or file if `--file` is provided.
+
+Testing:
+- Update tests/unit/plot-generation.test.js to cover:
+  - Parsing of `x=0:10` and default `steps=100`, and custom steps.
+  - Correct y values for known expressions (e.g., `sin(x)`, `x^2`).
+  - JSON structure and length matches expected.
+- Remove redundant main.test.js or adjust to cover new behavior minimally.
+
+Documentation:
+- USAGE.md: Add a section for time series generation with examples:
+  - `repository0-plot-code-lib --expression "sin(x)" --range "x=0:6.283" --file output.json`
+  - Custom steps: `--range "x=0:1:5"`.
+- README.md: Summarize the new CLI flags and output.
+
+Verification:
+1. Run `npm install` and confirm `mathjs` is added.
+2. Execute:
+   ```bash
+   repository0-plot-code-lib -e "x^2" -r "x=0:2:3"
+   ```
+   Expect JSON with three points: 0, 1, 4.
+3. Run `npm test` and ensure all new and existing tests pass.
+
+Deliverables:
+- Modified package.json dependencies.
+- Revised src/lib/main.js implementing the described logic.
+- Updated tests/unit/plot-generation.test.js (and optionally main.test.js).
+- Updated USAGE.md and README.md with examples.
+
+This issue, once resolved, will complete the core TIME_SERIES_GENERATION capability.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":4985,"completion_tokens":803,"total_tokens":5788,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":128,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
