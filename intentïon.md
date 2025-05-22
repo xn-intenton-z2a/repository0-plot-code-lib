@@ -1681,3 +1681,14 @@ LLM API Usage:
 ```
 ---
 
+## Feature to Issue at 2025-05-22T14:51:31.768Z
+
+Generated feature development issue with title Implement parametric curve support (--parametric) in PLOT_GENERATION CLI.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":25271,"completion_tokens":2099,"total_tokens":27370,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1344,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
