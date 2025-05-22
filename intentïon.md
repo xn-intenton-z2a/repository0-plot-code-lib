@@ -2742,3 +2742,14 @@ LLM API Usage:
 ```
 ---
 
+## Feature to Issue at 2025-05-22T21:49:14.264Z
+
+Generated feature development issue with title docs: Update README.md with comprehensive CLI usage and examples.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":38077,"completion_tokens":1154,"total_tokens":39231,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":512,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
