@@ -2428,3 +2428,288 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Code at 2025-05-22T18:49:44.903Z
+
+fixApplied: true
+
+Add mission and help flags with enhanced output update dependencies and docs
+
+Git Diff:
+
+```
+diff --git a/package-lock.json b/package-lock.json
+index fc69d20a..568a945f 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -13,6 +13,7 @@
+         "ejs": "^3.1.10",
+         "js-yaml": "^4.1.0",
+         "minimatch": "^10.0.1",
++        "minimist": "^1.2.8",
+         "openai": "^4.95.1",
+         "zod": "^3.24.4"
+       },
+@@ -22,11 +23,11 @@
+       "devDependencies": {
+         "@microsoft/eslint-formatter-sarif": "^3.1.0",
+         "@vitest/coverage-v8": "^3.1.4",
+-        "eslint": "^9.25.1",
++        "eslint": "^9.27.0",
+         "eslint-config-google": "^0.14.0",
+         "eslint-config-prettier": "^10.1.5",
+         "eslint-plugin-import": "^2.31.0",
+-        "eslint-plugin-prettier": "^5.2.6",
++        "eslint-plugin-prettier": "^5.4.0",
+         "eslint-plugin-promise": "^7.2.1",
+         "eslint-plugin-react": "^7.37.5",
+         "eslint-plugin-security": "^3.0.1",
+@@ -5029,7 +5030,6 @@
+       "version": "1.2.8",
+       "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+       "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==",
+-      "dev": true,
+       "license": "MIT",
+       "funding": {
+         "url": "https://github.com/sponsors/ljharb"
+diff --git a/package.json b/package.json
+index ded09dcd..89ca0900 100644
+--- a/package.json
++++ b/package.json
+@@ -29,16 +29,17 @@
+     "ejs": "^3.1.10",
+     "js-yaml": "^4.1.0",
+     "minimatch": "^10.0.1",
+-    "zod": "^3.24.4"
++    "zod": "^3.24.4",
++    "minimist": "^1.2.8"
+   },
+   "devDependencies": {
+     "@microsoft/eslint-formatter-sarif": "^3.1.0",
+     "@vitest/coverage-v8": "^3.1.4",
+-    "eslint": "^9.25.1",
++    "eslint": "^9.27.0",
+     "eslint-config-google": "^0.14.0",
+     "eslint-config-prettier": "^10.1.5",
+     "eslint-plugin-import": "^2.31.0",
+-    "eslint-plugin-prettier": "^5.2.6",
++    "eslint-plugin-prettier": "^5.4.0",
+     "eslint-plugin-promise": "^7.2.1",
+     "eslint-plugin-react": "^7.37.5",
+     "eslint-plugin-security": "^3.0.1",
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 3cdd4e2a..ed61c5e8 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,13 +1,68 @@
+ #!/usr/bin/env node
+-// src/lib/main.js
++import fs from 'fs';
++import path from 'path';
++import { fileURLToPath } from 'url';
++import minimist from 'minimist';
+ 
+-import { fileURLToPath } from "url";
++/**
++ * Main CLI entrypoint with mission and help flags.
++ * @param {string[]} args CLI arguments (excluding node and script path)
++ */
++export function main(args = process.argv.slice(2)) {
++  const options = minimist(args, {
++    boolean: ['mission', 'help'],
++    alias: { m: 'mission', h: 'help' }
++  });
+ 
+-export function main(args) {
++  if (options.mission) {
++    // Print mission statement
++    const __filename = fileURLToPath(import.meta.url);
++    const __dirname = path.dirname(__filename);
++    const missionPath = path.resolve(__dirname, '../../MISSION.md');
++    let missionText;
++    try {
++      missionText = fs.readFileSync(missionPath, 'utf8');
++    } catch (err) {
++      console.error(`Error: Unable to read mission statement: ${err.message}`);
++      process.exit(1);
++    }
++    console.log(missionText);
++    process.exit(0);
++  }
++
++  if (options.help) {
++    // Print mission + help
++    const __filename = fileURLToPath(import.meta.url);
++    const __dirname = path.dirname(__filename);
++    const missionPath = path.resolve(__dirname, '../../MISSION.md');
++    let missionText;
++    try {
++      missionText = fs.readFileSync(missionPath, 'utf8');
++    } catch (err) {
++      console.error(`Error: Unable to read mission statement: ${err.message}`);
++      process.exit(1);
++    }
++    console.log(missionText);
++    console.log(`Usage: node ${process.argv[1]} [options]`);
++    console.log('');
++    console.log('Options:');
++    console.log('  --mission, -m           Show mission statement');
++    console.log('  --help, -h              Show help');
++    console.log('  --expression, -e        Expression in form y=<expr>');
++    console.log('  --range, -r             Range in form x=start:end:step');
++    console.log('  --format, -f            Output format: json (default) or csv');
++    console.log('  --plot-format, -p       Plot format: svg or png');
++    console.log('  --file, -o              Output file path');
++    console.log('  --width, -w             Plot width in pixels (default 800)');
++    console.log('  --height, -H            Plot height in pixels (default 600)');
++    console.log('  --parametric, -P        Parametric expressions x=<expr>,y=<expr>');
++    process.exit(0);
++  }
++
++  // Default stub behavior
+   console.log(`Run with: ${JSON.stringify(args)}`);
+ }
+ 
+ if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  const args = process.argv.slice(2);
+-  main(args);
++  main();
+ }
+diff --git a/tests/unit/plot-generation.test.js b/tests/unit/plot-generation.test.js
+index 19a4042c..be194fb3 100644
+--- a/tests/unit/plot-generation.test.js
++++ b/tests/unit/plot-generation.test.js
+@@ -1,16 +1,74 @@
+-import { describe, test, expect } from "vitest";
+-import * as mainModule from "@src/lib/main.js";
+-import { main } from "@src/lib/main.js";
++import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
++import fs from 'fs';
++import path from 'path';
++import { fileURLToPath } from 'url';
++import * as mainModule from '@src/lib/main.js';
++import { main } from '@src/lib/main.js';
+ 
+-describe("Main Module Import", () => {
+-  test("should be non-null", () => {
++// Prepare mission text
++const __filename = fileURLToPath(import.meta.url);
++const __dirname = path.dirname(__filename);
++const missionPath = path.resolve(__dirname, '../../../MISSION.md');
++const missionText = fs.readFileSync(missionPath, 'utf8');
++
++describe('Main Module Import', () => {
++  test('module should be non-null', () => {
+     expect(mainModule).not.toBeNull();
+   });
+ });
+ 
+-describe("Default main", () => {
+-  test("should terminate without error", () => {
+-    process.argv = ["node", "src/lib/main.js"];
++describe('Default main', () => {
++  test('should terminate without error', () => {
++    process.argv = ['node', 'src/lib/main.js'];
++    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+     main();
++    consoleLogSpy.mockRestore();
++  });
++});
++
++describe('CLI mission and help', () => {
++  let consoleLogSpy;
++  let consoleErrorSpy;
++  let exitSpy;
++
++  beforeEach(() => {
++    consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
++    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
++    exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => { throw new Error(`process.exit:${code}`); });
++  });
++
++  afterEach(() => {
++    vi.restoreAllMocks();
++  });
++
++  test('--mission flag prints mission and exits 0', () => {
++    expect(() => main(['--mission'])).toThrow('process.exit:0');
++    expect(consoleLogSpy).toHaveBeenCalledWith(missionText);
++  });
++
++  test('--help flag prints mission then help and exits 0', () => {
++    try {
++      main(['--help']);
++    } catch (err) {
++      expect(err.message).toBe('process.exit:0');
++    }
++    // The first call is mission
++    expect(consoleLogSpy.mock.calls[0][0]).toBe(missionText);
++    // Next call contains usage
++    const usageCall = consoleLogSpy.mock.calls.find(call => call[0].startsWith('Usage:'));
++    expect(usageCall).toBeDefined();
++    // Confirm presence of flags in help
++    expect(consoleLogSpy.mock.calls.some(call => call[0].includes('--mission'))).toBe(true);
++    expect(consoleLogSpy.mock.calls.some(call => call[0].includes('--help'))).toBe(true);
++    expect(consoleLogSpy.mock.calls.some(call => call[0].includes('--expression'))).toBe(true);
++    expect(consoleLogSpy.mock.calls.some(call => call[0].includes('--range'))).toBe(true);
++  });
++
++  test('no flags prints stub behavior', () => {
++    const args = ['foo', 'bar'];
++    const stubLog = vi.spyOn(console, 'log').mockImplementation(() => {});
++    main(args);
++    expect(stubLog).toHaveBeenCalledWith(`Run with: ${JSON.stringify(args)}`);
++    stubLog.mockRestore();
+   });
+ });\n\n// New [USAGE.md]:\n# Usage
+
+## CLI Usage
+
+This tool supports displaying the mission statement, help information, and placeholder stub commands.
+
+**Usage:**
+
+```
+node src/lib/main.js [options]
+```
+
+## Options
+
+  --mission, -m       Show the mission statement and exit
+  --help, -h          Show help information and exit
+  --expression, -e    (Future) Expression in form y=<expr>
+  --range, -r         (Future) Range in form x=start:end:step
+  --format, -f        (Future) Output format: json (default) or csv
+  --plot-format, -p   (Future) Plot format: svg or png
+  --file, -o          (Future) Output file path
+  --width, -w         (Future) Plot width in pixels (default 800)
+  --height, -H        (Future) Plot height in pixels (default 600)
+  --parametric, -P    (Future) Parametric expressions x=<expr>,y=<expr>
+
+## Examples
+
+```bash
+# Display the mission statement
+node src/lib/main.js --mission
+
+# Display help information
+node src/lib/main.js --help
+```
+```
+mainOutput:
+```
+
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
+> node src/lib/main.js
+
+Run with: []
+
+```
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3123 with title: ""]
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":36612,"completion_tokens":7272,"total_tokens":43884,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":4416,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
