@@ -8,7 +8,7 @@ import { main } from '@src/lib/main.js';
 // Prepare mission text
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const missionPath = path.resolve(__dirname, '../../../MISSION.md');
+const missionPath = path.resolve(__dirname, '../../MISSION.md');
 const missionText = fs.readFileSync(missionPath, 'utf8');
 
 describe('Main Module Import', () => {
