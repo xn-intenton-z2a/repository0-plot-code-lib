@@ -119,3 +119,80 @@ LLM API Usage:
 ```
 ---
 
+## Issue to enhanced Issue at 2025-05-22T00:59:52.687Z
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+Title: Implement TIME_SERIES_GENERATION CLI: parse expressions, sample range, and format output
+
+### Objective
+
+Fully implement the TIME_SERIES_GENERATION feature in `src/lib/main.js`, enabling users to generate time series data from a mathematical expression over a specified one-dimensional range and output it in JSON or CSV format to stdout or a file.
+
+### Acceptance Criteria (Testable)
+
+1. Argument Parsing:
+   - `--expression` is required and must follow the pattern `y=<math>`.
+   - `--range` is required in the form `x=start:end:step` where `start`, `end`, and `step` are numbers.
+   - `--format` is optional; valid values are `json` (default) or `csv`.
+   - `--file` is optional; if provided, output is written to the given filepath.
+   - Invalid or missing required flags should cause the CLI to print a descriptive error to stderr and exit with code `1`.
+
+2. Expression Validation & Compilation:
+   - The expression after `y=` must compile successfully with `mathjs` (or equivalent).
+   - Test case: `--expression "y=sin(x)"` compiles without errors.
+
+3. Range Parsing & Validation:
+   - `start`, `end`, and `step` are parsed as numbers.
+   - `step > 0` and `start <= end`; violations cause exit code `1` with error.
+   - Test case: `--range "x=0:10:2"` produces x values [0,2,4,6,8,10].
+
+4. Data Generation:
+   - Sample x values from `start` to `end` inclusive by `step`.
+   - Compute y for each x using the compiled expression.
+   - Result is an array of objects: `{ x: Number, y: Number }`.
+
+5. Output Formatting:
+   - JSON mode: prints pretty-printed JSON via `JSON.stringify(data, null, 2)`.
+   - CSV mode: prints header `x,y` and rows of numeric values.
+   - Test case: running with `--format csv` produces a header and correct rows.
+
+6. File Writing:
+   - If `--file path/to/output` is specified, write the formatted output to the file.
+   - On success, exit with code `0`. If writing fails, print error and exit with code `1`.
+   - Test case: mock or use a temporary file and verify the contents match expected JSON/CSV output.
+
+7. Error Handling & Exit Codes:
+   - On any validation or runtime error (parsing, compilation, file I/O), print an error message to stderr and exit with code `1`.
+   - All success flows exit with code `0`.
+
+### Testing Tasks
+
+- Extend `tests/unit/plot-generation.test.js` to cover:
+  - Successful JSON output with sample expression and range.
+  - Successful CSV output with tests for header and row content.
+  - File writing behavior (using temp file mocks or stubs).
+  - Error cases: missing flags, malformed expression, invalid range, unsupported format.
+
+### Documentation Tasks
+
+- Update `README.md`:
+  - Add a "CLI Usage" section documenting `--expression`, `--range`, `--format`, and `--file` flags.
+  - Provide two concrete examples (one JSON, one CSV) showing commands and expected output.
+
+### Verification
+
+- Install dependencies (`npm install mathjs minimist`).
+- Run tests (`npm test`) and ensure all tests (new and existing) pass.
+- Manually verify:
+  - `node src/lib/main.js --expression "y=sin(x)" --range "x=0:3.14:1"` prints JSON.
+  - `node src/lib/main.js --expression "y=2*x" --range "x=0:5:2" --format csv --file data.csv` creates `data.csv` with correct content.
+
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5146,"completion_tokens":1259,"total_tokens":6405,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":320,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
