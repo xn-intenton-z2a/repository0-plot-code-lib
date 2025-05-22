@@ -2922,3 +2922,14 @@ LLM API Usage:
 ```
 ---
 
+## Feature to Issue at 2025-05-22T22:50:24.074Z
+
+Generated feature development issue with title Integrate Mission Statement Display into Full CLI Workflow.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":40383,"completion_tokens":3124,"total_tokens":43507,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":2368,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
