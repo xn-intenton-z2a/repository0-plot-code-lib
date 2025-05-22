@@ -2296,3 +2296,49 @@ LLM API Usage:
 
 2025-05-22T17:01:01Z - Archiving intentïon to branch https://github.com/xn-intenton-z2a/repository0-plot-code-lib/tree/intention-2025-05-22T01-29Z
 
+## Issue to Ready Issue at 2025-05-22T17:41:02.391Z
+
+Enhanced issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3122 with action close and updated description:
+
+Objective
+
+Enhance the CLI so that users can easily see the project’s mission statement and understand how the tool aligns with its core purpose. Add a dedicated `--mission` flag and include the mission text at the top of the built-in help output.
+
+Tasks
+
+1. Update `src/lib/main.js`:
+   - Use the existing CLI parser (e.g., `minimist`) to recognize a new `--mission` (boolean) flag.
+   - If `--mission` is provided, read the mission statement from `MISSION.md` (or embed a constant) and print it to stdout, then exit with code 0.
+   - Enhance the existing `--help` output (triggered by `-h` or `--help`) to print:
+     1. Mission statement.
+     2. Current usage instructions (as before).
+     3. A short reminder of primary commands (`--expression`, `--range`, etc.).
+   - Ensure that providing `--mission` or `--help` bypasses all other flags and does not require any of the time-series or plotting flags.
+
+2. Add or extend tests in `tests/unit/main.test.js`:
+   - Test that running `main(['--mission'])` prints the exact mission statement and exits normally (mock `process.exit` or capture stdout).
+   - Test that running `main(['--help'])` prints the mission statement and usage instructions without errors.
+   - Verify that `--help` and `--mission` exit with code 0 and do not attempt to parse expression/range.
+
+3. Update `README.md`:
+   - Document the new `--mission` flag in the CLI usage section, including an example:
+     ```bash
+     repository0-plot-code-lib --mission
+     ```
+   - Mention that `--help` now prefixed with mission statement.
+
+Verification
+
+- Run `npm test` and confirm all existing and new tests pass.
+- Manual check:
+  - `node src/lib/main.js --mission` prints the mission statement.
+  - `node src/lib/main.js --help` prints mission statement plus usage help.
+  - Other flags continue to work as before when `--mission` or `--help` are not present.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":6402,"completion_tokens":820,"total_tokens":7222,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":256,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
