@@ -528,3 +528,44 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Ready Issue at 2025-05-22T02:17:48.141Z
+
+Enhanced issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3117 with action enhance and updated description:
+
+Implement PLOT_GENERATION CLI: generate SVG and PNG plots from time series data
+
+Objective:
+Extend the CLI to support PLOT_GENERATION: render a line chart from generated time series into SVG or PNG formats.
+
+Acceptance Criteria:
+1. Invoking with:
+   node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28:0.1" --plot-format svg --file chart.svg
+   - generates "chart.svg" file with content starting with "<svg"
+   - process exits with code 0
+2. Invoking with:
+   node src/lib/main.js --expression "y=2*x" --range "x=0:10:1" --plot-format png --width 1024 --height 768 --file chart.png
+   - generates "chart.png" file whose first bytes match PNG magic number (0x89 0x50 0x4E 0x47)
+   - process exits with code 0
+3. Invoking with --plot-format (svg or png) but missing --file:
+   node src/lib/main.js --expression "y=x" --range "x=0:1:0.1" --plot-format svg
+   - prints error "Error: --file is required when --plot-format is provided" to stderr
+   - process exits with code 1
+4. --width and --height flags override default dimensions (800x600) when rendering charts; missing flags use defaults.
+5. When --plot-format is provided, JSON/CSV output (--format) is bypassed: no JSON/CSV is produced.
+
+Implementation Tasks:
+1. Add dependency: chartjs-node-canvas ^4.0.0.
+2. Update src/lib/main.js to parse --plot-format (-p), --width, --height, instantiate ChartJSNodeCanvas, render line chart, write output, handle errors and exit codes.
+3. Add/extend tests:
+   - stub ChartJSNodeCanvas.renderToBuffer for SVG and PNG modes
+   - spy on fs.writeFileSync to verify correct file writes
+   - test error case when --file is missing
+4. Update README.md to document new flags and provide examples for SVG and PNG modes.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5632,"completion_tokens":1866,"total_tokens":7498,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1344,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
