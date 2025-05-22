@@ -1221,3 +1221,313 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Code at 2025-05-22T06:49:49.847Z
+
+fixApplied: true
+
+Implement CLI for time series generation add dependency and tests and update usage documentation
+
+Git Diff:
+
+```
+diff --git a/package.json b/package.json
+index 96721e73..8528e2f6 100644
+--- a/package.json
++++ b/package.json
+@@ -29,16 +29,18 @@
+     "ejs": "^3.1.10",
+     "js-yaml": "^4.1.0",
+     "minimatch": "^10.0.1",
++    "minimist": "^1.2.8",
++    "mathjs": "^12.8.0",
+     "zod": "^3.24.4"
+   },
+   "devDependencies": {
+     "@microsoft/eslint-formatter-sarif": "^3.1.0",
+     "@vitest/coverage-v8": "^3.1.4",
+-    "eslint": "^9.25.1",
++    "eslint": "^9.27.0",
+     "eslint-config-google": "^0.14.0",
+     "eslint-config-prettier": "^10.1.5",
+     "eslint-plugin-import": "^2.31.0",
+-    "eslint-plugin-prettier": "^5.2.6",
++    "eslint-plugin-prettier": "^5.4.0",
+     "eslint-plugin-promise": "^7.2.1",
+     "eslint-plugin-react": "^7.37.5",
+     "eslint-plugin-security": "^3.0.1",
+@@ -54,8 +56,10 @@
+   "engines": {
+     "node": ">=20.0.0"
+   },
+-  "files": ["src/"],
++  "files": [
++    "src/"
++  ],
+   "publishConfig": {
+     "registry": "https://npm.pkg.github.com"
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 3cdd4e2a..5a311a00 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,13 +1,106 @@
+ #!/usr/bin/env node
+-// src/lib/main.js
++import fs from 'fs';
++import { fileURLToPath } from 'url';
++import minimist from 'minimist';
++import { compile } from 'mathjs';
+ 
+-import { fileURLToPath } from "url";
++/**
++ * Main entrypoint for TIME_SERIES_GENERATION CLI.
++ * @param {string[]} args CLI arguments (excluding node and script path)
++ */
++export function main(args = process.argv.slice(2)) {
++  const options = minimist(args, {
++    string: ['expression', 'range', 'format', 'file'],
++    alias: { e: 'expression', r: 'range', f: 'format', o: 'file' },
++    default: { format: 'json' }
++  });
++  const { expression, range, format, file } = options;
+ 
+-export function main(args) {
+-  console.log(`Run with: ${JSON.stringify(args)}`);
++  // Validate expression
++  if (!expression) {
++    console.error('Error: --expression is required');
++    process.exit(1);
++  }
++  if (!/^y=/i.test(expression)) {
++    console.error('Error: --expression must follow y=<expression>');
++    process.exit(1);
++  }
++  const exprBody = expression.slice(2);
++  let compiled;
++  try {
++    compiled = compile(exprBody);
++  } catch (err) {
++    console.error(`Error: Invalid expression: ${err.message}`);
++    process.exit(1);
++  }
++
++  // Validate range
++  if (!range) {
++    console.error('Error: --range is required');
++    process.exit(1);
++  }
++  const rangeMatch = /^x=([^:]+):([^:]+):([^:]+)$/.exec(range);
++  if (!rangeMatch) {
++    console.error('Error: --range must be in form x=start:end:step');
++    process.exit(1);
++  }
++  const start = parseFloat(rangeMatch[1]);
++  const end = parseFloat(rangeMatch[2]);
++  const step = parseFloat(rangeMatch[3]);
++  if ([start, end, step].some(Number.isNaN)) {
++    console.error('Error: range values must be numbers');
++    process.exit(1);
++  }
++  if (step <= 0) {
++    console.error('Error: step must be > 0');
++    process.exit(1);
++  }
++  if (start > end) {
++    console.error('Error: start must be <= end');
++    process.exit(1);
++  }
++
++  // Validate output format
++  if (!['json', 'csv'].includes(format)) {
++    console.error('Error: --format must be json or csv');
++    process.exit(1);
++  }
++
++  // Generate data points
++  const data = [];
++  for (let x = start; x <= end + step / 2; x += step) {
++    let y;
++    try {
++      y = compiled.evaluate({ x });
++    } catch (err) {
++      console.error(`Error: Failed to evaluate expression at x=${x}: ${err.message}`);
++      process.exit(1);
++    }
++    data.push({ x, y });
++  }
++
++  // Format output
++  let output;
++  if (format === 'json') {
++    output = JSON.stringify(data, null, 2);
++  } else {
++    const lines = ['x,y', ...data.map((pt) => `${pt.x},${pt.y}`)];
++    output = lines.join('\n');
++  }
++
++  // Write to file or stdout
++  if (file) {
++    try {
++      fs.writeFileSync(file, output);
++    } catch (err) {
++      console.error(`Error: Failed to write file: ${err.message}`);
++      process.exit(1);
++    }
++  } else {
++    console.log(output);
++  }
+ }
+ 
+ if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  const args = process.argv.slice(2);
+-  main(args);
+-}
++  main();
++}
+\ No newline at end of file
+diff --git a/tests/unit/plot-generation.test.js b/tests/unit/plot-generation.test.js
+index 19a4042c..8a71ffe9 100644
+--- a/tests/unit/plot-generation.test.js
++++ b/tests/unit/plot-generation.test.js
+@@ -1,16 +1,67 @@
+-import { describe, test, expect } from "vitest";
+-import * as mainModule from "@src/lib/main.js";
+-import { main } from "@src/lib/main.js";
++import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
++import fs from 'fs';
++import { main } from '@src/lib/main.js';
+ 
+-describe("Main Module Import", () => {
+-  test("should be non-null", () => {
+-    expect(mainModule).not.toBeNull();
++describe('TIME_SERIES_GENERATION CLI', () => {
++  let consoleLogSpy;
++  let consoleErrorSpy;
++  let writeFileSyncSpy;
++
++  beforeEach(() => {
++    consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
++    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
++    writeFileSyncSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
++  });
++
++  afterEach(() => {
++    vi.restoreAllMocks();
++  });
++
++  test('outputs JSON correctly to stdout', () => {
++    main(['--expression', 'y=2*x', '--range', 'x=0:2:1']);
++    expect(consoleLogSpy).toHaveBeenCalledWith(
++      JSON.stringify([
++        { x: 0, y: 0 },
++        { x: 1, y: 2 },
++        { x: 2, y: 4 }
++      ], null, 2)
++    );
++  });
++
++  test('outputs CSV correctly to stdout', () => {
++    main(['--expression', 'y=x+1', '--range', 'x=0:2:1', '--format', 'csv']);
++    expect(consoleLogSpy).toHaveBeenCalledWith('x,y\n0,1\n1,2\n2,3');
++  });
++
++  test('writes output to file when --file is provided', () => {
++    main(['--expression', 'y=x', '--range', 'x=0:1:1', '--file', 'out.txt']);
++    expect(writeFileSyncSpy).toHaveBeenCalledWith(
++      'out.txt',
++      JSON.stringify([
++        { x: 0, y: 0 },
++        { x: 1, y: 1 }
++      ], null, 2)
++    );
++  });
++
++  test('exits with code 1 on invalid expression syntax', () => {
++    const exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => { throw new Error(`process.exit:${code}`); });
++    expect(() => main(['--expression', 'invalid', '--range', 'x=0:1:1'])).toThrow('process.exit:1');
++    expect(consoleErrorSpy).toHaveBeenCalledWith('Error: --expression must follow y=<expression>');
++    exitSpy.mockRestore();
++  });
++
++  test('exits with code 1 on invalid range format', () => {
++    const exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => { throw new Error(`process.exit:${code}`); });
++    expect(() => main(['--expression', 'y=x', '--range', 'invalid'])).toThrow('process.exit:1');
++    expect(consoleErrorSpy).toHaveBeenCalledWith('Error: --range must be in form x=start:end:step');
++    exitSpy.mockRestore();
+   });
+-});
+ 
+-describe("Default main", () => {
+-  test("should terminate without error", () => {
+-    process.argv = ["node", "src/lib/main.js"];
+-    main();
++  test('exits with code 1 on unsupported format', () => {
++    const exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => { throw new Error(`process.exit:${code}`); });
++    expect(() => main(['--expression', 'y=x', '--range', 'x=0:1:1', '--format', 'xml'])).toThrow('process.exit:1');
++    expect(consoleErrorSpy).toHaveBeenCalledWith('Error: --format must be json or csv');
++    exitSpy.mockRestore();
+   });
+ });\n\n// New [USAGE.md]:\n# Usage
+
+## CLI Usage
+
+Generates time series data from mathematical expressions over a specified one-dimensional range and outputs it in JSON or CSV format.
+
+**Usage:**
+
+  node src/lib/main.js --expression "y=<math>" --range "x=start:end:step" [--format json|csv] [--file outputPath]
+
+**Options:**
+
+  --expression, -e  Required: formula in form y=<math>, e.g. y=sin(x)
+  --range, -r       Required: sampling range in form x=start:end:step, e.g. x=0:6.28:0.1
+  --format, -f      Optional: output format, json (default) or csv
+  --file, -o        Optional: path to output file; if omitted, prints to stdout
+
+**Examples:**
+
+```bash
+# JSON output to stdout
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:3.14:1"
+
+# CSV output to file
+node src/lib/main.js --expression "y=2*x" --range "x=0:5:2" --format csv --file data.csv
+```
+```
+mainOutput:
+```
+
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
+> node src/lib/main.js
+
+node:internal/modules/esm/resolve:873
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'minimist' imported from /home/runner/work/repository0-plot-code-lib/repository0-plot-code-lib/src/lib/main.js
+    at packageResolve (node:internal/modules/esm/resolve:873:9)
+    at moduleResolve (node:internal/modules/esm/resolve:946:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:574:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:236:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:130:49) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v20.19.1
+
+```
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3120 with title: ""]
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":25142,"completion_tokens":5269,"total_tokens":30411,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":2112,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
