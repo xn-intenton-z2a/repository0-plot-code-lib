@@ -666,3 +666,388 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Code at 2025-05-22T03:10:21.734Z
+
+fixApplied: true
+
+Add plot generation support with ChartJSNodeCanvas update flags tests and docs
+
+Git Diff:
+
+```
+diff --git a/package.json b/package.json
+index 96721e73..5d2bc579 100644
+--- a/package.json
++++ b/package.json
+@@ -25,11 +25,14 @@
+   "license": "MIT",
+   "dependencies": {
+     "dotenv": "^16.5.0",
+-    "openai": "^4.95.1",
+     "ejs": "^3.1.10",
+     "js-yaml": "^4.1.0",
+     "minimatch": "^10.0.1",
+-    "zod": "^3.24.4"
++    "openai": "^4.95.1",
++    "zod": "^3.24.4",
++    "mathjs": "^12.8.0",
++    "minimist": "^1.2.8",
++    "chartjs-node-canvas": "^4.0.0"
+   },
+   "devDependencies": {
+     "@microsoft/eslint-formatter-sarif": "^3.1.0",
+@@ -54,8 +57,10 @@
+   "engines": {
+     "node": ">=20.0.0"
+   },
+-  "files": ["src/"],
++  "files": [
++    "src/"
++  ],
+   "publishConfig": {
+     "registry": "https://npm.pkg.github.com"
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 3cdd4e2a..99b0e430 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,13 +1,179 @@
+ #!/usr/bin/env node
+-// src/lib/main.js
+ 
+-import { fileURLToPath } from "url";
++import fs from 'fs';
++import { fileURLToPath } from 'url';
++import minimist from 'minimist';
++import { compile } from 'mathjs';
++import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+ 
+-export function main(args) {
+-  console.log(`Run with: ${JSON.stringify(args)}`);
++export async function main(args = process.argv.slice(2)) {
++  if (!args || args.length === 0) {
++    console.log(
++      `Usage: node ${process.argv[1]} --expression "y=<expression>" --range "x=start:end:step" [--format json|csv] [--plot-format svg|png] [--width N] [--height N] [--file outputPath]`
++    );
++    return;
++  }
++
++  const options = minimist(args, {
++    string: ['expression', 'range', 'format', 'file', 'plot-format', 'width', 'height'],
++    alias: { e: 'expression', r: 'range', f: 'format', o: 'file', p: 'plot-format', w: 'width', h: 'height' },
++    default: { format: 'json', width: '800', height: '600' }
++  });
++  const { expression, range, format, file, 'plot-format': plotFormat } = options;
++  const width = parseInt(options.width, 10);
++  const height = parseInt(options.height, 10);
++
++  // Validate expression
++  if (!expression) {
++    console.error('Error: --expression is required');
++    process.exit(1);
++  }
++  if (!/^y=/i.test(expression)) {
++    console.error('Error: --expression must follow y=<expression>');
++    process.exit(1);
++  }
++  const exprBody = expression.slice(2);
++  let compiled;
++  try {
++    compiled = compile(exprBody);
++  } catch (err) {
++    console.error(`Error: Invalid expression: ${err.message}`);
++    process.exit(1);
++  }
++
++  // Validate range
++  if (!range) {
++    console.error('Error: --range is required');
++    process.exit(1);
++  }
++  const rangeMatch = /^x=([^:]+):([^:]+):([^:]+)$/.exec(range);
++  if (!rangeMatch) {
++    console.error('Error: --range must be in form x=start:end:step');
++    process.exit(1);
++  }
++  const start = parseFloat(rangeMatch[1]);
++  const end = parseFloat(rangeMatch[2]);
++  const step = parseFloat(rangeMatch[3]);
++  if ([start, end, step].some(Number.isNaN)) {
++    console.error('Error: range values must be numbers');
++    process.exit(1);
++  }
++  if (step <= 0) {
++    console.error('Error: step must be > 0');
++    process.exit(1);
++  }
++  if (start > end) {
++    console.error('Error: start must be <= end');
++    process.exit(1);
++  }
++
++  // Validate format or plot options
++  if (plotFormat) {
++    if (!file) {
++      console.error('Error: --file is required when --plot-format is provided');
++      process.exit(1);
++    }
++    if (!['svg', 'png'].includes(plotFormat)) {
++      console.error('Error: --plot-format must be svg or png');
++      process.exit(1);
++    }
++    if (Number.isNaN(width) || width <= 0) {
++      console.error('Error: --width must be a positive integer');
++      process.exit(1);
++    }
++    if (Number.isNaN(height) || height <= 0) {
++      console.error('Error: --height must be a positive integer');
++      process.exit(1);
++    }
++  } else {
++    if (!['json', 'csv'].includes(format)) {
++      console.error('Error: --format must be json or csv');
++      process.exit(1);
++    }
++  }
++
++  // Generate data
++  const data = [];
++  for (let x = start; x <= end + step / 2; x += step) {
++    let y;
++    try {
++      y = compiled.evaluate({ x });
++    } catch (err) {
++      console.error(`Error: Failed to evaluate expression at x=${x}: ${err.message}`);
++      process.exit(1);
++    }
++    data.push({ x, y });
++  }
++
++  // Plot generation
++  if (plotFormat) {
++    const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, type: plotFormat });
++    const configuration = {
++      type: 'line',
++      data: {
++        labels: data.map((p) => p.x),
++        datasets: [{
++          label: expression,
++          data: data.map((p) => p.y),
++          fill: false,
++          borderColor: 'black',
++          tension: 0.1
++        }]
++      },
++      options: {
++        scales: {
++          x: { type: 'linear', position: 'bottom' }
++        }
++      }
++    };
++    let buffer;
++    try {
++      buffer = await chartJSNodeCanvas.renderToBuffer(configuration);
++    } catch (err) {
++      console.error(`Error: Failed to render plot: ${err.message}`);
++      process.exit(1);
++    }
++    try {
++      fs.writeFileSync(file, buffer);
++    } catch (err) {
++      console.error(`Error: Failed to write file: ${err.message}`);
++      process.exit(1);
++    }
++    return;
++  }
++
++  // Output JSON or CSV
++  if (format === 'json') {
++    const output = JSON.stringify(data, null, 2);
++    if (file) {
++      try {
++        fs.writeFileSync(file, output);
++      } catch (err) {
++        console.error(`Error: Failed to write file: ${err.message}`);
++        process.exit(1);
++      }
++      return;
++    }
++    console.log(output);
++  } else {
++    const lines = ['x,y', ...data.map((p) => `${p.x},${p.y}`)];
++    const output = lines.join('\n');
++    if (file) {
++      try {
++        fs.writeFileSync(file, output);
++      } catch (err) {
++        console.error(`Error: Failed to write file: ${err.message}`);
++        process.exit(1);
++      }
++      return;
++    }
++    console.log(output);
++  }
+ }
+ 
+ if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  const args = process.argv.slice(2);
+-  main(args);
+-}
++  main().catch((err) => {
++    console.error(err);
++    process.exit(1);
++  });
++}
+\ No newline at end of file
+diff --git a/tests/unit/plot-generation.test.js b/tests/unit/plot-generation.test.js
+index 19a4042c..7587b92f 100644
+--- a/tests/unit/plot-generation.test.js
++++ b/tests/unit/plot-generation.test.js
+@@ -1,16 +1,65 @@
+-import { describe, test, expect } from "vitest";
+-import * as mainModule from "@src/lib/main.js";
+-import { main } from "@src/lib/main.js";
++import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
++import fs from 'fs';
++import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
++import { main } from '@src/lib/main.js';
+ 
+-describe("Main Module Import", () => {
+-  test("should be non-null", () => {
+-    expect(mainModule).not.toBeNull();
++describe('PLOT_GENERATION CLI', () => {
++  let consoleErrorSpy;
++  let writeFileSyncSpy;
++  let exitSpy;
++
++  beforeEach(() => {
++    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
++    writeFileSyncSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
++    exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => { throw new Error(`process.exit:${code}`); });
++  });
++
++  afterEach(() => {
++    vi.restoreAllMocks();
++  });
++
++  test('errors when --plot-format provided without --file', async () => {
++    await expect(
++      main(['--expression', 'y=x', '--range', 'x=0:1:1', '--plot-format', 'svg'])
++    ).rejects.toThrow('process.exit:1');
++    expect(consoleErrorSpy).toHaveBeenCalledWith(
++      'Error: --file is required when --plot-format is provided'
++    );
++  });
++
++  test('generates SVG file with correct content', async () => {
++    const renderSpy = vi
++      .spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer')
++      .mockResolvedValue(Buffer.from('<svg>abc</svg>'));
++    await main([
++      '--expression', 'y=x',
++      '--range', 'x=0:2:1',
++      '--plot-format', 'svg',
++      '--width', '100',
++      '--height', '50',
++      '--file', 'chart.svg'
++    ]);
++    expect(renderSpy).toHaveBeenCalled();
++    expect(writeFileSyncSpy).toHaveBeenCalledWith(
++      'chart.svg',
++      Buffer.from('<svg>abc</svg>')
++    );
+   });
+-});
+ 
+-describe("Default main", () => {
+-  test("should terminate without error", () => {
+-    process.argv = ["node", "src/lib/main.js"];
+-    main();
++  test('generates PNG file with correct content', async () => {
++    const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
++    const renderSpy = vi
++      .spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer')
++      .mockResolvedValue(Buffer.concat([pngHeader, Buffer.from('rest')]));
++    await main([
++      '--expression', 'y=x',
++      '--range', 'x=0:2:1',
++      '--plot-format', 'png',
++      '--file', 'chart.png'
++    ]);
++    expect(renderSpy).toHaveBeenCalled();
++    expect(writeFileSyncSpy).toHaveBeenCalledWith('chart.png', expect.any(Buffer));
++    const written = writeFileSyncSpy.mock.calls[0][1];
++    expect(written.slice(0, 4)).toEqual(pngHeader);
+   });
+-});
++});
+\ No newline at end of file\n\n// New [USAGE.md]:\n# Usage
+
+## CLI Usage
+
+Generates time series data from mathematical expressions over a specified one-dimensional range, outputs it in JSON or CSV format, or renders a plot in SVG/PNG.
+
+**Usage:**
+
+  node src/lib/main.js --expression "y=<math>" --range "x=start:end:step" [--format json|csv] [--plot-format svg|png] [--width N] [--height N] [--file outputPath]
+
+**Options:**
+
+  --expression, -e    Required: formula in form y=<math>, e.g. y=sin(x)
+  --range, -r         Required: sampling range in form x=start:end:step, e.g. x=0:6.28:0.1
+  --format, -f        Optional: output format, json (default) or csv
+  --plot-format, -p   Optional: render plot, svg or png; when provided, --file is required
+  --width, -w         Optional: width of plot in pixels (default 800)
+  --height, -h        Optional: height of plot in pixels (default 600)
+  --file, -o          Optional: path to output file; if omitted (and no plot-format), prints to stdout
+
+**Examples:**
+
+```bash
+# JSON output to stdout
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:3.14:1"
+
+# CSV output to file\nnode src/lib/main.js --expression "y=2*x" --range "x=0:5:2" --format csv --file data.csv
+
+# Generate SVG plot\nnode src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28:0.1" --plot-format svg --file chart.svg
+
+# Generate PNG plot with custom dimensions\nnode src/lib/main.js --expression "y=2*x" --range "x=0:10:1" --plot-format png --width 1024 --height 768 --file chart.png
+```
+```
+mainOutput:
+```
+
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
+> node src/lib/main.js
+
+node:internal/modules/esm/resolve:873
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'minimist' imported from /home/runner/work/repository0-plot-code-lib/repository0-plot-code-lib/src/lib/main.js
+    at packageResolve (node:internal/modules/esm/resolve:873:9)
+    at moduleResolve (node:internal/modules/esm/resolve:946:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:574:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:236:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:130:49) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v20.19.1
+
+```
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3117 with title: ""]
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":17325,"completion_tokens":8501,"total_tokens":25826,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":4608,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
