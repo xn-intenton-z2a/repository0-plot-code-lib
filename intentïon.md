@@ -1692,3 +1692,511 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Code at 2025-05-22T14:57:40.217Z
+
+fixApplied: true
+
+Add parametric curve support in CLI update tests and document usage
+
+Git Diff:
+
+```
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 3cdd4e2a..d02b1331 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,13 +1,260 @@
+ #!/usr/bin/env node
+-// src/lib/main.js
++import fs from 'fs';
++import { fileURLToPath } from 'url';
++import minimist from 'minimist';
++import { compile } from 'mathjs';
++import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
+ 
+-import { fileURLToPath } from "url";
++/**
++ * Main CLI entrypoint supporting time-series and parametric plot generation.
++ * @param {string[]} args CLI arguments (excluding node and script path)
++ */
++export async function main(args = process.argv.slice(2)) {
++  if (!args || args.length === 0) {
++    console.log(
++      `Usage: node ${process.argv[1]} (--expression "y=<expr>" | --parametric "x=<expr>,y=<expr>") --range "<range>" [--format json|csv] [--plot-format svg|png] [--width N] [--height N] [--file outputPath]`
++    );
++    return;
++  }
+ 
+-export function main(args) {
+-  console.log(`Run with: ${JSON.stringify(args)}`);
++  const options = minimist(args, {
++    string: [
++      'expression',
++      'parametric',
++      'range',
++      'format',
++      'file',
++      'plot-format',
++      'width',
++      'height'
++    ],
++    alias: {
++      e: 'expression',
++      P: 'parametric',
++      r: 'range',
++      f: 'format',
++      o: 'file',
++      p: 'plot-format',
++      w: 'width',
++      h: 'height'
++    },
++    default: { format: 'json', width: '800', height: '600' }
++  });
++  const { expression, parametric, range, format, file, 'plot-format': plotFormat } = options;
++  const width = parseInt(options.width, 10);
++  const height = parseInt(options.height, 10);
++
++  const isParametric = !!parametric;
++  // Mode selection and mutual exclusion
++  if (!isParametric && !expression) {
++    console.error('Error: --expression or --parametric is required');
++    process.exit(1);
++  }
++  if (isParametric && expression) {
++    console.error('Error: --expression and --parametric are mutually exclusive');
++    process.exit(1);
++  }
++
++  let data = [];
++
++  if (isParametric) {
++    // Parametric mode: parse x=...,y=...
++    const pm = /^x=([^,]+),\s*y=(.+)$/i.exec(parametric);
++    if (!pm) {
++      console.error('Error: --parametric must follow x=<expr>,y=<expr>');
++      process.exit(1);
++    }
++    const xExprStr = pm[1];
++    const yExprStr = pm[2];
++    let xCompiled, yCompiled;
++    try {
++      xCompiled = compile(xExprStr);
++      yCompiled = compile(yExprStr);
++    } catch (err) {
++      console.error(`Error: Invalid parametric expression: ${err.message}`);
++      process.exit(1);
++    }
++    // Range for parametric: t=start:end:step
++    if (!range) {
++      console.error('Error: --range is required');
++      process.exit(1);
++    }
++    const tm = /^t=([^:]+):([^:]+):([^:]+)$/.exec(range);
++    if (!tm) {
++      console.error('Error: --range must be in form t=start:end:step for parametric');
++      process.exit(1);
++    }
++    const tStart = parseFloat(tm[1]);
++    const tEnd = parseFloat(tm[2]);
++    const tStep = parseFloat(tm[3]);
++    if ([tStart, tEnd, tStep].some(Number.isNaN)) {
++      console.error('Error: range values must be numbers');
++      process.exit(1);
++    }
++    if (tStep <= 0) {
++      console.error('Error: step must be > 0');
++      process.exit(1);
++    }
++    if (tStart > tEnd) {
++      console.error('Error: start must be <= end');
++      process.exit(1);
++    }
++    // Generate parametric data
++    for (let t = tStart; t <= tEnd + tStep / 2; t += tStep) {
++      let xVal, yVal;
++      try {
++        xVal = xCompiled.evaluate({ t });
++      } catch (err) {
++        console.error(`Error: Failed to evaluate x at t=${t}: ${err.message}`);
++        process.exit(1);
++      }
++      try {
++        yVal = yCompiled.evaluate({ t });
++      } catch (err) {
++        console.error(`Error: Failed to evaluate y at t=${t}: ${err.message}`);
++        process.exit(1);
++      }
++      data.push({ x: xVal, y: yVal });
++    }
++  } else {
++    // Time-series mode
++    if (!/^y=/i.test(expression)) {
++      console.error('Error: --expression must follow y=<expression>');
++      process.exit(1);
++    }
++    const exprBody = expression.slice(2);
++    let seriesCompiled;
++    try {
++      seriesCompiled = compile(exprBody);
++    } catch (err) {
++      console.error(`Error: Invalid expression: ${err.message}`);
++      process.exit(1);
++    }
++    if (!range) {
++      console.error('Error: --range is required');
++      process.exit(1);
++    }
++    const rm = /^x=([^:]+):([^:]+):([^:]+)$/.exec(range);
++    if (!rm) {
++      console.error('Error: --range must be in form x=start:end:step');
++      process.exit(1);
++    }
++    const start = parseFloat(rm[1]);
++    const end = parseFloat(rm[2]);
++    const step = parseFloat(rm[3]);
++    if ([start, end, step].some(Number.isNaN)) {
++      console.error('Error: range values must be numbers');
++      process.exit(1);
++    }
++    if (step <= 0) {
++      console.error('Error: step must be > 0');
++      process.exit(1);
++    }
++    if (start > end) {
++      console.error('Error: start must be <= end');
++      process.exit(1);
++    }
++    for (let x = start; x <= end + step / 2; x += step) {
++      let yVal;
++      try {
++        yVal = seriesCompiled.evaluate({ x });
++      } catch (err) {
++        console.error(`Error: Failed to evaluate expression at x=${x}: ${err.message}`);
++        process.exit(1);
++      }
++      data.push({ x, y: yVal });
++    }
++  }
++
++  // Plot generation if requested
++  if (plotFormat) {
++    if (!file) {
++      console.error('Error: --file is required when --plot-format is provided');
++      process.exit(1);
++    }
++    if (!['svg', 'png'].includes(plotFormat)) {
++      console.error('Error: --plot-format must be svg or png');
++      process.exit(1);
++    }
++    if (Number.isNaN(width) || width <= 0) {
++      console.error('Error: --width must be a positive integer');
++      process.exit(1);
++    }
++    if (Number.isNaN(height) || height <= 0) {
++      console.error('Error: --height must be a positive integer');
++      process.exit(1);
++    }
++    const chartJSNodeCanvas = new ChartJSNodeCanvas({ width, height, type: plotFormat });
++    const configuration = {
++      type: 'line',
++      data: isParametric
++        ? { datasets: [{ label: parametric, data }] }
++        : { labels: data.map((p) => p.x), datasets: [{ label: expression, data: data.map((p) => p.y), fill: false, borderColor: 'black', tension: 0.1 }] },
++      options: {
++        scales: {
++          x: { type: 'linear', position: 'bottom' },
++          ...(isParametric ? { y: { type: 'linear' } } : {})
++        }
++      }
++    };
++    let buffer;
++    try {
++      buffer = await chartJSNodeCanvas.renderToBuffer(configuration);
++    } catch (err) {
++      console.error(`Error: Failed to render plot: ${err.message}`);
++      process.exit(1);
++    }
++    try {
++      fs.writeFileSync(file, buffer);
++    } catch (err) {
++      console.error(`Error: Failed to write file: ${err.message}`);
++      process.exit(1);
++    }
++    return;
++  }
++
++  // Data output (time-series or parametric) if not plotting
++  if (!isParametric) {
++    if (!['json', 'csv'].includes(format)) {
++      console.error('Error: --format must be json or csv');
++      process.exit(1);
++    }
++    let output;
++    if (format === 'json') {
++      output = JSON.stringify(data, null, 2);
++    } else {
++      const lines = ['x,y', ...data.map((pt) => `${pt.x},${pt.y}`)];
++      output = lines.join('\n');
++    }
++    if (file) {
++      try {
++        fs.writeFileSync(file, output);
++      } catch (err) {
++        console.error(`Error: Failed to write file: ${err.message}`);
++        process.exit(1);
++      }
++      return;
++    }
++    console.log(output);
++  } else {
++    // Parametric mode without plot-format: default JSON
++    const output = JSON.stringify(data, null, 2);
++    if (file) {
++      try {
++        fs.writeFileSync(file, output);
++      } catch (err) {
++        console.error(`Error: Failed to write file: ${err.message}`);
++        process.exit(1);
++      }
++      return;
++    }
++    console.log(output);
++  }
+ }
+ 
+ if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  const args = process.argv.slice(2);
+-  main(args);
++  main().catch((err) => {
++    console.error(err);
++    process.exit(1);
++  });
+ }
+diff --git a/tests/unit/plot-generation.test.js b/tests/unit/plot-generation.test.js
+index 19a4042c..c76fb6a3 100644
+--- a/tests/unit/plot-generation.test.js
++++ b/tests/unit/plot-generation.test.js
+@@ -1,16 +1,135 @@
+-import { describe, test, expect } from "vitest";
+-import * as mainModule from "@src/lib/main.js";
+-import { main } from "@src/lib/main.js";
++import { describe, test, expect, beforeEach, afterEach, vi } from 'vitest';
++import fs from 'fs';
++import { ChartJSNodeCanvas } from 'chartjs-node-canvas';
++import { main } from '@src/lib/main.js';
+ 
+-describe("Main Module Import", () => {
+-  test("should be non-null", () => {
+-    expect(mainModule).not.toBeNull();
++describe('PLOT_GENERATION CLI', () => {
++  let consoleErrorSpy;
++  let writeFileSyncSpy;
++  let exitSpy;
++
++  beforeEach(() => {
++    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
++    writeFileSyncSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
++    exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => { throw new Error(`process.exit:${code}`); });
++  });
++
++  afterEach(() => {
++    vi.restoreAllMocks();
++  });
++
++  test('errors when --plot-format provided without --file', async () => {
++    await expect(
++      main(['--expression', 'y=x', '--range', 'x=0:1:1', '--plot-format', 'svg'])
++    ).rejects.toThrow('process.exit:1');
++    expect(consoleErrorSpy).toHaveBeenCalledWith(
++      'Error: --file is required when --plot-format is provided'
++    );
++  });
++
++  test('generates SVG file with correct content', async () => {
++    const renderSpy = vi
++      .spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer')
++      .mockResolvedValue(Buffer.from('<svg>abc</svg>'));
++    await main([
++      '--expression', 'y=x',
++      '--range', 'x=0:2:1',
++      '--plot-format', 'svg',
++      '--width', '100',
++      '--height', '50',
++      '--file', 'chart.svg'
++    ]);
++    expect(renderSpy).toHaveBeenCalled();
++    expect(writeFileSyncSpy).toHaveBeenCalledWith(
++      'chart.svg',
++      Buffer.from('<svg>abc</svg>')
++    );
++  });
++
++  test('generates PNG file with correct content', async () => {
++    const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
++    const renderSpy = vi
++      .spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer')
++      .mockResolvedValue(Buffer.concat([pngHeader, Buffer.from('rest')]));
++    await main([
++      '--expression', 'y=x',
++      '--range', 'x=0:2:1',
++      '--plot-format', 'png',
++      '--file', 'chart.png'
++    ]);
++    expect(renderSpy).toHaveBeenCalled();
++    expect(writeFileSyncSpy).toHaveBeenCalledWith('chart.png', expect.any(Buffer));
++    const written = writeFileSyncSpy.mock.calls[0][1];
++    expect(written.slice(0, 4)).toEqual(pngHeader);
+   });
+ });
+ 
+-describe("Default main", () => {
+-  test("should terminate without error", () => {
+-    process.argv = ["node", "src/lib/main.js"];
+-    main();
++describe('Parametric PLOT_GENERATION CLI', () => {
++  let consoleErrorSpy;
++  let writeFileSyncSpy;
++  let exitSpy;
++
++  beforeEach(() => {
++    consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
++    writeFileSyncSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
++    exitSpy = vi.spyOn(process, 'exit').mockImplementation((code) => { throw new Error(`process.exit:${code}`); });
++  });
++
++  afterEach(() => {
++    vi.restoreAllMocks();
++  });
++
++  test('errors on malformed --parametric string', async () => {
++    await expect(
++      main(['--parametric', 'invalid', '--range', 't=0:1:1', '--plot-format', 'svg', '--file', 'out.svg'])
++    ).rejects.toThrow('process.exit:1');
++    expect(consoleErrorSpy).toHaveBeenCalledWith('Error: --parametric must follow x=<expr>,y=<expr>');
++  });
++
++  test('errors on invalid range format for parametric', async () => {
++    await expect(
++      main(['--parametric', 'x=t,y=t', '--range', 'invalid', '--plot-format', 'png', '--file', 'out.png'])
++    ).rejects.toThrow('process.exit:1');
++    expect(consoleErrorSpy).toHaveBeenCalledWith('Error: --range must be in form t=start:end:step for parametric');
++  });
++
++  test('errors on invalid expressions in parametric', async () => {
++    await expect(
++      main(['--parametric', 'x=bad(t),y=t', '--range', 't=0:1:1', '--plot-format', 'svg', '--file', 'out.svg'])
++    ).rejects.toThrow('process.exit:1');
++    expect(consoleErrorSpy.mock.calls[0][0]).toMatch(/^Error: Invalid parametric expression:/);
++  });
++
++  test('generates SVG plot for parametric curve', async () => {
++    const renderSpy = vi
++      .spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer')
++      .mockResolvedValue(Buffer.from('<svg>curve</svg>'));
++    await main([
++      '--parametric', 'x=cos(t),y=sin(t)',
++      '--range', 't=0:6.28:0.1',
++      '--plot-format', 'svg',
++      '--width', '120',
++      '--height', '80',
++      '--file', 'circle.svg'
++    ]);
++    expect(renderSpy).toHaveBeenCalled();
++    expect(writeFileSyncSpy).toHaveBeenCalledWith('circle.svg', Buffer.from('<svg>curve</svg>'));
++  });
++
++  test('generates PNG plot for parametric curve', async () => {
++    const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
++    const renderSpy = vi
++      .spyOn(ChartJSNodeCanvas.prototype, 'renderToBuffer')
++      .mockResolvedValue(Buffer.concat([pngHeader, Buffer.from('spiral')]));
++    await main([
++      '--parametric', 'x=t*cos(t),y=t*sin(t)',
++      '--range', 't=0:10:0.5',
++      '--plot-format', 'png',
++      '--file', 'spiral.png'
++    ]);
++    expect(renderSpy).toHaveBeenCalled();
++    expect(writeFileSyncSpy).toHaveBeenCalledWith('spiral.png', expect.any(Buffer));
++    const buf = writeFileSyncSpy.mock.calls[0][1];
++    expect(buf.slice(0, 4)).toEqual(pngHeader);
+   });
+ });\n\n// New [USAGE.md]:\n# Usage
+
+## CLI Usage
+
+Generates time series data from mathematical expressions or parametric curves over a specified range, outputs data in JSON or CSV format, or renders plots in SVG/PNG.
+
+**Usage:**
+
+```
+node src/lib/main.js (--expression "y=<expr>" | --parametric "x=<expr>,y=<expr>") --range "<range>" [--format json|csv] [--plot-format svg|png] [--width N] [--height N] [--file outputPath]
+```
+
+## Options
+
+  --expression, -e      Required for time-series mode: formula in form `y=<math>`, e.g. `y=sin(x)`
+  --parametric, -P      Required for parametric mode: two expressions in form `x=<expr>,y=<expr>`, e.g. `x=cos(t),y=sin(t)`
+  --range, -r           Required: sampling range. For time-series: `x=start:end:step`; for parametric: `t=start:end:step`
+  --format, -f          Optional: data output format, `json` (default) or `csv`; ignored when plotting
+  --plot-format, -p     Optional: render plot in `svg` or `png`; when provided, `--file` is required
+  --width, -w           Optional: plot width in pixels (default `800`)
+  --height, -h          Optional: plot height in pixels (default `600`)
+  --file, -o            Optional: path to output file; if omitted (and no plot-format), prints to stdout
+
+## Examples
+
+```bash
+# Time-series JSON to stdout
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:3.14:0.1"
+
+# Time-series CSV to file
+node src/lib/main.js --expression "y=2*x" --range "x=0:5:1" --format csv --file data.csv
+
+# Generate SVG plot of time-series
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28:0.1" --plot-format svg --file chart.svg
+
+# Generate PNG plot of time-series with custom size
+node src/lib/main.js --expression "y=2*x" --range "x=0:10:1" --plot-format png --width 1024 --height 768 --file chart.png
+
+# Generate SVG parametric curve (circle)
+node src/lib/main.js --parametric "x=cos(t),y=sin(t)" --range "t=0:6.28:0.01" --plot-format svg --file circle.svg
+
+# Generate PNG parametric curve (spiral)
+node src/lib/main.js --parametric "x=t*cos(t),y=t*sin(t)" --range "t=0:10:0.1" --plot-format png --width 500 --height 500 --file spiral.png
+```
+```
+mainOutput:
+```
+
+> @xn-intenton-z2a/repository0-plot-code-lib@1.2.0-0 start
+> node src/lib/main.js
+
+node:internal/modules/esm/resolve:873
+  throw new ERR_MODULE_NOT_FOUND(packageName, fileURLToPath(base), null);
+        ^
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mathjs' imported from /home/runner/work/repository0-plot-code-lib/repository0-plot-code-lib/src/lib/main.js
+    at packageResolve (node:internal/modules/esm/resolve:873:9)
+    at moduleResolve (node:internal/modules/esm/resolve:946:18)
+    at defaultResolve (node:internal/modules/esm/resolve:1188:11)
+    at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:642:12)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:591:25)
+    at ModuleLoader.resolve (node:internal/modules/esm/loader:574:38)
+    at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:236:38)
+    at ModuleJob._link (node:internal/modules/esm/module_job:130:49) {
+  code: 'ERR_MODULE_NOT_FOUND'
+}
+
+Node.js v20.19.1
+
+```
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3121 with title: ""]
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":28078,"completion_tokens":11647,"total_tokens":39725,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":6656,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
