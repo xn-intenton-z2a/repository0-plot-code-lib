@@ -2200,3 +2200,72 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Ready Issue at 2025-05-22T15:41:50.231Z
+
+Enhanced issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3121 with action enhance and updated description:
+
+Title: Implement Parametric Curve Support (--parametric) in PLOT_GENERATION CLI
+
+Description:
+
+Extend the existing `PLOT_GENERATION` functionality in `src/lib/main.js` to support rendering parametric curves via a new `--parametric` flag, while retaining existing time-series capabilities.
+
+Tasks:
+1. CLI Parsing:
+   - Add a `--parametric "x=<expr>,y=<expr>"` option in the minimist configuration.
+   - Ensure mutual exclusivity between `--expression` and `--parametric`.
+
+2. Parametric Input Validation and Sampling:
+   - Parse `--parametric` into `xExpr` and `yExpr` matching `/^x=[^,]+,y=.+$/i`.
+   - Compile expressions using `mathjs.compile`; on error, print descriptive message to stderr and exit with code 1.
+   - Parse `--range` in parametric mode as `t=start:end:step` matching `/^t=([^:]+):([^:]+):([^:]+)$/`.
+   - Validate `start`, `end`, `step` are numeric, with `step > 0` and `start <= end`; on invalid range, print error and exit code 1.
+   - Sample t from `start` to `end` inclusive at intervals of `step` and compute arrays of `{ x, y }`.
+
+3. Chart Configuration Update:
+   - In parametric mode, build ChartJS config using `data: [{ x, y }, ...]` instead of labels + data arrays.
+   - Retain `--plot-format`, `--width`, `--height`, and `--file` behavior for rendering SVG/PNG.
+
+4. Testing:
+   - In `tests/unit/plot-generation.test.js`, add tests for parametric mode:
+     • Successful rendering: mock `ChartJSNodeCanvas.prototype.renderToBuffer` & `fs.writeFileSync`, run CLI with valid parametric options, assert exit code 0 and file write.
+     • Error cases:
+       - Missing/malformed `--parametric` string → exit code 1, stderr contains syntax hint.
+       - Invalid `--range` → exit code 1, stderr contains range hint.
+       - Compilation errors in `xExpr` or `yExpr` → exit code 1, stderr shows compile error.
+   - Verify existing time-series tests remain unchanged and passing.
+
+5. Documentation (USAGE.md):
+   - Document `--parametric` flag and `t=start:end:step` syntax.
+   - Provide examples:
+     ```bash
+     node src/lib/main.js --parametric "x=cos(t),y=sin(t)" --range "t=0:6.28:0.01" --plot-format svg --file circle.svg
+     ```
+     ```bash
+     node src/lib/main.js --parametric "x=t*cos(t),y=t*sin(t)" --range "t=0:10:0.1" --plot-format png --width 500 --height 500 --file spiral.png
+     ```
+
+Acceptance Criteria:
+
+- Given valid parametric CLI options, the tool:
+  • Exits with code 0.
+  • Invokes ChartJS with a dataset of `{ x, y }` points.
+  • Writes SVG/PNG output to the specified file path.
+- Given invalid `--parametric` or `--range`, the tool exits with code 1 and prints a descriptive error to stderr.
+- All existing time-series functionality and tests remain unaffected.
+- USAGE.md includes accurate parametric flag documentation and examples.
+- Tests for parametric mode are added and pass under `npm test`.
+- Manual CLI invocation for both parametric and time-series modes works as expected.
+
+Verification:
+- `npm test` passes all tests including new parametric tests.
+- Manual runs generate correct plots or error messages.
+
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":6722,"completion_tokens":1032,"total_tokens":7754,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":128,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
