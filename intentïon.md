@@ -1111,3 +1111,49 @@ LLM API Usage:
 ```
 ---
 
+## Maintenance Activity to Issue at 2025-05-22T05:00:05.276Z
+
+Created issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3120 with title [Refactor] Implement CLI parsing and core time series generation in main.js and body:
+
+ Context:
+The current implementation of src/lib/main.js is a stub that only logs arguments, lacking the core functionality defined in features/TIME_SERIES_GENERATION.md and PLOT_GENERATION.md. Users cannot generate or plot time series data from expressions.
+
+Desired Change:
+1. Source File Changes (src/lib/main.js):
+   - Replace the stub main with a real CLI using a lightweight parser (e.g., minimist or commander).
+   - Parse flags: --expression, --range, --format (json|csv), --file, --plot-format (svg|png), --width, --height.
+   - Validate inputs and exit with informative messages on error.
+   - Generate time series data by sampling the parsed expression over the numeric range.
+   - Output the data in JSON or CSV to stdout or write to --file if provided.
+   - If --plot-format is specified, use ChartJSNodeCanvas to render the data as an SVG or PNG and write to the given --file path.
+
+2. Tests (tests/unit/main.test.js):
+   - Add unit tests for parsing the range string into numeric start/end/step.
+   - Add tests for evaluating simple expressions (e.g., y=2*x, y=sin(x)).
+   - Add end-to-end mocked test for running main() with flags to produce JSON and CSV outputs, and another for plot generation mocking the ChartJSNodeCanvas render/write.
+
+3. README.md Updates:
+   - Update usage section with examples for generating JSON and CSV outputs.
+   - Add examples for plotting (SVG/PNG) with --plot-format, width, height.
+   - Document all CLI flags with their defaults and behavior.
+
+4. Dependencies (package.json):
+   - Add dependencies:
+     • mathjs (for expression parsing)
+     • commander or minimist (for CLI parsing)
+     • chartjs-node-canvas (for plotting)
+   - Ensure versions are compatible with Node >=20.
+
+Verification:
+- Running `node src/lib/main.js --expression "y=2*x" --range "x=0:4:1"` should print a JSON array of x/y pairs to stdout.
+- Running with `--format csv` should output CSV text.
+- Running with `--plot-format svg --file out.svg` should generate a valid SVG file containing a line chart of the data.
+- All new tests should pass under `npm test`..
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":8119,"completion_tokens":1716,"total_tokens":9835,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1152,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
