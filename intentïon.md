@@ -2353,3 +2353,78 @@ LLM API Usage:
 ```
 ---
 
+## Issue to Ready Issue at 2025-05-22T18:45:22.960Z
+
+Enhanced issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3123 with action enhance and updated description:
+
+Title: Add `--mission` flag and enhanced `--help` output to CLI
+
+Description:
+
+Objective:
+Enhance the CLI entrypoint (`src/lib/main.js`) to support a new `--mission` flag and improve the existing `--help` output by including the mission statement at the top. This will give users clear guidance on the tool’s purpose and usage.
+
+Acceptance Criteria:
+
+1. `--mission` Flag Behavior:
+   - Command: `node src/lib/main.js --mission`
+   - Output: Exact contents of `MISSION.md` printed to stdout.
+   - Exit: Process exits with code `0` immediately after printing.
+   - Test: When invoking `main(['--mission'])`, mocking `console.log` and `process.exit`, assert that:
+     • `console.log` is called once with the full mission statement string.
+     • `process.exit` is called with `0`.
+
+2. Enhanced `--help` Output:
+   - Command: `node src/lib/main.js --help` or `-h`
+   - Output: Mission statement printed first, followed by a clearly formatted usage banner listing all supported flags and options:
+     • `--mission, -m`
+     • `--help, -h`
+     • `--expression, -e`
+     • `--range, -r`
+     • `--plot-format, -p`
+     • `--file, -f`
+     • `--width, -w`
+     • `--height, -H`
+     • `--parametric, -P`
+   - Exit: Process exits with code `0`.
+   - Test: When invoking `main(['--help'])`, mocking `console.log` and `process.exit`, assert that:
+     • `console.log` output begins with the mission statement.
+     • Usage banner follows and includes each flag and its description.
+     • `process.exit(0)` is invoked.
+
+3. No-Flag Behavior:
+   - Command: `node src/lib/main.js` with any other combination of supported flags.
+   - Output: Current behavior unchanged (delegates to main logic, prints `Run with: [...]`).
+   - Exit: Continues without exiting early.
+   - Test: Ensure existing tests for normal invocation still pass.
+
+Implementation Tasks:
+
+1. Update `src/lib/main.js`:
+   - Integrate `minimist` (or existing parser) to recognize `--mission` and `-m`.
+   - Detect `options.mission` and handle as per criteria.
+   - Extend the `--help`/`-h` branch to print mission statement before usage.
+   - Ensure early exit when mission or help flags are provided.
+
+2. Extend Tests (`tests/unit/main.test.js`):
+   - Add tests for `--mission` and `--help` as specified.
+   - Mock `console.log` and `process.exit` to capture and validate behavior.
+
+3. Update Documentation:
+   - USAGE.md: Document `--mission` flag and updated `--help` output examples.
+   - README.md: Add examples for `--mission` and show that `--help` now includes mission statement.
+
+Verification:
+- Run `npm test` and confirm all new and existing tests pass.
+- Manual CLI verification: 
+  • `node src/lib/main.js --mission`
+  • `node src/lib/main.js --help`
+  • Confirm normal flag combinations remain functional.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":6480,"completion_tokens":1318,"total_tokens":7798,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":512,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
