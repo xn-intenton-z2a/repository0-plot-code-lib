@@ -2342,3 +2342,14 @@ LLM API Usage:
 ```
 ---
 
+## Feature to Issue at 2025-05-22T17:49:25.403Z
+
+Generated feature development issue with title Add mission statement display to CLI (--mission flag and enhanced help).
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":32520,"completion_tokens":1003,"total_tokens":33523,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":384,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
