@@ -1159,3 +1159,65 @@ LLM API Usage:
 
 2025-05-22T05:01:00Z - Archiving intentïon to branch https://github.com/xn-intenton-z2a/repository0-plot-code-lib/tree/intention-2025-05-22T01-29Z
 
+## Issue to Ready Issue at 2025-05-22T05:42:04.130Z
+
+Enhanced issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3120 with action enhance and updated description:
+
+Title: [Refactor] Implement CLI parsing and core time series generation in main.js
+
+Context:
+The current implementation of `src/lib/main.js` is a stub that only logs arguments. This refactoring will implement the core CLI and functionality defined in `features/TIME_SERIES_GENERATION.md` and `features/PLOT_GENERATION.md` so users can generate time series data and optionally plot it.
+
+Scope of Work:
+1. CLI Parsing
+   - Use a lightweight parser (e.g., `minimist` or `commander`) to parse flags:
+     • `--expression` (required) — simple formula using `x` (e.g., `y=2*x`)
+     • `--range` (required) — format `x=start:end:step` (numeric values)
+     • `--format` (optional) — `json` (default) or `csv`
+     • `--file` (optional) — output path; if omitted, write to stdout
+     • `--plot-format` (optional) — `svg` or `png`; when provided, triggers plot generation
+     • `--width` and `--height` (optional) — positive integers for plot dimensions (default 800×600)
+2. Input Validation
+   - Ensure required flags are present; on missing or invalid flags, print descriptive error and exit with code 1.
+   - Validate numeric `start`, `end`, `step`, `width`, and `height`.
+   - Validate expression syntax.
+3. Time Series Generation
+   - Sample the parsed expression over the numeric range to produce an array of `{ x: number, y: number }`.
+4. Data Output
+   - Serialize samples to JSON or CSV.
+   - Write to stdout or to `--file`.
+5. Plot Generation
+   - When `--plot-format` is specified, use `ChartJSNodeCanvas` to render a line chart and write it to `--file`.
+
+Testable Acceptance Criteria:
+1. CLI Execution
+   a. Running `node src/lib/main.js --expression "y=2*x" --range "x=0:4:1"` exits with code 0 and prints valid JSON array of objects with numeric `x` and `y` fields.
+   b. Running the same command with `--format csv` prints a CSV text with header `x,y` and correct numeric rows.
+2. File Output
+   a. Including `--file data.json` writes JSON to `data.json` and confirms file exists.
+   b. Including `--file data.csv` with `--format csv` writes CSV to `data.csv`.
+3. Error Handling
+   a. Omitting `--expression` or `--range` exits with code 1 and prints a descriptive error.
+   b. Providing invalid range string (e.g., `x=0:five:1`) exits with code 1 and descriptive error.
+4. Plot Generation
+   a. Running with `--expression "y=sin(x)" --range "x=0:6.28:0.1" --plot-format svg --file chart.svg` generates a valid `chart.svg` containing an SVG line chart.
+   b. Mocked unit test verifies that `ChartJSNodeCanvas` is called with correct dimensions and a line chart config of the sampled data.
+5. Unit Tests
+   - Add tests for:
+     • `parseRange(rangeStr): { start, end, step }` with valid and invalid inputs.
+     • `evaluateExpression(exprStr, x): number` for arithmetic and math functions (e.g., `2*x`, `sin(x)`).
+     • Integration tests for CLI behavior (JSON and CSV outputs).
+     • Plot generation mocking the rendering and file write.
+
+Documentation Updates:
+- Update `README.md` and/or `USAGE.md` with examples covering JSON, CSV, and plot generation flags and defaults.
+- Document all CLI flags with descriptions and examples.
+
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5961,"completion_tokens":2314,"total_tokens":8275,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1408,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
