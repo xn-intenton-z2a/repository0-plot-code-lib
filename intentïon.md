@@ -57,3 +57,65 @@ LLM API Usage:
 ```
 ---
 
+## Feature to Issue at 2025-05-22T00:58:56.505Z
+
+Generated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3116 with title:
+
+Implement TIME_SERIES_GENERATION CLI: parse expressions, sample range, and format output
+
+And description:
+
+Objective
+
+Fully implement the TIME_SERIES_GENERATION feature in `src/lib/main.js`, enabling users to generate time series data from a mathematical expression over a specified one-dimensional range, and output it in JSON or CSV format to stdout or a file.
+
+Tasks
+
+1. Add `mathjs` (or equivalent) to dependencies in `package.json`.
+
+2. Update `src/lib/main.js`:
+   - Use a CLI argument parser (e.g., `minimist`) to support:
+     • `--expression` (required): formula like `y=sin(x)`
+     • `--range` (required): in form `x=start:end:step`
+     • `--format` (optional): `json` or `csv` (default `json`)
+     • `--file` (optional): output file path; if omitted, print to stdout
+   - Parse and validate the input:
+     • Validate that expression matches `y=<math>` and can be compiled by `mathjs`.
+     • Parse `start`, `end`, and `step` as numbers; ensure `step > 0` and `start <= end`.
+     • Validate `format` is either `json` or `csv`.
+   - Generate sample points from `start` to `end` inclusive, stepping by `step`:
+     • For each `x` value compute `y` using the compiled expression.
+     • Collect points as objects `{ x: Number, y: Number }`.
+   - Format output:
+     • JSON: print `JSON.stringify(array, null, 2)`.
+     • CSV: print header `x,y` then rows `x,y`.
+   - If `--file` is provided, write output to the specified file; otherwise, write to stdout.
+   - On any validation or runtime error, print an error message to stderr and call `process.exit(1)`.
+
+3. Extend `tests/unit/plot-generation.test.js`:
+   - Test successful JSON output for a simple formula and range by capturing stdout.
+   - Test CSV output by specifying `--format csv` and verifying header and rows.
+   - Test file writing by mocking or writing to a temporary file and reading its contents.
+   - Test invalid inputs (malformed expression, bad range, unsupported format) exit with code `1` and error message.
+
+4. Update `README.md`:
+   - Add a new "CLI Usage" section that describes the `--expression`, `--range`, `--format`, and `--file` flags.
+   - Provide two concrete examples (one JSON, one CSV) showing commands and expected output.
+
+Verification
+
+- Run `npm install` to include `mathjs`.
+- Execute `npm test` and confirm all new and existing tests pass.
+- Manually test the CLI:
+  • `node src/lib/main.js --expression "y=sin(x)" --range "x=0:3.14:1"` should print JSON array to stdout.
+  • `node src/lib/main.js --expression "y=2*x" --range "x=0:5:2" --format csv --file data.csv` should create `data.csv` with header and rows.
+
+This single LLM invocation should update the source, tests, `README.md`, and `package.json` to deliver full TIME_SERIES_GENERATION functionality.
+
+LLM API Usage:
+
+```json
+{"prompt_tokens":5408,"completion_tokens":1483,"total_tokens":6891,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":704,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+---
+
