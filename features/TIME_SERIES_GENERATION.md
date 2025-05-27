@@ -1,54 +1,58 @@
 # Overview
 
-Enhance the existing time series generation command to provide a structured, discoverable CLI with yargs, robust expression parsing, and support for both JSON and CSV output formats. Users can generate a single series or multiple labeled series with clear usage and error messages.
+Enhance the core time series generation command to support flexible output formats and a structured CLI interface. Users will be able to generate a numeric series from one mathematical expression and range, choose JSON or CSV output, and access built-in help and version flags.
 
 # Behavior
 
-- The CLI accepts one or more `--expression` (`-e`) flags, each in the form `y=<formula>` (e.g., `y=sin(x)`).
-- The CLI accepts matching `--range` (`-r`) flags, each in the form `x=<start>:<end>:<step>` (e.g., `x=0:6.28:0.1`). The count of expressions must equal the count of ranges.
-- A new `--format` (`-f`) flag supports `json` (default) or `csv` output:
-  - JSON: outputs an array of objects with keys `label` and `data`, where `data` is an array of `{ x: number, y: number }`.
-  - CSV: outputs rows with header `label,x,y` and one line per data point per series.
-- An optional `--label` (`-l`) flag lets users assign labels to each series; if omitted, the raw expression is used as its label.
-- The `--output` (`-o`) flag writes to a file; if omitted, output is printed to stdout.
-- Global flags `--help` (`-h`) and `--version` (`-v`) display usage information and package version, exiting with code 0.
-- All validation errors (mismatched counts, invalid syntax, file I/O failures) exit with a non-zero code and an informative message on stderr.
+- Parses a single `--expression` (`-e`) in the form `y=<formula>` (for example, `y=sin(x)`).
+- Parses a single `--range` (`-r`) in the form `x=<start>:<end>:<step>` (for example, `x=0:6.28:0.1`).
+- Adds a `--format` (`-f`) flag that accepts `json` (default) or `csv`:
+  - In JSON mode, outputs an array of `{ x: number, y: number }`.
+  - In CSV mode, outputs a header row `x,y` followed by comma-separated data lines.
+- Adds global `--help` (`-h`) to display usage and `--version` (`-v`) to display the package version.
+- The `--output` (`-o`) flag writes output to a file; if omitted, writes to stdout.
+- Validation errors (invalid expression, range format, write failures) exit with code 1 and print a descriptive message to stderr.
 
 # Implementation
 
-- Add `yargs` as a dependency and configure commands:
-  - Default command for time series generation.
-  - Global help and version flags via `.help()` and `.version()`.
-- Configure repeatable options: `expression`, `range`, and optional `label` as arrays.
-- Parse each expression-range pair:
-  1. Strip the `y=` prefix and compile the formula with `mathjs` or `evaluate`.
-  2. Parse and validate the range string into numeric `start`, `end`, and `step`.
-  3. Generate series points from `start` to `end` inclusive, stepping by `step`.
-- After generating series:
-  - If `format=json`, build an array of `{ label, data }` and serialize with `JSON.stringify(..., 2)`.
-  - If `format=csv`, construct a string starting with `label,x,y` header and one comma-separated line per point.
-- Write output to file or stdout using `fs.writeFileSync` or `console.log`.
+- Use `yargs` to configure the default command:
+  - `.option('expression', ...)` with alias `-e`, string, required.
+  - `.option('range', ...)` with alias `-r`, string, required.
+  - `.option('format', ...)` with alias `-f`, choices `json` or `csv`, default `json`.
+  - `.option('output', ...)` with alias `-o`, string, optional.
+  - `.help()` and `.version()` for built-in flags.
+- In the handler:
+  1. Strip the `y=` prefix and compile the formula with a parsing library (for example `mathjs`).
+  2. Parse the range string into numeric start, end, and step; enforce `step > 0` and `start <= end`.
+  3. Generate the series points by stepping from start to end inclusive.
+  4. Serialize the series:
+     - For JSON mode, use `JSON.stringify(series, null, 2)`.
+     - For CSV mode, build a string with a header `x,y` and one line per point.
+  5. Write to the specified file with `fs.writeFileSync` or print to stdout.
+- Exit code 0 on success.
+
+# CLI Interface
+
+    repository0-plot-code-lib -e "y=x*2" -r "x=0:5:1"
+    repository0-plot-code-lib --expression "y=sin(x)" --range "x=0:3.14:1.57" --format csv --output series.csv
 
 # Tests
 
-- Unit tests (Vitest) in `tests/unit/series-generation.test.js`:
-  - Verify single and multiple expression-range pairs produce correct JSON and CSV outputs.
-  - Test custom labels: JSON objects contain correct labels; CSV lines contain label column.
-  - Validate error conditions:
-    - Mismatched counts of expressions, ranges, and labels.
-    - Invalid expression syntax or range format.
-    - File write errors when invalid `--output` path is provided.
-  - Test help and version flags by spawning the CLI with `--help` and `--version`, asserting exit code 0 and expected output.
+- Unit tests to verify JSON output:
+  - Default format produces correct array of objects.
+  - File writing via `--output` writes valid JSON.
+- Unit tests to verify CSV output:
+  - Header `x,y` is present.
+  - Correct comma-separated numeric values for integer and fractional ranges.
+  - File writing via `--output` writes valid CSV.
+- Tests for error conditions:
+  - Invalid expression or range syntax yields exit code 1 and error message.
+  - Invalid write path yields error.
+- Tests for help and version flags by spawning the CLI and checking exit code 0 and expected output patterns.
 
 # Documentation
 
-- Update `USAGE.md` under “Time Series Generation”:
-  - Document the `expression`, `range`, `label`, `format`, and `output` flags.
-  - Provide examples for JSON and CSV, single and multiple series:
-    ```sh
-    repository0-plot-code-lib -e "y=x" -r "x=0:2:1" -f csv
-    repository0-plot-code-lib -e "y=sin(x)" -e "y=cos(x)" \
-      -r "x=0:3.14:1.57" -r "x=0:3.14:1.57" \
-      -l "Sine" -l "Cosine" -f json -o output.json
-    ```
-- Update `README.md` under `## Time Series Generation` with a summary, usage snippets, and note on help/version flags.
+- Update `USAGE.md` under “Time Series Generation” to:
+  - Document `--format` flag with examples for JSON and CSV.
+  - Show usage of `--help` and `--version`.
+- Update `README.md` under `## Time Series Generation` to include brief usage snippets and note on output formats.
