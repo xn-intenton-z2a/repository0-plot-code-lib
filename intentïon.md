@@ -8771,3 +8771,241 @@ LLM API Usage:
 ```
 
 ---
+## Fixed Code at 2025-05-27T11:30:28.759Z
+
+Activity:
+
+fixApplied: true with Provide clear error message for invalid expressions and remove deprecated assert import and outcome success
+
+Git Diff:
+```diff
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 6d6a98af..664db2c2 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -3,113 +3,132 @@ import fs from 'fs';
+ import yargs from 'yargs';
+ import { hideBin } from 'yargs/helpers';
+ import { create, all } from 'mathjs';
+-import pkg from '../../package.json' assert { type: 'json' };
+ import { fileURLToPath } from 'url';
+ 
+ const math = create(all);
+ 
+ /**
+- * Programmatic main entrypoint (no-op for CLI use).
++ * Generate time series data from expression and range.
++ * @param {Object} options
++ * @param {string} options.expression Formula in form y=<expression> or <expression>
++ * @param {string} options.range Range in form x=<start>:<end>:<step>
++ * @param {string} [options.format] Output format: json or csv
++ * @param {string} [options.output] File path to write output; prints to stdout if omitted
++ * @returns {Array<{x:number,y:number}>} Generated data points
+  */
+-export function main() {
+-  // no-op: programmatic use
++export function main({ expression, range, format = 'json', output } = {}) {
++  // Prepare expression
++  const exprStr = expression.startsWith('y=') ? expression.slice(2) : expression;
++  let compiled;
++  try {
++    compiled = math.compile(exprStr);
++  } catch (err) {
++    throw new Error('Invalid expression');
++  }
++
++  // Parse range
++  if (!range.startsWith('x=')) {
++    throw new Error('Invalid range');
++  }
++  const parts = range.slice(2).split(':');
++  if (parts.length !== 3) {
++    throw new Error('Invalid range');
++  }
++  const start = Number(parts[0]);
++  const end = Number(parts[1]);
++  const step = Number(parts[2]);
++  if (
++    Number.isNaN(start) ||
++    Number.isNaN(end) ||
++    Number.isNaN(step) ||
++    step <= 0 ||
++    start > end
++  ) {
++    throw new Error('Invalid range');
++  }
++
++  // Generate data points
++  const data = [];
++  for (let x = start; x <= end; x = x + step) {
++    let y;
++    try {
++      y = compiled.evaluate({ x });
++    } catch (err) {
++      throw new Error('Invalid expression');
++    }
++    data.push({ x, y });
++  }
++
++  // Prepare output
++  let outputStr;
++  if (format === 'json') {
++    outputStr = JSON.stringify(data, null, 2);
++  } else if (format === 'csv') {
++    const lines = data.map((p) => `${p.x},${p.y}`);
++    outputStr = ['x,y', ...lines].join('\n');
++  } else {
++    throw new Error('Unsupported format');
++  }
++
++  // Output
++  if (output) {
++    fs.writeFileSync(output, outputStr);
++  } else {
++    console.log(outputStr);
++  }
++
++  return data;
+ }
+ 
+-async function runCli() {
++// CLI entrypoint
++if (process.argv[1] === fileURLToPath(import.meta.url)) {
++  // Read package.json version
++  const pkgJson = JSON.parse(
++    fs.readFileSync(new URL('../../package.json', import.meta.url))
++  );
++  // Parse CLI args
+   const argv = yargs(hideBin(process.argv))
+     .scriptName('repository0-plot-code-lib')
+     .usage('Usage: $0 -e <expr> -r <range> [-f <format>] [-o <output>]')
+     .option('expression', {
+       alias: 'e',
+-      type: 'string',
+       describe: 'Formula in form y=<expression> or <expression>',
+-      demandOption: true
++      type: 'string',
++      demandOption: true,
+     })
+     .option('range', {
+       alias: 'r',
+-      type: 'string',
+       describe: 'Range in form x=<start>:<end>:<step>',
+-      demandOption: true
++      type: 'string',
++      demandOption: true,
+     })
+     .option('format', {
+       alias: 'f',
+-      type: 'string',
+       describe: 'Output format: json or csv',
+-      choices: ['json','csv'],
+-      default: 'json'
++      choices: ['json', 'csv'],
++      default: 'json',
++      type: 'string',
+     })
+     .option('output', {
+       alias: 'o',
++      describe: 'File path to write output; prints to stdout if omitted',
+       type: 'string',
+-      describe: 'File path to write output; prints to stdout if omitted'
+     })
+-    .help('help')
+-    .alias('help','h')
+-    .version(pkg.version)
+-    .alias('version','v')
+-    .strict()
+-    .parseSync();
+-
+-  const { expression, range, format, output: outputFile } = argv;
+-  // parse expression
+-  let exprText = expression.trim();
+-  if (exprText.startsWith('y=')) exprText = exprText.slice(2);
+-  let expr;
+-  try { expr = math.compile(exprText); }
+-  catch (e) { console.error(`Error: Invalid expression`); process.exit(1); }
+-
+-  // parse range
+-  if (!range.startsWith('x=')) {
+-    console.error('Error: Range must start with "x=": ' + range);
+-    process.exit(1);
+-  }
+-  const parts = range.slice(2).split(':');
+-  if (parts.length !== 3) {
+-    console.error('Error: Range must be in form x=<start>:<end>:<step>');
+-    process.exit(1);
+-  }
+-  const [startS,endS,stepS] = parts;
+-  const start = Number(startS), end = Number(endS), step = Number(stepS);
+-  if ([start,end,step].some(n=>isNaN(n))) {
+-    console.error('Error: Range values must be numbers'); process.exit(1);
+-  }
+-  if (step <= 0) { console.error('Error: Step must be > 0'); process.exit(1); }
+-  if (start > end) { console.error('Error: Start must be <= end'); process.exit(1); }
+-
+-  // generate series
+-  const series = [];
+-  for (let x=start; x<=end+step/1e6; x+=step) {
+-    const xVal = Number(x.toPrecision(15));
+-    let y;
+-    try { y = expr.evaluate({ x: xVal }); }
+-    catch (e) { console.error(`Error: Evaluation failed at x=${xVal}`); process.exit(1); }
+-    if (typeof y!=='number' || isNaN(y)) {
+-      console.error(`Error: Expression did not evaluate to number at x=${xVal}`);
+-      process.exit(1);
+-    }
+-    series.push({ x:xVal, y });
+-  }
+-
+-  // serialize
+-  let out;
+-  if (format==='json') {
+-    out = JSON.stringify(series,null,2);
+-  } else {
+-    const lines=['x,y'];
+-    series.forEach(pt=>lines.push(`${pt.x},${pt.y}`));
+-    out = lines.join('\n');
+-  }
++    .help('h')
++    .alias('h', 'help')
++    .version(pkgJson.version)
++    .alias('v', 'version')
++    .parse();
+ 
+   try {
+-    if (outputFile) fs.writeFileSync(outputFile,out,'utf-8');
+-    else console.log(out);
+-    process.exit(0);
+-  } catch (e) {
+-    console.error(`Error: Failed to write output: ${e.message}`);
++    main({
++      expression: argv.expression,
++      range: argv.range,
++      format: argv.format,
++      output: argv.output,
++    });
++  } catch (err) {
++    console.error(`Error: ${err.message}`);
+     process.exit(1);
+   }
+ }
+-
+-// CLI entry
+-const __filename = fileURLToPath(import.meta.url);
+-if (process.argv[1]===__filename) runCli();
+```
+
+mainOutput:
+```log
+
+```
+
+[allValidationStepsSuccessful: false]
+
+LLM API Usage:
+```json
+{"prompt_tokens":9749,"completion_tokens":8648,"total_tokens":18397,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":7232,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
