@@ -516,3 +516,167 @@ LLM API Usage:
 ```
 
 ---
+## Fixed Code at 2025-05-27T02:33:27.501Z
+
+Activity:
+
+fixApplied: true with Implement CLI flags parsing validation with custom messages and time series generation and outcome success
+
+Git Diff:
+```diff
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 053e4533..c1985d7e 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,95 +1,67 @@
+-#!/usr/bin/env node
+-import fs from "fs";
+-import { fileURLToPath } from "url";
+-import minimist from "minimist";
+-import { Parser } from "expr-eval";
+-import { z } from "zod";
++import minimist from 'minimist';
++import { Parser } from 'expr-eval';
++import { z, ZodError } from 'zod';
++import fs from 'fs';
++import { fileURLToPath } from 'url';
+ 
+-export function main(rawArgs = []) {
+-  // Default behavior when no args provided
+-  if (!rawArgs || rawArgs.length === 0) {
+-    console.log(`Run with: ${JSON.stringify(rawArgs)}`);
++export function main(rawArgs) {
++  const args = rawArgs !== undefined ? rawArgs : process.argv.slice(2);
++  if (args.length === 0) {
++    console.log(`Run with: ${JSON.stringify(args)}`);
+     return;
+   }
+ 
+-  const args = minimist(rawArgs, {
+-    string: ["expression", "range", "output"],
++  const parsedArgs = minimist(args, {
++    string: ['expression', 'range', 'output'],
++    alias: {},
+   });
+ 
+-  const schema = z.object({
+-    expression: z.string().nonempty({ message: "--expression is required" }).regex(/^y=/, {
+-      message: "--expression must start with y=",
+-    }),
+-    range: z.string().nonempty({ message: "--range is required" }).regex(/^x=-?\d+(\.\d*)?:-?\d+(\.\d*)?:\d+$/, {
+-      message: "Invalid range format",
+-    }),
+-    output: z.string().nonempty().optional(),
++  const argsSchema = z.object({
++    expression: z
++      .string({ required_error: "--expression is required", invalid_type_error: "--expression is required" })
++      .regex(/^y=.*/, { message: "Invalid expression format" }),
++    range: z
++      .string({ required_error: "--range is required", invalid_type_error: "--range is required" })
++      .regex(/^x=-?\d+(\.\d*)?:-?\d+(\.\d*)?:\d+$/, { message: "Invalid range format" }),
++    output: z.string().optional(),
+   });
+ 
+-  let parsed;
++  let validated;
+   try {
+-    parsed = schema.parse(args);
++    validated = argsSchema.parse(parsedArgs);
+   } catch (e) {
+-    if (e instanceof z.ZodError) {
+-      e.errors.forEach((err) => {
+-        process.stderr.write(err.message + "\n");
+-      });
+-      process.exit(1);
+-    } else {
+-      process.stderr.write("Argument parsing error\n");
++    if (e instanceof ZodError) {
++      console.error(e.errors[0].message);
+       process.exit(1);
+     }
++    throw e;
+   }
+ 
+-  // Parse expression RHS
+-  const rhs = parsed.expression.slice(2);
+-
+-  // Parse range x=start:end:count
+-  const [, rangeVal] = parsed.range.split("=");
+-  const [startStr, endStr, countStr] = rangeVal.split(":");
++  const { expression, range, output } = validated;
++  const [startStr, endStr, countStr] = range.slice(2).split(':');
+   const start = parseFloat(startStr);
+   const end = parseFloat(endStr);
+   const count = parseInt(countStr, 10);
+ 
+-  if (count < 2) {
+-    process.stderr.write("--range count must be at least 2\n");
+-    process.exit(1);
+-  }
+-
+-  const step = (end - start) / (count - 1);
+-  const xs = Array.from({ length: count }, (_, i) => start + step * i);
+-
+-  // Parse the expression and create evaluator
+   const parser = new Parser();
+-  let expr;
+-  try {
+-    expr = parser.parse(rhs);
+-  } catch (err) {
+-    process.stderr.write("Invalid expression\n");
+-    process.exit(1);
++  const rhs = expression.slice(expression.indexOf('=') + 1);
++  const series = [];
++  for (let i = 0; i < count; i++) {
++    const x = start + ((end - start) * i) / (count - 1);
++    const y = parser.parse(rhs).evaluate({ x });
++    series.push({ x, y });
+   }
+ 
+-  // Generate data
+-  const data = xs.map((x) => {
+-    let y;
+-    try {
+-      y = expr.evaluate({ x });
+-    } catch (err) {
+-      process.stderr.write("Error evaluating expression\n");
+-      process.exit(1);
+-    }
+-    return { x, y };
+-  });
+-
+-  const outputJson = JSON.stringify(data, null, 2);
+-
+-  if (parsed.output) {
+-    fs.writeFileSync(parsed.output, outputJson);
++  const outputJson = JSON.stringify(series);
++  if (output) {
++    fs.writeFileSync(output, outputJson);
+   } else {
+-    process.stdout.write(outputJson + "\n");
++    console.log(outputJson);
+   }
+ }
+ 
+-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  main(process.argv.slice(2));
++// Auto-run when invoked as CLI
++const scriptPath = fileURLToPath(import.meta.url);
++if (process.argv[1] === scriptPath) {
++  main();
+ }
+```
+
+mainOutput:
+```log
+
+```
+
+[allValidationStepsSuccessful: false]
+
+LLM API Usage:
+```json
+{"prompt_tokens":8005,"completion_tokens":6475,"total_tokens":14480,"prompt_tokens_details":{"cached_tokens":1536,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":5568,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
