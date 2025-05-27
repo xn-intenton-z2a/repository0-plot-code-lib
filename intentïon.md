@@ -1293,3 +1293,64 @@ LLM API Usage:
 ```
 
 ---
+## Issue to enhanced Issue at 2025-05-27T03:38:17.824Z
+
+Activity:
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+# Objective
+
+Deliver the PLOT_RENDERING feature by adding a `plot` subcommand to the existing CLI. When invoked, the command will read a time-series JSON array (`[{ x: number, y: number }, …]`) from a file or stdin, and produce a line plot as an SVG or PNG image.
+
+# Changes Required  
+1. **Dependencies** (`package.json`)  
+   - Add:
+     - `d3-node` (for server-side D3 SVG generation)  
+     - `canvas` (for rendering SVG into PNG)
+
+2. **Source** (`src/lib/main.js`)  
+   - Use `yargs.command()` to define a new `plot` subcommand.  
+   - Declare options:
+     - `--input, -i` (string): path to JSON file; if omitted, read stdin.  
+     - `--output, -o` (string): path to write image; default `plot.svg`.  
+     - `--format, -f` (string): `svg` or `png`; default `svg`.  
+     - `--width, -w` (number): canvas width in pixels; default `800`.  
+     - `--height, -h` (number): canvas height in pixels; default `600`.
+   - Handler behavior:
+     1. Load JSON from file or stdin and validate it is an array of `{x:number,y:number}`.
+     2. Instantiate `new D3Node({ svgStyles: '', container: '<div/>' })`.
+     3. Generate linear scales for x and y, draw axes, and append a `<path>` connecting the data points.
+     4. Serialize the D3 SVG to a string.
+     5. If `--format=png`, render the SVG to a canvas and export as PNG.
+     6. Write the resulting buffer or string to the `--output` file.
+     7. Exit `0` on success; on any error, write an error message to stderr and exit `1`.
+
+3. **Tests** (`tests/unit/plot-rendering.test.js`)  
+   - Add a `describe('Plot subcommand', …)` suite with tests that:
+     1. Spawn `node src/lib/main.js plot -i tests/fixtures/sample.json -f svg -o tmp.svg` and assert:
+        - Exit code `0`.
+        - Output file `tmp.svg` exists and begins with `<svg`.
+     2. Spawn with `-f png -o tmp.png` and assert:
+        - Exit code `0`.
+        - File `tmp.png` exists and its first 8 bytes match the PNG signature (`89 50 4E 47 0D 0A 1A 0A`).
+     3. Missing `--input` or invalid JSON input returns exit code `1` and prints a descriptive error to stderr.
+
+4. **Documentation**  
+   - **USAGE.md**: Add `## Plot Rendering` section documenting the `plot` subcommand, flags (`--input`, `--output`, `--format`, `--width`, `--height`), and examples.
+   - **README.md**: Add a `## Plot Rendering` header with CLI usage snippets for SVG and PNG output.
+
+# Acceptance Criteria
+
+- [ ] Running `repository0-plot-code-lib plot -i data.json -o chart.svg -f svg -w 400 -h 300` succeeds (exit code `0`), creates `chart.svg`, and its content starts with `<svg`.
+- [ ] Running `repository0-plot-code-lib plot -i data.json -o chart.png -f png` succeeds (exit code `0`), creates `chart.png`, and the first 8 bytes of the file match the PNG signature.
+- [ ] Providing invalid or missing JSON input causes the command to exit with code `1` and output a clear error message to stderr.
+- [ ] New unit tests in `tests/unit/plot-rendering.test.js` pass on CI.
+- [ ] Documentation in `USAGE.md` and `README.md` is updated with accurate descriptions and examples.
+
+LLM API Usage:
+```json
+{"prompt_tokens":6106,"completion_tokens":1347,"total_tokens":7453,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":384,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
