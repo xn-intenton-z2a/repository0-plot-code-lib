@@ -211,3 +211,308 @@ LLM API Usage:
 ```
 
 ---
+## Issue to Code at 2025-05-27T02:31:48.278Z
+
+Activity:
+
+fixApplied: true to branch agentic-lib-issue-3132 with message Implement time series CLI functionality with flags add tests and documentation and outcome success
+
+Git Diff:
+```diff
+diff --git a/package-lock.json b/package-lock.json
+index e79334b8..1b8edb2a 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -11,8 +11,10 @@
+       "dependencies": {
+         "dotenv": "^16.5.0",
+         "ejs": "^3.1.10",
++        "expr-eval": "^2.0.2",
+         "js-yaml": "^4.1.0",
+         "minimatch": "^10.0.1",
++        "minimist": "^1.2.8",
+         "openai": "^4.103.0",
+         "zod": "^3.25.30"
+       },
+@@ -3383,6 +3385,12 @@
+         "node": ">=12.0.0"
+       }
+     },
++    "node_modules/expr-eval": {
++      "version": "2.0.2",
++      "resolved": "https://registry.npmjs.org/expr-eval/-/expr-eval-2.0.2.tgz",
++      "integrity": "sha512-4EMSHGOPSwAfBiibw3ndnP0AvjDWLsMvGOvWEZ2F96IGk0bIVdjQisOHxReSkE13mHcfbuCiXw+G4y0zv6N8Eg==",
++      "license": "MIT"
++    },
+     "node_modules/express": {
+       "version": "4.21.2",
+       "resolved": "https://registry.npmjs.org/express/-/express-4.21.2.tgz",
+@@ -5029,7 +5037,6 @@
+       "version": "1.2.8",
+       "resolved": "https://registry.npmjs.org/minimist/-/minimist-1.2.8.tgz",
+       "integrity": "sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==",
+-      "dev": true,
+       "license": "MIT",
+       "funding": {
+         "url": "https://github.com/sponsors/ljharb"
+diff --git a/package.json b/package.json
+index 8522a815..646908f8 100644
+--- a/package.json
++++ b/package.json
+@@ -25,10 +25,12 @@
+   "license": "MIT",
+   "dependencies": {
+     "dotenv": "^16.5.0",
+-    "openai": "^4.103.0",
+     "ejs": "^3.1.10",
++    "expr-eval": "^2.0.2",
+     "js-yaml": "^4.1.0",
++    "minimist": "^1.2.8",
+     "minimatch": "^10.0.1",
++    "openai": "^4.103.0",
+     "zod": "^3.25.30"
+   },
+   "devDependencies": {
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 3cdd4e2a..053e4533 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,13 +1,95 @@
+ #!/usr/bin/env node
+-// src/lib/main.js
+-
++import fs from "fs";
+ import { fileURLToPath } from "url";
++import minimist from "minimist";
++import { Parser } from "expr-eval";
++import { z } from "zod";
++
++export function main(rawArgs = []) {
++  // Default behavior when no args provided
++  if (!rawArgs || rawArgs.length === 0) {
++    console.log(`Run with: ${JSON.stringify(rawArgs)}`);
++    return;
++  }
++
++  const args = minimist(rawArgs, {
++    string: ["expression", "range", "output"],
++  });
++
++  const schema = z.object({
++    expression: z.string().nonempty({ message: "--expression is required" }).regex(/^y=/, {
++      message: "--expression must start with y=",
++    }),
++    range: z.string().nonempty({ message: "--range is required" }).regex(/^x=-?\d+(\.\d*)?:-?\d+(\.\d*)?:\d+$/, {
++      message: "Invalid range format",
++    }),
++    output: z.string().nonempty().optional(),
++  });
++
++  let parsed;
++  try {
++    parsed = schema.parse(args);
++  } catch (e) {
++    if (e instanceof z.ZodError) {
++      e.errors.forEach((err) => {
++        process.stderr.write(err.message + "\n");
++      });
++      process.exit(1);
++    } else {
++      process.stderr.write("Argument parsing error\n");
++      process.exit(1);
++    }
++  }
++
++  // Parse expression RHS
++  const rhs = parsed.expression.slice(2);
++
++  // Parse range x=start:end:count
++  const [, rangeVal] = parsed.range.split("=");
++  const [startStr, endStr, countStr] = rangeVal.split(":");
++  const start = parseFloat(startStr);
++  const end = parseFloat(endStr);
++  const count = parseInt(countStr, 10);
++
++  if (count < 2) {
++    process.stderr.write("--range count must be at least 2\n");
++    process.exit(1);
++  }
++
++  const step = (end - start) / (count - 1);
++  const xs = Array.from({ length: count }, (_, i) => start + step * i);
++
++  // Parse the expression and create evaluator
++  const parser = new Parser();
++  let expr;
++  try {
++    expr = parser.parse(rhs);
++  } catch (err) {
++    process.stderr.write("Invalid expression\n");
++    process.exit(1);
++  }
++
++  // Generate data
++  const data = xs.map((x) => {
++    let y;
++    try {
++      y = expr.evaluate({ x });
++    } catch (err) {
++      process.stderr.write("Error evaluating expression\n");
++      process.exit(1);
++    }
++    return { x, y };
++  });
++
++  const outputJson = JSON.stringify(data, null, 2);
+ 
+-export function main(args) {
+-  console.log(`Run with: ${JSON.stringify(args)}`);
++  if (parsed.output) {
++    fs.writeFileSync(parsed.output, outputJson);
++  } else {
++    process.stdout.write(outputJson + "\n");
++  }
+ }
+ 
+ if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  const args = process.argv.slice(2);
+-  main(args);
++  main(process.argv.slice(2));
+ }
+diff --git a/tests/unit/plot-generation.test.js b/tests/unit/plot-generation.test.js
+index 19a4042c..f3dd8fc4 100644
+--- a/tests/unit/plot-generation.test.js
++++ b/tests/unit/plot-generation.test.js
+@@ -1,16 +1,56 @@
+-import { describe, test, expect } from "vitest";
+-import * as mainModule from "@src/lib/main.js";
++import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
++import fs from "fs";
+ import { main } from "@src/lib/main.js";
+ 
+-describe("Main Module Import", () => {
+-  test("should be non-null", () => {
+-    expect(mainModule).not.toBeNull();
++describe("Time Series Generation CLI", () => {
++  let stderrWrite;
++  let stdoutWrite;
++  let exitMock;
++
++  beforeEach(() => {
++    stderrWrite = vi.spyOn(process.stderr, "write").mockImplementation(() => {});
++    stdoutWrite = vi.spyOn(process.stdout, "write").mockImplementation(() => {});
++    exitMock = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error("ProcessExit: " + code); });
++    vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
++  });
++
++  afterEach(() => {
++    vi.restoreAllMocks();
++  });
++
++  test("valid invocation writes to stdout", () => {
++    const args = ["--expression", "y=2*x", "--range", "x=0:4:5"];
++    expect(() => main(args)).not.toThrow();
++    const output = stdoutWrite.mock.calls.map(call => call.join("")).join("");
++    const data = JSON.parse(output);
++    expect(data).toHaveLength(5);
++    expect(data[0]).toEqual({ x: 0, y: 0 });
++    expect(data[4]).toEqual({ x: 4, y: 8 });
++  });
++
++  test("valid invocation writes to file", () => {
++    const args = ["--expression", "y=3*x+1", "--range", "x=1:3:3", "--output", "out.json"];
++    expect(() => main(args)).not.toThrow();
++    const calls = fs.writeFileSync.mock.calls;
++    expect(calls).toHaveLength(1);
++    const [filePath, content] = calls[0];
++    expect(filePath).toBe("out.json");
++    const data = JSON.parse(content);
++    expect(data).toHaveLength(3);
++    expect(data[0]).toEqual({ x: 1, y: 4 });
++    expect(data[2]).toEqual({ x: 3, y: 10 });
++  });
++
++  test("missing --expression", () => {
++    const args = ["--range", "x=0:1:2"];
++    expect(() => main(args)).toThrow("ProcessExit: 1");
++    expect(stderrWrite).toHaveBeenCalled();
++    expect(stderrWrite.mock.calls[0][0]).toContain("expression");
+   });
+-});
+ 
+-describe("Default main", () => {
+-  test("should terminate without error", () => {
+-    process.argv = ["node", "src/lib/main.js"];
+-    main();
++  test("invalid range format", () => {
++    const args = ["--expression", "y=x", "--range", "x=0:ten:5"];
++    expect(() => main(args)).toThrow("ProcessExit: 1");
++    expect(stderrWrite.mock.calls[0][0]).toContain("Invalid range format");
+   });
+ });\n\n// New [USAGE.md]:\n# Time Series Generation
+
+Generate time series data from a mathematical expression over a specified range.
+
+## CLI Usage
+
+Flags:
+
+- `--expression <expr>` (required): A string of the form `y=<rhs>`, where `<rhs>` is any valid expression in `x`.
+- `--range <range>` (required): A string of the form `x=<start>:<end>:<count>`, where `<start>` and `<end>` are numbers and `<count>` is an integer ≥ 2.
+- `--output <file>` (optional): Path to write the output JSON file. If omitted, output is written to stdout.
+
+### Example
+
+```bash
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28:100" --output series.json
+```
+
+This will generate `series.json` containing an array of objects with the shape:
+
+```json
+[
+  {
+    "x": <number>,
+    "y": <number>
+  },
+  ...
+]
+```
+
+### Output JSON Schema
+
+```json
+Array<{
+  x: number,
+  y: number
+}>
+```
+```
+
+mainOutput:
+```log
+
+```
+
+installAfterUpdateOutcome: success
+
+ciAfterUpdateOutcome: success
+
+testAfterUpdateOutcome: failure
+
+mainAfterUpdateOutcome: success
+
+commitOutcome: success
+
+postResolutionCommentOutcome: success
+
+allValidationStepsSuccessful: false
+
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3132 with title: ""]
+
+LLM API Usage:
+```json
+{"prompt_tokens":10437,"completion_tokens":10701,"total_tokens":21138,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":7808,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
