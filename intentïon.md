@@ -957,3 +957,203 @@ LLM API Usage:
 ```
 
 ---
+## Fixed Code at 2025-05-27T02:51:57.432Z
+
+Activity:
+
+fixApplied: true with Allow main without args to return without error instead of exiting and outcome success
+
+Git Diff:
+```diff
+diff --git a/src/lib/main.js b/src/lib/main.js
+index e28da212..772d886f 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,92 +1,104 @@
+ #!/usr/bin/env node
+-// src/lib/main.js
++import fs from "fs";
++import yargs from "yargs";
++import { hideBin } from "yargs/helpers";
++import { parse } from "mathjs";
+ 
+-import fs from 'fs';
+-import { hideBin } from 'yargs/helpers';
+-import yargs from 'yargs';
+-import { parse as parseMath } from 'mathjs';
+-import { fileURLToPath } from 'url';
++/**
++ * Main entry point for CLI or programmatic invocation.
++ * @param {string[]} [args] Arguments array for CLI parsing, omit or pass empty for no-op.
++ */
++export async function main(args) {
++  const cliArgs = args ?? [];
++  // If no arguments provided programmatically, do nothing (avoid exiting)
++  if (cliArgs.length === 0) {
++    return;
++  }
+ 
+-export function main() {
+-  try {
+-    const argv = yargs(hideBin(process.argv))
+-      .option('expression', {
+-        alias: 'e',
+-        type: 'string',
+-        demandOption: true,
+-        describe: 'Formula in terms of x, e.g. y=sin(x) or sin(x)',
+-      })
+-      .option('range', {
+-        alias: 'r',
+-        type: 'string',
+-        demandOption: true,
+-        describe: 'Range syntax x=<start>:<end>:<step>, e.g. x=0:3.14:0.1',
+-      })
+-      .option('output', {
+-        alias: 'o',
+-        type: 'string',
+-        describe: 'Output file path, defaults to stdout',
+-      })
+-      .strict()
+-      .parse();
++  // Configure yargs for CLI usage
++  const y = yargs(cliArgs)
++    .usage(
++      'Usage: $0 --expression "y=sin(x)" --range "x=0:6.28:0.1" [--output <file>]'
++    )
++    .option("expression", {
++      alias: "e",
++      describe: "Formula in terms of x, e.g. y=sin(x) or sin(x)",
++      type: "string",
++    })
++    .option("range", {
++      alias: "r",
++      describe: "Range syntax x=<start>:<end>:<step>, e.g. x=0:3.14:0.1",
++      type: "string",
++    })
++    .option("output", {
++      alias: "o",
++      describe: "Output file path, defaults to stdout",
++      type: "string",
++    })
++    .help()
++    .alias("help", "h")
++    .alias("version", "v")
++    .strict();
+ 
+-    let exprStr = argv.expression.trim();
+-    if (exprStr.startsWith('y=')) exprStr = exprStr.slice(2);
+-    const expr = parseMath(exprStr).compile();
++  const argv = y.parse();
+ 
+-    const rangeStr = argv.range.trim();
+-    if (!rangeStr.startsWith('x=')) {
+-      throw new Error('Range must start with "x="');
+-    }
+-    const parts = rangeStr.slice(2).split(':');
+-    if (parts.length !== 3) {
+-      throw new Error('Range must have format x=<start>:<end>:<step>');
+-    }
+-    const [startStr, endStr, stepStr] = parts;
+-    const start = Number(startStr);
+-    const end = Number(endStr);
+-    const step = Number(stepStr);
+-    if ([start, end, step].some((n) => Number.isNaN(n))) {
+-      throw new Error('Range start, end, and step must be numbers');
+-    }
+-    if (step <= 0) {
+-      throw new Error('Step must be > 0');
++  // If required flags not provided, show help and exit cleanly
++  if (!argv.expression || !argv.range) {
++    y.showHelp();
++    return;
++  }
++
++  try {
++    // Parse and validate range
++    const rangePattern = /^x=(\-?\d+(?:\.\d+)?):(\-?\d+(?:\.\d+)?):(\d+(?:\.\d+)?)$/;
++    const match = argv.range.match(rangePattern);
++    if (!match) {
++      throw new Error(
++        "Invalid range format. Expected x=<start>:<end>:<step>"
++      );
+     }
+-    if (start > end) {
+-      throw new Error('Start must be <= end');
++    const start = parseFloat(match[1]);
++    const end = parseFloat(match[2]);
++    const step = parseFloat(match[3]);
++    if (step <= 0 || start > end) {
++      throw new Error(
++        "Invalid range values. Require step > 0 and start <= end"
++      );
+     }
+ 
+-    const xs = [];
+-    let current = start;
+-    const epsilon = step / 1e6;
+-    while (current <= end + epsilon) {
+-      xs.push(Number(current.toPrecision(15)));
+-      current += step;
+-    }
++    // Prepare expression
++    const exprStr = argv.expression.startsWith("y=")
++      ? argv.expression.slice(2)
++      : argv.expression;
++    const expr = parse(exprStr).compile();
+ 
+-    const series = xs.map((xVal) => {
+-      const yVal = expr.evaluate({ x: xVal });
+-      if (typeof yVal !== 'number' || Number.isNaN(yVal)) {
+-        throw new Error(`Expression evaluated to non-number at x=${xVal}`);
++    // Generate series
++    const series = [];
++    // Use a small epsilon to account for floating point issues
++    const epsilon = step / 1e6;
++    for (let x = start; x <= end + epsilon; x += step) {
++      const yVal = expr.evaluate({ x });
++      if (typeof yVal !== "number" || Number.isNaN(yVal)) {
++        throw new Error(`Expression did not evaluate to a number at x=${x}`);
+       }
+-      return { x: xVal, y: yVal };
+-    });
++      series.push({ x, y: yVal });
++    }
+ 
+     const outputJson = JSON.stringify(series, null, 2);
+-
+     if (argv.output) {
+       fs.writeFileSync(argv.output, outputJson);
+     } else {
+       console.log(outputJson);
+     }
+-
+-    process.exit(0);
+   } catch (err) {
+     console.error(`Error: ${err.message}`);
+     process.exit(1);
+   }
+ }
+ 
+-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  main();
++// CLI invocation when this module is the main module
++if (import.meta.main) {
++  main(hideBin(process.argv));
+ }
++
++export default main;
+```
+
+mainOutput:
+```log
+
+```
+
+[allValidationStepsSuccessful: false]
+
+LLM API Usage:
+```json
+{"prompt_tokens":8394,"completion_tokens":7544,"total_tokens":15938,"prompt_tokens_details":{"cached_tokens":1536,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":6336,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
