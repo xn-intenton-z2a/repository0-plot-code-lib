@@ -5494,3 +5494,791 @@ LLM API Usage:
 ```
 
 ---
+## Issue to Code at 2025-05-27T08:30:29.089Z
+
+Activity:
+
+fixApplied: true to branch agentic-lib-issue-3136 with message Implement JSONCSV output options with structured CLI parsing using yargs and mathjs and outcome success
+
+Git Diff:
+```diff
+diff --git a/README.md b/README.md
+index 816f5140..0f1df5cb 100644
+--- a/README.md
++++ b/README.md
+@@ -4,9 +4,27 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
+ 
+ ---
+ 
+-## License
++## Time Series Generation
+ 
+-MIT
++Generates a sequence of (x, y) values from a mathematical expression and numeric range with optional JSON or CSV output.
++
++```bash
++# JSON output to stdout
++repository0-plot-code-lib -e "y=x" -r "x=0:5:1"
++
++# CSV output to stdout
++repository0-plot-code-lib --expression "y=x" --range "x=0:5:1" --format csv
++
++# Write CSV to file
++repository0-plot-code-lib -e "y=sin(x)" -r "x=0:3.14:1.57" -f csv -o series.csv
++
++# Show help and version
++repository0-plot-code-lib --help
++repository0-plot-code-lib --version
++```
+ 
+ ---
+ 
++## License
++
++MIT
+diff --git a/package-lock.json b/package-lock.json
+index e79334b8..f49ac602 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -12,8 +12,10 @@
+         "dotenv": "^16.5.0",
+         "ejs": "^3.1.10",
+         "js-yaml": "^4.1.0",
++        "mathjs": "^11.8.0",
+         "minimatch": "^10.0.1",
+         "openai": "^4.103.0",
++        "yargs": "^17.7.2",
+         "zod": "^3.25.30"
+       },
+       "bin": {
+@@ -22,7 +24,7 @@
+       "devDependencies": {
+         "@microsoft/eslint-formatter-sarif": "^3.1.0",
+         "@vitest/coverage-v8": "^3.1.4",
+-        "eslint": "^9.25.1",
++        "eslint": "^9.27.0",
+         "eslint-config-google": "^0.14.0",
+         "eslint-config-prettier": "^10.1.5",
+         "eslint-plugin-import": "^2.31.0",
+@@ -93,6 +95,15 @@
+         "node": ">=6.0.0"
+       }
+     },
++    "node_modules/@babel/runtime": {
++      "version": "7.27.1",
++      "resolved": "https://registry.npmjs.org/@babel/runtime/-/runtime-7.27.1.tgz",
++      "integrity": "sha512-1x3D2xEk2fRo3PAhwQwu5UubzgiVWSXTBfWpVd2Mx2AzRqJuDJCsgaDVZ7HB5iGzDW1Hl1sWN2mFyKjmR9uAog==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6.9.0"
++      }
++    },
+     "node_modules/@babel/types": {
+       "version": "7.27.1",
+       "resolved": "https://registry.npmjs.org/@babel/types/-/types-7.27.1.tgz",
+@@ -2245,6 +2256,78 @@
+         "node": ">= 16"
+       }
+     },
++    "node_modules/cliui": {
++      "version": "8.0.1",
++      "resolved": "https://registry.npmjs.org/cliui/-/cliui-8.0.1.tgz",
++      "integrity": "sha512-BSeNnyus75C4//NQ9gQt1/csTXyo/8Sb+afLAkzAptFuMsod9HFokGNudZpi/oQV73hnVK+sR+5PVRMd+Dr7YQ==",
++      "license": "ISC",
++      "dependencies": {
++        "string-width": "^4.2.0",
++        "strip-ansi": "^6.0.1",
++        "wrap-ansi": "^7.0.0"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/cliui/node_modules/ansi-regex": {
++      "version": "5.0.1",
++      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
++      "integrity": "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=8"
++      }
++    },
++    "node_modules/cliui/node_modules/emoji-regex": {
++      "version": "8.0.0",
++      "resolved": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
++      "integrity": "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==",
++      "license": "MIT"
++    },
++    "node_modules/cliui/node_modules/string-width": {
++      "version": "4.2.3",
++      "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
++      "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==",
++      "license": "MIT",
++      "dependencies": {
++        "emoji-regex": "^8.0.0",
++        "is-fullwidth-code-point": "^3.0.0",
++        "strip-ansi": "^6.0.1"
++      },
++      "engines": {
++        "node": ">=8"
++      }
++    },
++    "node_modules/cliui/node_modules/strip-ansi": {
++      "version": "6.0.1",
++      "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
++      "integrity": "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==",
++      "license": "MIT",
++      "dependencies": {
++        "ansi-regex": "^5.0.1"
++      },
++      "engines": {
++        "node": ">=8"
++      }
++    },
++    "node_modules/cliui/node_modules/wrap-ansi": {
++      "version": "7.0.0",
++      "resolved": "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz",
++      "integrity": "sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==",
++      "license": "MIT",
++      "dependencies": {
++        "ansi-styles": "^4.0.0",
++        "string-width": "^4.1.0",
++        "strip-ansi": "^6.0.0"
++      },
++      "engines": {
++        "node": ">=10"
++      },
++      "funding": {
++        "url": "https://github.com/chalk/wrap-ansi?sponsor=1"
++      }
++    },
+     "node_modules/color-convert": {
+       "version": "2.0.1",
+       "resolved": "https://registry.npmjs.org/color-convert/-/color-convert-2.0.1.tgz",
+@@ -2275,6 +2358,19 @@
+         "node": ">= 0.8"
+       }
+     },
++    "node_modules/complex.js": {
++      "version": "2.4.2",
++      "resolved": "https://registry.npmjs.org/complex.js/-/complex.js-2.4.2.tgz",
++      "integrity": "sha512-qtx7HRhPGSCBtGiST4/WGHuW+zeaND/6Ld+db6PbrulIB1i2Ev/2UPiqcmpQNPSyfBKraC0EOvOKCB5dGZKt3g==",
++      "license": "MIT",
++      "engines": {
++        "node": "*"
++      },
++      "funding": {
++        "type": "github",
++        "url": "https://github.com/sponsors/rawify"
++      }
++    },
+     "node_modules/concat-map": {
+       "version": "0.0.1",
+       "resolved": "https://registry.npmjs.org/concat-map/-/concat-map-0.0.1.tgz",
+@@ -2408,6 +2504,12 @@
+         }
+       }
+     },
++    "node_modules/decimal.js": {
++      "version": "10.5.0",
++      "resolved": "https://registry.npmjs.org/decimal.js/-/decimal.js-10.5.0.tgz",
++      "integrity": "sha512-8vDa8Qxvr/+d94hSh5P3IJwI5t8/c0KsMp+g8bNw9cY2icONa5aPfvKeieW1WlG0WQYwwhJ7mjui2xtiePQSXw==",
++      "license": "MIT"
++    },
+     "node_modules/deep-eql": {
+       "version": "5.0.2",
+       "resolved": "https://registry.npmjs.org/deep-eql/-/deep-eql-5.0.2.tgz",
+@@ -2807,6 +2909,15 @@
+         "@esbuild/win32-x64": "0.25.4"
+       }
+     },
++    "node_modules/escalade": {
++      "version": "3.2.0",
++      "resolved": "https://registry.npmjs.org/escalade/-/escalade-3.2.0.tgz",
++      "integrity": "sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=6"
++      }
++    },
+     "node_modules/escape-html": {
+       "version": "1.0.3",
+       "resolved": "https://registry.npmjs.org/escape-html/-/escape-html-1.0.3.tgz",
+@@ -2814,6 +2925,12 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/escape-latex": {
++      "version": "1.2.0",
++      "resolved": "https://registry.npmjs.org/escape-latex/-/escape-latex-1.2.0.tgz",
++      "integrity": "sha512-nV5aVWW1K0wEiUIEdZ4erkGGH8mDxGyxSeqPzRNtWP7ataw+/olFObw7hujFWlVjNsaDFw5VZ5NzVSIqRgfTiw==",
++      "license": "MIT"
++    },
+     "node_modules/escape-string-regexp": {
+       "version": "4.0.0",
+       "resolved": "https://registry.npmjs.org/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz",
+@@ -3685,6 +3802,19 @@
+         "node": ">= 0.6"
+       }
+     },
++    "node_modules/fraction.js": {
++      "version": "4.3.4",
++      "resolved": "https://registry.npmjs.org/fraction.js/-/fraction.js-4.3.4.tgz",
++      "integrity": "sha512-pwiTgt0Q7t+GHZA4yaLjObx4vXmmdcS0iSJ19o8d/goUGgItX9UZWKWNnLHehxviD8wU2IWRsnR8cD5+yOJP2Q==",
++      "license": "MIT",
++      "engines": {
++        "node": "*"
++      },
++      "funding": {
++        "type": "patreon",
++        "url": "https://github.com/sponsors/rawify"
++      }
++    },
+     "node_modules/fresh": {
+       "version": "0.5.2",
+       "resolved": "https://registry.npmjs.org/fresh/-/fresh-0.5.2.tgz",
+@@ -3764,6 +3894,15 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/get-caller-file": {
++      "version": "2.0.5",
++      "resolved": "https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz",
++      "integrity": "sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==",
++      "license": "ISC",
++      "engines": {
++        "node": "6.* || 8.* || >= 10.*"
++      }
++    },
+     "node_modules/get-intrinsic": {
+       "version": "1.3.0",
+       "resolved": "https://registry.npmjs.org/get-intrinsic/-/get-intrinsic-1.3.0.tgz",
+@@ -4307,7 +4446,6 @@
+       "version": "3.0.0",
+       "resolved": "https://registry.npmjs.org/is-fullwidth-code-point/-/is-fullwidth-code-point-3.0.0.tgz",
+       "integrity": "sha512-zymm5+u+sCsSWyD9qNaejV3DFvhCKclKdizYaJUuHA83RLjb7nSuGnddCHGv0hk+KY7BMAlsWeK4Ueg6EV6XQg==",
+-      "dev": true,
+       "license": "MIT",
+       "engines": {
+         "node": ">=8"
+@@ -4672,6 +4810,12 @@
+         "node": "*"
+       }
+     },
++    "node_modules/javascript-natural-sort": {
++      "version": "0.7.1",
++      "resolved": "https://registry.npmjs.org/javascript-natural-sort/-/javascript-natural-sort-0.7.1.tgz",
++      "integrity": "sha512-nO6jcEfZWQXDhOiBtG2KvKyEptz7RVbpGP4vTD2hLBdmNQSsCiicO2Ioinv6UI4y9ukqnBpy+XZ9H6uLNgJTlw==",
++      "license": "MIT"
++    },
+     "node_modules/js-tokens": {
+       "version": "4.0.0",
+       "resolved": "https://registry.npmjs.org/js-tokens/-/js-tokens-4.0.0.tgz",
+@@ -4939,6 +5083,29 @@
+         "node": ">= 0.4"
+       }
+     },
++    "node_modules/mathjs": {
++      "version": "11.12.0",
++      "resolved": "https://registry.npmjs.org/mathjs/-/mathjs-11.12.0.tgz",
++      "integrity": "sha512-UGhVw8rS1AyedyI55DGz9q1qZ0p98kyKPyc9vherBkoueLntPfKtPBh14x+V4cdUWK0NZV2TBwqRFlvadscSuw==",
++      "license": "Apache-2.0",
++      "dependencies": {
++        "@babel/runtime": "^7.23.2",
++        "complex.js": "^2.1.1",
++        "decimal.js": "^10.4.3",
++        "escape-latex": "^1.2.0",
++        "fraction.js": "4.3.4",
++        "javascript-natural-sort": "^0.7.1",
++        "seedrandom": "^3.0.5",
++        "tiny-emitter": "^2.1.0",
++        "typed-function": "^4.1.1"
++      },
++      "bin": {
++        "mathjs": "bin/cli.js"
++      },
++      "engines": {
++        "node": ">= 14"
++      }
++    },
+     "node_modules/mdurl": {
+       "version": "2.0.0",
+       "resolved": "https://registry.npmjs.org/mdurl/-/mdurl-2.0.0.tgz",
+@@ -5789,6 +5956,15 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/require-directory": {
++      "version": "2.1.1",
++      "resolved": "https://registry.npmjs.org/require-directory/-/require-directory-2.1.1.tgz",
++      "integrity": "sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=0.10.0"
++      }
++    },
+     "node_modules/resolve": {
+       "version": "1.22.10",
+       "resolved": "https://registry.npmjs.org/resolve/-/resolve-1.22.10.tgz",
+@@ -6066,6 +6242,12 @@
+         "node": "^14.0.0 || >=16.0.0"
+       }
+     },
++    "node_modules/seedrandom": {
++      "version": "3.0.5",
++      "resolved": "https://registry.npmjs.org/seedrandom/-/seedrandom-3.0.5.tgz",
++      "integrity": "sha512-8OwmbklUNzwezjGInmZ+2clQmExQPvomqjL7LFqOYqtmuxRgQYqOD3mHaU+MvZn5FLUeVxVfQjwLZW/n/JFuqg==",
++      "license": "MIT"
++    },
+     "node_modules/semver": {
+       "version": "6.3.1",
+       "resolved": "https://registry.npmjs.org/semver/-/semver-6.3.1.tgz",
+@@ -6657,6 +6839,12 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/tiny-emitter": {
++      "version": "2.1.0",
++      "resolved": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-2.1.0.tgz",
++      "integrity": "sha512-NB6Dk1A9xgQPMoGqC5CVXn123gWyte215ONT5Pp5a0yt4nlEoO1ZWeCwpncaekPHXO60i47ihFnZPiRPjRMq4Q==",
++      "license": "MIT"
++    },
+     "node_modules/tinybench": {
+       "version": "2.9.0",
+       "resolved": "https://registry.npmjs.org/tinybench/-/tinybench-2.9.0.tgz",
+@@ -6865,6 +7053,15 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/typed-function": {
++      "version": "4.2.1",
++      "resolved": "https://registry.npmjs.org/typed-function/-/typed-function-4.2.1.tgz",
++      "integrity": "sha512-EGjWssW7Tsk4DGfE+5yluuljS1OGYWiI1J6e8puZz9nTMM51Oug8CD5Zo4gWMsOhq5BI+1bF+rWTm4Vbj3ivRA==",
++      "license": "MIT",
++      "engines": {
++        "node": ">= 18"
++      }
++    },
+     "node_modules/typescript": {
+       "version": "5.8.3",
+       "resolved": "https://registry.npmjs.org/typescript/-/typescript-5.8.3.tgz",
+@@ -7386,6 +7583,83 @@
+       "dev": true,
+       "license": "ISC"
+     },
++    "node_modules/y18n": {
++      "version": "5.0.8",
++      "resolved": "https://registry.npmjs.org/y18n/-/y18n-5.0.8.tgz",
++      "integrity": "sha512-0pfFzegeDWJHJIAmTLRP2DwHjdF5s7jo9tuztdQxAhINCdvS+3nGINqPd00AphqJR/0LhANUS6/+7SCb98YOfA==",
++      "license": "ISC",
++      "engines": {
++        "node": ">=10"
++      }
++    },
++    "node_modules/yargs": {
++      "version": "17.7.2",
++      "resolved": "https://registry.npmjs.org/yargs/-/yargs-17.7.2.tgz",
++      "integrity": "sha512-7dSzzRQ++CKnNI/krKnYRV7JKKPUXMEh61soaHKg9mrWEhzFWhFnxPxGl+69cD1Ou63C13NUPCnmIcrvqCuM6w==",
++      "license": "MIT",
++      "dependencies": {
++        "cliui": "^8.0.1",
++        "escalade": "^3.1.1",
++        "get-caller-file": "^2.0.5",
++        "require-directory": "^2.1.1",
++        "string-width": "^4.2.3",
++        "y18n": "^5.0.5",
++        "yargs-parser": "^21.1.1"
++      },
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/yargs-parser": {
++      "version": "21.1.1",
++      "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-21.1.1.tgz",
++      "integrity": "sha512-tVpsJW7DdjecAiFpbIB1e3qxIQsE6NoPc5/eTdrbbIC4h0LVsWhnoa3g+m2HclBIujHzsxZ4VJVA+GUuc2/LBw==",
++      "license": "ISC",
++      "engines": {
++        "node": ">=12"
++      }
++    },
++    "node_modules/yargs/node_modules/ansi-regex": {
++      "version": "5.0.1",
++      "resolved": "https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz",
++      "integrity": "sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==",
++      "license": "MIT",
++      "engines": {
++        "node": ">=8"
++      }
++    },
++    "node_modules/yargs/node_modules/emoji-regex": {
++      "version": "8.0.0",
++      "resolved": "https://registry.npmjs.org/emoji-regex/-/emoji-regex-8.0.0.tgz",
++      "integrity": "sha512-MSjYzcWNOA0ewAHpz0MxpYFvwg6yjy1NG3xteoqz644VCo/RPgnr1/GGt+ic3iJTzQ8Eu3TdM14SawnVUmGE6A==",
++      "license": "MIT"
++    },
++    "node_modules/yargs/node_modules/string-width": {
++      "version": "4.2.3",
++      "resolved": "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz",
++      "integrity": "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==",
++      "license": "MIT",
++      "dependencies": {
++        "emoji-regex": "^8.0.0",
++        "is-fullwidth-code-point": "^3.0.0",
++        "strip-ansi": "^6.0.1"
++      },
++      "engines": {
++        "node": ">=8"
++      }
++    },
++    "node_modules/yargs/node_modules/strip-ansi": {
++      "version": "6.0.1",
++      "resolved": "https://registry.npmjs.org/strip-ansi/-/strip-ansi-6.0.1.tgz",
++      "integrity": "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==",
++      "license": "MIT",
++      "dependencies": {
++        "ansi-regex": "^5.0.1"
++      },
++      "engines": {
++        "node": ">=8"
++      }
++    },
+     "node_modules/yocto-queue": {
+       "version": "0.1.0",
+       "resolved": "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz",
+diff --git a/package.json b/package.json
+index 8522a815..cfd8c942 100644
+--- a/package.json
++++ b/package.json
+@@ -29,12 +29,14 @@
+     "ejs": "^3.1.10",
+     "js-yaml": "^4.1.0",
+     "minimatch": "^10.0.1",
+-    "zod": "^3.25.30"
++    "zod": "^3.25.30",
++    "yargs": "^17.7.2",
++    "mathjs": "^11.8.0"
+   },
+   "devDependencies": {
+     "@microsoft/eslint-formatter-sarif": "^3.1.0",
+     "@vitest/coverage-v8": "^3.1.4",
+-    "eslint": "^9.25.1",
++    "eslint": "^9.27.0",
+     "eslint-config-google": "^0.14.0",
+     "eslint-config-prettier": "^10.1.5",
+     "eslint-plugin-import": "^2.31.0",
+@@ -54,8 +56,10 @@
+   "engines": {
+     "node": ">=20.0.0"
+   },
+-  "files": ["src/"],
++  "files": [
++    "src/"
++  ],
+   "publishConfig": {
+     "registry": "https://npm.pkg.github.com"
+   }
+-}
++}
+\ No newline at end of file
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 3cdd4e2a..71f06f48 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1,13 +1,124 @@
+ #!/usr/bin/env node
+-// src/lib/main.js
++import fs from 'fs';
++import yargs from 'yargs';
++import { hideBin } from 'yargs/helpers';
++import { parse } from 'mathjs';
+ 
+-import { fileURLToPath } from "url";
++/**
++ * Generate a series of {x,y} from an expression and range.
++ * @param {string} expression - Formula in form y=<expr> or <expr>.
++ * @param {string} rangeStr - Range in form x=<start>:<end>:<step>.
++ * @returns {{x:number,y:number}[]}
++ */
++function generateSeries(expression, rangeStr) {
++  let exprText = expression.trim();
++  if (exprText.startsWith('y=')) exprText = exprText.slice(2);
++  let compiled;
++  try {
++    compiled = parse(exprText).compile();
++  } catch (err) {
++    throw new Error(`Invalid expression: ${err.message}`);
++  }
+ 
+-export function main(args) {
+-  console.log(`Run with: ${JSON.stringify(args)}`);
++  if (!rangeStr.startsWith('x=')) {
++    throw new Error('Range must start with "x="');
++  }
++  const parts = rangeStr.slice(2).split(':');
++  if (parts.length !== 3) {
++    throw new Error('Range must be in the form x=<start>:<end>:<step>');
++  }
++  const [startS, endS, stepS] = parts;
++  const start = Number(startS);
++  const end = Number(endS);
++  const step = Number(stepS);
++  if ([start, end, step].some(n => isNaN(n))) {
++    throw new Error('Range values must be valid numbers');
++  }
++  if (step <= 0) {
++    throw new Error('Step must be > 0');
++  }
++  if (start > end) {
++    throw new Error('Start must be <= end');
++  }
++
++  const series = [];
++  const epsilon = step / 1e6;
++  for (let x = start; x <= end + epsilon; x += step) {
++    const xVal = Number(x.toPrecision(15));
++    let yVal;
++    try {
++      yVal = compiled.evaluate({ x: xVal });
++    } catch (err) {
++      throw new Error(`Error evaluating at x=${xVal}: ${err.message}`);
++    }
++    if (typeof yVal !== 'number' || Number.isNaN(yVal)) {
++      throw new Error(`Expression did not evaluate to a number at x=${xVal}`);
++    }
++    series.push({ x: xVal, y: yVal });
++  }
++  return series;
++}
++
++async function runCLI() {
++  const argv = yargs(hideBin(process.argv))
++    .scriptName('repository0-plot-code-lib')
++    .usage('Usage: $0 --expression <expr> --range <range> [options]')
++    .option('expression', {
++      alias: 'e',
++      type: 'string',
++      describe: 'Expression in form y=<expr> or <expr>',
++      demandOption: true
++    })
++    .option('range', {
++      alias: 'r',
++      type: 'string',
++      describe: 'Range in form x=<start>:<end>:<step>',
++      demandOption: true
++    })
++    .option('format', {
++      alias: 'f',
++      type: 'string',
++      describe: 'Output format: json or csv',
++      choices: ['json', 'csv'],
++      default: 'json'
++    })
++    .option('output', {
++      alias: 'o',
++      type: 'string',
++      describe: 'Output file path; prints to stdout if omitted'
++    })
++    .help('help')
++    .alias('help', 'h')
++    .version()
++    .alias('version', 'v')
++    .strict()
++    .parse();
++
++  try {
++    const series = generateSeries(argv.expression, argv.range);
++    let outputText;
++    if (argv.format === 'json') {
++      outputText = JSON.stringify(series, null, 2);
++    } else {
++      const lines = ['x,y'];
++      series.forEach(p => lines.push(`${p.x},${p.y}`));
++      outputText = lines.join('\n');
++    }
++
++    if (argv.output) {
++      fs.writeFileSync(argv.output, outputText, 'utf-8');
++    } else {
++      console.log(outputText);
++    }
++    process.exit(0);
++  } catch (err) {
++    console.error(`Error: ${err.message}`);
++    process.exit(1);
++  }
+ }
+ 
+-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+-  const args = process.argv.slice(2);
+-  main(args);
++if (import.meta.main) {
++  runCLI();
+ }
++
++export { generateSeries };
+\ No newline at end of file
+diff --git a/tests/unit/plot-generation.test.js b/tests/unit/plot-generation.test.js
+index 19a4042c..c0cd9580 100644
+--- a/tests/unit/plot-generation.test.js
++++ b/tests/unit/plot-generation.test.js
+@@ -1,16 +1,78 @@
+-import { describe, test, expect } from "vitest";
+-import * as mainModule from "@src/lib/main.js";
+-import { main } from "@src/lib/main.js";
++import { describe, it, expect } from 'vitest';
++import { spawnSync } from 'child_process';
++import { readFileSync, writeFileSync, unlinkSync, existsSync } from 'fs';
++import path from 'path';
++import { fileURLToPath } from 'url';
+ 
+-describe("Main Module Import", () => {
+-  test("should be non-null", () => {
+-    expect(mainModule).not.toBeNull();
++const __dirname = path.dirname(fileURLToPath(import.meta.url));
++const cli = path.resolve(__dirname, '../../src/lib/main.js');
++
++describe('Time Series Generation CLI', () => {
++  it('outputs JSON series to stdout by default', () => {
++    const result = spawnSync('node', [cli, '-e', 'y=x', '-r', 'x=0:2:1']);
++    expect(result.status).toBe(0);
++    const out = JSON.parse(result.stdout.toString());
++    expect(out).toEqual([
++      { x: 0, y: 0 },
++      { x: 1, y: 1 },
++      { x: 2, y: 2 }
++    ]);
++  });
++
++  it('writes JSON to a file when --output is provided', () => {
++    const tmp = path.resolve(__dirname, 'temp.json');
++    if (existsSync(tmp)) unlinkSync(tmp);
++    const result = spawnSync('node', [cli, '-e', '2*x+1', '-r', 'x=0:2:1', '-o', tmp]);
++    expect(result.status).toBe(0);
++    expect(existsSync(tmp)).toBe(true);
++    const data = JSON.parse(readFileSync(tmp, 'utf-8'));
++    expect(data).toEqual([
++      { x: 0, y: 1 },
++      { x: 1, y: 3 },
++      { x: 2, y: 5 }
++    ]);
++    unlinkSync(tmp);
++  });
++
++  it('outputs CSV to stdout when --format csv', () => {
++    const result = spawnSync('node', [cli, '-e', 'y=x', '-r', 'x=0:2:1', '-f', 'csv']);
++    expect(result.status).toBe(0);
++    const lines = result.stdout.toString().trim().split('\n');
++    expect(lines[0]).toBe('x,y');
++    expect(lines[1]).toBe('0,0');
++    expect(lines[2]).toBe('1,1');
++    expect(lines[3]).toBe('2,2');
++  });
++
++  it('writes CSV to a file when --format csv and --output provided', () => {
++    const tmp = path.resolve(__dirname, 'temp.csv');
++    if (existsSync(tmp)) unlinkSync(tmp);
++    const result = spawnSync('node', [cli, '-e', 'y=x', '-r', 'x=0:2:1', '-f', 'csv', '-o', tmp]);
++    expect(result.status).toBe(0);
++    expect(existsSync(tmp)).toBe(true);
++    const lines = readFileSync(tmp, 'utf-8').trim().split('\n');
++    expect(lines[0]).toBe('x,y');
++    expect(lines[1]).toBe('0,0');
++    expect(lines[2]).toBe('1,1');
++    expect(lines[3]).toBe('2,2');
++    unlinkSync(tmp);
++  });
++
++  it('exits with error on unsupported format', () => {
++    const result = spawnSync('node', [cli, '-e', 'y=x', '-r', 'x=0:2:1', '--format', 'xml']);
++    expect(result.status).not.toBe(0);
++    expect(result.stderr.toString()).toContain('Choices:' );
++  });
++
++  it('errors on invalid expression', () => {
++    const result = spawnSync('node', [cli, '-e', 'y=foo(x)', '-r', 'x=0:1:1']);
++    expect(result.status).not.toBe(0);
++    expect(result.stderr.toString()).toContain('Invalid expression');
+   });
+-});
+ 
+-describe("Default main", () => {
+-  test("should terminate without error", () => {
+-    process.argv = ["node", "src/lib/main.js"];
+-    main();
++  it('errors on invalid range', () => {
++    const result = spawnSync('node', [cli, '-e', 'y=x', '-r', '0:1:1']);
++    expect(result.status).not.toBe(0);
++    expect(result.stderr.toString()).toContain('Range must start with "x="');
+   });
+-});
++});
+\ No newline at end of file\n\n// New [USAGE.md]:\n# Usage
+
+## Time Series Generation
+
+Generate a series of (x,y) data points from a mathematical expression over a numeric range.
+
+Syntax:
+```sh
+repository0-plot-code-lib --expression "y=<formula>" --range "x=<start>:<end>:<step>" [--format <json|csv>] [--output <file>]
+```
+
+Options:
+- `--expression, -e`  Formula in form `y=<expr>` (e.g., `y=sin(x)` or `sin(x)`).
+- `--range, -r`       Range in form `x=<start>:<end>:<step>` (e.g., `x=0:6.28:0.1`).
+- `--format, -f`      Output format: `json` (default) or `csv`.
+- `--output, -o`      Path to write output; if omitted, prints to stdout.
+- `--help, -h`        Show help and exit.
+- `--version, -v`     Show version and exit.
+
+### Examples
+
+JSON to stdout:
+```sh
+repository0-plot-code-lib -e "y=x" -r "x=0:2:1"
+```
+
+CSV to stdout:
+```sh
+repository0-plot-code-lib -e "y=x" -r "x=0:2:1" -f csv
+```
+
+Write JSON to file:
+```sh
+repository0-plot-code-lib -e "2*x+1" -r "x=0:3:1" -o data.json
+```
+
+Write CSV to file:
+```sh
+repository0-plot-code-lib -e "2*x+1" -r "x=0:3:1" -f csv -o data.csv
+```
+```
+
+mainOutput:
+```log
+
+```
+
+installAfterUpdateOutcome: success
+
+ciAfterUpdateOutcome: success
+
+testAfterUpdateOutcome: failure
+
+mainAfterUpdateOutcome: success
+
+commitOutcome: success
+
+postResolutionCommentOutcome: success
+
+allValidationStepsSuccessful: false
+
+[for issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3136 with title: ""]
+
+LLM API Usage:
+```json
+{"prompt_tokens":79231,"completion_tokens":5948,"total_tokens":85179,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":2048,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
