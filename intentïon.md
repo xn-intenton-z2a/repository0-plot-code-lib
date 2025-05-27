@@ -9097,3 +9097,77 @@ LLM API Usage:
 ```
 
 ---
+## Feature to Issue at 2025-05-27T12:28:39.628Z
+
+Activity:
+
+Generated issue 3139 for feature "time-series-export" with URL https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3139
+
+title:
+
+Implement TIME_SERIES_EXPORT: JSON and CSV Output for Time Series Generation
+
+And description:
+
+Objective:
+Extend the existing CLI command `repository0-plot-code-lib` to support both JSON and CSV export formats via a single entrypoint, fulfilling the TIME_SERIES_EXPORT feature.
+
+Changes Required:
+
+1. Dependencies (package.json)
+   - Add under `dependencies`:
+     • "yargs" (v17+)
+     • "mathjs" (v11+)
+   - Remove unused dependencies related to raw argument logging.
+
+2. Source Update (src/lib/main.js)
+   - Import and configure yargs with:
+     • Required options: `--expression, -e` (string) and `--range, -r` (string)
+     • Optional: `--format, -f` (choices: `json`|`csv`, default `json`), `--output, -o` (string)
+     • Built-in `.help()` (`-h`) and `.version()` (`-v`) flags.
+   - In the command handler:
+     a. Strip optional `y=` prefix and compile expression with mathjs.
+     b. Parse and validate range (`x=<start>:<end>:<step>`, enforce `step>0` and `start<=end`).
+     c. Generate an inclusive series of `{ x: number, y: number }`.
+     d. Serialize series:
+        - JSON: `JSON.stringify(series, null, 2)`.
+        - CSV: header `x,y` plus rows `x,y` per point.
+     e. Write to `--output` file with `fs.writeFileSync` or to stdout.
+     f. Exit with code `0` on success; on error, print `Error: <message>` to stderr and exit `1`.
+   - Export a programmatic `main({ expression, range, format, output })` function that returns the data array (throws on invalid input).
+
+3. Tests (tests/unit/plot-generation.test.js)
+   - Extend existing tests to cover:
+     • Default JSON output to stdout (`-e y=x -r x=0:2:1`).
+     • JSON file output with `--output`.
+     • CSV stdout (`--format csv`), verifying header and rows.
+     • CSV file output (`-f csv -o file.csv`).
+     • Unsupported format (`--format xml`): exit `1`, stderr mentions `Choices:`.
+     • Invalid expression or range: exit `1`, stderr contains descriptive error.
+
+4. Documentation
+   - USAGE.md:
+     • Under **Time Series Generation**, document `--format` (`-f`) with examples for JSON and CSV.
+     • Show usage of `--help` and `--version`.
+   - README.md:
+     • Under `## Time Series Generation`, include snippets demonstrating JSON/CSV modes, file output, and built-in flags.
+
+Verification:
+
+- `npm install` pulls in yargs and mathjs.
+- `npm test` passes all existing and new tests.
+- Manual smoke tests:
+  ```bash
+  repository0-plot-code-lib -e "y=x" -r "x=0:2:1"
+  repository0-plot-code-lib -e "y=x" -r "x=0:2:1" -f csv
+  repository0-plot-code-lib -e "2*x+1" -r "x=0:3:1" -f csv -o data.csv
+  repository0-plot-code-lib --help
+  repository0-plot-code-lib --version
+  ```
+
+LLM API Usage:
+```json
+{"prompt_tokens":119295,"completion_tokens":819,"total_tokens":120114,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":0,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
