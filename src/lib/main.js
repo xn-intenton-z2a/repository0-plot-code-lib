@@ -13,6 +13,10 @@ import { compile } from 'mathjs';
  * @returns {{ x: number, y: number }[]}
  */
 export function main(options) {
+  // Allow calling main() without arguments for default CLI entry
+  if (arguments.length === 0) {
+    return;
+  }
   if (!options || typeof options !== 'object') {
     throw new Error('Options must be an object');
   }
