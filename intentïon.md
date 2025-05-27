@@ -6915,3 +6915,63 @@ LLM API Usage:
 ```
 
 ---
+## Feature to Issue at 2025-05-27T11:25:15.028Z
+
+Activity:
+
+Generated issue 3138 for feature "cli-parsing" with URL https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3138
+
+title:
+
+Refactor main() to use yargs for structured CLI parsing with help/version
+
+And description:
+
+Objective:
+Refactor src/lib/main.js to replace manual argument handling with yargs-based parsing for a structured, discoverable CLI. Add built-in `--help` and `--version` flags, and ensure programmatic API remains intact via `main()` export.
+
+Changes Required:
+1. Dependencies (`package.json`):
+   - Add `yargs` (v17+) to `dependencies`.
+2. Source Update (`src/lib/main.js`):
+   - Import `yargs` and `hideBin` from `yargs/helpers`.
+   - Configure yargs to:
+     • Provide a default command capturing `main(parsedArgs)`.
+     • Support global flags:
+       - `--help`, `-h`: display usage and exit 0.
+       - `--version`, `-v`: display package version and exit 0.
+   - Maintain `export function main(argv)` that takes parsed flags and returns or logs accordingly without exiting.
+   - Ensure invoking the CLI (when `import.meta.main`) calls yargs parsing and delegates to `main(argv)`.
+3. Test Updates (`tests/unit/main.test.js`):
+   - Add tests using `child_process.spawnSync` to assert:
+     • `--help` / `-h` exit 0 and stdout contains "Usage:".
+     • `--version` exit 0 and stdout equals package version.
+   - Confirm existing programmatic tests for `main()` still pass.
+4. Documentation:
+   - **README.md**: Add a `## CLI Usage` section with examples:
+     ```bash
+     $ repository0-plot-code-lib --help
+     Usage: repository0-plot-code-lib [options]
+
+     Options:
+       -h, --help     Show help       [boolean]
+       -v, --version  Show version     [boolean]
+     ```
+   - **USAGE.md**: Document the help/version flags and reference programmatic `main()`.
+
+Verification:
+- Run `npm install` to install `yargs`.
+- Execute `npm test` to ensure new and existing tests pass.
+- Manual check:
+  ```bash
+  $ repository0-plot-code-lib --help
+  $ repository0-plot-code-lib -h
+  $ repository0-plot-code-lib --version
+  ```
+
+LLM API Usage:
+```json
+{"prompt_tokens":90196,"completion_tokens":547,"total_tokens":90743,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":0,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
