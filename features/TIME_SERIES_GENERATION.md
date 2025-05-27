@@ -1,33 +1,40 @@
 # Overview
 
-Introduce a core command that parses a simple mathematical expression and a numeric range from CLI flags, generates a time series of data points, and writes the result as JSON to stdout or to a file. This feature covers argument parsing, expression evaluation, range expansion, and JSON serialization.
+Enhance the existing time series generation command to support output in both JSON and CSV formats, allowing users to export data in a widely supported tabular format.
 
 # Behavior
 
-When invoked via the CLI with an expression and range:
-- The CLI accepts --expression or -e for a formula in terms of x (e.g. y=sin(x)).
-- The CLI accepts --range or -r using a syntax x=<start>:<end>:<step> (e.g. x=0:3.14:0.1).
-- The range is expanded into an ordered list of x values.
-- The expression is parsed and evaluated for each x to produce y values.
-- The output is a JSON array of objects [{ x: number, y: number }, ...].
-- By default, the JSON is printed to stdout. A --output or -o flag may specify a file path to write the JSON.
+- The CLI accepts a new flag `--format` or `-f` with values `json` or `csv`. Default is `json` to preserve existing behavior.
+- When `--format csv` is used, the output is written as comma-separated lines. The first line is a header `x,y`, followed by one line per data point.
+- The existing flags remain:
+  - `--expression, -e` for the mathematical formula in terms of x (e.g. `y=sin(x)`).
+  - `--range, -r` for the numeric range in `x=<start>:<end>:<step>` syntax.
+  - `--output, -o` to specify output file path. When omitted, data is printed to stdout.
+- Invalid format values or file write errors terminate with a non-zero exit code and an error message on stderr.
 
 # Implementation
 
-- Use a parsing library (e.g. mathjs) to parse and evaluate the expression in a sandboxed context.
-- Expand the range string by splitting on colon and mapping to start, end, step as numbers. Ensure step > 0 and start<=end.
-- Generate the series by looping from start to end inclusive in increments of step.
-- Serialize the series array to JSON and either print to console or write to the specified file.
-- Errors in parsing or invalid ranges should terminate with a non-zero exit code and an error message on stderr.
-
-# CLI Interface
-
-- repository0-plot-code-lib --expression "y=sin(x)" --range "x=0:6.28:0.1" 
-- Additional optional flag --output <path> to write JSON to file.
+- Add `format` option to yargs configuration alongside expression and range.
+- In the handler, after generating the series array:
+  - If format is `json`, serialize using `JSON.stringify(series, null, 2)`.
+  - If format is `csv`, build a string:
+    1. Start with header `x,y`.
+    2. For each point `{x,y}`, append a line `${x},${y}`.
+- Write the result to stdout or the specified output file.
+- Update tests to cover both formats and file writing behavior.
 
 # Tests
 
-- Verify expression parsing and evaluation for common functions (sin, cos, polynomial).
-- Verify range string parsing, including fractional and integer steps.
-- Confirm correct JSON output structure and content.
-- Confirm file writing when --output is provided and stdout behavior when not.
+- Add unit tests for CSV output:
+  - Verify header line appears.
+  - Validate correct comma separation for integer and fractional values.
+  - Confirm file creation when `--output` is provided.
+- Ensure JSON tests still pass.
+
+# Documentation
+
+- Update `USAGE.md` and `README.md` under "Time Series Generation" to:
+  - Document the new `--format, -f` option.
+  - Provide examples:
+    - `repository0-plot-code-lib -e "y=x" -r "x=0:2:1" -f csv`
+    - `repository0-plot-code-lib -e "sin(x)" -r "x=0:6.28:3.14" -f csv -o series.csv`
