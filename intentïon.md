@@ -4649,3 +4649,55 @@ LLM API Usage:
 ```
 
 ---
+## Maintenance Activity to Issue at 2025-05-27T04:58:37.318Z
+
+Activity:
+
+Created issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3135 with title [Delegator] Integrate yargs to enhance structured CLI parsing and body:
+
+ Context:
+Currently, src/lib/main.js simply logs raw arguments without any structured parsing or help/usage information. Users of this library lack a discoverable interface to understand available commands or flags, which undermines the core mission of providing a robust CLI for plot generation.
+
+Desired Change:
+1. Dependencies (package.json):
+   • Add `yargs` as a dependency (latest compatible version).
+   • Update scripts if needed to support yargs-based commands (no removal of existing scripts).
+
+2. Source Update (src/lib/main.js):
+   • Replace manual `process.argv.slice(2)` handling with a `yargs(hideBin(process.argv))` configuration.
+   • Configure a basic CLI that supports at minimum:
+     - Global `--help` (alias `-h`) to display usage information.
+     - Global `--version` (alias `-v`) to display package version.
+   • Retain `main(args)` export to facilitate programmatic use; have the yargs command handler call `main(parsedArgs)`.
+   • Ensure that calling the script without flags displays help and exits with code 0.
+
+3. Test Updates (tests/unit/main.test.js):
+   • Add a mocked invocation of the CLI to verify that invoking with `--help` returns code 0 and prints usage content containing the word 'Usage'. Use `execa` or `child_process.spawnSync` in the test (mock or real).
+   • Add a test to verify that `--version` prints the version from package.json.
+   • Simplify or remove redundant raw-argv tests that no longer apply.
+
+4. Documentation Update:
+   • README.md: under a new section `## CLI Usage` add examples:
+     ```
+     $ repository0-plot-code-lib --help
+     Usage: repository0-plot-code-lib [options]
+
+     Options:
+       -h, --help     Show help                                         [boolean]
+       -v, --version  Show version number                               [boolean]
+     ```
+   • USAGE.md: reflect the same usage examples and point to the local installation command `npm link` or direct `node src/lib/main.js`.
+
+Verification:
+- Run `npm test` and ensure all unit tests pass.
+- Run `node src/lib/main.js --help` manually and confirm help output.
+- Run `node src/lib/main.js --version` manually and confirm version matches package.json.
+
+This change up-front enables a structured CLI foundation, delivering immediate user value by making the tool discoverable and extensible for future plot and generation commands, without altering any other files beyond source, tests, README, and package.json..
+
+LLM API Usage:
+```json
+{"prompt_tokens":5426,"completion_tokens":1766,"total_tokens":7192,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1152,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
