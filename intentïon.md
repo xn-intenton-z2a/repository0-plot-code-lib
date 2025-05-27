@@ -5330,3 +5330,90 @@ LLM API Usage:
 ```
 
 ---
+## Feature to Issue at 2025-05-27T08:26:46.998Z
+
+Activity:
+
+Generated issue 3136 for feature "cli-extended-output" with URL https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3136
+
+title:
+
+Implement CLI Extended Output for JSON and CSV formats with structured parsing
+
+And description:
+
+Objective:
+Enhance the CLI to support flexible output formats (json or csv) and add a structured, discoverable interface with help/version flags using yargs. This will complete the CLI_EXTENDED_OUTPUT feature and provide users with consistent export options.
+
+Changes Required:
+
+1. Dependencies (package.json):
+   - Add:
+     • "yargs" (v17+)
+     • "mathjs" (v11+)
+   - Ensure these appear under `dependencies`.
+
+2. Source (src/lib/main.js):
+   - Replace the raw `main(args)` stub with a yargs-based configuration:
+     • Default command options:
+       - `--expression, -e` (string, required): formula in form `y=<expr>` or `<expr>`.
+       - `--range, -r` (string, required): range syntax `x=<start>:<end>:<step>`.
+       - `--format, -f` (string, optional): `json` (default) or `csv`.
+       - `--output, -o` (string, optional): path to write output; prints to stdout if omitted.
+     • Global flags:
+       - `--help, -h`: show usage and exit 0.
+       - `--version, -v`: show package version and exit 0.
+   - In the handler:
+     1. Strip `y=` prefix and compile the expression with mathjs.
+     2. Parse and validate the range (three numeric parts, step>0, start≤end).
+     3. Generate a series of `{ x, y }` points (inclusive of end).
+     4. Serialize:
+        - JSON: `JSON.stringify(series, null, 2)`.
+        - CSV: build a string with header `x,y` and comma-separated rows.
+     5. Write to file (fs.writeFileSync) or stdout.
+     6. Exit code 0 on success; on any error print `Error: <message>` to stderr and exit 1.
+
+3. Tests (tests/unit/plot-generation.test.js):
+   - Extend existing tests to cover CSV output:
+     • Spawn the CLI with `--format csv` (and without `-f`) and assert:
+       - Exit code is 0.
+       - Output begins with `x,y` and subsequent lines match the numerical series.
+     • Test writing CSV to a file using `--output`, then read and verify header and contents.
+   - Ensure JSON tests still pass unchanged.
+   - Add error-case tests for unsupported format values (e.g. `--format xml`).
+
+4. Documentation:
+   - Update USAGE.md under "Time Series Generation":
+     • Document the `--format, -f` option and show both JSON and CSV examples.
+   - Update README.md under `## Time Series Generation`:
+     • Include usage snippets demonstrating `-f csv` and `-f json`.
+     • Show help (`--help`) and version (`--version`) examples.
+
+Verification Steps:
+
+- Run `npm install` to pull in the new dependencies.
+- Execute `npm test` and confirm all existing and new tests pass.
+- Manual smoke tests:
+  ```bash
+  # JSON to stdout
+  repository0-plot-code-lib -e "y=x" -r "x=0:2:1"
+
+  # CSV to stdout
+  repository0-plot-code-lib -e "y=x" -r "x=0:2:1" -f csv
+
+  # Write CSV to file
+  repository0-plot-code-lib -e "2*x+1" -r "x=0:3:1" -f csv -o series.csv
+  head -3 series.csv
+
+  # Help and Version
+  repository0-plot-code-lib --help
+  repository0-plot-code-lib --version
+  ```
+No other files should be modified beyond `package.json`, `src/lib/main.js`, `tests/unit/plot-generation.test.js`, `USAGE.md`, and `README.md`.
+
+LLM API Usage:
+```json
+{"prompt_tokens":73634,"completion_tokens":1840,"total_tokens":75474,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":896,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
