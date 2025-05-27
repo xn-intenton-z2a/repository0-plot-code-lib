@@ -1,45 +1,37 @@
-# Overview
+# Plot Rendering
 
-Introduce a new CLI command that reads time series JSON data and renders a plot as an SVG or PNG image. This feature extends the library’s core functionality from generating numeric series to visualizing the data graphically, fulfilling the mission of being a go-to plot library.
+Introduce a `plot` subcommand in the CLI that reads time series JSON data and produces a line plot as an SVG or PNG image. This fulfills the mission of a go-to plot library by enabling graphical output from numeric series.
 
 # Behavior
 
-When invoked via the CLI with a JSON input source and plot options:
-
-- The CLI accepts `--input` or `-i` to specify a JSON file containing an array of `{ x: number, y: number }` objects. If omitted, it reads JSON from stdin.
-- The CLI accepts `--output` or `-o` to specify the path to write the generated image. If not provided, defaults to `plot.svg`.
-- The CLI accepts `--format` or `-f` to choose between `svg` or `png` output formats, defaulting to `svg`.
-- The CLI accepts `--width` and `--height` to set image dimensions in pixels, defaulting to 800×600.
-- The command parses the JSON data, generates scales and axes, draws a line or scatter plot of the series, and serializes the result to the chosen image format.
-- On success, the image file is written and the process exits with code 0. Errors in parsing, rendering, or file I/O exit with code 1 and an error message on stderr.
+When invoked with `plot`, the CLI should:
+- Accept `--input, -i` to specify a JSON file of an array of `{ x: number, y: number }`. If omitted, read JSON from stdin.
+- Accept `--output, -o` to specify the image file path. Default is `plot.svg`.
+- Accept `--format, -f` to choose `svg` or `png`. Default is `svg`.
+- Accept `--width, -w` and `--height, -h` for pixel dimensions (defaults: 800×600).
+- Parse and validate JSON input; invalid JSON or data shape exits with code 1 and an error.
+- Generate a line plot using a server-side D3 (via `d3-node`) for SVG and `canvas` for PNG.
+- Write the generated image buffer or SVG string to the specified output and exit code 0 on success.
 
 # Implementation
 
-- Add dependencies: a lightweight plotting library such as `d3-node` or `@svgdotjs/svg.js`, and `canvas` for PNG rendering.
-- Create a new subcommand under the existing CLI (e.g. `repository0-plot-code-lib plot`) using `yargs.command`.
-- Read and parse input data from file or stdin.
-- Use the plotting library to:
-  - Create an SVG document with specified width and height.
-  - Generate linear scales for x and y based on data extents.
-  - Draw axes with tick marks and labels.
-  - Plot the data as a polyline connecting each data point.
-- For `png` format, render the SVG to a canvas and export as PNG.
-- Write the output image to disk using `fs.writeFileSync`.
-
-# CLI Interface
-
-- repository0-plot-code-lib plot --input data.json --output plot.svg --format svg --width 800 --height 600
-- repository0-plot-code-lib plot -i data.json -o chart.png -f png -w 1024 -h 768
+- Add dependencies: `d3-node` and `canvas` in `package.json`.
+- In `src/lib/main.js`, extend yargs with a `plot` command:
+  - Read JSON from `argv.input` or stdin.
+  - Use `new D3Node()` to create an SVG of given width/height.
+  - Build D3 scales and append a `<path>` for the series.
+  - For PNG, render the SVG string onto a `canvas` and get a PNG buffer.
+  - Write to `argv.output`, or error out on failures.
 
 # Tests
 
-- Add unit tests in `tests/unit/plot-rendering.test.js` using Vitest:
-  - Mock simple time series arrays and verify SVG output contains expected `<svg>`, `<path>`, and axis elements.
-  - For PNG format, generate a small image and compare dimensions and PNG signature bytes.
-  - Test reading data from stdin when `--input` is omitted.
-  - Test error cases for invalid JSON and unsupported formats.
+- Create `tests/unit/plot-rendering.test.js`:
+  - Spawn the CLI to generate an SVG from a sample JSON file; assert exit 0, file exists, and starts with `<svg>`.
+  - Spawn for PNG; assert exit 0, file exists, and begins with PNG signature bytes.
+  - Test reading data via stdin when `--input` omitted.
+  - Test error when input JSON is invalid or format unsupported.
 
 # Documentation
 
-- Update `USAGE.md` with a new section "Plot Rendering" describing the command, options, and examples.
-- Update `README.md` under `## Plot Rendering` with installation reminders, CLI usage snippets, and notes on required dependencies.
+- Update `USAGE.md` with a `## Plot Rendering` section showing the `plot` subcommand, flags (`-i`, `-o`, `-f`, `-w`, `-h`), and examples.
+- Update `README.md` under `## Plot Rendering` with CLI usage snippets and installation notes.
