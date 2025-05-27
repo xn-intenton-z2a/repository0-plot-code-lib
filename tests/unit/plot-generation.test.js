@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest';
 import { main } from '@src/lib/main.js';
 
-describe('generateSeries programmatic API', () => {
+describe('generateSeries programmatic API', () => {  
   test('simple linear function with y= prefix', () => {
     const result = main({ expression: 'y=x+1', range: 'x=0:2:1' });
     expect(result).toEqual([
