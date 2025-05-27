@@ -25,82 +25,13 @@
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
 <p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
 <hr class="md-github">
-<h2 class="md-github"><a class="md-github__anchor" name="mission" href="#mission"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mission</h2>
-<blockquote class="md-github">
-<p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
-<p class="md-github"><strong class="md-github">plot-code-lib</strong> is a JavaScript library and CLI tool designed to transform mathematical expressions and ranges into time series data, read/write data in standard formats, and generate SVG/PNG plots from those series.</p>
-<p class="md-github">For the full mission statement and details, see <a href="./MISSION.md" class="md-github">MISSION.md</a>.</p>
-</blockquote>
-<hr class="md-github">
-<h2 class="md-github"><a class="md-github__anchor" name="cli-usage" href="#cli-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage</h2>
-<p class="md-github">Use the CLI to display the mission, get help, generate data, or render plots:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js [options]
-</code></pre>
-<p class="md-github">Options:</p>
-<p class="md-github">--mission, -m        Show the mission statement and exit
---help, -h           Show help information and exit
---expression, -e     Time-series expression in form <code class="md-github">y=&lt;expression&gt;</code>, e.g. <code class="md-github">y=sin(x)</code>
---parametric, -P     Parametric mode expressions in form <code class="md-github">x=&lt;expr&gt;,y=&lt;expr&gt;</code>, e.g. <code class="md-github">x=cos(t),y=sin(t)</code>
---range, -r          Sampling range. For time-series: <code class="md-github">x=start:end:step</code>; for parametric: <code class="md-github">t=start:end:step</code>
---format, -f         Data output format: <code class="md-github">json</code> (default) or <code class="md-github">csv</code>
---plot-format, -p    Plot format: <code class="md-github">svg</code> or <code class="md-github">png</code> (requires <code class="md-github">--file</code>)
---width, -w          Plot width in pixels (default <code class="md-github">800</code>)
---height, -H         Plot height in pixels (default <code class="md-github">600</code>)
---file, -o           Output file path (writes data or plot to file; if omitted and not plotting, prints to stdout)</p>
-<p class="md-github">For a full reference and extended examples, see <a href="USAGE.md" class="md-github">USAGE.md</a>.</p>
-<hr class="md-github">
-<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="1-mission-flag" href="#1-mission-flag"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Mission Flag</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --mission
-</code></pre>
-<p class="md-github">Displays the mission statement and exits.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="2-help-flag" href="#2-help-flag"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Help Flag</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --help
-</code></pre>
-<p class="md-github">Displays the mission statement followed by detailed CLI usage and exits.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="3-json-output-to-stdout" href="#3-json-output-to-stdout"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. JSON Output to Stdout</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=0:3.14:0.1&quot;
-</code></pre>
-<p class="md-github">Outputs a JSON array of sampled points, for example:</p>
-<pre class="md-github"><code class="md-github language-json">[
-  { &quot;x&quot;: 0, &quot;y&quot;: 0 },
-  { &quot;x&quot;: 0.1, &quot;y&quot;: 0.0998 },
-  { &quot;x&quot;: 0.2, &quot;y&quot;: 0.1987 },
-  ...
-]
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="4-csv-output-to-file" href="#4-csv-output-to-file"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. CSV Output to File</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;y=2*x&quot; --range &quot;x=0:5:1&quot; --format csv --file data.csv
-</code></pre>
-<p class="md-github">Creates a <code class="md-github">data.csv</code> file containing:</p>
-<pre class="md-github"><code class="md-github">x,y
-0,0
-1,2
-2,4
-3,6
-4,8
-5,10
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="5-svg-plot-of-time-series" href="#5-svg-plot-of-time-series"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. SVG Plot of Time-Series</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=0:6.28:0.1&quot; --plot-format svg --file chart.svg
-</code></pre>
-<p class="md-github">Generates an SVG line chart saved to <code class="md-github">chart.svg</code>.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="6-png-plot-with-custom-size" href="#6-png-plot-with-custom-size"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. PNG Plot with Custom Size</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;y=2*x&quot; --range &quot;x=0:10:1&quot; --plot-format png --width 1024 --height 768 --file chart.png
-</code></pre>
-<p class="md-github">Generates a 1024×768 PNG image saved to <code class="md-github">chart.png</code>.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="7-parametric-svg-curve" href="#7-parametric-svg-curve"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Parametric SVG Curve</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --parametric &quot;x=cos(t),y=sin(t)&quot; --range &quot;t=0:6.28:0.01&quot; --plot-format svg --file circle.svg
-</code></pre>
-<p class="md-github">Creates <code class="md-github">circle.svg</code> containing a circular parametric plot.</p>
-<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 <hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-05-26T10:39:04.334Z</p>
+    <p>Generated on 2025-05-27T07:43:55.830Z</p>
   </footer>
 </body>
 </html>
