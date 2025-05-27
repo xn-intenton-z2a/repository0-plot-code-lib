@@ -9171,3 +9171,61 @@ LLM API Usage:
 ```
 
 ---
+## Issue to enhanced Issue at 2025-05-27T12:29:35.043Z
+
+Activity:
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+Title: Implement TIME_SERIES_EXPORT: JSON and CSV Output for Time Series Generation
+
+Description:
+Extend the existing CLI command `repository0-plot-code-lib` to support both JSON (default) and CSV output formats via a single entrypoint, fulfilling the TIME_SERIES_EXPORT feature.
+
+Acceptance Criteria (testable):
+1. Default JSON stdout:
+   - Command: `repository0-plot-code-lib -e "y=x" -r "x=0:2:1"`
+   - Output: Pretty-printed JSON array of objects `[{ "x": 0, "y": 0 }, {...}]`, exit code 0.
+2. JSON file output:
+   - Command: `... -e "y=x" -r "x=0:2:1" -o data.json`
+   - Result: `data.json` created with identical JSON content, exit code 0.
+3. CSV stdout:
+   - Command: `... -f csv -e "y=2*x+1" -r "x=0:3:1"`
+   - Output: 
+     x,y
+     0,1
+     1,3
+     2,5
+     3,7
+     exit code 0.
+4. CSV file output:
+   - Command: `... -f csv -e "y=x" -r "x=0:2:1" -o data.csv`
+   - Result: `data.csv` with header and rows, exit code 0.
+5. Unsupported format:
+   - Command: `... -f xml -e "y=x" -r "x=0:1:1"`
+   - Behavior: Exit code 1, stderr includes `Error: Unsupported format` or yargs choices message.
+6. Invalid expression:
+   - Command: `... -e "y=++x" -r "x=0:1:1"`
+   - Behavior: Exit code 1, stderr includes `Error: Invalid expression`.
+7. Invalid range:
+   - Command: `... -r "x=5:0:-1"`
+   - Behavior: Exit code 1, stderr includes `Error: Invalid range`.
+8. Help and version flags:
+   - Commands: `... --help`, `... --version`
+   - Behavior: Display usage or version text, exit code 0.
+9. Programmatic API:
+   - Function: `main({ expression, range, format, output })`
+   - Behavior: Returns generated data array on valid inputs, throws Error on invalid inputs.
+
+Implementation Details:
+- Add dependencies: `yargs` (v17+) and `mathjs` (v11+).
+- Update `src/lib/main.js` to parse flags, validate inputs, generate series, serialize to JSON/CSV, write to stdout or file, and export programmatic `main`.
+- Update tests in `tests/unit/plot-generation.test.js` as per acceptance criteria.
+- Update documentation in `USAGE.md` and `README.md` under **Time Series Generation** to reflect new `--format` option and examples.
+
+LLM API Usage:
+```json
+{"prompt_tokens":6764,"completion_tokens":1688,"total_tokens":8452,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":960,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
