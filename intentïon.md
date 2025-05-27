@@ -146,3 +146,68 @@ LLM API Usage:
 ```
 
 ---
+## Issue to enhanced Issue at 2025-05-27T02:28:55.683Z
+
+Activity:
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+Title: Implement TIME_SERIES_GENERATION CLI flags, parsing, validation, and JSON output
+
+Description:
+Add full support for the TIME_SERIES_GENERATION feature in our CLI by implementing three flags:
+
+• --expression: A required string of the form `y=<rhs>` where `<rhs>` is any valid expression in `x`.
+• --range: A required string of the form `x=<start>:<end>:<count>`, where `<start>` and `<end>` are numbers and `<count>` is an integer ≥ 2.
+• --output: An optional file path string. If omitted, output is written to stdout; if provided, JSON is written to that file.
+
+Implementations Details:
+1. Use `minimist` to parse command-line args.
+2. Use `expr-eval`'s `Parser` to evaluate the RHS of the expression for each generated `x`.
+3. Use `zod` to define and enforce the following schema on parsed flags:
+   - expression: non-empty string matching `/^y=.*/`.
+   - range: non-empty string matching `/^x=-?\d+(\.\d*)?:-?\d+(\.\d*)?:\d+$/` and parsed into numbers.
+   - output: optional non-empty string.
+4. Generate an array of `x` values evenly spaced between `start` and `end` (inclusive) with `count` entries.
+5. Evaluate `y` values for each `x`, assemble an array of `{ x: number, y: number }` objects.
+6. Serialize the array to JSON and write to the `--output` file or stdout.
+7. On missing or invalid flags, print a descriptive error to stderr and exit with status code 1.
+
+Testable Acceptance Criteria:
+1. Valid invocation to stdout:
+   • Command: `node src/lib/main.js --expression "y=2*x" --range "x=0:4:5"`
+   • Exit code: 0
+   • Stdout: JSON array of length 5: 
+     [
+       {"x":0,"y":0},
+       {"x":1,"y":2},
+       {"x":2,"y":4},
+       {"x":3,"y":6},
+       {"x":4,"y":8}
+     ]
+2. Valid invocation to file:
+   • Command: `node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.283:7" --output "series.json"`
+   • Exit code: 0
+   • File `series.json` exists and contains a JSON array of length 7 following the sinusoidal values.
+3. Missing required flag:
+   • Command: `node src/lib/main.js --range "x=0:10:10"`
+   • Exit code: 1
+   • stderr includes "--expression is required".
+4. Invalid range format:
+   • Command: `node src/lib/main.js --expression "y=x" --range "x=0:ten:5"`
+   • Exit code: 1
+   • stderr includes "Invalid range format".
+5. All new behaviors covered by unit tests in `tests/unit/plot-generation.test.js`, and running `npm test` yields all tests passing.
+
+Documentation Updates:
+• USAGE.md: Add a “Time Series Generation” section with full examples and output JSON schema.
+• README.md: Add a “CLI Usage” subsection summarizing `--expression`, `--range`, and `--output` flags and linking to USAGE.md.
+
+This completes the implementation of the TIME_SERIES_GENERATION feature as defined in `features/TIME_SERIES_GENERATION.md`.
+
+LLM API Usage:
+```json
+{"prompt_tokens":5341,"completion_tokens":1703,"total_tokens":7044,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":832,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
