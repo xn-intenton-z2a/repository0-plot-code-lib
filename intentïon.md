@@ -76,3 +76,75 @@ LLM API Usage:
 ```
 
 ---
+## Feature to Issue at 2025-05-27T02:46:39.495Z
+
+Activity:
+
+Generated issue 3133 for feature "time-series-generation" with URL https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3133
+
+title:
+
+Implement core TIME_SERIES_GENERATION CLI functionality
+
+And description:
+
+Objective:
+Implement the TIME_SERIES_GENERATION feature in the CLI to parse a mathematical expression and numeric range, generate a time series of data points, and output the result as JSON to stdout or to a file.
+
+Changes required:
+
+1. Dependencies (package.json):
+   - Add `mathjs` for safe expression parsing and evaluation.
+   - Add `yargs` for robust CLI flag parsing.
+
+2. Source (src/lib/main.js):
+   - Import `yargs` and `mathjs`.
+   - Define CLI options:
+     • `--expression, -e` (string, required): formula in terms of `x`, e.g. `y=sin(x)` or `sin(x)`.
+     • `--range, -r` (string, required): range syntax `x=<start>:<end>:<step>`, e.g. `x=0:3.14:0.1`.
+     • `--output, -o` (string, optional): file path to write JSON; defaults to stdout.
+   - Parse and validate:
+     • Ensure range flag starts with `x=` and has three numeric parts with step>0 and start<=end.
+     • Strip `y=` prefix in expression if present, and compile using `mathjs.parse(expr).compile()`.
+   - Expand range into an inclusive list of `x` values.
+   - Evaluate the expression for each `x` to yield `y` values.
+   - Assemble an array of objects: `[{ x: number, y: number }, ...]`.
+   - Serialize the array to JSON (formatted with 2-space indentation).
+   - Write to the output file if `--output` is set (using `fs.writeFileSync`); otherwise print to stdout.
+   - On any error (parsing, invalid range, evaluation), exit with code 1 and write a descriptive message to stderr.
+
+3. Tests (tests/unit/plot-generation.test.js):
+   - Add unit tests to:
+     • Verify range parsing for integer and fractional steps (`0:0.5:2.0`).
+     • Evaluate simple expressions (`y=x`, `sin(x)`, `2*x + 1`).
+     • Confirm JSON structure and numeric values.
+     • Confirm writing to a temporary file when `--output` is passed.
+   - Use Vitest’s `spawnSync` or `execa` to invoke the CLI as a child process.
+
+4. Documentation (USAGE.md & README.md):
+   - Update `USAGE.md` with a section “Time Series Generation”:
+     • Show example commands and expected JSON output.
+   - In `README.md`, under a new header `## Time Series Generation`, include:
+     • Installation snippet (already in package).
+     • CLI example: `repository0-plot-code-lib --expression "y=sin(x)" --range "x=0:6.28:0.1"`.
+     • Note `--output` option.
+
+Verification steps:
+
+- Run `npm install` to pull in `mathjs` and `yargs`.
+- Execute `npm test` and ensure all new and existing tests pass.
+- Manual check:
+  • `node src/lib/main.js -e "y=x*2" -r "x=0:2:1"` should print:
+    ```json
+    [ { "x": 0, "y": 0 }, { "x": 1, "y": 2 }, { "x": 2, "y": 4 } ]
+    ```
+  • `node src/lib/main.js -e "sin(x)" -r "x=0:3.14:1.57" -o series.json` writes the same array to `series.json`.
+
+No other files beyond `src/lib/main.js`, `tests/unit/plot-generation.test.js`, `USAGE.md`, `README.md`, and `package.json` should be modified.
+
+LLM API Usage:
+```json
+{"prompt_tokens":5296,"completion_tokens":2068,"total_tokens":7364,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1152,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
