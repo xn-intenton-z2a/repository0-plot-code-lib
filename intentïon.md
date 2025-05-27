@@ -148,3 +148,56 @@ LLM API Usage:
 ```
 
 ---
+## Issue to enhanced Issue at 2025-05-27T02:47:32.164Z
+
+Activity:
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+Title: Implement Core TIME_SERIES_GENERATION CLI Functionality
+
+Objective:
+Implement the TIME_SERIES_GENERATION feature in the CLI to parse a mathematical expression and numeric range, generate a time series of data points, and output the result as JSON to stdout or to a file.
+
+Testable Acceptance Criteria:
+1. CLI Flags
+   - `--expression, -e`: required string formula in terms of `x` (e.g., `y=sin(x)` or `sin(x)`).
+   - `--range, -r`: required string range syntax `x=<start>:<end>:<step>` (e.g., `x=0:3.14:0.1`).
+   - `--output, -o`: optional file path; when provided, JSON is written to this file; otherwise printed to stdout.
+
+2. Validation
+   - Range must start with `x=` and split into three numeric segments: start, end, and step; enforce `step > 0` and `start <= end`.
+   - Expression may include an optional `y=` prefix; strip prefix and compile with `mathjs.parse(expr).compile()`.
+   - Invalid range or expression should terminate with exit code 1 and a descriptive error on stderr.
+
+3. Range Expansion
+   - Expand the numeric range inclusively from start to end, incrementing by step. Example: `x=0:2:1` expands to `[0, 1, 2]`.
+
+4. Expression Evaluation
+   - Evaluate the parsed expression for each `x` value, producing corresponding numeric `y` values.
+
+5. JSON Output
+   - Assemble results into an array of objects: `[{ "x": number, "y": number }, ...]`.
+   - Serialize with 2-space indentation.
+   - Correctly write to file when `--output` is used, using `fs.writeFileSync`; otherwise print to stdout.
+   - Process exits with code 0 on success.
+
+6. Unit Tests (Vitest)
+   - Verify integer and fractional range parsing (e.g., `0:0.5:2.0`).
+   - Test expression evaluation for `y=x`, `sin(x)`, `2*x + 1` at known points.
+   - Confirm JSON structure and numeric values.
+   - Confirm file creation and content when `--output` is provided using a temporary file and `spawnSync` or `execa`.
+
+7. Documentation Updates
+   - USAGE.md: Add a “Time Series Generation” section with example commands and expected JSON output.
+   - README.md: Add `## Time Series Generation` with installation snippet, CLI examples, and `--output` flag description.
+
+8. Scope Constraint
+   - Only modify: `src/lib/main.js`, `tests/unit/plot-generation.test.js`, `USAGE.md`, `README.md`, and `package.json`.
+
+LLM API Usage:
+```json
+{"prompt_tokens":5475,"completion_tokens":1312,"total_tokens":6787,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":640,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
