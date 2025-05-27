@@ -1,45 +1,59 @@
 # Overview
 
-Extend the core time series generation command to support both JSON and CSV export directly from the CLI. Users can generate numeric data series from a mathematical expression and range, and choose their preferred export format for easy downstream consumption.
+Enhance the existing time series generation command to support both JSON and CSV export formats, accessible via the same CLI entrypoint. Users can choose their preferred output format without introducing new subcommands, providing immediate flexibility for data consumption.
 
 # Behavior
 
 When invoked via the CLI:
+
 - Required flags:
-  - --expression, -e: A formula in terms of x, in the form y=<expression> or directly <expression>.
-  - --range, -r: A numeric range string in the form x=<start>:<end>:<step> (e.g., x=0:2:0.5).
+  - `--expression`, `-e` : A formula in the form `y=<expression>` or `<expression>`.
+  - `--range`, `-r`      : A numeric range string in the form `x=<start>:<end>:<step>` (e.g. `x=0:2:0.5`).
 - Optional flags:
-  - --format, -f: Specify output format, either json (default) or csv.
-  - --output, -o: Path to write the output; if omitted, prints to stdout.
-  - --help, -h: Display usage information and exit.
-  - --version, -v: Display the package version and exit.
+  - `--format`, `-f`     : Output format, either `json` (default) or `csv`.
+  - `--output`, `-o`     : Path to write the output; if omitted, prints to stdout.
+  - `--help`, `-h`       : Display usage information from yargs and exit code 0.
+  - `--version`, `-v`    : Display the package version and exit code 0.
 
 Output details:
-- JSON mode: Pretty-printed array of { x: number, y: number } objects.
-- CSV mode: First line header x,y followed by one comma-separated row per data point.
+- JSON mode: Pretty-printed array of objects `{ x: number, y: number }`.
+- CSV mode: First line header `x,y` followed by comma-separated rows for each point.
 
 Validation:
-- The expression must compile via mathjs; on failure, exit code 1 with an error message.
-- The range must start with x= and consist of three numeric parts; enforce step>0 and start<=end.
-- On any error, print `Error: <message>` to stderr and exit with code 1.
+- Expression must compile via mathjs; failures exit code 1 with `Error: Invalid expression`.
+- Range must begin with `x=` and split into three numeric parts; enforce `step > 0` and `start <= end` or exit code 1 with `Error: Invalid range`.
+- Unsupported formats exit code 1 with `Error: Unsupported format`.
 
 # Implementation
 
-- Add `yargs` and `mathjs` dependencies in package.json.
+- Add dependencies:
+  - `yargs` for CLI parsing.
+  - `mathjs` for expression parsing and evaluation.
 - In `src/lib/main.js`:
-  - Configure yargs with required `--expression` and `--range`, optional `--format` and `--output`, plus built-in help/version.
-  - Strip `y=` prefix, compile the expression, parse and validate the range, generate the series.
-  - Serialize to JSON or CSV based on `--format` and write to stdout or the `--output` file.
-  - Use process.exit codes for success (0) and failures (1).
+  1. Configure yargs for required `--expression` and `--range`, optional `--format` and `--output`, plus `.help()` and `.version()`.
+  2. In handler:
+     - Strip optional `y=` prefix, compile the expression with mathjs.
+     - Parse and validate the range string.
+     - Generate the series by stepping from start to end inclusive.
+     - Serialize series based on `--format`:
+       - JSON: `JSON.stringify(series, null, 2)`.
+       - CSV: join lines with header `x,y` and each data row.
+     - Write to file or stdout and exit code 0.
+- Programmatic API: `export function main(options)` that takes the same flags object and returns the generated data array without exiting, enabling tests.
 
 # Tests
 
-- Extend `tests/unit/plot-generation.test.js` to cover:
-  - Default JSON output to stdout and to a file.
-  - CSV output to stdout and to a file.
-  - Error on unsupported format values, invalid expressions, and invalid range syntax.
+Extend `tests/unit/plot-generation.test.js` to cover:
+
+- Default JSON output to stdout and file writing.
+- CSV output to stdout and file writing.
+- Error on unsupported `--format` values (exit code 1, yargs message).
+- Error on invalid expression or range syntax (exit code 1, descriptive error).
+- Ensure programmatic `main()` returns data arrays and throws on invalid inputs.
 
 # Documentation
 
-- Update USAGE.md under "Time Series Generation" to document `--format` and examples for both JSON and CSV modes.
-- Update README.md under `## Time Series Generation` with usage snippets for JSON, CSV, file output, help, and version commands.
+- Update `USAGE.md` under **Time Series Generation**:
+  - Document `--format` option and show both JSON and CSV examples.
+  - Include `--help` and `--version` usage examples.
+- Update `README.md` under `## Time Series Generation` with snippet demonstrating JSON/CSV modes and built-in flags.
