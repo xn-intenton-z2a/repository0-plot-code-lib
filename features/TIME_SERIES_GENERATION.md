@@ -1,40 +1,43 @@
 # Overview
 
-Enhance the existing time series generation command to support output in both JSON and CSV formats, allowing users to export data in a widely supported tabular format.
+Extend the time series generation command to support multiple expressions and ranges in a single invocation, along with JSON and CSV export formats. Users can generate and compare multiple data series side by side, labeled for clarity.
 
 # Behavior
 
-- The CLI accepts a new flag `--format` or `-f` with values `json` or `csv`. Default is `json` to preserve existing behavior.
-- When `--format csv` is used, the output is written as comma-separated lines. The first line is a header `x,y`, followed by one line per data point.
-- The existing flags remain:
-  - `--expression, -e` for the mathematical formula in terms of x (e.g. `y=sin(x)`).
-  - `--range, -r` for the numeric range in `x=<start>:<end>:<step>` syntax.
-  - `--output, -o` to specify output file path. When omitted, data is printed to stdout.
-- Invalid format values or file write errors terminate with a non-zero exit code and an error message on stderr.
+- Accept multiple `--expression` or `-e` flags and matching multiple `--range` or `-r` flags. Each expression-range pair produces a separate series. The number of expressions must match the number of ranges.
+- Optionally accept a `--label` or `-l` flag repeated to assign human-readable labels to each series; if omitted, use the raw expression as its label.
+- Preserve the existing `--format` or `-f` flag with values `json` or `csv`; default is `json`.
+- When `format=json`, output an array of objects: each object has `label` (string) and `data` (array of `{ x:number, y:number }`).
+- When `format=csv`, output rows labeled per series. The first line is a header: `label,x,y`. Each subsequent line represents a data point with its series label.
+- The `--output` or `-o` flag continues to specify an output file path; if omitted, print to stdout.
+- Validation errors (mismatched counts, invalid expressions or ranges, write failures) exit with code 1 and a descriptive message on stderr.
 
 # Implementation
 
-- Add `format` option to yargs configuration alongside expression and range.
-- In the handler, after generating the series array:
-  - If format is `json`, serialize using `JSON.stringify(series, null, 2)`.
-  - If format is `csv`, build a string:
-    1. Start with header `x,y`.
-    2. For each point `{x,y}`, append a line `${x},${y}`.
-- Write the result to stdout or the specified output file.
-- Update tests to cover both formats and file writing behavior.
+- Update yargs configuration:
+  - Define `expression` and `range` options as arrays.
+  - Define `label` option as an optional array.
+  - Define `format` with choices `json` and `csv`.
+- In the handler:
+  1. Ensure the same count of `expression` and `range` flags.
+  2. For each pair, generate its series of `{ x, y }` using the existing logic.
+  3. Assign labels from `--label` or default to the expression string.
+  4. Serialize output:
+     - For JSON: build an array of `{ label, data }` and JSON.stringify with 2-space indentation.
+     - For CSV: build a string starting with `label,x,y` header and one line per data point prefixed by its label.
+  5. Write to file or stdout.
 
 # Tests
 
-- Add unit tests for CSV output:
-  - Verify header line appears.
-  - Validate correct comma separation for integer and fractional values.
-  - Confirm file creation when `--output` is provided.
-- Ensure JSON tests still pass.
+- Add unit tests to cover:
+  - Single-series JSON and CSV output remain unchanged.
+  - Multiple-series invocation: matching counts of expressions and ranges produce the expected JSON structure and CSV rows.
+  - Labels assignment: custom labels appear in JSON objects and CSV header rows.
+  - Error cases: mismatched counts, invalid ranges or expressions, and file write errors.
 
 # Documentation
 
-- Update `USAGE.md` and `README.md` under "Time Series Generation" to:
-  - Document the new `--format, -f` option.
-  - Provide examples:
-    - `repository0-plot-code-lib -e "y=x" -r "x=0:2:1" -f csv`
-    - `repository0-plot-code-lib -e "sin(x)" -r "x=0:6.28:3.14" -f csv -o series.csv`
+- Update USAGE.md under “Time Series Generation”:
+  - Document the repeatable `--expression`, `--range`, and optional `--label` flags.
+  - Provide JSON and CSV examples for single and multiple series.
+- Update README.md under `## Time Series Generation` accordingly.
