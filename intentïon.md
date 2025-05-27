@@ -1221,3 +1221,75 @@ LLM API Usage:
 ```
 
 ---
+## Feature to Issue at 2025-05-27T03:37:25.727Z
+
+Activity:
+
+Generated issue 3134 for feature "plot-rendering" with URL https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/3134
+
+title:
+
+Implement PLOT_RENDERING CLI subcommand for SVG and PNG output
+
+And description:
+
+# Objective
+
+Deliver the PLOT_RENDERING feature by adding a `plot` subcommand to the existing CLI. When invoked, the command will read a time-series JSON array (`[{ x: number, y: number }, …]`) from a file or stdin, and produce a line plot as an SVG or PNG image.
+
+# Changes required
+
+1. **Dependencies** (`package.json`)
+   - Add:
+     - `d3-node` (for server-side D3 SVG generation)
+     - `canvas` (for rendering SVG into PNG)
+
+2. **Source** (`src/lib/main.js`)
+   - Use `yargs.command()` to define a new `plot` subcommand.
+   - Declare options:
+     - `--input, -i` (string): path to JSON file; if omitted, read stdin.
+     - `--output, -o` (string): path to write image; default `plot.svg`.
+     - `--format, -f` (string): `svg` or `png`; default `svg`.
+     - `--width` (number): canvas width in pixels; default `800`.
+     - `--height` (number): canvas height in pixels; default `600`.
+   - Handler behavior:
+     1. Load JSON from the file system or from stdin.
+     2. Instantiate `new D3Node({ svgStyles: '', container: '<div/>' })`.
+     3. Create linear scales using data extents, draw axes.
+     4. Append a `<path>` connecting the points in data order.
+     5. Serialize the D3 SVG to a string.
+     6. If format is `png`, use `canvas` to render the SVG buffer and export PNG.
+     7. Write the resulting buffer or string to `--output`.
+     8. Exit with code `0` on success; on any error, print message to stderr and exit `1`.
+
+3. **Tests** (`tests/unit/main.test.js`)
+   - Append a new `describe('Plot subcommand', …)` block that:
+     1. Spawns `node src/lib/main.js plot -i tests/fixtures/sample.json -f svg` and verifies:
+        - `status === 0`
+        - `stdout` or output file contains `<svg` and `<path`
+     2. Spawns with `-f png`, writes to a temp file, then reads the file and asserts the first 8 bytes match the PNG signature (`89 50 4E 47 0D 0A 1A 0A`).
+     3. Tests that missing or invalid input flags produce exit code `1` and a descriptive error message.
+
+4. **Documentation**
+   - **USAGE.md**: under a new `## Plot Rendering` section, describe the subcommand, options, and examples.
+   - **README.md**: add a `## Plot Rendering` header with CLI example snippets for SVG and PNG.
+
+# Verification
+
+- Run `npm install` to pull in new dependencies.
+- Execute `npm test` and ensure all existing and new tests pass.
+- Manual smoke test:
+  ```bash
+  echo '[{"x":0,"y":0},{"x":1,"y":1},{"x":2,"y":4}]' > data.json
+  repository0-plot-code-lib plot -i data.json -o chart.svg -f svg -w 400 -h 300
+  file chart.svg             # should exist and start with "<svg"
+  repository0-plot-code-lib plot -i data.json -o chart.png -f png
+  file chart.png             # should exist and match a PNG file signature
+  ```
+
+LLM API Usage:
+```json
+{"prompt_tokens":19065,"completion_tokens":2473,"total_tokens":21538,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":1600,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
