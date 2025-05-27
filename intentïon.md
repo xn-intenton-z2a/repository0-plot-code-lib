@@ -6975,3 +6975,86 @@ LLM API Usage:
 ```
 
 ---
+## Issue to enhanced Issue at 2025-05-27T11:26:02.990Z
+
+Activity:
+
+Updated feature development issue https://github.com/xn-intenton-z2a/repository0-plot-code-lib/issues/ with enhanced description:
+
+## Objective
+
+Refactor `src/lib/main.js` to leverage `yargs` for structured CLI parsing, adding built-in `--help` (`-h`) and `--version` (`-v`) flags, while preserving the existing `main()` programmatic API.
+
+---
+
+### Proposed Changes
+
+1. **Dependencies**
+   - Add `yargs` (v17+) to `dependencies` in `package.json`.
+
+2. **Source (`src/lib/main.js`)**
+   - Import:
+     ```js
+     import yargs from 'yargs';
+     import { hideBin } from 'yargs/helpers';
+     ```
+   - Configure `yargs(hideBin(process.argv))` to:
+     - Define a default command that calls `main(parsedArgs)`.
+     - Support global options:
+       - `--help`, `-h`: display usage and exit code 0.
+       - `--version`, `-v`: display package version (as in `package.json`) and exit code 0.
+   - Keep `export function main(argv)` unchanged so it can be used programmatically without exiting the process.
+   - On CLI invocation (`if (import.meta.main)`), delegate to the configured yargs parser.
+
+3. **Tests (`tests/unit/main.cli.test.js`)**
+   - Use `child_process.spawnSync` to verify CLI behavior:
+     - **Help flags**: 
+       - `repository0-plot-code-lib --help` and `-h`
+       - Exit code: 0
+       - `stdout` contains a usage header matching `/^Usage:/i` and lists `-h, --help` and `-v, --version`.
+     - **Version flags**:
+       - `--version` and `-v`
+       - Exit code: 0
+       - `stdout` strictly equals the version from `package.json` (e.g., `1.2.0-0`).
+   - Ensure existing programmatic tests (`tests/unit/main.test.js`) still pass when calling `main()` directly.
+
+4. **Documentation**
+   - **README.md**: Add a **CLI Usage** section:
+     ```markdown
+     ## CLI Usage
+
+     ```bash
+     $ repository0-plot-code-lib --help
+     Usage: repository0-plot-code-lib [options]
+
+     Options:
+       -h, --help     Show help       [boolean]
+       -v, --version  Show version    [boolean]
+     ```
+     ```
+   - **USAGE.md**: Document `--help`, `-h`, `--version`, `-v`, and note how to call the programmatic `main()` API.
+
+---
+
+### Acceptance Criteria
+
+1. When invoked with `--help` or `-h`:
+   - CLI exits with code **0**.
+   - `stdout` begins with `Usage:` (case-insensitive) and includes lines for `-h, --help` and `-v, --version`.
+2. When invoked with `--version` or `-v`:
+   - CLI exits with code **0**.
+   - `stdout` exactly matches the version field from `package.json` (no additional text).
+3. Calling `main()` programmatically (without yargs) remains unchanged:
+   - Does not throw errors.
+   - Logs or returns output as before.
+4. Existing unit tests in `tests/unit/main.test.js` and `tests/unit/plot-generation.test.js` continue to pass without modification.
+5. All new tests (`main.cli.test.js`) pass under `npm test`.
+
+*This refactoring unlocks a fully-featured CLI experience with discoverable help/version flags, aligning with the project’s mission to be a go-to plot library with robust, user-friendly tooling.*
+
+LLM API Usage:
+```json
+{"prompt_tokens":6332,"completion_tokens":1545,"total_tokens":7877,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":640,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
