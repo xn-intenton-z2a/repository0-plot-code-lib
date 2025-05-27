@@ -1,51 +1,46 @@
 # Overview
 
-Enhance the CLI to support flexible output formats (JSON or CSV) and structured parsing with help/version flags using yargs. Users can generate time series data, choose output format, and access built-in usage information without manual argument handling.
+Enhance the CLI with yargs to support structured parsing, built-in help/version commands, and flexible output formats (JSON and CSV) for time series generation. Users can now generate numeric series from expressions and ranges with clear usage information.
 
 # Behavior
 
-- The CLI accepts:
-  - `--expression, -e` (string, required): formula in form `y=<expr>`.
-  - `--range, -r` (string, required): range syntax `x=<start>:<end>:<step>`.
-  - `--format, -f` (string, optional): `json` (default) or `csv`.
-  - `--output, -o` (string, optional): path to write output; defaults to stdout.
-  - Global `--help, -h`: show usage and exit code 0.
-  - Global `--version, -v`: show package version and exit code 0.
+When invoked via the CLI:
 
-- Validation:
-  - Enforce expressions start with `y=` and valid math syntax.
-  - Enforce range format and numeric start ≤ end, step > 0.
-  - On errors, exit code 1 with descriptive stderr message.
+- Required flags:
+  - `--expression, -e` (string): formula in the form `y=<expression>` or `<expression>`.
+  - `--range, -r` (string): numeric range in the form `x=<start>:<end>:<step>`.
+- Optional flags:
+  - `--format, -f` (string): output format, `json` (default) or `csv`.
+  - `--output, -o` (string): file path to write output; prints to stdout if omitted.
+  - `--help, -h`: display usage and exit code 0.
+  - `--version, -v`: display package version and exit code 0.
 
-- Output:
-  - JSON: array of `{ x, y }`, pretty-printed.
-  - CSV: header `x,y` then lines `x,y` per point.
+Validation errors (invalid expression, range syntax, or write failures) exit with code 1 and print a descriptive error to stderr.
+
+Output:
+- **JSON**: pretty-printed array of objects `{ x: number, y: number }`.
+- **CSV**: header `x,y` followed by comma-separated data lines.
 
 # Implementation
 
-- Add `yargs` dependency and configure default command:
-  - Define required options `expression`, `range`, optional `format` and `output`.
-  - Enable `.help()` and `.version()`.
-- In handler:
-  1. Strip `y=` and parse expression via `mathjs` or `evaluate`.
-  2. Parse range string into `start`, `end`, `step`.
-  3. Loop to generate series with floating-point tolerance.
-  4. Serialize series as JSON or CSV string.
-  5. Write to `--output` file or stdout.
-- Exit code 0 on success.
+- Add `yargs` and `mathjs` to `dependencies` in `package.json`.
+- In `src/lib/main.js`:
+  - Use `yargs` to configure required and optional flags, `.help()`, and `.version()`.
+  - Strip optional `y=` prefix, compile the expression, parse and validate the range, generate the series points.
+  - After series generation, serialize to JSON or CSV based on `--format` and write to stdout or the `--output` file.
+  - Ensure correct exit codes for success (0) and failures (1).
 
 # Tests
 
-- Add unit tests in `tests/unit/series-output.test.js`:
-  - Verify JSON output structure, contents, file writing.
-  - Verify CSV header, lines, file writing.
-  - Test help/version flags via `spawnSync`, assert exit code 0 and expected output.
-  - Test error conditions for invalid expression/range.
+Extend `tests/unit/plot-generation.test.js` to cover:
+
+- Default JSON output to stdout and file writing.
+- CSV output to stdout and file writing.
+- Error on unsupported `--format` values.
+- Error on invalid expression or range flags.
+- Help and version flags: exit code 0 and expected output.
 
 # Documentation
 
-- Update `USAGE.md`:
-  - Document `--format` and output examples for JSON and CSV.
-  - Show help/version usage.
-- Update `README.md`:
-  - Under `## Time Series Generation`, add brief usage snippets for format and help flags.
+- Update `USAGE.md` under "Time Series Generation" to document the `--format` option, examples for JSON and CSV, and built-in help/version.
+- Update `README.md` under `## Time Series Generation` with usage snippets showing JSON and CSV examples and help/version commands.
