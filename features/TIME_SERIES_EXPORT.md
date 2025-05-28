@@ -1,49 +1,44 @@
 # Overview
 
-Extend the core time series generation CLI to support both JSON and CSV output formats via a single, structured interface. Users will generate numeric data series from a mathematical expression and a range, choose their preferred export format, and direct the result to stdout or a file.
+Extend the existing time series CLI to support both JSON and CSV export formats via a single, structured interface. Users can generate numeric data series from a mathematical expression and a range, choose their preferred export format, and direct the result to stdout or a file.
 
 # Behavior
 
 When invoked via the CLI:
 
 - Required flags:
-  - --expression, -e: A formula in the form y=<expression> or <expression>.
-  - --range, -r: A numeric range in the form x=<start>:<end>:<step>.
+  - --expression, -e: Formula in the form y=<expression> or <expression>.
+  - --range, -r: Numeric range in the form x=<start>:<end>:<step>.
 - Optional flags:
-  - --format, -f: Output format, json (default) or csv.
-  - --output, -o: Path to write the output; if omitted, prints to stdout.
+  - --format, -f: Output format: json (default) or csv.
+  - --output, -o: File path to write output; prints to stdout if omitted.
   - --help, -h: Display usage information and exit code 0.
   - --version, -v: Display the package version and exit code 0.
 
-Output:
-
-- JSON mode: Pretty-printed array of { x: number, y: number }.
-- CSV mode: First line header x,y followed by comma-separated rows for each point.
-
-Validation errors exit code 1 with descriptive message.
-
 # Implementation
 
-- Add dependencies `yargs` for CLI parsing and `mathjs` for expression evaluation.
+- Add dependencies in package.json: yargs for CLI parsing and mathjs for expression evaluation.
 - In src/lib/main.js:
-  1. Configure yargs with options: `expression`, `range`, `format`, `output`, plus `.help()` and `.version()`.
-  2. Export programmatic `main({ expression, range, format, output })`:
-     - Strip optional `y=` prefix and compile expression with mathjs.
-     - Parse and validate range string (`start<=end`, `step>0`).
-     - Generate inclusive series of { x, y } points.
-     - Serialize based on `--format`: JSON or CSV with header `x,y`.
-     - Write to file or stdout using fs.writeFileSync or console.log.
-  3. CLI entrypoint invokes `main()`, catches exceptions, prints `Error: <message>` to stderr, and exits with codes (0 success, 1 failure).
+  1. Configure yargs with required options (expression, range), optional flags (format, output), and built-in .help() and .version().
+  2. Export a programmatic main({ expression, range, format, output }) function that:
+     - Strips optional y= prefix and compiles the expression via mathjs.compile.
+     - Parses and validates the range string; enforces step > 0 and start <= end.
+     - Generates an inclusive series of { x, y } points.
+     - Serializes data to JSON or CSV based on format:
+       - JSON: JSON.stringify(series, null, 2).
+       - CSV: header x,y plus comma-separated rows for each point.
+     - Writes output to the specified file with fs.writeFileSync or prints to stdout.
+  3. CLI entrypoint invokes main(), catches exceptions, prints errors to stderr, and uses process.exit codes (0 success, 1 failure).
 
 # Tests
 
-Extend `tests/unit/plot-generation.test.js` to cover:
-- Default JSON output to stdout and file writing via `--output`.
-- CSV output to stdout (`--format csv`) and file writing.
-- Errors on unsupported format, invalid expression, and invalid range.
-- Help and version flags exit code 0 and display expected output.
+Extend tests/unit/plot-generation.test.js to cover:
+- Default JSON output to stdout and file writing via --output.
+- CSV output to stdout (--format csv) and file writing via --output.
+- Errors on unsupported format values, invalid expression, and invalid range.
+- Help (--help) and version (--version) flags exit 0 and display expected text.
 
 # Documentation
 
-- Update USAGE.md under **Time Series Generation** to document `--format` flag and examples for JSON and CSV.
-- Update README.md under `## Time Series Generation` with usage snippets for JSON, CSV, file output, help, and version commands.
+- Update USAGE.md under **Time Series Generation** to document --format and examples for JSON and CSV modes.
+- Update README.md under ## Time Series Generation with usage snippets for JSON, CSV, file output, help, and version commands.
