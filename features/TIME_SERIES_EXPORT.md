@@ -1,41 +1,54 @@
 # Overview
-Extend the core time series generation CLI so users can export results in JSON or CSV formats from a single command.
+
+Enhance the existing CLI command to support both JSON and CSV export formats via a single, structured entrypoint. Users will generate numeric data series from a mathematical expression and range, choose their preferred export format, and direct the result to stdout or a file.
 
 # Behavior
 
 When invoked via the CLI:
 
 - Required flags:
-  - --expression, -e : Formula in the form y=<expression> or <expression>
-  - --range, -r      : Range in the form x=<start>:<end>:<step>
+  - --expression, -e: A formula in the form y=<expression> or <expression>.
+  - --range, -r: A numeric range in the form x=<start>:<end>:<step>.
 - Optional flags:
-  - --format, -f     : Output format, json (default) or csv
-  - --output, -o     : File path to write results; prints to stdout if omitted
-  - --help, -h       : Display usage information and exit code 0
-  - --version, -v    : Display the package version and exit code 0
+  - --format, -f: Output format, json (default) or csv.
+  - --output, -o: File path to write the output; if omitted, prints to stdout.
+  - --help, -h: Display usage information and exit code 0.
+  - --version, -v: Display the package version and exit code 0.
 
-Validation errors (invalid expression, range format, or format) exit with code 1 and print `Error: <message>` to stderr. On success, exit code 0.
+On success, prints or writes the series:
+- JSON mode: Pretty-printed array of { x: number, y: number }.
+- CSV mode: Header x,y followed by comma-separated lines.
+
+Validation errors (invalid expression, range format, or unsupported format) exit code 1 and print `Error: <message>` to stderr.
 
 # Implementation
 
-- Configure yargs in `src/lib/main.js` with options:
-  - `--expression`, `--range` (required)
-  - `--format`, `--output`, built-in `.help()` and `.version()` flags
-- Export a programmatic `main({ expression, range, format, output })` function that:
-  1. Strips optional `y=` prefix and compiles the expression via mathjs
-  2. Parses and validates the range string; enforces `step > 0` and `start <= end`
-  3. Generates an inclusive series of `{ x, y }` points
-  4. Serializes data:
-     - JSON: `JSON.stringify(series, null, 2)`
-     - CSV: header `x,y` plus comma-separated rows
-  5. Writes output to the specified file or stdout
-- In CLI mode, invoke `main()`, catch errors, print to stderr and set `process.exit` codes accordingly.
+- Use yargs to configure the default command in `src/lib/main.js` with:
+  - `.option('expression', { alias: 'e', demandOption: true })`
+  - `.option('range', { alias: 'r', demandOption: true })`
+  - `.option('format', { alias: 'f', choices: ['json','csv'], default: 'json' })`
+  - `.option('output', { alias: 'o' })`
+  - `.help().alias('h','help').version().alias('v','version')`
+- Export a programmatic `main({ expression, range, format, output })` function:  
+  1. Strip optional `y=` prefix and compile the expression via `mathjs.compile`.  
+  2. Parse and validate the range string (`x=<start>:<end>:<step>`), enforce `step > 0` and `start <= end`.  
+  3. Generate an inclusive series of `{ x, y }` points.  
+  4. Serialize to JSON or CSV:  
+     - JSON: `JSON.stringify(series, null, 2)`  
+     - CSV: header `x,y` and lines `<x>,<y>` per point  
+  5. Write output to file via `fs.writeFileSync` or log to stdout.  
+- CLI entrypoint calls this function, catches errors, prints to stderr, and uses `process.exit(0|1)`.
 
 # Tests
 
 Extend `tests/unit/plot-generation.test.js` to cover:
-- Default JSON stdout and JSON file output via `--output`
-- CSV stdout (`--format csv`) and CSV file output via `--output`
-- Error on unsupported format values (exit 1, stderr includes "Choices" or "Unsupported format")
-- Error on invalid expression or range syntax (exit 1, stderr includes `Error:`)
-- Help and version flags exit code 0 and show expected usage or version
+- Default JSON to stdout and file via `--output`.  
+- CSV to stdout (`--format csv`) and file via `--output`.  
+- Error on unsupported `--format xml`: exit 1, stderr informs of valid choices.  
+- Error on invalid expression or invalid range: exit 1, stderr `Error: <message>`.  
+- `--help` and `--version` flags: exit 0, display usage or version text.
+
+# Documentation
+
+- Update `USAGE.md` under **Time Series Generation** to document `--format` option and examples for JSON and CSV.  
+- Update `README.md` under `## Time Series Generation` with usage snippets demonstrating JSON, CSV, file output, help, and version commands.
