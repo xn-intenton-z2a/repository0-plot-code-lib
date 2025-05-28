@@ -14293,3 +14293,55 @@ LLM API Usage:
 
 ---2025-05-28T13:26:40Z - Archiving intentïon to branch https://github.com/xn-intenton-z2a/repository0-plot-code-lib/tree/intention-2025-05-27T03-33Z
 
+
+## Maintain Feature at 2025-05-28T13:28:27.112Z
+
+Activity:
+
+Maintained feature SERIES_AND_PLOT_CLI with
+
+Feature spec:
+
+# Generate and Plot CLI
+
+Unify data generation and plotting under a single CLI entrypoint with structured commands and options. Users can generate numeric series from an expression and range or render that series as an SVG/PNG image, all via clear subcommands.
+
+# Commands
+
+## generate
+
+Generates a sequence of (x, y) data points from a formula over a numeric range.
+
+Options:
+- `--expression, -e` (required): Formula in form `y=<expr>` or `<expr>`.
+- `--range, -r` (required): Range syntax `x=<start>:<end>:<step>`.
+- `--format, -f`: Output format `json` (default) or `csv`.
+- `--output, -o`: File path to write data; prints to stdout if omitted.
+
+## plot
+
+Renders a line plot from JSON time series data as SVG or PNG.
+
+Options:
+- `--input, -i`: JSON data file path; reads stdin if omitted.
+- `--format, -f`: `svg` (default) or `png`.
+- `--output, -o`: File path for image; default `plot.svg`.
+- `--width, -w`: Image width in pixels; default 800.
+- `--height, -h`: Image height in pixels; default 600.
+
+# Behavior
+
+- Use yargs to configure subcommands `generate` and `plot`, plus built-in `--help`/`-h` and `--version`/`-v`.
+- Programmatic API: `main({ expression, range, format, output })` returns data array or throws on invalid input.
+- `generate` calls `main()` to produce and serialize data.
+- `plot` reads JSON, validates shape, generates SVG via d3-node, and optionally converts to PNG via canvas.
+- Errors in parsing, validation, or I/O print `Error: <message>` and exit code 1.
+- Successful runs exit code 0.
+
+
+LLM API Usage:
+```json
+{"prompt_tokens":170331,"completion_tokens":491,"total_tokens":170822,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":0,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
