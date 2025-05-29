@@ -1,50 +1,45 @@
-# Generate and Plot CLI
+# Overview
 
-Provide a single, structured CLI entrypoint with two subcommands to cover both numeric time series generation and graphical plot rendering under one tool.
+Provide a unified CLI tool under a single entrypoint that supports both numeric time series generation and graphical plot rendering. Users can generate data series from mathematical expressions and ranges, export results in JSON or CSV formats, or render line charts as SVG or PNG images.
 
 # Commands
 
 ## generate
 
-Generate a sequence of (x, y) data points from a mathematical expression over a numeric range.
-
-Options:
-- `--expression, -e` (required): Formula in form `y=<expr>` or `<expr>`.
-- `--range, -r` (required): Range syntax `x=<start>:<end>:<step>`.
-- `--format, -f`: Output format, `json` (default) or `csv`.
-- `--output, -o`: Path to write data; prints to stdout if omitted.
-
-Behavior:
-1. Strip optional `y=` prefix and compile the expression via mathjs.compile.  Invalid expressions exit with code 1 and `Error: Invalid expression`.
-2. Parse and validate the range string; enforce `step > 0` and `start <= end`, or exit with `Error: Invalid range`.
-3. Generate an inclusive series of `{ x, y }` points.
-4. Serialize series:
-   - JSON: `JSON.stringify(series, null, 2)`.
-   - CSV: Header `x,y` plus lines `x,y` per point.
-5. Write output to file via `fs.writeFileSync` or to stdout.
-6. Exit code 0 on success.
+- Description: Generate a sequence of (x, y) data points from a formula over a numeric range.
+- Options:
+  - `--expression, -e` (string, required): Formula in form y=<expr> or <expr>.
+  - `--range, -r` (string, required): Range syntax x=<start>:<end>:<step>.
+  - `--format, -f` (string, optional): Output format json or csv; defaults to json.
+  - `--output, -o` (string, optional): File path to write data; prints to stdout if omitted.
+- Behavior:
+  1. Strip optional y= prefix and compile the expression with mathjs; invalid expressions exit code 1 with descriptive error.
+  2. Parse and validate the range (three numeric parts, step>0, start ≤ end); invalid ranges exit code 1 with descriptive error.
+  3. Generate an inclusive series of objects `{ x: number, y: number }` stepping by the specified value.
+  4. Serialize the series:
+     - JSON: `JSON.stringify(series, null, 2)`.
+     - CSV: Header `x,y` plus comma-separated rows per point.
+  5. Write the serialized data to the specified file or stdout.
+  6. Exit code 0 on success.
 
 ## plot
 
-Render a line plot from JSON time series data as an SVG or PNG image.
+- Description: Render a line plot from JSON time series data to SVG or PNG.
+- Options:
+  - `--input, -i` (string, optional): JSON file containing an array of `{ x:number, y:number }`; reads stdin if omitted.
+  - `--format, -f` (string, optional): Output image format svg (default) or png.
+  - `--output, -o` (string, optional): Path to write the image; defaults to plot.svg.
+  - `--width, -w` (number, optional): Image width in pixels; default 800.
+  - `--height, -h` (number, optional): Image height in pixels; default 600.
+- Behavior:
+  1. Read and parse JSON input; invalid JSON or shape exits code 1 with descriptive error.
+  2. Use d3-node to create an SVG canvas and plot a line path connecting the data points.
+  3. For png format, render the SVG to a canvas and export as PNG.
+  4. Write the resulting image to the specified output path.
+  5. Exit code 0 on success; exit code 1 on any error with descriptive message.
 
-Options:
-- `--input, -i`: JSON input file of `[{x:number,y:number}, …]`; reads stdin if omitted.
-- `--output, -o`: Image output path; default `plot.svg`.
-- `--format, -f`: Format `svg` (default) or `png`.
-- `--width, -w`: Image width in pixels; default `800`.
-- `--height, -h`: Image height in pixels; default `600`.
+# CLI Structure
 
-Behavior:
-1. Read and parse JSON; invalid JSON or shape exits with `Error: Invalid data shape`.
-2. Create an SVG canvas via d3-node; plot line path connecting points.
-3. For `png`, render SVG to canvas and export PNG via canvas.
-4. Write the image file; errors exit with `Error: <message>`.
-5. Exit code 0 on success.
-
-# Implementation Notes
-
-- Use yargs `.command()` to define `generate` and `plot` subcommands, with global `--help` and `--version`.
-- Export a programmatic `main(options)` for `generate` that returns the data array or throws errors.
-- Plot handler uses d3-node and canvas modules.
-- Confine changes to `src/lib/main.js`, update `package.json`, add tests in `tests/unit/plot-generation.test.js` and `tests/unit/plot-rendering.test.js`, update `USAGE.md` and `README.md` with subcommand usage examples.
+- Built with yargs commands `generate` and `plot`, with global `--help` and `--version` flags.
+- Programmatic API: `main(options)` invokes generation logic and returns the data array or throws on invalid inputs.
+- All functionality lives in `src/lib/main.js`; tests cover both series generation and plotting behaviors, with CLI and API modes.
