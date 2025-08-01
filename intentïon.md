@@ -16756,3 +16756,15 @@ LLM API Usage:
 ```
 
 ---
+## Maintained Feature at 2025-08-01T04:44:11.809Z
+
+Activity:
+
+Maintained feature CLI_EXTENDED_OUTPUT
+
+LLM API Usage:
+```json
+{"prompt_tokens":191498,"completion_tokens":775,"total_tokens":192273,"prompt_tokens_details":{"cached_tokens":0,"audio_tokens":0},"completion_tokens_details":{"reasoning_tokens":0,"audio_tokens":0,"accepted_prediction_tokens":0,"rejected_prediction_tokens":0}}
+```
+
+---
