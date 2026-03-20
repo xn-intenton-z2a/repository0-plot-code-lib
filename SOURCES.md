@@ -68,6 +68,8 @@ Curated reference sources for implementing expression parsing, series generation
 - https://nodejs.org/api/buffer.html
 - https://nodejs.org/api/readline.html
 - https://nodejs.org/api/stream.html
+- https://nodejs.org/api/child_process.html
+- https://nodejs.org/api/esm.html
 
 ## Canvas and browser APIs
 
