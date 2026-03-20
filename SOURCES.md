@@ -16,6 +16,8 @@ Curated reference sources for implementing expression parsing, series generation
 - https://datatracker.ietf.org/doc/html/rfc4180
 - https://csv.js.org/parse/
 - https://www.papaparse.com/docs
+- https://github.com/d3/d3-dsv
+- https://c2fo.github.io/fast-csv/
 
 ## SVG rendering (polyline / viewBox)
 
@@ -37,6 +39,7 @@ Curated reference sources for implementing expression parsing, series generation
 - https://github.com/Automattic/node-canvas
 - https://github.com/Automattic/node-canvas#installation
 - https://www.npmjs.com/package/canvas
+- https://github.com/Automattic/node-canvas/wiki/Installation:-Linux
 - https://github.com/canvg/canvg
 - https://canvg.github.io/
 
@@ -61,6 +64,11 @@ Curated reference sources for implementing expression parsing, series generation
 
 - https://www.npmjs.com/package/minimist
 - https://github.com/substack/minimist
+- https://yargs.js.org/
+
+## CI and environment (PNG rasterization / native deps)
+
+- https://github.com/actions/virtual-environments
 
 ## Testing and tooling
 

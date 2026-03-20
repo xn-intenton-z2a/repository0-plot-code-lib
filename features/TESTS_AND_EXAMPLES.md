@@ -1,24 +1,27 @@
-# BEHAVIOUR_STABILITY
+# TESTS_AND_EXAMPLES
 
 Status: Proposed
 
 Summary
-Stabilise Playwright behaviour tests and the example fixtures so CI reliably verifies the demo web UI and page-driven assertions (SVG presence, polyline element, reported point count) without intermittent timeouts.
+Provide a clear, minimal test and example surface that demonstrates the library and CLI behaviour required by the mission. Unit tests must verify expression parsing, range evaluation, CSV loading, SVG structure and CLI flags; rasterization tests must be deterministic or clearly skipped in CI when native renderers are not available. Provide at least one small stable example CSV in examples/sample.csv used by tests and behaviour suites.
 
 Behavior
-- Playwright tests must use a server readiness probe before running page assertions (for example, poll the HTTP endpoint until 200 before navigation).
-- Tests should explicitly wait for the svg and polyline elements using locator.waitFor with a sensible timeout rather than relying on implicit timing.
-- Tests that depend on optional native renderers (sharp/canvas) must detect renderer availability and either run renderer-specific assertions or skip with a named reason.
-- Example fixtures (examples/sample.csv) should exist with stable content used by behaviour and unit tests.
-
-Test changes and resilience
-- Increase or parameterise Playwright timeouts where network or CI delays occur; avoid brittle fixed delays.
-- Use deterministic input (known expression and range) and assert the displayed points count matches the numeric evaluation (e.g., 629 for -3.14:0.01:3.14).
-- When verifying SVG structures, assert the presence of an <svg> element containing a <polyline> child and that a visible text node displays the points count.
+- Unit tests under tests/unit/ must include focused tests for:
+  * parseExpression("y=Math.sin(x)") returns a callable function and evaluates close to 1 at x = Math.PI/2.
+  * parseRange("-3.14:0.01:3.14") returns numeric start, step, end and evaluateRange yields 629 points for the canonical range.
+  * loadCSV correctly parses a minimal RFC4180-compliant sample (time,value) into [{time, value}].
+  * renderSVG(points) returns a string containing <svg with a viewBox attribute and a <polyline> element.
+  * CLI --help prints usage and example commands to stdout.
+  * CLI end-to-end example (using expression and range) writes an .svg file containing <svg and viewBox attribute.
+- PNG rasterization tests must assert PNG signature and IHDR width/height when a renderer is available and otherwise skip deterministically with a documented reason.
+- Behaviour tests (Playwright) must probe the demo server for readiness and then assert the page contains an SVG element with a polyline and that the displayed points count equals the evaluated series length for the canonical example.
 
 Acceptance Criteria
-- tests/behaviour/homepage.test.js contains a readiness check that retries the demo server until it returns HTTP 200 before continuing.
-- The behaviour test asserts that the page contains an <svg> element with a <polyline> child and that the displayed numeric points count equals the evaluated series length for the canonical example (expression y=Math.sin(x), range -3.14:0.01:3.14 => 629 points).
-- Behaviour tests do not use brittle fixed sleeps; all waits use explicit Playwright waitFor/locator-based APIs and pass consistently in CI under typical load (retries set in playwright.config.js remain <= 2).
-- Example fixtures: examples/sample.csv exists and is referenced by the behaviour tests; behaviour tests remain skip-free on environments providing the demo server and required renderer.
-- CI: Playwright tests on main pass consistently (flakiness reduced) for at least three consecutive runs.
+- Tests: tests/unit/core.test.js (or equivalent) exists and contains passing tests that verify parseExpression, parseRange/evaluateRange, loadCSV and renderSVG structure as described above.
+- Points count: evaluateRange(parseExpression('y=Math.sin(x)'), -3.14, 0.01, 3.14) produces 629 points and a unit test asserts the exact length.
+- CLI help: tests call node src/lib/main.js --help (programmatically or via spawn) and assert stdout contains the usage pattern and examples.
+- Examples: examples/sample.csv exists and is referenced by at least one test; tests do not rely on external network resources.
+- Behaviour tests: Playwright behaviour tests include a readiness probe (HTTP 200) before asserting the svg/polyline presence and points count; tests avoid brittle sleeps and use locator.waitFor APIs.
+
+Notes
+Keep tests focused and deterministic: prefer asserting on structural output (presence of viewBox, polyline, IHDR header fields) rather than pixel-by-pixel visual equality. Document any test skips and CI requirements in README.md.

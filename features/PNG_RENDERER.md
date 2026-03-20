@@ -1,23 +1,24 @@
-# PNG_VALIDATION
+# PNG_RENDERER
 
 Status: Proposed
 
 Summary
-Ensure SVG-to-PNG rasterization is robust, deterministic in CI, and verifiable by unit tests. The goal is not to change the public renderPNG API surface but to tighten test coverage, document the chosen native dependency, and provide a clear fallback and CI installation strategy.
+Provide a deterministic SVG→PNG rasterization strategy with a clear renderer preference (sharp preferred, node-canvas fallback) and a documented test strategy for CI. The implementation must choose the best available renderer at runtime and expose a single renderPNG(svgString, options?) API that returns a Buffer of PNG bytes.
 
 Behavior
-- Prefer the `sharp` library for SVG→PNG conversion at runtime when available.
-- When `sharp` is not available, fall back to `canvas` (node-canvas) if installed; otherwise renderPNG must reject with Error containing "Missing PNG renderer".
-- Unit tests must perform a meaningful rasterization assertion (verify PNG IHDR width/height and non-trivial pixel data) rather than only checking the PNG magic bytes.
-- CI must either install the chosen native renderer (recommended) or run tests that skip rasterization assertions with a deterministic skip reason.
+- Prefer using the 'sharp' package for SVG→PNG conversion when it is installed and usable.
+- If 'sharp' is not available, attempt to use node-canvas (canvas) to rasterize the SVG. If neither renderer is available, renderPNG must reject with an Error containing the phrase "Missing PNG renderer".
+- renderPNG(svgString, { width, height, background }) returns a Buffer (`Uint8Array` acceptable) containing PNG bytes at the requested pixel dimensions.
+- The renderer selection must be deterministic and discoverable at runtime (for tests, expose a small internal flag or detection function to check which renderer was chosen).
 
 API
-No API surface change is required: renderPNG(svgOrSeries, options) continues to return a Buffer/Uint8Array with PNG bytes when a renderer is available, and rejects with a descriptive Error otherwise.
+Export a named function renderPNG(svgString, options?) from src/lib/main.js that returns a Promise resolving to a Buffer with PNG bytes.
 
 Acceptance Criteria
-- Tests: tests/unit/png.test.js is updated so that when a renderer is available the test asserts the returned Buffer begins with the PNG signature (89 50 4E 47 0D 0A 1A 0A) and that the IHDR chunk reports width and height matching options.width and options.height (Buffer.readUInt32BE(16) === width and Buffer.readUInt32BE(20) === height).
-- Tests: when neither sharp nor canvas is installed the test deterministically expects renderPNG to reject with an Error whose message contains "Missing PNG renderer" or the test is skipped with a documented skip reason.
-- CI: a documented CI change exists (CI config or README) that either installs sharp (recommended) or explicitly documents the environment variable/flag that opts tests into running rasterization checks.
-- Documentation: README.md contains a short section documenting the preferred renderer (sharp), the canvas fallback, and exact install notes for common platforms (Linux, macOS) including links or commands.
-- Implementation: renderPNG still prefers `sharp` when available and falls back to `canvas`; detection behaviour is exercised by unit tests using dynamically-installed renderer or test-time mocks.
-- Test determinism: Updates to tests avoid flaky pixel-level assertions by validating IHDR dimensions and a small set of deterministic pixel properties or using a reproducible SVG fixture.
+- When 'sharp' is available, renderPNG called with options.width and options.height returns a Buffer that starts with the PNG signature (bytes 89 50 4E 47 0D 0A 1A 0A) and Buffer.readUInt32BE(16) === options.width and Buffer.readUInt32BE(20) === options.height.
+- When only node-canvas is available the same IHDR assertions hold for the produced PNG bytes.
+- When neither renderer is installed renderPNG rejects with an Error whose message contains "Missing PNG renderer"; unit tests must assert this behaviour when executing in an environment without either native renderer.
+- Tests that assert rasterization must be written so they run deterministically in CI: either CI installs 'sharp' (preferred) or the tests detect renderer availability and skip rasterization assertions with a documented skip reason.
+
+CI and Documentation
+Document the preferred renderer and provide CI guidance in README.md: how to install 'sharp' for common platforms or set up node-canvas as a fallback, and how tests will behave if no renderer is available (skip vs fail). Keep the runtime API stable so callers do not need to know which renderer was used.

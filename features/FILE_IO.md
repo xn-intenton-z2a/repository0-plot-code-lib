@@ -1,21 +1,27 @@
-# CLI_OPTIONS
+# FILE_IO
 
 Status: Proposed
 
 Summary
-Extend the CLI and save pipeline to accept explicit rendering options (pixel width, pixel height, stroke color, stroke width, margin) and ensure these options flow through renderSVG and renderPNG so output files match user-specified dimensions and styling.
+Provide a small, well-documented file save pipeline and ensure CLI rendering options flow through to the file output stage. The feature covers inference of output format from the filename extension, deterministic SVG output (viewBox preserved) and passing explicit rendering options (pixel width/height, stroke, strokeWidth, margin) from the CLI and programmatic API into the renderers.
 
 Behavior
-- Add CLI flags: --width <number>, --height <number>, --stroke <color>, --stroke-width <number>, --margin <number>. All flags are optional; sensible defaults apply.
-- The CLI main entry parses these flags and passes an options object to renderSVG and renderPNG so the produced SVG includes the requested styling and the PNG encoder receives the desired pixel dimensions.
-- Saving logic (savePlotToFile) should accept and honour the width/height options for PNG output and ensure SVG output includes either width/height attributes or a viewBox consistent with the requested pixel dimensions.
+- Implement savePlotToFile(contentOrSvgString, filePath, options?) which infers format from filePath extension and writes the correct bytes to disk.
+- When filePath ends with .svg the exact SVG string must be saved (UTF-8) and contain a root svg element with a viewBox attribute.
+- When filePath ends with .png the function must call the available PNG renderer (see PNG_RENDERER) to produce PNG bytes and write them as binary.
+- The CLI and programmatic entrypoint main(...) parse and forward rendering options: width, height, stroke, stroke-width, margin. Defaults should be documented and sensible.
 
 API
-- main(argv, options?) should accept programmatic options for width/height/styling to facilitate tests and programmatic usage.
-- Exported functions maintain backwards compatibility: renderSVG(points, options) and renderPNG(svgOrSeries, options).
+Export named functions from src/lib/main.js:
+- savePlotToFile(contentOrSvgString, filePath, options?) -> Promise<void>
+- main(argv?) -> Promise<number|void>  (programmatic invocation returns 0 on success)
 
 Acceptance Criteria
-- CLI: node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.svg --width 800 --height 300 produces an out.svg string that either embeds width="800" height="300" attributes or a viewBox whose width/height mapping corresponds to those pixel dimensions.
-- PNG: node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.png --width 640 --height 480 produces out.png where the returned PNG bytes have an IHDR width of 640 and height of 480 (Buffer.readUInt32BE(16) === 640 and Buffer.readUInt32BE(20) === 480) when a renderer is available.
-- Programmatic API: calling main({}, { width: 200, height: 100 }) or renderPNG(svg, { width:200, height:100 }) results in outputs matching the requested pixel size.
-- Documentation: README.md and the CLI help text document the new flags with example commands and examples showing both SVG and PNG outputs using the width/height options.
+- savePlotToFile("<svg ... viewBox=\"0 0 100 50\">...", "out.svg") writes out.svg and the file contents include the substring "<svg" and include a viewBox=" attribute on the root element.
+- savePlotToFile(svgString, "out.png", { width: 200, height: 100 }) writes out.png and when a PNG renderer is available the returned bytes begin with the PNG signature (hex 89 50 4E 47 0D 0A 1A 0A) and the IHDR width/height fields (Buffer.readUInt32BE(16) === 200 and Buffer.readUInt32BE(20) === 100) match the requested dimensions.
+- main invoked as a CLI (node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.svg --width 640 --height 240) creates out.svg that contains <svg and a viewBox attribute and exits with a success status.
+- When file extension is unsupported (for example .txt) savePlotToFile rejects with an Error whose message contains "unsupported output format".
+- The CLI forwards styling options to the renderers so renderSVG(renderOptions) produces an SVG consistent with width/height/stroke settings; tests may verify attribute presence or pixel IHDR values in the PNG path.
+
+Notes
+This feature intentionally keeps CLI parsing simple and defers heavy rasterization behaviour to the PNG_RENDERER feature which defines renderer selection and fallbacks.
