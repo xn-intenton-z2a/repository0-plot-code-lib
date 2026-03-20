@@ -1,6 +1,6 @@
 # PNG_RENDERER
 
-Status: Completed
+Status: Implemented
 
 Summary
 Convert an SVG string into a PNG binary using a server-side renderer. Prefer the sharp library for reliable SVG-to-PNG conversion; provide a documented fallback to node-canvas when sharp is unavailable.

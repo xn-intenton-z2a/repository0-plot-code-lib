@@ -1,6 +1,6 @@
 # TESTS_AND_EXAMPLES
 
-Status: Completed
+Status: Implemented
 
 Summary
 Provide the unit test suite, example fixtures, and documentation examples that verify the plotting library and CLI meet the mission requirements and behave deterministically in CI.
