@@ -21,3 +21,6 @@ Reference material and documentation sources for this project.
 - https://nodejs.org/api/path.html#path_extname_path
 - https://nodejs.org/api/readline.html
 - https://nodejs.org/api/stream.html
+- https://nodejs.org/api/vm.html
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
