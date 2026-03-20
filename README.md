@@ -37,17 +37,41 @@ Notes on PNG rendering
 
 This project prefers to use `sharp` (libvips) to convert SVG to PNG, but provides a deterministic, pure-JS 1x1 PNG fallback when `sharp` is not available. The fallback ensures CI and unit tests can always validate PNG signatures (magic bytes) even without native dependencies.
 
-To enable full SVG rasterization locally or in CI, install `sharp` as a dev dependency and ensure native build tools are available:
+CI: enabling full SVG->PNG rasterization
 
-```bash
-npm install --save-dev sharp
+To run real SVG→PNG rasterization in CI you can either install `sharp` as a dev dependency (so it's available during `npm ci`) or install the system-level `libvips` package and then install `sharp`. If installing native packages is not possible, the fallback 1x1 PNG will keep tests deterministic but will not validate real rasterization.
+
+Example (GitHub Actions) — Ubuntu runner:
+
+```yaml
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Install system dependencies for libvips (optional)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips-dev build-essential
+      - name: Install npm dependencies
+        run: npm ci
+      - name: Run unit tests
+        run: npm test
 ```
+
+Notes:
+- Some CI environments provide prebuilt `sharp` binaries which avoid installing system packages; consult the `sharp` documentation for platform-specific guidance.
+- The repository keeps a pure-JS deterministic PNG fallback so unit tests can always validate PNG signatures even if native binaries are unavailable.
 
 Playwright behaviour test stability
 
-Flaky behaviour tests were observed in CI (Issue #26). To reduce intermittent failures the demo page now includes a lightweight click-queuing mechanism so test clicks are not lost if the demo's module script hasn't finished loading yet. This makes interactions deterministic on slower CI machines.
+Flaky behaviour tests were observed in CI (Issue #26). To reduce intermittent failures the demo page includes a lightweight click-queuing mechanism so test clicks are not lost if the demo's module script hasn't finished loading yet. Behaviour tests were updated to wait on an explicit `data-ready` attribute on the demo output (`#plot-wrapper[data-ready="true"]`) rather than relying on fragile timing assumptions.
 
-Additionally, the project documentation includes guidance for Playwright stability under `docs/playwright-stability.md` (what changed and why). When running behaviour tests in CI, allow for extended timeouts and collect traces on retries to help diagnose remaining flakes.
+Additionally, Playwright's configuration used by CI was updated to increase per-test timeouts, action/navigation timeouts, and to enable trace collection on the first retry to aid debugging of intermittent failures.
 
 Tests
 
