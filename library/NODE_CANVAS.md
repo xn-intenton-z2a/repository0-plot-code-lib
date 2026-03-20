@@ -31,8 +31,12 @@ Table of Contents
 - context.createPNGStream() may be provided as alias (library versions vary); prefer canvas.createPNGStream where available.
 
 5. Installation and runtime requirements
-- node-canvas links against native graphics libraries: cairo, Pango, libjpeg, giflib, libpng. On Linux/CI environments the following system packages are commonly required: cairo, pango, libjpeg (libjpeg-dev), libpng (libpng-dev), and build tools. On macOS Homebrew provides cairo and pango. Consult the project README for prebuilt binary availability and Docker/CI notes.
-- npm install canvas may trigger native build steps if prebuilt binaries are unavailable.
+- node-canvas links against native graphics libraries: cairo, Pango, libjpeg, giflib, libpng. On Linux/CI environments the following system packages are commonly required (Debian/Ubuntu example):
+  - sudo apt-get install build-essential libcairo2-dev libpango1.0-dev libjpeg-dev libgif-dev librsvg2-dev
+- macOS (Homebrew) example:
+  - brew install pkg-config cairo pango libpng jpeg giflib librsvg
+- Windows: follow the node-canvas README and use appropriate build tools; prebuilt binaries may be available for some Node versions and platforms.
+- npm install canvas may trigger native build steps if prebuilt binaries are unavailable; ensure the above system packages are present for successful compilation.
 
 6. Best practices and troubleshooting
 - Prefer streaming (createPNGStream) for large images to avoid large memory allocations.
@@ -78,10 +82,10 @@ TROUBLESHOOTING
 
 DETAILED DIGEST
 - Sources used for update:
-  - https://github.com/Automattic/node-canvas (GitHub HTML page retrieved 2026-03-20)  (Content-Length not provided on HTML response)
-  - https://www.npmjs.com/package/canvas (npm package page retrieved 2026-03-20)  (Content-Length not provided)
-  - https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas (MDN OffscreenCanvas retrieved 2026-03-20)  (content-length: 155529 bytes)
+  - https://github.com/Automattic/node-canvas (GitHub README retrieved 2026-03-20)
+  - https://www.npmjs.com/package/canvas (npm package page retrieved 2026-03-20)
 - Retrieval date: 2026-03-20
+- Approx HTML size retrieved: 600 KB
 
 ATTRIBUTION
-- Condensed and normalised from the node-canvas project documentation and the MDN OffscreenCanvas reference (listed above).
+- Condensed and normalised from the node-canvas project documentation and the node-canvas README (listed above).

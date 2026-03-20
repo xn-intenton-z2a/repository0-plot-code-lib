@@ -31,6 +31,7 @@ Outstanding work
 - None blocking the mission; remaining CI flakiness should be monitored but does not prevent mission acceptance.
 
 Acceptance Criteria
+- All unit tests pass: npm test exits with status 0 in CI.
 - All unit test files listed above exist under tests/unit/ and run with npm test (vitest) in an environment with devDependencies installed.
 - tests/unit/expression.test.js asserts parseExpression('y=Math.sin(x)') returns f where Math.abs(f(Math.PI/2) - 1) < 1e-6.
 - tests/unit/range.test.js asserts evaluateRange(parseExpression('y=Math.sin(x)'), -3.14, 0.01, 3.14) returns an Array of length 629 and that every element has numeric x and y properties.
@@ -38,6 +39,7 @@ Acceptance Criteria
 - tests/unit/png.test.js behaviour: if sharp or canvas is installed the test asserts returned bytes start with PNG magic bytes 89 50 4E 47 0D 0A 1A 0A; if neither is installed the test either expects renderPNG to reject with an Error containing "Missing PNG renderer" or the test is skipped with a documented skip reason.
 - tests/unit/save.test.js writes out.svg containing <svg and viewBox and (when renderer available) out.png whose first bytes match the PNG signature.
 - tests/unit/cli.test.js asserts --help writes usage to stdout and that running the canonical CLI example produces an output file containing the expected svg content.
+- tests/unit/main.test.js asserts the public named exports exist and behave as documented.
 - README.md contains the canonical CLI example and a short description of the PNG rendering approach and installation notes for common platforms.
 - examples/sample.csv exists and contains at least 3 valid rows of time,value pairs referenced by tests/examples.
 - Playwright behaviour tests (tests/behaviour/) are resilient to CI timing; homepage.test.js uses readiness checks or increased timeouts to avoid intermittent failures.

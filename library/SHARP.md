@@ -9,6 +9,7 @@ Table of contents
 - Reference details: API signatures and return types
 - Supplementary implementation notes
 - Troubleshooting and best practices
+- Installation (extracted)
 - Digest and retrieval details
 - Attribution
 
@@ -53,12 +54,28 @@ Troubleshooting and best practices
 - If sharp throws missing libvips errors in CI, install appropriate build dependencies or use prebuilt sharp binaries for the environment.
 - When using palette quantization (palette: true), tune quality (0..100) to trade visual fidelity for size.
 
+Installation (extracted)
+- Quick-install (official): npm install sharp
+- Alternative package managers: pnpm add sharp
+- Cross-platform / cross-compile examples (from docs):
+  - npm install --cpu=x64 --os=linux --libc=glibc sharp
+  - npm install --cpu=x64 --os=linux --libc=musl sharp
+  - npm install --cpu=x64 --os=darwin sharp
+  - npm install --cpu=arm64 --os=darwin sharp
+- Notes:
+  - The vips package must be installed before npm install is run when building from source; sharp will use prebuilt libvips binaries when available.
+  - For cross-compiling and CI, set npm_config_platform, npm_config_arch and npm_config_libc environment variables or pass --platform/--arch/--libc flags to npm.
+  - When building from source the following native deps may be required: node-addon-api (>=7), node-gyp, and standard build tools (gcc/clang, make).
+
+SUPPLEMENTARY: Common failure and CI
+- If installation fails with missing libvips error, install system libvips or use official Docker images / prebuilt binaries for the target environment.
+- Use npm "install" flags or environment variables to match target architecture when producing deployable artifacts in CI (see cross-compile examples above).
+
 Digest and retrieval details
-- Source URL: https://sharp.pixelplumbing.com/
+- Source URL: https://sharp.pixelplumbing.com/install and related pages
 - Retrieval date: 2026-03-20
-- Crawled HTML size (approx): 54.1 KB
-- Digest: documentation confirms core patterns: sharp(input) constructor, png(options) transformer, toBuffer/toFile outputs, input density for SVG rasterization, and configuration knobs for PNG compression and palette quantization. The site includes full API reference and examples for input types and format-specific options.
+- Crawled HTML size (approx): 110 KB
 
 Attribution
 - Source: Sharp official documentation — https://sharp.pixelplumbing.com/
-- Data retrieved: 2026-03-20, approx 54.1 KB HTML
+- Data retrieved: 2026-03-20

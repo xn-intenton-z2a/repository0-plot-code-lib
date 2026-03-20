@@ -23,6 +23,7 @@ Curated reference sources for implementing expression parsing, series generation
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/points
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
+- https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAspectRatio
 - https://www.w3.org/TR/2003/REC-SVG11-20030114/
 
 ## PNG rendering and conversion
@@ -31,7 +32,10 @@ Curated reference sources for implementing expression parsing, series generation
 - https://en.wikipedia.org/wiki/Portable_Network_Graphics
 - https://sharp.pixelplumbing.com/api-input
 - https://sharp.pixelplumbing.com/api-output
+- https://sharp.pixelplumbing.com/install
+- https://sharp.pixelplumbing.com/usage#svg
 - https://github.com/Automattic/node-canvas
+- https://github.com/Automattic/node-canvas#installation
 - https://www.npmjs.com/package/canvas
 - https://github.com/canvg/canvg
 - https://canvg.github.io/
