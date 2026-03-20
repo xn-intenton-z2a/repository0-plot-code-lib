@@ -35,6 +35,7 @@ Curated reference sources for implementing expression parsing, series generation
 
 - https://www.w3.org/TR/PNG/
 - https://en.wikipedia.org/wiki/Portable_Network_Graphics
+- https://en.wikipedia.org/wiki/Portable_Network_Graphics#File_signature
 - https://sharp.pixelplumbing.com/api
 - https://sharp.pixelplumbing.com/api-input
 - https://sharp.pixelplumbing.com/api-output
@@ -58,6 +59,7 @@ Curated reference sources for implementing expression parsing, series generation
 - https://nodejs.org/api/fs.html#fs_fs_promises_api   # fs.promises API for async file I/O
 - https://nodejs.org/api/path.html#path_extname_path
 - https://nodejs.org/api/process.html
+- https://nodejs.org/api/process.html#process_process_argv
 - https://nodejs.org/api/buffer.html
 - https://nodejs.org/api/readline.html
 - https://nodejs.org/api/stream.html
