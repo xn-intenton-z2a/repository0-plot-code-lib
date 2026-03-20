@@ -1,15 +1,15 @@
 # PNG_RENDERER
 
 Summary
-Convert an SVG string into a PNG binary using a server-side renderer. Prefer the sharp library for reliable SVG-to-PNG conversion; provide a documented fallback if sharp is unavailable.
+Convert an SVG string into a PNG binary using a server-side renderer. Prefer the sharp library for reliable SVG-to-PNG conversion; document a fallback approach if sharp is unavailable.
 
 Behavior
-Implement renderPng(svgString, options) that returns a Promise resolving to a Buffer or Uint8Array containing PNG bytes. Document that sharp is the preferred dependency and outline the conversion approach.
+Implement renderPng(svgString, options) that returns a Promise resolving to a Buffer or Uint8Array containing PNG bytes. The implementation should detail which dependency is required (for example sharp) and how it is used in README or code comments.
 
 API
 Export a named async function renderPng from src/lib/main.js.
 
 Acceptance Criteria
-- renderPng returns a bytes-like Buffer/Uint8Array whose initial bytes match the PNG signature (the PNG magic bytes).
-- The implementation documents the chosen dependency (for example sharp) and how it is used.
-- The named export renderPng exists in src/lib/main.js.
+- renderPng is a named export from src/lib/main.js.
+- renderPng returns a Buffer or Uint8Array whose first eight bytes match the PNG signature: 89 50 4E 47 0D 0A 1A 0A.
+- The README or the implementation documents the chosen dependency (sharp or alternative) and describes the conversion approach.
