@@ -1,49 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>repository0</title>
-  <meta property="og:title" content="repository0">
-  <meta property="og:description" content="An autonomous repository powered by agentic-lib">
-  <meta property="og:type" content="website">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plot Demo</title>
   <style>
-    body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; color: #333; }
-    h1 { border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
-    a { color: #0366d6; }
-    .identity { background: #f6f8fa; padding: 1rem; border-radius: 6px; margin: 1rem 0; font-family: monospace; }
-    .identity dt { font-weight: bold; color: #666; }
-    .identity dd { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
-    #demo-output { background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 6px; font-family: monospace; white-space: pre-wrap; min-height: 2rem; }
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 900px; margin: 2rem auto; padding: 1rem; color: #222; }
+    header { display:flex; align-items: baseline; gap: 1rem; }
+    input, button { font-size: 1rem; padding: 0.4rem; }
+    #controls { display:flex; gap: 0.5rem; align-items: center; margin: 1rem 0; }
+    #plot-svg { border: 1px solid #eee; width: 100%; height: auto; display: block; }
+    #points-count { margin-top: 0.5rem; color: #555; }
   </style>
 </head>
 <body>
-  <h1 id="lib-name">repository0</h1>
-  <div class="identity">
-    <dl>
-      <dt>Version</dt>
-      <dd id="lib-version">loading...</dd>
-      <dt>Description</dt>
-      <dd id="lib-description">loading...</dd>
-    </dl>
-  </div>
-  <h2>Output</h2>
-  <div id="demo-output">Loading library...</div>
-  <h2>About</h2>
-  <p>This website uses the library. See <a href="https://github.com/xn-intenton-z2a/repository0">the repository</a> for source code and mission details.</p>
+  <header>
+    <h1 id="lib-name">Plot Demo</h1>
+    <div id="lib-version" style="font-size:0.9rem;color:#666"></div>
+  </header>
+
+  <section id="demo">
+    <div id="controls">
+      <label>Expression: <input id="expr-input" value="y=Math.sin(x)" style="width:320px" /></label>
+      <label>Range: <input id="range-input" value="-3.14:0.01:3.14" style="width:180px" /></label>
+      <button id="plot-btn">Plot</button>
+    </div>
+    <div id="plot-container">
+      <div id="points-count">0 points</div>
+      <div id="plot-wrapper"></div>
+    </div>
+  </section>
+
   <script type="module">
-    try {
-      const { name, version, description } = await import('./lib.js');
-      document.getElementById('lib-name').textContent = name;
-      document.getElementById('lib-version').textContent = version;
-      document.getElementById('lib-description').textContent = description || '(no description)';
-      document.getElementById('demo-output').textContent = JSON.stringify({ name, version, description }, null, 2);
-      document.title = name + ' v' + version;
-    } catch (e) {
-      document.getElementById('lib-version').textContent = '(error)';
-      document.getElementById('lib-description').textContent = e.message;
-      document.getElementById('demo-output').textContent = 'Failed to load library: ' + e.message;
+    import { parseExpression, parseRange, evaluateRange, renderSVG, name, version } from './lib.js';
+
+    document.getElementById('lib-name').textContent = name || 'Plot Demo';
+    document.getElementById('lib-version').textContent = version ? `v${version}` : '';
+
+    const exprInput = document.getElementById('expr-input');
+    const rangeInput = document.getElementById('range-input');
+    const plotBtn = document.getElementById('plot-btn');
+    const plotWrapper = document.getElementById('plot-wrapper');
+    const pointsCount = document.getElementById('points-count');
+
+    function renderSeries(series) {
+      try {
+        const svg = renderSVG(series, { width: 800, height: 240 });
+        plotWrapper.innerHTML = svg;
+        pointsCount.textContent = `${series.length} points`;
+      } catch (err) {
+        plotWrapper.textContent = 'Error rendering: ' + err.message;
+      }
     }
+
+    plotBtn.addEventListener('click', () => {
+      try {
+        const expr = exprInput.value;
+        const rangeStr = rangeInput.value;
+        const fn = parseExpression(expr);
+        const { start, step, end } = parseRange(rangeStr);
+        const series = evaluateRange(fn, start, step, end);
+        renderSeries(series);
+      } catch (err) {
+        plotWrapper.textContent = 'Error: ' + err.message;
+      }
+    });
+
+    // Auto-plot on load
+    plotBtn.click();
   </script>
 </body>
 </html>
