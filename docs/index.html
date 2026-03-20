@@ -34,6 +34,25 @@
     </div>
   </section>
 
+  <!-- Lightweight queuing so clicks from tests are not lost if module hasn't loaded yet -->
+  <script>
+    window.__queuedPlot = false;
+    window.__doPlot = null;
+    document.addEventListener('DOMContentLoaded', () => {
+      const plotBtn = document.getElementById('plot-btn');
+      if (plotBtn) {
+        plotBtn.addEventListener('click', () => {
+          if (typeof window.__doPlot === 'function') {
+            try { window.__doPlot(); } catch (e) { /* ignore errors until module loads */ }
+          } else {
+            // remember that user requested a plot; module will run it once ready
+            window.__queuedPlot = true;
+          }
+        });
+      }
+    });
+  </script>
+
   <script type="module">
     import { parseExpression, parseRange, evaluateRange, renderSVG, name, version } from './lib.js';
 
@@ -73,6 +92,14 @@
     }
 
     plotBtn.addEventListener('click', doPlot);
+
+    // Expose a global hook so the non-module click handler can invoke plotting if it fired earlier
+    window.__doPlot = doPlot;
+    if (window.__queuedPlot) {
+      // Process queued request on next tick
+      setTimeout(() => { try { doPlot(); } catch (e) {} }, 0);
+      window.__queuedPlot = false;
+    }
 
     // Auto-plot on load; run after DOM is stable to avoid race conditions in slow CI
     window.addEventListener('DOMContentLoaded', () => {

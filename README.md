@@ -43,14 +43,11 @@ To enable full SVG rasterization locally or in CI, install `sharp` as a dev depe
 npm install --save-dev sharp
 ```
 
-Test behaviour and CI guidance
+Playwright behaviour test stability
 
-The unit PNG test has been strengthened: it now parses the PNG IHDR chunk to verify output dimensions and decompresses IDAT data to validate the raw scanline length matches the declared image geometry. This means the test asserts rasterization semantics (dimensions + image data) rather than only the PNG magic bytes.
+Flaky behaviour tests were observed in CI (Issue #26). To reduce intermittent failures the demo page now includes a lightweight click-queuing mechanism so test clicks are not lost if the demo's module script hasn't finished loading yet. This makes interactions deterministic on slower CI machines.
 
-- If `sharp` is installed, `renderPNG` will return a rasterized PNG whose IHDR dimensions match the requested width/height in the test and whose decompressed image data length equals height*(1 + width*channels).
-- If `sharp` is not installed, tests accept the deterministic 1x1 PNG fallback; CI will still pass but will not validate full SVG→PNG rasterization.
-
-To guarantee full SVG→PNG rasterization in CI, add `sharp` to devDependencies in `package.json` and ensure the CI environment has the system packages required to build sharp (libvips). Alternatively, use a prebuilt `sharp` binary suitable for your CI runtime.
+Additionally, the project documentation includes guidance for Playwright stability under `docs/playwright-stability.md` (what changed and why). When running behaviour tests in CI, allow for extended timeouts and collect traces on retries to help diagnose remaining flakes.
 
 Tests
 
