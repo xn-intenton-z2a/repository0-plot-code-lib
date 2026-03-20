@@ -10,6 +10,7 @@ Curated reference sources for implementing expression parsing, series generation
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 
 ## CSV and data input
 
@@ -66,6 +67,7 @@ Curated reference sources for implementing expression parsing, series generation
 
 - https://nodejs.org/api/fs.html
 - https://nodejs.org/api/fs.html#fs_fs_promises_api   # fs.promises API for async file I/O
+- https://nodejs.org/api/fs.html#fspromiseswritefile
 - https://nodejs.org/api/path.html#path_extname_path
 - https://nodejs.org/api/process.html
 - https://nodejs.org/api/process.html#process_process_argv
