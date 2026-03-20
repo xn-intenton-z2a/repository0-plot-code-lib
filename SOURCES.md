@@ -20,6 +20,8 @@ Reference material and documentation sources for this project.
 - https://sharp.pixelplumbing.com/api-output
 - https://github.com/Automattic/node-canvas
 - https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+- https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+- https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
 - https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_usage
 - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 - https://nodejs.org/api/path.html#path_extname_path

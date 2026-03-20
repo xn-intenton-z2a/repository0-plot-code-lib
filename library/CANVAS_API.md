@@ -71,9 +71,44 @@ BEST PRACTICES & IMPLEMENTATION NOTES
 DETAILED DIGEST (source: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 - Retrieved: 2026-03-20
 - Crawl size: 151904 bytes
-- Content digested: MDN Canvas API reference describing HTMLCanvasElement, contexts, drawing model, pixel-level API (ImageData), export functions, and implementation notes for performance and scaling.
 
 ATTRIBUTION
 - Source: https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
 - Retrieved: 2026-03-20
 - Bytes downloaded during crawl: 151904
+
+EXPORT METHODS (toDataURL / toBlob / node-canvas toBuffer)
+
+NORMALISED EXTRACT
+- HTMLCanvasElement.toDataURL(type = 'image/png', encoderOptions?) -> string (data URL)
+  - type: optional MIME type string; default 'image/png'.
+  - encoderOptions: for lossy encodings (image/jpeg, image/webp) a number between 0 and 1 indicating image quality; ignored for PNG.
+  - Returned value is a data URL with prefix 'data:[type];base64,' followed by base64-encoded bytes. To obtain raw bytes, remove the prefix and base64-decode the remainder.
+- HTMLCanvasElement.toBlob(callback, type = 'image/png', encoderOptions?) -> void
+  - callback: function invoked with a Blob or null on failure. The Blob can be converted to an ArrayBuffer via blob.arrayBuffer() or read with FileReader in browser environments.
+  - toBlob is asynchronous and should be preferred for large canvases to avoid blocking.
+- node-canvas: Canvas.toBuffer([mimeType='image/png', options?]) -> Buffer
+  - Returns a Node.js Buffer containing encoded image bytes for the requested mimeType. Use fs.writeFile to persist the buffer to disk.
+- PNG magic bytes: PNG files start with the 8-byte signature: 0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A
+
+SUPPLEMENTARY DETAILS
+- Data URL overhead: base64 increases size by approximately 33%; transmitting or storing large images as data URLs is inefficient compared to binary Buffers.
+- Asynchronous vs synchronous: toDataURL is synchronous and may block on large canvases in the browser; toBlob is asynchronous; node-canvas toBuffer returns a Buffer synchronously (subject to implementation), check node-canvas docs for async variants.
+- Recommended server-side flow: createCanvas -> draw -> canvas.toBuffer('image/png') -> fs.writeFile(outputPath, buffer).
+
+REFERENCE DETAILS (API SIGNATURES)
+- HTMLCanvasElement.toDataURL(type?: string = 'image/png', encoderOptions?: any) -> string
+- HTMLCanvasElement.toBlob(callback: (blob: Blob | null) => void, type?: string = 'image/png', encoderOptions?: any) -> void
+- node-canvas: Canvas.toBuffer(mimeType?: string = 'image/png', options?: object) -> Buffer
+
+DETAILED DIGEST (sources + retrieval)
+- Source: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toDataURL
+- Retrieved: 2026-03-20
+- Bytes downloaded during crawl: 153244
+- Source: https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
+- Retrieved: 2026-03-20
+- Bytes downloaded during crawl: 149563
+
+ADDITIONAL ATTRIBUTION
+- Sources: MDN HTMLCanvasElement.toDataURL, MDN HTMLCanvasElement.toBlob, node-canvas README
+- Retrieved: 2026-03-20
