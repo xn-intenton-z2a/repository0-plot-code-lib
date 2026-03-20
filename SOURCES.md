@@ -30,6 +30,8 @@ Curated reference sources for implementing expression parsing, series generation
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAspectRatio
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Basic_Shapes
+- https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
+- https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
 - https://www.w3.org/TR/2003/REC-SVG11-20030114/
 - https://github.com/d3/d3-shape          # d3 line/path generators useful for converting series to SVG primitives
 

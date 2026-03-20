@@ -35,3 +35,31 @@ Acceptance Criteria
 
 Notes
 Keep tests focused and deterministic: prefer asserting on structural output (presence of viewBox, polyline, IHDR header fields) rather than pixel-by-pixel visual equality. Document any test skips and CI requirements in README.md. Where CI cannot be changed immediately, ensure tests communicate the required change (for example a failing test or documented skipped test with an explicit reason) so maintainers can address CI rasterizer availability.
+
+# CI_AND_COMPATIBILITY
+
+Status: Open (tracked issues: #35, #33, #26)
+
+Summary
+Address outstanding CI and test stability gaps discovered in issue triage: ensure at least one CI job exercises real SVG→PNG rasterization with a native renderer installed, reconcile Node engine version compatibility between package.json and CI runners, and stabilize Playwright behaviour tests to reduce flakiness.
+
+Behaviour
+- Add a CI job (or job matrix entry) named "rasterization" that runs on a runner with native binaries available and installs 'sharp' (or equivalent prebuilt rasterizer) so at least one CI run executes real SVG→PNG conversion.
+- If adding a dedicated rasterization job is not possible, update CI documentation and tests so maintainers know how to reproduce real rasterization locally and the tests explicitly fail in CI when no renderer is available (to avoid masking failures).
+- Reconcile Node.js engine expectations: either update CI to run Node >=24 for at least one job, or relax package.json engines.node to match CI (for example >=20) and document the chosen approach in README.md.
+- Stabilize Playwright tests by replacing timing-dependent assertions with deterministic waitFor / locator APIs, improving selectors, and adding explicit readiness probes. Behaviour tests should use retry/conservative timeouts only as a last resort.
+
+Acceptance Criteria (testable)
+- CI rasterization job exists and completes successfully in at least one CI run; that job runs unit tests that include a full rasterization assertion: detectPNGRenderer() !== null and produced PNG Buffer.byteLength >= 1024 and IHDR width/height match the requested options. Evidence: CI job log or run ID referenced in the project README or CI config.
+- If CI cannot install native rasterizers across all runners, at least one official CI job must still run with a native renderer; other CI jobs may skip rasterization tests but must record the skip reason in test output.
+- A unit test exists that fails (not skips) when detectPNGRenderer() returns null in the rasterization CI job; conversely, tests must skip rasterization assertions in jobs without native renderer, recording the skip reason.
+- package.json engines mismatch: either CI runs Node >=24 in at least one job and test logs show Node version >=24, or package.json engines.node is updated to match CI (example: ">=20") and tests pass in CI without engine warning errors. The chosen approach must be documented in README.md and accepted by maintainers.
+- Playwright tests pass reliably in CI (flakiness reduced): the project must show a sequence of two consecutive CI runs where behaviour tests pass without timing-related failures, or the flakiness metric decreases compared to the baseline run recorded in issue #26.
+
+Notes and Implementation Guidance
+- Prefer adding a dedicated CI job that uses a runner image known to support sharp (or uses prebuilt sharp binaries) to avoid long native-build times and brittle setup steps.
+- Make tests deterministic by exposing a detectPNGRenderer() helper used by tests to choose assertions; unit tests should assert non-trivial PNGs when detectPNGRenderer() indicates availability.
+- Document the CI rasterization job (name, runner image, Node version) in README.md so maintainers understand the platform used for rasterization validation.
+- If updating package.json engines is chosen, include an entry in the changelog or PR description explaining the rationale so consumers are aware of the compatibility decision.
+
+
