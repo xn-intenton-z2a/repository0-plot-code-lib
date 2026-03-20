@@ -48,3 +48,9 @@ Reference material and documentation sources for this project.
 - https://www.npmjs.com/package/canvas
 - https://raw.githubusercontent.com/Automattic/node-canvas/master/README.md
 - https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
+
+# New additions for CSV parsing and range-format guidance
+
+- https://csv.js.org/parse/
+- https://www.papaparse.com/docs
+- https://nodejs.org/api/fs.html#fs_promises_api
