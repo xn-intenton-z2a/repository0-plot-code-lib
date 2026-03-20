@@ -11,6 +11,7 @@
     #controls { display:flex; gap: 0.5rem; align-items: center; margin: 1rem 0; }
     #plot-svg { border: 1px solid #eee; width: 100%; height: auto; display: block; }
     #points-count { margin-top: 0.5rem; color: #555; }
+    #demo-output { margin-top: 1rem; }
   </style>
 </head>
 <body>
@@ -25,9 +26,11 @@
       <label>Range: <input id="range-input" value="-3.14:0.01:3.14" style="width:180px" /></label>
       <button id="plot-btn">Plot</button>
     </div>
-    <div id="plot-container">
-      <div id="points-count">0 points</div>
-      <div id="plot-wrapper"></div>
+    <div id="demo-output">
+      <div id="plot-container">
+        <div id="points-count">0 points</div>
+        <div id="plot-wrapper"></div>
+      </div>
     </div>
   </section>
 
