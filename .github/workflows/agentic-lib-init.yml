@@ -10,6 +10,8 @@ name: agentic-lib-init
 run-name: "agentic-lib-init ${{ inputs.mode || 'update' }} [${{ github.ref_name }}]"
 
 on:
+  schedule:
+    - cron: "0 4 * * *"
   workflow_call:
     inputs:
       ref:
@@ -19,7 +21,7 @@ on:
       mode:
         type: string
         required: false
-        default: "update"
+        default: "purge"
       dry-run:
         type: string
         required: false
