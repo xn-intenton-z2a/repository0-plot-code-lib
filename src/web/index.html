@@ -29,7 +29,7 @@
     <div id="demo-output">
       <div id="plot-container">
         <div id="points-count">0 points</div>
-        <div id="plot-wrapper"></div>
+        <div id="plot-wrapper" aria-live="polite" data-ready="false"></div>
       </div>
     </div>
   </section>
@@ -51,12 +51,14 @@
         const svg = renderSVG(series, { width: 800, height: 240 });
         plotWrapper.innerHTML = svg;
         pointsCount.textContent = `${series.length} points`;
+        plotWrapper.setAttribute('data-ready', 'true');
       } catch (err) {
         plotWrapper.textContent = 'Error rendering: ' + err.message;
+        plotWrapper.setAttribute('data-ready', 'error');
       }
     }
 
-    plotBtn.addEventListener('click', () => {
+    function doPlot() {
       try {
         const expr = exprInput.value;
         const rangeStr = rangeInput.value;
@@ -66,11 +68,23 @@
         renderSeries(series);
       } catch (err) {
         plotWrapper.textContent = 'Error: ' + err.message;
+        plotWrapper.setAttribute('data-ready', 'error');
       }
-    });
+    }
 
-    // Auto-plot on load
-    plotBtn.click();
+    plotBtn.addEventListener('click', doPlot);
+
+    // Auto-plot on load; run after DOM is stable to avoid race conditions in slow CI
+    window.addEventListener('DOMContentLoaded', () => {
+      // Use requestAnimationFrame to schedule the initial render as soon as possible
+      requestAnimationFrame(() => {
+        try {
+          doPlot();
+        } catch (e) {
+          // ignore
+        }
+      });
+    });
   </script>
 </body>
 </html>
