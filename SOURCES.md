@@ -19,6 +19,8 @@ Curated reference sources for implementing expression parsing, series generation
 - https://www.papaparse.com/docs
 - https://github.com/d3/d3-dsv
 - https://c2fo.github.io/fast-csv/
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date  # Date parsing and ISO-8601 handling
+- https://en.wikipedia.org/wiki/ISO_8601
 
 ## SVG rendering (polyline / viewBox)
 
@@ -42,6 +44,8 @@ Curated reference sources for implementing expression parsing, series generation
 - https://sharp.pixelplumbing.com/api-output#png
 - https://sharp.pixelplumbing.com/install
 - https://sharp.pixelplumbing.com/usage#svg
+- https://github.com/lovell/sharp
+- https://libvips.github.io/libvips/
 - https://github.com/Automattic/node-canvas
 - https://github.com/Automattic/node-canvas#creating-a-canvas
 - https://github.com/Automattic/node-canvas#canvas-tobuffer

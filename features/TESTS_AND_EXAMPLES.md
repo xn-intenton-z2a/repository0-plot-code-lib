@@ -13,15 +13,22 @@ Behavior
   * renderSVG(points) returns a string containing <svg with a viewBox attribute and a <polyline> element.
   * CLI --help prints usage and example commands to stdout.
   * CLI end-to-end example (using expression and range) writes an .svg file containing <svg and viewBox attribute.
-- PNG rasterization tests must assert PNG signature and IHDR width/height when a renderer is available and otherwise skip deterministically with a documented reason.
+
+- PNG rasterization tests must assert PNG signature and IHDR width/height when a renderer is available and otherwise skip deterministically with a documented reason. To avoid masking rasterization gaps a non-triviality check must be added: when a renderer is present the produced PNG Buffer.byteLength must be >= 1024 bytes.
+
 - Behaviour tests (Playwright) must probe the demo server for readiness and then assert the page contains an SVG element with a polyline and that the displayed points count equals the evaluated series length for the canonical example.
 
 Acceptance Criteria
 - Tests: tests/unit/core.test.js (or equivalent) exists and contains passing tests that verify parseExpression, parseRange/evaluateRange, loadCSV and renderSVG structure as described above.
 - Points count: evaluateRange(parseExpression('y=Math.sin(x)'), -3.14, 0.01, 3.14) produces 629 points and a unit test asserts the exact length.
+- PNG rasterization tests: when detectPNGRenderer() reports a native renderer is available the unit tests assert:
+  * produced Buffer starts with PNG magic bytes (89 50 4E 47 0D 0A 1A 0A),
+  * IHDR width/height fields equal the requested dimensions, and
+  * Buffer.byteLength >= 1024 to avoid trivial fallbacks.
+  When no renderer is available the tests must assert renderPNG rejects with "Missing PNG renderer" or skip the rasterization assertions but record the skip reason.
 - CLI help: tests call node src/lib/main.js --help (programmatically or via spawn) and assert stdout contains the usage pattern and examples.
 - Examples: examples/sample.csv exists and is referenced by at least one test; tests do not rely on external network resources.
 - Behaviour tests: Playwright behaviour tests include a readiness probe (HTTP 200) before asserting the svg/polyline presence and points count; tests avoid brittle sleeps and use locator.waitFor APIs.
 
 Notes
-Keep tests focused and deterministic: prefer asserting on structural output (presence of viewBox, polyline, IHDR header fields) rather than pixel-by-pixel visual equality. Document any test skips and CI requirements in README.md.
+Keep tests focused and deterministic: prefer asserting on structural output (presence of viewBox, polyline, IHDR header fields) rather than pixel-by-pixel visual equality. Document any test skips and CI requirements in README.md. Where CI cannot be changed immediately, ensure tests communicate the required change (for example a failing test or documented skipped test with an explicit reason) so maintainers can address CI rasterizer availability.

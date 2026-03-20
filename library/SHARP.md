@@ -1,81 +1,52 @@
 SHARP
 
-Table of contents
-- Normalised extract: core usage and behaviors
-- Input types and accepted formats
-- Converting SVG to PNG: patterns
-- Important png() options and effects
-- Resizing and density when rasterizing vector input
-- Reference details: API signatures and return types
-- Supplementary implementation notes
-- Troubleshooting and best practices
-- Installation (extracted)
-- Digest and retrieval details
-- Attribution
+Normalized extract (key technical points)
 
-Normalised extract: core usage and behaviors
-Sharp is a high-performance image processing library for Node that accepts Buffers, file paths, and readable streams as input and exposes a fluent API to chain transformations and produce output formats including PNG, JPEG, WebP, and AVIF. For SVG input, Sharp rasterizes vector content and can be configured via input density or by resizing the output; the common pattern to produce PNG is sharp(input).png(options).toFile(path) or toBuffer(). The constructor signature is sharp(input[, options]) where options may include an input density for SVG rasterization.
+Table of Contents
+- Overview and purpose
+- Core constructor and chaining model
+- Common transform methods and signatures
+- Output formats and options (PNG example)
+- Installation and runtime requirements
+- Performance characteristics and internals (libvips)
+- Troubleshooting and CI notes
 
-Input types and accepted formats
-- Input may be Buffer, string (filename), Readable stream, or a raw object for raw pixel data.
-- Supported input formats: JPEG, PNG, WebP, TIFF, GIF, SVG, PDF, HEIF (per libvips compilation).
+Overview and purpose
+- sharp is a high-performance Node API for image processing that uses libvips under the hood. It converts and resizes images quickly and with low memory usage compared to ImageMagick/GraphicsMagick.
 
-Converting SVG to PNG: patterns
-- Minimal pattern: provide an SVG string as a Buffer and call png to produce raster output. Example flow: create svgBuffer from SVG source; call sharp(svgBuffer, { density: 300 }) to control raster density; chain .resize(width, height) if a specific pixel size is required; call .png({ compressionLevel: 9 }) and .toFile(outputPath) or .toBuffer().
-- If SVG contains no explicit width/height, specify desired pixel dimensions using .resize or pass density so the vector is rasterized at higher resolution before downscaling.
+Core constructor and chaining model (signatures)
+- sharp(input) -> Sharp instance. input may be a filename (string), Buffer, ReadableStream, or an options object (create: { width, height, channels, background }).
+- Methods return the Sharp instance (chainable) and most terminal methods return Promises.
+- Terminal methods include toBuffer([options]) -> Promise<Buffer>, toFile(path[, callback]) -> Promise resolving with info object or callback form.
 
-Important png() options and effects
-- compressionLevel: integer 0..9 controlling deflate compression (higher => smaller files, slower encode).
-- progressive: boolean for interlaced/progressive PNG output.
-- palette: boolean to force palette-based PNG which can reduce size; when palette is true, quality (0..100) may be applied for quantization.
-- adaptiveFiltering: boolean (true/false) to enable adaptive filtering optimization.
-- force: boolean to force output as PNG even if input already PNG.
+Common transform methods (essential signatures)
+- resize(width?: number, height?: number, options?: object) -> Sharp. options can include fit, position, kernel, background, withoutEnlargement. When only width is provided and height omitted, aspect ratio is preserved.
+- rotate(angle?: number, options?: object) -> Sharp
+- extract(region: { left, top, width, height }) -> Sharp
+- composite([{ input: Buffer|string|Object, blend?: string, left?: number, top?: number }]) -> Sharp
+- png([options]) -> Sharp; jpeg([options]) -> Sharp; webp([options]) -> Sharp
 
-Resizing and density when rasterizing vector input
-- Use sharp(input, { density: N }) to control the DPI used when rasterizing SVG (higher density increases raster detail prior to any resize).
-- Use .resize(width, height, options) to set target pixel dimensions after rasterization.
-- Order matters: passing density in the constructor affects the rasterization; resizing after controls final pixel output.
+Output formats and options (PNG)
+- png(options) sets PNG output. Common options include compressionLevel (0-9) and palette/quality settings for other formats. Use toFile('out.png') or toBuffer() to retrieve PNG data.
+- Example usage pattern (inline): sharp('in.svg').png().toFile('out.png') -> Promise resolves with { format, size, width, height, channels }.
 
-Reference details: API signatures and return types
-- sharp(input: Buffer | string | Readable | {raw}) -> Sharp instance
-- sharp(input, options?: { density?: number, limitInputPixels?: boolean }) -> Sharp
-- sharpInstance.png(options?: { compressionLevel?: number, progressive?: boolean, palette?: boolean, quality?: number, adaptiveFiltering?: boolean, force?: boolean }) -> Sharp
-- sharpInstance.toFile(path: string) -> Promise<{format: string, size: number, width: number, height: number}>
-- sharpInstance.toBuffer() -> Promise<Buffer>
-- sharpInstance.metadata() -> Promise<{format?: string, width?: number, height?: number, density?: number, channels?: number}>
+Installation and runtime requirements
+- Install with npm install sharp. Prebuilt binaries are available for many platforms; on systems without prebuilt support sharp will build against libvips.
+- sharp requires Node.js versions aligned with Node-API support; consult sharp README for exact supported Node versions. The README indicates support for Node.js ^18.17.0 or >=20.3.0 at the time of retrieval.
+- If native build fails, install libvips system packages: on Debian/Ubuntu install libvips-dev and related dependencies; on macOS use brew install vips.
 
-Supplementary implementation notes
-- For reliable SVG-to-PNG rasterization, ensure the source SVG has a viewBox attribute and that any units are consistent; otherwise specify density or resize explicitly.
-- When running in CI, ensure libvips is available for the Node runtime (sharp installation may fetch prebuilt binaries or build from source).
-- Use toBuffer when the PNG data must be consumed in-process (e.g., returned from an API) and toFile when writing to disk.
+Performance characteristics and internals
+- sharp delegates heavy lifting to libvips which is demand-driven and low-memory. Typical resizing is substantially faster and lower-memory than ImageMagick for large images.
 
-Troubleshooting and best practices
-- If PNG output is very small or blank, ensure the SVG viewBox and coordinate system are correct; try increasing density to 300 and then resizing down.
-- If sharp throws missing libvips errors in CI, install appropriate build dependencies or use prebuilt sharp binaries for the environment.
-- When using palette quantization (palette: true), tune quality (0..100) to trade visual fidelity for size.
+Troubleshooting and CI notes
+- If npm install fails in CI due to missing binaries, ensure the runner has libvips available or allow sharp to download prebuilt binaries; GitHub Actions virtual environments often include libvips or allow apt-get installs.
+- For PNG rasterization of SVG inputs, convert SVG to PNG by piping through sharp using .png() or use an intermediate canvas approach in environments without sharp.
 
-Installation (extracted)
-- Quick-install (official): npm install sharp
-- Alternative package managers: pnpm add sharp
-- Cross-platform / cross-compile examples (from docs):
-  - npm install --cpu=x64 --os=linux --libc=glibc sharp
-  - npm install --cpu=x64 --os=linux --libc=musl sharp
-  - npm install --cpu=x64 --os=darwin sharp
-  - npm install --cpu=arm64 --os=darwin sharp
-- Notes:
-  - The vips package must be installed before npm install is run when building from source; sharp will use prebuilt libvips binaries when available.
-  - For cross-compiling and CI, set npm_config_platform, npm_config_arch and npm_config_libc environment variables or pass --platform/--arch/--libc flags to npm.
-  - When building from source the following native deps may be required: node-addon-api (>=7), node-gyp, and standard build tools (gcc/clang, make).
-
-SUPPLEMENTARY: Common failure and CI
-- If installation fails with missing libvips error, install system libvips or use official Docker images / prebuilt binaries for the target environment.
-- Use npm "install" flags or environment variables to match target architecture when producing deployable artifacts in CI (see cross-compile examples above).
-
-Digest and retrieval details
-- Source URL: https://sharp.pixelplumbing.com/install and related pages
-- Retrieval date: 2026-03-20
-- Crawled HTML size (approx): 110 KB
+Detailed digest and retrieval
+- Source: https://raw.githubusercontent.com/lovell/sharp/main/README.md
+- Retrieved: 2026-03-20
+- Bytes fetched: 3160
+- Extracted: overview, example usage, chaining model, reliance on libvips, installation notes and examples for resizing and output.
 
 Attribution
-- Source: Sharp official documentation — https://sharp.pixelplumbing.com/
-- Data retrieved: 2026-03-20
+- Content crawled from sharp README (GitHub) on 2026-03-20, 3160 bytes.
