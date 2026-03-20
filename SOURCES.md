@@ -5,6 +5,7 @@ Reference material and documentation sources for this project.
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
+- https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/points
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg
 - https://www.w3.org/TR/2003/REC-SVG11-20030114/
@@ -15,8 +16,10 @@ Reference material and documentation sources for this project.
 - https://www.w3.org/TR/PNG/
 - https://en.wikipedia.org/wiki/Portable_Network_Graphics
 - https://sharp.pixelplumbing.com/api-input
+- https://sharp.pixelplumbing.com/api-output
 - https://github.com/Automattic/node-canvas
 - https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+- https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_usage
 - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 - https://nodejs.org/api/path.html#path_extname_path
 - https://nodejs.org/api/readline.html
@@ -24,6 +27,7 @@ Reference material and documentation sources for this project.
 - https://nodejs.org/api/vm.html
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
+- https://www.npmjs.com/package/minimist
 
 # Additional references added for testing and PNG rendering
 

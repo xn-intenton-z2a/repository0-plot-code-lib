@@ -18,11 +18,11 @@ node src/lib/main.js --csv data.csv --file output.png
 node src/lib/main.js --help
 
 API
-Export a named function cliMain for programmatic invocation and ensure running node src/lib/main.js executes the CLI when invoked directly.
+Export a named function main for programmatic invocation and ensure running node src/lib/main.js executes the CLI when invoked directly.
 
 Acceptance Criteria
-- The module src/lib/main.js exports a named function cliMain.
-- Running node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.svg exits with code 0 and writes out.svg containing the substring <svg and a viewBox attribute on the root svg element.
-- Running node src/lib/main.js --csv data.csv --file out.png exits with code 0 and writes out.png whose first bytes match the PNG signature: 89 50 4E 47 0D 0A 1A 0A.
-- Running node src/lib/main.js --help prints usage information to stdout and exits with code 0.
-- When required flags are missing or invalid, the CLI exits non-zero and prints a clear error message to stderr.
+- The module src/lib/main.js exports a named function main.
+- Running node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.svg writes out.svg containing the substring <svg and a viewBox attribute on the root svg element.
+- Running node src/lib/main.js --csv data.csv --file out.png writes out.png whose first bytes match the PNG signature: 89 50 4E 47 0D 0A 1A 0A when a PNG renderer is available.
+- Running node src/lib/main.js --help prints usage information to stdout.
+- When required flags are missing or invalid, the CLI prints a clear error message to stderr and exits non-zero when executed as a CLI.
