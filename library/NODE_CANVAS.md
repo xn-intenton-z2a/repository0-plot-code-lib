@@ -1,44 +1,87 @@
 NORMALISED EXTRACT
 
 Table of Contents
-1. Core API and object model
-2. Creating a canvas and 2D context
-3. Drawing primitives and path operations
-4. Exporting PNG and signature bytes
-5. Installation and platform notes
+1. Overview
+2. Creating a Canvas and 2D Context
+3. Drawing a polyline (plot pipeline)
+4. Exporting PNG (toBuffer / createPNGStream)
+5. Installation and runtime requirements
+6. Best practices and troubleshooting
 
-1. Core API and object model
-- Node Canvas exposes a Canvas factory that mirrors the HTML Canvas 2D API for server-side rendering.
-- Key factory: createCanvas(width, height) -> Canvas
+1. Overview
+- node-canvas exposes a server-side implementation of the HTML Canvas 2D API. It mirrors the browser Canvas API surface so code that uses the 2D drawing context can be reused on Node.js for programmatic image generation.
 
-2. Creating a canvas and 2D context
-- Canvas instance method getContext('2d') returns a CanvasRenderingContext2D with standard 2D drawing methods: beginPath, moveTo, lineTo, stroke, fill, arc, rect, fillText, strokeText, setTransform, etc.
+2. Creating a Canvas and 2D Context
+- Factory: createCanvas(width: Number, height: Number) -> Canvas
+- Canvas.getContext('2d') -> CanvasRenderingContext2D
+- The returned 2D context supports the standard 2D drawing API: beginPath, moveTo, lineTo, arc, rect, stroke, fill, strokeStyle, fillStyle, lineWidth, translate, scale, rotate, setTransform, fillText, measureText, drawImage, putImageData, getImageData.
 
-3. Drawing primitives and path operations
-- Typical plot pipeline: create a canvas sized to desired pixel output, obtain 2D context, translate/scale coordinate system to match plot view, beginPath, moveTo first point, lineTo subsequent points, stroke the path.
-- Stylistic attributes: context.strokeStyle (color), context.lineWidth (number), context.fillStyle (color).
+3. Drawing a polyline (plot pipeline)
+- Create a canvas sized to target pixel output (width, height).
+- Obtain context: ctx = canvas.getContext('2d').
+- Map data coordinates to pixel coordinates: compute scaleX, scaleY and apply ctx.translate/ctx.scale to align mathematical coordinate system to canvas pixels.
+- Begin path: ctx.beginPath(); ctx.moveTo(x0, y0); then for each subsequent point ctx.lineTo(xn, yn); finally ctx.stroke() to render a single polyline element. Use ctx.lineWidth and ctx.strokeStyle to style the line.
+- For high-density outputs, render at device pixel ratio scaled canvas size and then downscale when embedding or converting.
 
-4. Exporting PNG and signature bytes
-- Canvas provides toBuffer('image/png') which returns a Buffer whose first eight bytes are the PNG magic sequence: 0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A.
-- Typical signature: Buffer returned begins with that PNG header; can be written directly to disk with fs.writeFile.
+4. Exporting PNG (toBuffer / createPNGStream)
+- canvas.toBuffer([format]) -> Buffer
+  - Common call: canvas.toBuffer('image/png') returns a Node Buffer containing the PNG file bytes. The first 8 bytes are the PNG signature: 0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A.
+- canvas.createPNGStream() -> ReadableStream
+  - Returns a Node Readable stream that emits PNG data; use when streaming directly to disk or an HTTP response to avoid buffering the entire image in memory.
+- context.createPNGStream() may be provided as alias (library versions vary); prefer canvas.createPNGStream where available.
 
-5. Installation and platform notes
-- Node Canvas has native dependencies (cairo, Pango, libjpeg, giflib). Installation on CI or production may require system packages; follow project README for supported platforms and prebuilt binaries.
+5. Installation and runtime requirements
+- node-canvas links against native graphics libraries: cairo, Pango, libjpeg, giflib, libpng. On Linux/CI environments the following system packages are commonly required: cairo, pango, libjpeg (libjpeg-dev), libpng (libpng-dev), and build tools. On macOS Homebrew provides cairo and pango. Consult the project README for prebuilt binary availability and Docker/CI notes.
+- npm install canvas may trigger native build steps if prebuilt binaries are unavailable.
+
+6. Best practices and troubleshooting
+- Prefer streaming (createPNGStream) for large images to avoid large memory allocations.
+- If the PNG magic bytes are required for assertions in tests, assert Buffer.slice(0,8) equals the bytes: 89 50 4E 47 0D 0A 1A 0A.
+- Common install failures: missing cairo/pango or incompatible system headers; consult the node-canvas README for distribution-specific install commands and Docker images.
+- If fonts are missing or text renders incorrectly, register fonts or ensure system fonts are installed; node-canvas reads system fonts used by Pango.
 
 SUPPLEMENTARY DETAILS
-- For simple plots, Canvas offers direct pixel output without SVG intermediate; choose canvas when programmatic drawing or complex compositing is required.
-- For converting existing SVG to PNG, using sharp may be simpler, but drawing from raw numeric points is straightforward with canvas paths.
+- When converting from SVG to PNG: either render the SVG inside a canvas (canvg, jsdom + canvg) and then toBuffer, or pass the SVG data to sharp for direct svg input conversion. Using sharp to convert SVG is often simpler and faster for static SVGs. For plotted numeric series drawn via canvas paths, node-canvas is direct and efficient.
+- OffscreenCanvas (browser API) enables worker-thread rendering in the browser; this is not a drop-in replacement in Node.js but is relevant for WebWorker/server-side architectures where OffscreenCanvas is supported.
 
-REFERENCE DETAILS (signatures)
-- createCanvas(Number width, Number height) -> Canvas
-- canvas.getContext('2d') -> CanvasRenderingContext2D
-- canvas.toBuffer('image/png') -> Buffer starting with PNG magic bytes
+REFERENCE DETAILS (API signatures and return types)
+- createCanvas(width: Number, height: Number) -> Canvas
+- Canvas.getContext(kind: '2d') -> CanvasRenderingContext2D
+- Canvas.toBuffer([format: String]) -> Buffer
+  - format examples: 'image/png' or 'image/jpeg' depending on library support
+- Canvas.createPNGStream() -> ReadableStream (emits Buffer chunks of PNG data)
+- CanvasRenderingContext2D methods used in plotting:
+  - beginPath() -> void
+  - moveTo(x: Number, y: Number) -> void
+  - lineTo(x: Number, y: Number) -> void
+  - stroke() -> void
+  - set strokeStyle: String
+  - set lineWidth: Number
+  - drawImage(image, dx, dy [, dw, dh]) -> void
+
+CONCRETE BEST PRACTICE SNIPPETS (plain text)
+- Create, draw, export PNG to disk (conceptual sequence):
+  1. const canvas = createCanvas(width, height)
+  2. const ctx = canvas.getContext('2d')
+  3. ctx.beginPath(); ctx.moveTo(...); ctx.lineTo(...); ctx.stroke()
+  4. const buf = canvas.toBuffer('image/png')
+  5. fs.writeFileSync('plot.png', buf)
+- Stream to file to avoid buffering entire image:
+  1. const out = fs.createWriteStream('plot.png')
+  2. const stream = canvas.createPNGStream()
+  3. stream.pipe(out)
+
+TROUBLESHOOTING
+- Build errors: install system packages for cairo, pango, libpng, libjpeg and rerun npm install.
+- PNG output not valid: verify first 8 bytes are the PNG signature and that the Buffer length > 8.
+- Text rendering blank: ensure fonts are available to Pango or register custom fonts per node-canvas instructions.
 
 DETAILED DIGEST
-- Source: node-canvas GitHub repository and README
-- Retrieved: 2026-03-20
-- Source URL: https://github.com/Automattic/node-canvas
-- Bytes fetched: 574264
+- Sources used for update:
+  - https://github.com/Automattic/node-canvas (GitHub HTML page retrieved 2026-03-20)  (Content-Length not provided on HTML response)
+  - https://www.npmjs.com/package/canvas (npm package page retrieved 2026-03-20)  (Content-Length not provided)
+  - https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas (MDN OffscreenCanvas retrieved 2026-03-20)  (content-length: 155529 bytes)
+- Retrieval date: 2026-03-20
 
 ATTRIBUTION
-- API and installation guidance condensed from the node-canvas project documentation and README.
+- Condensed and normalised from the node-canvas project documentation and the MDN OffscreenCanvas reference (listed above).

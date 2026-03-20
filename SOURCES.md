@@ -42,3 +42,9 @@ Reference material and documentation sources for this project.
 - https://pptr.dev/
 - https://github.com/puppeteer/puppeteer
 - https://github.com/substack/minimist
+
+# New additions for node-canvas and server-side canvas
+
+- https://www.npmjs.com/package/canvas
+- https://raw.githubusercontent.com/Automattic/node-canvas/master/README.md
+- https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
