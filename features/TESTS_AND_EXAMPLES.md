@@ -30,5 +30,8 @@ Acceptance Criteria
 - Examples: examples/sample.csv exists and is referenced by at least one test; tests do not rely on external network resources.
 - Behaviour tests: Playwright behaviour tests include a readiness probe (HTTP 200) before asserting the svg/polyline presence and points count; tests avoid brittle sleeps and use locator.waitFor APIs.
 
+- All unit tests in tests/unit/ must pass locally and in CI (for example via npm test or npm run test:unit); failing tests must include a clear, actionable message and not be silently skipped without documentation.
+- README.md must document CLI usage with concrete example commands for generating SVG and PNG output and include a short explanation of the PNG rendering approach (sharp preferred, node-canvas fallback) and CI expectations for rasterization tests.
+
 Notes
 Keep tests focused and deterministic: prefer asserting on structural output (presence of viewBox, polyline, IHDR header fields) rather than pixel-by-pixel visual equality. Document any test skips and CI requirements in README.md. Where CI cannot be changed immediately, ensure tests communicate the required change (for example a failing test or documented skipped test with an explicit reason) so maintainers can address CI rasterizer availability.

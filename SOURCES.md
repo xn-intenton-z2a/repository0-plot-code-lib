@@ -45,6 +45,8 @@ Curated reference sources for implementing expression parsing, series generation
 - https://sharp.pixelplumbing.com/install
 - https://sharp.pixelplumbing.com/usage#svg
 - https://github.com/lovell/sharp
+- https://raw.githubusercontent.com/lovell/sharp/main/README.md
+- https://github.com/lovell/sharp/releases
 - https://libvips.github.io/libvips/
 - https://github.com/Automattic/node-canvas
 - https://github.com/Automattic/node-canvas#creating-a-canvas
@@ -90,6 +92,7 @@ Curated reference sources for implementing expression parsing, series generation
 ## CI and environment (PNG rasterization / native deps)
 
 - https://github.com/actions/virtual-environments
+- https://raw.githubusercontent.com/actions/virtual-environments/main/images/linux/Ubuntu2204-README.md
 
 ## Testing and tooling
 
