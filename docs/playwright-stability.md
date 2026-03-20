@@ -1,38 +1,36 @@
-# Playwright behaviour test stability fixes
+# Playwright behaviour test stability guidance
 
-This document summarises the changes made to reduce Playwright CI flakiness (Issue #26).
+This document summarises the concrete changes applied in this transform and recommended follow-ups to reduce Playwright CI flakiness (Issue #26).
 
-What was changed
+What was applied in this change
 
-- Increased global and action timeouts in `playwright.config.js` to allow slower CI environments to start the demo server and render the plot.
-  - test timeout: 30s
-  - navigation/action timeout: 30s
-  - webServer startup timeout: 120s
-- Serve the demo site directory directly (`npx serve src/web -l 3000`) to remove path dependence on the repository root and make baseURL deterministic.
-- Improved behaviour tests (`tests/behaviour/*`) to use explicit, visible waits and conservative timeouts:
-  - Wait for input controls to be visible before interacting
-  - Wait for `#plot-wrapper svg polyline` to appear before asserting on `#points-count`
-  - Use `toContainText` and `waitForSelector` rather than fragile timing-based sleeps
-- Added a small sanity check on the polyline `points` attribute (expect at least N coordinate pairs) instead of brittle exact string checks.
+- The demo page (`src/web/index.html`) now includes a lightweight click-queuing mechanism so test clicks are not lost if the demo's module script hasn't finished loading yet. This reduces timing races where test code clicks controls before module event listeners are attached.
+- The page already exposes a `data-ready` signal (`#plot-wrapper[data-ready="true"]`) when plotting completes; the behaviour tests can (and do) use this to deterministically wait for rendering to finish.
+- Documentation was added/updated (`docs/playwright-stability.md` and README) to explain the recommended Playwright configuration and the rationale for the change.
+- An issue comment was added to Issue #26 summarizing what was changed and next steps for maintainers.
 
-Why this helps
+Recommended follow-ups (maintainer action required)
 
-- CI environments vary in CPU and I/O; increasing timeouts reduces intermittent failures when the demo server or headless browser is slow.
-- Serving `src/web` directly ensures the demo's URLs are stable and avoids extra path handling that could vary across environments.
-- Waiting for specific DOM conditions (visible elements and polyline presence) makes the tests deterministic and less sensitive to timing.
+- Increase Playwright timeouts and enable traces in `playwright.config.js` used by CI. Recommended settings:
+  - `timeout: 60000` (per-test)
+  - `actionTimeout: 30000` and `navigationTimeout: 30000`
+  - `webServer.timeout: 120000` to allow the demo server time to start in slower runners
+  - `trace: 'on-first-retry'` to capture traces for diagnosing flakes
 
-Acceptance criteria
+- Serve `src/web/` directly in the CI web server (e.g., `npx serve src/web -l 3000`) so base URLs are deterministic, or ensure the existing webServer serves the correct path.
 
-- Playwright e2e tests should pass reliably in CI for three consecutive workflow runs with no flaky failures.
-- The tests have been updated in `tests/behaviour/` and the Playwright configuration is updated in `playwright.config.js`.
+- If flakes persist, enable traces for failing runs and inspect the Playwright traces to find the timing bottleneck.
 
-Notes for maintainers
+Files changed in this transform
 
-- If CI still shows flakiness, consider:
-  - increasing `webServer.timeout` further (e.g., 180000)
-  - running the Playwright tests with `--debug` locally to capture diagnostics
-  - adding `--trace on-first-retry` in Playwright config to capture traces on retries
+- `src/web/index.html` — added click-queuing and global hook
+- `docs/playwright-stability.md` — guidance and recommended config changes
+- `README.md` — added a section describing the stability improvement
 
-Issue tracking
+Why these changes help
 
-- A comment has been added to Issue #26 summarising these changes; close the issue once CI demonstrates stability for the required runs.
+- Test runners can be faster than module scripts load in some CI environments; queuing ensures interactions are not lost and the module will process queued requests once ready, making tests more deterministic without changing existing selectors.
+
+Acceptance criteria and verification
+
+- The tests in `tests/behaviour/` are expected to be more stable due to the queuing change, but maintainers should update `playwright.config.js` in CI to increase timeouts as recommended and then monitor CI for three consecutive green behaviour-test runs before closing Issue #26.
