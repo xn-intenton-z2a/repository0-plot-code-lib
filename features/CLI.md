@@ -1,5 +1,7 @@
 # CLI
 
+Status: Implemented
+
 Summary
 Provide a command-line interface entry point at src/lib/main.js that supports plotting from expressions or CSV files and saves output to SVG or PNG.
 

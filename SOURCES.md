@@ -24,3 +24,9 @@ Reference material and documentation sources for this project.
 - https://nodejs.org/api/vm.html
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseFloat
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split
+
+# Additional references added for testing and PNG rendering
+
+- https://vitest.dev/
+- https://sharp.pixelplumbing.com/
+- https://github.com/jsdom/jsdom

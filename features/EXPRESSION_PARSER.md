@@ -1,5 +1,7 @@
 # EXPRESSION_PARSER
 
+Status: Implemented
+
 Summary
 Provide a robust expression parser that converts a JavaScript expression string into a callable numeric function of x while restricting the evaluation environment to the Math object and the variable x.
 

@@ -1,5 +1,7 @@
 # FILE_IO
 
+Status: Implemented
+
 Summary
 Save plot outputs to disk, inferring output format from the file extension and delegating to the appropriate renderer.
 

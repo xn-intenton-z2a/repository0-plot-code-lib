@@ -1,5 +1,7 @@
 # TESTS_AND_EXAMPLES
 
+Status: Implemented
+
 Summary
 Define the unit tests and example artifacts that verify the feature set and provide users with sample commands and sample data for manual testing.
 
