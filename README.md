@@ -43,11 +43,18 @@ To enable full SVG rasterization locally or in CI, install `sharp` as a dev depe
 npm install --save-dev sharp
 ```
 
-When `sharp` is installed, `renderPNG` will return a full rasterization of the SVG. When it is not installed, `renderPNG` returns a small deterministic PNG buffer (still a valid PNG) so tests that assert the PNG magic bytes remain meaningful.
+Test behaviour and CI guidance
+
+The unit PNG test has been strengthened: it now parses the PNG IHDR chunk to verify output dimensions and decompresses IDAT data to validate the raw scanline length matches the declared image geometry. This means the test asserts rasterization semantics (dimensions + image data) rather than only the PNG magic bytes.
+
+- If `sharp` is installed, `renderPNG` will return a rasterized PNG whose IHDR dimensions match the requested width/height in the test and whose decompressed image data length equals height*(1 + width*channels).
+- If `sharp` is not installed, tests accept the deterministic 1x1 PNG fallback; CI will still pass but will not validate full SVG→PNG rasterization.
+
+To guarantee full SVG→PNG rasterization in CI, add `sharp` to devDependencies in `package.json` and ensure the CI environment has the system packages required to build sharp (libvips). Alternatively, use a prebuilt `sharp` binary suitable for your CI runtime.
 
 Tests
 
-- Unit tests verify core library functionality (expression parsing, range evaluation, CSV loading, SVG rendering). The PNG test asserts the PNG magic bytes for `renderPNG` output — this is satisfied either by `sharp` producing a rasterized PNG or by the deterministic pure-JS fallback.
+- Unit tests verify core library functionality (expression parsing, range evaluation, CSV loading, SVG rendering). The strengthened PNG test now validates IHDR and image data length as described above.
 - Behaviour tests run a headless browser against the demo page; the demo example `y=Math.sin(x)` over `-3.14:0.01:3.14` is expected to render `629 points` and an SVG `<polyline>` element.
 
 Browser demo
