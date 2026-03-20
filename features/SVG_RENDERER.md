@@ -1,6 +1,6 @@
 # SVG_RENDERER
 
-Status: Archived (Implemented)
+Status: Implemented (closed: #7, #8, #13, #22, #28, #30)
 
 Summary
 Render a numeric series to an SVG 1.1 document using a polyline element and a properly calculated viewBox.

@@ -95,6 +95,7 @@ Detailed digest and retrieval metadata
 - Raw files saved to repository for verification:
   - library/_RAW_CSV_PARSE.md (source: https://unpkg.com/csv-parse@latest/README.md) size: 3266 bytes
   - library/_RAW_CSV_NORMALIZE_OPTIONS.js (source: https://unpkg.com/csv-parse@latest/lib/api/normalize_options.js) size: 21562 bytes
+- HTML docs fetched: https://csv.js.org/parse/options/ size: 68246 bytes (retrieved 2026-03-20T18:35:06Z)
 
 Attribution and source links
 - csv-parse project (README): https://unpkg.com/csv-parse@latest/README.md

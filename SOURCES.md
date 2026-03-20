@@ -15,6 +15,7 @@ Curated reference sources for implementing expression parsing, series generation
 
 - https://datatracker.ietf.org/doc/html/rfc4180
 - https://csv.js.org/parse/
+- https://csv.js.org/parse/options/
 - https://www.papaparse.com/docs
 - https://github.com/d3/d3-dsv
 - https://c2fo.github.io/fast-csv/
@@ -37,9 +38,12 @@ Curated reference sources for implementing expression parsing, series generation
 - https://sharp.pixelplumbing.com/api
 - https://sharp.pixelplumbing.com/api-input
 - https://sharp.pixelplumbing.com/api-output
+- https://sharp.pixelplumbing.com/api-output#png
 - https://sharp.pixelplumbing.com/install
 - https://sharp.pixelplumbing.com/usage#svg
 - https://github.com/Automattic/node-canvas
+- https://github.com/Automattic/node-canvas#creating-a-canvas
+- https://github.com/Automattic/node-canvas#canvas-tobuffer
 - https://github.com/Automattic/node-canvas#installation
 - https://www.npmjs.com/package/canvas
 - https://github.com/Automattic/node-canvas/wiki/Installation:-Linux

@@ -1,6 +1,6 @@
 # TESTS_AND_EXAMPLES
 
-Status: Archived (Implemented)
+Status: Implemented (closed: #7, #8, #13, #22, #28, #30)
 
 Summary
 Provide a clear, minimal test and example surface that demonstrates the library and CLI behaviour required by the mission. Unit tests must verify expression parsing, range evaluation, CSV loading, SVG structure and CLI flags; rasterization tests must be deterministic or clearly skipped in CI when native renderers are not available. Provide at least one small stable example CSV in examples/sample.csv used by tests and behaviour suites.

@@ -1,6 +1,6 @@
 # SERIES_GENERATION
 
-Status: Archived (Implemented)
+Status: Implemented (closed: #7, #8, #13, #22, #28, #30)
 
 Summary
 Helpers to parse numeric ranges and generate a series of data points by evaluating an expression over that range.

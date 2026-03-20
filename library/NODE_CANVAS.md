@@ -84,8 +84,8 @@ DETAILED DIGEST
 - Sources used for update:
   - https://github.com/Automattic/node-canvas (GitHub README retrieved 2026-03-20)
   - https://www.npmjs.com/package/canvas (npm package page retrieved 2026-03-20)
-- Retrieval date: 2026-03-20
-- Approx HTML size retrieved: 600 KB
+- Retrieval date: 2026-03-20T18:35:06Z
+- HTML size retrieved: 568821 bytes
 
 ATTRIBUTION
 - Condensed and normalised from the node-canvas project documentation and the node-canvas README (listed above).

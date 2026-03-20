@@ -43,10 +43,10 @@ REFERENCE DETAILS
   - const buf = await sharp(input).png({palette:true}).toBuffer();
 
 DETAILED DIGEST
-- Source: sharp docs "Output options" (sharp.pixelplumbing.com/api-output), retrieved 2026-03-20.
-- Retrieved bytes: 186424 bytes.
+- Source: sharp docs "Output options" (sharp.pixelplumbing.com/api-output), retrieved 2026-03-20T18:35:06Z.
+- Retrieved bytes: 186368 bytes.
 
 ATTRIBUTION
 - URL: https://sharp.pixelplumbing.com/api-output
-- Retrieved: 2026-03-20
-- Bytes crawled: 186424
+- Retrieved: 2026-03-20T18:35:06Z
+- Bytes crawled: 186368
