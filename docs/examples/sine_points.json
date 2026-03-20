@@ -1,5 +1,0 @@
-{
-  "expression": "y=Math.sin(x)",
-  "range": "-3.14:0.01:3.14",
-  "points": 629
-}
