@@ -52,6 +52,7 @@ Curated reference sources for implementing expression parsing, series generation
 - https://canvg.github.io/
 - https://pptr.dev/                         # Puppeteer API and guides for headless Chromium rasterization and screenshots
 - https://github.com/puppeteer/puppeteer
+- https://www.npmjs.com/package/file-type   # npm package for magic-bytes file detection (png signature)
 
 ## Node core and CLI utilities
 
@@ -71,6 +72,8 @@ Curated reference sources for implementing expression parsing, series generation
 - https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob
 - https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
 - https://developer.mozilla.org/en-US/docs/Web/API/OffscreenCanvas
+- https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/drawImage
+- https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/getImageData
 
 ## CLI parsing and helpers
 
