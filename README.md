@@ -37,6 +37,11 @@ Notes on PNG rendering
 
 This project uses `sharp` (libvips) to convert SVG to PNG when `renderPNG`/`savePlotToFile` are used with a `.png` output. `sharp` is optional and requires native dependencies (libvips) on CI and developer machines. Tests that depend on `sharp` will skip gracefully when it is not installed.
 
+Tests
+
+- Unit tests verify core library functionality (expression parsing, range evaluation, CSV loading, SVG rendering). When `sharp` is available, unit tests also assert PNG output begins with the PNG magic bytes (\x89PNG...).
+- Behaviour tests run a headless browser against the demo page; the demo example `y=Math.sin(x)` over `-3.14:0.01:3.14` is expected to render `629 points` and an SVG `<polyline>` element.
+
 Browser demo
 
 Open `src/web/index.html` in a browser (or run `npm run build:web && npx serve docs`) to view a small demo page that uses the library directly via `src/web/lib.js`.
