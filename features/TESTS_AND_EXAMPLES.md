@@ -1,45 +1,24 @@
-# TESTS_AND_EXAMPLES
+# BEHAVIOUR_STABILITY
 
-Status: Implemented
+Status: Proposed
 
 Summary
-Provide the unit test suite, example fixtures, and documentation examples that verify the plotting library and CLI meet the mission requirements and behave deterministically in CI.
+Stabilise Playwright behaviour tests and the example fixtures so CI reliably verifies the demo web UI and page-driven assertions (SVG presence, polyline element, reported point count) without intermittent timeouts.
 
-Unit tests (files and responsibilities)
-- tests/unit/expression.test.js: verify parseExpression returns a callable function and computes Math-based results (sin and polynomial checks).
-- tests/unit/range.test.js: verify parseRange and evaluateRange with "-3.14:0.01:3.14" returns exactly 629 points and that each point is { x: Number, y: Number }.
-- tests/unit/csv.test.js: verify loadCSV parses RFC4180-compliant CSV strings and rejects/throws for non-numeric values with descriptive errors.
-- tests/unit/svg.test.js: verify renderSVG output contains a polyline element and a viewBox attribute on the svg root.
-- tests/unit/png.test.js: verify renderPNG returns a Buffer/Uint8Array whose first eight bytes equal the PNG signature when a renderer is available; otherwise the test must explicitly expect a rejection with message containing "Missing PNG renderer" or be skipped with a named reason.
-- tests/unit/save.test.js: verify savePlotToFile writes valid .svg and (when renderer available) .png files with expected signatures.
-- tests/unit/cli.test.js: verify --help prints usage and that example CLI invocations create files with expected content.
-- tests/unit/main.test.js: verify the public named exports (parseExpression, parseRange, evaluateRange, loadCSV, renderSVG, renderPNG, savePlotToFile, main) exist and behave as documented.
+Behavior
+- Playwright tests must use a server readiness probe before running page assertions (for example, poll the HTTP endpoint until 200 before navigation).
+- Tests should explicitly wait for the svg and polyline elements using locator.waitFor with a sensible timeout rather than relying on implicit timing.
+- Tests that depend on optional native renderers (sharp/canvas) must detect renderer availability and either run renderer-specific assertions or skip with a named reason.
+- Example fixtures (examples/sample.csv) should exist with stable content used by behaviour and unit tests.
 
-Examples and fixtures
-- Provide examples/sample.csv in the repository with at least three rows of ISO-8601 time and numeric value pairs; README examples must reference this file.
-- README.md must include the canonical CLI example: node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg and a short note describing the PNG conversion approach (sharp preferred, canvas fallback).
-
-Deterministic behaviour and CI stability
-- PNG tests must detect runtime availability of sharp or canvas and either run the renderer checks or deterministically skip with a clear skip reason to avoid CI flakiness.
-- Playwright behaviour tests must use readiness probes or increased timeouts so homepage tests assert HTTP 200 and render checks without intermittent timeouts.
-
-Completed work
-- Unit tests and README CLI examples were merged and closed via issues #13, #15 and #17; behaviour test instability was investigated in issue #10.
-- Tests now detect renderer presence and skip or assert the documented error when missing, preventing CI failures due to environment differences.
-
-Outstanding work
-- None blocking the mission; remaining CI flakiness should be monitored but does not prevent mission acceptance.
+Test changes and resilience
+- Increase or parameterise Playwright timeouts where network or CI delays occur; avoid brittle fixed delays.
+- Use deterministic input (known expression and range) and assert the displayed points count matches the numeric evaluation (e.g., 629 for -3.14:0.01:3.14).
+- When verifying SVG structures, assert the presence of an <svg> element containing a <polyline> child and that a visible text node displays the points count.
 
 Acceptance Criteria
-- All unit tests pass: npm test exits with status 0 in CI.
-- All unit test files listed above exist under tests/unit/ and run with npm test (vitest) in an environment with devDependencies installed.
-- tests/unit/expression.test.js asserts parseExpression('y=Math.sin(x)') returns f where Math.abs(f(Math.PI/2) - 1) < 1e-6.
-- tests/unit/range.test.js asserts evaluateRange(parseExpression('y=Math.sin(x)'), -3.14, 0.01, 3.14) returns an Array of length 629 and that every element has numeric x and y properties.
-- tests/unit/svg.test.js asserts the returned SVG string contains the substring <polyline and that the svg root has a viewBox attribute (viewBox=").
-- tests/unit/png.test.js behaviour: if sharp or canvas is installed the test asserts returned bytes start with PNG magic bytes 89 50 4E 47 0D 0A 1A 0A; if neither is installed the test either expects renderPNG to reject with an Error containing "Missing PNG renderer" or the test is skipped with a documented skip reason.
-- tests/unit/save.test.js writes out.svg containing <svg and viewBox and (when renderer available) out.png whose first bytes match the PNG signature.
-- tests/unit/cli.test.js asserts --help writes usage to stdout and that running the canonical CLI example produces an output file containing the expected svg content.
-- tests/unit/main.test.js asserts the public named exports exist and behave as documented.
-- README.md contains the canonical CLI example and a short description of the PNG rendering approach and installation notes for common platforms.
-- examples/sample.csv exists and contains at least 3 valid rows of time,value pairs referenced by tests/examples.
-- Playwright behaviour tests (tests/behaviour/) are resilient to CI timing; homepage.test.js uses readiness checks or increased timeouts to avoid intermittent failures.
+- tests/behaviour/homepage.test.js contains a readiness check that retries the demo server until it returns HTTP 200 before continuing.
+- The behaviour test asserts that the page contains an <svg> element with a <polyline> child and that the displayed numeric points count equals the evaluated series length for the canonical example (expression y=Math.sin(x), range -3.14:0.01:3.14 => 629 points).
+- Behaviour tests do not use brittle fixed sleeps; all waits use explicit Playwright waitFor/locator-based APIs and pass consistently in CI under typical load (retries set in playwright.config.js remain <= 2).
+- Example fixtures: examples/sample.csv exists and is referenced by the behaviour tests; behaviour tests remain skip-free on environments providing the demo server and required renderer.
+- CI: Playwright tests on main pass consistently (flakiness reduced) for at least three consecutive runs.

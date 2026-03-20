@@ -1,26 +1,23 @@
-# PNG_RENDERER
+# PNG_VALIDATION
 
-Status: Implemented
+Status: Proposed
 
 Summary
-Convert an SVG string into a PNG binary using a server-side renderer. Prefer the sharp library for reliable SVG-to-PNG conversion; provide a documented fallback to node-canvas when sharp is unavailable.
+Ensure SVG-to-PNG rasterization is robust, deterministic in CI, and verifiable by unit tests. The goal is not to change the public renderPNG API surface but to tighten test coverage, document the chosen native dependency, and provide a clear fallback and CI installation strategy.
 
 Behavior
-Implement renderPNG(svgStringOrSeries, options) that returns a Promise resolving to a Buffer or Uint8Array containing PNG bytes. Options may include width, height, background, and density. The implementation should:
-- Prefer the sharp library for SVG-to-PNG conversion when available at runtime.
-- If sharp is not installed, fall back to using node-canvas (canvas) to draw the SVG onto a Canvas and encode PNG bytes.
-- If neither renderer is available, reject with a clear Error: "Missing PNG renderer: install sharp or canvas".
-- Validate inputs and reject with descriptive errors for invalid SVG input.
+- Prefer the `sharp` library for SVG→PNG conversion at runtime when available.
+- When `sharp` is not available, fall back to `canvas` (node-canvas) if installed; otherwise renderPNG must reject with Error containing "Missing PNG renderer".
+- Unit tests must perform a meaningful rasterization assertion (verify PNG IHDR width/height and non-trivial pixel data) rather than only checking the PNG magic bytes.
+- CI must either install the chosen native renderer (recommended) or run tests that skip rasterization assertions with a deterministic skip reason.
 
 API
-Export a named async function renderPNG from src/lib/main.js. The function must accept (svgStringOrSeries, options) and return a Buffer or Uint8Array containing the PNG file bytes.
-
-Documentation
-Document the chosen dependency and the fallback approach in README.md and in an inline comment in the implementation. Describe required native build steps for sharp or canvas where relevant so users can install the runtime dependency.
+No API surface change is required: renderPNG(svgOrSeries, options) continues to return a Buffer/Uint8Array with PNG bytes when a renderer is available, and rejects with a descriptive Error otherwise.
 
 Acceptance Criteria
-- renderPNG is a named export from src/lib/main.js.
-- Calling renderPNG with a valid simple series or SVG string returns a Buffer or Uint8Array whose first eight bytes equal the PNG signature: 89 50 4E 47 0D 0A 1A 0A when a renderer is installed.
-- When sharp is available, the implementation uses it; when not available but canvas is installed, the implementation uses canvas; when neither is available, renderPNG rejects with an Error whose message contains "Missing PNG renderer".
-- README.md documents the dependency choice, the fallback behaviour, and the command(s) needed to install sharp or canvas on common platforms.
-- The function accepts width/height options and produces a PNG matching those pixel dimensions when provided.
+- Tests: tests/unit/png.test.js is updated so that when a renderer is available the test asserts the returned Buffer begins with the PNG signature (89 50 4E 47 0D 0A 1A 0A) and that the IHDR chunk reports width and height matching options.width and options.height (Buffer.readUInt32BE(16) === width and Buffer.readUInt32BE(20) === height).
+- Tests: when neither sharp nor canvas is installed the test deterministically expects renderPNG to reject with an Error whose message contains "Missing PNG renderer" or the test is skipped with a documented skip reason.
+- CI: a documented CI change exists (CI config or README) that either installs sharp (recommended) or explicitly documents the environment variable/flag that opts tests into running rasterization checks.
+- Documentation: README.md contains a short section documenting the preferred renderer (sharp), the canvas fallback, and exact install notes for common platforms (Linux, macOS) including links or commands.
+- Implementation: renderPNG still prefers `sharp` when available and falls back to `canvas`; detection behaviour is exercised by unit tests using dynamically-installed renderer or test-time mocks.
+- Test determinism: Updates to tests avoid flaky pixel-level assertions by validating IHDR dimensions and a small set of deterministic pixel properties or using a reproducible SVG fixture.
