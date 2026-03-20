@@ -1,6 +1,6 @@
 # CSV_LOADER
 
-Status: Implemented
+Status: Archived (Implemented)
 
 Summary
 Load time series data from a CSV file containing columns time and value and produce a normalized array suitable for plotting.
