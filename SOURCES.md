@@ -3,6 +3,7 @@
 Reference material and documentation sources for this project.
 
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/eval
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
 - https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/points

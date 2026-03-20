@@ -1,6 +1,6 @@
 # TESTS_AND_EXAMPLES
 
-Status: In progress — needs stabilization and documentation
+Status: Mostly completed — examples and unit tests added; CI stability work remains
 
 Summary
 Define the unit tests, behaviour test expectations and example artifacts that verify the feature set and provide users with runnable sample commands and data for manual testing. This feature covers making tests deterministic in CI, stabilising flaky behaviour tests (Playwright), and completing README examples and installation notes for optional native PNG renderers.
