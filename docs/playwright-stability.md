@@ -5,32 +5,27 @@ This document summarises the concrete changes applied in this transform and reco
 What was applied in this change
 
 - The demo page (`src/web/index.html`) now includes a lightweight click-queuing mechanism so test clicks are not lost if the demo's module script hasn't finished loading yet. This reduces timing races where test code clicks controls before module event listeners are attached.
-- The page already exposes a `data-ready` signal (`#plot-wrapper[data-ready="true"]`) when plotting completes; the behaviour tests can (and do) use this to deterministically wait for rendering to finish.
-- Documentation was added/updated (`docs/playwright-stability.md` and README) to explain the recommended Playwright configuration and the rationale for the change.
-- An issue comment was added to Issue #26 summarizing what was changed and next steps for maintainers.
+- Behaviour tests were updated to wait for an explicit `data-ready` signal on `#plot-wrapper` before asserting output is present. This is a deterministic completion signal emitted by the demo and avoids fragile timing-dependent assertions.
+- Playwright configuration (`playwright.config.js`) was updated to increase per-test timeouts, action and navigation timeouts, and enable trace collection on the first retry. The web server command now serves `src/web/` directly so base URLs are stable in CI.
+- Documentation was added/updated (`README.md` and this file) to explain the recommended Playwright configuration and the rationale for the changes.
 
 Recommended follow-ups (maintainer action required)
 
-- Increase Playwright timeouts and enable traces in `playwright.config.js` used by CI. Recommended settings:
-  - `timeout: 60000` (per-test)
-  - `actionTimeout: 30000` and `navigationTimeout: 30000`
-  - `webServer.timeout: 120000` to allow the demo server time to start in slower runners
-  - `trace: 'on-first-retry'` to capture traces for diagnosing flakes
-
-- Serve `src/web/` directly in the CI web server (e.g., `npx serve src/web -l 3000`) so base URLs are deterministic, or ensure the existing webServer serves the correct path.
-
-- If flakes persist, enable traces for failing runs and inspect the Playwright traces to find the timing bottleneck.
-
-Files changed in this transform
-
-- `src/web/index.html` — added click-queuing and global hook
-- `docs/playwright-stability.md` — guidance and recommended config changes
-- `README.md` — added a section describing the stability improvement
+- Finalize CI Playwright settings in the repository's CI workflow to adopt the recommended timeouts and enable `trace: 'on-first-retry'`.
+- If your CI uses a different OS or container, install `libvips` or use prebuilt `sharp` binaries to enable full SVG→PNG rasterization.
+- If flakes persist, enable full trace capture (`trace: 'on'`) for a short run and inspect traces using Playwright Trace Viewer.
 
 Why these changes help
 
-- Test runners can be faster than module scripts load in some CI environments; queuing ensures interactions are not lost and the module will process queued requests once ready, making tests more deterministic without changing existing selectors.
+- Tests no longer rely on precise timing of module script execution; queued interactions are handled once the module is ready.
+- Waiting on an explicit DOM signal (`data-ready`) is reliable across fast and slow environments and yields deterministic behaviour for assertions.
+
+Files changed in this transform
+
+- `src/web/index.html` — unchanged in this transform (feature added earlier), behaviour tests now consume its `data-ready` signal
+- `playwright.config.js` — updated to use conservative timeouts and to serve `src/web/` directly
+- `tests/behaviour/*` — updated to use deterministic waits and longer timeouts
 
 Acceptance criteria and verification
 
-- The tests in `tests/behaviour/` are expected to be more stable due to the queuing change, but maintainers should update `playwright.config.js` in CI to increase timeouts as recommended and then monitor CI for three consecutive green behaviour-test runs before closing Issue #26.
+- The tests in `tests/behaviour/` should be more stable due to the queuing change and the switch to deterministic waits. Maintain the recommended CI configuration and observe three consecutive successful behaviour test runs in CI before closing Issue #26.

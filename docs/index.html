@@ -84,7 +84,13 @@
         const fn = parseExpression(expr);
         const { start, step, end } = parseRange(rangeStr);
         const series = evaluateRange(fn, start, step, end);
-        renderSeries(series);
+
+        // Update quick UI signals immediately so tests can observe counts deterministically
+        pointsCount.textContent = `${series.length} points`;
+        plotWrapper.setAttribute('data-ready', 'loading');
+
+        // Defer heavy DOM work to the next tick to keep UI responsive and allow tests to observe counts
+        setTimeout(() => renderSeries(series), 0);
       } catch (err) {
         plotWrapper.textContent = 'Error: ' + err.message;
         plotWrapper.setAttribute('data-ready', 'error');
