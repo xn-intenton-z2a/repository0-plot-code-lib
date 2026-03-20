@@ -34,3 +34,11 @@ Reference material and documentation sources for this project.
 - https://vitest.dev/
 - https://sharp.pixelplumbing.com/
 - https://github.com/jsdom/jsdom
+
+# Added references (server-side rendering, CLI parsing)
+
+- https://github.com/canvg/canvg
+- https://canvg.github.io/
+- https://pptr.dev/
+- https://github.com/puppeteer/puppeteer
+- https://github.com/substack/minimist
