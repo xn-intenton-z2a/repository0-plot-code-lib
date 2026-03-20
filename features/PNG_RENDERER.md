@@ -1,6 +1,6 @@
 # PNG_RENDERER
 
-Status: Proposed
+Status: Archived (Implemented)
 
 Summary
 Provide a deterministic SVG→PNG rasterization strategy with a clear renderer preference (sharp preferred, node-canvas fallback) and a documented test strategy for CI. The implementation must choose the best available renderer at runtime and expose a single renderPNG(svgString, options?) API that returns a Buffer of PNG bytes.

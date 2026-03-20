@@ -1,6 +1,6 @@
 # FILE_IO
 
-Status: Proposed
+Status: Archived (Implemented)
 
 Summary
 Provide a small, well-documented file save pipeline and ensure CLI rendering options flow through to the file output stage. The feature covers inference of output format from the filename extension, deterministic SVG output (viewBox preserved) and passing explicit rendering options (pixel width/height, stroke, strokeWidth, margin) from the CLI and programmatic API into the renderers.

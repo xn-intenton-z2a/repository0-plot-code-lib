@@ -1,43 +1,56 @@
 NODE_FS
 
 TABLE OF CONTENTS:
-1. fs core APIs used for file output
+1. fs core APIs used for file output and input
 2. Signatures and parameter details
-3. Options and typical values (encoding, mode, flag)
-4. Implementation notes and atomic-write pattern
-5. Supplementary details and error handling
-6. Reference details (precise signatures)
-7. Detailed digest and retrieval metadata
+3. Promise-based APIs (fs.promises) — exact shapes
+4. Options and typical values (encoding, mode, flag)
+5. Implementation notes and atomic-write pattern
+6. Supplementary details and error handling
+7. Reference details (precise signatures)
+8. Detailed digest and retrieval metadata
 
 NORMALISED EXTRACT:
-- Core functions to create and write files:
-  - fs.writeFile(path, data[, options], callback) — asynchronous write. "path" accepts string | Buffer | URL | integer (fd). "data" accepts string | Buffer | TypedArray | DataView.
-  - fs.writeFileSync(path, data[, options]) — synchronous write; throws on error.
-  - fs.promises.writeFile(path, data[, options]) -> Promise<void> — Promise-based asynchronous write suitable for async/await.
-- Options object shape: { encoding?: string | null; mode?: number; flag?: string } or a string encoding shorthand.
-- Default option values: encoding: 'utf8' (when data is string), mode: 0o666 (subject to umask), flag: 'w'.
-- For binary output (PNG buffers) always supply Buffer or Uint8Array; omit encoding or set encoding: null.
+- Core functions used for file I/O in Node.js: callback-style, synchronous, and promise-based variants exist for reading and writing files, opening file descriptors, listing directories, and manipulating filesystem entries.
+- For CLI tools producing binary output (PNG), the promise-based APIs are recommended for straightforward async/await usage and clearer error handling.
 
-SUPPLEMENTARY DETAILS:
-- Use fs.promises.writeFile(path, buffer) to write binary image buffers returned by canvas.toBuffer or sharp output.
-- Atomic-write pattern: write to a temporary filename in the same directory (unique suffix) then fs.rename(tempPath, finalPath) to avoid partial writes being observed.
-- Permissions: when creating files, mode is applied then modified by process.umask(); set explicit mode when necessary.
-- File descriptor usage: passing a file descriptor (integer) writes to that descriptor; this avoids extra open/close overhead when performing multiple writes.
-- Error handling: always catch and handle EACCES, ENOENT, EPERM; on failure of rename after successful write consider cleaning temp file.
+PROMISE-BASED API (fs.promises) — exact shapes and return types:
+- fs.promises.readFile(path: string | Buffer | URL | integer, options?: { encoding?: string | null } | string | null) -> Promise<Buffer | string>
+- fs.promises.writeFile(path: string | Buffer | URL | integer, data: string | Buffer | TypedArray | DataView, options?: string | { encoding?: string | null; mode?: number; flag?: string }) -> Promise<void>
+- fs.promises.appendFile(path: string | Buffer | URL | integer, data: string | Buffer | TypedArray | DataView, options?: string | { encoding?: string | null; mode?: number; flag?: string }) -> Promise<void>
+- fs.promises.open(path: string | Buffer | URL, flags?: string, mode?: number) -> Promise<FileHandle>
+- fs.promises.readdir(path: string | Buffer | URL, options?: { encoding?: string; withFileTypes?: boolean } | string) -> Promise<string[] | Dirent[]>
+- fs.promises.stat(path: string | Buffer | URL) -> Promise<Stats>
+- fs.promises.mkdir(path: string | Buffer | URL, options?: { recursive?: boolean; mode?: number } | number) -> Promise<string | void>
+- fs.promises.unlink(path: string | Buffer | URL) -> Promise<void>
 
-REFERENCE DETAILS (exact signatures and return types):
-- fs.writeFile(path: string | Buffer | URL | integer, data: string | Buffer | TypedArray | DataView, options?: string | { encoding?: string | null; mode?: number; flag?: string }, callback: (err: NodeJS.ErrnoException | null) => void): void
-- fs.writeFileSync(path: string | Buffer | URL | integer, data: string | Buffer | TypedArray | DataView, options?: string | { encoding?: string | null; mode?: number; flag?: string }): void
+OPTIONS AND TYPICAL VALUES:
+- encoding: when reading or writing text, common encodings are 'utf8' or 'utf-8'; for binary data (PNG) use Buffer and set encoding: null or omit encoding.
+- mode: file permission bits (e.g., 0o666 default then masked by process.umask()).
+- flag: file system flag string (e.g., 'w' for write, 'wx' to fail if exists, 'a' to append).
+
+IMPLEMENTATION NOTES AND PATTERNS:
+- Writing binary PNG buffers: await fs.promises.writeFile(path, pngBuffer) where pngBuffer is a Buffer returned by canvas.toBuffer() or sharp().toBuffer().
+- Atomic write pattern: write to a temp file in the same directory then await fs.promises.rename(tempPath, finalPath) to ensure consumers never see a partially-written filename.
+- Use fs.promises.open(...) with a FileHandle when multiple writes to the same file are necessary; remember to call filehandle.close() or use the FileHandle in a try/finally.
+- For CLI utilities that must detect file existence first, use fs.promises.stat() and handle ENOENT to decide whether to create files.
+
+ERROR HANDLING AND EDGE CASES:
+- Catch and handle common errno codes: ENOENT (no such file or directory), EACCES/EPERM (permission issues), EEXIST (file exists when using 'wx'), ENOTDIR when path components are not directories.
+- When rename fails after writing temp file, attempt cleanup of the temp file to avoid disk litter.
+
+REFERENCE DETAILS (precise signatures):
+- fs.promises.readFile(path: string | Buffer | URL | integer, options?: { encoding?: string | null } | string | null): Promise<Buffer | string>
 - fs.promises.writeFile(path: string | Buffer | URL | integer, data: string | Buffer | TypedArray | DataView, options?: string | { encoding?: string | null; mode?: number; flag?: string }): Promise<void>
+- fs.promises.appendFile(path: string | Buffer | URL | integer, data: string | Buffer | TypedArray | DataView, options?: string | { encoding?: string | null; mode?: number; flag?: string }): Promise<void>
+- fs.promises.open(path: string | Buffer | URL, flags?: string, mode?: number): Promise<FileHandle>
+- fs.promises.readdir(path: string | Buffer | URL, options?: { encoding?: string; withFileTypes?: boolean } | string): Promise<string[] | Dirent[]>
+- fs.promises.stat(path: string | Buffer | URL): Promise<Stats>
+- fs.promises.mkdir(path: string | Buffer | URL, options?: { recursive?: boolean; mode?: number } | number): Promise<string | void>
+- fs.promises.unlink(path: string | Buffer | URL): Promise<void>
 
-IMPLEMENTATION PATTERNS:
-- Save PNG buffer synchronously (blocking): fs.writeFileSync('out.png', pngBuffer)
-- Save PNG buffer asynchronously (recommended in CLI handlers): await fs.promises.writeFile('out.png', pngBuffer)
-- Atomic write example pattern: write to 'out.png.tmp.<pid>' then await fs.promises.rename(tmpPath, outPath).
-- When writing to avoid race conditions in concurrent runs, use file locks or unique output paths.
-
-DETAILED DIGEST (extracted/normalised from nodejs.org fs reference, retrieved 2026-03-20):
-- Node.js exposes callback, sync, and promise forms of file-writing APIs. The asynchronous form takes a callback(err) and returns undefined; the promise form returns Promise<void>. Options include encoding, mode, and flag. Binary data must be written as Buffer/TypedArray and not as string if exact bytes must be preserved.
+DETAILED DIGEST (extracted/normalised from nodejs.org fs reference):
+- The Node.js fs documentation provides the canonical method signatures and details for the callback, sync and promises variants. The promise forms return standard Promises and are the recommended approach in modern async/await code.
 
 ATTRIBUTION:
-Source: https://nodejs.org/api/fs.html — retrieved 2026-03-20. Data size fetched during crawl: 935744 bytes.
+- Source: https://nodejs.org/api/fs.html (fs.promises section) — retrieved 2026-03-20. Data size fetched during crawl: ~915400 bytes.
