@@ -146,34 +146,6 @@ The `init` workflow updates the agentic infrastructure automatically. To update 
 npx @xn-intenton-z2a/agentic-lib@latest init --purge
 ```
 
-## Plot CLI
-
-This repository includes a small CLI for rendering plots. To run the CLI examples below, use the Node binary in your environment.
-
-## Running tests
-
-- Run unit and CLI tests: `npm test`
-- Run behaviour (Playwright) tests: `npm run test:behaviour`
-
-
-This project includes a small plotting library and CLI. Examples:
-
-```bash
-# Render a sine wave to SVG
-node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg
-
-# Load time series CSV (Node only) and render to PNG (placeholder PNG)
-node src/lib/main.js --csv data.csv --file output.png
-
-# Show help
-node src/lib/main.js --help
-```
-
-Notes:
-- Expressions must use JavaScript Math functions (e.g. Math.sin, Math.cos).
-- Range format is `start:step:end` (inclusive).
-- PNG export currently produces a valid PNG header image (1x1 placeholder) to avoid native dependencies; improve with a renderer like `sharp` or `canvas` if desired.
-
 ## Links
 
 - [MISSION.md](MISSION.md) — your project goals
