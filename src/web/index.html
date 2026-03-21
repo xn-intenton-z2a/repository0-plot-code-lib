@@ -8,13 +8,19 @@
   <meta property="og:description" content="An autonomous repository powered by agentic-lib">
   <meta property="og:type" content="website">
   <style>
-    body { font-family: system-ui, -apple-system, sans-serif; max-width: 800px; margin: 0 auto; padding: 2rem; color: #333; }
+    body { font-family: system-ui, -apple-system, sans-serif; max-width: 1000px; margin: 0 auto; padding: 2rem; color: #333; }
     h1 { border-bottom: 2px solid #eee; padding-bottom: 0.5rem; }
     a { color: #0366d6; }
     .identity { background: #f6f8fa; padding: 1rem; border-radius: 6px; margin: 1rem 0; font-family: monospace; }
     .identity dt { font-weight: bold; color: #666; }
     .identity dd { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
     #demo-output { background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 6px; font-family: monospace; white-space: pre-wrap; min-height: 2rem; }
+    .controls { display:flex; gap:8px; align-items:center; margin: 1rem 0; }
+    input[type="text"] { flex:1; padding:8px; border-radius:4px; border:1px solid #ddd; }
+    button { padding:8px 12px; border-radius:4px; border:1px solid #0366d6; background:#0366d6; color:white; }
+    #plot-container { margin-top: 1rem; border:1px solid #eee; padding:8px; border-radius:6px; }
+    .features { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:12px; margin-top:1rem; }
+    .feature { background:#fff; border:1px solid #f0f0f0; padding:12px; border-radius:6px; }
   </style>
 </head>
 <body>
@@ -27,18 +33,64 @@
       <dd id="lib-description">loading...</dd>
     </dl>
   </div>
-  <h2>Output</h2>
-  <div id="demo-output">Loading library...</div>
+
+  <section>
+    <h2>Interactive Plot Demo</h2>
+    <p>Enter a JavaScript expression using Math functions (e.g. <code>y=Math.sin(x)</code>) and a numeric range (<code>start:step:end</code>).</p>
+    <div class="controls">
+      <input id="expr" type="text" value="y=Math.sin(x)" aria-label="expression">
+      <input id="range" type="text" value="-3.14:0.01:3.14" style="width:260px" aria-label="range">
+      <button id="plot-btn">Plot</button>
+    </div>
+    <div id="demo-output">Loading library...</div>
+    <div id="plot-container" aria-live="polite"></div>
+  </section>
+
+  <section class="features">
+    <div class="feature"><h3>Expression Parsing</h3><p>Parse strings like <code>y=Math.sin(x)</code> into evaluatable functions.</p></div>
+    <div class="feature"><h3>Range Evaluation</h3><p>Evaluate an expression across <code>start:step:end</code> ranges to produce data points.</p></div>
+    <div class="feature"><h3>CSV Loading</h3><p>Load CSV files with <code>time,value</code> columns (Node only for file access).</p></div>
+    <div class="feature"><h3>SVG Output</h3><p>Render data as SVG using <code>&lt;polyline&gt;</code> with a <code>viewBox</code>.</p></div>
+    <div class="feature"><h3>PNG Export</h3><p>Export PNG (placeholder implementation that produces a valid PNG header). See README for details.</p></div>
+  </section>
+
   <h2>About</h2>
   <p>This website uses the library. See <a href="https://github.com/xn-intenton-z2a/repository0">the repository</a> for source code and mission details.</p>
+
   <script type="module">
     try {
-      const { name, version, description } = await import('./lib.js');
+      const lib = await import('./lib.js');
+      const { name, version, description, parseExpression, evaluateExpressionOverRange, renderSVG } = lib;
       document.getElementById('lib-name').textContent = name;
       document.getElementById('lib-version').textContent = version;
       document.getElementById('lib-description').textContent = description || '(no description)';
       document.getElementById('demo-output').textContent = JSON.stringify({ name, version, description }, null, 2);
       document.title = name + ' v' + version;
+
+      const exprInput = document.getElementById('expr');
+      const rangeInput = document.getElementById('range');
+      const plotBtn = document.getElementById('plot-btn');
+      const demoOutput = document.getElementById('demo-output');
+      const plotContainer = document.getElementById('plot-container');
+
+      function renderDemo() {
+        try {
+          const expr = exprInput.value;
+          const range = rangeInput.value;
+          const series = evaluateExpressionOverRange(expr, range);
+          const svg = renderSVG(series, { width: 800, height: 240, stroke: '#007acc' });
+          plotContainer.innerHTML = svg;
+          const sample = series.slice(0, 5).map(p => ({ x: Number(p.x.toFixed(4)), y: Number((p.y || 0).toFixed(4)) }));
+          demoOutput.textContent = `Points: ${series.length}\nSample: ${JSON.stringify(sample, null, 2)}`;
+        } catch (e) {
+          demoOutput.textContent = 'Error: ' + e.message;
+          plotContainer.innerHTML = '';
+        }
+      }
+
+      plotBtn.addEventListener('click', renderDemo);
+      // initial render
+      renderDemo();
     } catch (e) {
       document.getElementById('lib-version').textContent = '(error)';
       document.getElementById('lib-description').textContent = e.message;
