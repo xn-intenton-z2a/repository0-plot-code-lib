@@ -8,4 +8,8 @@ Reference material and documentation sources for this project.
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RangeError
 - https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+- https://nodejs.org/api/esm.html
 - https://vitest.dev/guide/
+- https://vitest.dev/api/
