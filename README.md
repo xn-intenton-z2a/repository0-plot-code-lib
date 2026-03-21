@@ -148,6 +148,14 @@ npx @xn-intenton-z2a/agentic-lib@latest init --purge
 
 ## Plot CLI
 
+This repository includes a small CLI for rendering plots. To run the CLI examples below, use the Node binary in your environment.
+
+## Running tests
+
+- Run unit and CLI tests: `npm test`
+- Run behaviour (Playwright) tests: `npm run test:behaviour`
+
+
 This project includes a small plotting library and CLI. Examples:
 
 ```bash

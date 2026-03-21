@@ -92,39 +92,53 @@ export function evaluateExpressionOverRange(exprOrFn, rangeString) {
 // Parse CSV text with header time,value
 export function parseCSV(text) {
   if (typeof text !== 'string') throw new TypeError('CSV input must be a string');
-  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-  if (lines.length === 0) return [];
-  const header = lines[0].split(',').map(h => h.trim().toLowerCase());
-  const timeIdx = header.indexOf('time');
-  const valueIdx = header.indexOf('value');
-  if (timeIdx === -1 || valueIdx === -1) throw new Error('CSV must have time,value columns');
+  // Split lines, tolerate CRLF/LF, trim and ignore empty lines
+  const rawLines = text.split(/\r?\n/);
+  const lines = rawLines.map(l => l.replace(/\uFEFF/g, '').trim());
+  // remove blank lines
+  const nonEmpty = lines.filter(l => l.length > 0);
+  if (nonEmpty.length === 0) return [];
+  const headerParts = nonEmpty[0].split(',').map(h => h.trim().toLowerCase());
+  const timeIdx = headerParts.indexOf('time');
+  const valueIdx = headerParts.indexOf('value');
+  if (timeIdx === -1 || valueIdx === -1) throw new Error('Missing required columns: time,value');
   const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const cols = lines[i].split(',').map(c => c.trim());
-    const time = cols[timeIdx];
-    const value = Number(cols[valueIdx]);
-    rows.push({ time, value });
+  for (let i = 1; i < nonEmpty.length; i++) {
+    const cols = nonEmpty[i].split(',').map(c => c.trim());
+    // tolerate extra columns; require time & value positions exist
+    if (cols.length <= Math.max(timeIdx, valueIdx)) {
+      throw new Error('CSV row is missing columns');
+    }
+    const t = Number(cols[timeIdx]);
+    const v = Number(cols[valueIdx]);
+    if (Number.isNaN(t) || Number.isNaN(v)) throw new Error('Non-numeric value in CSV');
+    rows.push({ time: t, value: v });
   }
+  // sort by time ascending
+  rows.sort((a, b) => a.time - b.time);
   return rows;
 }
 
-// Load CSV either from path (Node) or from text
+// Load CSV either from path (Node) or from text input
 export async function loadCSV(input) {
   if (typeof input !== 'string') throw new TypeError('Input must be a string (path or CSV text)');
   if (isNode) {
     try {
       const fs = await import('fs');
-      const path = input;
-      if (fs.existsSync && fs.existsSync(path)) {
-        const text = fs.readFileSync(path, 'utf8');
+      const p = input;
+      if (fs.existsSync && fs.existsSync(p)) {
+        const text = fs.readFileSync(p, 'utf8');
         return parseCSV(text);
       }
     } catch (e) {
-      // fall through to treating input as CSV text
+      // fall back to treating input as CSV text
     }
   }
   return parseCSV(input);
 }
+
+// Keep lowercase alias for callers expecting loadCsv
+export const loadCsv = loadCSV;
 
 // Render a series (array of {x,y}) to SVG1.1 with viewBox and a polyline
 export function renderSVG(series, opts = {}) {
@@ -160,6 +174,9 @@ export function renderSVG(series, opts = {}) {
   return svg;
 }
 
+// lowercase alias
+export const renderSvg = renderSVG;
+
 // Render PNG from SVG — returns Buffer in Node, base64 string in browser
 // For now produce a small placeholder PNG (1x1 transparent) to satisfy tests without native deps
 const DEFAULT_PNG_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII='; // 1x1 transparent
@@ -167,6 +184,8 @@ export function renderPNGFromSVG(svg) {
   if (isNode) return Buffer.from(DEFAULT_PNG_BASE64, 'base64');
   return DEFAULT_PNG_BASE64;
 }
+
+export const renderPng = renderPNGFromSVG;
 
 // Save a series to file (svg or png) — Node only
 export async function savePlotFromSeries(series, filePath, opts = {}) {
@@ -189,9 +208,10 @@ export async function savePlotFromSeries(series, filePath, opts = {}) {
 }
 
 export function helpText() {
-  return `Usage:\nnode src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg\nnode src/lib/main.js --csv data.csv --file output.png\nOptions:\n  --expression <expr>   Expression string, e.g. \"y=Math.sin(x)\"\n  --range <r>           Range as start:step:end, e.g. -3.14:0.01:3.14\n  --csv <path>          Path to CSV file with columns time,value\n  --file <path>         Output file path (.svg or .png)\n  --help                Show this help\n  --version             Show version\n  --identity            Show identity as JSON\n`;
+  return `Usage:\n  node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg\n  node src/lib/main.js --csv data.csv --file output.png\n\nOptions:\n  --expression <expr>   Expression string, e.g. \"y=Math.sin(x)\"\n  --range <r>           Range as start:step:end, e.g. -3.14:0.01:3.14\n  --csv <path>          Path to CSV file with columns time,value\n  --file <path>         Output file path (.svg or .png)\n  --help                Show this help\n  --version             Show version\n  --identity            Show identity as JSON\n\nExamples:\n  node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.svg\n`;
 }
 
+// Main CLI logic: performs actions but does not exit the process
 export async function main(args) {
   if (!args && isNode) {
     args = process.argv.slice(2);
@@ -243,10 +263,28 @@ export async function main(args) {
   console.log(`${name}@${version}`);
 }
 
-// Auto-run when invoked as script in Node
+// Programmatic run function that returns an exit code instead of exiting directly
+export async function run(argv = (isNode ? process.argv.slice(2) : [])) {
+  try {
+    await main(argv);
+    return 0;
+  } catch (err) {
+    if (typeof console !== 'undefined' && console.error) console.error(err.message || String(err));
+    return 2;
+  }
+}
+
+// Auto-run when invoked as script in Node (thin wrapper that exits with code)
 if (isNode) {
   const { fileURLToPath } = await import('url');
-  if (process.argv[1] === fileURLToPath(import.meta.url)) {
-    await main();
+  const path = await import('path');
+  try {
+    const invokedPath = process.argv[1] ? path.resolve(process.argv[1]) : null;
+    const thisPath = path.resolve(fileURLToPath(import.meta.url));
+    if (invokedPath && invokedPath === thisPath) {
+      run(process.argv.slice(2)).then(code => process.exit(code)).catch(err => { console.error(err?.message || String(err)); process.exit(2); });
+    }
+  } catch (e) {
+    // ignore
   }
 }
