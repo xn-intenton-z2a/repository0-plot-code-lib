@@ -100,6 +100,45 @@ Workflows ship with schedule **off** by default. Activate them from the GitHub A
 | weekly | Every week | Every month | Every week |
 | off | Never | Never | Never |
 
+## Roman numerals API
+
+This package now exports two named functions from `src/lib/main.js` for converting between integers and Roman numerals.
+
+Usage (ESM):
+
+```js
+import { toRoman, fromRoman } from './src/lib/main.js';
+
+console.log(toRoman(1994)); // => 'MCMXCIV'
+console.log(fromRoman('MCMXCIV')); // => 1994
+```
+
+The functions obey the following rules:
+- toRoman(n): accepts integers 1..3999 and returns a Roman numeral string using subtractive notation (IV, IX, XL, XC, CD, CM). Throws RangeError for values outside 1..3999 and TypeError for non-integers.
+- fromRoman(s): parses strict Roman numerals (1..3999) using subtractive notation and returns an integer. Throws TypeError for malformed strings.
+
+Conversion table (examples):
+
+| Number | Roman |
+|--------|-------|
+| 1      | I     |
+| 4      | IV    |
+| 9      | IX    |
+| 40     | XL    |
+| 90     | XC    |
+| 400    | CD    |
+| 900    | CM    |
+| 1994   | MCMXCIV |
+| 3999   | MMMCMXCIX |
+
+Acceptance criteria (implemented):
+- Converting `1994` to Roman produces `"MCMXCIV"`
+- Converting `"MCMXCIV"` from Roman produces `1994`
+- Converting `4` to Roman produces `"IV"`
+- Round-trip holds for all n in 1–3999 (verified by unit tests)
+- Converting `0` or `4000` to Roman throws `RangeError`
+- Converting malformed strings such as `"IIII"` from Roman throws `TypeError`
+
 ## How It Works
 
 ```
@@ -111,8 +150,6 @@ MISSION.md -> [supervisor] -> dispatch workflows -> Issue -> Code -> Test -> PR 
 The pipeline runs as GitHub Actions workflows. An LLM supervisor gathers repository context and dispatches other workflows. Each workflow uses the Copilot SDK to make targeted changes.
 
 ## Configuration
-
-Edit `agentic-lib.toml` to tune the system:
 
 ```toml
 [schedule]
