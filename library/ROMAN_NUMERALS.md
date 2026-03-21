@@ -8,8 +8,10 @@ Table of contents
 - Validation pattern (regex)
 - Integer → Roman conversion (greedy mapping)
 - Roman → Integer conversion (validated subtraction-aware scan)
-- Error handling and exceptions
-- Examples and acceptance checks
+- Error handling and exported API
+- Supplementary details
+- Reference details (exact signatures, mapping, regex)
+- Detailed digest and retrieval metadata
 
 Symbols and values
 - I = 1
@@ -48,7 +50,7 @@ Integer → Roman conversion (exact implementation pattern)
   4    => IV
   1    => I
 - Algorithm (greedy):
-  1. Validate input is a finite integer. If not an integer or outside range 1..3999, throw RangeError.
+  1. Validate input is a finite number and an integer. If not an integer or outside range 1..3999, throw RangeError.
   2. Initialize an empty output string.
   3. For each (value, numeral) pair in the descending mapping list, while n >= value append numeral to output and subtract value from n.
   4. Return the output string. The greedy mapping produces canonical subtractive notation (e.g., 4 => IV, 9 => IX, 1994 => MCMXCIV).
@@ -62,30 +64,27 @@ Roman → Integer conversion (exact implementation pattern)
 - Note: Because validation uses the strict regex, the subtraction-only-when-allowed constraint is already enforced and the simple lookahead algorithm yields the correct number.
 
 Error handling and exported API
-- Behavior constraints (must be enforced by library code):
+- Public exported (named) API (must be named exports from src/lib/main.js):
   - toRoman(n: number): string
     - Signature: toRoman(n: number): string
-    - Throws RangeError when n is not an integer or not in the inclusive range 1..3999.
+    - Type checks: if typeof n !== 'number' or !Number.isInteger(n) throw RangeError
+    - Range: throw RangeError when n < 1 or n > 3999
     - Returns canonical Roman numeral string using subtractive notation.
   - fromRoman(s: string): number
     - Signature: fromRoman(s: string): number
-    - Throws TypeError when s is not a string or fails the canonical validation regex.
+    - Type checks: if typeof s !== 'string' throw TypeError
+    - Validation: if s does not match canonical regex throw TypeError
     - Returns integer in 1..3999 when s is valid.
 - Round-trip property: for all integers n in 1..3999, fromRoman(toRoman(n)) === n holds when toRoman produces canonical output and fromRoman enforces strict validation.
 
-Concrete validation examples (acceptance checks)
-- toRoman(1994) => "MCMXCIV"
-- fromRoman("MCMXCIV") => 1994
-- toRoman(4) => "IV"
-- fromRoman("IIII") => throws TypeError (strict validation fails)
-- toRoman(0) => throws RangeError
-- toRoman(4000) => throws RangeError
-
 Supplementary details
-- Use a single authoritative mapping array in source code (value, symbol) in descending order to implement integer → Roman.
-- Use the canonical regex for pre-validation of input Roman strings before parsing; this prevents ambiguous or non-canonical inputs from being accepted.
-- Ensure type checks: typeof n === 'number' and Number.isInteger(n) for toRoman; typeof s === 'string' for fromRoman.
-- For unit tests include boundary values: 1, 3, 4, 9, 40, 90, 400, 900, 3999 and invalid inputs: 0, 4000, "IIII", "IL", null, 3.14.
+- Implementation notes:
+  - Use a single authoritative mapping array in source code (value, symbol) in descending order to implement integer → Roman.
+  - Use the canonical regex for pre-validation of input Roman strings before parsing; this prevents ambiguous or non-canonical inputs from being accepted.
+  - Ensure type checks: typeof n === 'number' and Number.isInteger(n) for toRoman; typeof s === 'string' for fromRoman.
+  - For unit tests include boundary values: 1, 3, 4, 9, 40, 90, 400, 900, 3999 and invalid inputs: 0, 4000, "IIII", "IL", null, 3.14.
+- Performance:
+  - Both toRoman and fromRoman are O(k) where k is number of numeral tokens or digits (constant-bounded for 1..3999), so performance is trivial for application use.
 
 Reference details (exact patterns and signatures)
 - Mapping table (descending):
@@ -94,10 +93,15 @@ Reference details (exact patterns and signatures)
 - Public API (named exports from src/lib/main.js):
   - toRoman(n: number): string  -> Throws RangeError for invalid input
   - fromRoman(s: string): number -> Throws TypeError for invalid input
+- Best practices and examples (implementation patterns):
+  - Always validate argument types before other checks to fail fast.
+  - Use a constant mapping array to avoid repeating logic when implementing toRoman.
+  - Use the regex first in fromRoman to reject non-canonical strings; after validation, use the lookahead-scan algorithm to compute the integer value.
+  - Tests should verify error throwing for invalid types and values, canonical mapping examples, and round-trip invariants across the full required range.
 
 Detailed digest and extracted source content (retrieved 2026-03-21)
 - Source: Wikipedia — Roman numerals
-  - Key extracted points: canonical symbol set I, V, X, L, C, D, M; subtractive notation examples and canonical formation rules; examples for constructing numbers by thousands/hundreds/tens/ones; canonical limit noted in practice as 1–3999 for common algorithms.
+  - Key extracted points: canonical symbol set I, V, X, L, C, D, M; subtractive notation examples and canonical formation rules; canonical limit noted in practice as 1–3999 for common algorithms.
   - Retrieved: 2026-03-21
   - Bytes fetched: 510215
 - Source: MathIsFun — Roman Numerals
@@ -111,13 +115,23 @@ Detailed digest and extracted source content (retrieved 2026-03-21)
 - Source: NPM package "roman-numerals"
   - Key extracted points: common package API patterns and behavior around edge cases and examples of usage; note that public packages commonly use the same greedy mapping and the canonical regex for validation.
   - Retrieved: 2026-03-21
-  - Bytes fetched: 7152
+  - Bytes fetched: 7216
+- Source: Rosetta Code — Roman numerals
+  - Key extracted points: multiple language implementations demonstrating the same canonical mapping and the greedy conversion algorithm; alternative parsing approaches and short examples showing the typical mapping table used across languages; useful for implementation variants and test examples.
+  - Retrieved: 2026-03-21
+  - Bytes fetched: 42095
+- Source: StackOverflow — regex validation discussion
+  - Key extracted points: community discussion and precise regular-expression patterns for validating strict canonical Roman numerals; accepted answers reference the canonical regex used above and explain why alternative, shorter regexes fail for edge cases (e.g., "IL", "IC").
+  - Retrieved: 2026-03-21
+  - Bytes fetched: 636635
 
 Attribution and data-size summary
 - Wikipedia (https://en.wikipedia.org/wiki/Roman_numerals) — 510215 bytes
 - MathIsFun (https://www.mathsisfun.com/roman-numerals.html) — 11457 bytes
 - GeeksforGeeks (https://www.geeksforgeeks.org/converting-roman-numerals-decimal-vice-versa/) — 92731 bytes
-- NPM (https://www.npmjs.com/package/roman-numerals) — 7152 bytes
+- NPM (https://www.npmjs.com/package/roman-numerals) — 7216 bytes
+- Rosetta Code (https://rosettacode.org/wiki/Roman_numerals) — 42095 bytes
+- StackOverflow (https://stackoverflow.com/questions/267399/how-do-you-validate-roman-numerals-regular-expression) — 636635 bytes
 
 Notes for implementers
 - Use the exact regex provided for strict input validation in fromRoman; do not accept inputs that fail that regex.
