@@ -79,7 +79,7 @@ export function evaluateRange(rangeStr, exprOrFn) {
 }
 
 export function loadCSV(filePath) {
-  if (!isNode) throw new Error("loadCSV is only available in Node.js environment");
+  if (!isNode || !fs) throw new Error("loadCSV is only available in Node.js environment");
   const content = fs.readFileSync(filePath, "utf8");
   const lines = content.split(/\r?\n/).filter((l) => l.trim().length > 0);
   if (lines.length === 0) return [];
@@ -136,7 +136,7 @@ export function renderPNG(points, opts = {}) {
 }
 
 export function savePlot(points, filename) {
-  if (!isNode) throw new Error("savePlot is only available in Node.js environment");
+  if (!isNode || !fs || !path) throw new Error("savePlot is only available in Node.js environment");
   if (!filename || typeof filename !== "string") throw new TypeError("filename is required");
   const ext = path.extname(filename).toLowerCase();
   if (ext === ".svg") {
