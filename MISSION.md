@@ -33,10 +33,10 @@ The `--help` flag prints usage examples and exits.
 
 ## Acceptance Criteria
 
-- [ ] Parsing `"y=Math.sin(x)"` returns a callable function
-- [ ] Evaluating over range `-3.14:0.01:3.14` returns ~628 data points
-- [ ] SVG output contains `<polyline>` and `viewBox` attributes
-- [ ] PNG output starts with the PNG magic bytes
+- [x] Parsing `"y=Math.sin(x)"` returns a callable function
+- [x] Evaluating over range `-3.14:0.01:3.14` returns ~628 data points
+- [x] SVG output contains `<polyline>` and `viewBox` attributes
+- [x] PNG output starts with the PNG magic bytes
 - [ ] CLI `--expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg` produces a file
 - [ ] CLI `--help` prints usage information
 - [ ] All unit tests pass
