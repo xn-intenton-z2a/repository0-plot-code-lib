@@ -19,12 +19,12 @@ A JavaScript library for converting between integers and Roman numeral strings.
 
 ## Acceptance Criteria
 
-- [ ] Converting `1994` to Roman produces `"MCMXCIV"`
-- [ ] Converting `"MCMXCIV"` from Roman produces `1994`
-- [ ] Converting `4` to Roman produces `"IV"`
-- [ ] Round-trip holds for all n in 1–3999
-- [ ] Converting `0` to Roman throws `RangeError`
-- [ ] Converting `4000` to Roman throws `RangeError`
-- [ ] Converting `"IIII"` from Roman throws `TypeError` (strict: only subtractive notation accepted)
+- [x] Converting `1994` to Roman produces `"MCMXCIV"`
+- [x] Converting `"MCMXCIV"` from Roman produces `1994`
+- [x] Converting `4` to Roman produces `"IV"`
+- [x] Round-trip holds for all n in 1–3999
+- [x] Converting `0` to Roman throws `RangeError`
+- [x] Converting `4000` to Roman throws `RangeError`
+- [x] Converting `"IIII"` from Roman throws `TypeError` (strict: only subtractive notation accepted)
 - [ ] All unit tests pass
 - [ ] README documents usage with examples
