@@ -18,8 +18,24 @@ if (isNode) {
   }
 } else {
   try {
-    const resp = await fetch(new URL("../../package.json", import.meta.url));
-    pkg = await resp.json();
+    // In browsers prefer the absolute package.json at repository root (served by the static server).
+    // Fall back to a relative URL based on module location if that fails.
+    let resp;
+    try {
+      resp = await fetch("/package.json");
+    } catch (e) {
+      resp = undefined;
+    }
+    if (resp && resp.ok) {
+      pkg = await resp.json();
+    } else {
+      try {
+        const resp2 = await fetch(new URL("../../package.json", import.meta.url).href);
+        if (resp2 && resp2.ok) pkg = await resp2.json();
+      } catch (e) {
+        // keep defaults
+      }
+    }
   } catch (e) {
     // browser fallback
   }
