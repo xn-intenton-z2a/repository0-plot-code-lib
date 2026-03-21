@@ -146,24 +146,6 @@ The `init` workflow updates the agentic infrastructure automatically. To update 
 npx @xn-intenton-z2a/agentic-lib@latest init --purge
 ```
 
-## Roman numerals API
-
-This repository includes a small Roman numeral utility in `src/lib/main.js`.
-
-Usage (ESM):
-
-```js
-import { toRoman, fromRoman } from './src/lib/main.js';
-
-console.log(toRoman(1994)); // 'MCMXCIV'
-console.log(fromRoman('MCMXCIV')); // 1994
-```
-
-- toRoman accepts integers 1..3999 and throws TypeError for non-integers or RangeError for out-of-range values.
-- fromRoman accepts strict Roman numeral strings (case-insensitive) and throws TypeError on invalid input.
-
-See `docs/ROMAN_NUMERALS.md` for details and examples.
-
 ## Links
 
 - [MISSION.md](MISSION.md) — your project goals
