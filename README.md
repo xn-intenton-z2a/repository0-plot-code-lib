@@ -1,6 +1,6 @@
 # repo
 
-This repository is powered by [intenti&ouml;n agentic-lib](https://github.com/xn-intenton-z2a/agentic-lib) — autonomous code transformation driven by GitHub Copilot. Write a mission, and the system generates issues, writes code, runs tests, and opens pull requests.
+This repository is powered by [intentiön agentic-lib](https://github.com/xn-intenton-z2a/agentic-lib) — autonomous code transformation driven by GitHub Copilot. Write a mission, and the system generates issues, writes code, runs tests, and opens pull requests.
 
 ## Plotting CLI and Library
 
@@ -12,7 +12,8 @@ Examples:
 # Render a sine wave to SVG
 node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg
 
-# Convert a CSV time series (time,value) to PNG
+# Convert a CSV time series (time,value) to SVG or PNG
+node src/lib/main.js --csv data.csv --file output.svg
 node src/lib/main.js --csv data.csv --file output.png
 
 # Show help
@@ -22,7 +23,10 @@ node src/lib/main.js --help
 Notes on PNG rendering
 
 - For portability in the repository tests and CI this implementation returns a tiny 1x1 PNG stub (a valid PNG file starting with the PNG magic bytes) rather than depending on native image libraries.
-- A production implementation can rasterise the generated SVG using libraries such as `sharp` or `canvas` to produce full-resolution PNG files. See features/PNG_RENDERER.md for guidance.
+- For production use, rasterise the generated SVG to PNG using tools like `sharp` (https://www.npmjs.com/package/sharp) or `canvas`/`node-canvas`. A recommended approach is:
+  1. Generate the SVG via renderSVG(points)
+  2. Use `sharp(Buffer.from(svg))` and call `.png()` to produce a PNG buffer and `.toFile()` to write to disk
+- See `features/PNG_RENDERER.md` for implementation notes and trade-offs.
 
 ## Getting Started
 
