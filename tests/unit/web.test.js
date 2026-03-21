@@ -31,4 +31,12 @@ describe("Website", () => {
     expect(html).toContain("lib-name");
     expect(html).toContain("lib-version");
   });
+
+  test("index.html contains Roman demo elements", () => {
+    const html = readFileSync("src/web/index.html", "utf8");
+    expect(html).toContain('id="number-input"');
+    expect(html).toContain('id="to-roman-btn"');
+    expect(html).toContain('id="roman-input"');
+    expect(html).toContain('id="from-roman-btn"');
+  });
 });
