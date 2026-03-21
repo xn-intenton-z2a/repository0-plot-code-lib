@@ -9,7 +9,11 @@ let pkg;
 if (isNode) {
   const { createRequire } = await import("module");
   const requireFn = createRequire(import.meta.url);
-  pkg = requireFn("../../package.json");
+  try {
+    pkg = requireFn("../../package.json");
+  } catch {
+    pkg = { name: "repo", version: "0.0.0", description: "" };
+  }
 } else {
   try {
     const resp = await fetch(new URL("../../package.json", import.meta.url));
@@ -27,6 +31,36 @@ export function getIdentity() {
   return { name, version, description };
 }
 
+// Return the FizzBuzz string for a single positive integer n
+export function fizzBuzzSingle(n) {
+  if (!Number.isInteger(n)) {
+    throw new TypeError("n must be an integer");
+  }
+  if (n <= 0) {
+    throw new RangeError("n must be a positive integer");
+  }
+  if (n % 15 === 0) return "FizzBuzz";
+  if (n % 3 === 0) return "Fizz";
+  if (n % 5 === 0) return "Buzz";
+  return String(n);
+}
+
+// Return an array of FizzBuzz strings from 1..n
+export function fizzBuzz(n) {
+  if (!Number.isInteger(n)) {
+    throw new TypeError("n must be an integer");
+  }
+  if (n < 0) {
+    throw new RangeError("n must be a non-negative integer");
+  }
+  if (n === 0) return [];
+  const out = [];
+  for (let i = 1; i <= n; i++) {
+    out.push(fizzBuzzSingle(i));
+  }
+  return out;
+}
+
 export function main(args) {
   if (args?.includes("--version")) {
     console.log(version);
@@ -42,7 +76,7 @@ export function main(args) {
 if (isNode) {
   const { fileURLToPath } = await import("url");
   if (process.argv[1] === fileURLToPath(import.meta.url)) {
-    const args = process.argv.slice(2);
-    main(args);
+    const argv = process.argv.slice(2);
+    main(argv);
   }
 }
