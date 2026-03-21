@@ -1,27 +1,32 @@
 # UNIT_TESTS
 
 Summary
-Define the required unit tests that prove the core library features meet the acceptance criteria and provide robust regression coverage.
+Specify the unit test suite required to verify the Roman numerals library meets the mission acceptance criteria and is regression-safe.
 
-Goals
-- Cover expression parsing, range evaluation, CSV loading, SVG structure, PNG signature, file save, and CLI behaviors with focused unit tests.
-- Use Vitest and existing test harness configured in package.json.
+Tests to implement
+- Core conversion tests
+  - Assert toRoman(1994) === MCMXCIV
+  - Assert fromRoman(MCMXCIV) === 1994
+  - Assert toRoman(4) === IV
+- Boundary and invalid input tests
+  - Assert toRoman(1) === I and toRoman(3999) === MMMCMXCIX
+  - Assert toRoman(0) and toRoman(4000) throw RangeError
+  - Assert fromRoman(IIII) and fromRoman(IL) throw TypeError
+- Round-trip tests
+  - Assert fromRoman(toRoman(n)) === n for representative sampled values including 1, 4, 9, 40, 90, 400, 900, 1994, 3999
+  - A slow optional test may assert the property for the full range 1..3999; provide it as an opt-in or tagged test in CI.
 
-Test cases (representative)
-- Expression parser: parseExpression("y=Math.sin(x)") is callable and f(0) === 0.
-- Range evaluator: evaluateRange over -3.14:0.01:3.14 returns approximately 628 points.
-- CSV loader: loadCsv on a small test fixture returns expected numeric values.
-- SVG renderer: renderSvg output contains <polyline and viewBox and points count matches series length.
-- PNG renderer: renderPng returns a Buffer starting with PNG magic bytes.
-- File save: savePlot to .svg and .png writes files with correct signatures.
-- CLI: invoking --help prints usage and invoking generation flags creates the expected file.
+Execution
+- Tests must be runnable with npm test and live under tests/unit/ using Vitest.
+- Tests should avoid heavy native dependencies; where native modules (if any) are optional provide stubs or skip markers so CI remains deterministic.
 
 Acceptance Criteria
-- Tests exist for each of the above items and can be run via npm test pointing at tests/unit/*.test.js.
-- Tests are deterministic and clean up any temporary files they create.
+- All unit tests pass when running npm test locally or in CI.
+- Tests assert both correct outputs and correct thrown error types for invalid inputs.
 
 Deliverables
-- Test skeletons and examples in tests/unit/ that exercise the API and validate the acceptance criteria.
+- Concrete test files under tests/unit/ implementing the cases above.
+- Tests must import only the named exports from src/lib/main.js and avoid reading or modifying other repository files.
 
 Notes
-- Where native dependencies are optional (sharp), provide test stubs or fallbacks so CI can run without those native deps.
+- Keep tests deterministic and fast; if a full 1..3999 loop is expensive, provide a separate slow test that is optional in CI but included for full verification locally.

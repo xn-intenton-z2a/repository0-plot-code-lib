@@ -1,26 +1,33 @@
-# CSV_LOADER
+# CORE_CONVERSION
 
 Summary
-Load time series data from CSV files with header columns time and value and return a typed array suitable for plotting.
+Implement the core conversion functions toRoman and fromRoman as named exports from src/lib/main.js. These functions perform integer→Roman and Roman→integer conversion following canonical subtractive notation and strict validation rules for the 1..3999 range.
 
-Goals
-- Provide a loader that reads CSV files following RFC4180 conventions and returns an array of { time: Number|String, value: Number }.
-- Accept files with a header row time,value and also tolerate common whitespace and line ending differences.
+Description
+- toRoman(n: number): string
+  - Accepts a finite integer n in the inclusive range 1..3999 and returns the canonical Roman numeral using subtractive notation.
+  - Throws RangeError when n is not an integer or outside 1..3999.
+- fromRoman(s: string): number
+  - Accepts a string s that matches the canonical validation regex and returns the corresponding integer in 1..3999.
+  - Throws TypeError when s is not a string or fails validation.
 
-API Contract
-- loadCsv(pathOrStream) -> Promise<Array<{ time, value }>>
-  - The function reads the CSV, validates the presence of time and value columns, and parses value as Number.
-  - time may be left as the original string or converted to a numeric timestamp depending on options; tests should cover both behaviours.
-
-Behavior and constraints
-- Badly formatted rows, missing headers, or non-numeric values should either be skipped with a warning or cause a descriptive Error depending on an options flag. Default behaviour should be strict (throw on invalid rows).
+Behavior and implementation notes
+- Use a single descending mapping array of value/numeral pairs for toRoman: 1000 M, 900 CM, 500 D, 400 CD, 100 C, 90 XC, 50 L, 40 XL, 10 X, 9 IX, 5 V, 4 IV, 1 I.
+- Implement the greedy algorithm for toRoman: iterate mapping and append symbols while subtracting values until n is 0.
+- For fromRoman, pre-validate s using the canonical regex and then scan left-to-right with lookahead: add value when current >= next, else subtract current.
 
 Acceptance Criteria
-- A CSV file with header line time,value and two data rows is parsed into an array of length 2 with numeric value fields.
-- Missing header or missing value cells cause a descriptive Error in strict mode.
+- toRoman(1994) returns MCMXCIV.
+- fromRoman(MCMXCIV) returns 1994.
+- toRoman(4) returns IV.
+- toRoman(0) throws RangeError.
+- toRoman(4000) throws RangeError.
+- fromRoman(IIII) throws TypeError.
+- Both functions are exported as named exports from src/lib/main.js.
 
 Deliverables
-- Named export loadCsv from src/lib/main.js and unit tests covering header detection, numeric parsing, and error handling.
+- Implementations of toRoman and fromRoman in src/lib/main.js with appropriate type checks and errors.
+- Unit tests covering the examples above and programmatic consumers using named exports.
 
 Notes
-- Use Node filesystem streams and a small CSV parser implementation; avoid pulling a large CSV dependency when possible.
+- Keep the core conversion logic small and well-documented; tests must prove the round-trip property separately.

@@ -1,30 +1,22 @@
-# EXPRESSION_PARSER
+# ROMAN_VALIDATION
 
 Summary
-Provide a safe, auditable parser that converts a mathematical expression string into a callable JavaScript function using only the built-in Math object.
+Define and use a canonical validation step for Roman numeral inputs to ensure strict acceptance only of subtractive, canonical form.
 
-Goals
-- Accept expressions of the form y=EXPR or EXPR where EXPR uses Math and the variable x.
-- Return a function f(x) that evaluates the expression and returns numeric y.
+Validation rules
+- Use the exact canonical regex for strict validation: ^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$.
+- The library must throw TypeError for any string that does not fully match this pattern.
+- Validation must be performed before attempting to compute an integer value to avoid ambiguous or non-canonical inputs being accepted.
 
-API Contract
-- parseExpression(expressionString) -> function f(x)
-  - expressionString is a non-empty string. Accepts either a leading y= assignment or a bare expression.
-  - The returned function accepts a single numeric x and returns a finite numeric y.
-
-Behavior and constraints
-- Only the Math object and the numeric variable x are available to the expression; no other globals or module access are permitted.
-- Invalid, empty or non-evaluable expressions must throw a descriptive Error.
-- Implementation should be auditable and avoid exposing the broader process environment.
+Behavior and API
+- Expose validation as an internal helper used by fromRoman or optionally export validateRoman(s) if that aids testing.
+- Examples of invalid input: IIII, IL, VX, IIV, empty string; these must all fail validation.
+- Examples of valid input: I, IV, IX, XL, XC, CD, CM, MCMXCIV.
 
 Acceptance Criteria
-- parseExpression("y=Math.sin(x)") returns a callable function and calling it with x=0 returns 0.
-- parseExpression("y=x*x+2*x-1") when called with x=2 returns 5.
-- parseExpression throws an Error for an empty string or clearly invalid inputs.
+- validateRoman returns true for MCMXCIV and for single-symbol values such as I and V.
+- validateRoman returns false for IIII and IL and the public fromRoman throws TypeError for the same invalid strings.
+- The regex is used verbatim in tests to assert that non-matching inputs are rejected.
 
 Deliverables
-- Named export parseExpression implemented in src/lib/main.js (or an internal helper exported and re-exported).
-- Unit tests verifying the acceptance criteria and edge cases.
-
-Notes
-- Document security considerations for using the Function constructor and the chosen sandboxing approach in the README.
+- A clear validation helper and unit tests that exercise valid and invalid inputs and demonstrate that invalid inputs cause fromRoman to throw TypeError.

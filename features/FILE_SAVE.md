@@ -1,27 +1,20 @@
-# FILE_SAVE
+# DOCS_AND_EXAMPLES
 
 Summary
-Save generated plot output to disk, inferring output format from the file extension and delegating to the appropriate renderer.
+Provide README documentation with concise examples, a conversion table, and explicit notes on error conditions to make the Roman numerals library easy to use and test.
 
-Goals
-- Provide a single savePlot(filePath, dataOrOptions) helper that writes either SVG text or PNG bytes depending on the file extension .svg or .png.
-- Ensure correct file mode and atomic write behaviour where feasible.
-
-API Contract
-- savePlot(filePath, { svg?: String, png?: Buffer } or { series, options }) -> Promise<void>
-  - If filePath ends with .svg, write the SVG string; if .png, write the PNG bytes.
-  - When caller provides series and options, the helper will call renderSvg or renderPng as required before writing.
-
-Behavior and constraints
-- The function must create parent directories as needed and throw a descriptive Error on write failures.
+Description
+- The README must document usage of the named exports toRoman and fromRoman, show example calls for common values (including 1994 and 4), and state the errors thrown for invalid inputs.
+- Include a conversion table (value -> Roman) for the canonical mapping entries and a short section describing the validation regex and the round-trip property.
 
 Acceptance Criteria
-- Saving to output.svg creates a file that begins with the characters <svg and contains a viewBox attribute.
-- Saving to output.png creates a file whose contents begin with the PNG magic bytes.
-- The function is exported as a named helper and used by the CLI implementation.
+- README contains an examples section demonstrating converting 1994 to MCMXCIV and converting MCMXCIV back to 1994.
+- README lists the canonical mapping table and documents that toRoman throws RangeError for 0 and 4000 and fromRoman throws TypeError for IIII.
+- README describes how to run the unit tests with npm test.
 
 Deliverables
-- Named export savePlot from src/lib/main.js and unit tests that write to a temporary directory and verify file signatures.
+- Updated README.md with usage examples, conversion table, and test instructions.
+- Small examples directory (examples/) may contain a short JavaScript snippet demonstrating the named exports; examples must be non-executable documentation only.
 
 Notes
-- Use Node fs promises and ensure tests clean up temporary files.
+- Avoid including large code examples; keep examples minimal and human-readable to meet documentation acceptance criteria.

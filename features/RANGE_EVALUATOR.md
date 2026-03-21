@@ -1,28 +1,20 @@
-# RANGE_EVALUATOR
+# BOUNDARY_CASES
 
 Summary
-Evaluate a parsed expression across a numeric range specified as start:step:end and return an ordered array of data points.
+Define and require unit tests that cover boundary values and invalid inputs so the library behavior is well-specified and unambiguous.
 
-Goals
-- Accept a function or expression and a range string of the form start:step:end where start, step and end are decimals.
-- Produce an array of points in the form [{ x: Number, y: Number }, ...] in ascending x order.
-
-API Contract
-- evaluateRange(fnOrExpression, rangeString) -> Array of { x, y }
-  - If fnOrExpression is a string it must be parseable by parseExpression; otherwise accept a function f(x).
-  - rangeString uses colon separators and numeric values; step must be non-zero and have the same sign as (end - start).
-
-Behavior and constraints
-- Inclusive range semantics are acceptable but tests should document exact counting. Implementation must be deterministic and avoid floating point accumulation errors where feasible.
-- Invalid range formats must throw a descriptive Error.
+Description
+- Tests must include canonical boundaries and special subtractive boundaries: 1, 3, 4, 9, 40, 90, 400, 900, 3999.
+- Tests must also assert error behavior for invalid inputs: 0 and 4000 for toRoman; non-string and non-matching strings for fromRoman such as IIII, IL, and empty string.
 
 Acceptance Criteria
-- Evaluating expression "y=Math.sin(x)" over range -3.14:0.01:3.14 returns approximately 628 data points (accept ±1).
-- evaluateRange returns an array where each element has numeric x and y properties and the array is ordered by x.
-- Invalid ranges (non-numeric, zero step, mismatched sign) cause an Error.
+- Unit tests assert toRoman(1) === I and toRoman(3999) === MMMCMXCIX.
+- Unit tests assert toRoman(4) === IV and toRoman(9) === IX.
+- Unit tests assert calling toRoman with 0 or 4000 throws RangeError.
+- Unit tests assert fromRoman called with IIII throws TypeError and fromRoman called with null throws TypeError.
 
 Deliverables
-- Named export evaluateRange from src/lib/main.js and unit tests validating point count, ordering, and error cases.
+- Focused unit tests in tests/unit/ that enumerate boundary cases and invalid inputs and assert error types and messages where appropriate.
 
 Notes
-- Include a small tolerance in tests for floating point edge cases and assert approximate point counts rather than exact string matches.
+- Keep assertions about error types strict; match RangeError and TypeError for the relevant invalid inputs.

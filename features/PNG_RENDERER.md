@@ -1,26 +1,19 @@
-# PNG_RENDERER
+# ROUND_TRIP
 
 Summary
-Provide PNG rendering of a plotted series by converting SVG to PNG or drawing to a Canvas backend; document the chosen approach and any optional dependencies.
+Define and require a deterministic round-trip test that asserts fromRoman(toRoman(n)) === n for every integer n in the inclusive range 1..3999.
 
-Goals
-- Implement renderPng(series, options) that returns a Promise resolving to a Buffer containing PNG bytes.
-- Acceptable implementations: using sharp to convert SVG to PNG, or using a headless canvas implementation. The chosen approach must be documented.
-
-API Contract
-- renderPng(series, options) -> Promise<Buffer>
-  - Buffer must contain a valid PNG image; tests will validate the PNG magic bytes.
-
-Behavior and constraints
-- External dependencies are allowed only for PNG rendering; document dependency choices in README and feature spec.
-- Prefer sharp where available for fast conversion; provide fallback to canvas when sharp is not installed.
+Description
+- The round-trip property is central to correctness: for any valid integer in the supported range, converting to Roman and back must yield the original integer.
+- Implement a unit test that iterates over 1..3999 and asserts the property holds; the implementation may sample or run the full loop depending on test budget, but the full loop is the canonical acceptance test.
 
 Acceptance Criteria
-- renderPng returns a Buffer whose first eight bytes match the PNG signature: 137 80 78 71 13 10 26 10.
-- Unit test verifies the buffer begins with the PNG magic bytes.
+- A unit test exists that either samples or iterates the full 1..3999 range and asserts fromRoman(toRoman(n)) === n for all tested n.
+- The test includes the known examples: 1994 round-trips to 1994 and 4 round-trips to 4 and yields IV for 4.
 
 Deliverables
-- Named export renderPng from src/lib/main.js, README documentation explaining the approach, and unit tests that assert the PNG signature.
+- Test(s) in tests/unit/ that enforce the round-trip property.
+- Guidance in the test comments explaining why the round-trip property is essential and how it is exercised.
 
 Notes
-- If sharp is used, document installation steps in README; keep the implementation optional so tests can run in CI without native deps by stubbing or using a lightweight fallback.
+- If the full 1..3999 loop is slow in CI, a fast deterministic sampling plus a separate slow test that runs optionally can be used; however at least one CI-visible assertion must check the examples and a representative sample.

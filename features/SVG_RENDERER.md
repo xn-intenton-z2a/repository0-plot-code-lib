@@ -1,27 +1,20 @@
-# SVG_RENDERER
+# SUBTRACTIVE_NOTATION
 
 Summary
-Render a numeric data series to SVG 1.1 using polyline elements and a viewBox attribute so output scales correctly.
+Ensure subtractive notation rules are implemented and tested so the library never emits or accepts non-canonical repetitive forms such as IIII.
 
-Goals
-- Provide a renderer that accepts an ordered series of numeric points and returns a valid SVG string containing a polyline.
-- Ensure the SVG includes a viewBox attribute and appropriate width/height metadata.
-
-API Contract
-- renderSvg(series, options) -> String
-  - series is Array<{ x: Number, y: Number }>
-  - options may include width, height, margin, stroke, fill, and coordinate transforms.
-
-Behavior and constraints
-- Output must be valid SVG 1.1 and include a single or named polyline element with a points attribute containing the coordinate list.
-- viewBox must be present and reflect the coordinate bounding box used for the polyline.
+Description
+- toRoman must produce subtractive notation for the canonical values 4, 9, 40, 90, 400, 900.
+- fromRoman must reject non-canonical repetitions (e.g. IIII) by validation and throw TypeError.
 
 Acceptance Criteria
-- renderSvg returns a string containing the substring <polyline and a viewBox attribute viewBox="...").
-- The polyline points count corresponds to the series length and the SVG string is well-formed XML text suitable for saving to .svg files.
+- toRoman(4) returns IV and toRoman(9) returns IX.
+- fromRoman(IIII) throws TypeError.
+- toRoman never produces four identical symbols in a row; tests assert this property for representative values.
 
 Deliverables
-- Named export renderSvg from src/lib/main.js and unit tests that assert presence of <polyline and viewBox and correct point counts.
+- Unit tests demonstrating subtractive outputs and rejecting non-canonical inputs.
+- Short explanation in the README or feature file of the allowed subtractive pairs and the reasoning behind strict rejection of non-canonical forms.
 
 Notes
-- Keep transforms explicit and document how input data maps to SVG coordinates in the README.
+- The canonical validation regex should be documented and used before parsing to guarantee subtractive-only acceptance.
