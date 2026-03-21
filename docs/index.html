@@ -15,7 +15,6 @@
     .identity dt { font-weight: bold; color: #666; }
     .identity dd { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
     #demo-output { background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 6px; font-family: monospace; white-space: pre-wrap; min-height: 2rem; }
-    #plot { margin: 1rem 0; }
   </style>
 </head>
 <body>
@@ -34,25 +33,12 @@
   <p>This website uses the library. See <a href="https://github.com/xn-intenton-z2a/repository0">the repository</a> for source code and mission details.</p>
   <script type="module">
     try {
-      const lib = await import('./lib.js');
-      const { name, version, description, parseExpression, evaluateRange, renderSVG } = lib;
+      const { name, version, description } = await import('./lib.js');
       document.getElementById('lib-name').textContent = name;
       document.getElementById('lib-version').textContent = version;
       document.getElementById('lib-description').textContent = description || '(no description)';
+      document.getElementById('demo-output').textContent = JSON.stringify({ name, version, description }, null, 2);
       document.title = name + ' v' + version;
-
-      // Demo: render a small sine wave plot using the library and show JSON identity
-      const expr = 'y=Math.sin(x)';
-      const range = '-3.14:0.1:3.14';
-      let demoText = JSON.stringify({ name, version, description }, null, 2);
-      try {
-        const fn = parseExpression(expr);
-        const pts = evaluateRange(range, fn);
-        const svg = renderSVG(pts, { width: 600, height: 300 });
-        document.getElementById('demo-output').innerHTML = `<div id="plot">${svg}</div><pre>${demoText}</pre>`;
-      } catch (e) {
-        document.getElementById('demo-output').textContent = 'Failed to render demo plot: ' + e.message + '\n\n' + demoText;
-      }
     } catch (e) {
       document.getElementById('lib-version').textContent = '(error)';
       document.getElementById('lib-description').textContent = e.message;
