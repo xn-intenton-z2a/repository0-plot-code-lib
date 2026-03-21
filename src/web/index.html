@@ -15,6 +15,11 @@
     .identity dt { font-weight: bold; color: #666; }
     .identity dd { margin: 0 0 0.5rem 0; font-size: 1.1rem; }
     #demo-output { background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 6px; font-family: monospace; white-space: pre-wrap; min-height: 2rem; }
+    .demo { margin-top: 1rem; padding: 1rem; border: 1px solid #eee; border-radius: 6px; }
+    .row { display:flex; gap:0.5rem; align-items:center; margin-bottom:0.5rem; }
+    input[type="text"], input[type="number"] { padding:0.5rem; border-radius:4px; border:1px solid #ccc; }
+    button { padding:0.5rem 0.75rem; border-radius:4px; border:1px solid #ccc; background:#f6f8fa; cursor:pointer; }
+    .output { font-family: monospace; padding:0.5rem; background:#fafafa; border-radius:4px; }
   </style>
 </head>
 <body>
@@ -29,16 +34,63 @@
   </div>
   <h2>Output</h2>
   <div id="demo-output">Loading library...</div>
+
+  <h2>Roman Numerals Demo</h2>
+  <div class="demo" id="roman-demo">
+    <div class="row">
+      <label for="number-input">Number (1-3999)</label>
+      <input id="number-input" type="number" min="1" max="3999" value="1994">
+      <button id="to-roman-btn">To Roman</button>
+      <div class="output" id="roman-output" aria-live="polite"></div>
+    </div>
+    <div class="row">
+      <label for="roman-input">Roman</label>
+      <input id="roman-input" type="text" value="MCMXCIV">
+      <button id="from-roman-btn">From Roman</button>
+      <div class="output" id="number-output" aria-live="polite"></div>
+    </div>
+    <div id="roman-error" style="color:crimson;margin-top:0.5rem;" role="alert" aria-live="assertive"></div>
+  </div>
+
   <h2>About</h2>
   <p>This website uses the library. See <a href="https://github.com/xn-intenton-z2a/repository0">the repository</a> for source code and mission details.</p>
   <script type="module">
     try {
-      const { name, version, description } = await import('./lib.js');
+      const lib = await import('./lib.js');
+      const { name, version, description, toRoman, fromRoman } = lib;
       document.getElementById('lib-name').textContent = name;
       document.getElementById('lib-version').textContent = version;
       document.getElementById('lib-description').textContent = description || '(no description)';
       document.getElementById('demo-output').textContent = JSON.stringify({ name, version, description }, null, 2);
       document.title = name + ' v' + version;
+
+      const numberInput = document.getElementById('number-input');
+      const romanOutput = document.getElementById('roman-output');
+      const toRomanBtn = document.getElementById('to-roman-btn');
+      const romanInput = document.getElementById('roman-input');
+      const numberOutput = document.getElementById('number-output');
+      const fromRomanBtn = document.getElementById('from-roman-btn');
+      const errorBox = document.getElementById('roman-error');
+
+      toRomanBtn.addEventListener('click', () => {
+        errorBox.textContent = '';
+        try {
+          const n = Number(numberInput.value);
+          romanOutput.textContent = toRoman(n);
+        } catch (e) {
+          errorBox.textContent = e?.message || String(e);
+        }
+      });
+
+      fromRomanBtn.addEventListener('click', () => {
+        errorBox.textContent = '';
+        try {
+          const r = romanInput.value;
+          numberOutput.textContent = String(fromRoman(r));
+        } catch (e) {
+          errorBox.textContent = e?.message || String(e);
+        }
+      });
     } catch (e) {
       document.getElementById('lib-version').textContent = '(error)';
       document.getElementById('lib-description').textContent = e.message;
