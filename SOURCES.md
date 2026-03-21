@@ -2,5 +2,10 @@
 
 Reference material and documentation sources for this project.
 
-Add URLs, papers, API docs, or other reference material here.
-The maintain-library workflow will process these into `library/` documents.
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math
+- https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
+- https://www.w3.org/TR/SVG11/
+- https://sharp.pixelplumbing.com/
+- https://nodejs.org/api/fs.html
+- https://datatracker.ietf.org/doc/html/rfc4180
