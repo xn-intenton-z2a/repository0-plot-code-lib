@@ -6,7 +6,7 @@
 # During init:
 
 [schedule]
-supervisor = "continuous"       # off | weekly | daily | hourly | continuous
+supervisor = "hourly"       # off | weekly | daily | hourly | continuous
 focus = "mission"                 # mission | maintenance
 
 [paths]
@@ -184,8 +184,8 @@ total = 8
 8 = { text = "README documents CLI usage with examples", met = false }
 
 [init]
-timestamp = "2026-03-21T10:25:18.601Z"
+timestamp = "2026-03-21T10:28:03.529Z"
 mode = "purge"
 mission = "2-kyu-create-plot-code-lib"
 mission-type = "2-kyu-create-plot-code-lib"
-version = "7.4.34"
+version = "7.4.35"
