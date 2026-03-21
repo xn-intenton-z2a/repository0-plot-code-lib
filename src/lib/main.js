@@ -2,17 +2,24 @@
 // SPDX-License-Identifier: MIT
 // Copyright (C) 2025-2026 Polycode Limited
 
-import fs from "fs";
-import path from "path";
-
+// Note: avoid static imports of Node-only modules so this module can be imported in browsers.
 const isNode = typeof process !== "undefined" && !!process.versions?.node;
+
+let fs = null;
+let path = null;
 
 let pkg = { name: "repo", version: "0.0.0", description: "" };
 if (isNode) {
   try {
+    // Import path and fs dynamically so the module can still be imported in the browser
+    const pathMod = await import("path");
+    path = pathMod.default ?? pathMod;
+    // Read package.json using createRequire to support ESM without bundling
     const { createRequire } = await import("module");
     const requireFn = createRequire(import.meta.url);
     pkg = requireFn(path.join(process.cwd(), "package.json"));
+    const fsMod = await import("fs");
+    fs = fsMod.default ?? fsMod;
   } catch (e) {
     // keep defaults
   }
@@ -121,7 +128,7 @@ export function evaluateRange(rangeStr, exprOrFn) {
 
 // Load CSV file with header time,value and return array of {time: Number, value: Number}
 export function loadCSV(filePath) {
-  if (!isNode) throw new Error("loadCSV is only available in Node.js environment");
+  if (!isNode || !fs) throw new Error("loadCSV is only available in Node.js environment");
   const content = fs.readFileSync(filePath, "utf8");
   const lines = content.split(/\r?\n/).filter((l) => l.trim().length > 0);
   if (lines.length === 0) return [];
@@ -182,7 +189,7 @@ export function renderPNG(points, opts = {}) {
 
 // Save a plot to disk, inferring format from filename extension (.svg or .png)
 export function savePlot(points, filename) {
-  if (!isNode) throw new Error("savePlot is only available in Node.js environment");
+  if (!isNode || !fs || !path) throw new Error("savePlot is only available in Node.js environment");
   if (!filename || typeof filename !== "string") throw new TypeError("filename is required");
   const ext = path.extname(filename).toLowerCase();
   if (ext === ".svg") {
