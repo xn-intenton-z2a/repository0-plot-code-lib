@@ -1,25 +1,21 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 // Copyright (C) 2025-2026 Polycode Limited
-// src/lib/main.js - plotting library and CLI
+// src/lib/main.js
 
 const isNode = typeof process !== "undefined" && !!process.versions?.node;
 
-let pkg = { name: "repo", version: "0.0.0", description: "" };
+let pkg;
 if (isNode) {
   const { createRequire } = await import("module");
   const requireFn = createRequire(import.meta.url);
-  try {
-    pkg = requireFn("../../package.json");
-  } catch (e) {
-    // ignore
-  }
+  pkg = requireFn("../../package.json");
 } else {
   try {
     const resp = await fetch(new URL("../../package.json", import.meta.url));
     pkg = await resp.json();
-  } catch (e) {
-    // ignore
+  } catch {
+    pkg = { name: document.title, version: "0.0.0", description: "" };
   }
 }
 
@@ -31,208 +27,22 @@ export function getIdentity() {
   return { name, version, description };
 }
 
-// Parse a mathematical expression string into a callable function f(x)
-export function parseExpression(exprStr) {
-  if (typeof exprStr !== "string") throw new TypeError("Expression must be a string");
-  let expr = exprStr.trim();
-  if (!expr) throw new Error("Empty expression");
-  const eqIndex = expr.indexOf("=");
-  if (eqIndex !== -1) expr = expr.slice(eqIndex + 1).trim();
-
-  // Prefer allowing Math functions without explicit Math. prefix using with(Math)
-  try {
-    const fnWithMath = new Function("x", "Math", `with (Math) { return (${expr}); }`);
-    return (x) => {
-      try {
-        return Number(fnWithMath(Number(x), Math));
-      } catch (e) {
-        return NaN;
-      }
-    };
-  } catch (e) {
-    const fn = new Function("x", "Math", `return (${expr});`);
-    return (x) => {
-      try {
-        return Number(fn(Number(x), Math));
-      } catch (er) {
-        return NaN;
-      }
-    };
-  }
-}
-
-// Parse range string start:step:end into numbers
-export function parseRange(rangeStr) {
-  if (typeof rangeStr !== "string") throw new TypeError("Range must be a string");
-  const parts = rangeStr.split(":").map(s => s.trim()).filter(Boolean);
-  if (parts.length !== 3) throw new Error("Range must be start:step:end");
-  const [startS, stepS, endS] = parts;
-  const start = Number(startS);
-  const step = Number(stepS);
-  const end = Number(endS);
-  if (!Number.isFinite(start) || !Number.isFinite(step) || !Number.isFinite(end)) throw new Error("Range values must be finite numbers");
-  if (step === 0) throw new Error("Step must be non-zero");
-  return { start, step, end };
-}
-
-// Sample a numeric range into an array of x values
-export function sampleRange(rangeStr) {
-  const { start, step, end } = parseRange(rangeStr);
-  const samples = [];
-  if ((end - start) * step < 0) return samples; // inconsistent direction
-  const rawCount = (end - start) / step;
-  const count = Math.floor(rawCount) + 1;
-  for (let i = 0; i < count; i++) {
-    const x = start + i * step;
-    const eps = Math.abs(step) / 1e6 + 1e-12;
-    if (step > 0 && x > end + eps) break;
-    if (step < 0 && x < end - eps) break;
-    samples.push(Number(Number(x).toPrecision(12)));
-  }
-  return samples;
-}
-
-// Evaluate an expression across a range and return array of {x,y}
-export function evaluateExpressionOverRange(exprStr, rangeStr) {
-  const fn = parseExpression(exprStr);
-  const xs = sampleRange(rangeStr);
-  return xs.map(x => ({ x, y: fn(x) }));
-}
-
-// Load CSV time,value data from a string
-export function loadCSVFromString(csvStr) {
-  if (typeof csvStr !== "string") throw new TypeError("csv must be a string");
-  const lines = csvStr.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
-  if (lines.length === 0) return [];
-  let start = 0;
-  const header = lines[0].split(",").map(h => h.trim().toLowerCase());
-  const hasHeader = header[0] === "time" && header[1] === "value";
-  if (hasHeader) start = 1;
-  const rows = [];
-  for (let i = start; i < lines.length; i++) {
-    const cols = lines[i].split(",").map(c => c.trim());
-    const time = Number(cols[0]);
-    const value = Number(cols[1]);
-    if (!Number.isFinite(time) || !Number.isFinite(value)) continue;
-    rows.push({ time, value });
-  }
-  return rows;
-}
-
-// Load CSV from file (Node-only)
-export async function loadCSVFromFile(filePath) {
-  if (!isNode) throw new Error("loadCSVFromFile only available in Node");
-  const fs = await import("fs");
-  const text = fs.readFileSync(filePath, "utf8");
-  return loadCSVFromString(text);
-}
-
-// Render points to an SVG string containing a <polyline> and a viewBox
-export function renderSVG(points, options = {}) {
-  const width = options.width || 800;
-  const height = options.height || 400;
-  const pts = points.map(p => (typeof p === 'number') ? { x: p, y: undefined } : p);
-  const xs = pts.map(p => p.x);
-  const ys = pts.map(p => (typeof p.y === 'number' && Number.isFinite(p.y)) ? p.y : 0);
-  const xmin = Math.min(...xs);
-  const xmax = Math.max(...xs);
-  let ymin = ys.length ? Math.min(...ys) : 0;
-  let ymax = ys.length ? Math.max(...ys) : 1;
-  if (ymin === ymax) { ymin -= 1; ymax += 1; }
-  const scaled = pts.map(p => {
-    const x = (p.x - xmin) / (xmax - xmin || 1) * width;
-    const yVal = (typeof p.y === 'number' && Number.isFinite(p.y)) ? p.y : 0;
-    const y = height - ((yVal - ymin) / (ymax - ymin || 1) * height);
-    return `${x.toFixed(2)},${y.toFixed(2)}`;
-  }).join(' ');
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}"><polyline points="${scaled}" stroke="black" stroke-width="1" fill="none"/></svg>`;
-  return svg;
-}
-
-// PNG conversion: lightweight placeholder using a small valid 1x1 PNG
-const PNG_PLACEHOLDER_BASE64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAFAAL/2x9eAAAAAElFTkSuQmCC';
-export function svgToPng(svg, options = {}) {
-  // To keep the project dependency-free in tests we return a small valid PNG placeholder.
-  // Real rasterization may be done with 'sharp' or 'canvas' if available.
-  const buf = Buffer.from(PNG_PLACEHOLDER_BASE64, 'base64');
-  return buf;
-}
-
-// Save plot to disk (infers format from extension)
-export async function savePlot(svgString, filename) {
-  if (!isNode) throw new Error('savePlot only available in Node');
-  const path = await import('path');
-  const fs = await import('fs');
-  const ext = (path.extname(filename) || '').toLowerCase();
-  if (ext === '.svg') {
-    fs.writeFileSync(filename, svgString, 'utf8');
-    return filename;
-  } else if (ext === '.png') {
-    const png = svgToPng(svgString);
-    fs.writeFileSync(filename, png);
-    return filename;
-  } else {
-    fs.writeFileSync(filename, svgString, 'utf8');
-    return filename;
-  }
-}
-
-export function printHelp() {
-  console.log('Usage: node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.svg');
-  console.log('');
-  console.log('Options:');
-  console.log('  --expression <expr>   Expression like "y=Math.sin(x)"');
-  console.log('  --range <r>           Range like start:step:end (e.g. -3.14:0.01:3.14)');
-  console.log('  --csv <file>          CSV file with headers time,value');
-  console.log('  --file <path>         Output filename (.svg or .png)');
-  console.log('  --help                Show this help');
-  console.log('');
-  console.log('Examples:');
-  console.log('  node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file demo.svg');
-  console.log('  node src/lib/main.js --csv data.csv --file output.png');
-  console.log('');
-  console.log('PNG rendering: This project writes a small PNG placeholder by default; to generate full rasterized PNGs, install sharp and replace svgToPng with a conversion using sharp.');
-}
-
-export async function main(args = (isNode ? process.argv.slice(2) : [])) {
-  if (!args || args.length === 0) {
-    // Keep previous behaviour: when no args provided, print identity and exit without error
-    console.log(`${name}@${version}`);
+export function main(args) {
+  if (args?.includes("--version")) {
+    console.log(version);
     return;
   }
-  if (args.includes('--help')) {
-    printHelp();
+  if (args?.includes("--identity")) {
+    console.log(JSON.stringify(getIdentity(), null, 2));
     return;
   }
-  const opts = {};
-  for (let i = 0; i < args.length; i++) {
-    const a = args[i];
-    if (a === '--expression') opts.expression = args[++i];
-    else if (a === '--range') opts.range = args[++i];
-    else if (a === '--csv') opts.csv = args[++i];
-    else if (a === '--file') opts.file = args[++i];
-    else if (a === '--version') { console.log(version); return; }
-    else if (a === '--identity') { console.log(JSON.stringify(getIdentity(), null, 2)); return; }
-  }
-  if (!opts.file) throw new Error('Please provide --file <output>');
-  let svg;
-  if (opts.expression && opts.range) {
-    const data = evaluateExpressionOverRange(opts.expression, opts.range);
-    svg = renderSVG(data);
-  } else if (opts.csv) {
-    const data = await loadCSVFromFile(opts.csv);
-    const pts = data.map(d => ({ x: d.time, y: d.value }));
-    svg = renderSVG(pts);
-  } else {
-    throw new Error('Either --expression and --range or --csv must be provided');
-  }
-  await savePlot(svg, opts.file);
-  console.log('Saved', opts.file);
+  console.log(`${name}@${version}`);
 }
 
 if (isNode) {
-  const { fileURLToPath } = await import('url');
+  const { fileURLToPath } = await import("url");
   if (process.argv[1] === fileURLToPath(import.meta.url)) {
-    main(process.argv.slice(2)).catch(err => { console.error(err); process.exit(1); });
+    const args = process.argv.slice(2);
+    main(args);
   }
 }
