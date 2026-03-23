@@ -19,217 +19,30 @@ if (isNode) {
   }
 }
 
-export const name = pkg.name || "repo";
-export const version = pkg.version || "0.0.0";
-export const description = pkg.description || "";
+export const name = pkg.name;
+export const version = pkg.version;
+export const description = pkg.description;
 
 export function getIdentity() {
   return { name, version, description };
 }
 
-// parseExpression: convert a string (e.g. "y=Math.sin(x)") into a callable function f(x)
-export function parseExpression(expressionString) {
-  if (typeof expressionString !== "string") throw new TypeError("expression must be a string");
-  let expr = expressionString.trim();
-  if (expr.startsWith("y=")) expr = expr.slice(2);
-  // Create a function that has access to Math and x
-  try {
-    const fn = new Function("x", "Math", `return (${expr});`);
-    return (x) => fn(Number(x), Math);
-  } catch (e) {
-    throw new Error(`Failed to parse expression: ${e.message}`);
-  }
-}
-
-// evaluateRange: sample func over a range string "start:step:end"
-export function evaluateRange(func, rangeString) {
-  if (typeof func !== "function") throw new TypeError("func must be a function");
-  if (typeof rangeString !== "string") throw new TypeError("range must be a string");
-  const parts = rangeString.split(":").map((s) => s.trim());
-  if (parts.length !== 3) throw new Error("Range must be in the form start:step:end");
-  const start = Number(parts[0]);
-  const step = Number(parts[1]);
-  const end = Number(parts[2]);
-  if ([start, step, end].some(Number.isNaN)) throw new Error("Range contains non-numeric values");
-  if (step === 0) throw new Error("Step cannot be zero");
-
-  const points = [];
-  const eps = Math.abs(step) / 1e6 + 1e-12; // help with floating rounding
-  if (step > 0) {
-    for (let x = start; x <= end + eps; x = Math.round((x + step) * 1e12) / 1e12) {
-      const y = func(x);
-      points.push({ x, y });
-      // safety guard
-      if (points.length > 10000000) break;
-    }
-  } else {
-    for (let x = start; x >= end - eps; x = Math.round((x + step) * 1e12) / 1e12) {
-      const y = func(x);
-      points.push({ x, y });
-      if (points.length > 10000000) break;
-    }
-  }
-  return points;
-}
-
-// loadCsv: load CSV with headers time,value -> [{time,value}]
-export async function loadCsv(filePath) {
-  if (typeof filePath !== "string") throw new TypeError("filePath must be a string");
-  let content;
-  if (isNode) {
-    const fs = await import("fs/promises");
-    content = await fs.readFile(filePath, "utf8");
-  } else {
-    const resp = await fetch(filePath);
-    if (!resp.ok) throw new Error("Failed to fetch CSV");
-    content = await resp.text();
-  }
-  const lines = content.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
-  if (lines.length === 0) return [];
-  const headers = lines[0].split(",").map((h) => h.trim());
-  const timeIdx = headers.indexOf("time");
-  const valueIdx = headers.indexOf("value");
-  if (timeIdx === -1 || valueIdx === -1) throw new Error("CSV must have headers: time,value");
-  const rows = lines.slice(1).map((line) => {
-    const cols = line.split(",").map((c) => c.trim());
-    return { time: Number(cols[timeIdx]), value: Number(cols[valueIdx]) };
-  });
-  return rows;
-}
-
-// renderSVG: convert data [{x,y}] into an SVG 1.1 string with a polyline and viewBox
-export function renderSVG(data = [], options = {}) {
-  // basic validation
-  if (!Array.isArray(data)) throw new TypeError("data must be an array");
-  if (data.length === 0) {
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 0 0"></svg>`;
-  }
-  const xs = data.map((p) => Number(p.x));
-  const ys = data.map((p) => Number(p.y));
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
-  const width = maxX - minX || 1;
-  const height = maxY - minY || 1;
-  // Points: keep original x,y numeric values
-  const points = data.map((p) => `${p.x},${p.y}`).join(" ");
-  const stroke = options.stroke || "black";
-  const strokeWidth = options.strokeWidth || 1;
-  const fill = options.fill || "none";
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n` +
-    `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="${minX} ${minY} ${width} ${height}">\n` +
-    `<polyline points="${points}" stroke="${stroke}" stroke-width="${strokeWidth}" fill="${fill}" />\n` +
-    `</svg>`;
-  return svg;
-}
-
-// svgToPng: convert SVG string to PNG bytes. If 'sharp' is available use it; otherwise return a minimal 1x1 PNG as a fallback.
-export async function svgToPng(svgString, options = {}) {
-  if (typeof svgString !== "string") throw new TypeError("svgString must be a string");
-  // Try to use sharp when available (optional dependency)
-  try {
-    // dynamic import so the package isn't required unless used
-    const sharpModule = await import("sharp").then((m) => m.default || m).catch(() => null);
-    if (sharpModule) {
-      const img = sharpModule(Buffer.from(svgString), { density: options.density || 72 });
-      const pngBuffer = await img.png().toBuffer();
-      return pngBuffer;
-    }
-  } catch (e) {
-    // ignore and fallthrough to fallback PNG
-  }
-  // Fallback: return a tiny 1x1 transparent PNG (base64 encoded)
-  const pngBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAtEB9yQbY2QAAAAASUVORK5CYII=";
-  return Buffer.from(pngBase64, "base64");
-}
-
-// savePlot: infer format from file extension and write file (string for svg, binary for png)
-export async function savePlot(filePath, content) {
-  if (typeof filePath !== "string") throw new TypeError("filePath must be a string");
-  if (!isNode) throw new Error("savePlot is only supported in Node.js environment");
-  const fs = await import("fs/promises");
-  if (filePath.endsWith(".svg")) {
-    await fs.writeFile(filePath, String(content), "utf8");
-    return;
-  }
-  if (filePath.endsWith(".png")) {
-    // content expected to be Buffer
-    await fs.writeFile(filePath, content);
-    return;
-  }
-  // default: write as text
-  await fs.writeFile(filePath, String(content), "utf8");
-}
-
-// CLI entrypoint: supports --expression, --range, --csv, --file, --help
-export async function main(args) {
-  const argv = args || (isNode ? process.argv.slice(2) : []);
-  if (argv.includes("--help") || argv.includes("-h")) {
-    console.log("Usage: node src/lib/main.js --expression \"y=Math.sin(x)\" --range \"-3.14:0.01:3.14\" --file output.svg");
-    console.log("Options: --expression <expr>, --range <start:step:end>, --csv <file>, --file <out>, --help, --version");
-    console.log("Examples:");
-    console.log("  node src/lib/main.js --expression \"y=Math.sin(x)\" --range \"-3.14:0.01:3.14\" --file out.svg");
-    console.log("  node src/lib/main.js --csv data.csv --file out.png");
-    return;
-  }
-  if (argv.includes("--version")) {
+export function main(args) {
+  if (args?.includes("--version")) {
     console.log(version);
     return;
   }
-
-  const exprIdx = argv.indexOf("--expression");
-  const rangeIdx = argv.indexOf("--range");
-  const csvIdx = argv.indexOf("--csv");
-  const fileIdx = argv.indexOf("--file");
-  const outFile = fileIdx !== -1 ? argv[fileIdx + 1] : null;
-
-  try {
-    if (exprIdx !== -1 && rangeIdx !== -1 && outFile) {
-      const expr = argv[exprIdx + 1];
-      const range = argv[rangeIdx + 1];
-      const f = parseExpression(expr);
-      const data = evaluateRange(f, range);
-      const svg = renderSVG(data);
-      if (outFile.endsWith('.png')) {
-        const png = await svgToPng(svg);
-        await savePlot(outFile, png);
-      } else {
-        await savePlot(outFile, svg);
-      }
-      console.log(`Wrote ${outFile}`);
-      return;
-    }
-
-    if (csvIdx !== -1 && outFile) {
-      const csvPath = argv[csvIdx + 1];
-      const rows = await loadCsv(csvPath);
-      const data = rows.map((r) => ({ x: r.time, y: r.value }));
-      const svg = renderSVG(data);
-      if (outFile.endsWith('.png')) {
-        const png = await svgToPng(svg);
-        await savePlot(outFile, png);
-      } else {
-        await savePlot(outFile, svg);
-      }
-      console.log(`Wrote ${outFile}`);
-      return;
-    }
-  } catch (e) {
-    console.error("Error:", e && e.message ? e.message : e);
-    throw e;
+  if (args?.includes("--identity")) {
+    console.log(JSON.stringify(getIdentity(), null, 2));
+    return;
   }
-
-  // fallback: identity
   console.log(`${name}@${version}`);
 }
 
 if (isNode) {
   const { fileURLToPath } = await import("url");
   if (process.argv[1] === fileURLToPath(import.meta.url)) {
-    // executed as a script
-    await main();
+    const args = process.argv.slice(2);
+    main(args);
   }
 }
-
-export default main;
