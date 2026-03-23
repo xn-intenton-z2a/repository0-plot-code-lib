@@ -1,32 +1,30 @@
-CLI_TOOL
+# CLI_TOOL
+
+Status: Implemented
 
 Overview
 
-Provide a command-line interface entrypoint at src/lib/main.js that accepts expression or csv input, a range, and a file output option. Include a --help flag with usage examples.
+A command-line interface entrypoint is provided at src/lib/main.js. The CLI accepts expression or csv input, a range, and an output file option. A --help flag prints usage examples and exits.
 
 Behavior
 
-- The CLI supports these flags: --expression (string), --range (start:step:end), --csv (path), --file (output path), and --help.
-- When --expression and --range are provided, the CLI uses parseExpression and evaluateRange to compute points and then renders/saves the plot.  
-- When --csv is provided, the CLI loads the CSV and renders the series.  
-- --help prints concise usage examples and exits with code 0.
+- Supported flags: --expression, --range, --csv, --file, --help and short aliases.
+- When --expression and --range are provided, the CLI uses parseExpression and evaluateRange to compute points and then renders and saves the plot.
+- When --csv is provided, the CLI loads the CSV and renders the series.
+- Help prints concise usage examples and exits with code 0.
 
-Examples (usage lines)
+Acceptance criteria (testable)
 
-node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg
-node src/lib/main.js --csv data.csv --file output.png
-node src/lib/main.js --help
+- Running the CLI with --help prints usage examples and returns exit code 0.
+- Running the CLI with --expression and --range and --file writes the expected output file at the given path.
+- The CLI exits with a non-zero code on fatal errors and prints helpful error messages to stderr.
+- Unit tests exercise argument parsing and the main flow; integration-style tests write an output SVG to a temporary path and assert file creation and SVG substrings.
 
-Acceptance criteria
+Testing notes
 
-- Running the CLI with --help prints usage information and examples.  
-- Running the CLI with --expression and --range and --file writes the expected output file.  
-- The CLI exits with non-zero exit code on fatal errors and prints helpful error messages.
-
-Testing
-
-- Unit tests should exercise the CLI argument parsing logic and, where appropriate, run the main flow in a temp directory to assert output files are created. Mocking or dependency injection may be used for PNG conversion tests.
+- Existing tests under tests/unit/plot.pipeline.test.js cover the primary acceptance criteria.
+- For advanced CLI flags (format, overwrite, verbose) add separate tests when implemented.
 
 Implementation notes
 
-- Use a minimal argument parser (process.argv parsing or a small helper) to avoid adding heavy dependencies. Export the main functions so they are testable.
+- Implementation location: src/lib/main.js (runCli and helper functions). Keep argument parsing minimal and export functions to enable unit testing.

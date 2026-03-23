@@ -1,5 +1,21 @@
-# Features and Documentation
+# README_DOCS
 
-This repository implements a small plotting library that can parse expressions, sample ranges, load CSV time series, render SVG polyline plots, and produce minimal PNG output.
+Status: Implemented and documented
 
-See `src/lib/main.js` for the public API and `tests/unit/plot.pipeline.test.js` for usage examples exercised by the test suite.
+Overview
+
+The README provides CLI usage examples, a description of the PNG rasterisation approach, and a short API reference for named exports from src/lib/main.js.
+
+Behavior
+
+- Document example CLI commands for expression ranges and CSV input.
+- Explain the baseline PNG approach and how to opt into a full rasteriser by installing an optional dependency.
+
+Acceptance criteria (testable)
+
+- README contains CLI usage examples demonstrating --expression with --range and --csv usage examples with --file.
+- README documents that the baseline PNG output is a minimal fallback and instructs users how to enable full rasterisation.
+
+Testing notes
+
+- Tests may assert README contains certain substrings but keep expectations tolerant to minor wording changes.

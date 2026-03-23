@@ -1,29 +1,35 @@
-PNG_RENDERER
+# PNG_RENDERER
+
+Status: Baseline implemented; enhancement planned
 
 Overview
 
-Provide a conversion path from the generated SVG to a PNG buffer or file. External dependencies are allowed here; prefer sharp for simplicity and reliability but include a fallback strategy in documentation.
+Provide conversion from generated SVG to PNG bytes. The repository currently contains a minimal fallback that returns a valid 1x1 PNG buffer to satisfy tests without introducing native dependencies. A full-featured rasterizer using an optional native dependency is the planned enhancement.
 
-Behavior
+Current behavior
 
-- Expose a named export renderPng(svgString, options?) -> Buffer (PNG bytes) or write directly to a file path when requested.
-- The implementation documents which dependency is required (sharp recommended) and how to install it for users who need PNG output. Tests can use a mock or run if sharp is available in the test environment.
+- Expose renderPng(svgString, opts?) -> Buffer. The baseline implementation returns a stable 1x1 PNG Buffer; svgString is accepted but not rasterized in the baseline.
 
-API
+Planned enhancement
 
-- renderPng(svgString, opts?) -> Promise<Buffer>
-  - opts.width/height optional to control rasterization size.
+- Implement full SVG-to-PNG rasterization using an optional dependency such as sharp or node-canvas. The enhanced renderer should accept width and height options and produce PNG bytes matching the rasterized output.
+- Detect whether the optional dependency is available at runtime; when missing, fall back to the baseline 1x1 PNG to keep tests and usage simple.
 
-Acceptance criteria
+Acceptance criteria (testable)
 
-- When a PNG Buffer is produced, its first four bytes match the PNG magic bytes (hex 89 50 4E 47).  
-- The README documents the approach chosen (sharp or canvas) and includes an installation note for the optional dependency.
+Baseline (already testable):
+- renderPng returns a Buffer and its first four bytes equal the PNG magic bytes 0x89 0x50 0x4E 0x47.
 
-Testing
+Enhanced (when optional dependency present):
+- When sharp is installed, renderPng(svgString, { width, height }) returns a Buffer that is a valid PNG and whose pixel dimensions metadata match the requested width and height.
+- Unit tests that require the enhanced behavior should detect availability of the native dependency and skip or assert accordingly when it is absent.
 
-- Unit tests should either use a small SVG fixture and verify the returned Buffer starts with PNG magic bytes or mock the conversion when the optional dependency is not installed.
+Testing notes
+
+- Provide tests that assert the baseline magic bytes so CI without native deps passes.
+- Provide optional tests that run only when the environment has sharp or canvas available; these tests should assert raster dimensions or a non-trivial buffer size.
 
 Implementation notes
 
-- Prefer sharp for server-side conversion: sharp(Buffer.from(svgString)).png().toBuffer().  
-- Document the fallback and test-time behavior in the README and tests.
+- Preferred implementation: use sharp(Buffer.from(svgString)).png({ width, height }).toBuffer() when sharp is available.
+- Document installation instructions for optional dependency in README.

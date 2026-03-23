@@ -1,31 +1,27 @@
-SVG_RENDERER
+# SVG_RENDERER
+
+Status: Implemented
 
 Overview
 
-Render a data series into an SVG 1.1 string using a single polyline element and a viewBox attribute. The renderer provides deterministic layout parameters to make unit tests straightforward.
+Render a data series into an SVG 1.1 string using a single polyline element and a viewBox attribute. Renderer maps data linearly into the viewBox and produces deterministic output for given inputs and options.
 
 Behavior
 
-- Expose a named export renderSvg(points, opts) where points is an array of {x, y}. Options allow width, height, padding and stroke settings; defaults are provided.
-- The renderer scales and translates input data to fit the viewBox and outputs a valid SVG 1.1 string containing a viewBox attribute and a polyline element with scaled points.
-- Y coordinates must be inverted to match SVG coordinate space where y increases downward.
+- Expose renderSeriesToSvg(points, opts?) -> string.
+- Default options include width, height, padding, stroke color and stroke width. Y coordinates are inverted to match SVG coordinate space.
+- Output is a valid SVG 1.1 string with a viewBox attribute and a polyline element with scaled coordinates.
 
-API
+Acceptance criteria (testable)
 
-- renderSvg(points, options?) -> string (SVG)
-  - Default viewBox maps to 0 0 width height.  
-  - points are mapped into viewBox coordinate space using simple linear scaling.
-
-Acceptance criteria
-
-- The returned SVG string contains a viewBox attribute.  
-- The string contains a polyline element with a points attribute representing scaled coordinates.  
+- Returned SVG string contains a viewBox attribute.
+- Returned SVG string contains a polyline element with a points attribute representing scaled coordinates.
 - Renderer produces deterministic output for a given input and options so tests can assert exact substrings.
 
-Testing
+Testing notes
 
-- Unit tests should call renderSvg with a simple two- or three-point series and assert presence of viewBox and polyline and that coordinate formatting is as expected.
+- Unit tests call renderSeriesToSvg with a small series and assert the presence of viewBox and polyline and expected coordinate formatting.
 
 Implementation notes
 
-- Keep the math simple and document how data maps to pixel coordinates. Avoid external SVG libraries; produce a minimal, readable SVG string.
+- Implementation location: src/lib/main.js. Keep the math simple and avoid external SVG libraries to keep output readable and testable.

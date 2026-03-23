@@ -1,29 +1,27 @@
-CSV_LOADER
+# CSV_LOADER
+
+Status: Implemented
 
 Overview
 
-Load time series CSV files with columns time,value and return a canonical array of data points. This loader is intentionally small and dependency-free; it uses Node's fs and simple line parsing.
+Load time series CSV files with columns time,value and return a canonical array of data points. The loader uses Node fs in the current implementation and accepts a strict mode option for malformed rows.
 
 Behavior
 
-- Expose a named export loadCsv(path) that reads the file at path and returns an array of objects {time: string|number, value: number}.
-- The loader expects the first line to be a header containing time and value (order tolerant). Rows with parse errors should be rejected or omitted depending on a strict mode flag.
+- Expose loadCsvTimeSeries(path) that reads a CSV and returns an array of {time, value} objects.
+- The loader tolerates different column orders when headers are present and falls back to positional parsing when headers are absent.
+- Non-numeric timestamps are attempted to be parsed as ISO-8601 dates; when parsing fails a fallback index or numeric conversion is used.
 
-API
+Acceptance criteria (testable)
 
-- loadCsv(filePath, options?) -> Array<{time, value}>
-  - options.strict (boolean, default true) — when true, malformed rows throw; when false, malformed rows are skipped with a warning.
+- Given a CSV with a header row time,value and N data rows, loadCsvTimeSeries(path) returns an array of length N with numeric value fields.
+- Timestamps parse as numbers when numeric or as epoch milliseconds when ISO-8601; otherwise a stable fallback index is used.
+- Loader performs without external dependencies and throws descriptive errors in Node environment when the file cannot be read.
 
-Acceptance criteria
+Testing notes
 
-- Given a CSV with header time,value and N rows, loadCsv returns an array length N with numeric value fields.  
-- Timestamps are preserved as strings if not parseable, or converted to numbers (Unix epoch) when they are numeric/ISO-8601 parsable.  
-- Loader operates without external dependencies.
-
-Testing
-
-- Unit tests should exercise a small fixture CSV file and assert correct parsing and error behavior for strict vs non-strict modes.
+- Unit tests should use small fixture CSV files in tests/unit/ and assert correct parsing, strict vs non-strict behaviour, and error messages for unreadable files.
 
 Implementation notes
 
-- Keep parsing straightforward: split lines, trim fields, and parse numbers with Number(value). Document behavior for timestamp parsing in the README.
+- Implementation location: src/lib/main.js. Keep parsing deterministic and document edge cases in README.
