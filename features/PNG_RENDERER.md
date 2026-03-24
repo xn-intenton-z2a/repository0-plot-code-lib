@@ -1,20 +1,16 @@
 # PNG_RENDERER
 
 Summary
-Provide PNG rendering by converting SVG output to PNG bytes using an external renderer (acceptable external dependencies include sharp or canvas). Document the chosen approach in the README.
+Describe svgToPng which converts an SVG string to PNG bytes. The current implementation returns a small placeholder PNG buffer; a replacement using sharp or canvas is optional for production.
 
 Specification
-- API: renderPNG(svgString, options?) -> Promise<Buffer> (or Buffer) that contains PNG binary data.
-- Implementation may depend on either sharp, canvas, or a Node tool that converts SVG to PNG; document the dependency trade-offs in README.
+- Function: svgToPng(svgString, width?, height?) -> Buffer or Uint8Array containing PNG bytes.
+- Current behavior: returns a 1x1 PNG placeholder buffer encoded from base64 and does not require native dependencies.
+- Future option: replace with sharp or canvas for full SVG rasterization; document tradeoffs in README.
 
 Acceptance criteria
-- renderPNG returns a Buffer whose initial bytes match the PNG file signature (hex: 0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A).
-- The function rejects or throws if input is not valid SVG text.
+- svgToPng returns a binary Buffer or Uint8Array whose first eight bytes match the PNG signature 89 50 4E 47 0D 0A 1A 0A.
+- Calling svgToPng with an SVG string returns a Buffer-like object representing PNG bytes.
 
 Test plan
-- Add tests/unit/png.test.js that call renderPNG with a small SVG and assert the returned Buffer starts with the PNG magic bytes.
-
-Files to change
-- src/lib/main.js: export renderPNG implementation.
-- package.json: add dependency selection for PNG rendering (documented in feature and README).
-- tests/unit/png.test.js: unit tests described above.
+- tests/unit/png.test.js should call svgToPng with a minimal SVG and assert the returned buffer starts with PNG magic bytes.

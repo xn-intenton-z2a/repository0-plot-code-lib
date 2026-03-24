@@ -1,19 +1,19 @@
 # API_EXPORTS
 
 Summary
-Define and document the public API surface exported as named exports from src/lib/main.js so consumers and tests can import specific functions.
+Document the public named exports from src/lib/main.js and ensure tests verify their presence and types.
 
 Specification
-- Expected named exports include at minimum: parseExpression, parseRange, generateSeries, loadCSV, renderSVG, renderPNG, savePlot (or saveFile), and cliMain (or main).
-- Each exported function must have a clear, testable contract documented in JSDoc-style prose in src/lib/main.js.
+- Named exports implemented in src/lib/main.js: parseExpression, evaluateRange, loadCsvTimeSeries, renderSVG, svgToPng, savePlot, handleCliArgs, main, getIdentity, name, version, description.
+- Each exported function must have a clear contract (input and return types); name, version and description are string exports.
 
 Acceptance criteria
-- src/lib/main.js exports the named functions listed above and each export is a callable function.
-- Unit tests import the module and assert the presence and type of each named export.
+- Importing src/lib/main.js yields named exports parseExpression, evaluateRange, loadCsvTimeSeries, renderSVG, svgToPng, savePlot, handleCliArgs, main, getIdentity, name, version, description.
+- Each exported function is callable (typeof === 'function') and name/version/description are strings.
+- Unit tests assert presence and correct types for each export.
 
 Test plan
-- Add tests/unit/exports.test.js that import src/lib/main.js and assert that named exports exist and are functions.
+- Add tests/unit/exports.test.js which imports src/lib/main.js and asserts each named export exists and has the expected typeof.
 
 Files to change
-- src/lib/main.js: organize and export named functions.
-- tests/unit/exports.test.js: unit tests described above.
+- tests/unit/exports.test.js: new test that validates the exports listed above.

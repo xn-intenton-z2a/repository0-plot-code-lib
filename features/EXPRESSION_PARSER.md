@@ -1,21 +1,18 @@
 # EXPRESSION_PARSER
 
 Summary
-Provide a parser that converts a mathematical expression string into a callable JavaScript function that computes y for a given numeric x. The parser must rely only on built-in JavaScript Math functions and numeric operators; no external math libraries.
+Specify parseExpression which converts an expression string into a callable JavaScript function f(x) using built-in evaluation.
 
 Specification
-- Input: a string expression in the form y=EXPR where EXPR may reference the variable x and Math functions, for example y=Math.sin(x) or y=x*x+2*x-1.
-- API: parseExpression(expressionString) -> function f(x) that returns numeric y.
-- Implementation notes: extract the right-hand side after the equals sign and construct a restricted evaluator that only exposes x and Math (for example by building a Function that accepts x and Math). Perform simple validation to reject obviously unsafe tokens (for instance disallow new, require only identifiers, numbers, Math and x, and arithmetic operators).
+- Function: parseExpression(expressionString) -> function f(x).
+- Accepted format: optional leading y= then a right-hand-side expression referencing x and Math, for example y=Math.sin(x) or x*x+2*x-1.
+- Implementation notes: the parser trims an optional leading left-hand assignment and constructs a Function that accepts x and returns the evaluated expression. The expression must reference Math explicitly for math functions (for example Math.sin).
+- Validation: non-string input throws TypeError; empty expression throws Error; other syntax errors propagate as invalid expression errors.
 
 Acceptance criteria
-- Parsing y=Math.sin(x) returns a callable function (typeof result === 'function').
-- The returned function produces correct numeric results (for example f(0) approximately 0 and f(Math.PI/2) approximately 1).
-- Invalid or malformed expressions throw a descriptive Error.
+- parseExpression returns a callable function for the input y=Math.sin(x).
+- The returned function computes expected numeric results (for example f(0) approximately 0 and f(Math.PI/2) approximately 1).
+- Non-string inputs and empty expressions cause thrown errors.
 
 Test plan
-- Add tests/unit/expression.test.js asserting parseExpression behavior, numeric results for known inputs, and error handling for malformed inputs.
-
-Files to change
-- src/lib/main.js: export parseExpression as a named export and implement the parser.
-- tests/unit/expression.test.js: unit tests described above.
+- tests/unit/expression.test.js covering correct parsing, numeric outputs for known inputs, and error cases for invalid inputs.

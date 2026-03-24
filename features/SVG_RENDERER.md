@@ -1,20 +1,16 @@
 # SVG_RENDERER
 
 Summary
-Render a numeric data series to SVG 1.1 using a single polyline element and a viewBox attribute so the output scales cleanly.
+Specify renderSVG which renders a numeric data series to valid SVG 1.1 using a single polyline and a viewBox attribute.
 
 Specification
-- API: renderSVG(points, options?) -> String containing SVG 1.1 markup.
-- Input points are an array of {x: Number, y: Number} or numeric pairs; the renderer must compute a bounding box and map data coordinates to viewBox coordinates.
-- Output requirements: the returned string must include an svg root element with xmlns and a viewBox attribute, and a polyline element whose points attribute contains the mapped coordinate pairs.
+- Function: renderSVG(points, options?) -> string containing SVG 1.1 markup.
+- Output requirements: svg root element must include xmlns="http://www.w3.org/2000/svg" and a viewBox attribute; the output must contain a polyline element whose points attribute contains mapped numeric coordinate pairs.
+- Renderer computes a bounding box and maps data coordinates to pixel coordinates based on width, height and margin options.
 
 Acceptance criteria
-- renderSVG returns a string that contains "<polyline" and contains the attribute viewBox=.
-- The svg root includes the xmlns attribute for SVG 1.1 (http://www.w3.org/2000/svg).
+- renderSVG returns a string that contains the substring <polyline and contains a viewBox attribute and the SVG xmlns.
+- The polyline points attribute is non-empty and contains numeric pairs separated by spaces and commas.
 
 Test plan
-- Add tests/unit/svg.test.js to verify the presence of xmlns, viewBox, and polyline and to validate that the polyline points attribute is well-formed numeric pairs.
-
-Files to change
-- src/lib/main.js: export renderSVG implementation.
-- tests/unit/svg.test.js: unit tests described above.
+- tests/unit/svg.test.js should assert presence of xmlns, viewBox and polyline and validate that points are numeric pairs.
