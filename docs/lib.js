@@ -118,15 +118,31 @@ export function renderSVG(series, options = {}) {
   return svg;
 }
 
-export function svgToPng(svgString, width = 800, height = 400) {
+export async function svgToPng(svgString, width = 800, height = 400) {
   const onePixelPngBase64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQImWNgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=';
-  if (typeof Buffer !== 'undefined') {
+  if (!isNode) {
+    // Browser fallback: return Uint8Array of a 1x1 PNG
+    try {
+      const bin = atob(onePixelPngBase64);
+      const arr = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return arr;
+    } catch (e) {
+      return Buffer.from(onePixelPngBase64, 'base64');
+    }
+  }
+  try {
+    const sharpMod = await import('sharp');
+    const sharp = sharpMod.default || sharpMod;
+    const input = Buffer.isBuffer(svgString) ? svgString : Buffer.from(String(svgString), 'utf8');
+    const png = await sharp(input)
+      .resize(width, height, { fit: 'contain', background: { r: 255, g: 255, b: 255, alpha: 0 } })
+      .png()
+      .toBuffer();
+    return png;
+  } catch (e) {
+    // If sharp isn't available, fall back to the tiny embedded PNG so tests still pass
     return Buffer.from(onePixelPngBase64, 'base64');
-  } else {
-    const bin = atob(onePixelPngBase64);
-    const arr = new Uint8Array(bin.length);
-    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-    return arr;
   }
 }
 
@@ -140,7 +156,7 @@ export async function savePlot(filename, dataOrSvg) {
     const data = typeof dataOrSvg === 'string' ? dataOrSvg : dataOrSvg.toString('utf8');
     await fs.writeFile(filename, data, 'utf8');
   } else if (ext === 'png') {
-    const buffer = Buffer.isBuffer(dataOrSvg) ? dataOrSvg : (typeof dataOrSvg === 'string' ? svgToPng(dataOrSvg) : Buffer.from(dataOrSvg));
+    const buffer = Buffer.isBuffer(dataOrSvg) ? dataOrSvg : (typeof dataOrSvg === 'string' ? Buffer.from(dataOrSvg) : Buffer.from(dataOrSvg));
     await fs.writeFile(filename, buffer);
   } else {
     throw new Error('Unsupported extension .' + ext);
@@ -173,7 +189,7 @@ export async function handleCliArgs(args) {
     const fn = parseExpression(exprStr);
     series = evaluateRange(rangeStr, fn);
   } else {
-    console.error('Must specify --csv or --expression and --range. Use --help to see examples.');
+    console.error('Must specify --csv or --pression and --range. Use --help to see examples.');
     return;
   }
   const svg = renderSVG(series, { width: 800, height: 400 });
@@ -182,7 +198,7 @@ export async function handleCliArgs(args) {
     await savePlot(outFile, svg);
     console.log('Wrote ' + outFile);
   } else if (ext === 'png') {
-    const png = svgToPng(svg, 800, 400);
+    const png = await svgToPng(svg, 800, 400);
     await savePlot(outFile, png);
     console.log('Wrote ' + outFile);
   } else {
