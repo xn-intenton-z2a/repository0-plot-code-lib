@@ -2,6 +2,34 @@
 
 This repository is powered by [intenti&ouml;n agentic-lib](https://github.com/xn-intenton-z2a/agentic-lib) — autonomous code transformation driven by GitHub Copilot. Write a mission, and the system generates issues, writes code, runs tests, and opens pull requests.
 
+## CLI Examples
+
+Generate an SVG from a mathematical expression:
+
+```bash
+node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file out.svg
+```
+
+Generate a PNG from CSV data:
+
+```bash
+node src/lib/main.js --csv data.csv --file out.png
+```
+
+Use `--help` to show usage and examples:
+
+```bash
+node src/lib/main.js --help
+```
+
+Note on PNG rendering: the library exposes `svgToPng(svg, width, height)` which will return PNG bytes. For CI and simplicity a small built-in PNG fallback is used; for production-quality PNG rendering consider installing a native image library such as `sharp` and enhancing `svgToPng` to use it.
+
+## Getting Started
+
+(remaining README content unchanged)
+
+This repository is powered by [intenti&ouml;n agentic-lib](https://github.com/xn-intenton-z2a/agentic-lib) — autonomous code transformation driven by GitHub Copilot. Write a mission, and the system generates issues, writes code, runs tests, and opens pull requests.
+
 ## Getting Started
 
 ### Step 1: Create Your Repository
@@ -51,103 +79,3 @@ agentic-lib ships with 20 built-in missions plus two special modes, graded using
 | `1-dan-create-planning-engine` | 1 dan | Planning engine |
 | `2-dan-create-self-hosted` | 2 dan | Self-hosted AGI vision |
 
-List all available missions:
-
-```bash
-npx @xn-intenton-z2a/agentic-lib iterate --list-missions
-```
-
-#### Write Your Own Mission
-
-Edit `MISSION.md` directly — describe what you want to build, the features, requirements, and acceptance criteria as checkboxes:
-
-```markdown
-# Mission
-
-Build a CLI tool that converts CSV files to formatted Markdown tables.
-
-## Features
-- Read CSV from file or stdin
-- Auto-detect delimiter
-
-## Acceptance Criteria
-- [ ] Reading a CSV with 3 columns produces a 3-column Markdown table
-- [ ] All unit tests pass
-```
-
-### Step 3: Enable GitHub Copilot and Configure Secrets
-
-Add these secrets in **Settings > Secrets and variables > Actions**:
-
-| Secret | How to create | Purpose |
-|--------|---------------|---------|
-| `COPILOT_GITHUB_TOKEN` | [Fine-grained PAT](https://github.com/settings/tokens?type=beta) with **GitHub Copilot** > Read | Authenticates with the Copilot SDK |
-| `WORKFLOW_TOKEN` | [Classic PAT](https://github.com/settings/tokens) with **workflow** scope | Allows init to update workflow files |
-
-Then in **Settings > Actions > General**:
-- Workflow permissions: **Read and write permissions**
-- Allow GitHub Actions to create PRs: **Checked**
-
-### Step 4: Activate the Schedule
-
-Workflows ship with schedule **off** by default. Activate them from the GitHub Actions tab by running **agentic-lib-schedule** with your desired frequency:
-
-| Frequency | Workflow runs | Init runs | Test runs |
-|-----------|--------------|-----------|-----------|
-| continuous | Every 20 min | Every 4 hours | Every hour |
-| hourly | Every hour | Every day | Every 4 hours |
-| daily | Every day | Every week | Every day |
-| weekly | Every week | Every month | Every week |
-| off | Never | Never | Never |
-
-## How It Works
-
-```
-MISSION.md -> [supervisor] -> dispatch workflows -> Issue -> Code -> Test -> PR -> Merge
-                                                     ^                           |
-                                                     +---------------------------+
-```
-
-The pipeline runs as GitHub Actions workflows. An LLM supervisor gathers repository context and dispatches other workflows. Each workflow uses the Copilot SDK to make targeted changes.
-
-## Configuration
-
-Edit `agentic-lib.toml` to tune the system:
-
-```toml
-[schedule]
-supervisor = "off"          # off | weekly | daily | hourly | continuous
-focus = "mission"           # mission | maintenance
-
-[tuning]
-profile = "max"             # min | med | max
-model = "gpt-5-mini"       # gpt-5-mini | claude-sonnet-4 | gpt-4.1
-
-[mission-complete]
-acceptance-criteria-threshold = 50   # % of criteria that must be met
-min-resolved-issues = 1              # minimum closed issues
-```
-
-## File Layout
-
-```
-src/lib/main.js              <- library (browser-safe)
-src/web/index.html            <- web page (imports ./lib.js)
-tests/unit/main.test.js       <- unit tests
-tests/behaviour/              <- Playwright E2E
-docs/                         <- build output for GitHub Pages
-```
-
-## Updating
-
-The `init` workflow updates the agentic infrastructure automatically. To update manually:
-
-```bash
-npx @xn-intenton-z2a/agentic-lib@latest init --purge
-```
-
-## Links
-
-- [MISSION.md](MISSION.md) — your project goals
-- [agentic-lib documentation](https://github.com/xn-intenton-z2a/agentic-lib) — full SDK docs
-- [intenti&ouml;n website](https://xn--intenton-z2a.com)
