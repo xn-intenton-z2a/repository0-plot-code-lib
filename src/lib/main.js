@@ -1,257 +1,32 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 // Copyright (C) 2025-2026 Polycode Limited
+// src/lib/main.js
 
 const isNode = typeof process !== "undefined" && !!process.versions?.node;
 
-let pkg = { name: "repo", version: "0.0.0", description: "" };
+let pkg;
 if (isNode) {
-  // In Node: read package.json using createRequire so bundlers/browser-safe code paths are not used.
-  try {
-    const { createRequire } = await import("module");
-    const requireFn = createRequire(import.meta.url);
-    pkg = requireFn("../../package.json");
-  } catch (e) {
-    // fallback to defaults
-  }
+  const { createRequire } = await import("module");
+  const requireFn = createRequire(import.meta.url);
+  pkg = requireFn("../../package.json");
 } else {
-  // In browsers, attempt to fetch package.json relative to this module.
   try {
     const resp = await fetch(new URL("../../package.json", import.meta.url));
-    if (resp.ok) pkg = await resp.json();
-  } catch (e) {
-    // ignore
+    pkg = await resp.json();
+  } catch {
+    pkg = { name: document.title, version: "0.0.0", description: "" };
   }
 }
 
-export const name = pkg.name || "repo";
-export const version = pkg.version || "0.0.0";
-export const description = pkg.description || "";
+export const name = pkg.name;
+export const version = pkg.version;
+export const description = pkg.description;
 
 export function getIdentity() {
   return { name, version, description };
 }
 
-// Expression parsing ---------------------------------------------------------
-export function parseExpression(expressionStr) {
-  if (typeof expressionStr !== "string") {
-    throw new TypeError("expression must be a string");
-  }
-  let expr = expressionStr.trim();
-  // If the user provided just an expression like "Math.sin(x)" or "sin(x)", turn it into y=...;
-  if (!/\by\s*=/.test(expr) && !/\breturn\b/.test(expr)) {
-    expr = `y = ${expr}`;
-  }
-  // Build a function that evaluates the expression and returns y, exposing Math functions directly.
-  // Using `with (Math)` makes Math.* functions available as bare identifiers (sin, cos, etc.).
-  const fn = new Function("x", `with (Math) { ${expr}; return y; }`);
-  return (x) => {
-    const xv = Number(x);
-    const result = fn(xv);
-    return Number(result);
-  };
-}
-
-// Range evaluation -----------------------------------------------------------
-export function evaluateRange(fn, start, step, end) {
-  if (typeof fn !== "function") throw new TypeError("fn must be a function");
-  start = Number(start);
-  step = Number(step);
-  end = Number(end);
-  if (!Number.isFinite(start) || !Number.isFinite(step) || !Number.isFinite(end)) {
-    throw new TypeError("start, step, and end must be numbers");
-  }
-  if (step === 0) throw new RangeError("step must not be zero");
-
-  const series = [];
-  const forward = step > 0;
-  let x = start;
-  const maxIter = 1000000;
-  let iter = 0;
-  const eps = Math.abs(step) / 1000;
-  while ((forward && x <= end + eps) || (!forward && x >= end - eps)) {
-    const y = fn(x);
-    series.push({ x: Number(x), y: Number(y) });
-    x = Number((x + step).toPrecision(12));
-    if (++iter > maxIter) break;
-  }
-  return series;
-}
-
-// CSV loader -----------------------------------------------------------------
-export async function loadCsvTimeSeries(path) {
-  if (!isNode) throw new Error("loadCsvTimeSeries is only supported in Node.js environment");
-  const fs = await import("fs");
-  const text = fs.readFileSync(path, "utf8");
-  const lines = text.trim().split(/\r?\n/).filter(Boolean);
-  if (lines.length === 0) return [];
-  const header = lines[0].split(",").map((s) => s.trim().toLowerCase());
-  const timeIdx = header.indexOf("time");
-  const valueIdx = header.indexOf("value");
-  const rows = [];
-  for (let i = 1; i < lines.length; i++) {
-    const cols = lines[i].split(",").map((s) => s.trim());
-    const timeRaw = timeIdx >= 0 ? cols[timeIdx] : cols[0];
-    const valRaw = valueIdx >= 0 ? cols[valueIdx] : cols[1] ?? cols[0];
-    const value = Number(valRaw);
-    let time = Number(timeRaw);
-    if (Number.isNaN(time)) {
-      // try date parse
-      const dt = Date.parse(timeRaw);
-      time = Number.isNaN(dt) ? i - 1 : dt;
-    }
-    rows.push({ time, value });
-  }
-  return rows;
-}
-
-// SVG renderer ----------------------------------------------------------------
-export function renderSeriesToSvg(series, opts = {}) {
-  if (!Array.isArray(series)) throw new TypeError("series must be an array");
-  if (series.length === 0) {
-    // Empty SVG
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1 1"></svg>`;
-  }
-  const xs = series.map((p) => Number(p.x ?? 0));
-  const ys = series.map((p) => Number(p.y ?? 0));
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
-  const width = maxX - minX || 1;
-  const height = maxY - minY || 1;
-  const points = series
-    .map((p) => `${Number(p.x)},${Number(p.y)}`)
-    .join(" ");
-  const stroke = opts.stroke || "black";
-  const strokeWidth = (opts.strokeWidth != null) ? opts.strokeWidth : ((Math.max(width, height) / 200) || 0.01);
-
-  const svg = `<?xml version="1.0" encoding="UTF-8"?>\n` +
-    `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="${minX} ${minY} ${width} ${height}" preserveAspectRatio="none">\n` +
-    `  <polyline fill="none" stroke="${stroke}" stroke-width="${strokeWidth}" points="${points}" />\n` +
-    `</svg>`;
-  return svg;
-}
-
-// PNG renderer (simple fallback) ---------------------------------------------
-// Returns a Buffer containing PNG bytes. For simplicity and to avoid native deps,
-// a minimal 1x1 PNG is returned. This satisfies the acceptance criterion that PNG
-// output begins with the PNG magic bytes. In production, replace with sharp/canvas
-// based rendering for full SVG->PNG fidelity.
-const _onePixelPngBase64 = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
-export function renderPng(svgString, opts = {}) {
-  // svgString intentionally unused in this minimal implementation
-  if (!isNode) {
-    throw new Error("renderPng is only supported in Node.js environment");
-  }
-  const buf = Buffer.from(_onePixelPngBase64, "base64");
-  return buf;
-}
-
-// Save plot ------------------------------------------------------------------
-export async function savePlot(filename, content) {
-  if (!isNode) throw new Error("savePlot only supported in Node.js environment");
-  const fs = await import("fs");
-  const ext = String(filename).split('.').pop().toLowerCase();
-  if (ext === "svg") {
-    fs.writeFileSync(filename, String(content), "utf8");
-    return filename;
-  } else if (ext === "png") {
-    if (!Buffer.isBuffer(content)) {
-      throw new TypeError("PNG content must be a Buffer");
-    }
-    fs.writeFileSync(filename, content);
-    return filename;
-  } else {
-    throw new Error("Unsupported file extension: " + ext);
-  }
-}
-
-// CLI helpers ----------------------------------------------------------------
-function parseRangeString(rangeStr) {
-  const parts = String(rangeStr).split(":");
-  if (parts.length !== 3) throw new Error("Range must be in format start:step:end");
-  const start = Number(parts[0]);
-  const step = Number(parts[1]);
-  const end = Number(parts[2]);
-  if (![start, step, end].every(Number.isFinite)) throw new Error("Range parts must be numbers");
-  return { start, step, end };
-}
-
-export async function runCli(argv = process.argv.slice(2)) {
-  // Simple CLI parsing
-  const args = Array.isArray(argv) ? argv.slice() : [];
-  let expression = null;
-  let rangeStr = null;
-  let csvPath = null;
-  let outFile = null;
-  let help = false;
-
-  for (let i = 0; i < args.length; i++) {
-    const a = args[i];
-    if (a === "--help" || a === "-h") {
-      help = true; break;
-    }
-    if (a === "--expression" || a === "-e") {
-      expression = args[++i]; continue;
-    }
-    if (a === "--range" || a === "-r") {
-      rangeStr = args[++i]; continue;
-    }
-    if (a === "--csv" || a === "-c") {
-      csvPath = args[++i]; continue;
-    }
-    if (a === "--file" || a === "-f") {
-      outFile = args[++i]; continue;
-    }
-  }
-
-  if (help || (!expression && !csvPath)) {
-    console.log("Usage: node src/lib/main.js --expression \"y=Math.sin(x)\" --range \"start:step:end\" --file output.svg");
-    console.log("       node src/lib/main.js --csv data.csv --file output.png");
-    console.log("");
-    console.log("Options:");
-    console.log("  --expression, -e   JavaScript expression producing y from x (e.g. 'y=Math.sin(x)')");
-    console.log("  --range, -r        Range in format start:step:end (e.g. -3.14:0.01:3.14)");
-    console.log("  --csv, -c          CSV file with columns 'time,value' to plot");
-    console.log("  --file, -f         Output file (.svg or .png)");
-    console.log("  --help, -h         Show this help");
-    return;
-  }
-
-  if (!outFile) {
-    throw new Error("--file is required to save output");
-  }
-
-  let series = null;
-  if (expression) {
-    if (!rangeStr) throw new Error("--range is required when using --expression");
-    const { start, step, end } = parseRangeString(rangeStr);
-    const fn = parseExpression(expression);
-    series = evaluateRange(fn, start, step, end);
-  } else if (csvPath) {
-    const rows = await loadCsvTimeSeries(csvPath);
-    // convert to {x,y} points, using time as x
-    series = rows.map((r, i) => ({ x: Number(r.time ?? i), y: Number(r.value ?? 0) }));
-  }
-
-  if (!series || series.length === 0) throw new Error("No data to render");
-
-  const svg = renderSeriesToSvg(series);
-  const ext = String(outFile).split('.').pop().toLowerCase();
-  if (ext === 'svg') {
-    await savePlot(outFile, svg);
-    console.log(`Wrote ${outFile}`);
-  } else if (ext === 'png') {
-    const png = renderPng(svg);
-    await savePlot(outFile, png);
-    console.log(`Wrote ${outFile}`);
-  } else {
-    throw new Error('Unsupported output format: ' + ext);
-  }
-}
-
-// Keep original simple main for tests that call main() synchronously
 export function main(args) {
   if (args?.includes("--version")) {
     console.log(version);
@@ -264,14 +39,10 @@ export function main(args) {
   console.log(`${name}@${version}`);
 }
 
-// If executed as a script, run the CLI
 if (isNode) {
   const { fileURLToPath } = await import("url");
-  const executedAsScript = process.argv[1] === fileURLToPath(import.meta.url);
-  if (executedAsScript) {
-    runCli(process.argv.slice(2)).catch((err) => {
-      console.error(err?.message || String(err));
-      process.exit(1);
-    });
+  if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    const args = process.argv.slice(2);
+    main(args);
   }
 }
