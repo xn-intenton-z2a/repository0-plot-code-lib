@@ -22,7 +22,7 @@ Use `--help` to show usage and examples:
 node src/lib/main.js --help
 ```
 
-Note on PNG rendering: the library exposes `svgToPng(svg, width, height)` which will return PNG bytes. For CI and simplicity a small built-in PNG fallback is used; for production-quality PNG rendering consider installing a native image library such as `sharp` and enhancing `svgToPng` to use it.
+Note on PNG rendering: the library exposes `svgToPng(svg, width, height)` which returns PNG bytes. If the optional native image library `sharp` is installed (npm install sharp), the library will use it to produce production-quality PNGs by rasterizing SVGs; otherwise a tiny built-in PNG fallback is returned. For best results install `sharp` in your project before rendering PNG output.
 
 ## Getting Started
 

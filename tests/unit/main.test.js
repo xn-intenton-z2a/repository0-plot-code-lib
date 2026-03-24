@@ -44,7 +44,7 @@ describe("Plotting API", () => {
   });
 
   test("loadCsvTimeSeries reads a CSV file", async () => {
-    const rows = await loadCsvTimeSeries("tests/tmp/sample.csv");
+    const rows = await loadCsvTimeSeries("tests/unit/sample.csv");
     expect(rows.length).toBe(3);
     expect(rows[0]).toHaveProperty("time");
     expect(rows[0]).toHaveProperty("value");
@@ -60,11 +60,11 @@ describe("Plotting API", () => {
     expect(svg).toContain("<polyline");
   });
 
-  test("svgToPng returns a Buffer that starts with PNG magic bytes", () => {
+  test("svgToPng returns a Buffer that starts with PNG magic bytes", async () => {
     const fn = parseExpression("y=x");
     const pts = evaluateRange("0:1:2", fn);
     const svg = renderSVG(pts);
-    const png = svgToPng(svg);
+    const png = await svgToPng(svg);
     expect(Buffer.isBuffer(png)).toBe(true);
     const header = png.slice(0, 8).toString('hex');
     expect(header).toBe('89504e470d0a1a0a');
