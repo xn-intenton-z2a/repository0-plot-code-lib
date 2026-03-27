@@ -6,8 +6,7 @@
 # During init:
 
 [schedule]
-supervisor = "off"       # off | weekly | daily | hourly | continuous
-model = "gpt-5-mini"
+supervisor = "hourly"       # off | weekly | daily | hourly | continuous
 focus = "mission"                 # mission | maintenance
 
 [paths]
@@ -182,7 +181,7 @@ total = 8
 8 = { text = "README documents CLI usage with examples", met = false }
 
 [init]
-timestamp = "2026-03-25T03:03:46.635Z"
+timestamp = "2026-03-27T02:10:43.717Z"
 mode = "purge"
 mission = "2-kyu-create-plot-code-lib"
 mission-type = "2-kyu-create-plot-code-lib"

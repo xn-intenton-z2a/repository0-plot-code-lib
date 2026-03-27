@@ -1,14 +1,14 @@
+#!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 // Copyright (C) 2025-2026 Polycode Limited
-// src/lib/main.js — plotting library and CLI (browser-safe)
+// src/lib/main.js
 
 const isNode = typeof process !== "undefined" && !!process.versions?.node;
 
 let pkg;
-let requireFn = null;
 if (isNode) {
   const { createRequire } = await import("module");
-  requireFn = createRequire(import.meta.url);
+  const requireFn = createRequire(import.meta.url);
   pkg = requireFn("../../package.json");
 } else {
   try {
@@ -27,259 +27,22 @@ export function getIdentity() {
   return { name, version, description };
 }
 
-// Parse a mathematical expression string like "y=Math.sin(x)" and return a function f(x)
-export function parseExpression(exprStr) {
-  if (typeof exprStr !== "string") throw new TypeError("Expression must be a string");
-  const idx = exprStr.indexOf("=");
-  const rhs = idx >= 0 ? exprStr.slice(idx + 1).trim() : exprStr.trim();
-  if (!rhs) throw new Error("Empty expression");
-
-  // Basic safety: disallow dangerous tokens
-  const forbidden = ["require", "process", "globalThis", "window", "eval", "constructor", "Function", "import.meta", "fetch"];
-  const lowers = rhs.toLowerCase();
-  for (const f of forbidden) {
-    if (rhs.includes(f) || lowers.includes(f)) throw new Error("Expression contains forbidden token");
-  }
-
-  // Create a function that receives x and Math to evaluate the RHS
-  const fn = new Function("x", "Math", `return (${rhs});`);
-  return (x) => fn(x, Math);
-}
-
-// Parse range string "start:step:end" into numbers
-export function parseRange(rangeStr) {
-  if (typeof rangeStr !== "string") throw new TypeError("Range must be a string");
-  const parts = rangeStr.split(':').map(s => s.trim());
-  if (parts.length !== 3) throw new Error('Range must be in format start:step:end');
-  const [startStr, stepStr, endStr] = parts;
-  const start = Number(startStr);
-  const step = Number(stepStr);
-  const end = Number(endStr);
-  if (!Number.isFinite(start) || !Number.isFinite(step) || !Number.isFinite(end)) throw new Error('Range values must be numbers');
-  if (step === 0) throw new Error('Step must not be zero');
-  return { start, step, end };
-}
-
-// Evaluate a function over a numeric range and return [{x,y}, ...]
-export function evaluateExpressionOverRange(fn, start, step, end) {
-  if (typeof fn !== 'function') throw new TypeError('fn must be a function');
-  const points = [];
-  const stepSign = step > 0 ? 1 : -1;
-  if ((end - start) * stepSign < 0) throw new Error('Range step direction is inconsistent with start and end');
-
-  let x = start;
-  let iter = 0;
-  const maxIter = 1000000;
-  const toFixed = (v) => Number(Math.round(v * 1e12) / 1e12);
-  while ((step > 0 ? x <= end + 1e-12 : x >= end - 1e-12) && iter < maxIter) {
-    const y = fn(x);
-    points.push({ x: toFixed(x), y: (typeof y === 'number' && Number.isFinite(y)) ? y : NaN });
-    x = toFixed(x + step);
-    iter++;
-  }
-  return points;
-}
-
-// Simple CSV parser for time,value columns
-export function parseCSV(text) {
-  if (typeof text !== 'string') throw new TypeError('CSV must be a string');
-  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l.length > 0);
-  if (lines.length === 0) return [];
-  const header = lines.shift().split(',').map(h => h.trim().toLowerCase());
-  const timeIdx = header.indexOf('time');
-  const valueIdx = header.indexOf('value');
-  if (timeIdx === -1 || valueIdx === -1) throw new Error('CSV must contain time and value columns');
-  return lines.map(line => {
-    const cols = line.split(',').map(c => c.trim());
-    return { time: cols[timeIdx], value: Number(cols[valueIdx]) };
-  });
-}
-
-export function loadCSVFile(path) {
-  if (!isNode) throw new Error('loadCSVFile is only available in Node.js');
-  const fs = requireFn('fs');
-  const text = fs.readFileSync(path, 'utf8');
-  return parseCSV(text);
-}
-
-// Render points to SVG string with a polyline and viewBox
-export function renderSVG(points = [], options = {}) {
-  const { stroke = 'black', strokeWidth = 1, fill = 'none' } = options;
-  if (!Array.isArray(points) || points.length === 0) {
-    return `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1 1"></svg>`;
-  }
-  const xs = points.map(p => p.x);
-  const ys = points.map(p => p.y);
-  const minX = Math.min(...xs);
-  const maxX = Math.max(...xs);
-  const minY = Math.min(...ys);
-  const maxY = Math.max(...ys);
-  const width = (maxX - minX) || 1;
-  const height = (maxY - minY) || 1;
-  const viewBox = `${minX} ${minY} ${width} ${height}`;
-  const pts = points.map(p => `${p.x},${p.y}`).join(' ');
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="${viewBox}">\n  <polyline points="${pts}" fill="${fill}" stroke="${stroke}" stroke-width="${strokeWidth}" />\n</svg>`;
-}
-
-// Minimal PNG encoder (truecolor RGB, no alpha)
-function crc32(buf) {
-  const table = crc32.table || (crc32.table = (function () {
-    const t = new Uint32Array(256);
-    for (let i = 0; i < 256; i++) {
-      let c = i;
-      for (let k = 0; k < 8; k++) c = ((c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1));
-      t[i] = c >>> 0;
-    }
-    return t;
-  })());
-  let crc = 0 ^ (-1);
-  for (let i = 0; i < buf.length; i++) crc = (crc >>> 8) ^ table[(crc ^ buf[i]) & 0xFF];
-  return (crc ^ (-1)) >>> 0;
-}
-
-function writeChunk(type, data) {
-  const typeBuf = Buffer.from(type, 'ascii');
-  const lenBuf = Buffer.alloc(4);
-  lenBuf.writeUInt32BE(data.length, 0);
-  const chunk = Buffer.concat([typeBuf, data]);
-  const crc = Buffer.alloc(4);
-  crc.writeUInt32BE(crc32(chunk), 0);
-  return Buffer.concat([lenBuf, chunk, crc]);
-}
-
-export function encodePNG({ width = 2, height = 2, pixelData = null } = {}) {
-  // pixelData should be Buffer of RGB bytes length = width * height * 3
-  if (!pixelData) {
-    // default: simple checker or gradient
-    pixelData = Buffer.alloc(width * height * 3);
-    for (let y = 0; y < height; y++) {
-      for (let x = 0; x < width; x++) {
-        const i = (y * width + x) * 3;
-        pixelData[i + 0] = Math.round((x / Math.max(1, width - 1)) * 255); // R gradient
-        pixelData[i + 1] = Math.round((y / Math.max(1, height - 1)) * 255); // G gradient
-        pixelData[i + 2] = 128; // B constant
-      }
-    }
-  }
-  // Build raw image data (filter byte per scanline + RGB data per row)
-  const raw = [];
-  for (let y = 0; y < height; y++) {
-    raw.push(0); // no filter
-    const rowStart = y * width * 3;
-    for (let x = 0; x < width * 3; x++) raw.push(pixelData[rowStart + x]);
-  }
-  const rawBuf = Buffer.from(raw);
-  const zlib = requireFn('zlib');
-  const compressed = zlib.deflateSync(rawBuf);
-
-  const signature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
-  const ihdr = Buffer.alloc(13);
-  ihdr.writeUInt32BE(width, 0);
-  ihdr.writeUInt32BE(height, 4);
-  ihdr.writeUInt8(8, 8); // bit depth
-  ihdr.writeUInt8(2, 9); // color type 2 = truecolor
-  ihdr.writeUInt8(0, 10); // compression
-  ihdr.writeUInt8(0, 11); // filter
-  ihdr.writeUInt8(0, 12); // interlace
-
-  const chunks = [
-    writeChunk('IHDR', ihdr),
-    writeChunk('IDAT', compressed),
-    writeChunk('IEND', Buffer.alloc(0)),
-  ];
-  return Buffer.concat([signature, ...chunks]);
-}
-
-export function renderPNGFromPoints(points = [], options = {}) {
-  // For simplicity render a small PNG that visualises point count in color
-  const width = options.width || 200;
-  const height = options.height || 100;
-  // Create a simple pixel buffer where we draw the polyline roughly
-  const pixelData = Buffer.alloc(width * height * 3, 255);
-  // draw background white
-  // draw black line across the middle proportional to points
-  for (let i = 0; i < points.length; i++) {
-    const x = Math.floor((i / Math.max(1, points.length - 1)) * (width - 1));
-    const y = Math.floor((1 - ((points[i].y - Math.min(...points.map(p => p.y))) / (Math.max(...points.map(p => p.y)) - Math.min(...points.map(p => p.y)) + 1e-6))) * (height - 1));
-    const idx = (y * width + x) * 3;
-    pixelData[idx + 0] = 0;
-    pixelData[idx + 1] = 0;
-    pixelData[idx + 2] = 0;
-  }
-  return encodePNG({ width, height, pixelData });
-}
-
-export function savePlot({ points = [], file, svgOptions = {}, pngOptions = {} } = {}) {
-  if (!file) throw new Error('file path is required');
-  if (!isNode) throw new Error('savePlot is only available in Node.js');
-  const path = requireFn('path');
-  const fs = requireFn('fs');
-  const ext = (path.extname(file) || '').toLowerCase();
-  if (ext === '.svg') {
-    const svg = renderSVG(points, svgOptions);
-    fs.writeFileSync(file, svg, 'utf8');
-    return file;
-  } else if (ext === '.png') {
-    const png = renderPNGFromPoints(points, pngOptions);
-    fs.writeFileSync(file, png);
-    return file;
-  } else {
-    throw new Error('Unsupported file extension: ' + ext);
-  }
-}
-
-// CLI
-export function main(argv = null) {
-  const args = Array.isArray(argv) ? argv : (isNode ? process.argv.slice(2) : []);
-  if (args.includes('--help')) {
-    const help = `Usage:\n  node src/lib/main.js --expression "y=Math.sin(x)" --range "-3.14:0.01:3.14" --file output.svg\n  node src/lib/main.js --csv data.csv --file output.png\n\nOptions:\n  --expression <expr>  Mathematical expression using Math (e.g. 'y=Math.sin(x)')\n  --range <r>          Range in start:step:end format (e.g. -3.14:0.01:3.14)\n  --csv <file>         CSV file with time,value columns\n  --file <out>         Output file (.svg or .png)\n  --help               Show this help\n`;
-    console.log(help);
-    return;
-  }
-  if (args.includes('--version')) {
+export function main(args) {
+  if (args?.includes("--version")) {
     console.log(version);
     return;
   }
-
-  let points = [];
-  try {
-    if (args.includes('--expression')) {
-      const i = args.indexOf('--expression');
-      const expr = args[i + 1];
-      if (!expr) throw new Error('Missing expression');
-      const fn = parseExpression(expr);
-      if (!args.includes('--range')) throw new Error('Missing --range for expression');
-      const r = args[args.indexOf('--range') + 1];
-      const { start, step, end } = parseRange(r);
-      points = evaluateExpressionOverRange(fn, start, step, end);
-    } else if (args.includes('--csv')) {
-      const i = args.indexOf('--csv');
-      const csvFile = args[i + 1];
-      if (!csvFile) throw new Error('Missing csv file');
-      points = loadCSVFile(csvFile).map(r => ({ x: Number(r.time) || 0, y: Number(r.value) }));
-    }
-
-    if (args.includes('--file')) {
-      const out = args[args.indexOf('--file') + 1];
-      if (!out) throw new Error('Missing output file');
-      savePlot({ points, file: out });
-      console.log('Wrote', out);
-      return out;
-    }
-  } catch (e) {
-    console.error(e.message);
-    if (isNode) process.exitCode = 1;
+  if (args?.includes("--identity")) {
+    console.log(JSON.stringify(getIdentity(), null, 2));
+    return;
   }
+  console.log(`${name}@${version}`);
 }
 
-// If executed directly in node, run main
 if (isNode) {
-  try {
-    const { fileURLToPath } = await import('url');
-    if (process.argv[1] === fileURLToPath(import.meta.url)) {
-      main();
-    }
-  } catch (e) {
-    // ignore
+  const { fileURLToPath } = await import("url");
+  if (process.argv[1] === fileURLToPath(import.meta.url)) {
+    const args = process.argv.slice(2);
+    main(args);
   }
 }
